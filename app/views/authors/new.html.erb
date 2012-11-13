@@ -1,0 +1,22 @@
+<h1>Lav en ny forfatter</h1>
+<%= form_for @author do |f| %>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+    <%= f.label :life %>
+    <%= f.text_field :life %>
+    <%= f.label :quote %>
+    <%= f.text_field :quote %>
+    <%= f.label :external_description %>
+    <%= f.text_area :external_external_description %>
+    <%= f.label :external_link %>
+    <%= f.text_field :external_link %>
+    <%= f.label :tei_xml %>
+    <%= f.file_field :tei_xml %>
+    <%= f.label :picture %>
+    <%= f.file_field :picture %>
+    <%= f.label :time_line %>
+    <%= f.date_select :time_line_year %>
+    <%= f.text_field :time_line_description %>
+    <%= f.submit %>
+
+<% end %>
