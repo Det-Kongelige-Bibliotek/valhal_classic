@@ -4,7 +4,9 @@ gem 'rails', '3.2.8'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-
+gem 'blacklight'
+gem 'hydra-access-controls', '5.0.0.pre9'
+gem 'active-fedora', '5.0.0.rc1'
 gem 'sqlite3'
 
 
@@ -15,7 +17,7 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
+  gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
 end
@@ -36,3 +38,10 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+group :development, :test do
+  gem 'debugger'
+  gem 'rspec-rails'
+  gem 'equivalent-xml'
+  gem 'jettywrapper'
+end
