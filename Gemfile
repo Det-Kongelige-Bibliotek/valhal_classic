@@ -8,6 +8,7 @@ gem 'blacklight'
 gem 'hydra-access-controls', '5.0.0.pre9'
 gem 'active-fedora', '5.0.0.rc1'
 gem 'sqlite3'
+#gem 'hydra-head'
 
 
 # Gems used only for assets and not required
@@ -43,5 +44,5 @@ group :development, :test do
   gem 'debugger'
   gem 'rspec-rails'
   gem 'equivalent-xml'
-  gem 'jettywrapper'
+  gem 'jettywrapper', '>= 1.2.0'
 end

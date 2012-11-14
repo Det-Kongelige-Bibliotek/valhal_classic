@@ -256,7 +256,7 @@ DEPENDENCIES
   debugger
   equivalent-xml
   hydra-access-controls (= 5.0.0.pre9)
-  jettywrapper
+  jettywrapper (>= 1.2.0)
   jquery-rails
   rails (= 3.2.8)
   rspec-rails
