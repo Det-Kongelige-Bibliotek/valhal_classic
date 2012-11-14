@@ -5,10 +5,8 @@ gem 'rails', '3.2.8'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 gem 'blacklight'
-gem 'hydra-access-controls', '5.0.0.pre9'
-gem 'active-fedora', '5.0.0.rc1'
 gem 'sqlite3'
-#gem 'hydra-head'
+gem 'hydra-head', '5.0.0.pre11'
 
 
 # Gems used only for assets and not required
