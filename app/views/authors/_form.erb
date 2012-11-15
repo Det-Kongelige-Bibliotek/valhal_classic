@@ -1,0 +1,34 @@
+<%= form_for author do |f| %>
+    <div>
+      <%= f.label :name, "Forfatter navn" %>
+      <br/>
+      <%= f.text_field :name, :placeholder => "Forfatter navn" %>
+    </div>
+    <div>
+      <%= f.label :life, "Fødsels/død" %>
+      <br/>
+      <%= f.text_field :life, :placeholder => "Fra - Til" %>
+    </div>
+    <label for="quote_list">Citat</label>
+    <br/>
+    <div id="quote_list">
+      <%= link_to "Add", "#quote_add", :id => "quote_add" %>
+      <div class="quote_element">
+        <%= f.fields_for :quote do |quote_field| %>
+            <%= quote_field.text_area :quote_text, :placeholder => "Citat:" %>
+            <br/>
+            <%= quote_field.text_field :quote_source, :placeholder => "Citat kilde:" %>
+            <%= link_to "Remove", "#quote_remove", :class => "quote_delete" %>
+        <% end %>
+      </div>
+    </div>
+    <label for="external_list">Eksterne links</label>
+    <div id="external_list">
+      <div class="external_element">
+        <%= f.fields_for :external do |external_field| %>
+
+        <% end %>
+      </div>
+    </div>
+
+<% end %>
