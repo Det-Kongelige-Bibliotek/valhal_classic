@@ -11,7 +11,6 @@ describe Author do
 
     @author.datastreams.keys.should include("descMetadata")
     @author.descMetadata.should be_kind_of Datastreams::AdlTeiP5Datastream
-    true.should == false
   end
 
   it "should have the attributes of an author and support update_attributes" do
