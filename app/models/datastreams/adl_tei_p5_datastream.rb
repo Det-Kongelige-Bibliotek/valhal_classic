@@ -1,6 +1,7 @@
+# -*- encoding : utf-8 -*-
 module KB
   module Datastream
-    class AdlTeiP5 < ActiveFedora::NokogiriDatastream
+    class AdlTeiP5Datastream < ActiveFedora::NokogiriDatastream
       set_terminology do |t|
         t.root(:path=>'TEI', :xmlns=>"http://www.tei-c.org/ns/1.0")
         t.title(:path=>"teiHeader/oxns:fileDesc/oxns:titleStmt/oxns:title", :index_as=>[:searchable, :facetable])
