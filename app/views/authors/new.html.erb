@@ -1,38 +1,3 @@
 <h1>Lav en ny forfatter</h1>
-<%= form_for @author do |f| %>
-    <%= f.label :name %>
-    <br />
-    <%= f.text_field :name %>
-    <br />
-    <%= f.label :life %>
-    <br />
-    <%= f.text_field :life %>
-    <br />
-    <%= f.label :quote %>
-    <br />
-    <%= f.text_field :quote %>
-    <br />
-    <%= f.label :external_description %>
-    <br />
-    <%= f.text_area :external_description %>
-    <br />
-    <%= f.label :external_link %>
-    <br />
-    <%= f.text_field :external_link %>
-    <br />
-    <%= f.label :tei_xml %>
-    <br />
-    <%= f.file_field :tei_xml %>
-    <br />
-    <%= f.label :picture %>
-    <br />
-    <%= f.file_field :picture %>
-    <br />
-    <%= f.label :time_line %>
-    <br />
-    <%= f.date_select :time_line_year %>
-    <%= f.text_field :time_line_description %>
-    <br />
-    <%= f.submit %>
 
-<% end %>
+<%= render :partial => "form", :locals => { :author => @author } %>
