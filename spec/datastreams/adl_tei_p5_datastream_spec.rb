@@ -1,8 +1,9 @@
 # -*- encoding : utf-8 -*-
 # spec/datastreams/adl_tei_p5_datastream_spec.rb
-require "spec_helper"
+require 'spec_helper'
 
-describe AdlTeiP5Datastream do
+#describe KB::Datastreams::AdlTeiP5Datastream do
+describe Datastreams::AdlTeiP5Datastream do
 
   before(:each) do
     @teiP5 = fixture("aarrebo_tei_p5_sample.xml")

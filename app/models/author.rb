@@ -1,9 +1,9 @@
-require 'datastreams/adl_tei_p5'
-require 'datastreams/mods'
+# -*- encoding : utf-8 -*-
 
 class Author < ActiveFedora::Base
-  has_metadata :name=>'descMetadata', :type=>KB::Datastream::Mods
-  has_metadata :name=>'TEI_P5', :type=>KB::Datastream::AdlTeiP5
 
-  delegate :authorName, :to =>''
+  has_metadata :name=>'descMetadata', :type=>Datastreams::Mods
+  has_metadata :name=>'TEI_P5', :type=>Datastreams::AdlTeiP5Datastream
+
+  delegate :author_name, :to =>''
 end
