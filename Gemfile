@@ -4,9 +4,8 @@ gem 'rails', '3.2.8'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-#gem 'blacklight'
-gem 'hydra-access-controls', '5.0.0.pre9'
-gem 'active-fedora', '5.0.0.rc1'
+gem 'blacklight'
+gem 'hydra-head', '5.0.0.pre11'
 gem 'sqlite3'
 
 
@@ -43,6 +42,6 @@ group :development, :test do
   gem 'debugger'
   gem 'rspec-rails'
   gem 'equivalent-xml'
-  gem 'jettywrapper'
+  gem 'jettywrapper', '>= 1.2.0'
   gem 'capybara'
 end
