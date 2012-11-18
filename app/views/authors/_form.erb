@@ -24,11 +24,16 @@
     </div>
     <label for="external_list">Eksterne links</label>
     <div id="external_list">
+      <%= link_to "Add", "#external_add", :id => "external_add" %>
       <div class="external_element">
         <%= f.fields_for :external do |external_field| %>
-
+            <%= external_field.text_area :external_description, :placeholder => "Udfyld" %>
+            <br/>
+            <%= external_field.text_field :external_link, :placeholder => "Udfyld" %>
+            <%= link_to "Remove", "#external_remove", :class => "external_delete" %>
         <% end %>
       </div>
     </div>
+
 
 <% end %>
