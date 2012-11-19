@@ -7,7 +7,7 @@ describe Datastreams::AdlTeiP5Datastream do
 
   before(:each) do
     @teiP5 = fixture("aarrebo_tei_p5_sample.xml")
-    @ds = AdlTeiP5Datastream.from_xml(@teiP5)
+    @ds = Datastreams::AdlTeiP5Datastream.from_xml(@teiP5)
   end
 
   it "should expose author information" do
