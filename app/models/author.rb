@@ -4,5 +4,11 @@ class Author < ActiveFedora::Base
 
   has_metadata :name=>'descMetadata', :type=>Datastreams::AdlTeiP5Datastream
 
-  delegate :author_name, :to =>''
+  delegate :surname, :to =>'descMetadata'
+  delegate :forename, :to =>'descMetadata'
+  delegate :date_of_birth, :to =>'descMetadata'
+  delegate :date_of_death, :to =>'descMetadata'
+  delegate :short_bio, :to => 'descMetadata'
+  delegate :sample_quotation, :to => 'descMetadata'
+  delegate :sample_quotation_source, :to => 'descMetadata'
 end

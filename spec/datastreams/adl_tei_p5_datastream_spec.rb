@@ -12,8 +12,8 @@ describe Datastreams::AdlTeiP5Datastream do
 
   it "should expose author information" do
     @ds.TEI.teiHeader.profileDesc.particDesc.listPerson.person.persName.surname.should == ["Arrebo"]
-    @ds.TEI.teiHeader.profileDesc.particDesc.listPerson.person.persName.forename.should == ["Anders"]
-    @ds.TEI.teiHeader.profileDesc.particDesc.listPerson.person.birth.should == ["1587"]
+    @ds.TEI.teiHeader.profileDesc.particDesc.listPerson.person.persName.forename.should == ["Christensen", "Anders"]
+    @ds.TEI.teiHeader.profileDesc.particDesc.listPerson.person.birth.when.should == ["1587"]
     @ds.TEI.teiHeader.profileDesc.particDesc.listPerson.person.death.should == ["1637"]
     @ds.TEI.teiHeader.profileDesc.particDesc.listPerson.person.event(0).desc.should == ["Født i Ærøskøbing"]
     @ds.TEI.teiHeader.profileDesc.particDesc.listPerson.note.cit.quote.should == ["See ud der springer frem den grumme Diur-forskrecker,

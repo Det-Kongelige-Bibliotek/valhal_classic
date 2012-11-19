@@ -41,6 +41,7 @@
 							<forename>Christensen</forename>
 						 	<forename>Anders</forename>
 						</persName>
+                        <!--<birth when="1587"></birth>-->
 						<birth when="1587"/>
 						<death when="1637"/>
 						<event type="birth" when="1587">
