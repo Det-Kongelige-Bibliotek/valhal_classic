@@ -2,7 +2,7 @@
 
 class Author < ActiveFedora::Base
 
-  has_metadata :name=>'descMetadata', :type=>Datastreams::AdlTeiP5Datastream
+  has_metadata :name => 'descMetadata', :type => Datastreams::AdlTeiP5Datastream
 
   delegate :surname, :to =>'descMetadata'
   delegate :forename, :to =>'descMetadata'
