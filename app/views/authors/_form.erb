@@ -18,6 +18,7 @@
             <%= quote_field.text_area :quote_text, :placeholder => "Citat:" %>
             <br/>
             <%= quote_field.text_field :quote_source, :placeholder => "Citat kilde:" %>
+            <br/>
             <%= link_to "Remove", "#quote_remove", :class => "quote_delete" %>
         <% end %>
       </div>
@@ -30,10 +31,35 @@
             <%= external_field.text_area :external_description, :placeholder => "Udfyld" %>
             <br/>
             <%= external_field.text_field :external_link, :placeholder => "Udfyld" %>
+            <br/>
             <%= link_to "Remove", "#external_remove", :class => "external_delete" %>
         <% end %>
       </div>
     </div>
+    <label for="timeline_list">Tidslinie</label>
+    <br/>
+    <div id="timeline_list">
+      <%= link_to "Add", "#timeline_add", :id => "timeline_add" %>
+      <div class="timeline_element">
+        <%= f.fields_for :quote do |timeline_field| %>
+            <%= timeline_field.text_field :timeline_year, :placeholder => "År:" %>
+            <%= timeline_field.text_field :timeline_description, :placeholder => "Beskrivelse:" %>
+            <br/>
+            <%= link_to "Remove", "#timeline_remove", :class => "timeline_delete" %>
+        <% end %>
+      </div>
+    </div>
+    <div>
+      <%= f.label :tei_xml, "Importer ressourcer" %>
+      <br/>
+      <%= f.file_field :tei_xml %>
+    </div>
+    <div>
+      <%= f.label :picture, "Tilføj billede" %>
+      <br/>
+      <%= f.file_field :picture %>
+    </div>
+
 
 
 <% end %>
