@@ -47,5 +47,13 @@ module Datastreams
         }
       }
     end
+
+    def self.xml_template
+      Nokogiri::XML::Builder.new do |xml|
+        xml.root do
+          xml.teiHeader
+        end
+      end.doc
+    end
   end
 end

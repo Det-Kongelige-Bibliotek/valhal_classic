@@ -8,7 +8,7 @@ class Author < ActiveFedora::Base
   delegate :forename, :to =>'descMetadata'
   delegate :date_of_birth, :to =>'descMetadata'
   delegate :date_of_death, :to =>'descMetadata'
-  delegate :short_bio, :to => 'descMetadata'
+  delegate :short_biography, :to => 'descMetadata'
   delegate :sample_quotation, :to => 'descMetadata'
   delegate :sample_quotation_source, :to => 'descMetadata'
 end
