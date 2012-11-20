@@ -5,7 +5,7 @@ module Datastreams
     TEI_NS = 'http://www.tei-c.org/ns/1.0'
 
     set_terminology do |t|
-      #t.root(:path=>'TEI', :xmlns=>"http://www.tei-c.org/ns/1.0", :schema=>"file:///home/jatr/work/sifd/ADL/spec/fixtures/adl-tei-schema.rng")
+      t.root(:path=>'TEI', :xmlns=>"http://www.tei-c.org/ns/1.0", :schema=>"file:///home/jatr/work/sifd/ADL/spec/fixtures/adl-tei-schema.rng")
 
       t.teiHeader {
         t.fileDesc {
