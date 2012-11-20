@@ -41,9 +41,12 @@
 							<forename>Christensen</forename>
 						 	<forename>Anders</forename>
 						</persName>
-                        <!--<birth when="1587"></birth>-->
-						<birth when="1587"/>
-						<death when="1637"/>
+                        <birth>
+			              <date>1587</date>
+                        </birth>
+                        <death>
+			              <date>1637</date>
+                        </death>
 						<event type="birth" when="1587">
 							<desc>Født i Ærøskøbing</desc>
 						</event>
