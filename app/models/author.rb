@@ -8,8 +8,8 @@ class Author < ActiveFedora::Base
   delegate :forename, :to => 'descMetadata', :at => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :persName, :forename]
   delegate :date_of_birth, :to => 'descMetadata', :at => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :birth, :date]
   delegate :date_of_death, :to => 'descMetadata', :at => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :death, :date]
-  delegate :short_bio, :to => 'descMetadata'
-  delegate :sample_quotation, :to => 'descMetadata'
-  delegate :sample_quotation_source, :to => 'descMetadata'
+  delegate :short_biography, :to => 'descMetadata', :at => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :event, :desc]
+  delegate :sample_quotation, :to => 'descMetadata', :at => [:teiHeader, :profileDesc, :particDesc, :listPerson, :note, :cit, :quote]
+  delegate :sample_quotation_source, :to => 'descMetadata', :at => [:teiHeader, :profileDesc, :particDesc, :listPerson, :note, :cit, :bibl]
 
 end
