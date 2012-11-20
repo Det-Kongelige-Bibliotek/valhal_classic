@@ -44,13 +44,13 @@ describe Author do
 
     @author.update_attributes(attributes_hash)
 
-    @author.surname.should == attributes_hash["surname"]
-    @author.forename.should == attributes_hash["forename"]
-    @author.date_of_birth.should == attributes_hash["date_of_birth"]
-    @author.date_of_death.should == attributes_hash["date_of_death"]
-    @author.sample_quotation.should == attributes_hash["sample_quotation"]
-    @author.sample_quotation_source.should == attributes_hash["sample_quotation_source"]
+    @author.surname.first.should == attributes_hash["surname"]
+    @author.forename.first.should == attributes_hash["forename"]
+    @author.date_of_birth.first.should == attributes_hash["date_of_birth"]
+    @author.date_of_death.first.should == attributes_hash["date_of_death"]
+    @author.sample_quotation.first.should == attributes_hash["sample_quotation"]
+    @author.sample_quotation_source.first.should == attributes_hash["sample_quotation_source"]
     #@author.portrait_image.should == attributes_hash["portrait_image"]
-    @author.short_biography.should == attributes_hash["short_biography"]
+    @author.short_biography.first.should == attributes_hash["short_biography"]
   end
 end
