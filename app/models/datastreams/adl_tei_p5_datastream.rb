@@ -44,7 +44,7 @@ module Datastreams
     end
 
     def self.xml_template
-      Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
+      builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
         xml.TEI(TEI_NS) {
           xml.teiHeader {
             xml.fileDesc {
@@ -97,6 +97,7 @@ module Datastreams
           }
         }
       end
+      return builder.doc
     end
   end
 end
