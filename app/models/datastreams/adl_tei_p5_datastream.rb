@@ -5,35 +5,35 @@ module Datastreams
     TEI_NS = 'http://www.tei-c.org/ns/1.0'
 
     set_terminology do |t|
-      t.root(:path=>'TEI', :xmlns=>"http://www.tei-c.org/ns/1.0", :schema=>"file:///home/jatr/work/sifd/ADL/spec/fixtures/adl-tei-schema.rng")
-
-      t.teiHeader {
-        t.fileDesc {
-          t.sourceDesc {
-            t.bibl(:index_as=>[:searchable])
+      t.TEI {
+        t.teiHeader {
+          t.fileDesc {
+            t.sourceDesc {
+              t.bibl(:index_as=>[:searchable])
+            }
           }
-        }
-        t.profileDesc {
-          t.particDesc {
-            t.listPerson {
-              t.person {
-                t.persName {
-                  t.surname(:index_as=>[:searchable])
-                  t.forename(:index_as=>[:searchable])
-                }
-                t.birth {
-                  t.date()
-                }
-                t.death{
-                  t.date()
-                }
-                t.event {
-                  t.desc(:index_as=>[:searchable])
-                }
-                t.note {
-                  t.cit{
-                    t.quote(:index_as=>[:searchable])
-                    t.bibl(:index_as=>[:searchable])
+          t.profileDesc {
+            t.particDesc {
+              t.listPerson {
+                t.person {
+                  t.persName {
+                    t.surname(:index_as=>[:searchable])
+                    t.forename(:index_as=>[:searchable])
+                  }
+                  t.birth {
+                    t.date()
+                  }
+                  t.death{
+                    t.date()
+                  }
+                  t.event {
+                    t.desc(:index_as=>[:searchable])
+                  }
+                  t.note {
+                    t.cit{
+                      t.quote(:index_as=>[:searchable])
+                      t.bibl(:index_as=>[:searchable])
+                    }
                   }
                 }
               }
