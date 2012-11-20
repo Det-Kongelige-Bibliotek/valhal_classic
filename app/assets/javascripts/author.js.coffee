@@ -18,8 +18,8 @@ addLogicToFieldForm = (formName) ->
   list = "##{formName}_list"
   del = ".#{formName}_delete"
 
-  $(add).click(-> cloneFirstElement($(element)).end().appendTo(list))
-  $(list).on('click', del, -> removeParentElement($(@)))
+  $(add).click(-> cloneFirstElement($(element)).appendTo(list))
+  $(list).on 'click', del, -> removeParentElement $(@)
 
 
 $ ->

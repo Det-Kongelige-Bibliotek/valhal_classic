@@ -1,65 +1,22 @@
-<%= form_for author do |f| %>
+<%= form_for author, :multipart => true do |f| %>
     <div>
-      <%= f.label :name, "Forfatter navn" %>
+      <%= f.label :forename, "Forfatter navn" %>
       <br/>
-      <%= f.text_field :name, :placeholder => "Forfatter navn" %>
-    </div>
-    <div>
-      <%= f.label :life, "Fødsels/død" %>
-      <br/>
-      <%= f.text_field :life, :placeholder => "Fra - Til" %>
-    </div>
-    <label for="quote_list">Citat</label>
-    <br/>
-    <div id="quote_list">
-      <%= link_to "Add", "#quote_add", :id => "quote_add" %>
-      <div class="quote_element">
-        <%= f.fields_for :quote do |quote_field| %>
-            <%= quote_field.text_area :quote_text, :placeholder => "Citat:" %>
-            <br/>
-            <%= quote_field.text_field :quote_source, :placeholder => "Citat kilde:" %>
-            <br/>
-            <%= link_to "Remove", "#quote_remove", :class => "quote_delete" %>
-        <% end %>
-      </div>
-    </div>
-    <label for="external_list">Eksterne links</label>
-    <div id="external_list">
-      <%= link_to "Add", "#external_add", :id => "external_add" %>
-      <div class="external_element">
-        <%= f.fields_for :external do |external_field| %>
-            <%= external_field.text_area :external_description, :placeholder => "Udfyld" %>
-            <br/>
-            <%= external_field.text_field :external_link, :placeholder => "Udfyld" %>
-            <br/>
-            <%= link_to "Remove", "#external_remove", :class => "external_delete" %>
-        <% end %>
-      </div>
-    </div>
-    <label for="timeline_list">Tidslinie</label>
-    <br/>
-    <div id="timeline_list">
-      <%= link_to "Add", "#timeline_add", :id => "timeline_add" %>
-      <div class="timeline_element">
-        <%= f.fields_for :quote do |timeline_field| %>
-            <%= timeline_field.text_field :timeline_year, :placeholder => "År:" %>
-            <%= timeline_field.text_field :timeline_description, :placeholder => "Beskrivelse:" %>
-            <br/>
-            <%= link_to "Remove", "#timeline_remove", :class => "timeline_delete" %>
-        <% end %>
-      </div>
+      <%= f.text_field :forename, :placeholder => "Fornavn:" %>
+      <%= f.text_field :surname, :placeholder => "Efternavn:" %>
     </div>
     <div>
-      <%= f.label :tei_xml, "Importer ressourcer" %>
+      <%= f.label :date_of_birth, "Fødsels/død" %>
       <br/>
-      <%= f.file_field :tei_xml %>
-    </div>
-    <div>
-      <%= f.label :picture, "Tilføj billede" %>
-      <br/>
-      <%= f.file_field :picture %>
+      <%= f.text_field :date_of_birth, :placeholder => "Fødsel:" %>
+      <%= f.text_field :date_of_death, :placeholder => "Død:" %>
     </div>
 
+    <div>
+      <%= f.label :upload, "Importer ressourcer" %>
+      <br/>
+      <%= f.file_field :upload %>
+    </div>
 
-
+    <%= f.submit %>
 <% end %>
