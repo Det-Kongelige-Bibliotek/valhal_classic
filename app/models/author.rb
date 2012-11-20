@@ -9,7 +9,7 @@ class Author < ActiveFedora::Base
   delegate :date_of_birth, :to => 'descMetadata', :at => [:TEI, :teiHeader, :profileDesc, :particDesc, :listPerson, :person, :birth, :date]
   delegate :date_of_death, :to => 'descMetadata', :at => [:TEI, :teiHeader, :profileDesc, :particDesc, :listPerson, :person, :death, :date]
   delegate :short_biography, :to => 'descMetadata', :at => [:TEI, :teiHeader, :profileDesc, :particDesc, :listPerson, :person, :event, :desc]
-  delegate :sample_quotation, :to => 'descMetadata', :at => [:TEI, :teiHeader, :profileDesc, :particDesc, :listPerson, :note, :cit, :quote]
-  delegate :sample_quotation_source, :to => 'descMetadata', :at => [:TEI, :teiHeader, :profileDesc, :particDesc, :listPerson, :note, :cit, :bibl]
+  delegate :sample_quotation, :to => 'descMetadata', :at => [:TEI, :teiHeader, :profileDesc, :particDesc, :listPerson, :person, :note, :cit, :quote]
+  delegate :sample_quotation_source, :to => 'descMetadata', :at => [:TEI, :teiHeader, :profileDesc, :particDesc, :listPerson, :person, :note, :cit, :bibl]
 
 end
