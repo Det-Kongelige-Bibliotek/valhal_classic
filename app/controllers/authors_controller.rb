@@ -25,6 +25,14 @@ class AuthorsController < ApplicationController
       @author.surname = params[:author][:surname]
     end
 
+    unless params[:author][:date_of_birth].blank?
+      @author.date_of_birth = params[:author][:date_of_birth]
+    end
+
+    unless params[:author][:date_of_death].blank?
+      @author.date_of_death = params[:author][:date_of_death]
+    end
+
     @author.save
     redirect_to authors_index_path
 
