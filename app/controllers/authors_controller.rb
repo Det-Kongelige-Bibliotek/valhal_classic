@@ -2,7 +2,7 @@
 class AuthorsController < ApplicationController
 
   def index
-
+    @authors = Author.all
   end
 
   def new
@@ -13,7 +13,6 @@ class AuthorsController < ApplicationController
     @author = Author.new
     unless params[:author][:upload].blank?
       content = File.open(params[:author][:upload], 'r:utf-8').read
-      puts content.encoding.name
       @author.descMetadata.content = content
     end
 
@@ -34,7 +33,7 @@ class AuthorsController < ApplicationController
     end
 
     @author.save
-    redirect_to authors_index_path
+    redirect_to authors_path
 
   end
 
