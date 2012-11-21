@@ -1,11 +1,13 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
+
 describe AuthorsController do
   describe "#index" do
     before do
       @author = Author.create
     end
+
     it "should be successful" do
       get :index
       assigns[:authors].should include @author
@@ -15,6 +17,7 @@ describe AuthorsController do
   end
 
   describe "#new" do
+
     it "should be successful" do
       get :new
       assigns[:author].should be_kind_of Author
@@ -39,6 +42,7 @@ describe AuthorsController do
     before do
       @author = Author.create
     end
+
     it "should be successful" do
       get :edit, :id => @author.pid
       assigns[:author].should == @author
