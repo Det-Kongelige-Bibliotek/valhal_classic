@@ -63,6 +63,17 @@ describe AuthorsController do
       @author.forename.should == "Alex"
 
     end
+  end
 
+  describe "#show" do
+    before do
+    @author = Author.create(forename: "Alex", surname: "Boesen")
+    end
+
+    it "should be successful" do
+      get :show, :id => @author.pid
+      assigns[:author].should == @author
+      response.should be_successful
+    end
   end
 end
