@@ -4,7 +4,7 @@ require 'spec_helper'
 describe Author do
 
   before(:each) do
-    @author = Author.new
+    @author = Author.create
   end
 
   it "should have the required datastreams" do
@@ -52,5 +52,9 @@ describe Author do
     @author.sample_quotation_source.first.should == attributes_hash["sample_quotation_source"]
     #@author.portrait_image.should == attributes_hash["portrait_image"]
     @author.short_biography.first.should == attributes_hash["short_biography"]
+  end
+
+  after(:each) do
+    @author.delete
   end
 end
