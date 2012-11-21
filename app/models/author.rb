@@ -11,5 +11,5 @@ class Author < ActiveFedora::Base
   delegate :short_biography, :to => 'descMetadata', :at => [:TEI, :teiHeader, :profileDesc, :particDesc, :listPerson, :person, :event, :desc]
   delegate :sample_quotation, :to => 'descMetadata', :at => [:TEI, :teiHeader, :profileDesc, :particDesc, :listPerson, :person, :note, :cit, :quote]
   delegate :sample_quotation_source, :to => 'descMetadata', :at => [:TEI, :teiHeader, :profileDesc, :particDesc, :listPerson, :person, :note, :cit, :bibl]
-
+  delegate :image_link, :to => 'descMetadata', :at => [:TEI, :teiHeader, :figure, :graphic, :url]
 end

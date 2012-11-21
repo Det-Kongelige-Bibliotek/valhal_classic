@@ -33,8 +33,6 @@ class AuthorsController < ApplicationController
     end
 
     @author.save
-    redirect_to authors_path
-
+    redirect_to authors_index_path
   end
-
 end
