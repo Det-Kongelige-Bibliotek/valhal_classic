@@ -3,6 +3,7 @@ require 'spec_helper'
 
 describe "Authors" do
   it "should create a author" do
+    pending
 
     visit new_author_path
 

@@ -1,1 +1,24 @@
-Hello world
+<h2>Liste over forfatterne</h2>
+
+<ul>
+  <%- @authors.each do |author| %>
+      <li>
+        <div>
+          Fornavn: <%= author.forename %>
+        </div>
+        <div>
+          Efternavn: <%= author.surname %>
+        </div>
+        <div>
+          Født: <%= author.date_of_birth %>
+          Død: <%= author.date_of_death %>
+        </div>
+        <div>
+          <%= link_to 'Ændre', edit_author_path(author) %>
+        </div>
+      </li>
+  <% end %>
+</ul>
+
+<%= button_to 'tilføj en ny forfatter', new_author_path, :method => :get %>
+

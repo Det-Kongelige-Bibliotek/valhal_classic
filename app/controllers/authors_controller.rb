@@ -5,8 +5,19 @@ class AuthorsController < ApplicationController
     @authors = Author.all
   end
 
+  def edit
+    @author = Author.find(params[:id])
+  end
+
   def new
     @author = Author.new
+  end
+
+  def update
+    @author = Author.find(params[:id])
+    @author.update_attributes(params[:author])
+    @author.save
+    redirect_to authors_path, :notice => "Forfatter er blevet ændret"
   end
 
   def create
@@ -35,4 +46,6 @@ class AuthorsController < ApplicationController
     @author.save
     redirect_to authors_index_path
   end
+
+
 end
