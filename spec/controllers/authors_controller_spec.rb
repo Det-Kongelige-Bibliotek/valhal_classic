@@ -5,7 +5,7 @@ describe AuthorsController do
   describe "#new" do
     it "should be successful" do
       get :new
-      assigns[:author].should should be_kind_of Author
+      assigns[:author].should be_kind_of Author
       response.should be_successful
     end
   end
@@ -18,8 +18,8 @@ describe AuthorsController do
 
     it "Should create a author" do
       post :create, :author => {:forename => "Dude",:surname => "Miller"}
-      response.should be_successful
       Author.count.should == 1
+      response.should redirect_to authors_path
     end
   end
 
@@ -41,8 +41,10 @@ describe AuthorsController do
 
     it "should be successful" do
       put :update, :id => @author.pid, :author => {:forename => "Alex"}
-      assigns[:notice].should == "Forfatter er blevet ændret"
+      flash[:notice].should == "Forfatter er blevet ændret"
       response.should redirect_to authors_path
+      @author = Author.find(@author.pid)
+      @author.forename.should == "Alex"
 
     end
 
