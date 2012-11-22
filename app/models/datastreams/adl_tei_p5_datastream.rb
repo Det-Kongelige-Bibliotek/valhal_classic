@@ -26,7 +26,7 @@ module Datastreams
                   t.death{
                     t.date()
                   }
-                  t.event {
+                  t.event(:when => '', :type => '', :from => '', :to => '') {
                     t.desc(:index_as=>[:searchable])
                   }
                   t.note {
@@ -45,7 +45,7 @@ module Datastreams
 
     def self.xml_template
       builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
-        xml.TEI(TEI_NS) {
+        xml.TEI {
           xml.teiHeader {
             xml.fileDesc {
               xml.titleStmt {
@@ -81,7 +81,7 @@ module Datastreams
                     xml.death {
                       xml.date
                     }
-                    xml.event {
+                    xml.event(:when => '', :type => '', :from => '', :to => '') {
                       xml.desc
                     }
                     xml.note {
