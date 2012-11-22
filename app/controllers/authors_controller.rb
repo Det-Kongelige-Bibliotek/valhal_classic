@@ -48,7 +48,7 @@ class AuthorsController < ApplicationController
     end
 
     @author.save
-    redirect_to authors_path
+    redirect_to authors_path, notice: "forfatter er blevet tilføjet"
   end
 
 

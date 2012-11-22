@@ -35,6 +35,7 @@ describe AuthorsController do
       post :create, :author => {:forename => "Dude", :surname => "Miller"}
       Author.count.should == 1
       response.should redirect_to authors_path
+      flash[:notice].should == "forfatter er blevet tilføjet"
     end
   end
 
