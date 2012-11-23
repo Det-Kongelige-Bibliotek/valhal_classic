@@ -8,8 +8,6 @@ describe Book do
   end
 
   it "should have the required datastreams" do
-
-    #@book.datastreams.keys.should.include("descMetadata")
     @book.descMetadata.should be_kind_of Datastreams::BookModsDatastream
   end
 
@@ -18,7 +16,7 @@ describe Book do
         genre: "ADL bog",
         uuid: "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66",
         local_id: "180",
-        shelf_location: "Pligtaflevering",
+        shelfLocator: "Pligtaflevering",
         title: "Samlede Skrifter Bd. 1"
     }
 
@@ -27,8 +25,8 @@ describe Book do
     @book.genre.should == attributes_hash[:genre]
     @book.uuid.should == attributes_hash[:uuid]
     @book.local_id.should == attributes_hash[:local_id]
-    #@book.shelf_location.should == attributes_hash[:shelf_location]
-    #@book.title.should == attributes_hash[:title]
+    @book.shelfLocator.should == attributes_hash[:shelfLocator]
+    @book.title.should == attributes_hash[:title]
   end
 
   after(:each) do

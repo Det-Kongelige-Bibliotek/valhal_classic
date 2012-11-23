@@ -12,7 +12,7 @@ describe Datastreams::BookModsDatastream do
     @ds.mods.genre.should == ["ADL bog"]
     @ds.mods.uuid.should == ["urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66"]
     @ds.mods.local_id.should == ["180"]
-    @ds.mods.shelf_location.should == ["Pligtaflevering"]
-    #@ds.mods.title.should == ["Samlede Skrifter Bd. 1"]
+    @ds.mods.location.shelfLocator.should == ["Pligtaflevering"]
+    @ds.mods.titleInfo.title.should == ["Samlede Skrifter Bd. 1"]
   end
 end
