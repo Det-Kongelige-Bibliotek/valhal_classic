@@ -1,0 +1,23 @@
+<mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org.1999/xlink" version="3.4" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd" xmlns:mets="http://www.loc.gov/METS/" xmlns:premis="info:lc/xmlns/premis-v2" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:mix="http://www.loc.gov/mix/v20">
+  <mods:genre type="KB Samling">ADL bog</mods:genre>
+  <mods:identifier type="uri">urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66</mods:identifier>
+  <mods:identifier type="local">180</mods:identifier>
+  <mods:location>
+    <mods:shelfLocator>Pligtaflevering</mods:shelfLocator>
+  </mods:location>
+  <mods:recordInfo>
+    <mods:recordCreationDate encoding="w3cdtf">2010-04-20T10:13:03.000+02:00</mods:recordCreationDate>
+    <mods:recordChangeDate encoding="w3cdtf">2012-10-10T05:47:43.000+02:00</mods:recordChangeDate>
+    <mods:recordIdentifier>180</mods:recordIdentifier>
+    <mods:languageOfCataloging>
+      <mods:languageTerm authority="rfc4646" type="code">da</mods:languageTerm>
+    </mods:languageOfCataloging>
+    </mods:recordInfo>
+    <mods:relatedItem type="otherFormat">
+      <mods:identifier displayLabel="image" type="uri">http://adl.dk/adl_pub/pg/cv/ShowPgImg.xsql?p_udg_id=180&amp;p_sidenr=g&amp;hist=udg&amp;nnoc=adl_pub</mods:identifier>
+    </mods:relatedItem>
+    <mods:titleInfo>
+      <mods:title>Samlede Skrifter Bd. 1</mods:title>
+    </mods:titleInfo>
+    <mods:typeOfResource>text</mods:typeOfResource>
+</mods:mods>
