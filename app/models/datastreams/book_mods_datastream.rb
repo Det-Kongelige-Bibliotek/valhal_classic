@@ -14,8 +14,6 @@ module Datastreams
         t.title
       end
 
-      t.shelf_location(:proxy=>[:location, :shelfLocator])
-
     end
 
     def self.xml_template
