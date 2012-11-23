@@ -19,37 +19,50 @@ class AuthorsController < ApplicationController
 
   def update
     @author = Author.find(params[:id])
+    unless check_params?(@author, params[:author])
+      render action:"edit"
+      return
+    end
     @author.update_attributes(params[:author])
     @author.save
     redirect_to authors_path, :notice => "Forfatter er blevet ændret"
   end
 
   def create
-    @author = Author.new
-    unless params[:author][:upload].blank?
-      content = File.open(params[:author][:upload], 'r:utf-8').read
-      @author.descMetadata.content = content
-    end
+    @author = Author.new(params[:author])
 
-    unless params[:author][:forename].blank?
-      @author.forename = params[:author][:forename]
-    end
-
-    unless params[:author][:surname].blank?
-      @author.surname = params[:author][:surname]
-    end
-
-    unless params[:author][:date_of_birth].blank?
-      @author.date_of_birth = params[:author][:date_of_birth]
-    end
-
-    unless params[:author][:date_of_death].blank?
-      @author.date_of_death = params[:author][:date_of_death]
+    unless check_params?(@author, params[:author])
+      render action:"new"
+      return
     end
 
     @author.save
     redirect_to authors_path, notice: "forfatter er blevet tilføjet"
   end
+
+
+  private
+  def params_not_valid(params)
+    params.each do |key, value|
+      if value.blank?
+        yield key
+      end
+    end
+  end
+
+  #checks the params to see that they are valid
+  #will return true if all params are valid and else false
+  private
+  def check_params?(author, values)
+    valid = true
+    params_not_valid(values) do |name|
+      author.errors[name] = "must not be blank"
+      valid = false
+    end
+    valid
+
+  end
+
 
 
 end
