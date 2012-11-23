@@ -1,3 +1,4 @@
+<div class="alert"><%= author.errors.full_messages.join("<br>").html_safe %></div>
 <%= form_for author, :multipart => true do |f| %>
     <div>
       <%= f.label :forename, "Forfatter navn" %>
