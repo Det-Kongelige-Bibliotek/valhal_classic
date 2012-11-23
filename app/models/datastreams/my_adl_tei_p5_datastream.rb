@@ -26,8 +26,12 @@ module Datastreams
                 t.death{
                   t.date
                 }
-                #t.event(:attributes=>{:when => '', :type => '', :from => '', :to => ''}) {
+                #t.event(:attributes=>{:when => '', :type => ''}) {
                 t.event {
+                  t.type(:path => {:attribute => "type"})
+                  t.when(:path => {:attribute => "when"})
+                  t.from(:path => {:attribute => "from"})
+                  t.to(:path => {:attribute => "to"})
                   t.desc
                 }
                 t.note {
