@@ -47,6 +47,14 @@ class AuthorsController < ApplicationController
       @author.date_of_death = params[:author][:date_of_death]
     end
 
+    unless params[:author][:sample_quotation].blank?
+      @author.sample_quotation = params[:author][:sample_quotation]
+    end
+
+    unless params[:author][:sample_quotation_source].blank?
+      @author.sample_quotation_source = params[:author][:sample_quotation_source]
+    end
+
     @author.save
     redirect_to authors_path
   end
