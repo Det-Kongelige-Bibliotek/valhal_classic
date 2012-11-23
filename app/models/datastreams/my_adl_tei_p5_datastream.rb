@@ -26,7 +26,6 @@ module Datastreams
                 t.death{
                   t.date
                 }
-                #t.event(:attributes=>{:when => '', :type => ''}) {
                 t.event {
                   t.type(:path => {:attribute => "type"})
                   t.when(:path => {:attribute => "when"})
