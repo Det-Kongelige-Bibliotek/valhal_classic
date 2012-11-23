@@ -60,9 +60,6 @@ class AuthorsController < ApplicationController
       valid = false
     end
     valid
-
   end
-
-
 
 end
