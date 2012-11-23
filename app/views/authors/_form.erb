@@ -11,5 +11,15 @@
       <%= f.text_field :date_of_birth, :placeholder => "Fødsel:" %>
       <%= f.text_field :date_of_death, :placeholder => "Død:" %>
     </div>
+    <div>
+      <%= f.label :sample_quotation, "Citat" %>
+      <br/>
+      <%= f.text_area :sample_quotation, :placeholder => "Citat:" %>
+      <br/>
+      <%= f.label :sample_quotation_source, "Citat Source" %>
+      <br/>
+      <%= f.text_field :sample_quotation_source, :placeholder => "Citat Source:" %>
+    </div>
+    <br/>
     <%= f.submit %>
 <% end %>
