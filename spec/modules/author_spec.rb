@@ -31,14 +31,14 @@ describe Author do
           Ved Fadrens skrek'lig brøl til Liif oc Krafter kommer.",
         sample_quotation_source: "Hexaëmeron i Samlede Skrifter bd. 1, s. 226)",
         short_biography: "1587 	Født i Ærøskøbing
-                            1608 	Præst i København
-                            1610 	Magister
-                            1618 	Biskop over Trondhjems stift
-                            1622 	Fradømt sit embede
-                            1623 	K. Davids Psalter, revideret 1627
-                            1626 	Sognepræst i Vordingborg
-                            1631-37 	Hovedværket Hexaëmeron, udgivet posthumt 1661
-                            1637 	Død i Vordingborg"
+          1608 	Præst i København
+          1610 	Magister
+          1618 	Biskop over Trondhjems stift
+          1622 	Fradømt sit embede
+          1623 	K. Davids Psalter, revideret 1627
+          1626 	Sognepræst i Vordingborg
+          1631-37 	Hovedværket Hexaëmeron, udgivet posthumt 1661
+          1637 	Død i Vordingborg"
     }
 
     @author.update_attributes(attributes_hash)
