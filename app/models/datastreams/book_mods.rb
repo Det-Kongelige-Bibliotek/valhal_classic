@@ -6,12 +6,12 @@ module Datastreams
       t.genre(:index_as=>[:searchable])
       t.uuid(:path=>"identifier[@type='uri']")
       t.local_id(:path=>"identifier[@type='local']")
-      t.location {
+      t.location do
         t.shelfLocator()
-      }
-      t.titleInfo {
-        t.title(:index_as=>[:searchable])
-      }
+      end
+      t.titleInfo do
+        t.title(:index_as => [:searchable])
+      end
     end
 
     def self.xml_template

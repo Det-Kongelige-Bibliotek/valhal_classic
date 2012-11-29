@@ -4,101 +4,101 @@ module Datastreams
     include OM::XML::Document
 
     set_terminology do |t|
-      t.root(:path=>"TEI", :xmlns=>"http://www.tei-c.org/ns/1.0")
+      t.root(:path => "TEI", :xmlns => "http://www.tei-c.org/ns/1.0")
 
-      t.teiHeader {
-        t.fileDesc {
-          t.sourceDesc {
-            t.bibl(:index_as=>[:searchable])
-          }
-        }
-        t.profileDesc {
-          t.particDesc {
-            t.listPerson {
-              t.person {
-                t.persName {
-                  t.surname(:index_as=>[:searchable])
-                  t.forename(:index_as=>[:searchable])
-                }
-                t.birth {
+      t.teiHeader do
+        t.fileDesc do
+          t.sourceDesc do
+            t.bibl(:index_as => [:searchable])
+          end
+        end
+        t.profileDesc do
+          t.particDesc do
+            t.listPerson do
+              t.person do
+                t.persName do
+                  t.surname(:index_as => [:searchable])
+                  t.forename(:index_as => [:searchable])
+                end
+                t.birth do
                   t.date()
-                }
-                t.death{
+                end
+                t.death do
                   t.date()
-                }
-              t.event {
-                t.type(:path => {:attribute => "type"})
-                t.when(:path => {:attribute => "when"})
-                t.from(:path => {:attribute => "from"})
-                t.to(:path => {:attribute => "to"})
-                  t.desc(:index_as=>[:searchable])
-                }
-                t.note {
-                  t.cit{
-                    t.quote(:index_as=>[:searchable])
-                    t.bibl(:index_as=>[:searchable])
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                end
+                t.event do
+                  t.type(:path => {:attribute => "type"})
+                  t.when(:path => {:attribute => "when"})
+                  t.from(:path => {:attribute => "from"})
+                  t.to(:path => {:attribute => "to"})
+                  t.desc(:index_as => [:searchable])
+                end
+                t.note do
+                  t.cit do
+                    t.quote(:index_as => [:searchable])
+                    t.bibl(:index_as => [:searchable])
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
     end
 
     def self.xml_template
       builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
-        xml.TEI(:version=>"1.0", "xmlns"=>"http://www.tei-c.org/ns/1.0") {
-          xml.teiHeader {
-            xml.fileDesc {
-              xml.titleStmt {
+        xml.TEI(:version => "1.0", "xmlns" => "http://www.tei-c.org/ns/1.0") do
+          xml.teiHeader do
+            xml.fileDesc do
+              xml.titleStmt do
                 xml.title
-                xml.respStmt {
+                xml.respStmt do
                   xml.resp
                   xml.name
-                }
+                end
                 xml.author
-              }
-              xml.publicationStmt {
+              end
+              xml.publicationStmt do
                 xml.publisher
                 xml.idno
-              }
-              xml.notesStmt {
+              end
+              xml.notesStmt do
                 xml.note
-              }
-              xml.sourceDesc {
+              end
+              xml.sourceDesc do
                 xml.bibl
-              }
-            }
-            xml.profileDesc {
-              xml.particDesc {
-                xml.listPerson {
-                  xml.person {
-                    xml.persName {
+              end
+            end
+            xml.profileDesc do
+              xml.particDesc do
+                xml.listPerson do
+                  xml.person do
+                    xml.persName do
                       xml.surname
                       xml.forename
-                    }
-                    xml.birth {
+                    end
+                    xml.birth do
                       xml.date
-                    }
-                    xml.death {
+                    end
+                    xml.death do
                       xml.date
-                    }
-                    xml.event(:when => '', :type => '', :from => '', :to => '') {
+                    end
+                    xml.event(:when => '', :type => '', :from => '', :to => '') do
                       xml.desc
-                    }
-                    xml.note {
-                      xml.cit {
+                    end
+                    xml.note do
+                      xml.cit do
                         xml.quote
-                      xml.bibl
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                        xml.bibl
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
       end
       return builder.doc
     end
