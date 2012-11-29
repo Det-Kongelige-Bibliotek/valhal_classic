@@ -26,6 +26,3 @@ $ ->
   addLogicToFieldForm("external")
   addLogicToFieldForm("quote")
   addLogicToFieldForm("timeline")
-
-
-
