@@ -2,7 +2,7 @@
 
 class Author < ActiveFedora::Base
 
-  has_metadata :name => 'descMetadata', :type => Datastreams::AdlTeiP5Datastream
+  has_metadata :name => 'descMetadata', :type => Datastreams::AdlTeiP5
 
   delegate :surname, :to => 'descMetadata', :at => [:TEI, :teiHeader, :profileDesc, :particDesc, :listPerson, :person, :persName, :surname], :unique=>true
   delegate :forename, :to => 'descMetadata', :at => [:TEI, :teiHeader, :profileDesc, :particDesc, :listPerson, :person, :persName, :forename], :unique=>true

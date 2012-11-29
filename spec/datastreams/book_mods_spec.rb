@@ -1,11 +1,11 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe Datastreams::BookModsDatastream do
+describe Datastreams::BookMods do
 
   before(:each) do
     @bookmods = fixture("samlede_skrifter_bd_1_arrebo_mods_sample.xml")
-    @ds = Datastreams::BookModsDatastream.from_xml(@bookmods)
+    @ds = Datastreams::BookMods.from_xml(@bookmods)
   end
 
   it "should expose book information" do

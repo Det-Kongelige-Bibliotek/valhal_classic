@@ -2,7 +2,7 @@
 
 class Book < ActiveFedora::Base
 
-  has_metadata :name=>'descMetadata', :type=>Datastreams::BookModsDatastream
+  has_metadata :name=>'descMetadata', :type=>Datastreams::BookMods
 
   delegate_to 'descMetadata',[:uuid, :local_id, :genre], :unique=>true
   delegate :shelfLocator, :to =>'descMetadata', :at=>[:location, :shelfLocator], :unique=>true

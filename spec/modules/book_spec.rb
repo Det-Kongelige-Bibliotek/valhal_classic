@@ -8,7 +8,7 @@ describe Book do
   end
 
   it "should have the required datastreams" do
-    @book.descMetadata.should be_kind_of Datastreams::BookModsDatastream
+    @book.descMetadata.should be_kind_of Datastreams::BookMods
   end
 
   it "should have the attributes of an book and support update_attributes" do

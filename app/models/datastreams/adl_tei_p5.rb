@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 module Datastreams
-  class AdlTeiP5Datastream < ActiveFedora::NokogiriDatastream
+  class AdlTeiP5 < ActiveFedora::NokogiriDatastream
     include OM::XML::Document
 
     set_terminology do |t|

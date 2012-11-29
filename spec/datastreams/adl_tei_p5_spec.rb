@@ -1,11 +1,11 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe Datastreams::AdlTeiP5Datastream do
+describe Datastreams::AdlTeiP5 do
 
   subject do
     @file = File.open(File.join(File.dirname(__FILE__), '..', 'fixtures', "aarrebo_tei_p5_sample.xml"))
-    @document = Datastreams::AdlTeiP5Datastream.from_xml(@file, nil)
+    @document = Datastreams::AdlTeiP5.from_xml(@file, nil)
   end
 
   it "should have one person" do

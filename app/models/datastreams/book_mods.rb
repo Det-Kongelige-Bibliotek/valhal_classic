@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 module Datastreams
-  class BookModsDatastream < ActiveFedora::NokogiriDatastream
+  class BookMods < ActiveFedora::NokogiriDatastream
     set_terminology do |t|
       t.root(:path=>'mods', :xmlns=>"http://www.loc.gov/mods/v3")
       t.genre(:index_as=>[:searchable])
