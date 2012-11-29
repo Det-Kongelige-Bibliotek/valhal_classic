@@ -44,6 +44,14 @@ module Datastreams
           end
         end
       end
+
+      t.forename(:proxy => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :persName, :forename])
+      t.surname(:proxy => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :persName, :surname])
+      t.date_of_birth(:proxy => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :birth, :date])
+      t.date_of_death(:proxy => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :death, :date])
+      t.short_biography(:proxy => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :event, :desc])
+      t.sample_quotation(:proxy => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :note, :cit, :quote])
+      t.sample_quotation_source(:proxy => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :note, :cit, :bibl])
     end
 
     def self.xml_template
