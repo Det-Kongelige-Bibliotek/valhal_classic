@@ -8,7 +8,7 @@ describe AuthorsController do
       @author = Author.create
     end
 
-    it "should be successful" do
+    it "should have the newly created author in the index, and it should be of the type Author" do
       get :index
       assigns[:authors].should include @author
       assigns[:authors].each { |a| a.should be_kind_of Author }
@@ -18,7 +18,7 @@ describe AuthorsController do
 
   describe "#new" do
 
-    it "should be successful" do
+    it "should create a new instance of type Author" do
       get :new
       assigns[:author].should be_kind_of Author
       response.should be_successful
@@ -44,7 +44,7 @@ describe AuthorsController do
       @author = Author.create
     end
 
-    it "should be successful" do
+    it "should be able to edit the requested author" do
       get :edit, :id => @author.pid
       assigns[:author].should == @author
       response.should be_successful
@@ -56,7 +56,7 @@ describe AuthorsController do
       @author = Author.create
     end
 
-    it "should be successful" do
+    it "should update the author" do
       put :update, :id => @author.pid, :author => {:forename => "Alex"}
       flash[:notice].should == "Forfatter er blevet ændret"
       response.should redirect_to authors_path
@@ -71,7 +71,7 @@ describe AuthorsController do
     @author = Author.create(forename: "Alex", surname: "Boesen")
     end
 
-    it "should be successful" do
+    it "should show the new created author" do
       get :show, :id => @author.pid
       assigns[:author].should == @author
       response.should be_successful
