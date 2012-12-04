@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader xml:lang="da">
+    <fileDesc>
+      <titleStmt>
+	<title>Aandens Stadier</title>
+	<author>Johannes V. Jensen</author>
+      </titleStmt>
+      <publicationStmt>
+	<date>2010</date>
+	<idno></idno>
+	<authority>
+	  <name type="organisation">Johannes V. Jensen-Centret, Aarhus Universitet</name>
+	</authority>
+      </publicationStmt>
+      <notesStmt>
+	<note>
+	</note>
+      </notesStmt>
+      <sourceDesc>
+	<biblFull>
+	  <titleStmt>
+	    <title type="main" level="m">Åndens Stadier</title>
+	    <author n="1">
+	      <name ref="#jens">
+		<surname>Jensen</surname>, <forename>Johannes V.</forename>
+	      </name>
+	    </author>
+	  </titleStmt>
+	  <extent>356 s.</extent>
+	  <publicationStmt>
+	    <publisher>Gyldendalske Boghandel - Nordisk Forlag</publisher>
+	    <pubPlace>København</pubPlace>
+	    <date>1928</date>
+	    <idno>
+	    </idno>
+	  </publicationStmt>
+	</biblFull>
+      </sourceDesc>
+    </fileDesc>
+    
+    
+    <profileDesc>
+      <langUsage>
+	<language ident="da">Dansk</language>
+      </langUsage>
+      <textDesc n="essays">
+	<channel mode="w"/>
+	<constitution type="composite"/>
+	<derivation type="revision"/>
+	<domain type="art"/>
+	<factuality type="fact"/>
+	<interaction type="complete"/>
+	<preparedness type="scripted"/>
+	<purpose type="inform"/>
+      </textDesc>
+      <textClass>
+	<keywords scheme="http://vocabularies.clarin.dk/genres">
+	  <list>
+	    <item>text</item>
+	  </list>
+	</keywords>
+      </textClass>
+      <particDesc>
+	<person n="1" xml:id="jens">
+	  <birth when="1873" cert="high">
+	    <date notBefore="1873" notAfter="1873">1873</date>
+	    <placeName>Farsø, Denmark</placeName>
+	  </birth>
+	  <death when="1950" cert="high">
+	  	<date notBefore="1950" notAfter="1950">1950</date>
+	  	<placeName>København, Denmark</placeName>	
+	  </death>
+	</person>
+      </particDesc>
+    </profileDesc>
+    
+    <revisionDesc>
+      <change when="2010-11-26" who="Moesgaard, Jakob">Header revised</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <p/>
+    </body>
+  </text>
+</TEI>
+<!--
+    
+    $Log: tei001.xml,v $
+    Revision 26/11/10 14:53 jamo
+    
+    
+    
+-->
