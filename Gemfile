@@ -7,7 +7,7 @@ gem 'rails', '3.2.8'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 gem 'blacklight'
-gem 'hydra-head', '5.0.0.pre11'
+gem 'hydra-head', '5.0.0.pre12'
 gem 'sqlite3'
 
 
