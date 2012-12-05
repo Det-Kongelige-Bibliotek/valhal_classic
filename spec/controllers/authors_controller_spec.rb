@@ -28,8 +28,8 @@ describe AuthorsController do
     end
 
     it "should allow uploading a TEI file" do
-      file = fixture_file_upload('/ADL_TEI_Example.xml', 'text/xml')
-      content = File.open("#{Rails.root}/spec/fixtures/ADL_TEI_Example.xml", 'r:utf-8').read
+      file = fixture_file_upload('/aarrebo_tei_p5_sample.xml', 'text/xml')
+      content = File.open("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml", 'r:utf-8').read
       stub_temp = double("Tempfile")
       stub_temp.stub(:read).and_return(content)
       file.stub(:tempfile).and_return(stub_temp)
