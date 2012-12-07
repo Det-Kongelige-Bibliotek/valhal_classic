@@ -75,6 +75,10 @@ describe BasicFile do
       @basic_file.content.should be_kind_of ActiveFedora::Datastream
     end
 
+    it "should have a rightsMetadata datastream" do
+      @basic_file.rightsMetadata.should be_kind_of Hydra::Datastream::RightsMetadata
+    end
+
     it "should return false when a object that isnt a file is passed down" do
       @basic_file.add_file("file").should == false
     end
@@ -151,6 +155,10 @@ describe BasicFile do
 
     it "should have a content datastream" do
       @basic_file.content.should be_kind_of ActiveFedora::Datastream
+    end
+
+    it "should have a rightsMetadata datastream" do
+      @basic_file.rightsMetadata.should be_kind_of Hydra::Datastream::RightsMetadata
     end
 
     it "should return false when a object doesn't support the require methods is passed down" do
