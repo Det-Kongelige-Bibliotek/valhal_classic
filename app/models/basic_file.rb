@@ -5,12 +5,14 @@ class BasicFile < ActiveFedora::Base
     m.field "last_modified", :string
     m.field "created", :string
     m.field "last_accessed", :string
-    m.field "checksum", :string
+    m.field "file_checksum", :string
     m.field "original_filename", :string
     m.field "mime_type", :string
   end
 
-  delegate_to 'techMetadata', [:last_modified, :created, :last_accessed, :checksum, :original_filename, :mime_type], :unique => true
+  delegate_to 'techMetadata', [:last_modified, :created, :last_accessed, :original_filename, :mime_type], :unique => true
+
+  delegate :checksum, :to => 'techMetadata', :at => [:file_checksum], :unique => true
 
   delegate_to 'descMetadata', [:description], :unique => true
 
@@ -27,7 +29,7 @@ class BasicFile < ActiveFedora::Base
 
   private
   def generate_checksum(file)
-    checksum = Digest::SHA2.file(file).hexdigest
+    checksum = Digest::MD5.file(file).hexdigest
   end
 
   private
