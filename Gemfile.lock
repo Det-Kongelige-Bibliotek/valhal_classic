@@ -289,6 +289,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 3.2.1)
   debugger
+  devise (~> 2.1.2)
   equivalent-xml
   hydra-head (= 5.0.0.rc1)
   jettywrapper (>= 1.2.0)
