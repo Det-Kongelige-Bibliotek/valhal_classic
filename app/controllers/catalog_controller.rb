@@ -69,11 +69,13 @@ class CatalogController < ApplicationController
     config.add_facet_fields_to_solr_request!
 
     # solr fields to be displayed in the index (search results) view
-    #   The ordering of the field names is the order of the display 
+    #   The ordering of the field names is the order of the display
+    config.add_index_field 'id', :label => 'Id:'
     config.add_index_field 'original_filename_t', :label => 'Name:'
 
     # solr fields to be displayed in the show (single result) view
-    #   The ordering of the field names is the order of the display 
+    #   The ordering of the field names is the order of the display
+    config.add_show_field 'id', :label => 'Id:'
     config.add_show_field 'original_filename_t', :label => 'Title:'
     config.add_show_field 'mime_type_t', :label => 'Mime Type:'
     config.add_show_field 'description_t', :label => 'Description:'
