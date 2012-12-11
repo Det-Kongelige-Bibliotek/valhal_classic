@@ -5,7 +5,9 @@ describe BasicFile do
   context "with a xml file" do
     before do
       @basic_file = BasicFile.new
-      @uploaded_file = Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml", 'text/xml')
+      @uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', content_type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
+      @uploaded_file.content_type = 'text/xml'
+      puts @uploaded_file.inspect
       @basic_file.add_file(@uploaded_file)
     end
 
@@ -87,7 +89,8 @@ describe BasicFile do
   context "with a png file" do
     before do
       @basic_file = BasicFile.new
-      @uploaded_file = Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/rails.png", 'image/png')
+      @uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', content_type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
+      @uploaded_file.content_type = 'image/png'
       @basic_file.add_file(@uploaded_file)
     end
 
@@ -162,6 +165,7 @@ describe BasicFile do
     end
 
     it "should return false when a object doesn't support the require methods is passed down" do
+
       @basic_file.add_file("file").should == false
     end
   end
