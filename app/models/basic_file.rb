@@ -28,9 +28,9 @@ class BasicFile < ActiveFedora::Base
   def add_file(file)
     vaild_file = check_file?(file)
     if (vaild_file)
-      self.add_file_datastream(file, :label => file.original_filename, :mimeType => file.content_type, :dsid => 'content')
-      set_file_timestamps(file)
-      self.checksum = generate_checksum(file)
+      self.add_file_datastream(file.tempfile, :label => file.original_filename, :mimeType => file.content_type, :dsid => 'content')
+      set_file_timestamps(file.tempfile)
+      self.checksum = generate_checksum(file.tempfile)
       self.original_filename = file.original_filename
       self.mime_type = file.content_type
       self.size = file.size
@@ -53,9 +53,10 @@ class BasicFile < ActiveFedora::Base
   #returns true if file has all the methods that is needed by in #add_file else false is returned
   private
   def check_file?(file)
-    @@file_methods = [:size, :content_type, :original_filename, :atime, :ctime, :mtime]
+    @@file_methods = [:size, :tempfile, :content_type, :original_filename, ]
     @@file_methods.each do |method_name|
       unless file.respond_to?(method_name)
+        puts "file doenst have #{method_name}"
         return false
       end
     end
