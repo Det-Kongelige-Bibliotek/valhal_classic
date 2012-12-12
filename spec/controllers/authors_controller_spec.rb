@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-
 describe AuthorsController do
   describe "#index" do
     before do
@@ -17,11 +16,28 @@ describe AuthorsController do
   end
 
   describe "#new" do
+    before do
+      Author.all.each { |a| a.delete }
+    end
 
     it "should create a new instance of type Author" do
       get :new
       assigns[:author].should be_kind_of Author
       response.should be_successful
+    end
+
+    it "should allow uploading a TEI file" do
+      file = fixture_file_upload('/aarrebo_tei_p5_sample.xml', 'text/xml')
+      content = File.open("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml", 'r:utf-8').read
+      stub_temp = double("Tempfile")
+      stub_temp.stub(:read).and_return(content)
+      file.stub(:tempfile).and_return(stub_temp)
+      post :create, :file_data => file
+      response.should redirect_to authors_path
+      Author.count.should == 1
+      string_from_fedora = Author.all.first.teiFile.content
+
+      string_from_fedora.should be_equivalent_to content
     end
   end
 
@@ -68,7 +84,7 @@ describe AuthorsController do
 
   describe "#show" do
     before do
-    @author = Author.create(forename: "Alex", surname: "Boesen")
+      @author = Author.create(forename: "Alex", surname: "Boesen")
     end
 
     it "should show the new created author" do

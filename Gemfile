@@ -7,7 +7,7 @@ gem 'rails', '3.2.8'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 gem 'blacklight'
-gem 'hydra-head', '5.0.0.pre11'
+gem 'hydra-head', '5.0.0.pre12'
 gem 'sqlite3'
 
 gem 'jquery-rails'
@@ -20,7 +20,8 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer', :platforms => :ruby
+  gem 'libv8', '~> 3.11.8'
+  gem 'therubyracer', '0.11.0', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
 end
