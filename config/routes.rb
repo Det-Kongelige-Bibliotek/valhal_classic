@@ -12,5 +12,5 @@ ADL::Application.routes.draw do
 
   #Standard resource mapping for Author
   resources :authors
-
+  resources :upload
 end
