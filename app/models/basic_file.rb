@@ -56,7 +56,7 @@ class BasicFile < ActiveFedora::Base
     @@file_methods = [:size, :tempfile, :content_type, :original_filename, ]
     @@file_methods.each do |method_name|
       unless file.respond_to?(method_name)
-        puts "file doenst have #{method_name}"
+        puts "file dont support #{method_name} method"
         return false
       end
     end

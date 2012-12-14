@@ -3,12 +3,14 @@ development:
   password: fedoraAdmin
   url: http://127.0.0.1:8983/fedora
   solr:
-    url: http://localhost:8080/solr/collection1
+    url: http://localhost:8983/solr/development
 test:
   user: fedoraAdmin
   password: fedoraAdmin
   url: http://127.0.0.1:8983/fedora-test
+  solr:
+      url: http://127.0.0.1:8983/solr/test
 production:
   user: fedoraAdmin
   password: fedoraAdmin
-  url: http://127.0.0.1:8080/fedora
+  url: http://127.0.0.1:8983/fedora-test
