@@ -11,6 +11,10 @@ describe Author do
 
     @author.datastreams.keys.should include("descMetadata")
     @author.descMetadata.should be_kind_of Datastreams::AdlTeiP5
+
+    #@author.datastreams.keys.should include("authorImageFile")
+    #@author.authorImageFile.should be_kind_of ActiveFedora::Datastream
+
   end
 
   it "should have the attributes of an author and support update_attributes" do
@@ -50,6 +54,14 @@ describe Author do
     @author.sample_quotation.first.should == attributes_hash[:sample_quotation]
     @author.sample_quotation_source.first.should == attributes_hash[:sample_quotation_source]
     @author.short_biography.first.should == attributes_hash[:short_biography]
+  end
+
+  it "should have an author image file datastream" do
+
+    author_image = File.open(File.join(File.dirname(__FILE__), '..', 'fixtures', "aoa._foto.jpg"))
+    @author.add_file_datastream(author_image, :mimeType => 'image/jpg', :dsLabel => 'authorImageFile')
+    @author.save
+    puts @author.datastreams
   end
 
   after(:each) do
