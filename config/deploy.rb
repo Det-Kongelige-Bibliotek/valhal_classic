@@ -1,7 +1,7 @@
 set :application, "SIFD ADL"
 set :repository,  "https://github.com/Det-Kongelige-Bibliotek/ADL"
-set :deploy_to, "/var/www/sifd/apps"
-set :user, "hydra"
+set :deploy_to, "/home/deploy/sifd/apps/adl"
+set :user, "deploy"
 
 set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
