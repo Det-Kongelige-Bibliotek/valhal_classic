@@ -1,0 +1,161 @@
+
+body { background: #FFFFFF;
+    color: #000033;
+    margin-left: 10pt;
+    margin-top: -10pt;}
+
+a:link { color: #000033 }
+
+a:active { color: #660000 }
+
+a:visited { color: #909090 }
+
+a#menu { font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    font-style: normal;
+    line-height: 13pt;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #000033;
+    text-decoration: none }
+
+a#menu:hover { font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    font-style: normal;
+    line-height: 13pt;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #000033;
+    text-decoration: underline}
+
+.text, p { font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    font-style: normal;
+    line-height: 13pt;
+    font-variant: normal;
+    text-transform: none;
+    color: #000033;
+    text-decoration: none }
+
+.italictext { font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    font-style: italic;
+    line-height: 13pt;
+    font-variant: normal;
+    text-transform: none;
+    color: #000033;
+    text-decoration: none }
+
+.mindretext { font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-style: normal;
+    line-height: 10pt;
+    font-variant: normal;
+    text-transform: none;
+    color: #000033;
+    text-decoration: none}
+
+
+.nolink { font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    font-style: normal;
+    line-height: 13pt;
+    font-weight: bold;
+    font-variant: normal;
+    text-transform: none;
+    color: #000033;
+    text-decoration: none}
+
+.overskrift { font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12pt;
+    font-style: normal;
+    line-height: 13pt;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #000033;
+    text-decoration: none}
+
+.underoverskrift { font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11pt;
+    font-style: normal;
+    line-height: 13pt;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #000033;
+    text-decoration: none}
+
+.citat { font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    font-style: normal;
+    line-height: 13pt;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #660000;
+    text-decoration: none }
+
+a#citat { font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    font-style: normal;
+    line-height: 13pt;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #660000;
+    text-decoration: underline }
+
+
+.inputText { BACKGROUND: #FFFFFF;
+    BORDER-BOTTOM: #333333 1px solid;
+    BORDER-LEFT: #333333 1px solid;
+    BORDER-RIGHT: #333333 1px solid;
+    BORDER-TOP: #333333 1px solid;
+    COLOR: #333333;
+    FONT-SIZE: 12px;
+    FONT-WEIGHT: normal;
+    MARGIN-LEFT: 5px;
+    PADDING-LEFT: 3px}
+
+
+.inputText2 { BACKGROUND: #FFFFFF;
+    COLOR: #333333;
+    FONT-SIZE: 12px;
+    FONT-WEIGHT: normal;}
+
+
+
+.ocrnormal { font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    font-style: normal;
+    line-height: 13pt;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #000033;
+    text-decoration: none}
+
+.ocrlarge, .ocrlarge p { font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 13pt;
+    font-style: normal;
+    line-height: 15pt;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #000033;
+    text-decoration: none}
+
+.ocrsmall { font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-style: normal;
+    line-height: 13pt;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #000033;
+    text-decoration: none}
+
+.ctxhighlight { background-color:#bfbfbf }
