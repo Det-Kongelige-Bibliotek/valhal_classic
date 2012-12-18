@@ -2,7 +2,7 @@
 <mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org.1999/xlink" version="3.4" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd" xmlns:mods="http://www.loc.gov/mods/v3">
   <mods:genre type="KB Samling">ADL bog</mods:genre>
   <mods:identifier type="uri">urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66</mods:identifier>
-  <mods:identifier type="local">180</mods:identifier>
+  <mods:identifier type="isbn">8787504073</mods:identifier>
   <mods:location>
     <mods:shelfLocator>Pligtaflevering</mods:shelfLocator>
   </mods:location>
@@ -11,14 +11,28 @@
     <mods:recordChangeDate encoding="w3cdtf">2012-10-10T05:47:43.000+02:00</mods:recordChangeDate>
     <mods:recordIdentifier>180</mods:recordIdentifier>
     <mods:languageOfCataloging>
-      <mods:languageTerm authority="rfc4646" type="code">da</mods:languageTerm>
+      <mods:languageTerm authority="iso639-2b" type="code">dan</mods:languageTerm>
     </mods:languageOfCataloging>
-    </mods:recordInfo>
-    <mods:relatedItem type="otherFormat">
-      <mods:identifier displayLabel="image" type="uri">http://adl.dk/adl_pub/pg/cv/ShowPgImg.xsql?p_udg_id=180&amp;p_sidenr=g&amp;hist=udg&amp;nnoc=adl_pub</mods:identifier>
-    </mods:relatedItem>
-    <mods:titleInfo>
-      <mods:title>Samlede Skrifter Bd. 1</mods:title>
-    </mods:titleInfo>
-    <mods:typeOfResource>text</mods:typeOfResource>
+  </mods:recordInfo>
+  <mods:relatedItem type="otherFormat">
+    <mods:identifier displayLabel="image" type="uri">http://adl.dk/adl_pub/pg/cv/ShowPgImg.xsql?p_udg_id=180&amp;p_sidenr=g&amp;hist=udg&amp;nnoc=adl_pub</mods:identifier>
+  </mods:relatedItem>
+  <mods:titleInfo>
+    <mods:title>Samlede Skrifter</mods:title>
+    <mods:subTitle>Bd. 1</mods:subTitle>
+  </mods:titleInfo>
+  <mods:originInfo>
+    <mods:place>
+      <mods:placeTerm type="text">Copenhagen</mods:placeTerm>
+    </mods:place>
+    <mods:publisher>Det Danske Sprog og Litteraturselskab</mods:publisher>
+  </mods:originInfo>
+  <mods:language>
+    <mods:languageTerm authority="iso639-2b">dan</mods:languageTerm>
+    <mods:languageTerm type="text">DANSK</mods:languageTerm>
+  </mods:language>
+  <mods:subject authority="lcsh">
+    <mods:topic>N8217.H68</mods:topic>
+  </mods:subject>
+  <mods:typeOfResource>text</mods:typeOfResource>
 </mods:mods>
