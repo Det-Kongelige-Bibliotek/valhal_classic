@@ -3,24 +3,46 @@ module Datastreams
   class BookMods < ActiveFedora::NokogiriDatastream
     set_terminology do |t|
       t.root(:path=>'mods', :xmlns=>"http://www.loc.gov/mods/v3")
-      t.genre(:index_as=>[:searchable])
       t.uuid(:path=>"identifier[@type='uri']")
-      t.local_id(:path=>"identifier[@type='local']")
+      t.isbn(:path=>"identifier[@type='isbn']")
+      t.genre(:index_as=>[:searchable])
+      t.typeOfResource(:index_as=>[:searchable])
       t.location do
         t.shelfLocator()
       end
       t.titleInfo do
         t.title(:index_as => [:searchable])
+        t.subTitle(:index_as => [:searchable])
       end
+      t.originInfo do
+        t.publisher(:index_as => [:searchable])
+        t.place() do
+          t.placeTerm()
+        end
+      end
+      t.language do
+        t.languageISO(:path=>"languageTerm[@authority='iso639-2b']")
+        t.languageText(:path=>"languageTerm[@type='text']")
+      end
+      t.subject(:path=>"subject[@authority='lcsh']") do
+        t.topic(:index_as => [:searchable])
+      end
+
       t.shelfLocator(:proxy => [:location, :shelfLocator])
       t.title(:proxy => [:titleInfo, :title])
+      t.subTitle(:proxy => [:titleInfo, :subTitle])
+      t.publisher(:proxy => [:originInfo, :publisher])
+      t.originPlace(:proxy => [:originInfo, :place, :placeTerm])
+      t.languageISO(:proxy => [:language, :languageISO])
+      t.languageText(:proxy => [:language, :languageText])
+      t.subjectTopic(:proxy => [:subject, :topic])
     end
 
     def self.xml_template
       Nokogiri::XML.parse '<mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org.1999/xlink" version="3.4" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd" xmlns:mods="http://www.loc.gov/mods/v3">
         <mods:genre type="KB Samling"/>
         <mods:identifier type="uri"/>
-        <mods:identifier type="local"/>
+        <mods:identifier type="isbn"/>
         <mods:location>
           <mods:shelfLocator/>
         </mods:location>
@@ -29,7 +51,7 @@ module Datastreams
           <mods:recordChangeDate encoding="w3cdtf"/>
           <mods:recordIdentifier/>
           <mods:languageOfCataloging>
-            <mods:languageTerm authority="rfc4646" type="code"/>
+            <mods:languageTerm authority="iso639-2b" type="code"/>
           </mods:languageOfCataloging>
         </mods:recordInfo>
         <mods:relatedItem type="otherFormat">
@@ -37,7 +59,21 @@ module Datastreams
         </mods:relatedItem>
         <mods:titleInfo>
           <mods:title/>
+          <mods:subTitle/>
         </mods:titleInfo>
+        <mods:originInfo>
+          <mods:place>
+            <mods:placeTerm type="text"/>
+          </mods:place>
+          <mods:publisher></mods:publisher>
+        </mods:originInfo>
+        <mods:language>
+            <mods:languageTerm authority="iso639-2b"></mods:languageTerm>
+            <mods:languageTerm type="text"></mods:languageTerm>
+        </mods:language>
+        <mods:subject authority="lcsh">
+          <mods:topic/>
+        </mods:subject>
         <mods:typeOfResource/>
       </mods:mods>'
     end
