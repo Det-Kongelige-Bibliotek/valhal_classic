@@ -27,7 +27,7 @@ describe BasicFile do
     end
 
     it "should have a uuid" do
-      pending "depends on the intellectual entity"
+      pending "depends on the intellectual entity, dont seem to work when using IntellectualEntity"
       @basic_file.uuid.should == "something"
     end
 
