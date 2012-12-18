@@ -1,6 +1,7 @@
 set :application, "SIFD ADL"
 set :repository,  "https://github.com/Det-Kongelige-Bibliotek/ADL"
-set :deploy_to, "/home/deploy/sifd/apps/adl"
+#set :deploy_to, "/home/deploy/sifd/apps/adl"
+set :deploy_to, "/var/www/sifd/apps/adl"
 set :user, "deploy"
 set :use_sudo, false
 
