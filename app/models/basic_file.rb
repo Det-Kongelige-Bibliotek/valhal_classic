@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 
-class BasicFile < ActiveFedora::Base
+class BasicFile < IntellectualEntity
   include Hydra::Models::FileAsset
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
@@ -23,7 +23,7 @@ class BasicFile < ActiveFedora::Base
   delegate :size, :to => 'techMetadata', :at => [:file_size], :unique => true
 
   # adds a content datastream to the object and generate techMetadata for the file
-  # file must have the following methods [size, content_type, original_filename, atime, ctime, mtime]
+  # file must have the following methods [size, content_type, original_filename, tempfile]
   # return true if successful, else false
   def add_file(file)
     vaild_file = check_file?(file)
@@ -56,7 +56,7 @@ class BasicFile < ActiveFedora::Base
     @@file_methods = [:size, :tempfile, :content_type, :original_filename, ]
     @@file_methods.each do |method_name|
       unless file.respond_to?(method_name)
-        puts "file doenst have #{method_name}"
+        puts "file dont support #{method_name} method"
         return false
       end
     end

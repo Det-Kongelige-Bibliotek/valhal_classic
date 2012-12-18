@@ -6,8 +6,9 @@ gem 'rails', '3.2.8'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-gem 'blacklight'
-gem 'hydra-head', '5.0.0.pre12'
+gem "devise", "~> 2.1.2"
+gem "blacklight", "~> 4.0.1"
+gem 'hydra-head', '5.0.0'
 gem 'sqlite3'
 
 gem 'jquery-rails'
@@ -48,3 +49,7 @@ group :development, :test do
   gem 'jettywrapper', '>= 1.2.0'
   gem 'capybara'
 end
+
+gem "unicode", :platforms => [:mri_18, :mri_19]
+gem "devise-guests", "~> 0.3"
+gem "bootstrap-sass"
