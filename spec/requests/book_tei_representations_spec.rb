@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "BookTeiRepresentations" do
   describe "GET /book_tei_representations" do
+
     it "works! (now write some real specs)" do
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
       get book_tei_representations_path

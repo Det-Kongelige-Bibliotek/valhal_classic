@@ -4,6 +4,7 @@ set :deploy_to, "/var/www/sifd/apps/adl"
 set :user, "deploy"
 set :use_sudo, false
 set :rails_env, "development"
+set :default_shell, "bash -l"
 
 set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`

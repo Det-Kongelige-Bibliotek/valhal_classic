@@ -41,6 +41,11 @@ class BookTeiRepresentationsController < ApplicationController
   # POST /book_tei_representations.json
   def create
     @book_tei_representation = BookTeiRepresentation.new(params[:book_tei_representation])
+    file = BasicFile.new
+    if file.add_file(params[:file_data])
+      file.save
+      @book_tei_representation.file = file
+    end
 
     respond_to do |format|
       if @book_tei_representation.save
