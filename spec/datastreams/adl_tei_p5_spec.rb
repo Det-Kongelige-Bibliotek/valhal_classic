@@ -84,4 +84,10 @@ describe Datastreams::AdlTeiP5 do
     subject.TEI.teiHeader.profileDesc.particDesc.listPerson.person.event.desc[7] == "Hovedværket Hexaëmeron, udgivet posthumt 1661"
     subject.TEI.teiHeader.profileDesc.particDesc.listPerson.person.event.desc[8] == "Død i Vordingborg"
   end
+
+  it "should have a floruit with a period description and from and to dates" do
+    subject.TEI.teiHeader.profileDesc.particDesc.listPerson.person.floruit.period == "Renæssance"
+    subject.TEI.teiHeader.profileDesc.particDesc.listPerson.person.floruit.from == "1535"
+    subject.TEI.teiHeader.profileDesc.particDesc.listPerson.person.floruit.to == "1640"
+  end
 end
