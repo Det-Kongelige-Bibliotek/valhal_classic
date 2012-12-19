@@ -9,6 +9,6 @@ load 'config/deploy' # remove this line to skip loading any of the default tasks
 
 namespace :rake do
   task :show_tasks do
-    run("cd #{deploy_to}/current; /usr/bin/rake -T")
+    run("cd #{deploy_to}/current; echo $PATH")
   end
 end
