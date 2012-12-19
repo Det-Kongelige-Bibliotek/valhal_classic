@@ -69,15 +69,11 @@ describe IntellectualEntity do
       @intellectual_entity.destroy
       ActiveFedora::Base.find_with_conditions(:id => pid).should be_empty
     end
-
-    it "should be possible to destroy an object" do
-      pending "Cannot find intellectual entity from uuid"
-      @intellectual_entity = IntellectualEntity.new
-      @intellectual_entity.save!
-      uuid = @intellectual_entity.uuid
-      @intellectual_entity.destroy
-      IntellectualEntity.find_with_conditions(:uuid => uuid).should be_empty
-    end
   end
 
+  after do
+    IntellectualEntity.all.each do |ie|
+      ie.delete
+    end
+  end
 end
