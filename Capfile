@@ -3,7 +3,12 @@ load 'deploy'
 #load 'deploy/assets'
 load 'config/deploy' # remove this line to skip loading any of the default tasks
 
-task :create_db_tables, :hosts => "sifd-hydra.kb.dk" do
-#  run "cd /var/www/sifd/apps/adl/current; rake db:migrate"
-  run "hostname; cd /var/www/sifd/apps/adl/current; pwd; whoami; rake db:migrate"
+#task :create_db_tables, :hosts => "sifd-hydra.kb.dk" do
+#  run "hostname; cd /var/www/sifd/apps/adl/current; pwd; whoami; rake db:migrate"
+#end
+
+namespace :rake do
+  task :show_tasks do
+    run("cd #{deploy_to}/current; /usr/bin/rake -T")
+  end
 end
