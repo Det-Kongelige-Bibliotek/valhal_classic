@@ -34,12 +34,12 @@ class CatalogController < ApplicationController
     #}
 
     # solr field configuration for search results/index views
-    config.index.show_link = 'original_filename_t'
+    config.index.show_link = 'title_t'
     config.index.record_display_type = 'format'
 
     # solr field configuration for document/show views
-    config.show.html_title = 'original_filename_t'
-    config.show.heading = 'original_filename_t'
+    config.show.html_title = 'title_t'
+    config.show.heading = 'title_t'
     config.show.display_type = 'format'
 
     # solr fields that will be treated as facets by the blacklight application
@@ -162,7 +162,4 @@ class CatalogController < ApplicationController
     # mean") suggestion is offered.
     config.spell_max = 5
   end
-
-
-
-end 
+end

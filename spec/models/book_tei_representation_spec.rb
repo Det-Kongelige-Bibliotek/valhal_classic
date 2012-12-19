@@ -36,7 +36,6 @@ describe BookTeiRepresentation do
   end
 
   it "should be able to get the file name" do
-    puts subject.methods.sort
     subject.file_name.should == "aarrebo_tei_p5_sample.xml"
   end
 end

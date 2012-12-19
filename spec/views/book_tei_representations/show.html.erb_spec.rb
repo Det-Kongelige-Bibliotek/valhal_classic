@@ -13,7 +13,6 @@ describe "book_tei_representations/show" do
   end
 
   it "renders attributes in <p>" do
-    pending "fix test"
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
   end

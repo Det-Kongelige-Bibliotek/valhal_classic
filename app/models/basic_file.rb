@@ -38,6 +38,12 @@ class BasicFile < IntellectualEntity
     vaild_file
   end
 
+  def to_solr(solr_doc = {})
+    super
+    solr_doc["title_t"] = self.original_filename.gsub("_", " ").gsub(".xml", "") unless self.original_filename == nil
+    return solr_doc
+  end
+
   private
   def generate_checksum(file)
     Digest::MD5.file(file).hexdigest
@@ -53,7 +59,7 @@ class BasicFile < IntellectualEntity
   #returns true if file has all the methods that is needed by in #add_file else false is returned
   private
   def check_file?(file)
-    @@file_methods = [:size, :tempfile, :content_type, :original_filename, ]
+    @@file_methods = [:size, :tempfile, :content_type, :original_filename,]
     @@file_methods.each do |method_name|
       unless file.respond_to?(method_name)
         puts "file dont support #{method_name} method"
