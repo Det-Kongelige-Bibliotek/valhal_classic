@@ -5,7 +5,6 @@ describe Book do
 
   before(:each) do
     @book = Book.create
-    @book.save
   end
 
   it "should have a rightsMetadata datastream" do
@@ -50,6 +49,15 @@ describe Book do
     @book.languageText.should == attributes_hash[:languageText]
     @book.subjectTopic.should == attributes_hash[:subjectTopic]
     @book.physicalExtent.should == attributes_hash[:physicalExtent]
+  end
+
+  describe " as IntellectualEntity" do
+    it "should be assigned an uuid when saved" do
+      @book = Book.new
+      @book.uuid.should be_nil
+      @book.save!
+      @book.uuid.should_not be_nil
+    end
   end
 
   after do

@@ -5,7 +5,7 @@ class Book < IntellectualEntity
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name=>'descMetadata', :type=>Datastreams::BookMods
 
-  delegate_to 'descMetadata',[:uuid, :isbn, :genre, :shelfLocator, :title, :subTitle, :typeOfResource, :publisher,
+  delegate_to 'descMetadata',[:isbn, :genre, :shelfLocator, :title, :subTitle, :typeOfResource, :publisher,
                               :originPlace, :languageISO, :languageText, :subjectTopic, :dateIssued,
                               :physicalExtent], :unique=>true
 
