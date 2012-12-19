@@ -8,7 +8,7 @@ module Datastreams
       t.genre(:index_as=>[:searchable])
       t.typeOfResource(:index_as=>[:searchable])
       t.location do
-        t.shelfLocator()
+        t.shelfLocator(:index_as=>[:searchable])
       end
       t.titleInfo do
         t.title(:index_as => [:searchable])
@@ -16,9 +16,10 @@ module Datastreams
       end
       t.originInfo do
         t.publisher(:index_as => [:searchable])
-        t.place() do
-          t.placeTerm()
+        t.place do
+          t.placeTerm(:index_as => [:searchable])
         end
+        t.dateIssued(:index_as => [:searchable])
       end
       t.language do
         t.languageISO(:path=>"languageTerm[@authority='iso639-2b']")
@@ -27,15 +28,20 @@ module Datastreams
       t.subject(:path=>"subject[@authority='lcsh']") do
         t.topic(:index_as => [:searchable])
       end
+      t.physicalDescription do
+        t.extent(:index_as => [:searchable])
+      end
 
       t.shelfLocator(:proxy => [:location, :shelfLocator])
       t.title(:proxy => [:titleInfo, :title])
       t.subTitle(:proxy => [:titleInfo, :subTitle])
       t.publisher(:proxy => [:originInfo, :publisher])
       t.originPlace(:proxy => [:originInfo, :place, :placeTerm])
+      t.dateIssued(:proxy => [:originInfo, :dateIssued])
       t.languageISO(:proxy => [:language, :languageISO])
       t.languageText(:proxy => [:language, :languageText])
       t.subjectTopic(:proxy => [:subject, :topic])
+      t.physicalExtent(:proxy => [:physicalDescription, :extent])
     end
 
     def self.xml_template
@@ -47,6 +53,8 @@ module Datastreams
           <mods:shelfLocator/>
         </mods:location>
         <mods:recordInfo>
+          <mods:recordContentSource/>
+          <mods:recordOrigin>/>
           <mods:recordCreationDate encoding="w3cdtf"/>
           <mods:recordChangeDate encoding="w3cdtf"/>
           <mods:recordIdentifier/>
@@ -66,6 +74,7 @@ module Datastreams
             <mods:placeTerm type="text"/>
           </mods:place>
           <mods:publisher></mods:publisher>
+          <mods:dateIssued keyDate="yes" encoding="w3cdtf"/>
         </mods:originInfo>
         <mods:language>
             <mods:languageTerm authority="iso639-2b"></mods:languageTerm>
@@ -74,6 +83,9 @@ module Datastreams
         <mods:subject authority="lcsh">
           <mods:topic/>
         </mods:subject>
+        <mods:physicalDescription>
+          <mods:extent/>
+        </mods:physicalDescription>
         <mods:typeOfResource/>
       </mods:mods>'
     end

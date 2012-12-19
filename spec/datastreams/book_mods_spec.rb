@@ -18,8 +18,10 @@ describe Datastreams::BookMods do
     @ds.mods.titleInfo.subTitle.should == ["Bd. 1"]
     @ds.mods.originInfo.publisher.should == ["Det Danske Sprog og Litteraturselskab"]
     @ds.mods.originInfo.place.placeTerm.should == ["Copenhagen"]
+    @ds.mods.originInfo.dateIssued.should == ["2002-10-02T10:00:00-05:00"]
     @ds.mods.language.languageISO.should == ["dan"]
     @ds.mods.language.languageText.should == ["DANSK"]
     @ds.mods.subject.topic.should == ["N8217.H68"]
+    @ds.mods.physicalDescription.extent.should == ["510"]
   end
 end

@@ -7,6 +7,10 @@ describe Book do
     @book = Book.create
   end
 
+  it "should have a rightsMetadata datastream" do
+    @book.rightsMetadata.should be_kind_of Hydra::Datastream::RightsMetadata
+  end
+
   it "should have the required datastreams" do
     @book.descMetadata.should be_kind_of Datastreams::BookMods
   end
@@ -22,9 +26,11 @@ describe Book do
         subTitle: "Bd. 1",
         publisher: "Det Danske Sprog og Litteraturselskab",
         originPlace: "Copenhagen",
+        dateIssued: "2002-10-02T10:00:00-05:00",
         languageISO: "dan",
         languageText: "DANSK",
-        subjectTopic: "N8217.H68"
+        subjectTopic: "N8217.H68",
+        physicalExtent: "510"
     }
 
     @book.update_attributes(attributes_hash)
@@ -38,9 +44,11 @@ describe Book do
     @book.subTitle.should == attributes_hash[:subTitle]
     @book.publisher.should == attributes_hash[:publisher]
     @book.originPlace.should == attributes_hash[:originPlace]
+    @book.dateIssued.should == attributes_hash[:dateIssued]
     @book.languageISO.should == attributes_hash[:languageISO]
     @book.languageText.should == attributes_hash[:languageText]
     @book.subjectTopic.should == attributes_hash[:subjectTopic]
+    @book.physicalExtent.should == attributes_hash[:physicalExtent]
   end
 
   after(:each) do
