@@ -5,4 +5,12 @@ class BookTeiRepresentation < ActiveFedora::Base
 
   belongs_to :file, :class_name => 'BasicFile', :property=> :is_part_of
 
+  def file_name
+    self.file.original_filename
+  end
+
+  def file_created
+    self.file.created
+  end
+
 end

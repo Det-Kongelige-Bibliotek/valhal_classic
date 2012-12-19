@@ -1,5 +1,9 @@
 <p id="notice"><%= notice %></p>
 
+fileName: <%= @book_tei_representation.file_name %>
+<br />
+Created: <%= @book_tei_representation.file_created %>
+
 
 <%= link_to 'Edit', edit_book_tei_representation_path(@book_tei_representation) %> |
 <%= link_to 'Back', book_tei_representations_path %>
