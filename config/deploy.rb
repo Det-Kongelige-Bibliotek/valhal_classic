@@ -23,9 +23,6 @@ role :app, "sifd-hydra.kb.dk"                          # This may be the same as
 namespace :deploy do
    task :start do ; end
    task :stop do ; end
-   task :create_db_tables, :roles => :app do
-     run "cd /var/www/sifd/apps/adl/current; rake db:migrate"
-   end
    task :restart, :roles => :app, :except => { :no_release => true } do
      run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
    end
