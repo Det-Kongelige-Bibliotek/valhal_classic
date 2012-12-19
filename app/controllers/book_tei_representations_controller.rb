@@ -42,11 +42,10 @@ class BookTeiRepresentationsController < ApplicationController
   def create
     @book_tei_representation = BookTeiRepresentation.new(params[:book_tei_representation])
     file = BasicFile.new
-    puts params[:file_data]
-    puts file.add_file(params[:file_data])
-    file.save
-
-    @book_tei_representation.file = file
+    if file.add_file(params[:file_data])
+      file.save
+      @book_tei_representation.file = file
+    end
 
     respond_to do |format|
       if @book_tei_representation.save

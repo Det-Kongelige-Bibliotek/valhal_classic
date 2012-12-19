@@ -4,7 +4,6 @@ describe "BookTeiRepresentations" do
   describe "GET /book_tei_representations" do
 
     it "works! (now write some real specs)" do
-      pending "write some specs"
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
       get book_tei_representations_path
       response.status.should be(200)
