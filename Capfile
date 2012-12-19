@@ -5,5 +5,5 @@ load 'config/deploy' # remove this line to skip loading any of the default tasks
 
 task :create_db_tables, :hosts => "sifd-hydra.kb.dk" do
 #  run "cd /var/www/sifd/apps/adl/current; rake db:migrate"
-  run "hostname; ls -x1 /usr/lib | wc -l"
+  run "hostname; ls -x1 /usr/lib | wc -l; cd /var/www/sifd/apps/adl/current; pwd"
 end
