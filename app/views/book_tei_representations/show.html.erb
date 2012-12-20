@@ -2,13 +2,10 @@
 <p>Filer tilknyttet</p>
 <%- @book_tei_representation.files.each do |file| %>
     File Name: file.original_filename
-    <br />
+    <br/>
     Created: <%= file.created %>
-    <br />
+    <br/>
 <%- end %>
-
-
-
 
 <%= link_to 'Edit', edit_book_tei_representation_path(@book_tei_representation) %> |
 <%= link_to 'Back', book_tei_representations_path %>
