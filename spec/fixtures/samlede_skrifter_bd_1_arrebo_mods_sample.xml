@@ -7,6 +7,8 @@
     <mods:shelfLocator>Pligtaflevering</mods:shelfLocator>
   </mods:location>
   <mods:recordInfo>
+    <mods:recordContentSource>Det Kongelige Bibliotek</mods:recordContentSource>
+    <mods:recordOrigin> MODS auto-converted from the header of the digitised resource [el. lign] </mods:recordOrigin>
     <mods:recordCreationDate encoding="w3cdtf">2010-04-20T10:13:03.000+02:00</mods:recordCreationDate>
     <mods:recordChangeDate encoding="w3cdtf">2012-10-10T05:47:43.000+02:00</mods:recordChangeDate>
     <mods:recordIdentifier>180</mods:recordIdentifier>
@@ -26,6 +28,7 @@
       <mods:placeTerm type="text">Copenhagen</mods:placeTerm>
     </mods:place>
     <mods:publisher>Det Danske Sprog og Litteraturselskab</mods:publisher>
+    <mods:dateIssued keyDate="yes" encoding="w3cdtf">2002-10-02T10:00:00-05:00</mods:dateIssued>
   </mods:originInfo>
   <mods:language>
     <mods:languageTerm authority="iso639-2b">dan</mods:languageTerm>
@@ -34,5 +37,8 @@
   <mods:subject authority="lcsh">
     <mods:topic>N8217.H68</mods:topic>
   </mods:subject>
+  <mods:physicalDescription>
+    <mods:extent>510</mods:extent>
+  </mods:physicalDescription>
   <mods:typeOfResource>text</mods:typeOfResource>
 </mods:mods>

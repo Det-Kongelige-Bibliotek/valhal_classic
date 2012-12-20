@@ -41,14 +41,17 @@ class BookTeiRepresentationsController < ApplicationController
   # POST /book_tei_representations.json
   def create
     @book_tei_representation = BookTeiRepresentation.new(params[:book_tei_representation])
-    file = BasicFile.new
-    if file.add_file(params[:file_data])
-      file.save
-      @book_tei_representation.file = file
-    end
+
 
     respond_to do |format|
       if @book_tei_representation.save
+        file = BasicFile.new
+        if file.add_file(params[:file_data])
+          file.container = @book_tei_representation
+          file.save
+          @book_tei_representation.files << file
+          @book_tei_representation.save
+        end
         format.html { redirect_to @book_tei_representation, notice: 'Book tei representation was successfully created.' }
         format.json { render json: @book_tei_representation, status: :created, location: @book_tei_representation }
       else
