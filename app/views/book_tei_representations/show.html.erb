@@ -1,8 +1,13 @@
 <p id="notice"><%= notice %></p>
+<p>Filer tilknyttet</p>
+<%- @book_tei_representation.files.each do |file| %>
+    File Name: file.original_filename
+    <br />
+    Created: <%= file.created %>
+    <br />
+<%- end %>
 
-fileName: <%= @book_tei_representation.file_name %>
-<br />
-Created: <%= @book_tei_representation.file_created %>
+
 
 
 <%= link_to 'Edit', edit_book_tei_representation_path(@book_tei_representation) %> |
