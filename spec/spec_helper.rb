@@ -43,10 +43,11 @@ RSpec.configure do |config|
     File.new(File.join(File.dirname(__FILE__), 'fixtures', file))
   end
 
-  def create_basic_file
+  def create_basic_file(holding_object)
     basic_file = BasicFile.new
     uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
     basic_file.add_file(uploaded_file)
+    basic_file.container = holding_object
     basic_file.save
     basic_file
   end

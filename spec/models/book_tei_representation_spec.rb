@@ -2,11 +2,9 @@ require 'spec_helper'
 
 describe BookTeiRepresentation do
   before do
-    @basic_file = BasicFile.new
-    uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
-    @basic_file.add_file(uploaded_file)
-    @basic_file.save
-    subject.file = @basic_file
+    BookTeiRepresentation.all.each { |book| book.delete }
+    @basic_file = create_basic_file(subject)
+    subject.files << @basic_file
   end
 
   it "should have a rightsMetadata datastream" do
@@ -21,8 +19,8 @@ describe BookTeiRepresentation do
     subject.provMetadata.should be_kind_of ActiveFedora::Datastream
   end
 
-  it "should have a relationship to a file" do
-    subject.file.should be_kind_of BasicFile
+  it "should have a relationship to files" do
+    subject.files.each { |file| file.should be_kind_of BasicFile }
   end
 
   it "should be able to be saved" do
@@ -30,12 +28,13 @@ describe BookTeiRepresentation do
   end
 
   it "should be able to retrive the content of the file" do
-    subject.save
-    book = BookTeiRepresentation.find(subject.pid)
-    book.file.should == @basic_file
-  end
-
-  it "should be able to get the file name" do
-    subject.file_name.should == "aarrebo_tei_p5_sample.xml"
+    book_tei_rep = BookTeiRepresentation.new
+    book_tei_rep.save!
+    file = create_basic_file(book_tei_rep)
+    book_tei_rep.files << file
+    book_tei_rep.save
+    book = BookTeiRepresentation.find(book_tei_rep.pid)
+    puts book.files.inspect
+    book.files.first.should == file
   end
 end

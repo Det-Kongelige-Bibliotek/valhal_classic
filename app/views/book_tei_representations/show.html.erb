@@ -1,7 +1,6 @@
-<p id="notice"><%= notice %></p>
-<p>Filer tilknyttet</p>
+<p>Filer tilknyttet: <%= @book_tei_representation.files.count %></p>
 <%- @book_tei_representation.files.each do |file| %>
-    File Name: file.original_filename
+    File Name: <%=file.original_filename %>
     <br/>
     Created: <%= file.created %>
     <br/>

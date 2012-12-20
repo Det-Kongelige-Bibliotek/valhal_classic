@@ -1,12 +1,6 @@
 <h1>Listing book_tei_representations</h1>
 
 <table>
-  <tr>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
 <% @book_tei_representations.each do |book_tei_representation| %>
   <tr>
     <td><%= book_tei_representation.files.first.original_filename %></td>
