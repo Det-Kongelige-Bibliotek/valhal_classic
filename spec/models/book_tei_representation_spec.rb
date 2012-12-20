@@ -5,6 +5,7 @@ describe BookTeiRepresentation do
     BookTeiRepresentation.all.each { |book| book.delete }
     @basic_file = create_basic_file(subject)
     subject.files << @basic_file
+    subject.book = Book.new
   end
 
   it "should have a rightsMetadata datastream" do
@@ -25,6 +26,10 @@ describe BookTeiRepresentation do
 
   it "should be able to be saved" do
     subject.save.should == true
+  end
+
+  it "should have a relationship to a book" do
+    subject.book.should be_kind_of Book
   end
 
   it "should be able to retrive the content of the file" do
