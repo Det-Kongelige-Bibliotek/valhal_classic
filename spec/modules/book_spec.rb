@@ -5,6 +5,7 @@ describe Book do
 
   before(:each) do
     @book = Book.create
+    @book.save
   end
 
   it "should have a rightsMetadata datastream" do
@@ -51,7 +52,10 @@ describe Book do
     @book.physicalExtent.should == attributes_hash[:physicalExtent]
   end
 
-  after(:each) do
-    @book.delete
+  after do
+    Book.all.each do |b|
+      b.delete
+    end
   end
+
 end
