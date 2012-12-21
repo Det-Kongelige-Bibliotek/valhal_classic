@@ -34,7 +34,7 @@ class CatalogController < ApplicationController
     #}
 
     # solr field configuration for search results/index views
-    config.index.show_link = 'title_t'
+    config.index.show_link = 'teiHeader_profileDesc_particDesc_listPerson_person_persName_surname_t'
     config.index.record_display_type = 'format'
 
     # solr field configuration for document/show views
@@ -80,6 +80,8 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
+    config.add_index_field 'teiHeader_profileDesc_particDesc_listPerson_person_persName_surname_t', :label => 'Efternavn:'
+    config.add_index_field 'teiHeader_profileDesc_particDesc_listPerson_person_persName_forename_t', :label => 'Fornavn:'
     config.add_index_field 'id', :label => 'Id:'
     config.add_index_field 'original_filename_t', :label => 'Name:'
 
