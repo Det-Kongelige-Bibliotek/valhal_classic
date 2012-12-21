@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class BookTeiRepresentationsController < ApplicationController
   # GET /book_tei_representations
   # GET /book_tei_representations.json

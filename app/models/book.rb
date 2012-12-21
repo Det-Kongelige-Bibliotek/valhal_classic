@@ -1,5 +1,4 @@
 # -*- encoding : utf-8 -*-
-
 class Book < IntellectualEntity
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
