@@ -8,6 +8,9 @@ module Datastreams
 
       t.teiHeader do
         t.fileDesc do
+          t.titleStmt do
+            t.title(:index_as => [:searchable])
+          end
           t.sourceDesc do
             t.bibl(:index_as => [:searchable])
           end
@@ -38,6 +41,11 @@ module Datastreams
                     t.quote(:index_as => [:searchable])
                     t.bibl(:index_as => [:searchable])
                   end
+                end
+                t.floruit do
+                  t.period(:path => {:attribute => "period"}, :index_as => [:searchable])
+                  t.from(:path => {:attribute => "from"})
+                  t.to(:path => {:attribute => "to"})
                 end
               end
             end
