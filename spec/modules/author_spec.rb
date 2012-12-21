@@ -42,7 +42,8 @@ describe Author do
           1623 	K. Davids Psalter, revideret 1627
           1626 	Sognepræst i Vordingborg
           1631-37 	Hovedværket Hexaëmeron, udgivet posthumt 1661
-          1637 	Død i Vordingborg"
+          1637 	Død i Vordingborg",
+        period: "Renæssance"
     }
 
     @author.update_attributes(attributes_hash)
@@ -54,10 +55,10 @@ describe Author do
     @author.sample_quotation.first.should == attributes_hash[:sample_quotation]
     @author.sample_quotation_source.first.should == attributes_hash[:sample_quotation_source]
     @author.short_biography.first.should == attributes_hash[:short_biography]
+    @author.period.should == attributes_hash[:period]
   end
 
   it "should have an author image file datastream" do
-
     author_image = File.open(File.join(File.dirname(__FILE__), '..', 'fixtures', "aoa._foto.jpg"))
     @author.add_file_datastream(author_image, :mimeType => 'image/jpg', :dsLabel => 'authorImageFile')
     @author.save

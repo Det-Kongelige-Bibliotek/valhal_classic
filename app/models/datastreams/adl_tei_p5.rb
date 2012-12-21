@@ -60,6 +60,7 @@ module Datastreams
       t.short_biography(:proxy => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :event, :desc])
       t.sample_quotation(:proxy => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :note, :cit, :quote])
       t.sample_quotation_source(:proxy => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :note, :cit, :bibl])
+      t.period(:proxy => [:teiHeader, :profileDesc, :particDesc, :listPerson, :person, :floruit, :period])
     end
 
     def self.xml_template
@@ -109,6 +110,7 @@ module Datastreams
                         xml.bibl
                       end
                     end
+                    xml.floruit(:period => '', :from => '', :to => '')
                   end
                 end
               end
