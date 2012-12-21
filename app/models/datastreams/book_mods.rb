@@ -54,7 +54,7 @@ module Datastreams
         </mods:location>
         <mods:recordInfo>
           <mods:recordContentSource/>
-          <mods:recordOrigin>/>
+          <mods:recordOrigin/>
           <mods:recordCreationDate encoding="w3cdtf"/>
           <mods:recordChangeDate encoding="w3cdtf"/>
           <mods:recordIdentifier/>
