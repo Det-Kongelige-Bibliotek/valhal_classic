@@ -1,5 +1,23 @@
 <p id="notice"><%= notice %></p>
 
+<table border="0">
+  <tr><td><b>title</b></td><td><%= @book.title %></td></tr>
+  <tr><td><b>subTitle</b></td><td><%= @book.subTitle %></td></tr>
+  <tr><td><b>isbn</b></td><td><%= @book.isbn %></td></tr>
+  <tr><td><b>genre</b></td><td><%= @book.genre %></td></tr>
+  <tr><td><b>shelfLocator</b></td><td><%= @book.shelfLocator %></td></tr>
+  <tr><td><b>typeOfResource</b></td><td><%= @book.typeOfResource %></td></tr>
+  <tr><td><b>publisher</b></td><td><%= @book.publisher %></td></tr>
+  <tr><td><b>originPlace</b></td><td><%= @book.originPlace %></td></tr>
+  <tr><td><b>languageISO</b></td><td><%= @book.languageISO %></td></tr>
+  <tr><td><b>languageText</b></td><td><%= @book.languageText %></td></tr>
+  <tr><td><b>subjectTopic</b></td><td><%= @book.subjectTopic %></td></tr>
+  <tr><td><b>dateIssued</b></td><td><%= @book.dateIssued %></td></tr>
+  <tr><td><b>physicalExtent</b></td><td><%= @book.physicalExtent %></td></tr>
+  <tr><td><b>UUID</b></td><td><%= @book.uuid %></td></tr>
+</table>
+
+<br/>
 
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'Back', books_path %>
