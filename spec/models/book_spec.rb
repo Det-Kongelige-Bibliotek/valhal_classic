@@ -52,10 +52,32 @@ describe Book do
     @book.physicalExtent.should == attributes_hash[:physicalExtent]
   end
 
+  it "should have a relationship to a representation" do
+    tei = BookTeiRepresentation.new
+    tei.save!
+    basic_file = BasicFile.new
+    uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
+    basic_file.add_file(uploaded_file)
+    basic_file.container = @book_tei_representation
+    tei.files << basic_file
+    basic_file.save!
+
+    tei.book = @book
+    tei.save!
+    @book.title = 'Book with Tei representation'
+    @book.save!
+
+    @book.tei.should_not be_nil
+    @book.tei.should_not be_empty
+    @book.tei.length.should == 1
+    @book.tei.first.should == tei
+  end
+
   after do
-    Book.all.each do |b|
-      b.delete
-    end
+    Book.all.each { |book| book.delete }
+    BookTeiRepresentation.all.each { |btr| btr.delete }
+    BasicFile.all.each { |bf| bf.delete }
+    Author.all.each { |a| a.delete }
   end
 
 end

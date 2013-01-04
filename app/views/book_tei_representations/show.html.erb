@@ -1,8 +1,9 @@
 <p>Filer tilknyttet: <%= @book_tei_representation.files.count %></p>
 <%- @book_tei_representation.files.each do |file| %>
-    File Name: <%=file.original_filename %>
+    <% # TODO fix the following %>
+    File Name: <%= file.nil? ? "No file" : file.original_filename %>
     <br/>
-    Created: <%= file.created %>
+    Created: <%= file.nil? ? "N/A" : file.created %>
     <br/>
 <%- end %>
 

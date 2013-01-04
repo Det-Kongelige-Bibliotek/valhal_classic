@@ -45,6 +45,18 @@ class BooksController < ApplicationController
 
     respond_to do |format|
       if @book.save
+        if !params[:file].blank? && !params[:file][:tei_file].blank?
+          tei = BookTeiRepresentation.new
+          tei.save!
+          file = BasicFile.new
+          file.add_file(params[:file][:tei_file])
+          file.container = tei
+          file.save!
+          tei.files << file
+
+          tei.book = @book
+          tei.save!
+        end
         format.html { redirect_to @book, notice: 'Book was successfully created.' }
         format.json { render json: @book, status: :created, location: @book }
       else

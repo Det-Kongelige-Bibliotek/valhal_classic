@@ -24,7 +24,7 @@
     <div>
       <%= f.label :typeOfResource, "Type of resource" %>
       <br/>
-      <%= f.text_field :typeOfResource, :placeholder => "Book" %>
+      <%= f.text_field :typeOfResource, :placeholder => "Type of resource" %>
     </div>
     <div>
       <%= f.label :publisher, "Publisher" %>
@@ -55,9 +55,15 @@
     <div>
       <%= f.label :physicalExtent, "Physical extent" %>
       <br/>
-      <%= f.text_field :physicalExtent, :placeholder => "Physical extent" %>
+      <%= f.text_field :physicalExtent, :placeholder => "physicalExtent" %>
     </div>
     <br/>
+    <div>
+      <%= f.fields_for :tei do |builder| %>
+        <%= builder.label :file, "TEI file representation for the book" %>
+        <%= builder.file_field :file %>
+      <% end %>
+    </div>
 
     <div class="actions">
       <%= f.submit %>
