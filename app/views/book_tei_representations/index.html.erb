@@ -3,7 +3,8 @@
 <table>
 <% @book_tei_representations.each do |book_tei_representation| %>
   <tr>
-    <td><%= book_tei_representation.files.first.original_filename %></td>
+    <% # Fix method above. Use something else than 'unless'. %>
+    <td><%= book_tei_representation.files.first.original_filename unless book_tei_representation.files.empty? %></td>
     <td><%= link_to 'Show', book_tei_representation %></td>
     <td><%= link_to 'Edit', edit_book_tei_representation_path(book_tei_representation) %></td>
     <td><%= link_to 'Destroy', book_tei_representation, method: :delete, data: { confirm: 'Are you sure?' } %></td>

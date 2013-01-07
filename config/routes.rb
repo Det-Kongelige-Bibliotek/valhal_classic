@@ -1,5 +1,7 @@
 # -*- encoding : utf-8 -*-
 ADL::Application.routes.draw do
+  resources :books
+
   devise_for :users
 
   root :to => "catalog#index"

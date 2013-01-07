@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class BookTeiRepresentationsController < ApplicationController
   # GET /book_tei_representations
   # GET /book_tei_representations.json
@@ -41,7 +42,6 @@ class BookTeiRepresentationsController < ApplicationController
   # POST /book_tei_representations.json
   def create
     @book_tei_representation = BookTeiRepresentation.new(params[:book_tei_representation])
-
 
     respond_to do |format|
       if @book_tei_representation.save

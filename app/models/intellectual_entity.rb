@@ -1,5 +1,4 @@
 # -*- encoding : utf-8 -*-
-
 # This class is intended to be used as a super-class for all instances of intellectual entities.
 # An intellectual entity must be identifiable through an UUID. It is possible to create an intellectual entity with a
 # specific UUID, but if no UUID is defined during creation, then a randomly generated UUID is assigned.

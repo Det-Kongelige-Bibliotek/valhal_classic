@@ -1,5 +1,4 @@
 # -*- encoding : utf-8 -*-
-
 class Author < ActiveFedora::Base
 
   has_metadata :name => 'descMetadata', :type => Datastreams::AdlTeiP5

@@ -1,5 +1,4 @@
 # -*- encoding : utf-8 -*-
-
 class BasicFile < IntellectualEntity
   include Hydra::Models::FileAsset
 

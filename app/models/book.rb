@@ -1,14 +1,18 @@
 # -*- encoding : utf-8 -*-
-
 class Book < IntellectualEntity
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name=>'descMetadata', :type=>Datastreams::BookMods
 
-  delegate_to 'descMetadata',[:uuid, :isbn, :genre, :shelfLocator, :title, :subTitle, :typeOfResource, :publisher,
+  delegate_to 'descMetadata',[:isbn, :genre, :shelfLocator, :title, :subTitle, :typeOfResource, :publisher,
                               :originPlace, :languageISO, :languageText, :subjectTopic, :dateIssued,
                               :physicalExtent], :unique=>true
 
   # has_many is used as there doesn't seem to be any has_one relation in Active Fedora
-  has_many :BookTeiRepresentation, :property=>:is_part_of
+  has_many :tei, :class_name => 'BookTeiRepresentation', :property=>:is_part_of
+
+  # Determines whether any TEI representations exists.
+  def hasTeiRep
+    return tei.any?
+  end
 end
