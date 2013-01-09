@@ -7,12 +7,12 @@ class IntellectualEntity < ActiveFedora::Base
   include ActiveFedora::Callbacks
 
   # Digital provenance metadata stream for the intellectual entity.
-  has_metadata :name => 'digiprovMetadata', :type => ActiveFedora::SimpleDatastream do |m|
+  has_metadata :name => 'provenanceMetadata', :type => ActiveFedora::SimpleDatastream do |m|
     m.field "uuid", :string
   end
 
   # Define the uuid as an accessible part of the digitial provenance metadata.
-  delegate_to 'digiprovMetadata', [:uuid], :unique => true
+  delegate_to 'provenanceMetadata', [:uuid], :unique => true
 
   # Validation criteria of the uuid.
   validates :uuid, :presence => true, :length => { :minimum => 16, :maximum => 64}

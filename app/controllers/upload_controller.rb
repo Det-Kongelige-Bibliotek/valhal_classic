@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+# TODO: This should be moved to a helper class
 class UploadController < ApplicationController
   def index
   end
