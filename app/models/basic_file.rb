@@ -18,6 +18,7 @@ class BasicFile < IntellectualEntity
 
   delegate_to 'techMetadata', [:last_modified, :created, :last_accessed, :original_filename, :mime_type], :unique => true
   delegate_to 'descMetadata', [:description], :unique => true
+  # TODO have more than one checksum (both MD5 and SHA), and specify their checksum algorithm.
   delegate :checksum, :to => 'techMetadata', :at => [:file_checksum], :unique => true
   delegate :size, :to => 'techMetadata', :at => [:file_size], :unique => true
 
@@ -48,6 +49,7 @@ class BasicFile < IntellectualEntity
     Digest::MD5.file(file).hexdigest
   end
 
+  # TODO describe the different timestamps.
   private
   def set_file_timestamps(file)
     self.created = file.ctime.to_s
@@ -55,7 +57,7 @@ class BasicFile < IntellectualEntity
     self.last_modified = file.mtime.to_s
   end
 
-  #returns true if file has all the methods that is needed by in #add_file else false is returned
+  #returns true if file has all the methods that is needed by #add_file else false is returned
   private
   def check_file?(file)
     @@file_methods = [:size, :tempfile, :content_type, :original_filename,]

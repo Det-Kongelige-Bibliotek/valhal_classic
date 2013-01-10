@@ -1,8 +1,10 @@
 # -*- encoding : utf-8 -*-
 module Datastreams
+  # Need class description
   class AdlTeiP5 < ActiveFedora::NokogiriDatastream
     include OM::XML::Document
 
+    # Check whether a XML schema is defined for TEI, and if it is, then add it.
     set_terminology do |t|
       t.root(:path => "TEI", :xmlns => "http://www.tei-c.org/ns/1.0")
 

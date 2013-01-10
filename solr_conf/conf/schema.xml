@@ -519,9 +519,11 @@
    <field name="title_t" type="text_general" indexed="true" stored="true" multiValued="false" />
    <field name="original_filename_t" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="mime_type_t" type="text_ws" indexed="true" stored="true" multiValued="false" />
-   <field name="teiHeader_profileDesc_particDesc_listPerson_person_persName_surname_t" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="TEI_teiHeader_profileDesc_particDesc_listPerson_person_persName_surname_t" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="TEI_teiHeader_profileDesc_particDesc_listPerson_person_persName_forename_t" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="TEI_teiHeader_profileDesc_particDesc_listPerson_person_birth_date_dt" type="date" indexed="true" stored="true" multiValued="false" />
+   <field name="TEI_teiHeader_profileDesc_particDesc_listPerson_person_death_date_dt" type="date" indexed="true" stored="true" multiValued="false" />
    <field name="description_t" type="text" indexed="true" stored="true" multiValued="false" />
-
    <!-- NOTE: this is not a full list of fields in the index; dynamic fields are also used -->
    <field name="id" type="string" indexed="true" stored="true" required="true" />
    <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>

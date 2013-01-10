@@ -23,7 +23,7 @@ describe BasicFile do
     end
 
     it "should have the checksum of the file" do
-      @basic_file.checksum.should == "25461cfc475ea7abed7736cc88829747"
+      @basic_file.checksum.should == "f6be4200b7b28861d793a19010cf41ce"
     end
 
     it "should have a uuid" do
@@ -48,7 +48,7 @@ describe BasicFile do
     end
 
     it "should have the file size" do
-      @basic_file.size.should == 1073687
+      @basic_file.size.should == 1073753
     end
 
     it "should have a description" do
