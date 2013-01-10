@@ -39,8 +39,8 @@ describe BookTeiRepresentation do
     file = create_basic_file(book_tei_rep)
     book_tei_rep.files << file
     book_tei_rep.save
-    book = BookTeiRepresentation.find(book_tei_rep.pid)
-    puts book.files.inspect
-    book.files.first.should == file
+    btr = BookTeiRepresentation.find(book_tei_rep.pid)
+    puts btr.files.inspect
+    btr.files.first.should == file
   end
 end

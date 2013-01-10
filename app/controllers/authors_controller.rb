@@ -27,10 +27,11 @@ class AuthorsController < ApplicationController
 
   def create
     @author = Author.new(params[:author])
+    #TODO: the ':file_data' parameter is never set in the view.
     file = params[:file_data]
-        unless file === nil
-          @author.teiFile.content = file.read
-        end
+    unless file.nil?
+      @author.teiFile.content = file.read
+    end
     @author.save
     redirect_to authors_path, notice: "forfatter er blevet tilføjet"
   end
