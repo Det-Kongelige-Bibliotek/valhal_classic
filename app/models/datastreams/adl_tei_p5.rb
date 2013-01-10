@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 module Datastreams
-  # Need class description
+  # This class provides mappings between an Author objects attributes and a TEI P5 xml document
   class AdlTeiP5 < ActiveFedora::NokogiriDatastream
     include OM::XML::Document
 
