@@ -63,6 +63,7 @@ class CatalogController < ApplicationController
     # facet bar
     config.add_facet_field 'mime_type_t', :label => 'Format'
     config.add_facet_field 'teiHeader_profileDesc_particDesc_listPerson_person_persName_surname_t', :label => 'Forfatter', :sort => 'index'
+    config.add_facet_field 'mods_titleInfo_title_t', :label => 'Titel', :sort => 'index'
 
     config.add_facet_field 'example_pivot_field', :label => 'Pivot Field', :pivot => ['format', 'language_facet']
 
