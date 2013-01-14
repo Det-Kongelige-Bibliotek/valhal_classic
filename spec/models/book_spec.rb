@@ -77,7 +77,6 @@ describe Book do
     Book.all.each { |book| book.delete }
     BookTeiRepresentation.all.each { |btr| btr.delete }
     BasicFile.all.each { |bf| bf.delete }
-    Author.all.each { |a| a.delete }
   end
 
 end
