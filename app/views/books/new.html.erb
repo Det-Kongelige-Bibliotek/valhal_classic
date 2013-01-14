@@ -1,11 +1,11 @@
 <h1>New book</h1>
 
-<%= form_for @book do |f| %>
+<%= form_for @book, :html=>{:multipart=>true} do |f| %>
     <%= fields_for :book do |builder| %>
          <%= render 'metadata_fields', :f => builder %>
     <% end %>
     <br/>
-    <%= fields_for :file do |builder| %>
+    <%= fields_for :file, :html=>{:multipart=>true} do |builder| %>
         <%= render 'file_upload', :f => builder %>
     <% end %>
     <br/>
