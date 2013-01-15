@@ -81,10 +81,10 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
-    config.add_index_field 'teiHeader_profileDesc_particDesc_listPerson_person_persName_surname_t', :label => 'Efternavn:'
-    config.add_index_field 'teiHeader_profileDesc_particDesc_listPerson_person_persName_forename_t', :label => 'Fornavn:'
-    config.add_index_field 'teiHeader_profileDesc_particDesc_listPerson_person_birth_date_dt', :label => 'Fødselsdag:'
-    config.add_index_field 'teiHeader_profileDesc_particDesc_listPerson_person_death_date_dt', :label => 'Død:'
+    config.add_index_field 'surname_t', :label => 'Efternavn:'
+    config.add_index_field 'forename_t', :label => 'Fornavn:'
+    config.add_index_field 'birth_date_dt', :label => 'Fødselsdag:'
+    config.add_index_field 'death_date_dt', :label => 'Død:'
     config.add_index_field 'id', :label => 'Id:'
     config.add_index_field 'original_filename_t', :label => 'Name:'
 
@@ -93,9 +93,9 @@ class CatalogController < ApplicationController
     config.add_show_field 'id', :label => 'Id:'
     config.add_show_field 'original_filename_t', :label => 'Title:'
     config.add_show_field 'mime_type_t', :label => 'Mime Type:'
-    config.add_show_field 'teiHeader_profileDesc_particDesc_listPerson_person_persName_surname_t', :label => 'Forfatter:'
-    config.add_show_field 'teiHeader_profileDesc_particDesc_listPerson_person_persName_forename_t', :label => 'Fornavn:'
-    config.add_show_field 'teiHeader_profileDesc_particDesc_listPerson_person_event_desc_t', :label => 'Description:'
+    config.add_show_field 'surname_t', :label => 'Forfatter:'
+    config.add_show_field 'forename_t', :label => 'Fornavn:'
+    config.add_show_field 'desc_t', :label => 'Description:'
     #config.add_show_field 'description_t', :label => 'Description:'
 
     # "fielded" search configuration. Used by pulldown among other places.

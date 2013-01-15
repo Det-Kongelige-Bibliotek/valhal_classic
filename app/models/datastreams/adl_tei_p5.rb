@@ -22,14 +22,14 @@ module Datastreams
             t.listPerson do
               t.person do
                 t.persName do
-                  t.surname(:index_as => [:searchable])
-                  t.forename(:index_as => [:searchable])
+                  t.surname
+                  t.forename
                 end
                 t.birth do
-                  t.date()
+                  t.date
                 end
                 t.death do
-                  t.date()
+                  t.date
                 end
                 t.event do
                   t.type(:path => {:attribute => "type"})
