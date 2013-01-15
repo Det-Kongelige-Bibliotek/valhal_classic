@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+<h2>LandingPage for <%= "#{@person_tei_representation.forename} #{@person_tei_representation.surname}" %></h2>
+
+<div>
+  Født: <%= @person_tei_representation.date_of_birth %>
+  <br/>
+  Død: <%= @person_tei_representation.date_of_death %>
+</div>
+
+<%= link_to 'Ændre', edit_person_tei_representation_path(@person_tei_representation) %> |
+<%= link_to 'Tilbage', person_tei_representations_path %>

@@ -1,0 +1,10 @@
+<div class="alert"><%= person.errors.full_messages.join("<br>").html_safe %></div>
+<%= form_for person, :multipart => true do |f| %>
+    <div>
+      <%= f.label :name, "Personens navn" %>
+      <br/>
+      <%= f.text_field :name, :placeholder => "Navn:" %>
+    </div>
+    <br/>
+    <%= f.submit %>
+<% end %>

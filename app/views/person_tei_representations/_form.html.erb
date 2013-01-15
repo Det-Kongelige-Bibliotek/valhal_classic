@@ -1,5 +1,5 @@
-<div class="alert"><%= author.errors.full_messages.join("<br>").html_safe %></div>
-<%= form_for author, :multipart => true do |f| %>
+<div class="alert"><%= person_tei_representation.errors.full_messages.join("<br>").html_safe %></div>
+<%= form_for person_tei_representation, :multipart => true do |f| %>
     <div>
       <%= f.label :forename, "Forfatter navn" %>
       <br/>

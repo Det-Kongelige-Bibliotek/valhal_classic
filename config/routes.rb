@@ -1,5 +1,9 @@
 # -*- encoding : utf-8 -*-
 ADL::Application.routes.draw do
+  resources :person_tei_representations
+
+  resources :people
+
   resources :books
 
   devise_for :users
@@ -13,7 +17,6 @@ ADL::Application.routes.draw do
   # first created -> highest priority.
 
   #Standard resource mapping for Author
-  resources :authors
   resources :upload
   resources :book_tei_representations
 end

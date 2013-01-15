@@ -1,0 +1,9 @@
+<p id="notice"><%= notice %></p>
+
+<table border="0">
+  <tr><td><b>Name</b></td><td><%= @person.name %></td></tr>
+  <tr><td><b>UUID</b></td><td><%= @person.uuid %></td></tr>
+</table>
+
+<%= link_to 'Edit', edit_person_path(@person) %> |
+<%= link_to 'Back', people_path %>

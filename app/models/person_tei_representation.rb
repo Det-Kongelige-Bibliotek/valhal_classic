@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class Author < ActiveFedora::Base
+class PersonTeiRepresentation < ActiveFedora::Base
 
   has_metadata :name => 'descMetadata', :type => Datastreams::AdlTeiP5
   has_file_datastream :name => "teiFile", :type => Datastreams::AdlTeiP5
