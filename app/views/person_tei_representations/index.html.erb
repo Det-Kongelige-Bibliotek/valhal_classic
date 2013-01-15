@@ -1,0 +1,24 @@
+<h1>Listing person_tei_representations</h1>
+
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+    <% @person_tei_representations.each do |person_tei_representation| %>
+  <tr>
+    <td><%= person_tei_representation.forename + " " + person_tei_representation.surname %></td>
+    <td><%= link_to 'Vis', person_tei_representation %></td>
+    <td><%= link_to 'Ændre', edit_person_tei_representation_path(person_tei_representation) %></td>
+    <td><%= link_to 'Tilintetgør', person_tei_representation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Person tei representation', new_person_tei_representation_path %>

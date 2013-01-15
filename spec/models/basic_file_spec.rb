@@ -27,8 +27,8 @@ describe BasicFile do
     end
 
     it "should have a uuid" do
-      pending "depends on the intellectual entity, dont seem to work when using IntellectualEntity"
-      @basic_file.uuid.should == "something"
+      @basic_file.save!
+      @basic_file.uuid.should_not be_nil
     end
 
     it "should have a timestamp for when the file was created" do
@@ -109,8 +109,8 @@ describe BasicFile do
     end
 
     it "should have a uuid" do
-      pending "depends on the intellectual entity"
-      @basic_file.uuid.should == "something"
+      @basic_file.save!
+      @basic_file.uuid.should_not be_nil
     end
 
     it "should have a timestamp for when the file was created" do
