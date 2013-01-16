@@ -1,11 +1,5 @@
 # -*- encoding : utf-8 -*-
 ADL::Application.routes.draw do
-  resources :person_tei_representations
-
-  resources :people
-
-  resources :books
-
   devise_for :users
 
   root :to => "catalog#index"
@@ -16,7 +10,10 @@ ADL::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  #Standard resource mapping for Author
+  #Standard resource mapping
   resources :upload
   resources :book_tei_representations
+  resources :person_tei_representations
+  resources :people
+  resources :books
 end

@@ -6,7 +6,7 @@
 </table>
 
 <div>
-  <% unless @person.tei.empty? %>
+  <% if @person.tei_rep? %>
       <ul>
         <% @person.tei.each do |tei| %>
             <li><%= link_to 'TEI representation', person_tei_representation_path(tei) %></li>
