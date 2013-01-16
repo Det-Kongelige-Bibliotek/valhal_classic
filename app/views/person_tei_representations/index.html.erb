@@ -1,4 +1,4 @@
-<h1>Listing person_tei_representations</h1>
+<h1 xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">Listing person_tei_representations</h1>
 
 
 <table>
@@ -11,9 +11,9 @@
 
     <% @person_tei_representations.each do |person_tei_representation| %>
   <tr>
-    <td><%= person_tei_representation.forename + " " + person_tei_representation.surname + " " + person_tei_representation.date_of_birth+"-"+person_tei_representation.date_of_death %></td>
-    <td><%= link_to 'Vis', person_tei_representation %></td>
-    <td><%= link_to 'Ændre', edit_person_tei_representation_path(person_tei_representation) %></td>
+    <td><%= person_tei_representation.forename + " " + person_tei_representation.surname + " " + person_tei_representation.date_of_birth+"-"+person_tei_representation.date_of_death %> </td>
+    <td><%= link_to 'Vis', person_tei_representation %> | </td>
+    <td><%= link_to 'Ændre', edit_person_tei_representation_path(person_tei_representation) %> | </td>
     <td><%= link_to 'Tilintetgør', person_tei_representation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
