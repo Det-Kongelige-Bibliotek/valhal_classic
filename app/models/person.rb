@@ -16,7 +16,11 @@ class Person < IntellectualEntity
   # Validation criteria of the name.
   validates :name, :presence => true, :length => { :minimum => 1 }
 
+  # TODO find better relationship property.
+  # Relationship to TEI representations.
+  has_many :tei, :class_name => 'PersonTeiRepresentation', :property=>:is_part_of
+
   # Author relationship to books.
   # A book can be authored by more than one person, and a person can author more than one book.
-  has_and_belongs_to_many :authored_books, :class_name => Book, :property => :is_part_of
+  has_and_belongs_to_many :authored_books, :class_name=>"Book", :property => :is_part_of
 end

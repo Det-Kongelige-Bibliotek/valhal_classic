@@ -166,5 +166,4 @@ describe BasicFile do
       @basic_file.add_file("file").should == false
     end
   end
-
 end

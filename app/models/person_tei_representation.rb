@@ -9,6 +9,9 @@ class PersonTeiRepresentation < ActiveFedora::Base
   delegate_to 'descMetadata', [:short_biography, :sample_quotation, :sample_quotation_source]
   #delegate_to 'authorImageFile', [:author_image_file]
 
+  # Relationship to be abstract Person
+  belongs_to :person, :property => :is_part_of
+
   def to_solr(solr_doc = {})
     super
     solr_doc["forename_t"] = self.forename unless self.forename.blank?
