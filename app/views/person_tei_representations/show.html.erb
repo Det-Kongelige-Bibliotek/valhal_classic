@@ -8,5 +8,13 @@
   Død: <%= @person_tei_representation.date_of_death %>
 </div>
 
+<div>
+  <% if @person_tei_representation.person %>
+      <%= link_to 'Person', person_path(@person_tei_representation.person) %>
+  <% else %>
+    <p>No person defined.</p>
+  <%  end %>
+</div>
+
 <%= link_to 'Ændre', edit_person_tei_representation_path(@person_tei_representation) %> |
 <%= link_to 'Tilbage', person_tei_representations_path %>
