@@ -1,11 +1,15 @@
 <p id="notice"><%= notice %></p>
 
-<h2>LandingPage for <%= "#{@person_tei_representation.forename} #{@person_tei_representation.surname}" %></h2>
+<h2><b></b><%= "#{@person_tei_representation.forename} #{@person_tei_representation.surname}" %></b></h2>
 
 <div>
-  Født: <%= @person_tei_representation.date_of_birth %>
-  <br/>
-  Død: <%= @person_tei_representation.date_of_death %>
+  <%= @person_tei_representation.date_of_birth %> - <%= @person_tei_representation.date_of_death %>
+</div>
+    <%= @person_tei_representation.sample_quotation %>
+    <br>
+    <%= @person_tei_representation.sample_quotation_source %>
+<div>
+
 </div>
 
 <div>

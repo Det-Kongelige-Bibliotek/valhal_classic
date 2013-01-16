@@ -523,7 +523,8 @@
    <field name="forename_t" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="birth_date_t" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="death_date_t" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="description_t" type="text" indexed="true" stored="true" multiValued="false" />
+   <field name="sample_quotation_t" type="text" indexed="true" stored="true" multiValued="false" />
+   <field name="sample_quotation_source_t" type="text" indexed="true" stored="true" multiValued="false" />
    <!-- NOTE: this is not a full list of fields in the index; dynamic fields are also used -->
    <field name="id" type="string" indexed="true" stored="true" required="true" />
    <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>

@@ -18,6 +18,9 @@ class PersonTeiRepresentation < ActiveFedora::Base
     solr_doc["surname_t"] = self.surname unless self.surname.blank?
     solr_doc["birth_date_t"] = self.date_of_birth unless self.date_of_birth.blank?
     solr_doc["death_date_t"] = self.date_of_death unless self.date_of_death.blank?
+    solr_doc["sample_quotation_t"] = self.sample_quotation unless self.sample_quotation.blank?
+    solr_doc["sample_quotation_source_t"] = self.sample_quotation_source unless self.sample_quotation_source.blank?
     return solr_doc
+
   end
 end
