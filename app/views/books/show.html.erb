@@ -19,7 +19,7 @@
 
 <hr/>
 <% #Handle the tei representations. %>
-<% if @book.hasTeiRep() %>
+<% if @book.tei_rep? %>
     <p><b>TEI representations:</b></p>
     <ul>
     <% @book.tei.each do |t| %>

@@ -15,7 +15,7 @@ class Book < IntellectualEntity
   has_and_belongs_to_many :authors, :class_name=>"Person", :property => :is_part_of
 
   # Determines whether any TEI representations exists.
-  def hasTeiRep
+  def tei_rep?
     return tei.any?
   end
 end
