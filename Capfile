@@ -5,6 +5,6 @@ load 'config/deploy' # remove this line to skip loading any of the default tasks
 
 namespace :rake do #this task ensures that rake db:migrate is executed on the development server after deployment
   task :db_migrate do
-    run("cd #{deploy_to}/current; bundle install; rake db:migrate")
+    run("cd #{deploy_to}/current; rake db:migrate")
   end
 end
