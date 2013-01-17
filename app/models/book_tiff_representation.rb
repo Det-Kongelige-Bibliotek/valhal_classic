@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class BookTiffRepresentation < ActiveFedora::Base
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name => 'descMetadata', :type => ActiveFedora::SimpleDatastream

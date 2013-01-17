@@ -13,6 +13,7 @@ ADL::Application.routes.draw do
   #Standard resource mapping
   resources :upload
   resources :book_tei_representations
+  resources :book_tiff_representations
   resources :person_tei_representations
   resources :people
   resources :books

@@ -1,0 +1,17 @@
+<%= form_for(@book_tiff_representation) do |f| %>
+    <% if @book_tiff_representation.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@book_tiff_representation.errors.count, "error") %> prohibited this book_tiff_representation
+            from being saved:</h2>
+
+          <ul>
+            <% @book_tiff_representation.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+<% end %>

@@ -21,8 +21,8 @@ class Book < IntellectualEntity
     return tei.any?
   end
 
-  # Determines whether any TEI representations exists.
-  def hasTiffRep
+  # Determines whether any TIFF representations exists.
+  def hasTiffRep?
     return tif.any?
   end
 end
