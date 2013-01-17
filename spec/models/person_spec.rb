@@ -10,7 +10,7 @@ describe Person do
     end
 
     it "should be created directly with a name" do
-      person = Person.new(:name=>"the name")
+      person = Person.new(name:"the name")
       person.save!
     end
 
@@ -22,7 +22,7 @@ describe Person do
 
   describe "#update" do
     before do
-      @person = Person.new(:name=>"the name")
+      @person = Person.new(name:"the name")
       @person.save!
     end
 
@@ -35,14 +35,20 @@ describe Person do
   end
 
   describe "#validate" do
-    it "should validate the name on creation" do
+    it "should not allow empty string for the name on creation" do
       person = Person.new
       person.should_not be_valid
       person.save.should == false
     end
 
-    it "should validate the name during update" do
-      person = Person.new(:name=>"a name")
+    it "should not allow spaces for the name on creation" do
+      person = Person.new(name:" ")
+      person.should_not be_valid
+      person.save.should == false
+    end
+
+    it "should not allow empty string for the name during update" do
+      person = Person.new(name:"a name")
       person.save!
       person.name = ""
       person.should_not be_valid
@@ -50,7 +56,7 @@ describe Person do
     end
 
     it "should allow valid entries" do
-      person = Person.new(:name=>"a name")
+      person = Person.new(name:"a name")
       person.should be_valid
       person.save.should == true
       person.name = "another name"
@@ -59,14 +65,14 @@ describe Person do
     end
 
     it "should have the name as a String" do
-      person = Person.new(:name=>"a name")
+      person = Person.new(name:"a name")
       person.name.should be_kind_of String
     end
   end
 
   describe "#delete" do
     before do
-      @person = Person.new(:name=>"the name")
+      @person = Person.new(name:"the name")
       @person.save!
     end
 
@@ -85,7 +91,7 @@ describe Person do
 
   describe " as an IntellectualEntity" do
     it "should have an UUID" do
-      person = Person.new(:name=>"the name")
+      person = Person.new(name:"the name")
       person.save!
       person.uuid.should_not be_nil
     end

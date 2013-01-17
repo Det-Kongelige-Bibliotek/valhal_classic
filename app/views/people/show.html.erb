@@ -5,5 +5,17 @@
   <tr><td><b>UUID</b></td><td><%= @person.uuid %></td></tr>
 </table>
 
+<div>
+  <% if @person.tei_rep? %>
+      <ul>
+        <% @person.tei.each do |tei| %>
+            <li><%= link_to 'TEI representation', person_tei_representation_path(tei) %></li>
+        <% end %>
+      </ul>
+  <% else %>
+      <p>No tei file for this person.</p>
+  <% end %>
+</div>
+
 <%= link_to 'Edit', edit_person_path(@person) %> |
 <%= link_to 'Back', people_path %>
