@@ -5,5 +5,5 @@ class BookTeiRepresentation < ActiveFedora::Base
   has_metadata :name => 'provMetadata', :type => ActiveFedora::SimpleDatastream
 
   has_many :files, :class_name => 'BasicFile', :property => :is_part_of
-  belongs_to :book, :property => :is_part_of
+  belongs_to :book, :property => :is_constituent_of
 end
