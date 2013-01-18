@@ -20,17 +20,40 @@ class BooksController < ApplicationController
     @book = Book.new(params[:book])
 
     if @book.save
-      if !params[:file].blank? && !params[:file][:tei_file].blank?
-        tei = BookTeiRepresentation.new
-        tei.save!
-        file = BasicFile.new
-        file.add_file(params[:file][:tei_file])
-        file.container = tei
-        file.save!
-        tei.files << file
+      if !params[:file].blank? && !params[:file][:tei_file].blank? || !params[:file].blank? && !params[:file][:tiff_file].blank?
 
-        tei.book = @book
-        tei.save!
+        #Create TEI representation of book using uploaded TEI file if a file was uploaded
+        if !params[:file][:tei_file].blank?
+          tei = BookTeiRepresentation.new
+          tei.save!
+
+          tei_file = BasicFile.new
+          tei_file.add_file(params[:file][:tei_file])
+          tei_file.container = tei
+          tei_file.save!
+          tei.files << tei_file
+
+          tei.book = @book
+          tei.save!
+        end
+
+        #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
+        if !params[:file][:tiff_file].blank?
+          tiff = BookTiffRepresentation.new
+          tiff.save!
+
+          params[:file][:tiff_file].each do |f|
+            tiff_file = BasicFile.new
+            tiff_file.add_file(f)
+            puts f.original_filename
+            tiff_file.container = tiff
+            tiff_file.save!
+            tiff.files << tiff_file
+          end
+
+          tiff.book = @book
+          tiff.save!
+        end
       end
       redirect_to @book, notice: 'Book was successfully created.'
     else

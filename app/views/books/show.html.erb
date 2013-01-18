@@ -19,13 +19,13 @@
 
 <hr/>
 <% #Handle the tei representations. %>
-<% if @book.hasTeiRep() %>
+<% if @book.tei_rep? %>
     <p><b>TEI representations:</b></p>
+    <ul>
     <% @book.tei.each do |t| %>
-        <ul>
           <li><%= link_to t, book_tei_representation_path(t) %></li>
-        </ul>
     <% end %>
+    </ul>
 <% else %>
     <p>No TEI representations for this book.</p>
 <% end %>
