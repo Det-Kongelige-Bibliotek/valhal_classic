@@ -25,4 +25,9 @@ class Book < IntellectualEntity
   def hasTiffRep
     return tif.any?
   end
+
+  # Whether any author for this book has been defined.
+  def has_author?
+    return authors.any?
+  end
 end

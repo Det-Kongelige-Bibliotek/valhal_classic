@@ -31,5 +31,19 @@
 <% end %>
 <br/>
 
+<div>
+  <% if @book.has_author? %>
+      <ul>
+        <% @book.authors.each do |person| %>
+            <li><%= link_to 'Author', person_path(person) %></li>
+        <% end %>
+      </ul>
+  <% else %>
+      <p>No author defined for this book.</p>
+  <% end %>
+</div>
+
+<br/>
+
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'Back', books_path %>

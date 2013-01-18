@@ -29,4 +29,8 @@ class Person < IntellectualEntity
     return tei.any?
   end
 
+  def is_author?
+    return :authored_books.any?
+  end
+
 end
