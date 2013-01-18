@@ -1,0 +1,1 @@
+APP_CONFIG = YAML.load_file(Rails.root+"config/adl.yml")[Rails.env]

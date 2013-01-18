@@ -102,6 +102,7 @@ GEM
       multi_json (~> 1.0)
     fastercsv (1.5.5)
     ffi (1.2.0)
+    hashie (1.2.0)
     hike (1.2.1)
     hooks (0.2.2)
     hydra-access-controls (5.0.0)
@@ -165,6 +166,13 @@ GEM
       deprecation
       mediashelf-loggable
       nokogiri (>= 1.4.2)
+    omniauth (1.1.1)
+      hashie (~> 1.2)
+      rack
+    omniauth-cas (1.0.1)
+      addressable (~> 2.3)
+      nokogiri (~> 1.5)
+      omniauth (~> 1.1.0)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
     rack (1.4.1)
@@ -289,6 +297,8 @@ DEPENDENCIES
   jettywrapper (>= 1.2.0)
   jquery-rails
   libv8 (~> 3.11.8)
+  omniauth
+  omniauth-cas
   rails (= 3.2.8)
   rspec-rails
   sass-rails (~> 3.2.3)
