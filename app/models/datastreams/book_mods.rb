@@ -48,7 +48,7 @@ module Datastreams
 
     def self.xml_template
       Nokogiri::XML.parse '<mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org.1999/xlink" version="3.4" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd" xmlns:mods="http://www.loc.gov/mods/v3">
-        <mods:genre type="KB Samling"/>
+        <mods:genre type="Materialetype"/>
         <mods:identifier type="uri"/>
         <mods:identifier type="isbn"/>
         <mods:location>
