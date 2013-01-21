@@ -4,7 +4,7 @@ gem 'rails', '3.2.8'
 
 gem "devise", "~> 2.1.2"
 gem "blacklight", "~> 4.0.1"
-gem 'hydra-head', '5.0.0'
+gem 'hydra-head', '5.2.0'
 gem 'sqlite3'
 gem 'bootswatch-rails'
 
