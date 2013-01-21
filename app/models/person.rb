@@ -29,8 +29,8 @@ class Person < IntellectualEntity
     return tei.any?
   end
 
+  # Determines whether any book has been authored by this person.
   def is_author?
-    return :authored_books.any?
+    return authored_books.any?
   end
-
 end
