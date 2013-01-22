@@ -17,6 +17,7 @@ describe PersonTeiRepresentationsController do
   end
 
   describe "#new" do
+    pending
     before do
       PersonTeiRepresentation.all.each { |ptr| ptr.delete }
     end
@@ -43,6 +44,7 @@ describe PersonTeiRepresentationsController do
   end
 
   describe "#create" do
+    pending
     before do
       PersonTeiRepresentation.find_each { |b| b.delete }
       PersonTeiRepresentation.count.should == 0
@@ -57,6 +59,7 @@ describe PersonTeiRepresentationsController do
   end
 
   describe "#edit" do
+    pending
     before do
       @person_tei_representation = PersonTeiRepresentation.create
     end
@@ -69,6 +72,7 @@ describe PersonTeiRepresentationsController do
   end
 
   describe "#update" do
+    pending
     before do
       @person_tei_representation = PersonTeiRepresentation.create
     end
