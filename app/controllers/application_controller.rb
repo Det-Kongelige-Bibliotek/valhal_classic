@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
 
   #before_filter :authenticate_conditionally
 
+
+
   # Will only do authentication if the user is not allowed to act anonymously
   def authenticate_conditionally
     authenticate unless can? :be_anonymous, User

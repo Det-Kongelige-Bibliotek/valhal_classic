@@ -2,6 +2,8 @@
 class PersonTeiRepresentationsController < ApplicationController
   include Hydra::Controller::UploadBehavior
 
+  load_and_authorize_resource
+
   def index
     @person_tei_representations = PersonTeiRepresentation.all
   end
