@@ -1,0 +1,17 @@
+<h1>Listing book_tiff_representations</h1>
+
+<table>
+<% @book_tiff_representations.each do |book_tiff_representation| %>
+  <tr>
+    <% # TODO: Fix method below. Use something else than 'unless'. %>
+    <td><%= book_tiff_representation.files.first.original_filename unless book_tiff_representation.files.empty? %></td>
+    <td><%= link_to 'Show', book_tiff_representation %></td>
+    <td><%= link_to 'Edit', edit_book_tiff_representation_path(book_tiff_representation) %></td>
+    <td><%= link_to 'Destroy', book_tiff_representation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Book tiff representation', new_book_tiff_representation_path %>

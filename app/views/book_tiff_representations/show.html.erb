@@ -1,0 +1,11 @@
+<p>Filer tilknyttet: <%= @book_tiff_representation.files.count %></p>
+<%- @book_tiff_representation.files.each do |file| %>
+    <% # TODO fix the following %>
+    File Name: <%= file.nil? ? "No file" : file.original_filename %>
+    <br/>
+    Created: <%= file.nil? ? "N/A" : file.created %>
+    <br/>
+<%- end %>
+
+<%= link_to 'Edit', edit_book_tiff_representation_path(@book_tiff_representation) %> |
+<%= link_to 'Back', book_tiff_representations_path %>
