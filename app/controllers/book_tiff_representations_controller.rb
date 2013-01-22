@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class BookTiffRepresentationsController < ApplicationController
+  load_and_authorize_resource
   def index
     @book_tiff_representations = BookTiffRepresentation.all
   end

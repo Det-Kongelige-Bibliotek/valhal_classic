@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class BookTeiRepresentationsController < ApplicationController
+  load_and_authorize_resource
   def index
     @book_tei_representations = BookTeiRepresentation.all
   end
