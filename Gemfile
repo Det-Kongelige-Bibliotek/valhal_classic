@@ -33,7 +33,7 @@ group :development, :test do
   gem 'equivalent-xml'
   gem 'jettywrapper', '>= 1.2.0'
   gem 'capybara'
-  gem "factory_girl_rails", "~> 4.0"
+  gem "factory_girl_rails", "~> 4.1"
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]

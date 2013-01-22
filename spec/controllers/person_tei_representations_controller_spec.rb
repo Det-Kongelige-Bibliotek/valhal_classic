@@ -2,6 +2,9 @@
 require 'spec_helper'
 
 describe PersonTeiRepresentationsController do
+  before(:each) do
+    login_admin
+  end
 
   describe "#index" do
     before do

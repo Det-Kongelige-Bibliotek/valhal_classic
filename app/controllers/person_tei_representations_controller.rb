@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 class PersonTeiRepresentationsController < ApplicationController
   include Hydra::Controller::UploadBehavior
-
   load_and_authorize_resource
 
   def index
