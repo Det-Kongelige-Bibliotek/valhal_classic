@@ -6,6 +6,7 @@ describe PersonTeiRepresentationsController do
   describe "#index" do
     pending
     before do
+      pending
       @person_tei_representation = PersonTeiRepresentation.create
     end
 
@@ -21,6 +22,7 @@ describe PersonTeiRepresentationsController do
   describe "#new" do
     pending
     before do
+      pending
       PersonTeiRepresentation.all.each { |ptr| ptr.delete }
     end
 
@@ -50,6 +52,7 @@ describe PersonTeiRepresentationsController do
   describe "#create" do
     pending
     before do
+      pending
       PersonTeiRepresentation.find_each { |b| b.delete }
       PersonTeiRepresentation.count.should == 0
     end
@@ -66,6 +69,7 @@ describe PersonTeiRepresentationsController do
   describe "#edit" do
     pending
     before do
+      pending
       @person_tei_representation = PersonTeiRepresentation.create
     end
 
@@ -80,12 +84,13 @@ describe PersonTeiRepresentationsController do
   describe "#update" do
     pending
     before do
+      pending
       @person_tei_representation = PersonTeiRepresentation.create
     end
 
     it "should update the person_tei_representation" do
-      put :update, :id => @person_tei_representation.pid, :person_tei_representation => {:forename => "Alex"}
       pending
+      put :update, :id => @person_tei_representation.pid, :person_tei_representation => {:forename => "Alex"}
       flash[:notice].should_not be_nil
       response.should redirect_to person_tei_representations_path
       @person_tei_representation = PersonTeiRepresentation.find(@person_tei_representation.pid)
@@ -96,6 +101,7 @@ describe PersonTeiRepresentationsController do
   describe "#show" do
     pending
     before do
+      pending
       @person_tei_representation = PersonTeiRepresentation.create(forename: "Alex", surname: "Boesen")
     end
 
