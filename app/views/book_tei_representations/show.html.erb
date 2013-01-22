@@ -5,6 +5,14 @@
     <br/>
     Created: <%= file.nil? ? "N/A" : file.created %>
     <br/>
+    MIME: <%= file.nil? ? "N/A" : file.mime_type %>
+    <br/>
+    File Size: <%= file.nil? ? "N/A" : file.size %>
+    <br/>
+    Checksum: <%= file.nil? ? "N/A" : file.checksum %>
+    <br/>
+    UUID: <%= file.nil? ? "N/A" : file.uuid %>
+    <br/>
 <%- end %>
 
 <%= link_to 'Edit', edit_book_tei_representation_path(@book_tei_representation) %> |
