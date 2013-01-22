@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 # TODO: This should be moved to a helper class
 class UploadController < ApplicationController
+  load_and_authorize_resource
   def index
   end
   def create
