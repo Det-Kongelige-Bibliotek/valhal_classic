@@ -2,6 +2,10 @@
 require 'spec_helper'
 
 describe PeopleController do
+  #Login a test user with admin rights
+  before(:each) do
+    login_admin
+  end
 
   # This should return the minimal set of attributes required to create a valid
   # Person. As you add validations to Person, be sure to
