@@ -29,6 +29,16 @@
 <% else %>
     <p>No TEI representations for this book.</p>
 <% end %>
+<% if @book.hasTiffRep? %>
+    <p><b>TIFF representations:</b></p>
+    <ul>
+    <% @book.tif.each do |t| %>
+      <li><%= link_to t, book_tiff_representation_path(t) %></li>
+    <% end %>
+    </ul>
+<% else %>
+    <p>No TIFF representations for this book.</p>
+<% end %>
 <br/>
 
 <%= link_to 'Edit', edit_book_path(@book) %> |

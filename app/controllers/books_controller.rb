@@ -25,6 +25,7 @@ class BooksController < ApplicationController
 
         #Create TEI representation of book using uploaded TEI file if a file was uploaded
         if !params[:file][:tei_file].blank?
+          logger.debug "Creating a tei representation"
           tei = BookTeiRepresentation.new
           tei.save!
 
@@ -40,6 +41,7 @@ class BooksController < ApplicationController
 
         #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
         if !params[:file][:tiff_file].blank?
+          logger.debug "Creating a tiff representation"
           tiff = BookTiffRepresentation.new
           tiff.save!
 
