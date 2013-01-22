@@ -20,6 +20,11 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe BooksController do
+  before(:all) do
+    user = User.create
+    user.admin = true
+    session[:user_id] = user.id
+  end
 
   # This should return the minimal set of attributes required to create a valid
   # Book. As you add validations to Book, be sure to
