@@ -44,6 +44,46 @@ describe BookTeiRepresentation do
     btr.files.first.should == file
   end
 
+  describe "#create" do
+    it "should be created when given a tei version" do
+      bfr = BookTeiRepresentation.new
+      bfr.tei_version = "TEI-P4"
+      bfr.save.should == true
+    end
+
+    it "should be created directly with a tei version" do
+      bfr = BookTeiRepresentation.new(tei_version:"TEI-P4")
+      bfr.save!
+    end
+  end
+
+  describe "#update" do
+    before do
+      @bfr = BookTeiRepresentation.new(tei_version:"TEI-P4")
+      @bfr.save!
+    end
+
+    it "should be possible to update the tei version" do
+      @bfr.tei_version = "TEI-P5"
+      @bfr.save!
+      bfr1 = BookTeiRepresentation.find(@bfr.pid)
+      bfr1.tei_version.should == "TEI-P5"
+    end
+  end
+
+  describe "#delete" do
+    before do
+      @bfr = BookTeiRepresentation.new(tei_version:"TEI-P4")
+      @bfr.save!
+    end
+
+    it "should be possible to delete" do
+      count = BookTeiRepresentation.count
+      @bfr.destroy
+      BookTeiRepresentation.count.should == count-1
+    end
+  end
+
   after do
     Book.all.each { |book| book.delete }
     BookTeiRepresentation.all.each { |btr| btr.delete }
