@@ -2,3 +2,7 @@
   <%= f.label :tiff_file, "TIFF Image file representations for the book" %>
   <%= f.file_field :tiff_file, :multiple => true, :id => "fileupload" %>
 </div>
+<div>
+  <%= f.label :structmap_file, "METS Structmap file representation for the book" %>
+  <%= f.file_field :structmap_file %>
+</div>
