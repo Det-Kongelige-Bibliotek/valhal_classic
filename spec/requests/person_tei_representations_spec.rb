@@ -1,6 +1,6 @@
 # encoding: utf-8
 require 'spec_helper'
-#TODO update the request spec show it reflex how the page works now
+#TODO update the request spec so it reflects how the page works now
 describe "PersonTeiRepresentations" do
   describe "Create a person_tei_representation" do
     it "should create a person_tei_representation" do

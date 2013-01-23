@@ -164,6 +164,7 @@ GEM
     mediashelf-loggable (0.4.9)
     mime-types (1.19)
     multi_json (1.5.0)
+    net-ldap (0.2.2)
     nokogiri (1.5.5)
     om (1.8.0)
       activemodel
@@ -174,12 +175,14 @@ GEM
     omniauth (1.1.1)
       hashie (~> 1.2)
       rack
-    omniauth-cas (1.0.1)
-      addressable (~> 2.3)
-      nokogiri (~> 1.5)
-      omniauth (~> 1.1.0)
+    omniauth-ldap (1.0.2)
+      net-ldap (~> 0.2.2)
+      omniauth (~> 1.0)
+      pyu-ruby-sasl (~> 0.0.3.1)
+      rubyntlm (~> 0.1.1)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
+    pyu-ruby-sasl (0.0.3.3)
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -238,6 +241,7 @@ GEM
       mime-types
       nokogiri
       rest-client
+    rubyntlm (0.1.1)
     rubyzip (0.9.9)
     sanitize (2.0.3)
       nokogiri (>= 1.4.4, < 1.6)
@@ -304,8 +308,7 @@ DEPENDENCIES
   jettywrapper (>= 1.2.0)
   jquery-rails
   libv8 (~> 3.11.8)
-  omniauth
-  omniauth-cas
+  omniauth-ldap
   rails (= 3.2.8)
   rspec-rails
   sass-rails (~> 3.2.3)

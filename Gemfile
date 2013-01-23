@@ -11,8 +11,7 @@ gem 'bootswatch-rails'
 gem 'jquery-rails'
 gem 'uuid', '>= 2.3.6'
 
-gem 'omniauth'
-gem 'omniauth-cas'
+gem 'omniauth-ldap'
 
 # Gems used only for assets and not required
 # in production environments by default.

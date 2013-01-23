@@ -7,6 +7,7 @@ FactoryGirl.define do
 
     after(:create) do |user|
       user.stub(:admin?).and_return true
+      user.stub(update_attributes: false)
     end
   end
 end
