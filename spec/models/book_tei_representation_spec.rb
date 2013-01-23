@@ -43,4 +43,12 @@ describe BookTeiRepresentation do
     puts btr.files.inspect
     btr.files.first.should == file
   end
+
+  after do
+    Book.all.each { |book| book.delete }
+    BookTeiRepresentation.all.each { |btr| btr.delete }
+    BookTeiRepresentation.all.each { |btr| btr.delete }
+    BasicFile.all.each { |bf| bf.delete }
+  end
+
 end
