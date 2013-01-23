@@ -16,9 +16,7 @@ class ApplicationController < ActionController::Base
   #before_filter :authenticate_conditionally
 
   #checks that authentication is on all of our controllers makeing authentication opt-out rather then opt-in
-#  check_authorization
-
-
+  #check_authorization
 
   # Will only do authentication if the user is not allowed to act anonymously
   def authenticate_conditionally

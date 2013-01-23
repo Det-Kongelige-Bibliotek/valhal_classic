@@ -1,3 +1,9 @@
+<table border="0">
+  <tr><td><b>TEI version</b></td><td><%= @book_tei_representation.tei_version %></td></tr>
+</table>
+
+<hr/>
+
 <p>Filer tilknyttet: <%= @book_tei_representation.files.count %></p>
 <%- @book_tei_representation.files.each do |file| %>
     <% # TODO fix the following %>

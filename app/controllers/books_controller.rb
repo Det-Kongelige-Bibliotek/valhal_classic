@@ -54,6 +54,10 @@ class BooksController < ApplicationController
             tiff.files << tiff_file
           end
 
+          struct_map_file = BasicFile.new
+          struct_map_file.add_file(params[:file][:structmap_file])
+          tiff.files << struct_map_file
+
           tiff.book = @book
           tiff.save!
         end
