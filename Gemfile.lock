@@ -153,6 +153,7 @@ GEM
     libwebsocket (0.1.7.1)
       addressable
       websocket
+    log4r (1.1.9)
     logger (1.2.8)
     macaddr (1.6.1)
       systemu (~> 2.5.0)
@@ -304,6 +305,7 @@ DEPENDENCIES
   jettywrapper (>= 1.2.0)
   jquery-rails
   libv8 (~> 3.11.8)
+  log4r (= 1.1.9)
   omniauth
   omniauth-cas
   rails (= 3.2.8)
