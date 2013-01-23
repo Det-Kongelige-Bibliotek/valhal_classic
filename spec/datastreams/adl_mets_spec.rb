@@ -31,7 +31,7 @@ describe Datastreams::AdlMets do
     subject.mets.structMap.div.div.order[0].should == "1"
   end
 
-  it "should have fptr elements" do
+  it "should have 24 fptr elements" do
     subject.mets.structMap.div.div.fptr.length.should == 24
   end
 
