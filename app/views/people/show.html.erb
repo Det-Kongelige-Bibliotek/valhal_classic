@@ -20,7 +20,7 @@
 <div>
   <% if @person.is_author? %>
       <ul>
-        <% @person.books_authored.each do |book| %>
+        <% @person.authored_books.each do |book| %>
             <li><%= link_to 'Book', book_path(book) %></li>
         <% end %>
       </ul>
