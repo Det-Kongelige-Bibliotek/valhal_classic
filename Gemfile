@@ -33,10 +33,6 @@ group :development, :test do
   gem 'jettywrapper', '>= 1.2.0'
   gem 'capybara'
   gem "factory_girl_rails", "~> 4.1"
-  gem 'rb-inotify', '~> 0.8.8'
-  gem 'rb-fsevent', :require => false
-  gem 'rb-fchange', :require => false
-  gem 'guard-rspec'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
