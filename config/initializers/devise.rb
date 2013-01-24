@@ -211,8 +211,8 @@ Devise.setup do |config|
                   :uid => 'sAMAccountName',
                   :port => 389,
                   :method => :plain,
-                  :bind_dn => 'ldap-read',
-                  :password => 'q6v*sTSi+A2LhD=G'
+                  :bind_dn => CONFIG[:ldap][:user],
+                  :password => CONFIG[:ldap][:password]
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

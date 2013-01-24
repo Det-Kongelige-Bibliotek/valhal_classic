@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 require File.expand_path('../boot', __FILE__)
 
+
+
 require 'rails/all'
 require 'log4r'
 require 'log4r/yamlconfigurator'
@@ -13,6 +15,15 @@ if defined?(Bundler)
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
+
+def recursive_symbolize_keys! hash
+  hash.symbolize_keys!
+  hash.values.select{|v| v.is_a? Hash}.each{|h| recursive_symbolize_keys!(h)}
+end
+
+CONFIG = YAML.load(File.read(File.expand_path('../application.local.yml', __FILE__)))
+CONFIG.merge! CONFIG.fetch(Rails.env, {})
+recursive_symbolize_keys! CONFIG
 
 module ADL
   class Application < Rails::Application
@@ -76,6 +87,8 @@ module ADL
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+
 
     log4r_config = YAML.load_file(File.join(File.dirname(__FILE__),"log4r.yml"))
     YamlConfigurator.decode_yaml( log4r_config['log4r_config'] )
