@@ -8,13 +8,13 @@
     <%= @person_tei_representation.sample_quotation %>
     <br>
     <%= @person_tei_representation.sample_quotation_source %>
-<div>
 
-</div>
-
+<hr/>
 <div>
   <% if @person_tei_representation.person %>
-      <%= link_to 'Person', person_path(@person_tei_representation.person) %>
+      <p><b>Person:</b>
+        <%= link_to @person_tei_representation.person.to_s + " (" + @person_tei_representation.person.pid + ")", person_path(@person_tei_representation.person) %>
+      </p>
   <% else %>
     <p>No person defined.</p>
   <% end %>
