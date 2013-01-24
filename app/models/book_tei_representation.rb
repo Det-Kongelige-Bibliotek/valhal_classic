@@ -14,6 +14,6 @@ class BookTeiRepresentation < ActiveFedora::Base
   belongs_to :book, :class_name=>'Book', :property => :is_constituent_of
 
   def has_book?
-    return book?
+    return book
   end
 end
