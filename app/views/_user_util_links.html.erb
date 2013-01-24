@@ -9,13 +9,8 @@
           <%= link_to t('blacklight.header_links.logout'), destroy_user_session_path %> |
           <%= link_to_unless(current_user.to_s.blank?, current_user, edit_user_registration_path) %>
         <% else %>
-            <%= link_to t('blacklight.header_links.login'), new_user_session_path %>
-            <%= link_to 'KB Login', user_omniauth_authorize_path(:ldap) %>
+            <%= link_to t('blacklight.header_links.login'), user_omniauth_authorize_path(:ldap) %>
         <% end %>
-        <!--
-        administrator: <%= can? :manage, @all %>, depositor: <%= can? :edit, @all %>, guest: <%= can? :read, @all %><br/>
-        -->
       </li>
   <% end %>
-
 </ul>

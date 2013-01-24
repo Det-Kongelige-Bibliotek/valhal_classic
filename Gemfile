@@ -36,7 +36,9 @@ group :development, :test do
   gem 'rb-inotify', '~> 0.8.8'
   gem 'rb-fsevent', :require => false
   gem 'rb-fchange', :require => false
+  gem 'install yajl-ruby'
   gem 'guard-rspec'
+  gem 'guard-livereload'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]

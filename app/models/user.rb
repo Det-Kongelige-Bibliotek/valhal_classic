@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :pid
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :pid, :uid
   # attr_accessible :title, :body
 
   ROLES = %w[admin depositor guest]
@@ -71,13 +71,17 @@ class User < ActiveRecord::Base
   end
 
 
-  #environment includes a list of pids that should have admin privileges
+  #environment includes a list of emails of users that should have admin privileges
   def admin?
-    APP_CONFIG['admin_pids'].include?(pid)
+    if APP_CONFIG['admin_emails']
+      APP_CONFIG['admin_emails'].include?(email)
+    else
+      false
+    end
   end
 
   #anybody that can login, is a depositor. No restrictions
   def depositor?
-    pid != nil
+    !uid.blank?
   end
 end
