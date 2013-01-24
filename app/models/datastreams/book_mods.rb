@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 module Datastreams
-  # Needs class description.
-  # Check with User/Data-team whether we use ISO639-2b or RFC4646.
+  # TODO Needs class description.
+  # TODO Check with User/Data-team whether we use ISO639-2b or RFC4646.
   class BookMods < ActiveFedora::NokogiriDatastream
     set_terminology do |t|
       t.root(:path=>'mods', :xmlns=>"http://www.loc.gov/mods/v3")
