@@ -17,5 +17,17 @@
   <% end %>
 </div>
 
+<div>
+  <% if @person.is_author? %>
+      <ul>
+        <% @person.books_authored.each do |book| %>
+            <li><%= link_to 'Book', book_path(book) %></li>
+        <% end %>
+      </ul>
+  <% else %>
+      <p>No books authored by this person.</p>
+  <% end %>
+</div>
+
 <%= link_to 'Edit', edit_person_path(@person) %> |
 <%= link_to 'Back', people_path %>

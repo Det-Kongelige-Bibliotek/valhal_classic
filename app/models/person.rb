@@ -18,15 +18,19 @@ class Person < IntellectualEntity
 
   # TODO find better relationship property.
   # Relationship to TEI representations.
-  has_many :tei, :class_name => 'PersonTeiRepresentation', :property=>:is_part_of
+  has_many :tei, :class_name => 'PersonTeiRepresentation', :property=>:is_constituent_of
 
   # Author relationship to books.
   # A book can be authored by more than one person, and a person can author more than one book.
-  has_and_belongs_to_many :authored_books, :class_name=>"Book", :property => :is_part_of
+  has_and_belongs_to_many :authored_books, :class_name=>"Book", :property => :is_member_of
 
   # Determines whether any TEI representations exists.
   def tei_rep?
     return tei.any?
   end
 
+  # Determines whether any book has been authored by this person.
+  def is_author?
+    return authored_books.any?
+  end
 end
