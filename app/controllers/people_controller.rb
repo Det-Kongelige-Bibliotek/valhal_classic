@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class PeopleController < ApplicationController
+  load_and_authorize_resource
   def index
     @people = Person.all
   end

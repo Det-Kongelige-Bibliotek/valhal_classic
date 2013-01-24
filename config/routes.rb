@@ -1,17 +1,11 @@
 # -*- encoding : utf-8 -*-
 ADL::Application.routes.draw do
-  devise_for :users
-
   root :to => "catalog#index"
 
   Blacklight.add_routes(self)
   HydraHead.add_routes(self)
 
-  devise_for :users
-
-  match '/login', :to => 'users/sessions#new', :as => 'new_user_session'
-  match '/auth/:provider/callback', :to => 'users/sessions#create', :as => 'create_user_session'
-  match '/logout', :to => 'users/sessions#destroy', :as => 'destroy_user_session'
+  devise_for :users, controllers: {omniauth_callbacks: "omniauth_callbacks"}
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

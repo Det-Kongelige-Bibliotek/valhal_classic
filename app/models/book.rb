@@ -18,39 +18,35 @@ class Book < IntellectualEntity
 
   # Determines whether any TEI representations exists.
   def tei_rep?
-    logger.debug "has tei = " + tei.any?.to_s
-    #puts tei.to_yaml
-    logger.debug "###################################################"
-    unless self.tei.nil? || self.tei[0].nil?
-      logger.debug self.tei[0].datastreams.size
-      #puts datastreams.size
-      self.tei[0].datastreams.each do |d|
-        logger.debug d.to_yaml
-      end
-    end
 
+    #logger.debug "has tei = " + tei.any?.to_s
+    #logger.debug "###################################################"
+    #unless self.tei.nil? || self.tei[0].nil?
+    #  logger.debug self.tei[0].datastreams.size
+    #  self.tei[0].datastreams.each do |d|
+    #    logger.debug d.to_yaml
+    #  end
+    #end
 
-    logger.debug "###################################################"
+    #logger.debug "###################################################"
     #puts "has tei rep = " + tei_rep?.any?.to_s
-    tei.any?
+    return tei.any?
   end
 
   # Determines whether any TIFF representations exists.
   def hasTiffRep?
-    puts "has tiff = " + tif.any?.to_s
-    #puts tif.to_yaml
-    logger.debug "###################################################"
-    unless self.tif.nil? || self.tif[0].nil?
-      logger.debug self.tif[0].datastreams.size
-      #puts datastreams.size
-      self.tif[0].datastreams.each do |d|
-        logger.debug d.to_yaml
-      end
-    end
-    logger.debug datastreams.size
-    logger.debug "###################################################"
-    #puts "has tiff rep = " + tif_rep?.any?.to_s
-    tif.any?
+
+    #puts "has tiff = " + tif.any?.to_s
+    #logger.debug "###################################################"
+    #unless self.tif.nil? || self.tif[0].nil?
+    #  logger.debug self.tif[0].datastreams.size
+    #  self.tif[0].datastreams.each do |d|
+    #    logger.debug d.to_yaml
+    #  end
+    #end
+    #logger.debug datastreams.size
+    #logger.debug "###################################################"
+    return tif.any?
   end
 
   # Whether any author for this book has been defined.

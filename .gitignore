@@ -14,6 +14,7 @@
 /log/*.log
 /tmp
 
+
 # Compiled source #
 ###################
 *.com
@@ -56,3 +57,7 @@ Thumbs.db
 ######################
 jetty
 jetty?
+
+# Local config files #
+######################
+*.local.yml

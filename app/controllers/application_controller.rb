@@ -15,7 +15,8 @@ class ApplicationController < ActionController::Base
 
   #before_filter :authenticate_conditionally
 
-
+  #checks that authentication is on all of our controllers makeing authentication opt-out rather then opt-in
+  #check_authorization
 
   # Will only do authentication if the user is not allowed to act anonymously
   def authenticate_conditionally
@@ -35,14 +36,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :guest_user, :current_or_guest_user
 
-  def current_user
-    if session[:user]
-      user = User.new
-      user.pid = session[:user].extra.attributes[0]['alephPID']
-      user.name = session[:user].extra.attributes[0]['gn'] + ' ' + session[:user].extra.attributes[0]['sn']
-      return user
-    end
-  end
 
   def guest_user
     User.new

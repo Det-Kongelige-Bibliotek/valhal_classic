@@ -1,9 +1,23 @@
+<table border="0">
+  <tr><td><b>TEI version</b></td><td><%= @book_tei_representation.tei_version %></td></tr>
+</table>
+
+<hr/>
+
 <p>Filer tilknyttet: <%= @book_tei_representation.files.count %></p>
 <%- @book_tei_representation.files.each do |file| %>
     <% # TODO fix the following %>
     File Name: <%= file.nil? ? "No file" : file.original_filename %>
     <br/>
     Created: <%= file.nil? ? "N/A" : file.created %>
+    <br/>
+    MIME: <%= file.nil? ? "N/A" : file.mime_type %>
+    <br/>
+    File Size: <%= file.nil? ? "N/A" : file.size %>
+    <br/>
+    Checksum: <%= file.nil? ? "N/A" : file.checksum %>
+    <br/>
+    UUID: <%= file.nil? ? "N/A" : file.uuid %>
     <br/>
 <%- end %>
 

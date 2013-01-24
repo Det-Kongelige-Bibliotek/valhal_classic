@@ -51,4 +51,9 @@ RSpec.configure do |config|
     basic_file.save
     basic_file
   end
+
+  def login_admin
+    @admin = FactoryGirl.create(:admin)
+    controller.stub!(:current_user).and_return(@admin)
+  end
 end

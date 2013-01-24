@@ -55,6 +55,7 @@ describe Book do
   after do
     Book.all.each { |book| book.delete }
     BookTeiRepresentation.all.each { |btr| btr.delete }
+    BookTiffRepresentation.all.each { |btr| btr.delete }
     BasicFile.all.each { |bf| bf.delete }
   end
 
