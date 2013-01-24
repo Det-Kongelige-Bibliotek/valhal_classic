@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.11'
 
 gem "devise", "~> 2.1.2"
 gem "blacklight", "~> 4.0.1"
@@ -16,7 +16,7 @@ gem 'omniauth-ldap'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
+  gem 'sass-rails', '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
@@ -33,6 +33,10 @@ group :development, :test do
   gem 'jettywrapper', '>= 1.2.0'
   gem 'capybara'
   gem "factory_girl_rails", "~> 4.1"
+  gem 'rb-inotify', '~> 0.8.8'
+  gem 'rb-fsevent', :require => false
+  gem 'rb-fchange', :require => false
+  gem 'guard-rspec'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
