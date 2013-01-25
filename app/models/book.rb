@@ -10,7 +10,7 @@ class Book < IntellectualEntity
                               :physicalExtent], :unique=>true
 
   # has_many is used as there doesn't seem to be any has_one relation in Active Fedora
-  has_many :tei, :class_name => 'BookTeiRepresentation', :property=>:has_representation
+  has_many :tei, :class_name => 'BookTeiRepresentation', :property=>:is_representation_of
   # A book can be authored by more than one person, and a person can author more than one book.
   has_and_belongs_to_many :authors, :class_name=>"Person", :property => :has_author
 

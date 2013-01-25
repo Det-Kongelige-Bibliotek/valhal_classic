@@ -2,6 +2,9 @@
 require 'spec_helper'
 
 describe PeopleController do
+  before(:each) do
+    Person.all.each { |p| p.delete }
+  end
   #Login a test user with admin rights
   before(:each) do
     login_admin
@@ -146,9 +149,5 @@ describe PeopleController do
       delete :destroy, {:id => person.to_param}, valid_session
       response.should redirect_to(people_url)
     end
-  end
-
-  after do
-    Person.all.each { |p| p.delete }
   end
 end
