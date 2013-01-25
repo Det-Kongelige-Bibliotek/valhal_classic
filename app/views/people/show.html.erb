@@ -5,15 +5,30 @@
   <tr><td><b>UUID</b></td><td><%= @person.uuid %></td></tr>
 </table>
 
+<hr/>
 <div>
+  <p><b>TEI representations</b></p>
   <% if @person.tei_rep? %>
       <ul>
         <% @person.tei.each do |tei| %>
-            <li><%= link_to 'TEI representation', person_tei_representation_path(tei) %></li>
+            <li><%= link_to tei.to_s + " (" + tei.pid + ")", person_tei_representation_path(tei) %></li>
         <% end %>
       </ul>
   <% else %>
       <p>No tei file for this person.</p>
+  <% end %>
+</div>
+<hr/>
+<div>
+  <p><b>Books authored</b></p>
+  <% if @person.is_author? %>
+      <ul>
+        <% @person.authored_books.each do |book| %>
+            <li><%= link_to book.title + " (" + book.pid + ")", book_path(book) %></li>
+        <% end %>
+      </ul>
+  <% else %>
+      <p>No books authored by this person.</p>
   <% end %>
 </div>
 

@@ -13,7 +13,8 @@
     <br/>
     UUID: <%= file.nil? ? "N/A" : file.uuid %>
     <br/>
+    <hr/>
 <%- end %>
 
 <%= link_to 'Edit', edit_book_tiff_representation_path(@book_tiff_representation) %> |
-<%= link_to 'Back', book_tiff_representations_path %>
+<%= link_to 'Book tiff representations', book_tiff_representations_path %>

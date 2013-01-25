@@ -2,7 +2,7 @@
 
 <%= form_for @book_tei_representation, :html=>{:multipart=>true} do |f| %>
     <%= fields_for :book_tei_representation do |builder| %>
-        <%= render 'metadata_fields', :f => builder %>
+        <%= render 'tei_metadata_fields', :f => builder %>
     <% end %>
     <br/>
     <%= fields_for :file, :html=>{:multipart=>true} do |builder| %>
@@ -13,4 +13,4 @@
 <% end %>
 <% #= render 'form' %>
 
-<%= link_to 'Back', book_tei_representations_path %>
+<%= link_to 'Book tei representations', book_tei_representations_path %>

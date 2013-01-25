@@ -23,23 +23,39 @@
     <p><b>TEI representations:</b></p>
     <ul>
     <% @book.tei.each do |t| %>
-          <li><%= link_to t, book_tei_representation_path(t) %></li>
+      <li><%= link_to t.to_s + " (" + t.pid + ")", book_tei_representation_path(t) %></li>
     <% end %>
     </ul>
 <% else %>
     <p>No TEI representations for this book.</p>
 <% end %>
+<hr/>
 <% if @book.hasTiffRep? %>
     <p><b>TIFF representations:</b></p>
     <ul>
     <% @book.tif.each do |t| %>
-      <li><%= link_to t, book_tiff_representation_path(t) %></li>
+      <li><%= link_to t.to_s + " (" + t.pid + ")", book_tiff_representation_path(t) %></li>
     <% end %>
     </ul>
 <% else %>
     <p>No TIFF representations for this book.</p>
 <% end %>
+<hr/>
+<div>
+<% if @book.has_author? %>
+    <p><b>Authors</b></p>
+    <ul>
+      <% @book.authors.each do |person| %>
+        <li><%= link_to person.name + " (" + person.pid + ")", person_path(person) %></li>
+      <% end %>
+    </ul>
+<% else %>
+    <p>No author defined for this book.</p>
+<% end %>
+</div>
+
 <br/>
 
 <%= link_to 'Edit', edit_book_path(@book) %> |
-<%= link_to 'Back', books_path %>
+<%= link_to 'Books', books_path %> |
+<%= link_to 'New Book', new_book_path %>

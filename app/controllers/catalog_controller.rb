@@ -2,9 +2,9 @@
 require 'blacklight/catalog'
 
 class CatalogController < ApplicationController
-
   #You don't need login to view catalog
   skip_authorization_check
+
 
   include Blacklight::Catalog
   # Extend Blacklight::Catalog with Hydra behaviors (primarily editing).
