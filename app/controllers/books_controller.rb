@@ -54,8 +54,12 @@ class BooksController < ApplicationController
             tiff.files << tiff_file
           end
 
+          uploaded_struct_map_file = params[:file][:structmap_file]
+          processed_structmap_file = write_tiff_uuids_to_structmap(uploaded_struct_map_file.tempfile, tiff.files)
+
           struct_map_file = BasicFile.new
-          struct_map_file.add_file(params[:file][:structmap_file])
+          uploaded_struct_map_file.tempfile = processed_structmap_file
+          struct_map_file.add_file(uploaded_struct_map_file)
           tiff.files << struct_map_file
 
           tiff.book = @book
@@ -83,5 +87,36 @@ class BooksController < ApplicationController
     @book.destroy
 
     redirect_to books_url
+  end
+
+  #Take the UUIDs of the uploaded tiff files and write them to the structmap replacing the original tiff file names
+  private
+  # @param [Object] structmap_file
+  # @param [Object] tiff_basic_files
+  # @param [Object] original_filename
+  def write_tiff_uuids_to_structmap(structmap_file, tiff_basic_files)
+
+    #Put the UUIDs for each tif file in a hash using the original filename as the key for each UUID
+    tiffs_hash = Hash.new
+
+    tiff_basic_files.each do |tiff_basic_file|
+      if tiff_basic_file.original_filename.end_with?(".tif")
+        tiffs_hash[tiff_basic_file.original_filename] = tiff_basic_file.uuid
+      end
+    end
+
+    #now open the structmap file and search and replace original filenames with UUIDs
+    structmap_xml = structmap_file.read
+
+    tiffs_hash.each_key do |key|
+      structmap_xml = structmap_xml.gsub(key, tiffs_hash[key])
+    end
+
+    replaced_file = Tempfile.new(structmap_file.path, "w")
+    replaced_file.write(structmap_xml)
+    replaced_file.close()
+    replaced_file.open()
+
+    return replaced_file
   end
 end
