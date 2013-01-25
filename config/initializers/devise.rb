@@ -207,7 +207,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   config.omniauth :ldap,
                   :host => 'kbs-server.kb.dk',
-                  :base => 'OU=DIS,OU=KB,DC=kb,DC=dk',
+                  :base => 'DC=kb,DC=dk',
                   :uid => 'sAMAccountName',
                   :port => 389,
                   :method => :plain,
