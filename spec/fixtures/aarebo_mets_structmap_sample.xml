@@ -1371,27 +1371,27 @@ http://www.loc.gov/METS/ " LABEL="I didn't raise my dog to be a sausage" OBJID="
     <METS:fileGrp ID="GID5" USE="master">
       <METS:file ID="FID19" MIMETYPE="image/tiff" SEQ="1" GROUPID="GRP1" CHECKSUMTYPE="MD5"
                  CHECKSUM="B4BE3C1E7F7877DF91D5B6B3D03CD729" ADMID="ADM1">
-        <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="fileid" xlink:href="109898358993750.tif"/>
+        <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="fileid" xlink:href="arre1fm001.tif"/>
       </METS:file>
       <METS:file ID="FID20" MIMETYPE="image/tiff" SEQ="2" GROUPID="GRP2" CHECKSUMTYPE="MD5"
                  CHECKSUM="3FC09C0448C105841457CDCC674828EC" ADMID="ADM5">
-        <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="fileid" xlink:href="1098983613531250.tif"/>
+        <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="fileid" xlink:href="arre1fm002.tif"/>
       </METS:file>
       <METS:file ID="FID21" MIMETYPE="image/tiff" SEQ="3" GROUPID="GRP3" CHECKSUMTYPE="MD5"
                  CHECKSUM="9E7641617E81B99F4D84F96DFE1E9A86" ADMID="ADM9">
-        <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="fileid" xlink:href="1098983627765625.tif"/>
+        <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="fileid" xlink:href="arre1fm003.tif"/>
       </METS:file>
       <METS:file ID="FID22" MIMETYPE="image/tiff" SEQ="4" GROUPID="GRP4" CHECKSUMTYPE="MD5"
                  CHECKSUM="E28B36AF2A762455FA457F6770281927" ADMID="ADM13">
-        <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="fileid" xlink:href="1098983643515625.tif"/>
+        <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="fileid" xlink:href="arre1fm004.tif"/>
       </METS:file>
       <METS:file ID="FID23" MIMETYPE="image/tiff" SEQ="5" GROUPID="GRP5" CHECKSUMTYPE="MD5"
                  CHECKSUM="47FD851A974062621887DEBD04AE13CE" ADMID="ADM17">
-        <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="fileid" xlink:href="1098983659875000.tif"/>
+        <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="fileid" xlink:href="arre1fm005.tif"/>
       </METS:file>
       <METS:file ID="FID24" MIMETYPE="image/tiff" SEQ="6" GROUPID="GRP6" CHECKSUMTYPE="MD5"
                  CHECKSUM="E079CF196140A30BB0832328461856BE" ADMID="ADM21">
-        <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="fileid" xlink:href="1098983673281250.tif"/>
+        <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="fileid" xlink:href="arre1fm006.tif"/>
       </METS:file>
     </METS:fileGrp>
   </METS:fileSec>
