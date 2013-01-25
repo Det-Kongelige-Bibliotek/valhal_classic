@@ -29,14 +29,14 @@ class Book < IntellectualEntity
     #end
 
     #logger.debug "###################################################"
-    #puts "has tei rep = " + tei_rep?.any?.to_s
+    #logger.debug "has tei rep = " + tei_rep?.any?.to_s
     return tei.any?
   end
 
   # Determines whether any TIFF representations exists.
   def hasTiffRep?
 
-    #puts "has tiff = " + tif.any?.to_s
+    #logger.debug "has tiff = " + tif.any?.to_s
     #logger.debug "###################################################"
     #unless self.tif.nil? || self.tif[0].nil?
     #  logger.debug self.tif[0].datastreams.size
