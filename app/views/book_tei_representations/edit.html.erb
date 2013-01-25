@@ -2,7 +2,7 @@
 
 <%= form_for @book_tei_representation do |f| %>
     <%= fields_for :book_tei_representation do |builder| %>
-        <%= render 'metadata_fields', :f => builder %>
+        <%= render 'tei_metadata_fields', :f => builder %>
     <% end %>
     <br/>
     <%= f.submit "Update" %>

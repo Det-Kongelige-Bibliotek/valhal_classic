@@ -26,7 +26,7 @@ class BooksController < ApplicationController
         #Create TEI representation of book using uploaded TEI file if a file was uploaded
         if !params[:file][:tei_file].blank?
           logger.debug "Creating a tei representation"
-          tei = BookTeiRepresentation.new
+          tei = BookTeiRepresentation.new(params[:tei])
           tei.save!
 
           tei_file = BasicFile.new

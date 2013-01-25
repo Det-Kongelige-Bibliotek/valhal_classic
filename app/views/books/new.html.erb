@@ -4,6 +4,10 @@
          <%= render 'metadata_fields', :f => builder %>
     <% end %>
     <br/>
+    <%= fields_for :tei do |builder| %>
+        <%= render 'book_tei_representations/tei_metadata_fields', :f => builder %>
+    <% end %>
+    <br/>
     <%= fields_for :file, :html=>{:multipart=>true} do |builder| %>
         <%= render 'file_upload', :f => builder %>
         <%= render 'image_file_upload', :f => builder %>
