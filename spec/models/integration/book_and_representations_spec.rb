@@ -2,6 +2,10 @@
 require 'spec_helper'
 
 describe Book do
+  before(:all) do
+    Book.all.each { |book| book.delete }
+    BookTeiRepresentation.all.each { |btr| btr.delete }
+  end
 
   # tests for the relationship between the Book and the BookTeiRepresentation
   describe " - BookTeiRepresentation relationship" do
@@ -27,8 +31,8 @@ describe Book do
     end
   end
 
-  after do
-    Book.all.each { |book| book.delete }
-    BookTeiRepresentation.all.each { |btr| btr.delete }
+  after(:all) do
+#    Book.all.each { |book| book.delete }
+#     BookTeiRepresentation.all.each { |btr| btr.delete }
   end
 end

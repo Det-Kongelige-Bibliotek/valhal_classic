@@ -22,7 +22,7 @@ class Person < IntellectualEntity
 
   # Author relationship to books.
   # A book can be authored by more than one person, and a person can author more than one book.
-  has_and_belongs_to_many :authored_books, :class_name=>"Book", :property => :is_member_of
+  has_and_belongs_to_many :authored_books, :class_name=>"Book", :property => :is_author_of
 
   # Determines whether any TEI representations exists.
   def tei_rep?
