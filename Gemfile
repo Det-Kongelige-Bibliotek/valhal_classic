@@ -43,7 +43,6 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-livereload'
   gem 'guard-spork'
-
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
