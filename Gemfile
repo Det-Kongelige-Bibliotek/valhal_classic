@@ -11,6 +11,7 @@ gem 'bootswatch-rails'
 gem 'jquery-rails'
 gem 'uuid', '>= 2.3.6'
 
+
 gem 'omniauth-ldap'
 
 # Gems used only for assets and not required
@@ -21,18 +22,27 @@ group :assets do
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'libv8', '~> 3.11.8'
-  gem 'therubyracer', '0.11.0', :platforms => :ruby
-
+  gem 'therubyracer', '0.11.1', :platforms => :ruby
   gem 'uglifier', '>= 1.0.3'
 end
 
-group :development, :test do
+group :test do
+  gem 'factory_girl_rails', '~> 4.1'
+  gem 'capybara'
+end
+
+gem 'rspec-rails' , :group => [:development, :test]
+
+group :development do
+  gem 'spork'
   gem 'debugger'
-  gem 'rspec-rails'
   gem 'equivalent-xml'
   gem 'jettywrapper', '>= 1.2.0'
-  gem 'capybara'
-  gem "factory_girl_rails", "~> 4.1"
+  gem 'rb-inotify', '~> 0.8.8', :require => false
+  gem 'guard-rspec'
+  gem 'guard-livereload'
+  gem 'guard-spork'
+
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
