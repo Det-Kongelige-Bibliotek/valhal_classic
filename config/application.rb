@@ -57,7 +57,7 @@ module ADL
     config.filter_parameters += [:password]
 
     #forces ssl to be turned on for all sites, requires the web server to have been setup for ssl/tls
-    config.force_ssl = true
+    config.force_ssl = false
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
