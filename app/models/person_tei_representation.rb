@@ -10,7 +10,7 @@ class PersonTeiRepresentation < ActiveFedora::Base
   #delegate_to 'authorImageFile', [:author_image_file]
 
   # Relationship to be abstract Person
-  belongs_to :person, :property => :is_constituent_of
+  belongs_to :person, :property => :is_representation_of
 
   def to_solr(solr_doc = {})
     super

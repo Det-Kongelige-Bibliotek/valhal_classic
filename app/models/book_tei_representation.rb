@@ -11,7 +11,7 @@ class BookTeiRepresentation < ActiveFedora::Base
   delegate_to 'techMetadata', [:tei_version], :unique => true
 
   has_many :files, :class_name => 'BasicFile', :property => :is_part_of
-  belongs_to :book, :class_name=>'Book', :property => :is_constituent_of
+  belongs_to :book, :class_name=>'Book', :property => :is_representation_of
 
   def has_book?
     return book

@@ -26,8 +26,8 @@ class BasicFile < IntellectualEntity
   # file must have the following methods [size, content_type, original_filename, tempfile]
   # return true if successful, else false
   def add_file(file)
-    vaild_file = check_file?(file)
-    if (vaild_file)
+    valid_file = check_file?(file)
+    if (valid_file)
       self.add_file_datastream(file.tempfile, :label => file.original_filename, :mimeType => file.content_type, :dsid => 'content')
       set_file_timestamps(file.tempfile)
       self.checksum = generate_checksum(file.tempfile)
@@ -35,7 +35,7 @@ class BasicFile < IntellectualEntity
       self.mime_type = file.content_type
       self.size = file.size
     end
-    vaild_file
+    valid_file
   end
 
   def to_solr(solr_doc = {})
