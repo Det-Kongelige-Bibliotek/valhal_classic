@@ -10,9 +10,9 @@ class Book < IntellectualEntity
                               :physicalExtent], :unique=>true
 
   # has_many is used as there doesn't seem to be any has_one relation in Active Fedora
-  has_many :tei, :class_name => 'BookTeiRepresentation', :property=>:is_constituent_of
+  has_many :tei, :class_name => 'BookTeiRepresentation', :property=>:is_representation_of
   # A book can be authored by more than one person, and a person can author more than one book.
-  has_and_belongs_to_many :authors, :class_name=>"Person", :property => :is_member_of
+  has_and_belongs_to_many :authors, :class_name=>"Person", :property => :has_author
 
   has_many :tif, :class_name => 'BookTiffRepresentation', :property=>:is_part_of
 
@@ -29,14 +29,14 @@ class Book < IntellectualEntity
     #end
 
     #logger.debug "###################################################"
-    #puts "has tei rep = " + tei_rep?.any?.to_s
+    #logger.debug "has tei rep = " + tei_rep?.any?.to_s
     return tei.any?
   end
 
   # Determines whether any TIFF representations exists.
   def hasTiffRep?
 
-    #puts "has tiff = " + tif.any?.to_s
+    #logger.debug "has tiff = " + tif.any?.to_s
     #logger.debug "###################################################"
     #unless self.tif.nil? || self.tif[0].nil?
     #  logger.debug self.tif[0].datastreams.size

@@ -2,6 +2,12 @@
 require 'spec_helper'
 
 describe "Person and Book" do
+  before(:all) do
+    Book.all.each { |book| book.delete }
+    Person.all.each { |person| person.delete }
+    BookTeiRepresentation.all.each { |btr| btr.delete }
+    PersonTeiRepresentation.all.each { |ptr| ptr.delete }
+  end
   describe " author relationship" do
     before(:each) do
       @person = Person.create(:name=>"some name")
@@ -31,6 +37,7 @@ describe "Person and Book" do
 
   describe " with representations" do
     before(:each) do
+
       @person = Person.create(:name=>"person with representation")
       @person.save!
       @book = Book.create(:title=>"book with representation")
@@ -94,10 +101,56 @@ describe "Person and Book" do
     end
   end
 
-  after(:all) do
-    Book.all.each { |book| book.delete }
-    Person.all.each { |person| person.delete }
-    BookTeiRepresentation.all.each { |btr| btr.delete }
-    PersonTeiRepresentation.all.each { |ptr| ptr.delete }
-  end
+  describe "many authors" do
+      before(:each) do
+        @book = Book.create(:title=>"some title")
+        @book.save!
+      end
+
+      it "should be able to have many authors" do
+        person1 = Person.create(:name=>"first person")
+        person1.save!
+        person1.authored_books << @book
+        person1.save!
+        @book.authors << person1
+
+        person2 = Person.create(:name=>"second person")
+        person2.save!
+        person2.authored_books << @book
+        person2.save!
+        @book.authors << person2
+
+        person3 = Person.create(:name=>"third person")
+        person3.save!
+        person3.authored_books << @book
+        person3.save!
+        @book.authors << person3
+
+        person4 = Person.create(:name=>"fourth person")
+        person4.save!
+        person4.authored_books << @book
+        person4.save!
+        @book.authors << person4
+
+        person5 = Person.create(:name=>"fifth person")
+        person5.save!
+        person5.authored_books << @book
+        person5.save!
+        @book.authors << person5
+
+        @book.save!
+
+        @book.authors.length.should == 5
+        person1.authored_books.length.should == 1
+        person1.authored_books.first.should == @book
+        person2.authored_books.length.should == 1
+        person2.authored_books.first.should == @book
+        person3.authored_books.length.should == 1
+        person3.authored_books.first.should == @book
+        person4.authored_books.length.should == 1
+        person4.authored_books.first.should == @book
+        person5.authored_books.length.should == 1
+        person5.authored_books.first.should == @book
+      end
+    end
 end
