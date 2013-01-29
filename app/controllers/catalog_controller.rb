@@ -90,6 +90,7 @@ class CatalogController < ApplicationController
     config.add_index_field 'death_date_t', :label => 'Død:'
     config.add_index_field 'id', :label => 'Id:'
     config.add_index_field 'original_filename_t', :label => 'Name:'
+    config.add_index_field 'title_t', :label => 'Titel'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -102,6 +103,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'death_date_t', :label => 'Død:'
     config.add_show_field 'sample_quotation_t', :label => 'Sample quotation:'
     config.add_show_field 'sample_quotation_source_t', :label => 'Sample quotation Source:'
+    config.add_show_field 'title_t', :label => 'Titel'
     #config.add_show_field 'description_t', :label => 'Description:'
 
     # "fielded" search configuration. Used by pulldown among other places.
