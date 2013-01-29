@@ -1,0 +1,5 @@
+<div>
+  <br/>
+  <%= collection_select(:person, :id, Person.all, :id, :name, {}, { :multiple => true }) %>
+  <%#= f.select :person, [['Type A', 'Type A'], ['Type B', 'Type B'], ['Type C', 'Type C'], ['Type D', 'Type D'], ['Type E', 'Type E']], { :prompt => "Please select"}, { :multiple => true } %>
+</div>
