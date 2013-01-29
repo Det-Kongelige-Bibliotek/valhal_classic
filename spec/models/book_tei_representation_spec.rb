@@ -45,15 +45,20 @@ describe BookTeiRepresentation do
   end
 
   describe "#create" do
-    it "should be created when given a tei version" do
+    it "should be created without arguments" do
       bfr = BookTeiRepresentation.new
-      bfr.tei_version = "TEI-P4"
       bfr.save.should == true
     end
 
     it "should be created directly with a tei version" do
       bfr = BookTeiRepresentation.new(tei_version:"TEI-P4")
       bfr.save!
+    end
+
+    it "should be created when given a tei version" do
+      bfr = BookTeiRepresentation.new
+      bfr.tei_version = "TEI-P4"
+      bfr.save.should == true
     end
   end
 
@@ -87,7 +92,7 @@ describe BookTeiRepresentation do
   after do
     Book.all.each { |book| book.delete }
     BookTeiRepresentation.all.each { |btr| btr.delete }
-    BookTeiRepresentation.all.each { |btr| btr.delete }
+    BookTiffRepresentation.all.each { |btr| btr.delete }
     BasicFile.all.each { |bf| bf.delete }
   end
 

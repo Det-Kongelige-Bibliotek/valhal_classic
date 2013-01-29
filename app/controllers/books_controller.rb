@@ -54,6 +54,12 @@ class BooksController < ApplicationController
             tiff.files << tiff_file
           end
 
+          tiff.book = @book
+          tiff.save!
+        end
+
+        #Create METS Structmap for book using uploaded METS file if file was uploaded
+        if !params[:file][:tiff_file].blank? && !params[:file][:structmap_file].blank?
           uploaded_struct_map_file = params[:file][:structmap_file]
           processed_structmap_file = write_tiff_uuids_to_structmap(uploaded_struct_map_file.tempfile, tiff.files)
 
@@ -65,6 +71,7 @@ class BooksController < ApplicationController
           tiff.book = @book
           tiff.save!
         end
+
       end
       redirect_to @book, notice: 'Book was successfully created.'
     else
@@ -100,6 +107,58 @@ class BooksController < ApplicationController
     end
 
     if @book.update_attributes(params[:book])
+      if !params[:file].blank? && !params[:file][:tei_file].blank? || !params[:file].blank? && !params[:file][:tiff_file].blank?
+
+        #Create TEI representation of book using uploaded TEI file if a file was uploaded
+        if !params[:file][:tei_file].blank?
+          logger.debug "Creating a tei representation"
+          tei = BookTeiRepresentation.new(params[:tei])
+          tei.save!
+
+          tei_file = BasicFile.new
+          tei_file.add_file(params[:file][:tei_file])
+          tei_file.container = tei
+          tei_file.save!
+          tei.files << tei_file
+
+          tei.book = @book
+          tei.save!
+        end
+
+        #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
+        if !params[:file][:tiff_file].blank?
+          logger.debug "Creating a tiff representation"
+          tiff = BookTiffRepresentation.new
+          tiff.save!
+
+          params[:file][:tiff_file].each do |f|
+            tiff_file = BasicFile.new
+            tiff_file.add_file(f)
+            puts f.original_filename
+            tiff_file.container = tiff
+            tiff_file.save!
+            tiff.files << tiff_file
+          end
+
+          tiff.book = @book
+          tiff.save!
+        end
+
+        #Create METS Structmap for book using uploaded METS file if file was uploaded
+        if !params[:file][:tiff_file].blank? && !params[:file][:structmap_file].blank?
+          uploaded_struct_map_file = params[:file][:structmap_file]
+          processed_structmap_file = write_tiff_uuids_to_structmap(uploaded_struct_map_file.tempfile, tiff.files)
+
+          struct_map_file = BasicFile.new
+          uploaded_struct_map_file.tempfile = processed_structmap_file
+          struct_map_file.add_file(uploaded_struct_map_file)
+          tiff.files << struct_map_file
+
+          tiff.book = @book
+          tiff.save!
+        end
+
+      end
       redirect_to @book, notice: 'Book was successfully updated.'
     else
       render action: "edit"
