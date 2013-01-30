@@ -18,8 +18,7 @@
       <div class="document">
         <%= render_document_partial @document, :show %>
       </div>
-
-      <a href="/books/<%= @document.id.to_s %>/edit">Edit</a>
+      <a href="<%= "/#{@document["active_fedora_model_s"].first.pluralize.to_s.downcase}/#{@document.id.to_s}/edit"  %>">Edit</a>
     </div>
   </div>
 
