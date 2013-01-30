@@ -73,6 +73,20 @@ class BooksController < ApplicationController
         end
 
       end
+      # add the authors to the book
+      if !params[:person].blank? && !params[:person][:id].blank?
+        params[:person][:id].each do |author_pid|
+          if author_pid && !author_pid.empty?
+            author = Person.find(author_pid)
+            @book.authors << author
+
+            # TODO: Relationship should not be defined both ways.
+            author.authored_books << @book
+            author.save!
+          end
+        end
+        @book.save!
+      end
       redirect_to @book, notice: 'Book was successfully created.'
     else
       render action: "new"
