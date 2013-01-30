@@ -81,30 +81,6 @@ class BooksController < ApplicationController
 
   def update
     @book = Book.find(params[:id])
-    puts params
-    if !params[:person].blank? && !params[:person][:id].blank?
-      # Remove any existing relationships
-      @book.authors.clear
-#      @book.authors.each do |a|
-#        @book.authors.delete(a)
-#        a.authored_books.delete(@book)
-#        a.save!
-#        puts "Removing: " + a.name + " as author of " + @book.title
-#      end
-
-      #Add a new relationship for each author
-      params[:person][:id].each do |author_pid|
-        if author_pid && !author_pid.empty?
-          author = Person.find(author_pid)
-          @book.authors << author
-
-          # TODO: Relationship should not be defined both ways.
-          #author.authored_books << @book
-          #author.save!
-        end
-      end
-      @book.save!
-    end
 
     if @book.update_attributes(params[:book])
       if !params[:file].blank? && !params[:file][:tei_file].blank? || !params[:file].blank? && !params[:file][:tiff_file].blank?
@@ -158,6 +134,23 @@ class BooksController < ApplicationController
           tiff.save!
         end
 
+      end
+      # add the authors to the book
+      if !params[:person].blank? && !params[:person][:id].blank?
+        # Remove any existing relationships
+        @book.authors.clear
+        #Add a new relationship for each author
+        params[:person][:id].each do |author_pid|
+          if author_pid && !author_pid.empty?
+            author = Person.find(author_pid)
+            @book.authors << author
+
+            # TODO: Relationship should not be defined both ways.
+            author.authored_books << @book
+            author.save!
+          end
+        end
+        @book.save!
       end
       redirect_to @book, notice: 'Book was successfully updated.'
     else
