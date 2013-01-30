@@ -13,6 +13,9 @@
         <%= render 'image_file_upload', :f => builder %>
     <% end %>
     <br/>
+    <%= fields_for :author, :html=>{:multipart=>true} do |builder| %>
+        <%= render 'add_author', :f => builder %>
+    <% end %>
     <%= f.submit "Update" %>
 <% end %>
 <% #= render 'form' %>

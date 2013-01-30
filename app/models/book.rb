@@ -53,4 +53,8 @@ class Book < IntellectualEntity
   def has_author?
     return authors.any?
   end
+
+  def clear_authors
+    authors.clear
+  end
 end
