@@ -33,4 +33,11 @@ class Person < IntellectualEntity
   def is_author?
     return authored_books.any?
   end
+
+  def to_solr(solr_doc = {})
+    super
+    solr_doc["person_name_t"] = self.name unless self.name.blank?
+    return solr_doc
+
+  end
 end
