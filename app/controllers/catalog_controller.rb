@@ -40,6 +40,10 @@ class CatalogController < ApplicationController
     config.index.show_link = 'surname_t'
     config.index.record_display_type = 'format'
 
+    config.index.show_link = 'person_name_t'
+
+    config.show.html_title = 'person_name_t'
+    config.show.heading = 'person_name_t'
     # solr field configuration for document/show views
     config.show.html_title = 'title_t'
     config.show.heading = 'title_t'
@@ -90,7 +94,8 @@ class CatalogController < ApplicationController
     config.add_index_field 'death_date_t', :label => 'Død:'
     config.add_index_field 'id', :label => 'Id:'
     config.add_index_field 'original_filename_t', :label => 'Name:'
-    config.add_index_field 'title_t', :label => 'Titel'
+    config.add_index_field 'title_t', :label => 'Titel:'
+    config.add_index_field 'person_name_t', :label => 'Person Name:'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -103,7 +108,8 @@ class CatalogController < ApplicationController
     config.add_show_field 'death_date_t', :label => 'Død:'
     config.add_show_field 'sample_quotation_t', :label => 'Sample quotation:'
     config.add_show_field 'sample_quotation_source_t', :label => 'Sample quotation Source:'
-    config.add_show_field 'title_t', :label => 'Titel'
+    config.add_show_field 'title_t', :label => 'Titel:'
+    config.add_show_field 'person_name_t', :label => 'Person Name:'
     #config.add_show_field 'description_t', :label => 'Description:'
 
     # "fielded" search configuration. Used by pulldown among other places.
