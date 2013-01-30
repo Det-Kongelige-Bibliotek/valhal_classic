@@ -2,8 +2,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   skip_before_filter :verify_authenticity_token
 
   def all
-    puts "ldap login"
-    puts request.env["omniauth.auth"].inspect
     user = User.from_omniauth(request.env["omniauth.auth"])
 
     if user.persisted?

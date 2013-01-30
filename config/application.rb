@@ -57,7 +57,7 @@ module ADL
     config.filter_parameters += [:password]
 
     #forces ssl to be turned on for all sites, requires the web server to have been setup for ssl/tls
-    #config.force_ssl = false
+    config.force_ssl = true
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
@@ -80,13 +80,6 @@ module ADL
 
     # Config to be overriden by local settings
     config.stub_authentication = false;
-
-    config.cas = {
-        :host => 'www.kb.dk',
-        :login_url => '/cas/login',
-        :service_validate_url => '/cas/serviceValidate',
-        :ssl => true
-    }
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
