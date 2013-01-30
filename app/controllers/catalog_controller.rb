@@ -41,6 +41,7 @@ class CatalogController < ApplicationController
     config.index.record_display_type = 'format'
 
     config.index.show_link = 'person_name_t'
+    config.index.show_link = 'title_t'
 
     config.show.html_title = 'person_name_t'
     config.show.heading = 'person_name_t'
