@@ -7,8 +7,6 @@ require 'spork'
 Spork.prefork do
   unless ENV['DRB']
     require 'simplecov'
-    require 'simplecov-rcov'
-    SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
     SimpleCov.start  'rails'
   end
   # Loading more in this block will cause your tests to run faster. However,
@@ -80,8 +78,6 @@ Spork.each_run do
   # This code will be run each time you run your specs.
   if ENV['DRB']
     require 'simplecov'
-    require 'simplecov-rcov'
-    SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
     SimpleCov.start   'rails'
   end
 end
