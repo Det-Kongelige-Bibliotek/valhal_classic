@@ -99,17 +99,6 @@ describe PersonTeiRepresentationsController do
   end
 
   describe "#destroy" do
-    it "destroys the requested person_tei_representation" do
-      person_tei_representation = PersonTeiRepresentation.create! valid_attributes
-      expect {
-        delete :destroy, {:id => person_tei_representation.to_param}, valid_session
-      }.to change(PersonTeiRepresentation, :count).by(-1)
-    end
 
-    it "redirects to the person_tei_representations list" do
-      person_tei_representation = PersonTeiRepresentation.create! valid_attributes
-      delete :destroy, {:id => person_tei_representation.to_param}, valid_session
-      response.should redirect_to(person_tei_representations_url)
-    end
   end
 end
