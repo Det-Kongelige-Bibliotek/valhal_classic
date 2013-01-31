@@ -16,7 +16,9 @@ class CatalogController < ApplicationController
   # This applies appropriate access controls to all solr queries
   ###CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
   # This filters out objects that you want to exclude from search results, like FileAssets
-  CatalogController.solr_search_params_logic += [:BasicFile]
+  #CatalogController.solr_search_params_logic += [:exclude_unwanted_models]
+
+
 
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
