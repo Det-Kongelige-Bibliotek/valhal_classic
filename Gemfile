@@ -11,7 +11,7 @@ gem 'bootswatch-rails'
 gem 'jquery-rails'
 gem 'uuid', '>= 2.3.6'
 
-
+gem 'simplecov', :require => false, :group => :test
 gem 'omniauth-ldap'
 
 # Gems used only for assets and not required
