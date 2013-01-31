@@ -14,6 +14,7 @@ class PersonTeiRepresentation < ActiveFedora::Base
 
   def to_solr(solr_doc = {})
     super
+    solr_doc["search_result_title_t"] = self.surname unless self.surname.blank?
     solr_doc["forename_t"] = self.forename unless self.forename.blank?
     solr_doc["surname_t"] = self.surname unless self.surname.blank?
     solr_doc["birth_date_t"] = self.date_of_birth unless self.date_of_birth.blank?

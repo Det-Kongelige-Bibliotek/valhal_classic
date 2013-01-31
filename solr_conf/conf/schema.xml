@@ -516,6 +516,7 @@
 
 
    <!-- BasicFile fields -->
+   <field name="search_result_title_t" type="text_general" indexed="true" stored="true" multiValued="false" />
    <field name="title_t" type="text_general" indexed="true" stored="true" multiValued="false" />
    <field name="original_filename_t" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="mime_type_t" type="text_ws" indexed="true" stored="true" multiValued="false" />
