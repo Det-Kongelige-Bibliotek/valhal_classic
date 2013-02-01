@@ -2,44 +2,42 @@
 require 'spec_helper'
 
 describe Datastreams::AdlMets do
-  subject do
-    @file = File.open(File.join(File.dirname(__FILE__), '..', 'fixtures', "aarebo_mets_structmap_sample.xml"))
-    @document = Datastreams::AdlMets.from_xml(@file, nil)
+
+  before(:each) do
+    @mets_structmap = fixture("aarebo_mets_structmap_sample.xml")
+    @ds = Datastreams::AdlMets.from_xml(@mets_structmap)
   end
 
   it "should have a structMap element" do
-    pending "need to fix test in light of change to test data"
-    subject.mets.structMap.length.should == 1
+    @ds.node_exists?(:structMap)
   end
 
-  it "structMap element should have a TYPE attribute with a value of physical" do
-    pending "need to fix test in light of change to test data"
-    subject.mets.structMap.type[0].should == "physical"
+  it "should have 6 div elements underneath the structMap element" do
+    @ds.find_by_terms(:div).length.should == 6
   end
 
-  it "should have a div element underneath the structMap element" do
-    pending "need to fix test in light of change to test data"
-    subject.mets.structMap.div.length.should == 1
+  it "should have 6 fptr elements" do
+    @ds.find_by_terms(:fptr).length.should == 6
   end
 
-  it "div element underneath the structMap element should have an ORDER attribute with a value of 1" do
-    pending "need to fix test in light of change to test data"
-    subject.mets.structMap.div.order[0].should == "1"
+  it "each fptr element should have a FILEID attribute" do
+    @ds.find_by_terms(:file_id).length.should == 6
   end
 
-  it "should have another div element underneath the first div element" do
-    pending "need to fix test in light of change to test data"
-    subject.mets.structMap.div.div.length.should == 6
+  it "the first fptr element should have a FILEID attribute with value arre1fm001.tif" do
+    @ds.find_by_terms(:file_id).first.content == "arre1fm001.tif"
   end
 
-  it "should have another div element underneath the first div element with a ORDER attribute with a value of 1" do
-    pending "need to fix test in light of change to test data"
-    subject.mets.structMap.div.div.order[0].should == "1"
+  it "the last fptr element should have a FILEID attribute with value arre1fm006.tif" do
+    @ds.find_by_terms(:file_id).last.content == "arre1fm006.tif"
   end
 
-  it "should have 24 fptr elements" do
-    pending "need to fix test in light of change to test data"
-    subject.mets.structMap.div.div.fptr.length.should == 24
+  it "the first div element should have an order attribute with a value of 1" do
+    @ds.find_by_terms(:order).first.content == "1"
+  end
+
+  it "the last div element should have an order attribute with a value of 6" do
+    @ds.find_by_terms(:order).last.content == "6"
   end
 
 end
