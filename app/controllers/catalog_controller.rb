@@ -103,10 +103,10 @@ class CatalogController < ApplicationController
     config.add_index_field 'forename_t', :label => 'Fornavn:'
     config.add_index_field 'birth_date_t', :label => 'Fødselsdag:'
     config.add_index_field 'death_date_t', :label => 'Død:'
-    config.add_index_field 'id', :label => 'Id:'
     config.add_index_field 'original_filename_t', :label => 'Name:'
     config.add_index_field 'title_t', :label => 'Titel:'
     config.add_index_field 'person_name_t', :label => 'Person Name:'
+    config.add_index_field 'search_results_book_authors_s', :label => 'Author(s)'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
