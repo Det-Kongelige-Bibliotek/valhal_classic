@@ -58,6 +58,18 @@ class Book < IntellectualEntity
     authors.clear
   end
 
+  def authors_names_to_s
+
+    unless authors.nil?
+      names = []
+      authors.each do |a|
+        names << a.name
+      end
+      names.join(", ")
+    end
+
+  end
+
   def to_solr(solr_doc = {})
     super
     #search_result_title_t = the name of the field in the Solr document that will be used on search results
@@ -65,6 +77,7 @@ class Book < IntellectualEntity
     #view using
     solr_doc["search_result_title_t"] = self.title unless self.title.blank?
 
+    solr_doc["search_results_book_authors_s"] = self.authors_names_to_s unless self.authors_names_to_s.blank?
     solr_doc["isbn_t"] = self.isbn unless self.isbn.blank?
     solr_doc["genre_t"] = self.genre unless self.genre.blank?
     solr_doc["shelf_locator_t"] = self.shelfLocator unless self.shelfLocator.blank?
