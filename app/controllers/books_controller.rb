@@ -151,6 +151,8 @@ class BooksController < ApplicationController
       end
       # add the authors to the book
       if !params[:person].blank? && !params[:person][:id].blank?
+        puts params
+        puts "Person arguments "
         # Remove any existing relationships
         @book.authors.clear
         #Add a new relationship for each author
