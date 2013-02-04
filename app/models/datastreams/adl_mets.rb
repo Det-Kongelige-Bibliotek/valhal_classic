@@ -6,31 +6,21 @@ module Datastreams
     include OM::XML::Document
 
     set_terminology do |t|
-      t.root(:path => "mets", :xmlns => "http://www.loc.gov/METS/")
+      t.root(:path => "mets")
 
-      t.metsHdr do
-        t.agent do
-          t.name
-        end
-      end
-      t.fileSec do
-        t.fileGrp do
-          t.file
-        end
-      end
       t.structMap do
         t.div do
-          t.div do
-            t.fptr
-            t.file_id(:path => {:attribute => "FILEID"})
-            t.order(:path => {:attribute => "ORDER"})
-          end
           t.order(:path => {:attribute => "ORDER"})
+          t.fptr do
+            t.file_id(:path => {:attribute => "FILEID"})
+          end
         end
-        t.type(:path => {:attribute => "TYPE"})
       end
 
-      t.structmap_type(:proxy => [:structMap, :TYPE])
+      t.div(:proxy => [:structMap, :div])
+      t.order(:proxy => [:structMap, :div, :order])
+      t.fptr(:proxy => [:structMap, :div, :fptr])
+      t.file_id(:proxy => [:structMap, :div, :fptr, :file_id])
     end
 
     def self.xml_template

@@ -97,4 +97,8 @@ describe PersonTeiRepresentationsController do
       response.should be_successful
     end
   end
+
+  describe "#destroy" do
+
+  end
 end

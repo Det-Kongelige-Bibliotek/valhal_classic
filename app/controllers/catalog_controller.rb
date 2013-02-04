@@ -16,7 +16,20 @@ class CatalogController < ApplicationController
   # This applies appropriate access controls to all solr queries
   ###CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
   # This filters out objects that you want to exclude from search results, like FileAssets
-  ###CatalogController.solr_search_params_logic += [:exclude_unwanted_models]
+  CatalogController.solr_search_params_logic += [:exclude_unwanted_models]
+
+  def exclude_unwanted_models(solr_parameters, user_parameters)
+    solr_parameters[:fq] ||= []
+    unwanted_models.each do |model|
+      solr_parameters[:fq] << "-has_model_s:\"#{model.to_class_uri}\""
+    end
+  end
+
+  def unwanted_models
+    [BookTiffRepresentation, BookTeiRepresentation ,BasicFile]
+  end
+
+
 
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
@@ -37,11 +50,8 @@ class CatalogController < ApplicationController
     #}
 
     # solr field configuration for search results/index views
-    config.index.show_link = 'surname_t'
+    config.index.show_link = 'search_result_title_t'
     config.index.record_display_type = 'format'
-
-    config.index.show_link = 'person_name_t'
-    config.index.show_link = 'title_t'
 
     config.show.html_title = 'person_name_t'
     config.show.heading = 'person_name_t'
@@ -93,10 +103,10 @@ class CatalogController < ApplicationController
     config.add_index_field 'forename_t', :label => 'Fornavn:'
     config.add_index_field 'birth_date_t', :label => 'Fødselsdag:'
     config.add_index_field 'death_date_t', :label => 'Død:'
-    config.add_index_field 'id', :label => 'Id:'
     config.add_index_field 'original_filename_t', :label => 'Name:'
-    config.add_index_field 'title_t', :label => 'Titel:'
-    config.add_index_field 'person_name_t', :label => 'Person Name:'
+    #config.add_index_field 'title_t', :label => 'Titel:'
+    #config.add_index_field 'person_name_t', :label => 'Person Name:'
+    config.add_index_field 'search_results_book_authors_s', :label => 'Author(s):'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
