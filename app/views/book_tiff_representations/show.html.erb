@@ -13,6 +13,8 @@
     <br/>
     UUID: <%= file.nil? ? "N/A" : file.uuid %>
     <br/>
+    <%= file.nil? ? "N/A" : (link_to "View", APP_CONFIG['fedora_repo'].first.gsub('{pid}', file.pid)) %>
+    <br />
     <hr/>
 <%- end %>
 
