@@ -204,7 +204,7 @@ class BooksController < ApplicationController
       structmap_xml = structmap_xml.gsub(key, tiffs_hash[key])
     end
 
-    replaced_file = Tempfile.new(structmap_file.path, "w")
+    replaced_file = Tempfile.new(structmap_file.path, "wb")
     replaced_file.write(structmap_xml)
     replaced_file.close()
     replaced_file.open()
