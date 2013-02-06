@@ -1,5 +1,7 @@
 # -*- encoding : utf-8 -*-
 ADL::Application.routes.draw do
+  get "view_file/show"
+
   root :to => "catalog#index"
 
   Blacklight.add_routes(self)
@@ -17,4 +19,5 @@ ADL::Application.routes.draw do
   resources :person_tei_representations
   resources :people
   resources :books
+  #resources :view_file
 end
