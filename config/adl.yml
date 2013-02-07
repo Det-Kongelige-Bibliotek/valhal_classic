@@ -1,10 +1,8 @@
 development:
   admin_pids: ["spec-admin-pid"]
-  fedora_repo: ["http://localhost:8983/fedora/objects/{pid}/datastreams/content/content"]
+
 test:
   admin_pids: ["spec-admin-pid"]
-  fedora_repo: ["http://sifd-hydra:8983/fedora/objects/{pid}/datastreams/content/content"]
 
 production:
   admin_pids:   ["spec-admin-pid"]
-  fedora_repo: ["http://sifd-hydra:8983/fedora/objects/{pid}/datastreams/content/content"]
