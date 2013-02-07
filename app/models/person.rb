@@ -7,14 +7,17 @@
 class Person < IntellectualEntity
   # Descriptive metadata stream for the abstract person.
   has_metadata :name => 'descMetadata', :type => ActiveFedora::SimpleDatastream do |m|
-    m.field "name", :string
+    m.field "firstname", :string
+    m.field "lastname", :string
+    m.field "date_of_birth", :string
+    m.field "date_of_death", :string
   end
 
   # Define the name of the person as an accessible part of the descriptive metadata.
-  delegate_to 'descMetadata', [:name], :unique => true
+  delegate_to 'descMetadata', [:firstname, :lastname, :date_of_birth, :date_of_death], :unique => true
 
-  # Validation criteria of the name (at least 1 non-space character).
-  validates :name, :presence => true, :length => { :minimum => 1 }
+  # Validation criteria of the firstname (at least 1 non-space character).
+  validates :firstname, :presence => true, :length => { :minimum => 1 }
 
   # TODO find better relationship property.
   # Relationship to TEI representations.
@@ -34,14 +37,18 @@ class Person < IntellectualEntity
     return authored_books.any?
   end
 
+  def name
+    return firstname.to_s + " " + lastname.to_s
+  end
+
   def to_solr(solr_doc = {})
     super
     #search_result_title_t = the name of the field in the Solr document that will be used on search results
     #to create a link, we use this field for both Books and Persons so that we can make a link to in the search results
     #view using
-    solr_doc["search_result_title_t"] = self.name unless self.name.blank?
+    solr_doc["search_result_title_t"] = self.firstname unless self.firstname.blank?
 
-    solr_doc["person_name_t"] = self.name unless self.name.blank?
+    solr_doc["person_name_t"] = self.firstname unless self.firstname.blank?
     return solr_doc
 
   end

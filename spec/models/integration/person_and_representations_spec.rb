@@ -6,7 +6,7 @@ describe Person do
   # tests for the relationship between the Person and the PersonTeiRepresentation
   describe " - PersonTeiRepresentation relationship" do
     before(:each) do
-      @person = Person.create(:name=>"some name")
+      @person = Person.create(:firstname=>"some name")
       @person.save
       @tei = PersonTeiRepresentation.new
       @tei.person = @person

@@ -10,7 +10,7 @@ describe "Person and Book" do
   end
   describe " author relationship" do
     before(:each) do
-      @person = Person.create(:name=>"some name")
+      @person = Person.create(:firstname=>"some name")
       @person.save!
       @book = Book.create(:title=>"some title")
       @book.save!
@@ -38,7 +38,7 @@ describe "Person and Book" do
   describe " with representations" do
     before(:each) do
 
-      @person = Person.create(:name=>"person with representation")
+      @person = Person.create(:firstname=>"person with representation")
       @person.save!
       @book = Book.create(:title=>"book with representation")
       @book.save!
@@ -108,31 +108,31 @@ describe "Person and Book" do
     end
 
     it "should be able to have many authors" do
-      person1 = Person.create(:name=>"first person")
+      person1 = Person.create(:firstname=>"first person")
       person1.save!
       person1.authored_books << @book
       person1.save!
       @book.authors << person1
 
-      person2 = Person.create(:name=>"second person")
+      person2 = Person.create(:firstname=>"second person")
       person2.save!
       person2.authored_books << @book
       person2.save!
       @book.authors << person2
 
-      person3 = Person.create(:name=>"third person")
+      person3 = Person.create(:firstname=>"third person")
       person3.save!
       person3.authored_books << @book
       person3.save!
       @book.authors << person3
 
-      person4 = Person.create(:name=>"fourth person")
+      person4 = Person.create(:firstname=>"fourth person")
       person4.save!
       person4.authored_books << @book
       person4.save!
       @book.authors << person4
 
-      person5 = Person.create(:name=>"fifth person")
+      person5 = Person.create(:firstname=>"fifth person")
       person5.save!
       person5.authored_books << @book
       person5.save!

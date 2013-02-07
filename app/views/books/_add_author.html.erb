@@ -1,5 +1,5 @@
 <div>
   <br/>
   <%= f.label :person, "Select author(s) for the book" %>
-  <%= collection_select(:person, :id, Person.all, :id, :name, options = { :prompt => "(Select authors)", :include_blank => false }, { :multiple => true }) %>
+  <%= collection_select(:person, :id, Person.all, :id, :lastname, options = { :prompt => "(Select authors)", :include_blank => false }, { :multiple => true }) %>
 </div>
