@@ -1,9 +1,16 @@
 <div class="alert"><%= person.errors.full_messages.join("<br>").html_safe %></div>
 <%= form_for person, :multipart => true do |f| %>
     <div>
-      <%= f.label :name, "Personens navn" %>
+      <%= f.label :firstname, "Forfatter navn" %>
       <br/>
-      <%= f.text_field :name, :placeholder => "Navn:" %>
+      <%= f.text_field :firstname, :placeholder => "Fornavn:" %>
+      <%= f.text_field :lastname, :placeholder => "Efternavn:" %>
+    </div>
+    <div>
+      <%= f.label :date_of_birth, "Fødsels/død" %>
+      <br/>
+      <%= f.text_field :date_of_birth, :placeholder => "Fødsel:" %>
+      <%= f.text_field :date_of_death, :placeholder => "Død:" %>
     </div>
     <br/>
     <%= f.submit %>

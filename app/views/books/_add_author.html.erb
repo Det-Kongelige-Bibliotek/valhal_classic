@@ -1,6 +1,5 @@
 <div>
   <br/>
   <%= f.label :person, "Select author(s) for the book" %>
-  <%= collection_select(:person, :id, Person.all, :id, :name, {}, { :multiple => true }) %>
-  <%#= f.select :person, [['Type A', 'Type A'], ['Type B', 'Type B'], ['Type C', 'Type C'], ['Type D', 'Type D'], ['Type E', 'Type E']], { :prompt => "Please select"}, { :multiple => true } %>
+  <%= collection_select(:person, :id, Person.all, :id, :lastname, options = { :prompt => "(Select authors)", :include_blank => false }, { :multiple => true }) %>
 </div>

@@ -2,7 +2,10 @@
 
 <table>
   <tr>
-    <th>Name</th>
+    <th>Fornavn</th>
+    <th>Efternavn</th>
+    <th>Fødselsdag</th>
+    <th>Dødsdag</th>
     <th></th>
     <th></th>
     <th></th>
@@ -10,10 +13,13 @@
 
 <% @people.each do |person| %>
   <tr>
-    <td><%= person.name %></td>
-    <td><%= link_to 'Show', person %></td>
-    <td><%= link_to 'Edit', edit_person_path(person) %></td>
-    <td><%= link_to 'Destroy', person, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= person.firstname %></td>
+    <td><%= person.lastname %></td>
+    <td><%= person.date_of_birth %></td>
+    <td><%= person.date_of_death %></td>
+    <td><%= link_to 'Vis', person %></td>
+    <td><%= link_to 'Ændre', edit_person_path(person) %></td>
+    <td><%= link_to 'Tilintetgør', person, method: :delete, data: { confirm: 'Er du sikker?' } %></td>
   </tr>
 <% end %>
 </table>
