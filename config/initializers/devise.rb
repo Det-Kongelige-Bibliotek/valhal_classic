@@ -206,7 +206,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   config.omniauth :ldap,
-                  :host => 'kbs-server.kb.dk',
+                  :host => 'thor.kb.dk',
                   :base => 'DC=kb,DC=dk',
                   :uid => 'sAMAccountName',
                   :port => 389,
