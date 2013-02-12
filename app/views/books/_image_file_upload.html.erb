@@ -2,9 +2,11 @@
   <br/>
   <%= f.label :tiff_file, "TIFF Image file representations for the book" %>
   <%= f.file_field :tiff_file, :multiple => true, :id => "fileupload" %>
+  <a class="btn btn-small btn-danger" href="#" id="tiff_file_clear" title="Clear file"><i class="icon-remove"></i></a>
 </div>
 <div>
   <br/>
   <%= f.label :structmap_file, "METS Structmap file representation for the book" %>
   <%= f.file_field :structmap_file %>
+  <a class="btn btn-small btn-danger" href="#" id="structmap_file_clear" title="Clear file"><i class="icon-remove"></i></a>
 </div>
