@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //
+//= require rails.validations
+//
 // Required by Blacklight
 //= require blacklight/blacklight
 //= require_tree .

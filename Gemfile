@@ -9,11 +9,13 @@ gem 'sqlite3'
 gem 'bootswatch-rails'
 
 gem 'jquery-rails'
+gem 'client_side_validations'
 gem 'uuid', '>= 2.3.6'
 
 gem 'simplecov', :require => false, :group => :test
 gem 'simplecov-rcov'
 gem 'omniauth-ldap'
+gem 'dynamic_form'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -45,6 +47,7 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-livereload'
   gem 'guard-spork'
+  gem 'thin'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
