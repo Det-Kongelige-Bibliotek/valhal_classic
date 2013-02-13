@@ -52,7 +52,68 @@ describe Book do
     @book.physicalExtent.should == attributes_hash[:physicalExtent]
   end
 
-  after do
+  describe "get_title_for_display" do
+    it "should deliver both title and subtitle, separated with a comma, when both is present" do
+      title = "the title"
+      subtitle = "the subTitle"
+      @book.title = title
+      @book.subTitle = subtitle
+      @book.save!
+
+      @book.get_title_for_display.should == title + ", " + subtitle
+    end
+
+    it "should only deliver the title, when no subtitle is given" do
+      title = "the title"
+      subtitle = nil
+      @book.title = title
+      @book.subTitle = subtitle
+      @book.save!
+
+      @book.get_title_for_display.should == title
+    end
+  end
+
+  describe "authors" do
+    it "should not have an author, when noone has been assigned as author" do
+      @book.has_author?.should == false
+    end
+
+    it "should have an author, when a person has been assigned as author" do
+      person = Person.create(:firstname=>"fn", :lastname => "ln")
+      @book.authors << person
+
+      @book.has_author?.should == true
+    end
+  end
+
+  describe "tiff_representation" do
+    it "should not have an tiff representation, when noone has been assigned" do
+      @book.hasTiffRep?.should == false
+    end
+
+    it "should have an tiff representation, when one has been assigned" do
+      tiff = BookTiffRepresentation.create
+      @book.tif << tiff
+
+      @book.hasTiffRep?.should == true
+    end
+  end
+
+  describe "tei_representation" do
+    it "should not have an tei representation, when noone has been assigned" do
+      @book.tei_rep?.should == false
+    end
+
+    it "should have an tei representation, when one has been assigned" do
+      tei = BookTeiRepresentation.create
+      @book.tei << tei
+
+      @book.tei_rep?.should == true
+    end
+  end
+
+  after(:all) do
     Book.all.each { |book| book.delete }
     BookTeiRepresentation.all.each { |btr| btr.delete }
     BookTiffRepresentation.all.each { |btr| btr.delete }
