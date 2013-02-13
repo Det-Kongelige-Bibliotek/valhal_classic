@@ -2,10 +2,10 @@
 
 <table>
   <tr>
-    <th>Fornavn</th>
-    <th>Efternavn</th>
-    <th>Fødselsdag</th>
-    <th>Dødsdag</th>
+    <th>Forename</th>
+    <th>Lastname</th>
+    <th>Date of Birth</th>
+    <th>Date of Death</th>
     <th></th>
     <th></th>
     <th></th>
@@ -17,9 +17,9 @@
     <td><%= person.lastname %></td>
     <td><%= person.date_of_birth %></td>
     <td><%= person.date_of_death %></td>
-    <td><%= link_to 'Vis', person %></td>
-    <td><%= link_to 'Ændre', edit_person_path(person) %></td>
-    <td><%= link_to 'Tilintetgør', person, method: :delete, data: { confirm: 'Er du sikker?' } %></td>
+    <td><%= link_to 'View', person %></td>
+    <td><%= link_to 'Edit', edit_person_path(person) %></td>
+    <td><%= link_to 'Delete', person, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>

@@ -1,16 +1,16 @@
 <%= form_for person, :multipart => true, :validate => true do |f| %>
     <%= f.error_messages %>
     <div>
-      <%= f.label :firstname, "Forfatter navn" %>
+      <%= f.label :firstname, "Author name" %>
       <br/>
-      <%= f.text_field :firstname, :placeholder => "Fornavn:" %>
-      <%= f.text_field :lastname, :placeholder => "Efternavn:" %>
+      <%= f.text_field :firstname, :placeholder => "Forename:" %>
+      <%= f.text_field :lastname, :placeholder => "Lastname:" %>
     </div>
     <div>
-      <%= f.label :date_of_birth, "Fødsels/død" %>
+      <%= f.label :date_of_birth, "Date of birth/Date of death" %>
       <br/>
-      <%= f.text_field :date_of_birth, :placeholder => "Fødsel:" %>
-      <%= f.text_field :date_of_death, :placeholder => "Død:" %>
+      <%= f.text_field :date_of_birth, :placeholder => "Date of birth:" %>
+      <%= f.text_field :date_of_death, :placeholder => "Date of death:" %>
     </div>
     <br/>
     <%= f.submit %>

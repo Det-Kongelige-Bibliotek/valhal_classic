@@ -80,8 +80,8 @@ class CatalogController < ApplicationController
     # :show may be set to false if you don't want the facet to be drawn in the 
     # facet bar
     config.add_facet_field 'mime_type_t', :label => 'Format'
-    config.add_facet_field 'surname_t', :label => 'Forfatter', :sort => 'index'
-    config.add_facet_field 'mods_titleInfo_title_t', :label => 'Titel', :sort => 'index'
+    config.add_facet_field 'surname_t', :label => 'Author', :sort => 'index'
+    config.add_facet_field 'mods_titleInfo_title_t', :label => 'Title', :sort => 'index'
 
     config.add_facet_field 'example_pivot_field', :label => 'Pivot Field', :pivot => ['format', 'language_facet']
 
@@ -99,10 +99,10 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
-    config.add_index_field 'surname_t', :label => 'Efternavn:'
-    config.add_index_field 'forename_t', :label => 'Fornavn:'
-    config.add_index_field 'birth_date_t', :label => 'Fødselsdag:'
-    config.add_index_field 'death_date_t', :label => 'Død:'
+    config.add_index_field 'surname_t', :label => 'Lastname:'
+    config.add_index_field 'forename_t', :label => 'Forename:'
+    config.add_index_field 'birth_date_t', :label => 'Date of Birth:'
+    config.add_index_field 'death_date_t', :label => 'Date of Death:'
     config.add_index_field 'original_filename_t', :label => 'Name:'
     #config.add_index_field 'title_t', :label => 'Titel:'
     #config.add_index_field 'person_name_t', :label => 'Person Name:'
@@ -113,13 +113,13 @@ class CatalogController < ApplicationController
     config.add_show_field 'id', :label => 'Id:'
     config.add_show_field 'original_filename_t', :label => 'Title:'
     config.add_show_field 'mime_type_t', :label => 'Mime Type:'
-    config.add_show_field 'surname_t', :label => 'Forfatter:'
-    config.add_show_field 'forename_t', :label => 'Fornavn:'
-    config.add_show_field 'birth_date_t', :label => 'Fødselsdag:'
-    config.add_show_field 'death_date_t', :label => 'Død:'
+    config.add_show_field 'surname_t', :label => 'Author:'
+    config.add_show_field 'forename_t', :label => 'Forename:'
+    config.add_show_field 'birth_date_t', :label => 'Date of Birth:'
+    config.add_show_field 'death_date_t', :label => 'Date of Death:'
     config.add_show_field 'sample_quotation_t', :label => 'Sample quotation:'
     config.add_show_field 'sample_quotation_source_t', :label => 'Sample quotation Source:'
-    config.add_show_field 'title_t', :label => 'Titel:'
+    config.add_show_field 'title_t', :label => 'Title:'
     config.add_show_field 'person_name_t', :label => 'Person Name:'
     #config.add_show_field 'description_t', :label => 'Description:'
 

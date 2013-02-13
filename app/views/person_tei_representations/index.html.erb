@@ -3,7 +3,7 @@
 
 <table>
   <tr>
-    <th>Fornavn</th>
+    <th>Forename</th>
     <th></th>
     <th></th>
     <th></th>
@@ -14,8 +14,8 @@
     <tr>
       <td><b><%= link_to person_tei_representation.forename+ " " + person_tei_representation.surname+"  "+ person_tei_representation.date_of_birth+"-"+person_tei_representation.date_of_death,  person_tei_representation %></b></td>
       <td width=50></td>
-      <td><%= link_to 'Ændre', edit_person_tei_representation_path(person_tei_representation) %> | </td>
-      <td><%= link_to 'Tilintetgør', person_tei_representation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <td><%= link_to 'Edit', edit_person_tei_representation_path(person_tei_representation) %> | </td>
+      <td><%= link_to 'Delete', person_tei_representation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     </tr>
 
   <% end %>

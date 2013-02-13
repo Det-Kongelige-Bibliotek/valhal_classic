@@ -1,9 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <table border="0">
-  <tr><td><b>Navn</b></td><td><%= @person.name %></td></tr>
-  <tr><td><b>Fødselsdag</b></td><td><%= @person.date_of_birth %></td></tr>
-  <tr><td><b>Døds dato</b></td><td><%= @person.date_of_death %></td></tr>
+  <tr><td><b>Name</b></td><td><%= @person.name %></td></tr>
+  <tr><td><b>Date of Birth</b></td><td><%= @person.date_of_birth %></td></tr>
+  <tr><td><b>Date of Death</b></td><td><%= @person.date_of_death %></td></tr>
   <tr><td><b>UUID</b></td><td><%= @person.uuid %></td></tr>
 </table>
 
@@ -34,5 +34,5 @@
   <% end %>
 </div>
 
-<%= link_to 'Ændre', edit_person_path(@person) %> |
-<%= link_to 'Personer', people_path %>
+<%= link_to 'Edit', edit_person_path(@person) %> |
+<%= link_to 'People', people_path %>
