@@ -1,5 +1,5 @@
-<div class="alert"><%= person.errors.full_messages.join("<br>").html_safe %></div>
-<%= form_for person, :multipart => true do |f| %>
+<%= form_for person, :multipart => true, :validate => true do |f| %>
+    <%= f.error_messages %>
     <div>
       <%= f.label :firstname, "Forfatter navn" %>
       <br/>
