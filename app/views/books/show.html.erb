@@ -1,5 +1,5 @@
+<h3><%= @book.title %></h3>
 <table border="0">
-  <tr><td><b>Title</b></td><td><%= @book.title %></td></tr>
   <tr><td><b>Subtitle</b></td><td><%= @book.subTitle %></td></tr>
   <% if @book.has_author? %>
     <% @book.authors.each do |person| %>
