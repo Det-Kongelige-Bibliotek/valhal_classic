@@ -58,6 +58,16 @@ class Book < IntellectualEntity
     authors.clear
   end
 
+  # Delivers the title and subtitle in a format for displaying.
+  # Should only include the subtitle, if it has been defined.
+  def get_title_for_display
+    if subTitle == nil || subTitle.empty?
+      return title
+    else
+      return title + ", " + subTitle
+    end
+  end
+
   def authors_names_to_s
 
     unless authors.nil?
