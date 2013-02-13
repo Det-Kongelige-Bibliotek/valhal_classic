@@ -1,6 +1,14 @@
 <h1>Editing book</h1>
 <%= form_for @book, :html=>{:multipart=>true} do |f| %>
     <%= fields_for :book do |builder| %>
+        <%= render 'title_fields', :f => builder %>
+    <% end %>
+    <br/>
+    <%= fields_for :author, :html=>{:multipart=>true} do |builder| %>
+        <%= render 'add_author', :f => builder %>
+    <% end %>
+    <br/>
+    <%= fields_for :book do |builder| %>
         <%= render 'metadata_fields', :f => builder %>
     <% end %>
     <br/>
@@ -13,9 +21,6 @@
         <%= render 'image_file_upload', :f => builder %>
     <% end %>
     <br/>
-    <%= fields_for :author, :html=>{:multipart=>true} do |builder| %>
-        <%= render 'add_author', :f => builder %>
-    <% end %>
     <%= f.submit "Update" %>
 <% end %>
 <% #= render 'form' %>

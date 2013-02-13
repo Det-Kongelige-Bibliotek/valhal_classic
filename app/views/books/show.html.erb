@@ -1,6 +1,14 @@
 <table border="0">
   <tr><td><b>Title</b></td><td><%= @book.title %></td></tr>
   <tr><td><b>Subtitle</b></td><td><%= @book.subTitle %></td></tr>
+  <% if @book.has_author? %>
+    <% @book.authors.each do |person| %>
+          <tr><td><b>Author</b></td><td><%= link_to person.name, person_path(person) %></td></tr>
+    <% end %>
+  <% else %>
+     <tr><td><b>Author</b></td><td><p>No author defined for this book.</p></td></tr>
+  <% end %>
+
   <tr><td><b>ISBN</b></td><td><%= @book.isbn %></td></tr>
   <tr><td><b>Genre</b></td><td><%= @book.genre %></td></tr>
   <tr><td><b>Shelf Locator</b></td><td><%= @book.shelfLocator %></td></tr>
@@ -39,18 +47,6 @@
     <p>No TIFF representations for this book.</p>
 <% end %>
 <hr/>
-<div>
-<% if @book.has_author? %>
-    <p><b>Authors</b></p>
-    <ul>
-      <% @book.authors.each do |person| %>
-        <li><%= link_to person.name, person_path(person) %></li>
-      <% end %>
-    </ul>
-<% else %>
-    <p>No author defined for this book.</p>
-<% end %>
-</div>
 
 <br/>
 
