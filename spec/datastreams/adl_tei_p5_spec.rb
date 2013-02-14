@@ -9,7 +9,6 @@ describe Datastreams::AdlTeiP5 do
   end
 
   it "should have one person" do
-    puts subject.TEI.teiHeader.profileDesc.particDesc.listPerson.person.length
     subject.TEI.teiHeader.profileDesc.particDesc.listPerson.person.length.should == 1
   end
 

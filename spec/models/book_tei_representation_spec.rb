@@ -33,14 +33,13 @@ describe BookTeiRepresentation do
     subject.book.should be_kind_of Book
   end
 
-  it "should be able to retrive the content of the file" do
+  it "should be able to retrieve the content of the file" do
     book_tei_rep = BookTeiRepresentation.new
     book_tei_rep.save!
     file = create_basic_file(book_tei_rep)
     book_tei_rep.files << file
     book_tei_rep.save
     btr = BookTeiRepresentation.find(book_tei_rep.pid)
-    puts btr.files.inspect
     btr.files.first.should == file
   end
 
