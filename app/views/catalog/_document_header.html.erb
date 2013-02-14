@@ -13,6 +13,4 @@
         <a href="<%= "/#{document["active_fedora_model_s"].first.pluralize.to_s.downcase}/#{document.id.to_s}" %>"><%=document[document_show_link_field] %></a>
       <% end %>
     </h5>
-    <% # bookmark functions for items/docs -%>
-    <%= render_index_doc_actions document, :wrapping_class => "documentFunctions span2" %>
 </div>
