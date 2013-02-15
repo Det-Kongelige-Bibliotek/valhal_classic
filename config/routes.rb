@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 ADL::Application.routes.draw do
   get "view_file/show"
+  get "people/show_image"
 
   root :to => "catalog#index"
 

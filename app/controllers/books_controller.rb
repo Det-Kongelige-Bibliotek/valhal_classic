@@ -48,7 +48,7 @@ class BooksController < ApplicationController
           params[:file][:tiff_file].each do |f|
             tiff_file = BasicFile.new
             tiff_file.add_file(f)
-            puts f.original_filename
+            logger.debug f.original_filename
             tiff_file.container = tiff
             tiff_file.save!
             tiff.files << tiff_file

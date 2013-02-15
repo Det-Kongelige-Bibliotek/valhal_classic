@@ -23,6 +23,7 @@ class Person < IntellectualEntity
   # TODO find better relationship property.
   # Relationship to TEI representations.
   has_many :tei, :class_name => 'PersonTeiRepresentation', :property=>:is_representation_of
+  has_many :person_image_representation, :class_name => 'PersonImageRepresentation', :property=>:is_representation_of
 
   # Author relationship to books.
   # A book can be authored by more than one person, and a person can author more than one book.
