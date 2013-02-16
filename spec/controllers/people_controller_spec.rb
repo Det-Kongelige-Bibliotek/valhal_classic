@@ -79,14 +79,14 @@ describe PeopleController do
       it "assigns a newly created but unsaved person as @person" do
         # Trigger the behavior that occurs when invalid params are submitted
         Person.any_instance.stub(:save).and_return(false)
-        post :create, {:person => {  }}, valid_session
+        post :create, {:person => {firstname: 'firstname', lastname: 'lastname'}}, valid_session
         assigns(:person).should be_a_new(Person)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Person.any_instance.stub(:save).and_return(false)
-        post :create, {:person => {  }}, valid_session
+        post :create, {:person => {firstname: 'firstname', lastname: 'lastname'  }}, valid_session
         response.should render_template("new")
       end
     end
