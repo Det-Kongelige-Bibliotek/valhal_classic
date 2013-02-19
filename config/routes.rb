@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 ADL::Application.routes.draw do
   get "view_file/show"
-  get "people/show_image"
 
   root :to => "catalog#index"
 
@@ -16,9 +15,17 @@ ADL::Application.routes.draw do
   #Standard resource mapping
   resources :upload
   resources :book_tei_representations
-  resources :book_tiff_representations
+  resources :book_tiff_representations do
+    member do
+      get 'show_all'
+    end
+  end
   resources :person_tei_representations
-  resources :people
+  resources :people do
+    member do
+      get 'show_image'
+    end
+  end
   resources :books
   #resources :view_file
 end
