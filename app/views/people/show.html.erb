@@ -3,7 +3,7 @@
   <tr><td><b>Date of Birth</b></td><td><%= @person.date_of_birth %></td></tr>
   <tr><td><b>Date of Death</b></td><td><%= @person.date_of_death %></td></tr>
   <tr><td><b>UUID</b></td><td><%= @person.uuid %></td></tr>
-  <%= image_tag url_for(show_image_person_path @person.pid) %>
+  <%= image_tag url_for(show_image_person_path @person.pid), :alt => ""  %>
 </table>
 
 <hr/>
