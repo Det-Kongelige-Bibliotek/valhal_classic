@@ -22,7 +22,7 @@ class BookTeiRepresentationsController < ApplicationController
 
     if @book_tei_representation.save
       file = BasicFile.new
-      if file.add_file(params[:file][:tei_file])
+      if params[:file] && file.add_file(params[:file][:tei_file])
         file.container = @book_tei_representation
         file.save
         @book_tei_representation.files << file
