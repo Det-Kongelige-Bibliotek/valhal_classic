@@ -29,7 +29,7 @@
     <p><b>TEI representations:</b></p>
     <ul>
     <% @book.tei.each do |t| %>
-      <li><%= link_to t.pid, book_tei_representation_path(t) %></li>
+      <li><%= link_to t.label + " (" + t.pid + ")", book_tei_representation_path(t) %></li>
     <% end %>
     </ul>
 <% else %>
@@ -40,7 +40,7 @@
     <p><b>TIFF representations:</b></p>
     <ul>
     <% @book.tif.each do |t| %>
-      <li><%= link_to t.pid, book_tiff_representation_path(t) %></li>
+      <li><%= link_to t.label + " (" + t.pid + ")", book_tiff_representation_path(t) %></li>
     <% end %>
     </ul>
 <% else %>

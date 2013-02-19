@@ -42,7 +42,7 @@ class BooksController < ApplicationController
         #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
         if !params[:file][:tiff_file].blank?
           logger.debug "Creating a tiff representation"
-          tiff = BookTiffRepresentation.new
+          tiff = BookTiffRepresentation.new(params[:tiff])
           tiff.save!
 
           params[:file][:tiff_file].each do |f|
@@ -118,7 +118,7 @@ class BooksController < ApplicationController
         #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
         if !params[:file][:tiff_file].blank?
           logger.debug "Creating a tiff representation"
-          tiff = BookTiffRepresentation.new
+          tiff = BookTiffRepresentation.new(params[:tiff])
           tiff.save!
 
           params[:file][:tiff_file].each do |f|

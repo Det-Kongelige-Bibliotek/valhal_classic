@@ -12,7 +12,7 @@
   <% if @person.tei_rep? %>
       <ul>
         <% @person.tei.each do |tei| %>
-            <li><%= link_to tei.to_s + " (" + tei.pid + ")", person_tei_representation_path(tei) %></li>
+            <li><%= link_to tei.label + " (" + tei.pid + ")", person_tei_representation_path(tei) %></li>
         <% end %>
       </ul>
   <% else %>

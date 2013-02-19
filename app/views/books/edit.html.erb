@@ -14,7 +14,7 @@
     <br/>
     <%= fields_for :file, :html=>{:multipart=>true} do |builder| %>
         <%= render 'tei_file_upload', :f => builder %>
-        <%= render 'image_file_upload', :f => builder %>
+        <%= render 'tiff_file_upload', :f => builder %>
     <% end %>
     <br/>
     <%= f.submit "Update" %>

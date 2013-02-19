@@ -5,6 +5,7 @@
   <a class="btn btn-small btn-danger" href="#" id="tei_file_clear" title="Clear file"><i class="icon-remove"></i></a>
 
   <%= fields_for :tei do |builder| %>
-      <%= render 'tei_metadata_fields', :f => builder %>
-  <% end %>
+      <%= builder.text_field :tei_version, :placeholder => "TEI version" %>
+      <%= builder.text_field :label, :placeholder => "Label" %>
+<% end %>
 </div>

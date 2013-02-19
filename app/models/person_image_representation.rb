@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class PersonImageRepresentation < ActiveFedora::Base
+class PersonImageRepresentation < Representation
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name => 'descMetadata', :type => ActiveFedora::SimpleDatastream
   has_metadata :name => 'provMetadata', :type => ActiveFedora::SimpleDatastream
