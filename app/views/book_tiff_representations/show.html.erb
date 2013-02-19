@@ -26,6 +26,16 @@
     <hr/>
 <%- end %>
 
+<% if @book_tiff_representation.has_book? %>
+    <p><b>Book:</b>
+      <%= link_to @book_tiff_representation.book.title + " (" + @book_tiff_representation.book.pid + ")", book_path(@book_tiff_representation.book) %>
+    </p>
+<% else %>
+    <p>No book represented by this.</p>
+<% end %>
+
+<br/>
+
 <%= link_to 'Edit', edit_book_tiff_representation_path(@book_tiff_representation) %> |
 <%= link_to 'Book TIFF Representations', book_tiff_representations_path %> |
 <%= link_to 'Books', books_path %>

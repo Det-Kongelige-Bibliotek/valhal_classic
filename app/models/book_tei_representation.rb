@@ -13,6 +13,7 @@ class BookTeiRepresentation < Representation
   has_many :files, :class_name => 'BasicFile', :property => :is_part_of
   belongs_to :book, :class_name=>'Book', :property => :is_representation_of
 
+  # Whether any intellectual book is represented by this TEI representation
   def has_book?
     return book
   end
