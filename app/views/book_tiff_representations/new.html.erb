@@ -1,13 +1,15 @@
 <h1>New book tiff representation</h1>
 
-<%= form_tag({:action => :create}, :multipart => true) do %>
-    <p>
-      <label for="upload">Select File: </label>
-      <%= file_field_tag 'file_data' %>
-      <a class="btn btn-small btn-danger" href="#" id="clear" title="Clear file"><i class="icon-remove"></i></a>
-    </p>
-
-    <%= submit_tag "Upload" %>
+<%= form_for @book_tiff_representation, :html=>{:multipart=>true} do |f| %>
+    <%= fields_for :book_tiff_representation do |builder| %>
+        <%= render 'tiff_metadata_fields', :f => builder %>
+    <% end %>
+    <br/>
+    <%= fields_for :file, :html=>{:multipart=>true} do |builder| %>
+        <%= render 'tiff_file_upload', :f => builder %>
+    <% end %>
+    <br/>
+    <%= f.submit "Create" %>
 <% end %>
 
 <%= link_to 'Book TIFF Representations', book_tiff_representations_path %>

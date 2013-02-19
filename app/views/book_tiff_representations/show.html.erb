@@ -1,4 +1,11 @@
-<h3>Book TIFF Representation</h3>
+<h3>Book TIFF Representation: <%= @book_tiff_representation.label %></h3>
+
+<table border="0">
+  <tr><td><b>Label</b></td><td><%= @book_tiff_representation.label %></td></tr>
+</table>
+
+<hr/>
+
 <p>Filer tilknyttet: <%= @book_tiff_representation.files.count %></p>
 <%- @book_tiff_representation.files.each do |file| %>
     <% # TODO fix the following %>

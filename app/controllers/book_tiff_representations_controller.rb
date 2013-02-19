@@ -22,7 +22,7 @@ class BookTiffRepresentationsController < ApplicationController
 
     if @book_tiff_representation.save
       file = BasicFile.new
-      if file.add_file(params[:file_data])
+      if file.add_file(params[:file][:tiff_file])
         file.container = @book_tiff_representation
         file.save
         @book_tiff_representation.files << file
