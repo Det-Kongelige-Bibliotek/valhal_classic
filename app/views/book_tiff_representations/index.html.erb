@@ -7,7 +7,7 @@
     <td><%= book_tiff_representation.files.first.original_filename unless book_tiff_representation.files.empty? %></td>
     <td><%= link_to 'Show', book_tiff_representation %></td>
     <td><%= link_to 'Edit', edit_book_tiff_representation_path(book_tiff_representation) %></td>
-    <td><%= link_to 'Destroy', book_tiff_representation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Delete', book_tiff_representation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
