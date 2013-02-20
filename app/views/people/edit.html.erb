@@ -1,6 +1,20 @@
 <h1>Editing person</h1>
 
-<%= render :partial => "form", :locals => { :person => @person } %>
+<%= form_for @person, :html=>{:multipart=>true} do |f| %>
+    <%= fields_for :person do |builder| %>
+        <%= render 'metadata_fields', :f => builder %>
+    <% end %>
+    <br/>
+    <%= fields_for :portrait, :html=>{:multipart=>true} do |builder| %>
+        <%= render 'portrait_upload', :f => builder %>
+    <% end %>
+    <br/>
+    <%= fields_for :tei, :html=>{:multipart=>true} do |builder| %>
+        <%= render 'tei_file_upload', :f => builder %>
+    <% end %>
+    <br/>
+    <%= f.submit "Update" %>
+<% end %>
 
 <%= link_to 'Show', @person %> |
 <%= link_to 'Back', people_path %>

@@ -32,6 +32,19 @@
       <p>No books authored by this person.</p>
   <% end %>
 </div>
+<hr/>
+<div>
+  <p><b>Images of person</b></p>
+  <% if @person.has_portrait? %>
+      <ul>
+        <% @person.person_image_representation.each do |portrait| %>
+            <li><%= link_to portrait.label + "(" + portrait.pid + ")", url_for(image_url_person_path :pid => portrait.pid) %></li>
+        <% end %>
+      </ul>
+  <% else %>
+      <p>No books authored by this person.</p>
+  <% end %>
+</div>
 
 <%= link_to 'Edit', edit_person_path(@person) %> |
 <%= link_to 'People', people_path %>

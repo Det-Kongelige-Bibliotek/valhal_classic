@@ -1,7 +1,7 @@
 <h3>Person TEI Representation</h3>
 <p id="notice"><%= notice %></p>
 
-<h2><b></b><%= "#{@person_tei_representation.forename} #{@person_tei_representation.surname}" %></b></h2>
+<h2><b><%= "#{@person_tei_representation.forename} #{@person_tei_representation.surname}" %></b></h2>
 
 <div>
   <%= @person_tei_representation.date_of_birth %> - <%= @person_tei_representation.date_of_death %>
@@ -22,4 +22,5 @@
 </div>
 
 <%= link_to 'Edit', edit_person_tei_representation_path(@person_tei_representation) %> |
-<%= link_to 'Back', person_tei_representations_path %>
+<%= link_to 'Person TEI Representation', person_tei_representations_path %> |
+<%= link_to 'People', people_path %>

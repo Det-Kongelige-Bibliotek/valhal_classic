@@ -39,6 +39,11 @@ class Person < IntellectualEntity
     return authored_books.any?
   end
 
+  # Determines whether any portrait images has been defined for this person.
+  def has_portrait?
+    return person_image_representation.any?
+  end
+
   def name
     return firstname.to_s + " " + lastname.to_s
   end

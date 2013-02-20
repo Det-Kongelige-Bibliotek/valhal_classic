@@ -18,7 +18,7 @@
     :has_author: hasMember
     :has_representation_of: hasSubset
     :is_author_of: isMemberOf
-    :is_representation_of: isSubset
+    :is_representation_of: isSubsetOf
   info:fedora/fedora-system:def/relations-external#:
     :conforms_to: conformsTo
     :has_annotation: hasAnnotation

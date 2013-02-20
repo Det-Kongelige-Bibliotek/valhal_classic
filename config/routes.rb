@@ -24,6 +24,7 @@ ADL::Application.routes.draw do
   resources :people do
     member do
       get 'show_image'
+      get 'image_url'
     end
   end
   resources :books
