@@ -208,7 +208,7 @@ describe "The basic relationships" do
         bt.save!
 
         bt.relationships(:is_part_of).should == [hm.internal_uri]
-        hm.relationships(:is_part_of).should == [bt.internal_uri]
+        hm.relationships(:has_part).should == [bt.internal_uri]
       end
 
       it "should be possible to save the relationship on the 'has_many' object" do
@@ -239,7 +239,7 @@ describe "The basic relationships" do
         hm.bt << bt
         hm.save!
 
-        hm.relationships(:is_part_of).should == [bt.internal_uri]
+        hm.relationships(:has_part).should == [bt.internal_uri]
       end
 
       it "should the relationship be defined only at the 'has_many' entity, when given to the 'has_many' object" do
@@ -262,7 +262,7 @@ describe "The basic relationships" do
         hm.save!
 
         bt.relationships(:is_part_of).should == [hm.internal_uri]
-        hm.relationships(:is_part_of).should == [bt.internal_uri]
+        hm.relationships(:has_part).should == [bt.internal_uri]
       end
 
       after(:each) do
@@ -339,7 +339,7 @@ describe "The basic relationships" do
         bt.save!
 
         bt.relationships(:is_part_of).should == [hm.internal_uri]
-        hm.relationships(:is_part_of).should == [bt.internal_uri]
+        hm.relationships(:has_part).should == [bt.internal_uri]
       end
 
       it "should be possible to save the relationship on the 'has_many' object" do
@@ -370,7 +370,7 @@ describe "The basic relationships" do
         hm.bt << bt
         hm.save!
 
-        hm.relationships(:is_part_of).should == [bt.internal_uri]
+        hm.relationships(:has_part).should == [bt.internal_uri]
       end
 
       it "should the relationship be defined at both entities, when given to the 'has_many' object" do
@@ -394,7 +394,7 @@ describe "The basic relationships" do
         hm.save!
 
         bt.relationships(:is_part_of).should == [hm.internal_uri]
-        hm.relationships(:is_part_of).should == [bt.internal_uri]
+        hm.relationships(:has_part).should == [bt.internal_uri]
       end
 
       after(:each) do
@@ -524,14 +524,13 @@ describe "The basic relationships" do
       end
 
       it "should be possible to find the related object on one object through the relationship predicate using the internal uri" do
-        pending "Apparently the relationship is not defined at both entities."
         hab1 = Habtm1.create
         hab2 = Habtm2.create
 
         hab1.other = [hab2]
         hab1.save!
 
-        hab1.relationships(:is_part_of).should == [hab2.internal_uri]
+        hab1.relationships(:has_part).should == [hab2.internal_uri]
       end
 
       it "should the relationship be defined at both entities, when given only to one object" do
@@ -554,7 +553,7 @@ describe "The basic relationships" do
         hab1.other = [hab2]
         hab1.save!
 
-        hab1.relationships(:is_part_of).should == [hab2.internal_uri]
+        hab1.relationships(:has_part).should == [hab2.internal_uri]
         hab2.relationships(:is_part_of).should == [hab1.internal_uri]
       end
 
@@ -602,14 +601,13 @@ describe "The basic relationships" do
       end
 
       it "should be possible to find the related object on one object through the relationship predicate using the internal uri" do
-        pending "Apparently the relationship is not defined at both entities."
         hab1 = Habtm1.create
         hab2 = Habtm2.create
 
         hab1.other = [hab2]
         hab1.save!
 
-        hab1.relationships(:is_part_of).should == [hab2.internal_uri]
+        hab1.relationships(:has_part).should == [hab2.internal_uri]
       end
 
       it "should the relationship be defined at both entities, when given only to one object" do
@@ -624,14 +622,13 @@ describe "The basic relationships" do
       end
 
       it "should the relationship be expressed through the predicates of both entities, when given to only one object" do
-        pending "Apparently the relationship is not defined at both entities."
         hab1 = Habtm1.create
         hab2 = Habtm2.create
 
         hab1.other = [hab2]
         hab1.save!
 
-        hab1.relationships(:is_part_of).should == [hab2.internal_uri]
+        hab1.relationships(:has_part).should == [hab2.internal_uri]
         hab2.relationships(:is_part_of).should == [hab1.internal_uri]
       end
 
