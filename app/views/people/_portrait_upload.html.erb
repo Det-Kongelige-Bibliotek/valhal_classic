@@ -1,0 +1,10 @@
+<div>
+  <br/>
+  <%= f.label :portrait_file, "Portrait of the person" %>
+  <%= f.file_field :portrait_file %>
+  <a class="btn btn-small btn-danger" href="#" id="portrait_file_clear" title="Clear file"><i class="icon-remove"></i></a>
+
+  <%= fields_for :portrait_metadata do |builder| %>
+      <%= builder.text_field :label, :placeholder => "Label" %>
+  <% end %>
+</div>
