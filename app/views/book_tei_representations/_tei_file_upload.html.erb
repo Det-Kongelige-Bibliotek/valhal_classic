@@ -1,5 +1,5 @@
 <div>
   <%= f.label :tei_file, "TEI File Representation" %>
-  <%= f.file_field :tei_file %>
+  <%= f.file_field :tei_file, :accept => 'text/xml' %>
   <a class="btn btn-small btn-danger" href="#" id="tei_file_clear" title="Clear file"><i class="icon-remove"></i></a>
 </div>

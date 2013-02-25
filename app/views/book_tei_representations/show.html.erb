@@ -7,7 +7,7 @@
 
 <hr/>
 
-<p>Filer tilknyttet: <%= @book_tei_representation.files.count %></p>
+<p>Number of files: <%= @book_tei_representation.files.count %></p>
 <%- @book_tei_representation.files.each do |file| %>
     <% # TODO fix the following %>
     File Name: <%= file.nil? ? "No file" : file.original_filename %>

@@ -1,5 +1,6 @@
 <h1>New book</h1>
 <%= form_for @book, :html=>{:multipart=>true} do |f| %>
+    <%= f.error_messages %>
     <%= fields_for :book do |builder| %>
         <%= render 'title_fields', :f => builder %>
     <% end %>

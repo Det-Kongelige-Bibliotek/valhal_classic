@@ -1,5 +1,8 @@
 # -*- encoding : utf-8 -*-
 class BookTiffRepresentation < Representation
+  include ActiveModel::Validations
+  validates_with TiffFileValidator
+
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name => 'descMetadata', :type => ActiveFedora::SimpleDatastream
   has_metadata :name => 'provMetadata', :type => ActiveFedora::SimpleDatastream
@@ -11,4 +14,10 @@ class BookTiffRepresentation < Representation
   def has_book?
     return book
   end
+
+  #def file_type_is_tiff
+  #  if :files.size > 0
+  #
+  #  end
+  #end
 end
