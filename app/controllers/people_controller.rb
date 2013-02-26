@@ -27,52 +27,46 @@ class PeopleController < ApplicationController
 
   def create
 
+    #Validate form params
     logger.debug 'Validating parameters...'
     if (!params[:portrait].blank? && !params[:portrait][:portrait_file].blank?)  && (!params[:portrait][:portrait_file].content_type.start_with? "image/")
       logger.error "Invalid file type uploaded: " + params[:portrait][:portrait_file].content_type.to_s
       @person.errors.add(:portrait_file, " - You tried to upload a non-image file, please select a valid image file")
       render action: "new"
+      return
     end
-    logger.debug 'Validation successful'
+    logger.debug 'Validation finished'
 
-    logger.debug 'Entered the create logic...'
+    #create a person object
     @person = Person.new(params[:person])
-    logger.debug 'Create new person successfully'
+    logger.debug 'Created new person successfully'
 
+    #if there is an image file do all the image creation and add them to the person
+    if (!params[:portrait].blank?) && (params[:portrait][:portrait_file].content_type.start_with? "image/")
+      logger.debug "Valid image file uploaded, creating image related objects"
+      person_image_representation = PersonImageRepresentation.new
+      person_image_representation.save!
+
+      person_image_file = BasicFile.new
+      person_image_file.add_file(params[:portrait][:portrait_file])
+      person_image_file.container = person_image_representation
+      person_image_file.save!
+      person_image_representation.person_image_files << person_image_file
+
+      person_image_representation.person = @person
+      person_image_representation.save!
+
+      @person.person_image_representation << person_image_representation
+    end
+    #finally save the person
+    logger.debug '@person.errors.size = ' + @person.errors.size.to_s
     if @person.save!
       logger.debug 'Saved new person successfully'
-      if (!params[:portrait].blank?) && (params[:portrait][:portrait_file].blank?)
-        redirect_to @person, notice: 'Person was successfully created.'
-      else
-        #validate the file mime type
-        logger.debug 'Person image file not blank, validating file...'
-        if (!params[:portrait].blank?) && (params[:portrait][:portrait_file].content_type.start_with? "image/")
-          logger.debug "Valid image file uploaded, creating image related objects"
-          person_image_representation = PersonImageRepresentation.new
-          person_image_representation.save!
-
-          person_image_file = BasicFile.new
-          person_image_file.add_file(params[:portrait][:portrait_file])
-          person_image_file.container = person_image_representation
-          person_image_file.save!
-          person_image_representation.person_image_files << person_image_file
-
-          person_image_representation.person = @person
-          person_image_representation.save!
-
-          @person.person_image_representation << person_image_representation
-
-          if @person.save!
-            redirect_to @person, notice: 'Person was successfully created.'
-          else
-            render action: "new"
-          end
-        else
-          redirect_to @person, notice: 'Person was successfully created.'
-        end
-      end
+      redirect_to @person, notice: 'Person was successfully created.'
+      return
     else
       render action: "new"
+      return
     end
   end
 
