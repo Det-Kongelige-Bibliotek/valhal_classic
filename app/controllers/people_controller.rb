@@ -46,6 +46,7 @@ class PeopleController < ApplicationController
 
   def create
 
+    #validate the parameters posted
     validate_person(params)
     if @person.errors.size > 0
       logger.debug "#{@person.errors.size.to_s} Validation errors found, returning to form"
@@ -88,6 +89,15 @@ class PeopleController < ApplicationController
   end
 
   def update
+
+    #validate the parameters posted
+    validate_person(params)
+    if @person.errors.size > 0
+      logger.debug "#{@person.errors.size.to_s} Validation errors found, returning to form"
+      render action: "edit"
+      return
+    end
+
     @person = Person.find(params[:id])
 
     if @person.update_attributes(params[:person])
