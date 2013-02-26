@@ -37,8 +37,9 @@ class PeopleController < ApplicationController
     end
     logger.debug 'Validation finished'
 
-    #create a person object
+    #create a person object and save it so component parts can be linked to it
     @person = Person.new(params[:person])
+    @person.save
     logger.debug 'Created new person successfully'
 
     #if there is an image file do all the image creation and add them to the person
@@ -58,7 +59,7 @@ class PeopleController < ApplicationController
 
       @person.person_image_representation << person_image_representation
     end
-    #finally save the person
+    #finally save the person again
     logger.debug '@person.errors.size = ' + @person.errors.size.to_s
     if @person.save!
       logger.debug 'Saved new person successfully'
