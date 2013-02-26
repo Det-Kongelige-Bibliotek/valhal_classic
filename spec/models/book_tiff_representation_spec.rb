@@ -70,20 +70,6 @@ describe BookTiffRepresentation do
     end
   end
 
-  describe "#validate" do
-    before do
-      @bfr = BookTiffRepresentation.new()
-      @basic_file = create_basic_file(subject)
-      @bfr.files << @basic_file
-    end
-
-    it "should not be valid because the mime type is incorrect" do
-      @bfr.validates_tiff_file_type(@bfr.files)
-      @bfr.should have(1).error_on(:files)
-    end
-
-  end
-
   after do
     Book.all.each { |book| book.delete }
     BookTiffRepresentation.all.each { |btr| btr.delete }
