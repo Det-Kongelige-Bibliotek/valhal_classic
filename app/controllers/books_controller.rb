@@ -125,6 +125,13 @@ class BooksController < ApplicationController
   def update
     @book = Book.find(params[:id])
 
+    validate_book(params)
+    if @book.errors.size > 0
+      logger.debug "#{@book.errors.size.to_s} Validation errors found, returning to form"
+      render action: "edit"
+      return
+    end
+
     if @book.update_attributes(params[:book])
       if !params[:file].blank? && !params[:file][:tei_file].blank? || !params[:file].blank? && !params[:file][:tiff_file].blank?
 
