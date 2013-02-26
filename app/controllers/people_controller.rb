@@ -11,9 +11,18 @@ class PeopleController < ApplicationController
 
   def show_image
     @person = Person.find(params[:id])
-    image_content = @person.person_image_representation.last.person_image_files.last.content.content
-    original_filename = @person.person_image_representation.last.person_image_files.last.original_filename
-    mime_type = @person.person_image_representation.last.person_image_files.last.mime_type
+    image_url(@person.person_image_representation.last.pid)
+  end
+
+  def image_url(pid = nil)
+    if pid.nil?
+      pid = params[:pid]
+    end
+    person_image_representation = PersonImageRepresentation.find(pid)
+
+    image_content = person_image_representation.person_image_files.last.content.content
+    original_filename = person_image_representation.person_image_files.last.original_filename
+    mime_type = person_image_representation.person_image_files.last.mime_type
     send_data(image_content, {:filename => original_filename, :type => mime_type, :disposition => 'inline'})
   end
 
