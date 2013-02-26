@@ -34,17 +34,24 @@ class PeopleController < ApplicationController
     @person = Person.find(params[:id])
   end
 
-  def create
-
+  def validate_person(params)
     #Validate form params
     logger.debug 'Validating parameters...'
     if (!params[:portrait].blank? && !params[:portrait][:portrait_file].blank?)  && (!params[:portrait][:portrait_file].content_type.start_with? "image/")
       logger.error "Invalid file type uploaded: " + params[:portrait][:portrait_file].content_type.to_s
       @person.errors.add(:portrait_file, " - You tried to upload a non-image file, please select a valid image file")
+    end
+    logger.debug 'Validation finished'
+  end
+
+  def create
+
+    validate_person(params)
+    if @person.errors.size > 0
+      logger.debug "#{@person.errors.size.to_s} Validation errors found, returning to form"
       render action: "new"
       return
     end
-    logger.debug 'Validation finished'
 
     #create a person object and save it so component parts can be linked to it
     @person = Person.new(params[:person])
