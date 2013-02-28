@@ -113,6 +113,57 @@ describe Book do
     end
   end
 
+  #For the tests involving ISBNs you need to make sure the ISBNs are unique, otherwise the Book will fail to save as it
+  #will be invalid, unless you are testing for duplicate ISBNs deliberately
+  describe "validation" do
+
+    it "does not accept books without titles" do
+      book_with_no_title = Book.new
+      book_with_no_title.valid?.should be_false
+    end
+
+    it "accepts books with titles" do
+      book_with_title = Book.new(:title => "The Brothers Karamazov")
+      book_with_title.valid?.should be_true
+    end
+
+    it "does not accept non-numeric values for ISBN" do
+      @book.isbn = "xyz12312xyz"
+      @book.valid?.should be_false
+    end
+
+    it "accepts numeric values for ISBN" do
+      book = Book.new(:title => "XYZ", :isbn => 9788175257662)
+      book.valid?.should be_true
+    end
+
+    it "accepts blank ISBNs" do
+      book = Book.new(:title => "Howard's End")
+      book.valid?.should be_true
+    end
+
+    it "does allow creation of two books one with an ISBN and one without" do
+
+      book1 = Book.new(:title => "København Blues", :isbn => 9788175237665)
+      book2 = Book.new(:title => "Belfast Blues")
+      book2.valid?.should be_true
+    end
+
+    it "does not allow creation of two books with the same ISBN" do
+      first_book = Book.new(:title => "Java in a Nutshell", :isbn => 9788175257665)
+      first_book.save!
+      duplicate_book = Book.new(:title => "MITRE", :isbn => 9788175257665)
+      expect { duplicate_book.save! }.to raise_error(ActiveFedora::RecordInvalid, /Isbn cannot be duplicated/)
+    end
+
+    it "does allow creation of two books with different ISBNs" do
+      first_book = Book.new(:title => "Java in a Nutshell", :isbn => 9788175257661)
+      first_book.save!
+      duplicate_book = Book.new(:title => "MITRE", :isbn => 9788175257666)
+      expect { duplicate_book.save! }.to_not raise_error(ActiveFedora::RecordInvalid, /Isbn cannot be duplicated/)
+    end
+  end
+
   after(:all) do
     Book.all.each { |book| book.delete }
     BookTeiRepresentation.all.each { |btr| btr.delete }

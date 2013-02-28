@@ -45,7 +45,11 @@ describe BooksController do
 
   describe "GET index" do
     it "assigns all books as @books" do
-      book = Book.create! valid_attributes
+      book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504073",
+                          :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                          :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                          :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                          :subjectTopic => "N8217.H68", :physicalExtent => "510")
       get :index, {}, valid_session
       assigns(:books).should include book
     end
@@ -53,7 +57,11 @@ describe BooksController do
 
   describe "GET show" do
     it "assigns the requested book as @book" do
-      book = Book.create! valid_attributes
+      book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504074",
+                          :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                          :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                          :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                          :subjectTopic => "N8217.H68", :physicalExtent => "510")
       get :show, {:id => book.to_param}, valid_session
       assigns(:book).should eq(book)
     end
@@ -68,7 +76,11 @@ describe BooksController do
 
   describe "GET edit" do
     it "assigns the requested book as @book" do
-      book = Book.create! valid_attributes
+      book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504075",
+                          :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                          :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                          :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                          :subjectTopic => "N8217.H68", :physicalExtent => "510")
       get :edit, {:id => book.to_param}, valid_session
       assigns(:book).should eq(book)
     end
@@ -77,19 +89,34 @@ describe BooksController do
   describe "POST create" do
     describe "with valid params" do
       it "creates a new Book" do
+        attributes = { :genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "7787504073",
+                       :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                       :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                       :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                       :subjectTopic => "N8217.H68", :physicalExtent => "510"}
         expect {
-          post :create, {:book => valid_attributes}, valid_session
+          post :create, {:book => attributes}, valid_session
         }.to change(Book, :count).by(1)
       end
 
       it "assigns a newly created book as @book" do
-        post :create, {:book => valid_attributes}, valid_session
+        attributes = { :genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "7747504073",
+                       :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                       :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                       :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                       :subjectTopic => "N8217.H68", :physicalExtent => "510"}
+        post :create, {:book => attributes}, valid_session
         assigns(:book).should be_a(Book)
         assigns(:book).should be_persisted
       end
 
       it "redirects to the created book" do
-        post :create, {:book => valid_attributes}, valid_session
+        attributes = { :genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "4787504073",
+                       :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                       :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                       :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                       :subjectTopic => "N8217.H68", :physicalExtent => "510"}
+        post :create, {:book => attributes}, valid_session
         response.should redirect_to(Book.all.last)
       end
     end
@@ -98,7 +125,7 @@ describe BooksController do
       it "assigns a newly created but unsaved book as @book" do
         # Trigger the behavior that occurs when invalid params are submitted
         Book.any_instance.stub(:save).and_return(false)
-        post :create, {:book => {  }}, valid_session
+        post :create, {:book => {:title => "Samlede Skrifter", :isbn => "2227504073" }}, valid_session
         assigns(:book).should be_a_new(Book)
       end
 
@@ -114,7 +141,11 @@ describe BooksController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested book" do
-        book = Book.create! valid_attributes
+        book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504076",
+                            :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                            :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                            :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                            :subjectTopic => "N8217.H68", :physicalExtent => "510")
         # Assuming there are no other books in the database, this
         # specifies that the Book created on the previous line
         # receives the :update_attributes message with whatever params are
@@ -124,21 +155,43 @@ describe BooksController do
       end
 
       it "assigns the requested book as @book" do
-        book = Book.create! valid_attributes
-        put :update, {:id => book.to_param, :book => valid_attributes}, valid_session
+        book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504077",
+                            :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                            :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                            :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                            :subjectTopic => "N8217.H68", :physicalExtent => "510")
+        attributes = { :genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "4780004073",
+                       :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                       :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                       :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                       :subjectTopic => "N8217.H68", :physicalExtent => "510"}
+        put :update, {:id => book.to_param, :book => attributes}, valid_session
         assigns(:book).should eq(book)
       end
 
       it "redirects to the book" do
-        book = Book.create! valid_attributes
-        put :update, {:id => book.to_param, :book => valid_attributes}, valid_session
+        book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504078",
+                            :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                            :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                            :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                            :subjectTopic => "N8217.H68", :physicalExtent => "510")
+        attributes = { :genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "4345504073",
+                       :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                       :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                       :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                       :subjectTopic => "N8217.H68", :physicalExtent => "510"}
+        put :update, {:id => book.to_param, :book => attributes}, valid_session
         response.should redirect_to(book)
       end
     end
 
     describe "with invalid params" do
       it "assigns the book as @book" do
-        book = Book.create! valid_attributes
+        book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504079",
+                            :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                            :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                            :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                            :subjectTopic => "N8217.H68", :physicalExtent => "510")
         # Trigger the behavior that occurs when invalid params are submitted
         Book.any_instance.stub(:save).and_return(false)
         put :update, {:id => book.to_param, :book => {  }}, valid_session
@@ -146,7 +199,11 @@ describe BooksController do
       end
 
       it "re-renders the 'edit' template" do
-        book = Book.create! valid_attributes
+        book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504070",
+                            :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                            :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                            :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                            :subjectTopic => "N8217.H68", :physicalExtent => "510")
         # Trigger the behavior that occurs when invalid params are submitted
         Book.any_instance.stub(:save).and_return(false)
         put :update, {:id => book.to_param, :book => {  }}, valid_session
@@ -157,17 +214,32 @@ describe BooksController do
 
   describe "DELETE destroy" do
     it "destroys the requested book" do
-      book = Book.create! valid_attributes
+      book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504071",
+                          :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                          :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                          :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                          :subjectTopic => "N8217.H68", :physicalExtent => "510")
       expect {
         delete :destroy, {:id => book.to_param}, valid_session
       }.to change(Book, :count).by(-1)
     end
 
     it "redirects to the books list" do
-      book = Book.create! valid_attributes
+      book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504072",
+                          :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
+                          :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
+                          :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
+                          :subjectTopic => "N8217.H68", :physicalExtent => "510")
       delete :destroy, {:id => book.to_param}, valid_session
       response.should redirect_to(books_url)
     end
+  end
+
+  after(:all) do
+    Book.all.each { |book| book.delete }
+    BookTeiRepresentation.all.each { |btr| btr.delete }
+    BookTiffRepresentation.all.each { |btr| btr.delete }
+    BasicFile.all.each { |bf| bf.delete }
   end
 
 end

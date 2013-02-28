@@ -100,7 +100,6 @@ class BooksController < ApplicationController
           tiff.book = @book
           tiff.save!
         end
-
       end
       # add the authors to the book
       if !params[:person].blank? && !params[:person][:id].blank?
@@ -114,7 +113,6 @@ class BooksController < ApplicationController
             author.save!
           end
         end
-        @book.save!
       end
       redirect_to @book, notice: 'Book was successfully created.'
     else
