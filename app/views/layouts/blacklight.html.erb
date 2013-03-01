@@ -33,7 +33,7 @@
    if request.fullpath.starts_with? '/users/sign_in'
      onload_text = ''
    else
-     onload_text = "if ($('username').length==0) { $('input#q').focus(); }" if params[:q].to_s.empty? and params[:f].to_s.empty? and params[:id].nil?
+     onload_text = "$('input#q').focus();" if params[:q].to_s.empty? and params[:f].to_s.empty? and params[:id].nil?
    end
 %>
 <body onload="<%= onload_text %>" class="<%= render_body_class %>">
