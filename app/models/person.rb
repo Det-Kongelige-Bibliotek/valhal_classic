@@ -19,6 +19,7 @@ class Person < IntellectualEntity
   # Validation criteria of the firstname (at least 1 non-space character).
   validates :firstname, :presence => true, :length => { :minimum => 1 }
   validates :lastname, :presence => true, :length => { :minimum => 1 }
+  validates_with PersonValidator
 
   # TODO find better relationship property.
   # Relationship to TEI representations.
@@ -50,51 +51,6 @@ class Person < IntellectualEntity
 
   def comma_seperated_lastname_firstname
     return lastname.to_s + ", " + firstname.to_s
-  end
-
-  # validates whether a date is equal to the defined birthday of this person
-  # returns true if either both are undefined or they are identical.
-  def is_same_birth_day(date)
-    if date.nil? && :date_of_birth.nil?
-      return true
-    end
-    if date.nil? || :date_of_birth.nil?
-      return false
-    end
-
-    return date == :date_of_birth
-  end
-
-  # validates whether a date is equal to the defined day of death of this person
-  # returns true if either both are undefined or they are identical.
-  def is_same_death_day(date)
-    if date.nil? && :date_of_death.nil?
-      return true
-    end
-    if date.nil? || :date_of_death.nil?
-      return false
-    end
-
-    return date == :date_of_death
-  end
-
-  # Determines whether any other person exists with the same name, birthday and deathday
-  def is_duplicate_person?
-    logger.debug "Looking for duplicate people with name = #{comma_seperated_lastname_firstname}"
-    if id.eql? "__DO_NOT_USE__"
-      potential_people = ActiveFedora::SolrService.query("search_result_title_t:#{comma_seperated_lastname_firstname} AND has_model_s:\"info:fedora/afmodel:Person\"")
-    else
-      logger.debug "self.id = #{self.id}"
-      logger.debug "self.pid = #{self.pid}"
-      potential_people = ActiveFedora::SolrService.query("search_result_title_t:#{comma_seperated_lastname_firstname} AND has_model_s:\"info:fedora/afmodel:Person\" NOT id:\"#{self.id}\"")
-    end
-    logger.error "duplicate person names count = #{potential_people.size}"
-    potential_people.each do |p|
-      person = Person.find(p.id)
-      if is_same_birth_day(person.date_of_birth) && is_same_death_day(person.date_of_death)
-          errors.add(:name, "cannot be duplicated")
-      end
-    end
   end
 
   def to_solr(solr_doc = {})

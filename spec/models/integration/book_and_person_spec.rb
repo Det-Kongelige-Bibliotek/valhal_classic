@@ -10,7 +10,7 @@ describe "Person and Book" do
   end
   describe " author relationship" do
     before(:each) do
-      @person = Person.create(:firstname=>"some name", :lastname=>"some lastname")
+      @person = Person.create(:firstname=>"some name", :lastname=>"some lastname", :date_of_birth => Time.new.to_i.to_s)
       @person.save!
       @book = Book.create(:title=>"some title")
       @book.save!
@@ -38,7 +38,7 @@ describe "Person and Book" do
   describe " with representations" do
     before(:each) do
 
-      @person = Person.create(:firstname=>"person with representation", :lastname=>"some lastname")
+      @person = Person.create(:firstname=>"some name", :lastname=>"some lastname", :date_of_birth => Time.new.to_i.to_s)
       @person.save!
       @book = Book.create(:title=>"book with representation")
       @book.save!
@@ -108,31 +108,31 @@ describe "Person and Book" do
     end
 
     it "should be able to have many authors" do
-      person1 = Person.create(:firstname=>"first person", :lastname=>"first lastname")
+      person1 = Person.create(:firstname=>"first person", :lastname=>"first lastname", :date_of_birth => Time.new.to_i.to_s)
       person1.save!
       person1.authored_books << @book
       person1.save!
       @book.authors << person1
 
-      person2 = Person.create(:firstname=>"second person", :lastname=>"first lastname")
+      person2 = Person.create(:firstname=>"second person", :lastname=>"first lastname", :date_of_birth => Time.new.to_i.to_s)
       person2.save!
       person2.authored_books << @book
       person2.save!
       @book.authors << person2
 
-      person3 = Person.create(:firstname=>"third person", :lastname=>"first lastname")
+      person3 = Person.create(:firstname=>"third person", :lastname=>"first lastname", :date_of_birth => Time.new.to_i.to_s)
       person3.save!
       person3.authored_books << @book
       person3.save!
       @book.authors << person3
 
-      person4 = Person.create(:firstname=>"fourth person", :lastname=>"first lastname")
+      person4 = Person.create(:firstname=>"fourth person", :lastname=>"first lastname", :date_of_birth => Time.new.to_i.to_s)
       person4.save!
       person4.authored_books << @book
       person4.save!
       @book.authors << person4
 
-      person5 = Person.create(:firstname=>"fifth person", :lastname=>"first lastname")
+      person5 = Person.create(:firstname=>"fifth person", :lastname=>"first lastname", :date_of_birth => Time.new.to_i.to_s)
       person5.save!
       person5.authored_books << @book
       person5.save!

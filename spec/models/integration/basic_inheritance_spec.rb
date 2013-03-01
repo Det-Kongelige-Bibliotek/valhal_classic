@@ -120,6 +120,7 @@ describe "The basic inheritance" do
 
   describe "for ActiveFedora the through attribute" do
     before :all do
+      pending "Does not work as intended"
       class Contribution < ActiveFedora::Base
         belongs_to :entity, :property => :is_part_of
         belongs_to :provider, :property => :is_part_of
@@ -179,7 +180,7 @@ describe "The basic inheritance" do
 
   describe "for ActiveRecord the through attribute" do
     before :all do
-      pending ""
+      pending "Does not work as intended"
       class Contribution < ActiveRecord::Base
         belongs_to :entity
         belongs_to :provider
