@@ -1,25 +1,25 @@
 <h3>Book TIFF Representation: <%= @book_tiff_representation.label %></h3>
 
 <table border="0">
-  <tr><td><b>Label</b></td><td><%= @book_tiff_representation.label %></td></tr>
+  <tr><td style="font-weight: bold;">Label: </td><td><%= @book_tiff_representation.label %></td></tr>
 </table>
 
 <hr/>
 
-<p>Filer tilknyttet: <%= @book_tiff_representation.files.count %></p>
+<p><span style="font-weight: bold;">Number of files:</span> <%= @book_tiff_representation.files.count %></p>
 <%- @book_tiff_representation.files.each do |file| %>
     <% # TODO fix the following %>
-    File Name: <%= file.nil? ? "No file" : file.original_filename %>
+        <span style="font-weight: bold;">File Name:</span> <%= file.nil? ? "No file" : file.original_filename %>
     <br/>
-    Created: <%= file.nil? ? "N/A" : file.created %>
+        <span style="font-weight: bold;">Created:</span> <%= file.nil? ? "N/A" : file.created %>
     <br/>
-    MIME: <%= file.nil? ? "N/A" : file.mime_type %>
+        <span style="font-weight: bold;">MIME:</span> <%= file.nil? ? "N/A" : file.mime_type %>
     <br/>
-    File Size: <%= file.nil? ? "N/A" : file.size %> bytes
+        <span style="font-weight: bold;">File Size:</span> <%= file.nil? ? "N/A" : file.size %> bytes
     <br/>
-    Checksum: <%= file.nil? ? "N/A" : file.checksum %>
+        <span style="font-weight: bold;">Checksum:</span> <%= file.nil? ? "N/A" : file.checksum %>
     <br/>
-    UUID: <%= file.nil? ? "N/A" : file.uuid %>
+        <span style="font-weight: bold;">UUID:</span> <%= file.nil? ? "N/A" : file.uuid %>
     <br/>
     <%= file.nil? ? "N/A" : (link_to "Download", {:action => "show", :pid => file.pid, :controller => "view_file" }) %>
     <br />

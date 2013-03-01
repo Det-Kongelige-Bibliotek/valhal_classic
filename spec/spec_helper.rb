@@ -66,6 +66,15 @@ Spork.prefork do
       basic_file
     end
 
+    def create_basic_file_for_tif(holding_object)
+      basic_file = BasicFile.new
+      uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'arre1fm001.tif', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
+      basic_file.add_file(uploaded_file)
+      basic_file.container = holding_object
+      basic_file.save
+      basic_file
+    end
+
     def login_admin
       @admin = FactoryGirl.create(:admin)
       controller.stub!(:current_user).and_return(@admin)

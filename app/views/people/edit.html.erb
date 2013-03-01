@@ -1,6 +1,6 @@
 <h1>Editing person</h1>
-
 <%= form_for @person, :html=>{:multipart=>true} do |f| %>
+    <%= f.error_messages :header_message => "Edit person error", :class => "alert alert-error", :header_tag => :h3 %>
     <%= fields_for :person do |builder| %>
         <%= render 'metadata_fields', :f => builder %>
     <% end %>

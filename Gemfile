@@ -38,6 +38,7 @@ end
 gem 'rspec-rails' , :group => [:development, :test]
 
 group :development do
+  #gem 'factory_girl_rails', '~> 4.1'
   gem 'better_errors'
   gem 'spork'
   gem 'debugger'

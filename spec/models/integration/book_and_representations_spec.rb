@@ -10,7 +10,7 @@ describe Book do
   # tests for the relationship between the Book and the BookTeiRepresentation
   describe " - BookTeiRepresentation relationship" do
     before(:each) do
-      @book = Book.create
+      @book = Book.create(:title => "My First Book")
       @book.save
       @tei = BookTeiRepresentation.new
       @tei.book = @book

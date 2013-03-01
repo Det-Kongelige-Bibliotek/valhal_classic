@@ -1,7 +1,7 @@
 <div>
   <br/>
   <%= f.label :tiff_file, "TIFF Image file representations for the book" %>
-  <%= f.file_field :tiff_file, :multiple => true, :id => "fileupload" %>
+  <%= f.file_field :tiff_file, :multiple => true, :id => "fileupload", :accept => 'image/tiff' %>
   <a class="btn btn-small btn-danger" href="#" id="tiff_file_clear" title="Clear file"><i class="icon-remove"></i></a>
   <%= fields_for :tiff do |builder| %>
       <%= builder.text_field :label, :placeholder => "Label" %>
@@ -10,6 +10,6 @@
 <div>
   <br/>
   <%= f.label :structmap_file, "METS Structmap file representation for the book" %>
-  <%= f.file_field :structmap_file %>
+  <%= f.file_field :structmap_file, :accept => 'text/xml'%>
   <a class="btn btn-small btn-danger" href="#" id="structmap_file_clear" title="Clear file"><i class="icon-remove"></i></a>
 </div>

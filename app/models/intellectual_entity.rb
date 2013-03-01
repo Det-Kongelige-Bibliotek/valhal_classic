@@ -5,6 +5,7 @@
 # The class only contains a 'digiprovMetadata' stream, which then contains the uuid for the given intellectual entity.
 class IntellectualEntity < ActiveFedora::Base
   include ActiveFedora::Callbacks
+  include ActiveFedora::Validations
 
   # Digital provenance metadata stream for the intellectual entity.
   has_metadata :name => 'provenanceMetadata', :type => ActiveFedora::SimpleDatastream do |m|

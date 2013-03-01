@@ -30,11 +30,33 @@ describe Person do
       person = Person.new(firstname:"the firstname")
       person.save.should == false
     end
+
+    it "should be created when given a firstname, lastname and person_images" do
+      person_image = BasicFile.new
+      uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aoa._foto.jpg', type: 'image/jpeg', tempfile: File.new("#{Rails.root}/spec/fixtures/aoa._foto.jpg"))
+      person_image.add_file(uploaded_file)
+      person_image.save!
+      person_image_representation = PersonImageRepresentation.new
+      person_image_representation.save!
+      person = Person.new(firstname:"the firstname", lastname:"the lastname")
+      person_image_representation.person_image_files << person_image
+      person.person_image_representation << person_image_representation
+
+      person.save!
+    end
   end
 
   describe "#update" do
     before do
       @person = Person.new(firstname:"the firstname", lastname:"the lastname")
+      person_image = BasicFile.new
+      person_image.save!
+      uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aoa._foto.jpg', type: 'image/jpeg', tempfile: File.new("#{Rails.root}/spec/fixtures/aoa._foto.jpg"))
+      person_image.add_file(uploaded_file)
+      person_image_representation = PersonImageRepresentation.new
+      person_image_representation.person_image_files << person_image
+      person_image_representation.save!
+      @person.person_image_representation << person_image_representation
       @person.save!
     end
 
@@ -50,6 +72,37 @@ describe Person do
       @person.save!
       person1 = Person.find(@person.pid)
       person1.lastname.should == "another last name"
+    end
+
+    it "should be possible to update the person_images" do
+
+      person_image_representation = PersonImageRepresentation.new
+      person_image_representation.save!
+
+      person_image = BasicFile.new
+      uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'image/png', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
+      person_image.add_file(uploaded_file)
+      person_image.save!
+      person_image_representation.person_image_files << person_image
+
+      @person.person_image_representation << person_image_representation
+      @person.save!
+      person1 = Person.find(@person.pid)
+      person1.person_image_representation.last.person_image_files.last.original_filename.should == "rails.png"
+    end
+
+    it "should be possible to update the person date of birth" do
+      @person.date_of_birth = "22nd February 2013"
+      @person.save!
+      person1 = Person.find(@person.pid)
+      person1.date_of_birth.should == "22nd February 2013"
+    end
+
+    it "should be possible to update the person date of death" do
+      @person.date_of_death = "22nd November 2083"
+      @person.save!
+      person1 = Person.find(@person.pid)
+      person1.date_of_death.should == "22nd November 2083"
     end
   end
 

@@ -17,7 +17,36 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
   end
 
+  def validate_book(params)
+    #Validate form params
+    logger.debug 'Validating parameters...'
+    if (!params[:file].blank? && !params[:file][:tiff_file].blank?)  && (!params[:file][:tiff_file].first.content_type.start_with? "image/tiff")
+      logger.error "Invalid file type uploaded: " + params[:file][:tiff_file].first.content_type.to_s
+      @book.errors.add(:fileupload, " - You tried to upload a non TIFF image file, please select a valid TIFF image file")
+    end
+
+    if (!params[:file].blank? && !params[:file][:tei_file].blank?)  && (!params[:file][:tei_file].content_type.start_with? "text/xml")
+      logger.error "Invalid file type uploaded: " + params[:file][:tei_file].content_type.to_s
+      @book.errors.add(:file_tei_file, " - You tried to upload a non XML file, please select a valid XML file")
+    end
+
+    if (!params[:file].blank? && !params[:file][:structmap_file].blank?)  && (!params[:file][:structmap_file].content_type.start_with? "text/xml")
+      logger.error "Invalid file type uploaded: " + params[:file][:structmap_file].content_type.to_s
+      @book.errors.add(:file_structmap_file, " - You tried to upload a non XML file, please select a valid XML file")
+    end
+    logger.debug 'Validation finished'
+  end
+
   def create
+
+    validate_book(params)
+    if @book.errors.size > 0
+      logger.debug "#{@book.errors.size.to_s} Validation errors found, returning to form"
+      render action: "new"
+      return
+    end
+
+    #Validation passed begin processing parameters
     @book = Book.new(params[:book])
 
     if @book.save
@@ -71,7 +100,6 @@ class BooksController < ApplicationController
           tiff.book = @book
           tiff.save!
         end
-
       end
       # add the authors to the book
       if !params[:person].blank? && !params[:person][:id].blank?
@@ -85,7 +113,6 @@ class BooksController < ApplicationController
             author.save!
           end
         end
-        @book.save!
       end
       redirect_to @book, notice: 'Book was successfully created.'
     else
@@ -95,6 +122,13 @@ class BooksController < ApplicationController
 
   def update
     @book = Book.find(params[:id])
+
+    validate_book(params)
+    if @book.errors.size > 0
+      logger.debug "#{@book.errors.size.to_s} Validation errors found, returning to form"
+      render action: "edit"
+      return
+    end
 
     if @book.update_attributes(params[:book])
       if !params[:file].blank? && !params[:file][:tei_file].blank? || !params[:file].blank? && !params[:file][:tiff_file].blank?

@@ -1,7 +1,7 @@
 <div>
   <br/>
   <%= f.label :tei_file, "TEI file representation for the book" %>
-  <%= f.file_field :tei_file %>
+  <%= f.file_field :tei_file, :accept => 'text/xml' %>
   <a class="btn btn-small btn-danger" href="#" id="tei_file_clear" title="Clear file"><i class="icon-remove"></i></a>
 
   <%= fields_for :tei do |builder| %>
