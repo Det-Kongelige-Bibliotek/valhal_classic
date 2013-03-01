@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Book < IntellectualEntity
-
+  include ActiveModel::Validations
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name=>'descMetadata', :type=>Datastreams::BookMods
 
@@ -18,7 +18,7 @@ class Book < IntellectualEntity
 
   validates :title, :presence => true
   validates :isbn, :numericality => true, :allow_blank => true
-  validate :is_duplicate_isbn?
+  validates_with BookValidator
 
   # Determines whether any TEI representations exists.
   def tei_rep?
@@ -28,29 +28,6 @@ class Book < IntellectualEntity
   # Determines whether any TIFF representations exists.
   def hasTiffRep?
     return tif.any?
-  end
-
-  def is_duplicate_isbn?
-    logger.debug ":isbn.blank? = #{isbn.blank?}"
-    logger.debug ":isbn = #{isbn}"
-    if isbn.blank?
-      logger.debug "Returning false as the ISBN is blank"
-      false
-    else
-      if id.eql? "__DO_NOT_USE__"
-        count = ActiveFedora::SolrService.query("isbn_t:#{isbn} AND has_model_s:\"info:fedora/afmodel:Book\"").size
-      else
-        logger.debug "self.id = #{self.id}"
-        logger.debug "self.pid = #{self.pid}"
-        count = ActiveFedora::SolrService.query("isbn_t:#{isbn} AND has_model_s:\"info:fedora/afmodel:Book\" NOT id:\"#{self.id}\"").size
-      end
-      logger.error "duplicate ISBN count = #{count}"
-      if count > 0 then
-        errors.add(:isbn, "cannot be duplicated")
-      #else
-      #  false
-      end
-    end
   end
 
   # Whether any author for this book has been defined.
