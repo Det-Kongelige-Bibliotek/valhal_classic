@@ -14,23 +14,23 @@ class PersonValidator < ActiveModel::Validator
     end
     logger.error "duplicate person names count = #{potential_people.size}"
     potential_people.each do |person|
-      if is_same_date(person["date_of_birth"], record.date_of_birth) && is_same_date(person["date_of_death"], record.date_of_death)
-        record.errors[:name] << "cannot be duplicated"
+      if is_same_date(person["date_of_birth_t"], record.date_of_birth) && is_same_date(person["date_of_death_t"], record.date_of_death)
+        record.errors[:person] << "cannot be duplicated"
       end
     end
   end
 
   # validates whether two dates are the same.
   # returns true if either both are undefined (nil) or they are identical.
-  def is_same_date(date1, date2)
-    if date1.nil? && date2.nil?
+  def is_same_date(dateList, date)
+    if dateList.nil? && date.nil?
       return true
     end
-    if date1.nil? || date2.nil?
+    if dateList.nil? || date.nil?
       return false
     end
 
-    return date1 == date2
+    return dateList.first.eql? date
   end
 
 end

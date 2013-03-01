@@ -6,9 +6,11 @@
 require 'spec_helper'
 
 describe "The basic inheritance" do
+  before :all do
+    pending "Does not work as intended"
+  end
   describe "for locating sub-elements" do
     before :all do
-      pending "Other tests"
       class ParentClass < ActiveFedora::Base
         belongs_to :description, :class_name=>"DescriptionClass", :property=>:has_description, :inverse_of=>:is_description_of
       end
@@ -120,7 +122,6 @@ describe "The basic inheritance" do
 
   describe "for ActiveFedora the through attribute" do
     before :all do
-      pending "Does not work as intended"
       class Contribution < ActiveFedora::Base
         belongs_to :entity, :property => :is_part_of
         belongs_to :provider, :property => :is_part_of
@@ -133,66 +134,6 @@ describe "The basic inheritance" do
       class Entity < ActiveFedora::Base
         has_many :contributions, :property => :is_part_of
         has_many :providers, :through => :contributions, :property => :is_part_of
-      end
-    end
-
-    it "should be accessible through the common object" do
-      provider = Provider.create
-      entity = Entity.create
-      contribution = Contribution.create
-
-      contribution.entity = entity
-      contribution.provider = provider
-      contribution.save!
-      entity.contributions << contribution
-      provider.contributions << contribution
-      entity.save!
-      provider.save!
-
-      entity.contributions.should_not be_nil
-      entity.contributions.should_not be_empty
-      entity.contributions.length.should == 1
-      entity.contributions.should == [contribution]
-
-      contribution.entity.should_not be_nil
-      contribution.entity.should == entity
-
-      contribution.provider.should_not be_nil
-      contribution.provider.should == provider
-
-      provider.contributions.should_not be_nil
-      provider.contributions.should_not be_empty
-      provider.contributions.length.should == 1
-      provider.contributions.should == [contribution]
-
-      entity.providers.should_not be_nil
-      entity.providers.should_not be_empty
-      entity.providers.length.should == 1
-      entity.providers.should == [provider]
-
-      provider.entities.should_not be_nil
-      provider.entities.should_not be_empty
-      provider.entities.length.should == 1
-      provider.entities.should == [entity]
-
-    end
-  end
-
-  describe "for ActiveRecord the through attribute" do
-    before :all do
-      pending "Does not work as intended"
-      class Contribution < ActiveRecord::Base
-        belongs_to :entity
-        belongs_to :provider
-      end
-
-      class Provider < ActiveRecord::Base
-        has_many :contributions
-        has_many :entities, :through => :contributions
-      end
-      class Entity < ActiveRecord::Base
-        has_many :contributions
-        has_many :providers, :through => :contributions
       end
     end
 
