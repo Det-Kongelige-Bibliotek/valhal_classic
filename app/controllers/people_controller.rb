@@ -11,7 +11,9 @@ class PeopleController < ApplicationController
 
   def show_image
     @person = Person.find(params[:id])
-    image_url(@person.person_image_representation.last.pid)
+    if @person.person_image_representation.any?
+      image_url(@person.person_image_representation.last.pid)
+    end
   end
 
   def image_url(pid = nil)
@@ -56,35 +58,34 @@ class PeopleController < ApplicationController
 
     #create a person object and save it so component parts can be linked to it
     @person = Person.new(params[:person])
-    @person.save
-    logger.debug 'Created new person successfully'
+    if @person.save
+      logger.debug 'Created new person successfully'
 
-    #if there is an image file do all the image creation and add them to the person
-    if (!params[:portrait].blank?) && (params[:portrait][:portrait_file].content_type.start_with? "image/")
-      logger.debug "Valid image file uploaded, creating image related objects"
-      person_image_representation = PersonImageRepresentation.new
-      person_image_representation.save!
+      #if there is an image file do all the image creation and add them to the person
+      if (!params[:portrait].blank?) && (params[:portrait][:portrait_file].content_type.start_with? "image/")
+        logger.debug "Valid image file uploaded, creating image related objects"
+        person_image_representation = PersonImageRepresentation.new
+        person_image_representation.save!
 
-      person_image_file = BasicFile.new
-      person_image_file.add_file(params[:portrait][:portrait_file])
-      person_image_file.container = person_image_representation
-      person_image_file.save!
-      person_image_representation.person_image_files << person_image_file
+        person_image_file = BasicFile.new
+        person_image_file.add_file(params[:portrait][:portrait_file])
+        person_image_file.container = person_image_representation
+        person_image_file.save!
+        person_image_representation.person_image_files << person_image_file
 
-      person_image_representation.person = @person
-      person_image_representation.save!
+        person_image_representation.person = @person
+        person_image_representation.save!
 
-      @person.person_image_representation << person_image_representation
-    end
-    #finally save the person again
-    logger.debug '@person.errors.size = ' + @person.errors.size.to_s
-    if @person.save!
+        @person.person_image_representation << person_image_representation
+      end
+      #finally save the person again
+      logger.debug '@person.errors.size = ' + @person.errors.size.to_s
+      @person.save!
+
       logger.debug 'Saved new person successfully'
       redirect_to @person, notice: 'Person was successfully created.'
-      return
     else
       render action: "new"
-      return
     end
   end
 

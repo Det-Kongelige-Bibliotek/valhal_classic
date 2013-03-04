@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Book < IntellectualEntity
   include ActiveModel::Validations
+
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name=>'descMetadata', :type=>Datastreams::BookMods
 

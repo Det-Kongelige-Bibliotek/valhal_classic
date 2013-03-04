@@ -5,6 +5,8 @@
 # The person must have a relationship to the different intellectual entities it has been
 # involved in, e.g. authored a book, performed a play, etc.
 class Person < IntellectualEntity
+  include ActiveModel::Validations
+
   # Descriptive metadata stream for the abstract person.
   has_metadata :name => 'descMetadata', :type => ActiveFedora::SimpleDatastream do |m|
     m.field "firstname", :string
