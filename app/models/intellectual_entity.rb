@@ -22,4 +22,12 @@ class IntellectualEntity < ActiveFedora::Base
   before_validation(:on => :create) do
     self.uuid = UUID.new.generate unless self.uuid
   end
+
+  # Make solr index for the UUID of the intellectual entities.
+  def to_solr(solr_doc = {})
+    super
+
+    solr_doc["uuid_t"] = self.uuid unless self.uuid.blank?
+    return solr_doc
+  end
 end
