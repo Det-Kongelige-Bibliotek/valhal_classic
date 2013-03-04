@@ -7,6 +7,8 @@
 <hr/>
 
 <p><span style="font-weight: bold;">Number of files:</span> <%= @book_tiff_representation.files.count %></p>
+<p><span style="font-weight: bold;"><%= link_to 'Download All', download_all_book_tiff_representation_path %></span> </p>
+
 <%- @book_tiff_representation.files.each do |file| %>
     <% # TODO fix the following %>
         <span style="font-weight: bold;">File Name:</span> <%= file.nil? ? "No file" : file.original_filename %>

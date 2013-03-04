@@ -15,7 +15,11 @@ ADL::Application.routes.draw do
   #Standard resource mapping
   resources :upload
   resources :book_tei_representations
-  resources :book_tiff_representations
+  resources :book_tiff_representations do
+    member do
+      get 'download_all'
+    end
+  end
   resources :person_tei_representations
   resources :people do
     member do
