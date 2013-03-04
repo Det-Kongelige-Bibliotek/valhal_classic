@@ -384,6 +384,7 @@ DEPENDENCIES
   rb-inotify (~> 0.8.8)
   rb-readline
   rspec-rails
+  rubyzip
   sass-rails (~> 3.2.3)
   simplecov
   simplecov-rcov
