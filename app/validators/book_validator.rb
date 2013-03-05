@@ -4,13 +4,13 @@ class BookValidator < ActiveModel::Validator
 
   #Overridden from ActiveModel::Validator
   def validate(record)
-    if is_duplicate_isbn?(record.isbn, record.id)
+    if duplicate_isbn?(record.isbn, record.id)
       record.errors[:isbn] << "cannot be duplicated"
     end
   end
 
   private
-  def is_duplicate_isbn?(isbn, id)
+  def duplicate_isbn?(isbn, id)
     logger.debug ":isbn.blank? = #{isbn.blank?}"
     logger.debug ":isbn = #{isbn}"
     if isbn.blank?
