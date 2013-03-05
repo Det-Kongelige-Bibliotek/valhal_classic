@@ -24,10 +24,10 @@ class IntellectualEntity < ActiveFedora::Base
   end
 
   # Make solr index for the UUID of the intellectual entities.
-  def to_solr(solr_doc = {})
-    super
-
-    solr_doc["uuid_t"] = self.uuid unless self.uuid.blank?
-    return solr_doc
-  end
+  # TODO SIFD-41: fix issue with inheritance
+#  def to_solr(solr_doc = {})
+#    super
+#    solr_doc["uuid_t"] = self.uuid unless self.uuid.blank?
+#    return solr_doc
+#  end
 end

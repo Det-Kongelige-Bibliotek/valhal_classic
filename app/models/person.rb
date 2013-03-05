@@ -61,9 +61,7 @@ class Person < IntellectualEntity
     #to create a link, we use this field for both Books and Persons so that we can make a link to in the search results
     #view using
     solr_doc["search_result_title_t"] = self.comma_seperated_lastname_firstname unless self.comma_seperated_lastname_firstname.blank?
-
     solr_doc["person_name_t"] = self.name unless self.name.blank?
     return solr_doc
-
   end
 end

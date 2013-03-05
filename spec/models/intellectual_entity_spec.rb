@@ -46,6 +46,7 @@ describe IntellectualEntity do
     end
 
     it "should be possible to find through the uuid" do
+      pending "Need to fix the issue SIFD-41"
       @intellectual_entity = IntellectualEntity.new
       @intellectual_entity.save!
       uuid = @intellectual_entity.uuid
