@@ -46,11 +46,12 @@ describe IntellectualEntity do
     end
 
     it "should be possible to find through the uuid" do
-      pending "??"
       @intellectual_entity = IntellectualEntity.new
       @intellectual_entity.save!
       uuid = @intellectual_entity.uuid
-      IntellectualEntity.find_with_conditions(:uuid => uuid).should_not be_empty
+      search_results = ActiveFedora::SolrService.query("uuid_t:#{uuid}")
+      search_results.size.should == 1
+      search_results.first["id"].should == @intellectual_entity.pid
     end
 
     it "should be possible to identify as an ActiveFedora object" do
