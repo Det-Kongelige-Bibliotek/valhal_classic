@@ -100,7 +100,7 @@ class CatalogController < ApplicationController
     # solr fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display
     config.add_index_field 'surname_t', :label => 'Lastname:'
-    config.add_index_field 'forename_t', :label => 'Forename:'
+    config.add_index_field 'forename_t', :label => 'Firstname:'
     config.add_index_field 'birth_date_t', :label => 'Date of Birth:'
     config.add_index_field 'death_date_t', :label => 'Date of Death:'
     config.add_index_field 'original_filename_t', :label => 'Name:'
@@ -114,7 +114,7 @@ class CatalogController < ApplicationController
     config.add_show_field 'original_filename_t', :label => 'Title:'
     config.add_show_field 'mime_type_t', :label => 'Mime Type:'
     config.add_show_field 'surname_t', :label => 'Author:'
-    config.add_show_field 'forename_t', :label => 'Forename:'
+    config.add_show_field 'forename_t', :label => 'Firstname:'
     config.add_show_field 'birth_date_t', :label => 'Date of Birth:'
     config.add_show_field 'death_date_t', :label => 'Date of Death:'
     config.add_show_field 'sample_quotation_t', :label => 'Sample quotation:'
