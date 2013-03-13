@@ -17,6 +17,7 @@ gem 'simplecov-rcov'
 gem 'omniauth-ldap'
 gem 'dynamic_form'
 gem 'rubyzip'
+gem 'wicked'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -39,7 +40,7 @@ end
 gem 'rspec-rails' , :group => [:development, :test]
 
 group :development do
-  #gem 'factory_girl_rails', '~> 4.1'
+  gem 'factory_girl_rails', '~> 4.1'
   gem 'better_errors'
   gem 'spork'
   gem 'debugger'
