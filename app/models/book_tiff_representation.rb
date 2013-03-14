@@ -13,10 +13,4 @@ class BookTiffRepresentation < Representation
   def has_book?
     return book
   end
-
-  #def file_type_is_tiff
-  #  if :files.size > 0
-  #
-  #  end
-  #end
 end

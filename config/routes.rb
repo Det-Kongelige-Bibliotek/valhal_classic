@@ -27,6 +27,10 @@ ADL::Application.routes.draw do
       get 'image_url'
     end
   end
-  resources :books
-  #resources :view_file
+
+  resources :books do
+    member do
+      put 'create_structmap'
+    end
+  end
 end

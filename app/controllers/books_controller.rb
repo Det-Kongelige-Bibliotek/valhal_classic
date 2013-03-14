@@ -1,5 +1,9 @@
 # -*- encoding : utf-8 -*-
 class BooksController < ApplicationController
+  include Wicked::Wizard
+
+  steps :sort_tiff_files
+
   load_and_authorize_resource
   def index
     @books = Book.all
@@ -37,6 +41,17 @@ class BooksController < ApplicationController
     logger.debug 'Validation finished'
   end
 
+  def create_structmap
+    logger.debug 'Creating structmap...'
+    logger.debug params.to_s
+    unless params[:structmap_file_order].blank?
+      logger.debug "structmap_file_order = #{params[:structmap_file_order]}"
+      redirect_to @book, notice: 'Book was successfully created.'
+    else
+      redirect_to @book, notice: 'Book was successfully created.'
+    end
+  end
+
   def create
 
     validate_book(params)
@@ -44,8 +59,33 @@ class BooksController < ApplicationController
       logger.debug "#{@book.errors.size.to_s} Validation errors found, returning to form"
       render action: "new"
       return
+    else
+      @book = Book.new(params[:book])
+      @book.save!
+      if !params[:file].blank? && !params[:file][:tiff_file].blank?
+        #add TIFF files to the book
+        tiff = BookTiffRepresentation.new(params[:tiff])
+        tiff.save!
+
+        params[:file][:tiff_file].each do |f|
+          tiff_file = BasicFile.new
+          tiff_file.add_file(f)
+          logger.debug f.original_filename
+          tiff_file.container = tiff
+          tiff_file.save!
+          tiff.files << tiff_file
+        end
+
+        tiff.book = @book
+        tiff.save!
+        render_wizard
+      else
+        redirect_to @book, notice: 'Book was successfully created.'
+      end
+      #redirect_to wizard_path(steps.first, :pid => @book.pid)
     end
 
+=begin
     #Validation passed begin processing parameters
     @book = Book.new(params[:book])
 
@@ -117,7 +157,7 @@ class BooksController < ApplicationController
       redirect_to @book, notice: 'Book was successfully created.'
     else
       render action: "new"
-    end
+=end
   end
 
   def update
