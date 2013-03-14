@@ -75,6 +75,10 @@ GEM
     childprocess (0.3.7)
       ffi (~> 1.0, >= 1.0.6)
     client_side_validations (3.2.1)
+    climate_control (0.0.3)
+      activesupport (>= 3.0)
+    cocaine (0.5.1)
+      climate_control (>= 0.0.3, < 1.0)
     coderay (1.0.8)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -216,6 +220,12 @@ GEM
       pyu-ruby-sasl (~> 0.0.3.1)
       rubyntlm (~> 0.1.1)
     orm_adapter (0.4.0)
+    paperclip (3.4.1)
+      activemodel (>= 3.0.0)
+      activerecord (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      cocaine (~> 0.5.0)
+      mime-types
     polyglot (0.3.3)
     pry (0.9.11.4)
       coderay (~> 1.0.5)
@@ -262,6 +272,7 @@ GEM
     ref (1.0.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rmagick (2.13.1)
     rsolr (1.0.8)
       builder (>= 2.1.2)
     rspec (2.12.0)
@@ -380,9 +391,11 @@ DEPENDENCIES
   libv8 (~> 3.11.8)
   log4r (= 1.1.9)
   omniauth-ldap
+  paperclip
   rails (= 3.2.11)
   rb-inotify (~> 0.8.8)
   rb-readline
+  rmagick (= 2.13.1)
   rspec-rails
   rubyzip
   sass-rails (~> 3.2.3)

@@ -22,7 +22,7 @@ class BookTiffRepresentationsController < ApplicationController
     @book_tiff_representation = BookTiffRepresentation.new(params[:book_tiff_representation])
 
     if @book_tiff_representation.save
-      file = BasicFile.new
+      file = TiffFile.new
       if file.add_file(params[:file][:tiff_file])
         file.container = @book_tiff_representation
         file.save
@@ -76,5 +76,26 @@ class BookTiffRepresentationsController < ApplicationController
       logger.error standard_error.to_s
       redirect_to :back
     end
+  end
+
+  def image_url(pid = nil)
+    if pid.nil?
+      pid = params[:pid]
+    end
+    file = TiffFile.find(pid)
+
+    image_content = file.content.content
+    original_filename = file.original_filename
+    mime_type = file.mime_type
+    send_data(image_content, {:filename => original_filename, :type => mime_type, :disposition => 'inline'})
+  end
+
+  def thumbnail_url(pid = nil)
+    if pid.nil?
+      pid = params[:pid]
+    end
+    file = TiffFile.find(pid)
+
+    send_data(file.thumbnail.content, {:filename => file.thumbnail.label, :type => file.thumbnail.mimeType, :disposition => 'inline'})
   end
 end

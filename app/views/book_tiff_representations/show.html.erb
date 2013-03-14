@@ -10,6 +10,7 @@
 <p><span style="font-weight: bold;"><%= link_to 'Download All', download_all_book_tiff_representation_path %></span> </p>
 
 <%- @book_tiff_representation.files.each do |file| %>
+    <hr/>
     <% # TODO fix the following %>
         <span style="font-weight: bold;">File Name:</span> <%= file.nil? ? "No file" : file.original_filename %>
     <br/>
@@ -23,10 +24,12 @@
     <br/>
         <span style="font-weight: bold;">UUID:</span> <%= file.nil? ? "N/A" : file.uuid %>
     <br/>
-    <%= file.nil? ? "N/A" : (link_to "Download", {:action => "show", :pid => file.pid, :controller => "view_file" }) %>
+        <%= file.nil? ? "N/A" : (link_to image_tag(url_for(thumbnail_url_book_tiff_representation_path :pid => file.pid), :style => "border: 1px solid black;"),
+                                         {:action => "show", :pid => file.pid, :controller => "view_file" }) %>
     <br />
-    <hr/>
 <%- end %>
+
+<hr/>
 
 <% if @book_tiff_representation.has_book? %>
     <p><b>Book:</b>

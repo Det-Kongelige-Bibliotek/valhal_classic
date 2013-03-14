@@ -178,4 +178,32 @@ describe "The basic inheritance" do
 
     end
   end
+
+  describe "inheritance tests" do
+    before :all do
+      pending ""
+      class P1 < ActiveFedora::Base
+        def play(player)
+          return "p1 plays with " + player.to_s
+        end
+      end
+
+      class P2 < P1
+        def play(player)
+          return super + ", and p2 plays with " + player.to_s
+        end
+      end
+
+      class P3 < P2
+        def play(player)
+          return super + ", and p3 plays with " + player.to_s
+        end
+      end
+    end
+
+    it "should play" do
+      p = P3.create
+      puts p.play("SIFD")
+    end
+  end
 end

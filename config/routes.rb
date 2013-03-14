@@ -18,6 +18,8 @@ ADL::Application.routes.draw do
   resources :book_tiff_representations do
     member do
       get 'download_all'
+      get 'image_url'
+      get 'thumbnail_url'
     end
   end
   resources :person_tei_representations
