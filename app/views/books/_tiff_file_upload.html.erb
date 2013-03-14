@@ -7,9 +7,3 @@
       <%= builder.text_field :label, :placeholder => "Label" %>
   <% end %>
 </div>
-<div>
-  <br/>
-  <%= f.label :structmap_file, "METS Structmap file representation for the book" %>
-  <%= f.file_field :structmap_file, :accept => 'text/xml'%>
-  <a class="btn btn-small btn-danger" href="#" id="structmap_file_clear" title="Clear file"><i class="icon-remove"></i></a>
-</div>
