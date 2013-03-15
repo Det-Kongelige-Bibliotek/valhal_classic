@@ -9,6 +9,8 @@ class BookTiffRepresentation < Representation
   has_many :files, :class_name => 'BasicFile', :property => :is_part_of
   belongs_to :book, :property => :is_part_of
 
+  has_many :smaps, :class_name => 'StructMap', :property => :is_part_of
+
   # Whether any intellectual book is represented by this TIFF representation
   def has_book?
     return book

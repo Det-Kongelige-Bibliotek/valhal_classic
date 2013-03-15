@@ -1,11 +1,11 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe Datastreams::AdlMets do
+describe Datastreams::MetsStructMap do
 
   before(:each) do
     @mets_structmap = fixture("aarebo_mets_structmap_sample.xml")
-    @ds = Datastreams::AdlMets.from_xml(@mets_structmap)
+    @ds = Datastreams::MetsStructMap.from_xml(@mets_structmap)
   end
 
   it "should have a structMap element" do
