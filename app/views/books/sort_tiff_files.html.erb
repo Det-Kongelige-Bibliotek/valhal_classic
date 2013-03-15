@@ -11,7 +11,7 @@
     .connected, .sortable, .exclude, .handles {
         margin: auto;
         padding: 0;
-        width: 310px;
+        width: 700px;
         -webkit-touch-callout: none;
         -webkit-user-select: none;
         -khtml-user-select: none;
@@ -40,7 +40,7 @@
     }
     .sortable.grid li {
         line-height: 80px;
-        float: left;
+        display:inline-block;
         width: 100px;
         height: 100px;
         text-align: center;
@@ -89,9 +89,10 @@
     });
 </script>
 
+<center>
 <h1>Sort TIFFs</h1>
 
-<ul id="structmap_file_list" class="sortable grid">
+<ul id="structmap_file_list" class="sortable grid text-center"">
     <%- @book.tif.first.files.each do |file| %>
         <% # TODO fix the following %>
         <li><%= file.nil? ? "No file" : file.original_filename.chomp(".tif") %></li>
@@ -102,5 +103,6 @@
   <div class="btn btn-small actions">
     <%= submit_tag("Generate Structmap") %>
   </div>
+</center>
 <%#=  link_to 'Save', wizard_path(:create_structmap)  %>
 <% end %>
