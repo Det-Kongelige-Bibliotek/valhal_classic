@@ -14,3 +14,15 @@ $(document).ready ->
 
   structmapFileClearBn.on "click", ->
     file_structmap_file.replaceWith file_structmap_file.val("").clone(true)
+
+  $ ->
+  $(".sortable").sortable()
+  $(".handles").sortable handle: "span"
+  $(".sortable").sortable().bind "sortupdate", ->
+    test_val = $("#structmap_file_list").find("li").filter(->
+      $(this).find("ul").length is 0
+    ).map((i, e) ->
+      $(this).text()
+    ).get()
+    $("#structmap_file_order").val test_val
+    alert $("#structmap_file_order").val()

@@ -1,28 +1,3 @@
-
-<script>
-    $(function() {
-        $('.sortable').sortable();
-        $('.handles').sortable({
-            handle: 'span'
-        });
-        $('.sortable').sortable().bind('sortupdate', function() {
-            var test_val = $('#structmap_file_list').find('li').filter(function() {
-                return $(this).find('ul').length === 0;
-            }).map(function(i, e){
-                        return $(this).text();
-                    }).get();
-            $('#structmap_file_order').val(test_val);
-            alert($('#structmap_file_order').val());
-        });
-        /*$('.connected').sortable({
-            connectWith: '.connected'
-        });
-        $('.exclude').sortable({
-            items: ':not(.disabled)'
-        });*/
-    });
-</script>
-
 <center>
 <h1>Sort TIFFs</h1>
 
@@ -32,9 +7,11 @@
         <li><%= file.nil? ? "No file" : file.original_filename.chomp(".tif") %></li>
     <%- end %>
 </ul>
+
+
 <%= form_tag(create_structmap_book_path(@book.pid), :method => "put") do %>
     <%= hidden_field_tag("structmap_file_order") %>
-  <div class="btn btn-small actions">
+  <div class="btn btn-small actions text-center">
     <%= submit_tag("Generate Structmap") %>
   </div>
 </center>
