@@ -1,0 +1,29 @@
+require 'spec_helper'
+
+describe BooksHelper do
+  describe "generate_structmap" do
+    it 'should generate a structmap' do
+
+      file_order = "arre1fm001.tif,arre1fm002.tif,arre1fm003.tif,arre1fm004.tif,arre1fm005.tif,arre1fm006.tif"
+      tiff_representation = create_tiff_representation(6)
+      structmap = helper.generate_structmap(file_order, tiff_representation)
+      structmap.should_not be_nil
+
+      #check each UUID in the structmap matches its place in the order of the filenames
+      file_names = file_order.split(',')
+
+      file_names.each do |file_name|
+        #find the UUID in the files array
+        count = 1
+        tiff_representation.files.each do |basic_tiff_file|
+          if basic_tiff_file.original_filename.eql? file_name
+            uuid = basic_tiff_file.uuid
+            ng_xml_doc = structmap.techMetadata.ng_xml
+            ng_xml_doc.xpath("/mets:mets/mets:structMap/mets:div[#{count}]/mets:fptr/@FILEID", {"mets" => "http://www.loc.gov/METS/"}).first.content.should == uuid
+          end
+          count = count + 1
+        end
+      end
+    end
+  end
+end

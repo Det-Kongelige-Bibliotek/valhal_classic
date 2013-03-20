@@ -75,6 +75,26 @@ Spork.prefork do
       basic_file
     end
 
+    def create_basic_file_for_tif(holding_object, file_name)
+      basic_file = BasicFile.new
+      uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: file_name, type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/#{file_name}"))
+      basic_file.add_file(uploaded_file)
+      basic_file.container = holding_object
+      basic_file.save
+      basic_file
+    end
+
+    def create_tiff_representation(num_of_tiffs)
+      tiff_representation = BookTiffRepresentation.new
+      tiff_representation.save!
+
+      (1..num_of_tiffs).each { |i|
+        tiff_representation.files << create_basic_file_for_tif(tiff_representation, "arre1fm00#{i}.tif")
+      }
+      tiff_representation.save
+      tiff_representation
+    end
+
     def login_admin
       @admin = FactoryGirl.create(:admin)
       controller.stub!(:current_user).and_return(@admin)

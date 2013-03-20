@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class BooksController < ApplicationController
   include Wicked::Wizard
+  include BooksHelper
 
   steps :sort_tiff_files
 
@@ -47,8 +48,8 @@ class BooksController < ApplicationController
     if params[:structmap_file_order].blank?
       redirect_to @book, notice: 'Book was successfully created.'
     else
-      logger.debug "structmap_file_order = #{params[:structmap_file_order]}"
       #generate structmap file and add to the TIFF representation
+      generate_structmap(params[:structmap_file_order], @book.tif.first)
       redirect_to @book, notice: 'Book was successfully created.'
     end
   end
@@ -200,36 +201,5 @@ class BooksController < ApplicationController
     @book.destroy
 
     redirect_to books_url
-  end
-
-  #Take the UUIDs of the uploaded tiff files and write them to the structmap replacing the original tiff file names
-  private
-  # @param [Object] structmap_file
-  # @param [Object] tiff_basic_files
-  # @param [Object] original_filename
-  def write_tiff_uuids_to_structmap(structmap_file, tiff_basic_files)
-
-    #Put the UUIDs for each tif file in a hash using the original filename as the key for each UUID
-    tiffs_hash = Hash.new
-
-    tiff_basic_files.each do |tiff_basic_file|
-      if tiff_basic_file.original_filename.end_with?(".tif")
-        tiffs_hash[tiff_basic_file.original_filename] = tiff_basic_file.uuid
-      end
-    end
-
-    #now open the structmap file and search and replace original filenames with UUIDs
-    structmap_xml = structmap_file.read
-
-    tiffs_hash.each_key do |key|
-      structmap_xml = structmap_xml.gsub(key, tiffs_hash[key])
-    end
-
-    replaced_file = Tempfile.new(structmap_file.path, "wb")
-    replaced_file.write(structmap_xml)
-    replaced_file.close()
-    replaced_file.open()
-
-    return replaced_file
   end
 end

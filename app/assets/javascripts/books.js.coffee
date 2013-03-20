@@ -25,4 +25,3 @@ $(document).ready ->
       $(this).text()
     ).get()
     $("#structmap_file_order").val test_val
-    alert $("#structmap_file_order").val()

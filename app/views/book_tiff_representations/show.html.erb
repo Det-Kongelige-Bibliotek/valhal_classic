@@ -28,6 +28,12 @@
     <hr/>
 <%- end %>
 
+<%- @book_tiff_representation.smaps.each do |file| %>
+    <%= file.nil? ? "N/A" : (link_to "Structmap File", {:action => "show_structmap", :pid => file.pid, :controller => "view_file" }) %>
+    <br />
+    <hr/>
+<%- end %>
+
 <% if @book_tiff_representation.has_book? %>
     <p><b>Book:</b>
       <%= link_to @book_tiff_representation.book.title + " (" + @book_tiff_representation.book.pid + ")", book_path(@book_tiff_representation.book) %>
