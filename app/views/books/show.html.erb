@@ -36,7 +36,7 @@
     <p>No TEI representations for this book.</p>
 <% end %>
 <hr/>
-<% if @book.hasTiffRep? %>
+<% if @book.tiff_rep? %>
     <p><b>TIFF representations:</b></p>
     <ul>
     <% @book.tif.each do |t| %>

@@ -89,14 +89,14 @@ describe Book do
 
   describe "tiff_representation" do
     it "should not have an tiff representation, when noone has been assigned" do
-      @book.hasTiffRep?.should == false
+      @book.tiff_rep?.should == false
     end
 
     it "should have an tiff representation, when one has been assigned" do
       tiff = BookTiffRepresentation.create
       @book.tif << tiff
 
-      @book.hasTiffRep?.should == true
+      @book.tiff_rep?.should == true
     end
   end
 

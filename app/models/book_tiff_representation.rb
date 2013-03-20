@@ -7,6 +7,7 @@ class BookTiffRepresentation < Representation
   has_metadata :name => 'provMetadata', :type => ActiveFedora::SimpleDatastream
 
   has_many :files, :class_name => 'TiffFile', :property => :is_part_of
+  has_many :structmap, :class_name => 'BasicFile', :property => :is_part_of
   belongs_to :book, :property => :is_part_of
 
   # Whether any intellectual book is represented by this TIFF representation

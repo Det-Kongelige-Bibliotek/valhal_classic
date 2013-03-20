@@ -119,6 +119,183 @@ describe BooksController do
         post :create, {:book => attributes}, valid_session
         response.should redirect_to(Book.all.last)
       end
+
+      describe "with a Tei representation" do
+        before :all do
+          @book_attributes = { :title => "Samlede Skrifter"}
+          @tei_file_attributes = { :tei_file => ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))}
+        end
+        it "should create the book" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
+          }.to change(Book, :count).by(1)
+        end
+        it "should create a Tei representation" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
+          }.to change(BookTeiRepresentation, :count).by(1)
+        end
+        it "should not create a tiff representation" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+          }.not_to change(BookTiffRepresentation, :count)
+        end
+        it "should create a basic file" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
+          }.to change(BasicFile, :count).by(1)
+        end
+        it "should not create a tifffile" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
+          }.not_to change(TiffFile, :count)
+        end
+        it "should create a relation between book and tei-representation" do
+          post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
+          Book.all.last.tei_rep?.should be_true
+          BookTeiRepresentation.all.last.has_book?.should be_true
+          Book.all.last.tei.length.should == 1
+          Book.all.last.tei.first.should == BookTeiRepresentation.all.last
+          BookTeiRepresentation.all.last.book.should == Book.all.last
+        end
+        it "should create a relation between tei-representation and basic-file" do
+          post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
+          BookTeiRepresentation.all.last.files.length.should == 1
+          BookTeiRepresentation.all.last.files.first.should == BasicFile.all.last
+        end
+      end
+
+      describe "with a Tiff representation but without a structmap" do
+        before :all do
+          @book_attributes = { :title => "Samlede Skrifter"}
+          @tiff_file_attributes = { :tiff_file => [ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"), head: "Content-Disposition: form-data; name=\"file[tiff_file][]\"; filename=\"arre1fm005.tif\"\r\nContent-Type: image/tiff\r\n")]}
+        end
+        it "should create the book" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
+          }.to change(Book, :count).by(1)
+        end
+        it "should create a Tiff representation" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
+          }.to change(BookTiffRepresentation, :count).by(1)
+        end
+        it "should not create a tei representation" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+          }.not_to change(BookTeiRepresentation, :count)
+        end
+        it "should create a tiff file" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
+          }.to change(TiffFile, :count).by(1)
+        end
+        it "should not create a basic file for the struct map" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+          }.not_to change(BasicFile, :count)
+        end
+        it "should create a relation between book and tiff-representation" do
+          post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
+          Book.all.last.tiff_rep?.should be_true
+          BookTiffRepresentation.all.last.has_book?.should be_true
+          Book.all.last.tif.length.should == 1
+          Book.all.last.tif.first.should == BookTiffRepresentation.all.last
+          BookTiffRepresentation.all.last.book.should == Book.all.last
+        end
+        it "should create a relation between tiff-representation and basic-file" do
+          post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
+          BookTiffRepresentation.all.last.files.length.should == 1
+          BookTiffRepresentation.all.last.files.first.should == TiffFile.all.last
+        end
+      end
+
+      describe "with a Tiff representation and a structmap" do
+        before :all do
+          @book_attributes = { :title => "Samlede Skrifter"}
+          @file_attributes = { :tiff_file => [ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"), head: "Content-Disposition: form-data; name=\"file[tiff_file][]\"; filename=\"arre1fm005.tif\"\r\nContent-Type: image/tiff\r\n")],
+                               :structmap_file => ActionDispatch::Http::UploadedFile.new(filename: 'aarebo_mets_structmap_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarebo_mets_structmap_sample.xml"))}
+        end
+        it "should create the book" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+          }.to change(Book, :count).by(1)
+        end
+        it "should not create a tei representation" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+          }.not_to change(BookTeiRepresentation, :count)
+        end
+        it "should create a Tiff representation" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+          }.to change(BookTiffRepresentation, :count).by(1)
+        end
+        it "should create a tiff file for the tiff representation" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+          }.to change(TiffFile, :count).by(1)
+        end
+        it "should create a basic file for the struct map" do
+          expect {
+            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+          }.to change(BasicFile, :count).by(1)
+        end
+        it "should create a relation between book and tiff-representation" do
+          post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+          Book.all.last.tiff_rep?.should be_true
+          BookTiffRepresentation.all.last.has_book?.should be_true
+          Book.all.last.tif.length.should == 1
+          Book.all.last.tif.first.should == BookTiffRepresentation.all.last
+          BookTiffRepresentation.all.last.book.should == Book.all.last
+        end
+        it "should create a relation between tiff-representation and basic-file" do
+          post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+          BookTiffRepresentation.all.last.files.length.should == 1
+          BookTiffRepresentation.all.last.files.first.should == TiffFile.all.last
+          BookTiffRepresentation.all.last.structmap.length.should == 1
+          BookTiffRepresentation.all.last.structmap.first.should == BasicFile.all.last
+        end
+      end
+
+      describe "with an author" do
+        before :all do
+          @author = Person.create(firstname:"the firstname", lastname:"the lastname", :date_of_birth => Time.new.to_i.to_s)
+          @book_attributes = { :title => "Samlede Skrifter"}
+          @person_attributes = { :id => ["", @author.id]}
+        end
+        it "should create the book" do
+          expect {
+            post :create, {:book => @book_attributes , :person => @person_attributes }, valid_session
+          }.to change(Book, :count).by(1)
+        end
+        it "should not create a Tiff representation" do
+          expect {
+            post :create, {:book => @book_attributes , :person => @person_attributes }, valid_session
+          }.not_to change(BookTiffRepresentation, :count)
+        end
+        it "should not create a tiff file for the tiff representation" do
+          expect {
+            post :create, {:book => @book_attributes , :person => @person_attributes }, valid_session
+          }.not_to change(TiffFile, :count)
+        end
+        it "should not create a basic file" do
+          expect {
+            post :create, {:book => @book_attributes , :person => @person_attributes }, valid_session
+          }.not_to change(BasicFile, :count)
+        end
+        it "should have no relations to any representation" do
+          post :create, {:book => @book_attributes , :person => @person_attributes }, valid_session
+          Book.all.last.tei_rep?.should be_false
+          Book.all.last.tiff_rep?.should be_false
+        end
+        it "should create a relation between book and person" do
+          post :create, {:book => @book_attributes , :person => @person_attributes }, valid_session
+          Book.all.last.authors.length.should == 1
+          Book.all.last.authors.first.should == @author
+          Person.all.last.authored_books.should include(Book.all.last)
+        end
+      end
     end
 
     describe "with invalid params" do
@@ -240,6 +417,8 @@ describe BooksController do
     BookTeiRepresentation.all.each { |btr| btr.delete }
     BookTiffRepresentation.all.each { |btr| btr.delete }
     BasicFile.all.each { |bf| bf.delete }
+    TiffFile.all.each { |tf| tf.delete }
+    Person.all.each { |p| p.delete }
   end
 
 end

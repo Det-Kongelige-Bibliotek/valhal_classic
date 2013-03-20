@@ -27,7 +27,7 @@ class Book < IntellectualEntity
   end
 
   # Determines whether any TIFF representations exists.
-  def hasTiffRep?
+  def tiff_rep?
     return tif.any?
   end
 

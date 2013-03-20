@@ -55,64 +55,19 @@ class BooksController < ApplicationController
         #Create TEI representation of book using uploaded TEI file if a file was uploaded
         if !params[:file][:tei_file].blank?
           logger.debug "Creating a tei representation"
-          tei = BookTeiRepresentation.new(params[:tei])
-          tei.save!
-
-          tei_file = BasicFile.new
-          tei_file.add_file(params[:file][:tei_file])
-          tei_file.container = tei
-          tei_file.save!
-          tei.files << tei_file
-
-          tei.book = @book
-          tei.save!
+          add_tei_representation
         end
 
         #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
+        # Also creates the structmap
         if !params[:file][:tiff_file].blank?
           logger.debug "Creating a tiff representation"
-          tiff = BookTiffRepresentation.new(params[:tiff])
-          tiff.save!
-
-          params[:file][:tiff_file].each do |f|
-            tiff_file = TiffFile.new
-            tiff_file.add_file(f)
-            logger.debug f.original_filename
-            tiff_file.container = tiff
-            tiff_file.save!
-            tiff.files << tiff_file
-          end
-
-          tiff.book = @book
-          tiff.save!
-        end
-
-        #Create METS Structmap for book using uploaded METS file if file was uploaded
-        if !params[:file][:tiff_file].blank? && !params[:file][:structmap_file].blank?
-          uploaded_struct_map_file = params[:file][:structmap_file]
-          processed_structmap_file = write_tiff_uuids_to_structmap(uploaded_struct_map_file.tempfile, tiff.files)
-
-          struct_map_file = BasicFile.new
-          uploaded_struct_map_file.tempfile = processed_structmap_file
-          struct_map_file.add_file(uploaded_struct_map_file)
-          tiff.files << struct_map_file
-
-          tiff.book = @book
-          tiff.save!
+          add_tiff_representation
         end
       end
       # add the authors to the book
       if !params[:person].blank? && !params[:person][:id].blank?
-        params[:person][:id].each do |author_pid|
-          if author_pid && !author_pid.empty?
-            author = Person.find(author_pid)
-            @book.authors << author
-
-            # TODO: Relationship should not be defined both ways.
-            author.authored_books << @book
-            author.save!
-          end
-        end
+        add_authors(params[:person][:id])
       end
       redirect_to @book, notice: 'Book was successfully created.'
     else
@@ -136,71 +91,23 @@ class BooksController < ApplicationController
         #Create TEI representation of book using uploaded TEI file if a file was uploaded
         if !params[:file][:tei_file].blank?
           logger.debug "Creating a tei representation"
-          tei = BookTeiRepresentation.new(params[:tei])
-          tei.save!
-
-          tei_file = BasicFile.new
-          tei_file.add_file(params[:file][:tei_file])
-          tei_file.container = tei
-          tei_file.save!
-          tei.files << tei_file
-
-          tei.book = @book
-          tei.save!
+          add_tei_representation
         end
 
         #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
+        # Also creates the structmap
         if !params[:file][:tiff_file].blank?
           logger.debug "Creating a tiff representation"
-          tiff = BookTiffRepresentation.new(params[:tiff])
-          tiff.save!
-
-          params[:file][:tiff_file].each do |f|
-            tiff_file = TiffFile.new
-            tiff_file.add_file(f)
-            puts f.original_filename
-            tiff_file.container = tiff
-            tiff_file.save!
-            tiff.files << tiff_file
-          end
-
-          tiff.book = @book
-          tiff.save!
-        end
-
-        #Create METS Structmap for book using uploaded METS file if file was uploaded
-        if !params[:file][:tiff_file].blank? && !params[:file][:structmap_file].blank?
-          uploaded_struct_map_file = params[:file][:structmap_file]
-          processed_structmap_file = write_tiff_uuids_to_structmap(uploaded_struct_map_file.tempfile, tiff.files)
-
-          struct_map_file = BasicFile.new
-          uploaded_struct_map_file.tempfile = processed_structmap_file
-          struct_map_file.add_file(uploaded_struct_map_file)
-          tiff.files << struct_map_file
-
-          tiff.book = @book
-          tiff.save!
+          add_tiff_representation
         end
 
       end
       # add the authors to the book
       if !params[:person].blank? && !params[:person][:id].blank?
-        puts params
-        puts "Person arguments "
         # Remove any existing relationships
         @book.authors.clear
-        #Add a new relationship for each author
-        params[:person][:id].each do |author_pid|
-          if author_pid && !author_pid.empty?
-            author = Person.find(author_pid)
-            @book.authors << author
-
-            # TODO: Relationship should not be defined both ways.
-            author.authored_books << @book
-            author.save!
-          end
-        end
-        @book.save!
+        # add new persons as authors
+        add_authors(params[:person][:id])
       end
       redirect_to @book, notice: 'Book was successfully updated.'
     else
@@ -213,6 +120,78 @@ class BooksController < ApplicationController
     @book.destroy
 
     redirect_to books_url
+  end
+
+  # creates the tei representation with the tei file
+  private
+  def add_tei_representation
+    tei = BookTeiRepresentation.new(params[:tei])
+    tei.save!
+
+    tei_file = BasicFile.new
+    tei_file.add_file(params[:file][:tei_file])
+    tei_file.container = tei
+    tei_file.save!
+    tei.files << tei_file
+
+    tei.book = @book
+    tei.save!
+  end
+
+  # creates the tiff representation and adds the tiff images with the structmap
+  private
+  def add_tiff_representation
+    tiff = BookTiffRepresentation.new(params[:tiff])
+    tiff.save!
+
+    params[:file][:tiff_file].each do |f|
+      tiff_file = TiffFile.new
+      tiff_file.add_file(f)
+      logger.debug f.original_filename
+      tiff_file.container = tiff
+      tiff_file.save!
+      tiff.files << tiff_file
+    end
+
+    #Create METS Structmap for book using uploaded METS file if file was uploaded
+    if !params[:file][:structmap_file].blank?
+      add_structmap(tiff, params[:file][:structmap_file])
+    end
+
+    tiff.book = @book
+    tiff.save!
+    @book.save!
+  end
+
+  # Adds the structmap to the book
+  private
+  def add_structmap(tiff, uploaded_struct_map_file)
+    processed_structmap_file = write_tiff_uuids_to_structmap(uploaded_struct_map_file.tempfile, tiff.files)
+
+    struct_map_file = BasicFile.new
+    uploaded_struct_map_file.tempfile = processed_structmap_file
+    struct_map_file.add_file(uploaded_struct_map_file)
+    tiff.structmap << struct_map_file
+
+    tiff.book = @book
+    tiff.save!
+  end
+
+  # adds the person defined in the params as authors
+  private
+  def add_authors(ids)
+    # add the authors to the book
+    ids.each do |author_pid|
+      if author_pid && !author_pid.empty?
+        author = Person.find(author_pid)
+        @book.authors << author
+
+        # TODO: Relationship should not be defined both ways.
+        author.authored_books << @book
+        author.save!
+      end
+    end
+    @book.save!
   end
 
   #Take the UUIDs of the uploaded tiff files and write them to the structmap replacing the original tiff file names
