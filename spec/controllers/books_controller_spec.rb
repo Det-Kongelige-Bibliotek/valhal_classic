@@ -210,11 +210,12 @@ describe BooksController do
         end
       end
 
-      describe "with a Tiff representation and a structmap" do
+      describe "with a Tiff representation" do
         before :all do
           @book_attributes = { :title => "Samlede Skrifter"}
-          @file_attributes = { :tiff_file => [ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"), head: "Content-Disposition: form-data; name=\"file[tiff_file][]\"; filename=\"arre1fm005.tif\"\r\nContent-Type: image/tiff\r\n")],
-                               :structmap_file => ActionDispatch::Http::UploadedFile.new(filename: 'aarebo_mets_structmap_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarebo_mets_structmap_sample.xml"))}
+          @file_attributes = { :tiff_file => [ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff',
+                                                                                     tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"),
+                                                                                     head: "Content-Disposition: form-data; name=\"file[tiff_file][]\"; filename=\"arre1fm005.tif\"\r\nContent-Type: image/tiff\r\n")]}
         end
         it "should create the book" do
           expect {
@@ -237,9 +238,10 @@ describe BooksController do
           }.to change(TiffFile, :count).by(1)
         end
         it "should create a basic file for the struct map" do
+          pending "Need to test the addition of a structmap file to a BookTiffRepresentation after a structmap is generated"
           expect {
             post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
-          }.to change(BasicFile, :count).by(1)
+          }.to change(StructMap, :count).by(1)
         end
         it "should create a relation between book and tiff-representation" do
           post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
@@ -249,12 +251,14 @@ describe BooksController do
           Book.all.last.tif.first.should == BookTiffRepresentation.all.last
           BookTiffRepresentation.all.last.book.should == Book.all.last
         end
-        it "should create a relation between tiff-representation and basic-file" do
+
+        it "should create a relation between tiff-representation and struct-map" do
+          pending "Need to test the addition of a structmap file to a BookTiffRepresentation after a structmap is generated"
           post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
           BookTiffRepresentation.all.last.files.length.should == 1
           BookTiffRepresentation.all.last.files.first.should == TiffFile.all.last
-          BookTiffRepresentation.all.last.structmap.length.should == 1
-          BookTiffRepresentation.all.last.structmap.first.should == BasicFile.all.last
+          BookTiffRepresentation.all.last.smaps.length.should == 1
+          BookTiffRepresentation.all.last.smaps.first.should == StructMap.all.last
         end
       end
 

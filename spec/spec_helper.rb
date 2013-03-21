@@ -76,7 +76,7 @@ Spork.prefork do
     end
 
     def create_basic_file_for_tif_with_filename(holding_object, file_name)
-      basic_file = BasicFile.new
+      basic_file = TiffFile.new
       uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: file_name, type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/#{file_name}"))
       basic_file.add_file(uploaded_file)
       basic_file.container = holding_object
