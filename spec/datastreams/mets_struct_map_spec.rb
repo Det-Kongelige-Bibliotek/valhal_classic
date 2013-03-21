@@ -53,22 +53,6 @@ describe Datastreams::MetsStructMap do
     new_mets_structmap = Datastreams::MetsStructMap.new
     #new_mets_structmap.save
     new_mets_structmap.should_not be_nil
-    puts new_mets_structmap.to_xml
-  end
-
-  it "should be possible to update a structmap" do
-    new_mets_structmap = Datastreams::MetsStructMap.new
-    new_mets_structmap.should_not be_nil
-    #new_mets_structmap.save
-    puts new_mets_structmap.to_xml
-    nokogiri_xml = new_mets_structmap.ng_xml
-    div = nokogiri_xml.at_css "div"
-    div['ORDER'] = '1'
-    fptr = nokogiri_xml.at_css "fptr"
-    fptr['FILEID'] = 'test.tif'
-    puts "########### After Update ####################"
-    puts new_mets_structmap.to_xml
-    #new_mets_structmap.find_by_terms(:order).first.content.should == "1"
   end
 
 end
