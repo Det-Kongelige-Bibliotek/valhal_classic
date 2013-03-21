@@ -4,7 +4,7 @@ describe BooksHelper do
   describe "generate_structmap" do
     it 'should generate a structmap' do
 
-      file_order = "arre1fm001.tif,arre1fm002.tif,arre1fm003.tif,arre1fm004.tif,arre1fm005.tif,arre1fm006.tif"
+      file_order = "arre1fm001,arre1fm002,arre1fm003,arre1fm004,arre1fm005,arre1fm006"
       tiff_representation = create_tiff_representation(6)
       structmap = helper.generate_structmap(file_order, tiff_representation)
       structmap.should_not be_nil

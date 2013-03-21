@@ -21,7 +21,7 @@ module BooksHelper
     file_names.each do |file_name|
       div_element = Nokogiri::XML::Node.new "div", ng_doc
       fptr_element = Nokogiri::XML::Node.new "fptr", ng_doc
-      fptr_element.set_attribute('FILEID', file_name)
+      fptr_element.set_attribute('FILEID', "#{file_name}.tif")
       div_element.add_child(fptr_element)
       div_element.set_attribute('ORDER', count.to_s)
       structmap_element.add_child(div_element)
@@ -36,11 +36,15 @@ module BooksHelper
     tiff_representation.files.each do |tiff_basic_file|
       tiffs_hash[tiff_basic_file.original_filename] = tiff_basic_file.uuid
     end
+
+    logger.debug tiffs_hash.inspect
     #using the order of the filenames in the structmap, get the corresponding UUID from the hashmap and replace the
     #filename in the structmap with the UUID
 
     #need a list of the fptr FILEID attributes in the order they appear in the doc
     ng_doc.xpath("//@FILEID").each do |file_id|
+      logger.debug "file_id: #{file_id}"
+      logger.debug "tiffs_hash[file_id.to_s].to_s: #{tiffs_hash[file_id.to_s].to_s}"
       file_id.content = tiffs_hash[file_id.to_s].to_s
     end
 
