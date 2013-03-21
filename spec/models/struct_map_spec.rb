@@ -8,16 +8,21 @@ describe StructMap do
     @smap.save
   end
 
-  it "should have the required datastreams" do
-    @smap.techMetadata.should be_kind_of Datastreams::MetsStructMap
-  end
-
   describe "New" do
       it "should be possible to create and save a structmap" do
         @smap = StructMap.new
         @smap.save.should == true
       end
     end
+
+  it "should be able to retrive a saved object from the repository" do
+    smap = StructMap.find(@smap.pid)
+    smap.should == @smap
+  end
+
+  it "should have the required datastreams" do
+    @smap.techMetadata.should be_kind_of Datastreams::MetsStructMap
+  end
 
   describe "Destroy" do
       before do
