@@ -12,8 +12,7 @@
 <%= form_tag(create_structmap_book_path(@book.pid), :method => "put") do %>
     <%= hidden_field_tag("structmap_file_order") %>
   <div class="btn btn-small actions text-center">
-    <%= submit_tag("Generate Structmap") %>
+    <%= submit_tag "Generate Structmap", :onclick => "handle_onsubmit();" %>
   </div>
 </div>
-<%#=  link_to 'Save', wizard_path(:create_structmap)  %>
 <% end %>
