@@ -1,0 +1,18 @@
+<div class="all-center">
+<h1>Sort TIFFs</h1>
+
+<ul id="structmap_file_list" class="sortable grid">
+    <%- @book.tif.first.files.each do |file| %>
+        <% # TODO fix the following %>
+        <li><%= file.nil? ? "No file" : file.original_filename.chomp(".tif") %></li>
+    <%- end %>
+</ul>
+<br/>
+
+<%= form_tag(create_structmap_book_path(@book.pid), :method => "put") do %>
+    <%= hidden_field_tag("structmap_file_order") %>
+  <div class="btn btn-small actions text-center">
+    <%= submit_tag "Generate Structmap", :onclick => "handle_onsubmit();" %>
+  </div>
+</div>
+<% end %>

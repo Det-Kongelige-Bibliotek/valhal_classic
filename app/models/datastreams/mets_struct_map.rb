@@ -2,7 +2,7 @@
 module Datastreams
   #This class is designed to reflect the METS 1.9.1 schema with emphasis upon the structMap element used for defining
   #the sequential order in which files appear
-  class AdlMets < ActiveFedora::NokogiriDatastream
+  class MetsStructMap < ActiveFedora::NokogiriDatastream
     include OM::XML::Document
 
     set_terminology do |t|

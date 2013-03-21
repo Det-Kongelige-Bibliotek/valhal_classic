@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 ADL::Application.routes.draw do
   get "view_file/show"
+  get "view_file/show_structmap"
 
   root :to => "catalog#index"
 
@@ -29,6 +30,10 @@ ADL::Application.routes.draw do
       get 'image_url'
     end
   end
-  resources :books
-  #resources :view_file
+
+  resources :books do
+    member do
+      put 'create_structmap'
+    end
+  end
 end

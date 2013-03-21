@@ -17,6 +17,7 @@ gem 'simplecov-rcov'
 gem 'omniauth-ldap'
 gem 'dynamic_form'
 gem 'rubyzip'
+gem 'wicked'
 
 # NOTE: the :require arg is necessary on Linux-based hosts
 gem 'rmagick', '2.13.1', :require => 'RMagick'
@@ -43,7 +44,7 @@ end
 gem 'rspec-rails' , :group => [:development, :test]
 
 group :development do
-  #gem 'factory_girl_rails', '~> 4.1'
+  gem 'factory_girl_rails', '~> 4.1'
   gem 'better_errors'
   gem 'spork'
   gem 'debugger'

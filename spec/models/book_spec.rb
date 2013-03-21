@@ -143,7 +143,6 @@ describe Book do
     end
 
     it "does allow creation of two books one with an ISBN and one without" do
-
       book1 = Book.new(:title => "København Blues", :isbn => 9788175237665)
       book2 = Book.new(:title => "Belfast Blues")
       book2.valid?.should be_true
