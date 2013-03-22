@@ -67,25 +67,26 @@ class BooksController < ApplicationController
     @book = Book.new(params[:book])
 
     if @book.save
-      if !params[:file].blank? && !params[:file][:tei_file].blank? || !params[:file].blank? && !params[:file][:tiff_file].blank?
 
-        #Create TEI representation of book using uploaded TEI file if a file was uploaded
-        if !params[:file][:tei_file].blank?
-          logger.debug "Creating a tei representation"
-          add_tei_representation
-        end
-
-        #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
-        if !params[:file][:tiff_file].blank?
-          logger.debug "Creating a tiff representation"
-          add_tiff_representation
-          end
-        end
       # add the authors to the book
       if !params[:person].blank? && !params[:person][:id].blank?
         add_authors(params[:person][:id])
       end
+
+      #Create TEI representation of book using uploaded TEI file if a file was uploaded
+      if !params[:file].blank? && !params[:file][:tei_file].blank?
+        logger.debug "Creating a tei representation"
+        add_tei_representation
+      end
+
+      #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
+      if !params[:file].blank? && !params[:file][:tiff_file].blank?
+        logger.debug "Creating a tiff representation"
+        add_tiff_representation
+        render_wizard
+      else
         redirect_to @book, notice: 'Book was successfully created.'
+      end
     else
       render action: "new"
     end
@@ -177,20 +178,6 @@ class BooksController < ApplicationController
     tiff.save!
     @book.save!
   end
-
-  # Adds the structmap to the book
-  #private
-  #def add_structmap(tiff, uploaded_struct_map_file)
-  #  processed_structmap_file = write_tiff_uuids_to_structmap(uploaded_struct_map_file.tempfile, tiff.files)
-  #
-  #  struct_map_file = BasicFile.new
-  #  uploaded_struct_map_file.tempfile = processed_structmap_file
-  #  struct_map_file.add_file(uploaded_struct_map_file)
-  #  tiff.structmap << struct_map_file
-  #
-  #  tiff.book = @book
-  #  tiff.save!
-  #end
 
   # adds the person defined in the params as authors
   private
