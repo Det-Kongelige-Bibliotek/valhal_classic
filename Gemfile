@@ -12,8 +12,6 @@ gem 'jquery-rails'
 gem 'client_side_validations'
 gem 'uuid', '>= 2.3.6'
 
-gem 'simplecov', :require => false, :group => :test
-gem 'simplecov-rcov'
 gem 'omniauth-ldap'
 gem 'dynamic_form'
 gem 'rubyzip'
@@ -39,21 +37,17 @@ group :test do
   gem 'factory_girl_rails', '~> 4.1'
   gem 'capybara'
   gem 'rb-readline'
+  gem 'simplecov-rcov'
+  gem 'simplecov', :require => false
 end
 
 gem 'rspec-rails' , :group => [:development, :test]
 
 group :development do
-  #gem 'factory_girl_rails', '~> 4.1'
   gem 'better_errors'
-  gem 'spork'
   gem 'debugger'
   gem 'equivalent-xml'
   gem 'jettywrapper', '>= 1.2.0'
-  gem 'rb-inotify', '~> 0.8.8', :require => false
-  gem 'guard-rspec'
-  gem 'guard-livereload'
-  gem 'guard-spork'
   gem 'thin'
 end
 
