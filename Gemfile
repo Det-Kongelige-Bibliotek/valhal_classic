@@ -4,7 +4,7 @@ gem 'rails', '3.2.11'
 
 gem "devise", "~> 2.1.2"
 gem "blacklight", "~> 4.0.1"
-gem 'hydra-head', '5.4.0'
+gem 'hydra-head', '6.0.0'
 gem 'sqlite3'
 gem 'bootswatch-rails'
 
@@ -41,13 +41,13 @@ group :test do
   gem 'simplecov', :require => false
 end
 
-gem 'rspec-rails' , :group => [:development, :test]
+gem 'rspec-rails', :group => [:development, :test]
 
 group :development do
   gem 'better_errors'
   gem 'debugger'
   gem 'equivalent-xml'
-  gem 'jettywrapper', '>= 1.2.0'
+  gem 'jettywrapper'
   gem 'thin'
 end
 
