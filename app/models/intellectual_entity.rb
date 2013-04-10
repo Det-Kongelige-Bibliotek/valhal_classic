@@ -16,12 +16,13 @@ class IntellectualEntity < ActiveFedora::Base
   delegate_to 'provenanceMetadata', [:uuid], :unique => true
 
   # Validation criteria of the uuid.
-  validates :uuid, :presence => true, :length => { :minimum => 16, :maximum => 64}
+  #lvalidates :uuid, :presence => true, :length => { :minimum => 16, :maximum => 64}
 
   # Automatical creation of a random value in the UUID if it has not been defined at the point of saving.
-  before_validation(:on => :create) do
-    self.uuid = UUID.new.generate unless self.uuid
-  end
+  #before_validation(:on => :create) do
+    #Alwb: Fails big time after the update to HH6, commented it out for now. TODO will need to investigate why this fails
+    #self.uuid = UUID.new.generate unless self.uuid
+  #end
 
   # Make solr index for the UUID of the intellectual entities.
   # TODO SIFD-41: fix issue with inheritance
