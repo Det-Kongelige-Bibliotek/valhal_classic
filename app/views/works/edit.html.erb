@@ -1,0 +1,24 @@
+<h1>Editing Work</h1>
+<%= form_for @work, :html=>{:multipart=>true} do |f| %>
+    <%= f.error_messages :header_message => "Edit work error", :class => "alert alert-error", :header_tag => :h3 %>
+    <%= fields_for :work do |builder| %>
+        <%= render 'title_fields', :f => builder %>
+    <% end %>
+    <br/>
+    <%= fields_for :author, :html=>{:multipart=>true} do |builder| %>
+        <%= render 'add_author', :f => builder %>
+    <% end %>
+    <br/>
+    <%= fields_for :work do |builder| %>
+        <%= render 'metadata_fields', :f => builder %>
+    <% end %>
+    <br/>
+    <%= fields_for :file, :html=>{:multipart=>true} do |builder| %>
+        <%= render 'single_file_upload', :f => builder %>
+    <% end %>
+    <br/>
+    <%= f.submit "Update" %>
+<% end %>
+
+<%= link_to 'Show', @work %> |
+<%= link_to 'Works', works_path %>
