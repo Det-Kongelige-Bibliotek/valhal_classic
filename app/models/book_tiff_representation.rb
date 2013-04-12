@@ -1,10 +1,12 @@
 # -*- encoding : utf-8 -*-
-class BookTiffRepresentation < Representation
+class BookTiffRepresentation < ActiveFedora::Base
   include ActiveModel::Validations
+  include Concerns::Representation
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name => 'descMetadata', :type => ActiveFedora::SimpleDatastream
   has_metadata :name => 'provMetadata', :type => ActiveFedora::SimpleDatastream
+
 
   has_many :files, :class_name => 'TiffFile', :property => :is_part_of
   has_many :structmap, :class_name => 'BasicFile', :property => :is_part_of

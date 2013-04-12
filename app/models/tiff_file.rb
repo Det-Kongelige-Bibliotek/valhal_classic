@@ -1,15 +1,16 @@
 # -*- encoding : utf-8 -*-
 require 'RMagick'
 
-class TiffFile < BasicFile
-  include Hydra::Models::FileAsset
+class TiffFile < ActiveFedora::Base
+  include Concerns::BasicFile
+  include Concerns::IntellectualEntity
 
   def add_file(file)
     #puts file.inspect
     valid = super
     if(valid)
-      save!
-      create_thumbnail(file)
+      self.save!
+      self.create_thumbnail(file)
     end
     valid
   end

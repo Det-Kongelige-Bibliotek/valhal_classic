@@ -8,11 +8,11 @@ class Representation < ActiveFedora::Base
     m.field "label", :string
   end
 
-  # Define the label as an accessible part of the descriptive metadata.
-  delegate_to 'provenanceMetadata', [:label], :unique => true
+  # Define the label as an accessinbn ble part of the descriptive metadata.
+  delegate :label, :to=> 'provenanceMetadata', :at => [:label], :unique => true
 
   # Automatical creation of a the label if it has not been defined.
   before_validation(:on => :create) do
-    self.label = self.class.name.to_s unless label
+    self.label =  self.class.name.to_s if self.label.blank?
   end
 end

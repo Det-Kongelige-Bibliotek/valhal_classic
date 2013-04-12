@@ -13,16 +13,17 @@ class PersonValidator < ActiveModel::Validator
   def has_duplicate_person(record)
     logger.debug "Looking for duplicate people with name = #{record.comma_seperated_lastname_firstname}"
     if record.id.eql? "__DO_NOT_USE__"
-      potential_people = ActiveFedora::SolrService.query("search_result_title_t:#{record.comma_seperated_lastname_firstname} AND has_model_s:\"info:fedora/afmodel:Person\"")
+      potential_people = Person.find_with_conditions("search_result_title_t:\"#{record.comma_seperated_lastname_firstname}\"")
     else
       logger.debug "self.id = #{record.id}"
       logger.debug "self.pid = #{record.pid}"
-      potential_people = ActiveFedora::SolrService.query("search_result_title_t:#{record.comma_seperated_lastname_firstname} AND has_model_s:\"info:fedora/afmodel:Person\" NOT id:\"#{record.id}\"")
+      potential_people = Person.find_with_conditions("search_result_title_t:\"#{record.comma_seperated_lastname_firstname}\" NOT id:\"#{record.id}\"")
     end
-    logger.info "duplicate person names count = #{potential_people.size}"
+    logger.info "duplicate person names count = #{potential_people.length}"
+
     potential_people.each do |person|
       #logger.info "Comparing '" + record.to_s + "' with person '" + person.to_s
-      if is_same_date(person["date_of_birth_t"], record.date_of_birth) && is_same_date(person["date_of_death_t"], record.date_of_death)
+      if is_same_date(person["date_of_birth_tesim"], record.date_of_birth) && is_same_date(person["date_of_death_tesim"], record.date_of_death)
         logger.error "duplicate person found: " + person.to_s
         return true
       end

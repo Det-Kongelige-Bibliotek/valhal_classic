@@ -18,13 +18,12 @@ class BookValidator < ActiveModel::Validator
       false
     else
       if id.eql? "__DO_NOT_USE__"
-        count = ActiveFedora::SolrService.query("isbn_t:#{isbn} AND has_model_s:\"info:fedora/afmodel:Book\"").size
+        count = Book.find_with_conditions("#{ActiveFedora::SolrService.solr_name("isbn", Solrizer::Descriptor.new(:string, :stored, :indexed))}:\"#{isbn}\"").length
       else
-        count = ActiveFedora::SolrService.query("isbn_t:#{isbn} AND has_model_s:\"info:fedora/afmodel:Book\" NOT id:\"#{id}\"").size
+        count = Book.find_with_conditions("#{ActiveFedora::SolrService.solr_name("isbn", Solrizer::Descriptor.new(:string, :stored, :indexed))}:\"#{isbn}\" NOT id:\"#{id}\"").length
       end
       logger.error "duplicate ISBN count = #{count}"
       count > 0
     end
   end
-
 end

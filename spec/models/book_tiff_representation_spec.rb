@@ -22,7 +22,7 @@ describe BookTiffRepresentation do
   end
 
   it "should have a relationship to files" do
-    subject.files.each { |file| file.should be_kind_of BasicFile }
+    subject.files.each { |file| file.should be_kind_of Concerns::BasicFile }
   end
 
   it "should be able to be saved" do

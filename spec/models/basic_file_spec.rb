@@ -31,18 +31,6 @@ describe BasicFile do
       @basic_file.uuid.should_not be_nil
     end
 
-    it "should have a timestamp for when the file was created" do
-      @basic_file.created.should be_kind_of String
-    end
-
-    it "should have a timestamp for when the file was last modified" do
-      @basic_file.last_modified.should be_kind_of String
-    end
-
-    it "should have a timestamp for when the file was last accessed" do
-      @basic_file.last_accessed.should be_kind_of String
-    end
-
     it "should be able to be saved in repository with a file attended" do
       @basic_file.save.should == true
     end
@@ -111,18 +99,6 @@ describe BasicFile do
     it "should have a uuid" do
       @basic_file.save!
       @basic_file.uuid.should_not be_nil
-    end
-
-    it "should have a timestamp for when the file was created" do
-      @basic_file.created.should be_kind_of String
-    end
-
-    it "should have a timestamp for when the file was last modified" do
-      @basic_file.last_modified.should be_kind_of String
-    end
-
-    it "should have a timestamp for when the file was last accessed" do
-      @basic_file.last_accessed.should be_kind_of String
     end
 
     it "should be able to be saved in repository with a file attended" do

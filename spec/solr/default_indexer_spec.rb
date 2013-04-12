@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe DefaultIndexer do
+describe Solr::DefaultIndexer do
   before(:each) do
-    @index = DefaultIndexer.new
+    @index = Solr::DefaultIndexer.new
   end
 
   it 'should be able to add a field use a Hash' do
@@ -20,21 +20,18 @@ describe DefaultIndexer do
 
     it "should be able to generate a Hash with solr names and values from the class" do
       book = Book.new(title: "TestTitle")
-      index = DefaultIndexer.new(book)
+      index = Solr::DefaultIndexer.new(book)
       index.add_field("title", :text)
       index.generate_solr_doc.should == { 'title_tsi' => "TestTitle"}
     end
 
     it "should return a empty hash when no fields have an value " do
-      index = DefaultIndexer.new(@book)
+      index = Solr::DefaultIndexer.new(@book)
       index.add_field("title", :text)
       index.generate_solr_doc.should == {}
     end
 
 
   end
-
-
-
 
 end

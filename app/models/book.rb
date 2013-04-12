@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
-class Book < IntellectualEntity
+class Book < ActiveFedora::Base
   include ActiveModel::Validations
+  include Concerns::IntellectualEntity
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name=>'descMetadata', :type=>Datastreams::BookMods
@@ -9,6 +10,7 @@ class Book < IntellectualEntity
   delegate_to 'descMetadata',[:isbn, :genre, :shelfLocator, :title, :subTitle, :typeOfResource, :publisher,
                               :originPlace, :languageISO, :languageText, :subjectTopic, :dateIssued,
                               :physicalExtent], :unique=>true
+
 
   # has_many is used as there doesn't seem to be any has_one relation in Active Fedora
   has_many :tei, :class_name => 'BookTeiRepresentation', :property=>:is_representation_of
@@ -64,18 +66,19 @@ class Book < IntellectualEntity
 
   def to_solr(solr_doc = {})
     super
+    solr_service = ActiveFedora::SolrService
+    desc = Solrizer::Descriptor.new(:text, :stored, :indexed)
     #search_result_title_t = the name of the field in the Solr document that will be used on search results
     #to create a link, we use this field for both Books and Persons so that we can make a link to in the search results
     #view using
     solr_doc["search_result_title_t"] = self.title unless self.title.blank?
-
     solr_doc["search_results_book_authors_s"] = self.authors_names_to_s unless self.authors_names_to_s.blank?
-    solr_doc["isbn_t"] = self.isbn unless self.isbn.blank?
+    solr_doc[solr_service.solr_name("isbn", Solrizer::Descriptor.new(:string, :stored, :indexed))] = self.isbn unless self.isbn.blank?
     solr_doc["genre_t"] = self.genre unless self.genre.blank?
-    solr_doc["shelf_locator_t"] = self.shelfLocator unless self.shelfLocator.blank?
+    solr_doc[solr_mapper.solr_name("shelf_locator", Solrizer::Descriptor.new(:string, :stored, :indexed))] = self.shelfLocator unless self.shelfLocator.blank?
     solr_doc["title_t"] = self.title unless self.title.blank?
-    solr_doc["sub_title_t"] = self.subTitle unless self.subTitle.blank?
-    solr_doc["type_of_resource_t"] = self.typeOfResource unless self.typeOfResource.blank?
+    solr_doc[solr_mapper.solr_name("sub_title", Solrizer::Descriptor.new(:string, :stored, :indexed))] = self.subTitle unless self.subTitle.blank?
+    solr_doc[solr_service.solr_name("type_of_resource", desc)] = self.typeOfResource unless self.typeOfResource.blank?
     return solr_doc
   end
 end

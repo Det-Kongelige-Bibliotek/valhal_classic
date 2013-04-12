@@ -4,8 +4,9 @@
 # representations of this person, e.g. a TEI encoded author-description, an image, etc.
 # The person must have a relationship to the different intellectual entities it has been
 # involved in, e.g. authored a book, performed a play, etc.
-class Person < IntellectualEntity
+class Person < ActiveFedora::Base
   include ActiveModel::Validations
+  include Concerns::IntellectualEntity
 
   # Descriptive metadata stream for the abstract person.
   has_metadata :name => 'descMetadata', :type => ActiveFedora::SimpleDatastream do |m|

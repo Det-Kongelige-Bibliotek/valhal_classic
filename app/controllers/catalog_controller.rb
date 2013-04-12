@@ -81,7 +81,7 @@ class CatalogController < ApplicationController
     # facet bar
     config.add_facet_field 'mime_type_t', :label => 'Format'
     config.add_facet_field 'surname_t', :label => 'Author', :sort => 'index'
-    config.add_facet_field 'mods_titleInfo_title_t', :label => 'Title', :sort => 'index'
+    config.add_facet_field 'title_t', :label => 'Title', :sort => 'index'
 
     config.add_facet_field 'example_pivot_field', :label => 'Pivot Field', :pivot => ['format', 'language_facet']
 
@@ -186,10 +186,10 @@ class CatalogController < ApplicationController
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
     # except in the relevancy case).
-    config.add_sort_field 'score desc, pub_date_sort desc, title_sort asc', :label => 'relevance'
-    config.add_sort_field 'pub_date_sort desc, title_sort asc', :label => 'year'
-    config.add_sort_field 'author_sort asc, title_sort asc', :label => 'author'
-    config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title'
+    #config.add_sort_field 'score desc, pub_date_sort desc, title_sort asc', :label => 'relevance'
+    #config.add_sort_field 'pub_date_sort desc, title_sort asc', :label => 'year'
+    #config.add_sort_field 'author_sort asc, title_sort asc', :label => 'author'
+    #config.add_sort_field 'title_sort asc, pub_date_sort desc', :label => 'title'
 
     # If there are more than this many search results, no spelling ("did you 
     # mean") suggestion is offered.

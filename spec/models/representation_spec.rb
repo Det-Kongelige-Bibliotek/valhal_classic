@@ -58,23 +58,7 @@ describe Representation do
       Representation.count.should == count - 1
     end
   end
-  
-  describe "Inherited" do
-    before do
-      class InheritedRepresentation < Representation
-      end
-    end
 
-    it "should as default get its own class name as label" do
-      ir = InheritedRepresentation.new
-      ir.save!
-      ir.label.should == InheritedRepresentation.name
-    end
-    
-    after do
-      InheritedRepresentation.all.each { |ir| ir.destroy }
-    end
-  end
 
   after (:all) do
     Representation.all.each { |r| r.destroy }

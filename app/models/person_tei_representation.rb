@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
-class PersonTeiRepresentation < Representation
+class PersonTeiRepresentation < ActiveFedora::Base
+  include Concerns::Representation
 
   has_metadata :name => 'descMetadata', :type => Datastreams::AdlTeiP5
   has_file_datastream :name => "teiFile", :type => Datastreams::AdlTeiP5
