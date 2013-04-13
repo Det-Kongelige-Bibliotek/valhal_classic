@@ -50,14 +50,14 @@ class CatalogController < ApplicationController
     #}
 
     # solr field configuration for search results/index views
-    config.index.show_link = 'search_result_title_t'
+    config.index.show_link = 'search_result_title_tsi'
     config.index.record_display_type = 'format'
 
-    config.show.html_title = 'person_name_t'
-    config.show.heading = 'person_name_t'
+    config.show.html_title = 'person_name_tsi'
+    config.show.heading = 'person_name_tsi'
     # solr field configuration for document/show views
-    config.show.html_title = 'title_t'
-    config.show.heading = 'title_t'
+    config.show.html_title = 'title_tsi'
+    config.show.heading = 'title_tsi'
     config.show.display_type = 'format'
 
     # solr fields that will be treated as facets by the blacklight application

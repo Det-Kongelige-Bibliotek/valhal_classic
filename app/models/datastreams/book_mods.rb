@@ -6,33 +6,33 @@ module Datastreams
   class BookMods < ActiveFedora::NokogiriDatastream
     set_terminology do |t|
       t.root(:path=>'mods', :xmlns=>"http://www.loc.gov/mods/v3")
-      t.uuid(:path=>"identifier[@type='uri']", :index_as => [:searchable])
-      t.isbn(:path=>"identifier[@type='isbn']", :index_as => [:searchable])
-      t.genre(:index_as=>[:searchable])
-      t.typeOfResource(:index_as=>[:searchable])
+      t.uuid(:path=>"identifier[@type='uri']")
+      t.isbn(:path=>"identifier[@type='isbn']")
+      t.genre()
+      t.typeOfResource()
       t.location do
-        t.shelfLocator(:index_as=>[:searchable])
+        t.shelfLocator()
       end
       t.titleInfo do
-        t.title(:index_as => [:searchable])
-        t.subTitle(:index_as => [:searchable])
+        t.title()
+        t.subTitle()
       end
       t.originInfo do
-        t.publisher(:index_as => [:searchable])
+        t.publisher()
         t.place do
-          t.placeTerm(:index_as => [:searchable])
+          t.placeTerm()
         end
-        t.dateIssued(:index_as => [:searchable])
+        t.dateIssued()
       end
       t.language do
-        t.languageISO(:path=>"languageTerm[@authority='iso639-2b']", :index_as => [:searchable])
-        t.languageText(:path=>"languageTerm[@type='text']", :index_as => [:searchable])
+        t.languageISO(:path=>"languageTerm[@authority='iso639-2b']")
+        t.languageText(:path=>"languageTerm[@type='text']")
       end
       t.subject(:path=>"subject[@authority='lcsh']") do
-        t.topic(:index_as => [:searchable])
+        t.topic()
       end
       t.physicalDescription do
-        t.extent(:index_as => [:searchable])
+        t.extent()
       end
 
       t.shelfLocator(:proxy => [:location, :shelfLocator])

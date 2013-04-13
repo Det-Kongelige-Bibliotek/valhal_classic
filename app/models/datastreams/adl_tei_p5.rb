@@ -11,10 +11,10 @@ module Datastreams
       t.teiHeader do
         t.fileDesc do
           t.titleStmt do
-            t.title(:index_as => [:searchable])
+            t.title()
           end
           t.sourceDesc do
-            t.bibl(:index_as => [:searchable])
+            t.bibl()
           end
         end
         t.profileDesc do
@@ -36,16 +36,16 @@ module Datastreams
                   t.when(:path => {:attribute => "when"})
                   t.from(:path => {:attribute => "from"})
                   t.to(:path => {:attribute => "to"})
-                  t.desc(:index_as => [:searchable])
+                  t.desc()
                 end
                 t.note do
                   t.cit do
-                    t.quote(:index_as => [:searchable])
-                    t.bibl(:index_as => [:searchable])
+                    t.quote()
+                    t.bibl()
                   end
                 end
                 t.floruit do
-                  t.period(:path => {:attribute => "period"}, :index_as => [:searchable])
+                  t.period(:path => {:attribute => "period"})
                   t.from(:path => {:attribute => "from"})
                   t.to(:path => {:attribute => "to"})
                 end

@@ -1,6 +1,10 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
+class IntellectualEntity < ActiveFedora::Base
+  include Concerns::IntellectualEntity
+end
+
 describe IntellectualEntity do
   describe "#new" do
     it "should not be valid with an single letter value for the uuid" do
@@ -16,11 +20,6 @@ describe IntellectualEntity do
       @intellectual_entity.should be_valid
       @intellectual_entity.save.should be_true
       @intellectual_entity.uuid.should == "asdf-fdsa-asdf-dfsa"
-    end
-
-    it "should be able to be saved" do
-      @intellectual_entity = IntellectualEntity.new
-      @intellectual_entity.save.should be_true
     end
 
     it "should be appointed a uuid when saved, if the uuid is missing" do
@@ -44,35 +43,8 @@ describe IntellectualEntity do
       @intellectual_entity.save!
       @intellectual_entity.uuid.should == "1234-5678-1234-5768"
     end
-
-    it "should be possible to find through the uuid" do
-      pending "Need to fix the issue SIFD-41"
-      @intellectual_entity = IntellectualEntity.new
-      @intellectual_entity.save!
-      uuid = @intellectual_entity.uuid
-      search_results = ActiveFedora::SolrService.query("uuid_t:#{uuid}")
-      search_results.size.should == 1
-      search_results.first["id"].should == @intellectual_entity.pid
-    end
-
-    it "should be possible to identify as an ActiveFedora object" do
-      @intellectual_entity = IntellectualEntity.new
-      @intellectual_entity.save!
-      ActiveFedora::Base.find_with_conditions(:id => @intellectual_entity.pid).first["id"].should == @intellectual_entity.pid
-      @intellectual_entity.should be_kind_of ActiveFedora::Base
-    end
   end
-
-  describe "#destroy" do
-    it "should be an instance of ActiveFedora" do
-      @intellectual_entity = IntellectualEntity.new
-      @intellectual_entity.save!
-      pid = @intellectual_entity.pid
-      @intellectual_entity.destroy
-      ActiveFedora::Base.find_with_conditions(:id => pid).should be_empty
-    end
-  end
-
+ 
   after do
     IntellectualEntity.all.each do |ie|
       ie.delete

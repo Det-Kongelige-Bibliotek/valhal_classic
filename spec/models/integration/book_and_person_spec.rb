@@ -11,13 +11,15 @@ describe "Person and Book" do
   describe " author relationship" do
     before(:each) do
       @person = Person.create(:firstname=>"some name", :lastname=>"some lastname", :date_of_birth => Time.new.to_i.to_s)
-      @person.save!
       @book = Book.create(:title=>"some title")
       @book.save!
       @person.authored_books << @book
       @person.save!
       @book.authors << @person
       @book.save!
+    end
+    after(:each) do
+      Person.all.each { |p| p.delete }
     end
 
     it "should be defined in the Person entity" do
@@ -54,6 +56,9 @@ describe "Person and Book" do
       @person.save!
       @book.authors << @person
       @book.save!
+    end
+    after(:each) do
+      Person.all.each { |p| p.delete }
     end
 
     it "should be defined in the Person entity" do

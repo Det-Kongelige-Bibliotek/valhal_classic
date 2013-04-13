@@ -7,6 +7,13 @@
 class Person < ActiveFedora::Base
   include ActiveModel::Validations
   include Concerns::IntellectualEntity
+  include Solr::Indexable
+
+  after_initialize :init
+
+  def init
+    @solr_indexer = Solr::DefaultIndexer.new(self)
+  end
 
   # Descriptive metadata stream for the abstract person.
   has_metadata :name => 'descMetadata', :type => ActiveFedora::SimpleDatastream do |m|
@@ -35,34 +42,32 @@ class Person < ActiveFedora::Base
 
   # Determines whether any TEI representations exists.
   def tei_rep?
-    return tei.any?
+    tei.any?
   end
 
   # Determines whether any book has been authored by this person.
   def is_author?
-    return authored_books.any?
+    authored_books.any?
   end
 
   # Determines whether any portrait images has been defined for this person.
   def has_portrait?
-    return person_image_representation.any?
+    person_image_representation.any?
   end
 
   def name
-    return firstname.to_s + " " + lastname.to_s
+    "#{firstname.to_s} #{lastname.to_s}"
   end
 
   def comma_seperated_lastname_firstname
-    return lastname.to_s + ", " + firstname.to_s
+    "#{firstname.to_s}, #{lastname.to_s}"
   end
 
-  def to_solr(solr_doc = {})
-    super
-    #search_result_title_t = the name of the field in the Solr document that will be used on search results
-    #to create a link, we use this field for both Books and Persons so that we can make a link to in the search results
-    #view using
-    solr_doc["search_result_title_t"] = self.comma_seperated_lastname_firstname unless self.comma_seperated_lastname_firstname.blank?
-    solr_doc["person_name_t"] = self.name unless self.name.blank?
-    return solr_doc
+  def self.solr_fields
+    [
+        Solr::SolrField.create("search_result_title", method: :comma_seperated_lastname_firstname),
+        Solr::SolrField.create("person_name", method: :name)
+    ]
   end
+
 end

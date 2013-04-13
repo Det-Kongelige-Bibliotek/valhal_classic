@@ -1,6 +1,10 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
+class Representation < ActiveFedora::Base
+  include Concerns::Representation
+end
+
 describe Representation do
   describe "Create" do
     it "should be possible to create and save a raw representation without arguments" do

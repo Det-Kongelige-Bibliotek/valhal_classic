@@ -11,9 +11,12 @@ module Concerns
         m.field "original_filename", :string
         m.field "mime_type", :string
         m.field "file_size", :integer
+        m.field "last_modified", :string
+        m.field "created", :string
+        m.field "last_accessed", :string
       end
 
-      delegate_to 'techMetadata', [:original_filename, :mime_type], :unique => true
+      delegate_to 'techMetadata', [:last_modified, :created, :last_accessed, :original_filename, :mime_type], :unique => true
       delegate_to 'descMetadata', [:description], :unique => true
       # TODO have more than one checksum (both MD5 and SHA), and specify their checksum algorithm.
       delegate :checksum, :to => 'techMetadata', :at => [:file_checksum], :unique => true
@@ -27,6 +30,7 @@ module Concerns
       valid_file = check_file?(file)
       if (valid_file)
         self.add_file_datastream(file.tempfile, :label => file.original_filename, :mimeType => file.content_type, :dsid => 'content')
+        set_file_timestamps(file.tempfile)
         self.checksum = generate_checksum(file.tempfile)
         self.original_filename = file.original_filename
         self.mime_type = file.content_type
@@ -38,6 +42,14 @@ module Concerns
     private
     def generate_checksum(file)
       Digest::MD5.file(file).hexdigest
+    end
+
+    # TODO describe the different timestamps.
+    private
+    def set_file_timestamps(file)
+      self.created = file.ctime.to_s
+      self.last_accessed = file.atime.to_s
+      self.last_modified = file.mtime.to_s
     end
 
     #returns true if file has all the methods that is needed by #add_file else false is returned
