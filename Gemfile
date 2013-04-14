@@ -49,6 +49,7 @@ group :development do
   gem 'equivalent-xml'
   gem 'jettywrapper'
   gem 'thin'
+  gem "binding_of_caller"
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
