@@ -50,14 +50,16 @@ class CatalogController < ApplicationController
     #}
 
     # solr field configuration for search results/index views
-    config.index.show_link = 'search_result_title_tsi'
+    person_solr_names = Person.solr_names
+    book_solr_names = Book.solr_names
+    config.index.show_link = person_solr_names[:search_result_title]
     config.index.record_display_type = 'format'
 
-    config.show.html_title = 'person_name_tsi'
-    config.show.heading = 'person_name_tsi'
+    config.show.html_title = person_solr_names[:person_name]
+    config.show.heading = person_solr_names[:person_name]
     # solr field configuration for document/show views
-    config.show.html_title = 'title_tsi'
-    config.show.heading = 'title_tsi'
+    config.show.html_title = book_solr_names[:title]
+    config.show.heading = book_solr_names[:title]
     config.show.display_type = 'format'
 
     # solr fields that will be treated as facets by the blacklight application
@@ -80,8 +82,8 @@ class CatalogController < ApplicationController
     # :show may be set to false if you don't want the facet to be drawn in the 
     # facet bar
     config.add_facet_field 'mime_type_t', :label => 'Format'
-    config.add_facet_field 'surname_t', :label => 'Author', :sort => 'index'
-    config.add_facet_field 'title_t', :label => 'Title', :sort => 'index'
+    config.add_facet_field person_solr_names[:person_name], :label => 'Author', :sort => 'index'
+    config.add_facet_field book_solr_names[:title], :label => 'Title', :sort => 'index'
 
     config.add_facet_field 'example_pivot_field', :label => 'Pivot Field', :pivot => ['format', 'language_facet']
 
@@ -119,8 +121,8 @@ class CatalogController < ApplicationController
     config.add_show_field 'death_date_t', :label => 'Date of Death:'
     config.add_show_field 'sample_quotation_t', :label => 'Sample quotation:'
     config.add_show_field 'sample_quotation_source_t', :label => 'Sample quotation Source:'
-    config.add_show_field 'title_t', :label => 'Title:'
-    config.add_show_field 'person_name_t', :label => 'Person Name:'
+    config.add_show_field book_solr_names[:title], :label => 'Title:'
+    config.add_show_field person_solr_names[:person_name], :label => 'Person Name:'
     #config.add_show_field 'description_t', :label => 'Description:'
 
     # "fielded" search configuration. Used by pulldown among other places.
