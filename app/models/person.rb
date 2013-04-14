@@ -9,12 +9,6 @@ class Person < ActiveFedora::Base
   include Concerns::IntellectualEntity
   include Solr::Indexable
 
-  after_initialize :init
-
-  def init
-    @solr_indexer = Solr::DefaultIndexer.new(self)
-  end
-
   # Descriptive metadata stream for the abstract person.
   has_metadata :name => 'descMetadata', :type => ActiveFedora::SimpleDatastream do |m|
     m.field "firstname", :string
@@ -63,11 +57,9 @@ class Person < ActiveFedora::Base
     "#{firstname.to_s}, #{lastname.to_s}"
   end
 
-  def self.solr_fields
-    [
-        Solr::SolrField.create("search_result_title", method: :comma_seperated_lastname_firstname),
-        Solr::SolrField.create("person_name", method: :name)
-    ]
+  has_solr_fields do |m|
+    m.field "search_result_title", method: :comma_seperated_lastname_firstname
+    m.field "person_name", method: :name
   end
 
 end

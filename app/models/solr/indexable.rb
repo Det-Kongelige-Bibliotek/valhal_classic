@@ -6,6 +6,12 @@ module Solr
 
     included do
       attr_reader :solr_indexer
+
+      after_initialize :init_indexer
+
+      def init_indexer
+        @solr_indexer = Solr::DefaultIndexer.new(self)
+      end
     end
 
     def to_solr(solr_doc = {})
@@ -26,10 +32,23 @@ module Solr
       #depends on class.solr_fields method
       def solr_names
         solr_names = {}
-        self.solr_fields.each do |solr_field|
+        solr_fields.each do |solr_field|
           solr_names[solr_field.name.to_sym] = solr_field.solr_name
         end
         solr_names
+      end
+
+      def has_solr_fields(&block)
+        block.call(self)
+      end
+
+      def field(name, options = {}, &block)
+        @@solr_fields ||= []
+        @@solr_fields << SolrField.create(name, options, &block) unless name.blank?
+      end
+
+      def solr_fields
+        @@solr_fields
       end
 
     end

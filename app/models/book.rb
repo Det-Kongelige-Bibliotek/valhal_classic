@@ -4,12 +4,6 @@ class Book < ActiveFedora::Base
   include Concerns::IntellectualEntity
   include Solr::Indexable
 
-  after_initialize :init
-
-  def init
-    @solr_indexer = Solr::DefaultIndexer.new(self)
-  end
-
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name => 'descMetadata', :type => Datastreams::BookMods
 
@@ -71,16 +65,14 @@ class Book < ActiveFedora::Base
   end
 
 
-  def self.solr_fields
-    [
-        Solr::SolrField.create("search_result_title", method: :title),
-        Solr::SolrField.create("search_results_book_authors", index_as: [:string, :indexed, :stored], method: :authors_names_to_s),
-        Solr::SolrField.create("isbn", index_as: [:string, :indexed, :stored]),
-        Solr::SolrField.create("genre"),
-        Solr::SolrField.create("shelf_locator", index_as: [:string, :indexed, :stored], method: :shelfLocator),
-        Solr::SolrField.create("title"),
-        Solr::SolrField.create("sub_title", method: :subTitle),
-        Solr::SolrField.create("type_of_resource", method: :typeOfResource)
-    ]
+  has_solr_fields do |m|
+    m.field "search_result_title", method: :title
+    m.field "search_results_book_authors", index_as: [:string, :indexed, :stored], method: :authors_names_to_s
+    m.field "isbn", index_as: [:string, :indexed, :stored]
+    m.field "genre"
+    m.field "shelf_locator", index_as: [:string, :indexed, :stored], method: :shelfLocator
+    m.field "title"
+    m.field "sub_title", method: :subTitle
+    m.field "type_of_resource", method: :typeOfResource
   end
 end
