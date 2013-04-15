@@ -1,5 +1,11 @@
 # -*- encoding : utf-8 -*-
 ADL::Application.routes.draw do
+  resources :single_file_representations
+
+
+  resources :works
+
+
   get "view_file/show"
   get "view_file/show_structmap"
 

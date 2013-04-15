@@ -1,0 +1,17 @@
+<%= form_for(@single_file_representation) do |f| %>
+  <% if @single_file_representation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@single_file_representation.errors.count, "error") %> prohibited this single_file_representation from being saved:</h2>
+
+      <ul>
+      <% @single_file_representation.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

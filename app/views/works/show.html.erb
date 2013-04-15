@@ -1,0 +1,45 @@
+<h3>Type: <%= @work.work_type%></h3>
+<h3><%= @work.title %></h3>
+<table border="0">
+  <tr><td><b>Subtitle</b></td><td><%= @work.subTitle %></td></tr>
+  <% if @work.has_author? %>
+    <% @work.authors.each do |person| %>
+          <tr><td><b>Author</b></td><td><%= link_to person.name, person_path(person) %></td></tr>
+    <% end %>
+  <% else %>
+     <tr><td><b>Author</b></td><td><p>No author defined for this work.</p></td></tr>
+  <% end %>
+
+  <tr><td><b>Shelf Locator</b></td><td><%= @work.shelfLocator %></td></tr>
+  <tr><td><b>Type Of Resource</b></td><td><%= @work.typeOfResource %></td></tr>
+  <tr><td><b>Publisher</b></td><td><%= @work.publisher %></td></tr>
+  <tr><td><b>Place of Origin</b></td><td><%= @work.originPlace %></td></tr>
+  <tr><td><b>ISO Language</b></td><td><%= @work.languageISO %></td></tr>
+  <tr><td><b>Language</b></td><td><%= @work.languageText %></td></tr>
+  <tr><td><b>Topic</b></td><td><%= @work.subjectTopic %></td></tr>
+  <tr><td><b>Date issued</b></td><td><%= @work.dateIssued %></td></tr>
+  <tr><td><b>Physical extent</b></td><td><%= @work.physicalExtent %></td></tr>
+  <tr><td><b>UUID</b></td><td><%= @work.uuid %></td></tr>
+</table>
+
+<hr/>
+<% #Handle the tei representations. %>
+<% if @work.has_rep? %>
+    <p><b>Representations:</b></p>
+    <ul>
+    <% @work.representations.each do |t| %>
+      <li><%= t.get_file.nil? ? t.label + " (" + t.pid + ")" :
+                      (link_to t.label + " (" + t.pid + ")", {:action => "show", :pid => t.get_file.pid, :controller => "view_file" }) %></li>
+
+    <% end %>
+    </ul>
+<% else %>
+    <p>No representations for this work.</p>
+<% end %>
+<hr/>
+
+<br/>
+
+<%= link_to 'Edit', edit_work_path(@work) %> |
+<%= link_to 'Works', works_path %> |
+<%= link_to 'New Work', new_work_path %>
