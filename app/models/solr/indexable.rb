@@ -38,8 +38,10 @@ module Solr
         solr_names
       end
 
-      def has_solr_fields(&block)
-        block.call(self)
+      def has_solr_fields
+        if block_given?
+          yield self
+        end
       end
 
       def field(name, options = {}, &block)
