@@ -61,6 +61,7 @@ jetty?
 # Local config files #
 ######################
 *.local.yml
+Guardfile
 
 # SimpleCov files #
 ######################
