@@ -27,8 +27,8 @@ class Person < ActiveFedora::Base
 
   # TODO find better relationship property.
   # Relationship to TEI representations.
-  has_many :tei, :class_name => 'PersonTeiRepresentation', :property=>:is_representation_of
-  has_many :person_image_representation, :class_name => 'PersonImageRepresentation', :property=>:is_representation_of
+  has_many :tei, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of
+  has_many :person_image_representation, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of
 
   # Author relationship to books.
   # A book can be authored by more than one person, and a person can author more than one book.
@@ -62,6 +62,22 @@ class Person < ActiveFedora::Base
   has_solr_fields do |m|
     m.field "search_result_title", method: :comma_seperated_lastname_firstname
     m.field "person_name", method: :name
+  end
+
+  after_save :add_ie_to_reps
+
+  def add_ie_to_reps
+    add_ie_to_rep tei
+    add_ie_to_rep person_image_representation
+  end
+
+  def add_ie_to_rep(rep_array)
+    rep_array.each do |rep|
+      if rep.ie.nil?
+        rep.ie = self
+        rep.save
+      end
+    end unless rep_array.nil?
   end
 
 end

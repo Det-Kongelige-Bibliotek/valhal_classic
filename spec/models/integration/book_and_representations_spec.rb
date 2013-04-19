@@ -10,11 +10,10 @@ describe Book do
   # tests for the relationship between the Book and the BookTeiRepresentation
   describe " - BookTeiRepresentation relationship" do
     before(:each) do
-      @book = Book.create(:title => "My First Book")
-      @book.save
-      @tei = BookTeiRepresentation.new
-      @tei.book = @book
-      @tei.save!
+      @book = Book.new(:title => "My First Book")
+      @tei = DefaultRepresentation.new
+      @book.tei << @tei
+      @book.save!
     end
 
     it "should be defined in the Book entity" do

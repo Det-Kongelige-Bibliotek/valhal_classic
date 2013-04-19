@@ -37,9 +37,9 @@
     <hr/>
 <%- end %>
 
-<% if @book_tiff_representation.has_book? %>
+<% if @book_tiff_representation.has_ie? %>
     <p><b>Book:</b>
-      <%= link_to @book_tiff_representation.book.title + " (" + @book_tiff_representation.book.pid + ")", book_path(@book_tiff_representation.book) %>
+      <%= link_to @book_tiff_representation.ie.title + " (" + @book_tiff_representation.ie.pid + ")", book_path(@book_tiff_representation.ie) %>
     </p>
 <% else %>
     <p>No book represented by this.</p>

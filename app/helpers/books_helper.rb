@@ -2,8 +2,8 @@
 module BooksHelper
   #Helper function for generating a METS structmap
   # @param [String] file_order_string
-  # @param [BookTiffRepresentation] tiff_representation
-  def generate_structmap(file_order_string, tiff_representation)
+  # @param [BookTiffRepresentation] representation
+  def generate_structmap(file_order_string, representation)
     logger.debug 'Generating structmap xml file...'
     logger.debug "structmap_file_order = #{file_order_string.to_s}"
     structmap = StructMap.new
@@ -33,7 +33,7 @@ module BooksHelper
 
     #Put the UUIDs for each tif file in a hash using the original filename as the key for each UUID
     tiffs_hash = Hash.new
-    tiff_representation.files.each do |tiff_basic_file|
+    representation.files.each do |tiff_basic_file|
       tiffs_hash[tiff_basic_file.original_filename] = tiff_basic_file.uuid
     end
 
@@ -50,10 +50,9 @@ module BooksHelper
 
     logger.debug "Structmap after replacing filenames with UUIDs"
     logger.debug ng_doc.to_s
-    structmap.save!
 
-    tiff_representation.smaps << structmap
-    tiff_representation.save!
+    representation.structmap << structmap
+    representation.save!
     structmap
   end
 end

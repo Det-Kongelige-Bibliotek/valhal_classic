@@ -3,10 +3,7 @@ require 'spec_helper'
 
 describe "Person and Book" do
   before(:all) do
-    Book.all.each { |book| book.delete }
-    Person.all.each { |person| person.delete }
-    BookTeiRepresentation.all.each { |btr| btr.delete }
-    PersonTeiRepresentation.all.each { |ptr| ptr.delete }
+    ActiveFedora::Base.all.each { |af| af.delete }
   end
   describe " author relationship" do
     before(:each) do
@@ -40,22 +37,19 @@ describe "Person and Book" do
   describe " with representations" do
     before(:each) do
 
-      @person = Person.create(:firstname=>"some name", :lastname=>"some lastname", :date_of_birth => Time.new.to_i.to_s)
-      @person.save!
-      @book = Book.create(:title=>"book with representation")
-      @book.save!
-
-      @ptr = PersonTeiRepresentation.new
-      @ptr.person = @person
-      @ptr.save!
-      @btr = BookTeiRepresentation.new
-      @btr.book = @book
-      @btr.save!
+      @person = Person.new(:firstname=>"some name", :lastname=>"some lastname", :date_of_birth => Time.new.to_i.to_s)
+      @book = Book.new(:title=>"book with representation")
 
       @person.authored_books << @book
-      @person.save!
       @book.authors << @person
+
+      @ptr = DefaultRepresentation.new
+      @person.tei << @ptr
+      @btr = DefaultRepresentation.new
+      @book.tei << @btr
+
       @book.save!
+      @person.save!
     end
     after(:each) do
       Person.all.each { |p| p.delete }

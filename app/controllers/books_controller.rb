@@ -141,42 +141,35 @@ class BooksController < ApplicationController
   # creates the tei representation with the tei file
   private
   def add_tei_representation
-    tei = BookTeiRepresentation.new(params[:tei])
-    tei.save!
-
+    tei = DefaultRepresentation.new(params[:tei])
     tei_file = BasicFile.new
     tei_file.add_file(params[:file][:tei_file])
-    tei_file.container = tei
-    tei_file.save!
     tei.files << tei_file
-
-    tei.book = @book
-    tei.save!
+    tei.ie = @book
+    tei.save
   end
 
   # creates the tiff representation and adds the tiff images with the structmap
   private
   def add_tiff_representation
-    tiff = BookTiffRepresentation.new(params[:tiff])
-    tiff.save!
+    tiff = OrderedRepresentation.new(params[:tiff])
 
     params[:file][:tiff_file].each do |f|
       tiff_file = TiffFile.new
       tiff_file.add_file(f)
       logger.debug f.original_filename
-      tiff_file.container = tiff
-      tiff_file.save!
       tiff.files << tiff_file
     end
+
 
     #Create METS Structmap for book using uploaded METS file if file was uploaded
     #if !params[:file][:structmap_file].blank?
     #  add_structmap(tiff, params[:file][:structmap_file])
     #end
 
-    tiff.book = @book
-    tiff.save!
-    @book.save!
+    @book.tif << tiff
+    book_success = @book.save!
+    puts "is book save successful: #{book_success}"
   end
 
   # adds the person defined in the params as authors

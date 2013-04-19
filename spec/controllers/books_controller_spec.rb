@@ -122,6 +122,8 @@ describe BooksController do
       end
 
       describe "with a Tei representation" do
+        let(:representation) { DefaultRepresentation }
+
         before :all do
           @book_attributes = { :title => "Samlede Skrifter"}
           @tei_file_attributes = { :tei_file => ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))}
@@ -134,12 +136,12 @@ describe BooksController do
         it "should create a Tei representation" do
           expect {
             post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
-          }.to change(BookTeiRepresentation, :count).by(1)
+          }.to change(representation, :count).by(1)
         end
         it "should not create a tiff representation" do
           expect {
             post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
-          }.not_to change(BookTiffRepresentation, :count)
+          }.not_to change(representation, :count)
         end
         it "should create a basic file" do
           expect {
@@ -154,19 +156,20 @@ describe BooksController do
         it "should create a relation between book and tei-representation" do
           post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
           Book.all.last.tei_rep?.should be_true
-          BookTeiRepresentation.all.last.has_book?.should be_true
+          representation.all.last.has_ie?.should be_true
           Book.all.last.tei.length.should == 1
-          Book.all.last.tei.first.should == BookTeiRepresentation.all.last
-          BookTeiRepresentation.all.last.book.should == Book.all.last
+          Book.all.last.tei.first.should == representation.all.last
+          representation.all.last.ie.should == Book.all.last
         end
         it "should create a relation between tei-representation and basic-file" do
           post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
-          BookTeiRepresentation.all.last.files.length.should == 1
-          BookTeiRepresentation.all.last.files.first.should == BasicFile.all.last
+          representation.all.last.files.length.should == 1
+          representation.all.last.files.first.should == BasicFile.all.last
         end
       end
 
       describe "with a Tiff representation but without a structmap" do
+        let(:representation) { OrderedRepresentation }
         before :all do
           @book_attributes = { :title => "Samlede Skrifter"}
           @tiff_file_attributes = { :tiff_file => [ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"), head: "Content-Disposition: form-data; name=\"file[tiff_file][]\"; filename=\"arre1fm005.tif\"\r\nContent-Type: image/tiff\r\n")]}
@@ -179,12 +182,12 @@ describe BooksController do
         it "should create a Tiff representation" do
           expect {
             post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
-          }.to change(BookTiffRepresentation, :count).by(1)
+          }.to change(representation, :count).by(1)
         end
         it "should not create a tei representation" do
           expect {
             post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
-          }.not_to change(BookTeiRepresentation, :count)
+          }.not_to change(representation, :count)
         end
         it "should create a tiff file" do
           expect {
@@ -199,19 +202,21 @@ describe BooksController do
         it "should create a relation between book and tiff-representation" do
           post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
           Book.all.last.tiff_rep?.should be_true
-          BookTiffRepresentation.all.last.has_book?.should be_true
+          representation.all.last.has_ie?.should be_true
           Book.all.last.tif.length.should == 1
-          Book.all.last.tif.first.should == BookTiffRepresentation.all.last
-          BookTiffRepresentation.all.last.book.should == Book.all.last
+          Book.all.last.tif.first.should == representation.all.last
+          representation.all.last.book.should == Book.all.last
         end
         it "should create a relation between tiff-representation and basic-file" do
           post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
-          BookTiffRepresentation.all.last.files.length.should == 1
-          BookTiffRepresentation.all.last.files.first.should == TiffFile.all.last
+          representation.all.last.files.length.should == 1
+          representation.all.last.files.first.should == TiffFile.all.last
         end
       end
 
       describe "with a Tiff representation" do
+        let(:representation) { OrderedRepresentation }
+
         before :all do
           @book_attributes = { :title => "Samlede Skrifter"}
           @file_attributes = { :tiff_file => [ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff',
@@ -226,12 +231,12 @@ describe BooksController do
         it "should not create a tei representation" do
           expect {
             post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
-          }.not_to change(BookTeiRepresentation, :count)
+          }.not_to change(DefaultRepresentation, :count)
         end
         it "should create a Tiff representation" do
           expect {
             post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
-          }.to change(BookTiffRepresentation, :count).by(1)
+          }.to change(representation, :count).by(1)
         end
         it "should create a tiff file for the tiff representation" do
           expect {
@@ -247,19 +252,19 @@ describe BooksController do
         it "should create a relation between book and tiff-representation" do
           post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
           Book.all.last.tiff_rep?.should be_true
-          BookTiffRepresentation.all.last.has_book?.should be_true
+          representation.all.last.has_ie?.should be_true
           Book.all.last.tif.length.should == 1
-          Book.all.last.tif.first.should == BookTiffRepresentation.all.last
-          BookTiffRepresentation.all.last.book.should == Book.all.last
+          Book.all.last.tif.first.should == representation.all.last
+          representation.all.last.book.should == Book.all.last
         end
 
         it "should create a relation between tiff-representation and struct-map" do
           pending "Need to test the addition of a structmap file to a BookTiffRepresentation after a structmap is generated"
           post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
-          BookTiffRepresentation.all.last.files.length.should == 1
-          BookTiffRepresentation.all.last.files.first.should == TiffFile.all.last
-          BookTiffRepresentation.all.last.smaps.length.should == 1
-          BookTiffRepresentation.all.last.smaps.first.should == StructMap.all.last
+          representation.all.last.files.length.should == 1
+          representation.all.last.files.first.should == TiffFile.all.last
+          representation.all.last.smaps.length.should == 1
+          representation.all.last.smaps.first.should == StructMap.all.last
         end
       end
 

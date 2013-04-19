@@ -15,6 +15,29 @@ module Concerns
       before_validation(:on => :create) do
         self.label =  self.class.name.to_s if self.label.blank?
       end
+
+      def has_ie?
+        !self.ie.nil?
+      end
+
+      def method_missing(method, *args)
+        methods = [:book, :person, :person=, :book=]
+        if methods.include?(method)
+          read_or_set_ie *args
+        else
+          super
+        end
+      end
+
+      private
+      def read_or_set_ie(*args)
+        if args.empty?
+          self.send :ie
+        else
+          self.send :ie=, *args
+        end
+      end
+
     end
 
   end

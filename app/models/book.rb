@@ -14,15 +14,20 @@ class Book < ActiveFedora::Base
 
 
   # has_many is used as there doesn't seem to be any has_one relation in Active Fedora
-  has_many :tei, :class_name => 'BookTeiRepresentation', :property => :is_representation_of
+  has_many :tei, :class_name => 'ActiveFedora::Base', :property => :is_representation_of
   # A book can be authored by more than one person, and a person can author more than one book.
   has_and_belongs_to_many :authors, :class_name => "Person", :property => :has_author
 
-  has_many :tif, :class_name => 'BookTiffRepresentation', :property => :is_part_of
+  has_many :tif, :class_name => 'ActiveFedora::Base', :property => :is_part_of
 
   validates :title, :presence => true
   validates :isbn, :numericality => true, :allow_blank => true
   validates_with BookValidator
+  after_save :add_ie_to_reps
+
+
+
+
 
   # Determines whether any TEI representations exists.
   def tei_rep?
@@ -74,5 +79,23 @@ class Book < ActiveFedora::Base
     m.field "title"
     m.field "sub_title", method: :subTitle
     m.field "type_of_resource", method: :typeOfResource
+  end
+
+  after_save :add_ie_to_reps
+
+  private
+
+  def add_ie_to_reps
+    add_ie_to_rep tif
+    add_ie_to_rep tei
+  end
+
+  def add_ie_to_rep(rep_array)
+    rep_array.each do |rep|
+      if rep.ie.nil?
+        rep.ie = self
+        rep.save
+      end
+    end unless rep_array.nil?
   end
 end

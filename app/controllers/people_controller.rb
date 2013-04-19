@@ -12,19 +12,18 @@ class PeopleController < ApplicationController
   def show_image
     @person = Person.find(params[:id])
     if @person.person_image_representation.any?
-      image_url(@person.person_image_representation.last.pid)
+      image_url(@person.person_image_representation.last)
     end
   end
 
-  def image_url(pid = nil)
-    if pid.nil?
-      pid = params[:pid]
+  def image_url(representation = nil)
+    if representation.nil?
+      representation = Person.find(params[:id]).person_image_representation.last
     end
-    person_image_representation = PersonImageRepresentation.find(pid)
 
-    image_content = person_image_representation.person_image_files.last.content.content
-    original_filename = person_image_representation.person_image_files.last.original_filename
-    mime_type = person_image_representation.person_image_files.last.mime_type
+    image_content = representation.files.last.content.content
+    original_filename = representation.files.last.original_filename
+    mime_type = representation.files.last.mime_type
     send_data(image_content, {:filename => original_filename, :type => mime_type, :disposition => 'inline'})
   end
 
@@ -50,19 +49,13 @@ class PeopleController < ApplicationController
   def add_portrait(params)
     if (!params[:portrait].blank?) && (params[:portrait][:portrait_file].content_type.start_with? "image/")
       logger.debug "Valid image file uploaded, creating image related objects"
-      person_image_representation = PersonImageRepresentation.new(params[:portrait_metadata])
-      person_image_representation.save!
-
+      person_representation = DefaultRepresentation.new(params[:portrait_metadata])
       person_image_file = BasicFile.new
       person_image_file.add_file(params[:portrait][:portrait_file])
-      person_image_file.container = person_image_representation
-      person_image_file.save!
-      person_image_representation.person_image_files << person_image_file
+      person_representation.files << person_image_file
 
-      person_image_representation.person = @person
-      person_image_representation.save!
-
-      @person.person_image_representation << person_image_representation
+      person_representation.ie = @person
+      person_representation.save!
     end
   end
 

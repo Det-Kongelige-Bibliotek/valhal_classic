@@ -5,12 +5,12 @@ describe Person do
 
   # tests for the relationship between the Person and the PersonTeiRepresentation
   describe " - PersonTeiRepresentation relationship" do
+    let(:representation) { DefaultRepresentation }
     before(:each) do
-      @person = Person.create(:firstname=>"some name", :lastname=>"some lastname")
-      @person.save
-      @tei = PersonTeiRepresentation.new
-      @tei.person = @person
-      @tei.save!
+      @person = Person.new(:firstname=>"some name", :lastname=>"some lastname")
+      @tei = representation.new
+      @person.tei << @tei
+      @person.save!
     end
 
     it "should be defined in the Person entity" do
@@ -29,6 +29,6 @@ describe Person do
 
   after do
     Person.all.each { |person| person.delete }
-    PersonTeiRepresentation.all.each { |ptr| ptr.delete }
+    representation.all.each { |ptr| ptr.delete }
   end
 end

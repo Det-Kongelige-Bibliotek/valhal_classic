@@ -50,6 +50,12 @@ group :development do
   gem 'jettywrapper'
   gem 'thin'
   gem "binding_of_caller"
+  gem 'guard-rspec'
+  gem 'rb-inotify', :require => false
+  gem 'rb-fsevent', :require => false
+  gem 'rb-fchange', :require => false
+  gem 'libnotify'
+  gem 'listen'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
