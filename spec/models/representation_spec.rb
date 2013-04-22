@@ -3,8 +3,6 @@ require 'spec_helper'
 
 class Representation < ActiveFedora::Base
   include Concerns::Representation
-  attr_reader :files
-  after_initialize { @files = [] }
 
 end
 
@@ -63,6 +61,26 @@ describe Representation do
       count = Representation.count
       @rep.destroy
       Representation.count.should == count - 1
+    end
+  end
+
+  describe "Dynamic methods" do
+    it "should respond to work" do
+      rep = Representation.new
+      rep.respond_to?(:work).should be_true
+      rep.respond_to?(:work=).should be_true
+    end
+
+    it "should respond to person" do
+      rep = Representation.new
+      rep.respond_to?(:person).should be_true
+      rep.respond_to?(:person=).should be_true
+    end
+
+    it "should respond to book" do
+      rep = Representation.new
+      rep.respond_to?(:book).should be_true
+      rep.respond_to?(:book=).should be_true
     end
   end
 

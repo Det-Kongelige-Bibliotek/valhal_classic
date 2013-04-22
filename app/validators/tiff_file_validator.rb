@@ -2,11 +2,9 @@
 class TiffFileValidator < ActiveModel::Validator
   def validate(record)
     record.files.each do |f|
-      puts f.mime_type.to_s
       unless f.mime_type.eql? 'image/tiff'
         record.errors[:files] << 'Image file must be a tiff file'
       end
-      puts record.errors.size
     end
   end
 end

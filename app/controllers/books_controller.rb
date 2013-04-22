@@ -168,8 +168,7 @@ class BooksController < ApplicationController
     #end
 
     @book.tif << tiff
-    book_success = @book.save!
-    puts "is book save successful: #{book_success}"
+    @book.save!
   end
 
   # adds the person defined in the params as authors
