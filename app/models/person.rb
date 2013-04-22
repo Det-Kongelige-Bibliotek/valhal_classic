@@ -21,20 +21,20 @@ class Person < ActiveFedora::Base
   delegate_to 'descMetadata', [:firstname, :lastname, :date_of_birth, :date_of_death], :unique => true
 
   # Validation criteria of the firstname (at least 1 non-space character).
-  validates :firstname, :presence => true, :length => { :minimum => 1 }
-  validates :lastname, :presence => true, :length => { :minimum => 1 }
+  validates :firstname, :presence => true, :length => {:minimum => 1}
+  validates :lastname, :presence => true, :length => {:minimum => 1}
   validates_with PersonValidator
 
   # TODO find better relationship property.
   # Relationship to TEI representations.
-  has_many :tei, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of
-  has_many :person_image_representation, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of
+  has_many :tei, :class_name => 'ActiveFedora::Base', :property => :is_representation_of
+  has_many :person_image_representation, :class_name => 'ActiveFedora::Base', :property => :is_representation_of
 
   # Author relationship to books.
   # A book can be authored by more than one person, and a person can author more than one book.
-  has_and_belongs_to_many :authored_books, :class_name=>"Book", :property => :is_author_of
+  has_and_belongs_to_many :authored_books, :class_name => "Book", :property => :is_author_of
 
-  has_and_belongs_to_many :authored_works, :class_name=>"Work", :property => :is_author_of
+  has_and_belongs_to_many :authored_works, :class_name => "Work", :property => :is_author_of
 
   # Determines whether any TEI representations exists.
   def tei_rep?
@@ -72,12 +72,13 @@ class Person < ActiveFedora::Base
   end
 
   def add_ie_to_rep(rep_array)
-    rep_array.each do |rep|
-      if rep.ie.nil?
-        rep.ie = self
-        rep.save
+    if rep_array
+      rep_array.each do |rep|
+        if rep.ie.nil?
+          rep.ie = self
+          rep.save
+        end
       end
-    end unless rep_array.nil?
+    end
   end
-
 end

@@ -49,12 +49,14 @@ module Concerns
 
 
       def add_representation_to_files
-        self.files.each do |file|
-          if file.container.nil?
-            file.container = self
-            file.save
+        if self.files
+          self.files.each do |file|
+            if file.container.nil?
+              file.container = self
+              file.save
+            end
           end
-        end unless self.files.nil?
+        end
       end
 
 
@@ -74,6 +76,7 @@ module Concerns
 
     # class variable for holding methods symbols
     @@methods = [:book, :book=, :person, :person=, :work, :work=]
+
     def method_missing(method, *args)
 
       if @@methods.include?(method)

@@ -26,9 +26,6 @@ class Book < ActiveFedora::Base
   after_save :add_ie_to_reps
 
 
-
-
-
   # Determines whether any TEI representations exists.
   def tei_rep?
     return tei.any?
@@ -91,11 +88,13 @@ class Book < ActiveFedora::Base
   end
 
   def add_ie_to_rep(rep_array)
-    rep_array.each do |rep|
-      if rep.ie.nil?
-        rep.ie = self
-        rep.save
+    if rep_array
+      rep_array.each do |rep|
+        if rep.ie.nil?
+          rep.ie = self
+          rep.save
+        end
       end
-    end unless rep_array.nil?
+    end
   end
 end
