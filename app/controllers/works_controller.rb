@@ -101,12 +101,10 @@ class WorksController < ApplicationController
 
     rep_file = BasicFile.new
     rep_file.add_file(params[:file][:file])
-    rep_file.container = rep
-    rep_file.save!
     rep.files << rep_file
+    @work.representations << rep
 
-    rep.work = @work
-    rep.save!
+    @work.save
   end
 
   # adds the person defined in the params as authors

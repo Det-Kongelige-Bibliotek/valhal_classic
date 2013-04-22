@@ -28,7 +28,7 @@
     <p><b>Representations:</b></p>
     <ul>
     <% @work.representations.each do |t| %>
-      <li><%= t.get_file.nil? ? t.label + " (" + t.pid + ")" :
+      <li><%= t.file.nil? ? t.label + " (" + t.pid + ")" :
                       (link_to t.label + " (" + t.pid + ")", {:action => "show", :pid => t.get_file.pid, :controller => "view_file" }) %></li>
 
     <% end %>

@@ -21,7 +21,7 @@ module Concerns
       end
 
       def method_missing(method, *args)
-        methods = [:book, :person, :person=, :book=]
+        methods = [:book, :book=, :person, :person=, :work, :work=]
         if methods.include?(method)
           read_or_set_ie *args
         else
@@ -37,7 +37,6 @@ module Concerns
           self.send :ie=, *args
         end
       end
-
     end
 
   end

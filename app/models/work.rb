@@ -16,7 +16,7 @@ class Work < ActiveFedora::Base
   has_and_belongs_to_many :authors, :class_name=>"Person", :property => :has_author
 
   # A work can have many representations
-  has_many :representations, :class_name => 'SingleFileRepresentation', :property=>:is_representation_of
+  has_many :representations, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of
 
   validates :title, :presence => true
   validates :work_type, :presence => true
@@ -38,6 +38,21 @@ class Work < ActiveFedora::Base
     m.field "title"
     m.field "sub_title", method: :subTitle
     m.field "type_of_resource", method: :typeOfResource
+  end
+
+  after_save :add_ie_to_reps
+  private
+  def add_ie_to_reps
+    add_ie_to_rep representations
+  end
+
+  def add_ie_to_rep(rep_array)
+    rep_array.each do |rep|
+      if rep.ie.nil?
+        rep.ie = self
+        rep.save
+      end
+    end unless rep_array.nil?
   end
 
 end

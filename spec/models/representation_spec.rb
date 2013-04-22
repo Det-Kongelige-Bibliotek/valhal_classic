@@ -3,6 +3,9 @@ require 'spec_helper'
 
 class Representation < ActiveFedora::Base
   include Concerns::Representation
+  attr_reader :files
+  after_initialize { @files = [] }
+
 end
 
 describe Representation do

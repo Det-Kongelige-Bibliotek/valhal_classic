@@ -16,6 +16,6 @@ class DefaultRepresentation < ActiveFedora::Base
         file.container = self
         file.save
       end
-    end
+    end unless files.nil?
   end
 end
