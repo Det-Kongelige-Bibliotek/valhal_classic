@@ -25,6 +25,11 @@ namespace :deploy do
   task :symlink_shared do
     run "ln -s #{shared_path}/application.local.yml #{release_path}/config/"
   end
+  task :clean do
+    rake = fetch(:rake, 'rake')
+    rails_env = fetch(:rails_env, 'production')
+    run "cd '#{current_path}' && #{rake} sifd:clean RAILS_ENV=#{rails_env}"
+  end
   task :start do
     ;
   end
@@ -36,4 +41,6 @@ namespace :deploy do
   end
 end
 
-before "deploy:restart", "deploy:symlink_shared"
+before "deploy:restart", "deploy:symlink_shared", "deploy:clean"
+
+
