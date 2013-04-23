@@ -1,17 +1,14 @@
 class SingleFileRepresentationsController < ApplicationController
   def index
     @single_file_representations = SingleFileRepresentation.all
-
   end
 
   def show
     @single_file_representation = SingleFileRepresentation.find(params[:id])
-
   end
 
   def new
     @single_file_representation = SingleFileRepresentation.new
-
   end
 
   def edit
