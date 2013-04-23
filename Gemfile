@@ -43,6 +43,7 @@ group :test do
 end
 
 gem 'rspec-rails', :group => [:development, :test]
+gem 'jettywrapper', :group => [:development, :test]
 
 group :development do
   gem 'better_errors'
