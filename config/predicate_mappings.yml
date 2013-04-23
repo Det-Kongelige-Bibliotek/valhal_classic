@@ -16,7 +16,7 @@
 :predicate_mapping:
   http://www.kb.dk/:
     :has_author: hasMember
-    :has_representation_of: hasSubset
+    :has_representation: hasSubset
     :is_author_of: isMemberOf
     :is_representation_of: isSubsetOf
   info:fedora/fedora-system:def/relations-external#:

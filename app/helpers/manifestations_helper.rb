@@ -1,8 +1,8 @@
 # -*- encoding : utf-8 -*-
-module WorksHelper
+module ManifestationsHelper
   # adds the people behind the ids as authors for the work.
-  def add_authors(ids, work)
-    if ids.blank? or work.blank?
+  def add_authors(ids, manifestation)
+    if ids.blank? or manifestation.blank?
       return false
     end
 
@@ -10,18 +10,14 @@ module WorksHelper
     ids.each do |author_pid|
       if author_pid && !author_pid.empty?
         author = Person.find(author_pid)
-        work.authors << author
-
-        # TODO: Relationship should not be defined both ways.
-        author.authored_works << work
-        author.save!
+        manifestation.authors << author
       end
     end
-    work.save!
+    manifestation.save!
   end
 
   # add the file as a single file representation to the work.
-  def add_single_file_representation(file, params, work)
+  def add_single_file_representation(file, params, manifestation)
     if file.nil? or work.nil?
       return false
     end
@@ -32,8 +28,8 @@ module WorksHelper
     rep_file = BasicFile.new
     rep_file.add_file(file)
     rep.files << rep_file
-    work.representations << rep
+    manifestation.representations << rep
 
-    work.save!
+    manifestation.save!
   end
 end

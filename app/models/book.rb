@@ -2,6 +2,7 @@
 class Book < ActiveFedora::Base
   include ActiveModel::Validations
   include Concerns::IntellectualEntity
+  include Concerns::Manifestation
   include Solr::Indexable
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
@@ -14,11 +15,9 @@ class Book < ActiveFedora::Base
 
 
   # has_many is used as there doesn't seem to be any has_one relation in Active Fedora
-  has_many :tei, :class_name => 'ActiveFedora::Base', :property => :is_representation_of
-  # A book can be authored by more than one person, and a person can author more than one book.
-  has_and_belongs_to_many :authors, :class_name => "Person", :property => :has_author
+  has_many :tei, :class_name => 'ActiveFedora::Base', :property => :is_representation_of, :inverse_of => :has_representation
 
-  has_many :tif, :class_name => 'ActiveFedora::Base', :property => :is_part_of
+  has_many :tif, :class_name => 'ActiveFedora::Base', :property => :is_part_of, :inverse_of => :has_part
 
   validates :title, :presence => true
   validates :isbn, :numericality => true, :allow_blank => true
@@ -34,15 +33,6 @@ class Book < ActiveFedora::Base
   # Determines whether any TIFF representations exists.
   def tiff_rep?
     return tif.any?
-  end
-
-  # Whether any author for this book has been defined.
-  def has_author?
-    return authors.any?
-  end
-
-  def clear_authors
-    authors.clear
   end
 
   # Delivers the title and subtitle in a format for displaying.

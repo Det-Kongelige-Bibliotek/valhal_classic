@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class WorksController < ApplicationController
-  include WorksHelper
+  include ManifestationsHelper
 
   def index
     @works = Work.all

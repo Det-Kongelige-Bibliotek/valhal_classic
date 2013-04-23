@@ -7,9 +7,7 @@ class PersonImageRepresentation < ActiveFedora::Base
 
   #validate :is_image_file?
 
-  has_many :person_image_files, :class_name => 'BasicFile', :property => :is_part_of
-  # Relationship to be abstract Person
-  belongs_to :person, :property => :is_representation_of
+  has_many :person_image_files, :class_name => 'BasicFile', :property => :is_part_of, :inverse_of => :has_part
 
   def is_image_file?
     logger.debug "in is_image_file..."

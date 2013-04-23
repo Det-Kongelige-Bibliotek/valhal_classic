@@ -2,6 +2,8 @@
 class BooksController < ApplicationController
   include Wicked::Wizard
   include BooksHelper
+  include ManifestationsHelper
+
 
   steps :sort_tiff_files
 
@@ -73,6 +75,12 @@ class BooksController < ApplicationController
         add_authors(params[:person][:id])
       end
 
+      # add the people described by the book
+      if !params[:person_described].blank? && !params[:person_described][:id].blank?
+        # add new described people
+        add_described_people(params[:person_described][:id])
+      end
+
       #Create TEI representation of book using uploaded TEI file if a file was uploaded
       if !params[:file].blank? && !params[:file][:tei_file].blank?
         logger.debug "Creating a tei representation"
@@ -125,6 +133,12 @@ class BooksController < ApplicationController
         # add new persons as authors
         add_authors(params[:person][:id])
       end
+      # add the people described by the book
+      if !params[:person_described].blank? && !params[:person_described][:id].blank?
+        # add new described people
+        add_described_people(params[:person_described][:id])
+      end
+
       redirect_to @book, notice: 'Book was successfully updated.'
     else
       render action: "edit"
@@ -147,6 +161,9 @@ class BooksController < ApplicationController
     tei.files << tei_file
     tei.ie = @book
     tei.save
+
+    @book.tei << tei
+    @book.save!
   end
 
   # creates the tiff representation and adds the tiff images with the structmap
@@ -183,6 +200,23 @@ class BooksController < ApplicationController
         # TODO: Relationship should not be defined both ways.
         author.authored_books << @book
         author.save!
+      end
+    end
+    @book.save!
+  end
+
+  # adds the person defined in the params as authors
+  private
+  def add_described_people(ids)
+    # add the authors to the book
+    ids.each do |person_pid|
+      if person_pid && !person_pid.empty?
+        person = Person.find(person_pid)
+        @book.people_described << person
+
+        # TODO: Relationship should not be defined both ways.
+        person.describing_books << @book
+        person.save!
       end
     end
     @book.save!

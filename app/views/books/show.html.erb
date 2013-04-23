@@ -9,6 +9,12 @@
      <tr><td><b>Author</b></td><td><p>No author defined for this book.</p></td></tr>
   <% end %>
 
+  <% if @book.has_described_person? %>
+    <% @book.people_described.each do |person| %>
+          <tr><td><b>Description of</b></td><td><%= link_to person.name, person_path(person) %></td></tr>
+    <% end %>
+  <% end %>
+
   <tr><td><b>ISBN</b></td><td><%= @book.isbn %></td></tr>
   <tr><td><b>Genre</b></td><td><%= @book.genre %></td></tr>
   <tr><td><b>Shelf Locator</b></td><td><%= @book.shelfLocator %></td></tr>

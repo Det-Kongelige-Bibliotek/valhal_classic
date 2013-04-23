@@ -1,3 +1,4 @@
+
 module Concerns
   module BasicFile
     extend ActiveSupport::Concern
