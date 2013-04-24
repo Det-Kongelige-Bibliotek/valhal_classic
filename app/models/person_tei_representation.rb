@@ -8,9 +8,6 @@ class PersonTeiRepresentation < ActiveFedora::Base
   delegate_to 'descMetadata', [:forename, :surname, :date_of_birth, :date_of_death, :period], :unique => true
   delegate_to 'descMetadata', [:short_biography, :sample_quotation, :sample_quotation_source]
 
-  # Relationship to be abstract Person
-  belongs_to :person, :property => :is_representation_of
-
   def to_solr(solr_doc = {})
     super
     solr_doc["search_result_title_t"] = self.surname unless self.surname.blank?

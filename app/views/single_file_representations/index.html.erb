@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+    <th>Label</th>
     <th></th>
     <th></th>
     <th></th>
@@ -9,6 +10,7 @@
 
 <% @single_file_representations.each do |single_file_representation| %>
   <tr>
+    <td><%= single_file_representation.label %></td>
     <td><%= link_to 'Show', single_file_representation %></td>
     <td><%= link_to 'Edit', edit_single_file_representation_path(single_file_representation) %></td>
     <td><%= link_to 'Destroy', single_file_representation, method: :delete, data: { confirm: 'Are you sure?' } %></td>

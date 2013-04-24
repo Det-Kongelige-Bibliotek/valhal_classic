@@ -1,2 +1,0 @@
-module SingleFileRepresentationsHelper
-end

@@ -39,6 +39,7 @@ describe SingleFileRepresentationsController do
       SingleFileRepresentation.all.each { |sfr| sfr.destroy }
     end
     it "assigns all single_file_representations as @single_file_representations" do
+
       single_file_representation = SingleFileRepresentation.create! valid_attributes
       get :index, {}, valid_session
       assigns(:single_file_representations).should eq([single_file_representation])
