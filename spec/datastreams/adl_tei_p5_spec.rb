@@ -38,7 +38,6 @@ describe Datastreams::AdlTeiP5 do
     descriptions = subject.TEI.teiHeader.profileDesc.particDesc.listPerson.person.event.desc
 
     descriptions.should be_kind_of Array
-    descriptions.each {|desc| print desc}
   end
 
   it "should have an event with a various attributes" do
