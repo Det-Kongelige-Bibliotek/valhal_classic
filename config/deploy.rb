@@ -41,6 +41,8 @@ namespace :deploy do
   end
 end
 
-before "deploy:restart", "deploy:symlink_shared", "deploy:clean"
+before "deploy:restart", "deploy:symlink_shared"
+
+after :deploy, "deploy:clean"
 
 
