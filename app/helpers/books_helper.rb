@@ -40,7 +40,6 @@ module BooksHelper
       tiff.files << tiff_file
     end
 
-
     #Create METS Structmap for book using uploaded METS file if file was uploaded
     #if !params[:file][:structmap_file].blank?
     #  add_structmap(tiff, params[:file][:structmap_file])
