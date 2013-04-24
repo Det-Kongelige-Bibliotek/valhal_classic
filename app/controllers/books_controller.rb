@@ -72,25 +72,25 @@ class BooksController < ApplicationController
 
       # add the authors to the book
       if !params[:person].blank? && !params[:person][:id].blank?
-        add_authors(params[:person][:id])
+        add_authors(params[:person][:id], @book)
       end
 
       # add the people described by the book
       if !params[:person_described].blank? && !params[:person_described][:id].blank?
         # add new described people
-        add_described_people(params[:person_described][:id])
+        add_described_people(params[:person_described][:id], @book)
       end
 
       #Create TEI representation of book using uploaded TEI file if a file was uploaded
       if !params[:file].blank? && !params[:file][:tei_file].blank?
         logger.debug "Creating a tei representation"
-        add_tei_representation
+        add_tei_representation(params[:tei], params[:file][:tei_file], @book)
       end
 
       #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
       if !params[:file].blank? && !params[:file][:tiff_file].blank?
         logger.debug "Creating a tiff representation"
-        add_tiff_representation
+        add_tiff_representation(params[:tiff], params[:file][:tiff_file], @book)
         render_wizard
       else
         redirect_to @book, notice: 'Book was successfully created.'
@@ -116,13 +116,13 @@ class BooksController < ApplicationController
       #Create TEI representation of book using uploaded TEI file if a file was uploaded
       if !params[:file].blank? && !params[:file][:tei_file].blank?
         logger.debug "Creating a tei representation"
-          add_tei_representation
+          add_tei_representation(params[:tei], params[:file][:tei_file], @book)
       end
 
       #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
       if !params[:file].blank? &&!params[:file][:tiff_file].blank?
         logger.debug "Creating a tiff representation"
-          add_tiff_representation
+          add_tiff_representation(params[:tiff], params[:file][:tiff_file], @book)
         end
 
       end
@@ -131,12 +131,12 @@ class BooksController < ApplicationController
         # Remove any existing relationships
         @book.authors.clear
         # add new persons as authors
-        add_authors(params[:person][:id])
+        add_authors(params[:person][:id], @book)
       end
       # add the people described by the book
       if !params[:person_described].blank? && !params[:person_described][:id].blank?
         # add new described people
-        add_described_people(params[:person_described][:id])
+        add_described_people(params[:person_described][:id], @book)
       end
 
       redirect_to @book, notice: 'Book was successfully updated.'
@@ -150,75 +150,5 @@ class BooksController < ApplicationController
     @book.destroy
 
     redirect_to books_url
-  end
-
-  # creates the tei representation with the tei file
-  private
-  def add_tei_representation
-    tei = DefaultRepresentation.new(params[:tei])
-    tei_file = BasicFile.new
-    tei_file.add_file(params[:file][:tei_file])
-    tei.files << tei_file
-    tei.ie = @book
-    tei.save
-
-    @book.tei << tei
-    @book.save!
-  end
-
-  # creates the tiff representation and adds the tiff images with the structmap
-  private
-  def add_tiff_representation
-    tiff = OrderedRepresentation.new(params[:tiff])
-
-    params[:file][:tiff_file].each do |f|
-      tiff_file = TiffFile.new
-      tiff_file.add_file(f)
-      logger.debug f.original_filename
-      tiff.files << tiff_file
-    end
-
-
-    #Create METS Structmap for book using uploaded METS file if file was uploaded
-    #if !params[:file][:structmap_file].blank?
-    #  add_structmap(tiff, params[:file][:structmap_file])
-    #end
-
-    @book.tif << tiff
-    @book.save!
-  end
-
-  # adds the person defined in the params as authors
-  private
-  def add_authors(ids)
-    # add the authors to the book
-    ids.each do |author_pid|
-      if author_pid && !author_pid.empty?
-        author = Person.find(author_pid)
-        @book.authors << author
-
-        # TODO: Relationship should not be defined both ways.
-        author.authored_books << @book
-        author.save!
-      end
-    end
-    @book.save!
-  end
-
-  # adds the person defined in the params as authors
-  private
-  def add_described_people(ids)
-    # add the authors to the book
-    ids.each do |person_pid|
-      if person_pid && !person_pid.empty?
-        person = Person.find(person_pid)
-        @book.people_described << person
-
-        # TODO: Relationship should not be defined both ways.
-        person.describing_books << @book
-        person.save!
-      end
-    end
-    @book.save!
   end
 end
