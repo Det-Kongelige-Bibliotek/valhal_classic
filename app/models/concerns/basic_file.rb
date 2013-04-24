@@ -1,5 +1,12 @@
-
+# -*- encoding : utf-8 -*-
 module Concerns
+
+  # BasicFile contains tha basic functionality for a class meant to be a kind af file
+  # in order for this module to work a class must inherit from ActiveFedora::Base
+  # it is meant to be included in the file classes
+  # Example:
+  # Class TiffFile < ActiveFedora::Base
+  # include Concerns::BasicFile
   module BasicFile
     extend ActiveSupport::Concern
     include Hydra::Models::FileAsset
@@ -46,7 +53,6 @@ module Concerns
     end
 
     # TODO describe the different timestamps.
-    private
     def set_file_timestamps(file)
       self.created = file.ctime.to_s
       self.last_accessed = file.atime.to_s
@@ -54,7 +60,6 @@ module Concerns
     end
 
     #returns true if file has all the methods that is needed by #add_file else false is returned
-    private
     def check_file?(file)
       file_methods = [:size, :tempfile, :content_type, :original_filename,]
       file_methods.each do |method_name|
