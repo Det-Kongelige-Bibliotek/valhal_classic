@@ -68,8 +68,6 @@ class Book < ActiveFedora::Base
     m.field "type_of_resource", method: :typeOfResource
   end
 
-  after_save :add_ie_to_reps
-
   private
 
   def add_ie_to_reps

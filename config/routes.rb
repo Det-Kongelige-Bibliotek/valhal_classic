@@ -30,6 +30,7 @@ ADL::Application.routes.draw do
     member do
       get 'show_image'
       get 'image_url'
+      put 'add_manifest'
     end
   end
 

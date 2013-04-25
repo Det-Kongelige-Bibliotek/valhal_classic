@@ -1,5 +1,9 @@
 # -*- encoding : utf-8 -*-
 class PeopleController < ApplicationController
+  include Wicked::Wizard
+
+  steps :add_manifests
+
   load_and_authorize_resource
   def index
     @people = Person.all
