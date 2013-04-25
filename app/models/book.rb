@@ -2,7 +2,8 @@
 class Book < ActiveFedora::Base
   include ActiveModel::Validations
   include Concerns::IntellectualEntity
-  include Concerns::Manifestation
+  include Concerns::Manifestation::Author
+  include Concerns::Manifestation::Described
   include Solr::Indexable
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
