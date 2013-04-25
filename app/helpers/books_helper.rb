@@ -21,6 +21,7 @@ module BooksHelper
     tei = DefaultRepresentation.new(tei_metadata)
     tei_file = BasicFile.new
     tei_file.add_file(file)
+    tei_file.save!
     tei.files << tei_file
     tei.ie = book
     tei.save

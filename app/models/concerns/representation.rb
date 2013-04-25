@@ -20,7 +20,7 @@ module Concerns
       # relationships that all representations must have
       # belongs_to ie(short for IntellectualEntity), can be a Book, Person and so on
       # has_many files, can be BasicFile, TiffFile and so on
-      has_many :files, :class_name => 'ActiveFedora::Base', :property => :has_part, :inverse_of => :is_part_of
+      has_many :files, :class_name => 'ActiveFedora::Base', :property => :is_part_of, :inverse_of => :has_part
       belongs_to :ie, :class_name => 'ActiveFedora::Base', :property => :has_representation, :inverse_of => :is_representation_of
 
       # adds the representation to the file container after a save so we dont have to manage all that saving before adding

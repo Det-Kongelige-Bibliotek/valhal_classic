@@ -430,6 +430,8 @@ describe BooksController do
     BasicFile.all.each { |bf| bf.delete }
     TiffFile.all.each { |tf| tf.delete }
     Person.all.each { |p| p.delete }
+    DefaultRepresentation.all.each { |dr| dr.delete }
+    OrderedRepresentation.all.each { |rep| rep.delete }
   end
 
 end

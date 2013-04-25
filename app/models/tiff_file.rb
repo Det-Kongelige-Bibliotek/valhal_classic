@@ -6,7 +6,6 @@ class TiffFile < ActiveFedora::Base
   include Concerns::IntellectualEntity
 
   def add_file(file)
-    #puts file.inspect
     valid = super
     if(valid)
       self.save!
