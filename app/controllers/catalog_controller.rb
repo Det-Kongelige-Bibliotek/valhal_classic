@@ -108,19 +108,10 @@ class CatalogController < ApplicationController
     config.add_index_field 'original_filename_t', :label => 'Name:'
     #config.add_index_field 'title_t', :label => 'Titel:'
     #config.add_index_field 'person_name_t', :label => 'Person Name:'
-    config.add_index_field 'search_results_book_authors_s', :label => 'Author(s):'
+    config.add_index_field book_solr_names[:search_results_book_authors], :label => 'Author(s):'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
-    config.add_show_field 'id', :label => 'Id:'
-    config.add_show_field 'original_filename_t', :label => 'Title:'
-    config.add_show_field 'mime_type_t', :label => 'Mime Type:'
-    config.add_show_field 'surname_t', :label => 'Author:'
-    config.add_show_field 'forename_t', :label => 'Firstname:'
-    config.add_show_field 'birth_date_t', :label => 'Date of Birth:'
-    config.add_show_field 'death_date_t', :label => 'Date of Death:'
-    config.add_show_field 'sample_quotation_t', :label => 'Sample quotation:'
-    config.add_show_field 'sample_quotation_source_t', :label => 'Sample quotation Source:'
     config.add_show_field book_solr_names[:title], :label => 'Title:'
     config.add_show_field person_solr_names[:person_name], :label => 'Person Name:'
     #config.add_show_field 'description_t', :label => 'Description:'

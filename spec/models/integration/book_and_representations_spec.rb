@@ -4,7 +4,6 @@ require 'spec_helper'
 describe Book do
   before(:all) do
     Book.all.each { |book| book.delete }
-    BookTeiRepresentation.all.each { |btr| btr.delete }
   end
 
   # tests for the relationship between the Book and the BookTeiRepresentation

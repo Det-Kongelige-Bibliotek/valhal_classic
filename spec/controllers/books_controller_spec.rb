@@ -269,6 +269,7 @@ describe BooksController do
       end
 
       describe "with an author" do
+        let(:representation) { OrderedRepresentation }
         before :all do
           @author = Person.create(firstname:"the firstname", lastname:"the lastname", :date_of_birth => Time.new.to_i.to_s)
           @book_attributes = { :title => "Samlede Skrifter"}
@@ -282,7 +283,7 @@ describe BooksController do
         it "should not create a Tiff representation" do
           expect {
             post :create, {:book => @book_attributes , :person => @person_attributes }, valid_session
-          }.not_to change(BookTiffRepresentation, :count)
+          }.not_to change(representation, :count)
         end
         it "should not create a tiff file for the tiff representation" do
           expect {
