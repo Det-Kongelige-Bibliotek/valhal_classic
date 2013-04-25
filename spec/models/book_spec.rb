@@ -88,12 +88,13 @@ describe Book do
   end
 
   describe "tiff_representation" do
+    let(:representation) { OrderedRepresentation }
     it "should not have an tiff representation, when noone has been assigned" do
       @book.tiff_rep?.should == false
     end
 
     it "should have an tiff representation, when one has been assigned" do
-      tiff = BookTiffRepresentation.create
+      tiff = representation.create
       @book.tif << tiff
 
       @book.tiff_rep?.should == true
@@ -101,12 +102,13 @@ describe Book do
   end
 
   describe "tei_representation" do
+    let(:representation) { DefaultRepresentation }
     it "should not have an tei representation, when noone has been assigned" do
       @book.tei_rep?.should == false
     end
 
     it "should have an tei representation, when one has been assigned" do
-      tei = BookTeiRepresentation.create
+      tei = representation.create
       @book.tei << tei
 
       @book.tei_rep?.should == true
