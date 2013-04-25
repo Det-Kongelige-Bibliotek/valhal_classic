@@ -134,6 +134,5 @@ class BooksController < ApplicationController
       logger.debug "Creating a tei representation"
       add_tei_representation(params[:tei], params[:file][:tei_file], @book)
     end
-
   end
 end

@@ -2,7 +2,8 @@
 class Book < ActiveFedora::Base
   include ActiveModel::Validations
   include Concerns::IntellectualEntity
-  include Concerns::Manifestation
+  include Concerns::Manifestation::Author
+  include Concerns::Manifestation::Described
   include Solr::Indexable
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
@@ -67,8 +68,6 @@ class Book < ActiveFedora::Base
     m.field "sub_title", method: :subTitle
     m.field "type_of_resource", method: :typeOfResource
   end
-
-  after_save :add_ie_to_reps
 
   private
 
