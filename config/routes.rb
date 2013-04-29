@@ -16,6 +16,7 @@ ADL::Application.routes.draw do
   #Standard resource mapping
   resources :single_file_representations
   resources :works
+  resources :book_tiff_representations
   resources :people do
     member do
       get 'show_image'

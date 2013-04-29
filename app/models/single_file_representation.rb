@@ -19,6 +19,6 @@ class SingleFileRepresentation < ActiveFedora::Base
     if files.empty?
       return nil
     end
-   files.all.last
+   files.last
   end
 end

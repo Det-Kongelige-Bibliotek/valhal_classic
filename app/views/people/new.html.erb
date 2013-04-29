@@ -13,10 +13,6 @@
     <%= fields_for :tei, :html => {:multipart => true} do |builder| %>
         <%= render 'tei_file_upload', :f => builder %>
     <% end %>
-    <br/>
-    <div id="dropbox"><span id="droplabel">Drop file here...</span></div>
-    <img id="preview" alt="[ preview will display here ]" />
-    <br/>
     <%= f.submit "Create" %>
 
 <% end %>

@@ -35,7 +35,7 @@
     <ul>
     <% @work.representations.each do |t| %>
       <li><%= t.file.nil? ? t.label + " (" + t.pid + ")" :
-                      (link_to t.label + " (" + t.pid + ")", {:action => "show", :pid => t.get_file.pid, :controller => "view_file" }) %></li>
+                      (link_to t.label + " (" + t.pid + ")", {:action => "show", :pid => t.file.pid, :controller => "view_file" }) %></li>
 
     <% end %>
     </ul>
