@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class WorksController < ApplicationController
   include ManifestationsHelper
+  include WorksHelper
 
   def index
     @works = Work.all
@@ -45,6 +46,11 @@ class WorksController < ApplicationController
         add_authors(params[:person][:id], @work)
       end
 
+      # add the described persons to the work
+      if !params[:person_described].blank? && !params[:person_described][:id].blank?
+        add_described_people(params[:person_described][:id], @work)
+      end
+
       #Create representation of work using uploaded file if a file was uploaded
       if !params[:file].blank? && !params[:file][:file].blank?
         logger.debug "Creating a tei representation"
@@ -78,6 +84,14 @@ class WorksController < ApplicationController
         @work.authors.clear
         # add new persons as authors
         add_authors(params[:person][:id], @work)
+      end
+
+      # add the described persons to the work
+      if !params[:person_described].blank? && !params[:person_described][:id].blank?
+        # Remove any existing relationships
+        @work.people_described.clear
+
+        add_described_people(params[:person_described][:id], @work)
       end
       redirect_to @work, notice: 'Work was successfully updated.'
     else
