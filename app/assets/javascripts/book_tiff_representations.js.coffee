@@ -1,5 +1,4 @@
 $(document).ready ->
-    $('#sortable').sortable()
     file_data = $("#file_data")
     clearBn = $("#clear")
     clearBn.on "click", ->

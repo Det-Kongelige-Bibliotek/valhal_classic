@@ -16,7 +16,14 @@ ADL::Application.routes.draw do
   #Standard resource mapping
   resources :single_file_representations
   resources :works
-  resources :book_tiff_representations
+  resources :book_tei_representations
+  resources :book_tiff_representations do
+    member do
+      get 'download_all'
+      get 'image_url'
+      get 'thumbnail_url'
+    end
+  end
   resources :people do
     member do
       get 'show_image'
