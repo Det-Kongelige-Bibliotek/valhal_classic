@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-ADL::Application.routes.draw do
+Valhal::Application.routes.draw do
   get "view_file/show"
   get "view_file/show_structmap"
 

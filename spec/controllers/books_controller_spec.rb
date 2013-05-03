@@ -29,7 +29,7 @@ describe BooksController do
   # Book. As you add validations to Book, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { :genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504073",
+    { :genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504073",
       :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
       :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
       :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
@@ -45,7 +45,7 @@ describe BooksController do
 
   describe "GET index" do
     it "assigns all books as @books" do
-      book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504073",
+      book = Book.create!(:genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504073",
                           :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                           :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                           :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
@@ -57,7 +57,7 @@ describe BooksController do
 
   describe "GET show" do
     it "assigns the requested book as @book" do
-      book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504074",
+      book = Book.create!(:genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504074",
                           :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                           :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                           :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
@@ -76,7 +76,7 @@ describe BooksController do
 
   describe "GET edit" do
     it "assigns the requested book as @book" do
-      book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504075",
+      book = Book.create!(:genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504075",
                           :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                           :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                           :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
@@ -89,7 +89,7 @@ describe BooksController do
   describe "POST create" do
     describe "with valid params" do
       it "creates a new Book" do
-        attributes = { :genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "7787504073",
+        attributes = { :genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "7787504073",
                        :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                        :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                        :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
@@ -100,7 +100,7 @@ describe BooksController do
       end
 
       it "assigns a newly created book as @book" do
-        attributes = { :genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "7747504073",
+        attributes = { :genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "7747504073",
                        :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                        :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                        :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
@@ -112,7 +112,7 @@ describe BooksController do
 
       it "redirects to the created book" do
         pending "Need to work out why this test passes locally but not on Jenkins"
-        attributes = { :genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "4787504073",
+        attributes = { :genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "4787504073",
                        :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                        :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                        :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
@@ -329,7 +329,7 @@ describe BooksController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested book" do
-        book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504076",
+        book = Book.create!(:genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504076",
                             :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                             :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                             :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
@@ -343,12 +343,12 @@ describe BooksController do
       end
 
       it "assigns the requested book as @book" do
-        book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504077",
+        book = Book.create!(:genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504077",
                             :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                             :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                             :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
                             :subjectTopic => "N8217.H68", :physicalExtent => "510")
-        attributes = { :genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "4780004073",
+        attributes = { :genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "4780004073",
                        :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                        :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                        :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
@@ -358,12 +358,12 @@ describe BooksController do
       end
 
       it "redirects to the book" do
-        book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504078",
+        book = Book.create!(:genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504078",
                             :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                             :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                             :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
                             :subjectTopic => "N8217.H68", :physicalExtent => "510")
-        attributes = { :genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "4345504073",
+        attributes = { :genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "4345504073",
                        :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                        :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                        :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
@@ -375,7 +375,7 @@ describe BooksController do
 
     describe "with invalid params" do
       it "assigns the book as @book" do
-        book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504079",
+        book = Book.create!(:genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504079",
                             :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                             :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                             :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
@@ -387,7 +387,7 @@ describe BooksController do
       end
 
       it "re-renders the 'edit' template" do
-        book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504070",
+        book = Book.create!(:genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504070",
                             :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                             :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                             :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
@@ -402,7 +402,7 @@ describe BooksController do
 
   describe "DELETE destroy" do
     it "destroys the requested book" do
-      book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504071",
+      book = Book.create!(:genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504071",
                           :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                           :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                           :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",
@@ -413,7 +413,7 @@ describe BooksController do
     end
 
     it "redirects to the books list" do
-      book = Book.create!(:genre => "ADL bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504072",
+      book = Book.create!(:genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "8787504072",
                           :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                           :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
                           :dateIssued => "2002-10-02T10:00:00-05:00", :languageISO => "dan", :languageText => "DANSK",

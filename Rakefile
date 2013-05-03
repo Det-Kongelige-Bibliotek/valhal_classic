@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-ADL::Application.load_tasks
+Valhal::Application.load_tasks

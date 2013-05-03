@@ -25,7 +25,7 @@ CONFIG = YAML.load(File.read(File.expand_path('../application.local.yml', __FILE
 CONFIG.merge! CONFIG.fetch(Rails.env, {})
 recursive_symbolize_keys! CONFIG
 
-module ADL
+module Valhal
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

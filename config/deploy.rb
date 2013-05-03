@@ -2,8 +2,8 @@ set :stages, %w(production staging testing)
 set :default_stage, "testing"
 require 'capistrano/ext/multistage'
 
-set :application, "SIFD ADL"
-set :repository, "https://github.com/Det-Kongelige-Bibliotek/ADL"
+set :application, "SIFD Valhal"
+set :repository, "https://github.com/Det-Kongelige-Bibliotek/valhal"
 
 
 set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names

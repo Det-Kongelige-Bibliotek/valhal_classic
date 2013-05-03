@@ -18,7 +18,7 @@ describe Book do
 
   it "should have the attributes of an book and support update_attributes" do
     attributes_hash = {
-        genre: "ADL bog",
+        genre: "Valhal bog",
         uuid: "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66",
         isbn: "8787504073",
         typeOfResource: "text",

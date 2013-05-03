@@ -9,4 +9,4 @@ APP_VERSION = `git describe --abbrev=0` unless defined? APP_VERSION
 ActionView::Base.field_error_proc = Proc.new {|html, instance| html }
 
 # Initialize the rails application
-ADL::Application.initialize!
+Valhal::Application.initialize!

@@ -20,7 +20,7 @@ da:
       next: 'Next &raquo;'
 
   blacklight:
-    application_name: 'ADL'
+    application_name: 'Valhal'
 
     header_links:
       login: 'Login'

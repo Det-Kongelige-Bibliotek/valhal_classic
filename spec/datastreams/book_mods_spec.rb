@@ -9,7 +9,7 @@ describe Datastreams::BookMods do
   end
 
   it "should expose book information" do
-    @ds.mods.genre.should == ["ADL bog"]
+    @ds.mods.genre.should == ["Valhal bog"]
     @ds.mods.uuid.should == ["urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66"]
     @ds.mods.isbn.should == ["8787504073"]
     @ds.mods.typeOfResource.should == ["text"]
