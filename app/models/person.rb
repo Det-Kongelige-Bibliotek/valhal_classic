@@ -46,7 +46,7 @@ class Person < ActiveFedora::Base
   end
 
   def comma_seperated_lastname_firstname
-    "#{firstname.to_s}, #{lastname.to_s}"
+    "#{lastname.to_s}, #{firstname.to_s}"
   end
 
   has_solr_fields do |m|
