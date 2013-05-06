@@ -6,7 +6,7 @@ class Work < ActiveFedora::Base
   include Solr::Indexable
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
-  has_metadata :name=>'descMetadata', :type=>Datastreams::WorkMods
+  has_metadata :name => 'descMetadata', :type=>Datastreams::WorkMods
 
   # TODO define restrictions for these metadata fields.
   delegate_to 'descMetadata',[:shelfLocator, :title, :subTitle, :typeOfResource, :publisher,
@@ -18,7 +18,7 @@ class Work < ActiveFedora::Base
   has_many :representations, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of
 
   validates :title, :presence => true
-  validates :work_type, :presence => true
+  #validates :work_type, :presence => true
 
   # Determines whether any representations exists.
   def has_rep?
