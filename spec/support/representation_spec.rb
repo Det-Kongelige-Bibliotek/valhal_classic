@@ -6,7 +6,6 @@ class Representation < ActiveFedora::Base
 end
 
 describe "representation" do
-
   it "should create a representation with label" do
     represent = Representation.new(:label=>"new label")
     represent.save.should == true
@@ -30,25 +29,29 @@ describe "representation" do
     represent.save!
     represent.label.should_not be_nil
   end
+end
 
-  it "should be able to update a label" do
+describe "update" do
+  before do
     @represent1 = Representation.new(:label=>"first label")
     @represent1.save!
+  end
+  it "should be able to update a label" do
     represent2 = Representation.find(@represent1.pid)
     represent2.label = "second label"
     represent2.save!
     represent2.label.should == "second label"
   end
+end
 
-  it "should be able to delete a representation" do
+describe "destroy"  do
+  before do
     @represent = Representation.new
     @represent.save!
+  end
+  it "should be able to delete a representation" do
     count = Representation.count
     @represent.destroy
     Representation.count.should == count - 1
   end
-
-
-
-
 end
