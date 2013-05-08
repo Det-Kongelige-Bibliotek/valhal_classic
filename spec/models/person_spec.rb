@@ -3,6 +3,9 @@ require 'spec_helper'
 
 # TODO: need tests for the variables (besides firstname)
 describe Person do
+  subject { Person.new(firstname: "Test #{Time.new.usec}", lastname: "last_test") }
+  it_behaves_like "a person with manifestations"
+
   let(:person_image_rep) { DefaultRepresentation }
   describe "#create" do
 
