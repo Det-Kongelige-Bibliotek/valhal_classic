@@ -14,6 +14,10 @@ module Concerns
       def has_described_person?
         return people_described.any?
       end
+
+      def clear_described_people
+        self.people_described_ids = []
+      end
     end
   end
 end

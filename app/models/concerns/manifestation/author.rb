@@ -18,7 +18,7 @@ module Concerns
       # clears the author list.
       # TODO: Is this used, and will does it work properly...
       def clear_authors
-        authors.clear
+        self.author_ids = []
       end
     end
   end
