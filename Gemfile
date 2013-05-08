@@ -38,6 +38,8 @@ group :test do
   gem 'factory_girl_rails', '~> 4.1'
   gem 'capybara'
   gem 'rb-readline'
+  gem 'simplecov-rcov'
+  gem 'simplecov', :require => false
 end
 
 gem 'rspec-rails', :group => [:development, :test]
