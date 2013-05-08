@@ -4,7 +4,7 @@ gem 'rails', '3.2.13'
 
 gem "devise", "~> 2.1.2"
 gem "blacklight"
-gem 'hydra-head', '6.0.0'
+gem 'hydra-head', '6.1.0'
 gem 'sqlite3'
 gem 'bootswatch-rails'
 
@@ -38,8 +38,6 @@ group :test do
   gem 'factory_girl_rails', '~> 4.1'
   gem 'capybara'
   gem 'rb-readline'
-  gem 'simplecov-rcov'
-  gem 'simplecov', :require => false
 end
 
 gem 'rspec-rails', :group => [:development, :test]
