@@ -1,6 +1,9 @@
 # -*- encoding : utf-8 -*-
 
 shared_examples "a person with manifestations" do
+  # subject must pass all validation for that manifestation
+  # if not these tests will fail
+  # look at person_spec.rb for how to override subject to provide a valid object
   let(:person) { subject }
   let(:default_work) { Work.create(title: "Super Work") }
   let(:default_book) { Book.create(title: "Super Book") }
