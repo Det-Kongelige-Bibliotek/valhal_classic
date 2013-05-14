@@ -53,11 +53,54 @@ shared_examples "a manifestation with authors" do
       manifestation.save
       manifestation.reload
 
-      manifestation.clear_authors
+      manifestation.author_ids = []
       manifestation.save
       manifestation.reload
 
       manifestation.authors.should be_empty
+    end
+  end
+
+  describe "#clear_authors" do
+
+    context "no authors" do
+      it "return false" do
+        manifestation.save!
+
+        manifestation.clear_authors.should be_false
+      end
+    end
+
+    context "one author" do
+      it "remove the author and return true" do
+        manifestation.save!
+        manifestation.authors << default_person
+        manifestation.save
+        manifestation.reload
+
+        manifestation.clear_authors.should be_true
+        manifestation.save
+        manifestation.reload
+
+        manifestation.authors.should be_empty
+      end
+    end
+
+    context "many authors" do
+      it "remove the authors and return true" do
+        manifestation.save!
+        manifestation.authors << default_person
+        manifestation.authors << default_person
+        manifestation.authors << default_person
+        manifestation.save
+        manifestation.reload
+
+        manifestation.clear_authors.should be_true
+        manifestation.save
+        manifestation.reload
+
+        manifestation.authors.should be_empty
+      end
     end
   end
 
