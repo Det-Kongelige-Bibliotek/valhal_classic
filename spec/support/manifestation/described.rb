@@ -46,6 +46,49 @@ shared_examples "a manifestation with descriptions" do
     end
   end
 
+  describe "#clear_described_people" do
+
+    context "no described people" do
+      it "return false" do
+        manifestation.save!
+
+        manifestation.clear_described_people.should be_false
+      end
+    end
+
+    context "one described person" do
+      it "remove the described person and return true" do
+        manifestation.save!
+        manifestation.people_described << default_person
+        manifestation.save
+        manifestation.reload
+
+        manifestation.clear_described_people.should be_true
+        manifestation.save
+        manifestation.reload
+
+        manifestation.people_described.should be_empty
+      end
+    end
+
+    context "many people described" do
+      it "remove the people described and return true" do
+        manifestation.save!
+        manifestation.people_described << default_person
+        manifestation.people_described << default_person
+        manifestation.people_described << default_person
+        manifestation.save
+        manifestation.reload
+
+        manifestation.clear_described_people.should be_true
+        manifestation.save
+        manifestation.reload
+
+        manifestation.people_described.should be_empty
+      end
+    end
+  end
+
   describe "#has_described_person?" do
     context "no described people"do
       it "return false" do
