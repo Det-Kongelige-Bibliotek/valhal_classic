@@ -15,8 +15,14 @@ module Concerns
         return people_described.any?
       end
 
+      # clears the people_described list.
+      # return false if there is no described people in this manifestation,
+      # else true
       def clear_described_people
-        self.people_described_ids = []
+        unless self.people_described.empty?
+          self.people_described_ids = []
+          true
+        end
       end
     end
   end
