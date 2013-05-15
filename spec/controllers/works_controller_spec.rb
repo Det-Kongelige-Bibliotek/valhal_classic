@@ -19,6 +19,10 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe WorksController do
+  #Login a test user with admin rights
+  before(:each) do
+    login_admin
+  end
 
   # This should return the minimal set of attributes required to create a valid
   # Work. As you add validations to Work, be sure to

@@ -2,6 +2,7 @@
 class WorksController < ApplicationController
   include ManifestationsHelper
   include WorksHelper
+  load_and_authorize_resource
 
   def index
     @works = Work.all

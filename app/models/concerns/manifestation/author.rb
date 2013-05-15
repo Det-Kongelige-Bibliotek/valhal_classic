@@ -16,9 +16,13 @@ module Concerns
       end
 
       # clears the author list.
-      # TODO: Is this used, and will does it work properly...
+      # return false if there is no authors in this manifestation,
+      # else true
       def clear_authors
-        authors.clear
+        unless self.authors.empty?
+          self.author_ids = []
+          true
+        end
       end
     end
   end
