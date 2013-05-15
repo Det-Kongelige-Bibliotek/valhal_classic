@@ -15,7 +15,7 @@ class Work < ActiveFedora::Base
   delegate :work_type, :to => 'descMetadata', :at => [:genre], :unique => true
 
   # A work can have many representations
-  has_many :representations, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of
+  has_many :representations, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of, :inverse_of => :has_representation
 
   validates :title, :presence => true
   #validates :work_type, :presence => true

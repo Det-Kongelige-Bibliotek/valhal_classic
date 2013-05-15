@@ -40,6 +40,7 @@ group :test do
   gem 'rb-readline'
   gem 'simplecov-rcov'
   gem 'simplecov', :require => false
+  gem "webrat", "~> 0.7.3"
 end
 
 gem 'rspec-rails', :group => [:development, :test]

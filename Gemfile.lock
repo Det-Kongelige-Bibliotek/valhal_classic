@@ -341,6 +341,10 @@ GEM
       macaddr (~> 1.0)
     warden (1.2.1)
       rack (>= 1.0)
+    webrat (0.7.3)
+      nokogiri (>= 1.2.0)
+      rack (>= 1.0)
+      rack-test (>= 0.5.3)
     wicked (0.6.0)
       activesupport (>= 3.0.7)
       rails (>= 3.0.7)
@@ -394,4 +398,5 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   unicode
   uuid (>= 2.3.6)
+  webrat (~> 0.7.3)
   wicked
