@@ -48,8 +48,8 @@ class WorksController < ApplicationController
       end
 
       # add the described persons to the work
-      if !params[:person_described].blank? && !params[:person_described][:id].blank?
-        add_described_people(params[:person_described][:id], @work)
+      if !params[:person_concerned].blank? && !params[:person_concerned][:id].blank?
+        add_concerned_people(params[:person_concerned][:id], @work)
       end
 
       #Create representation of work using uploaded file if a file was uploaded
@@ -88,11 +88,11 @@ class WorksController < ApplicationController
       end
 
       # add the described persons to the work
-      if !params[:person_described].blank? && !params[:person_described][:id].blank?
+      if !params[:person_concerned].blank? && !params[:person_concerned][:id].blank?
         # Remove any existing relationships
-        @work.people_described.clear
+        @work.clear_concerned_people
 
-        add_described_people(params[:person_described][:id], @work)
+        add_concerned_people(params[:person_concerned][:id], @work)
       end
       redirect_to @work, notice: 'Work was successfully updated.'
     else

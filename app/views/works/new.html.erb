@@ -10,7 +10,7 @@
     <% end %>
     <br/>
     <%= fields_for :person_described, :html=>{:multipart=>true} do |builder| %>
-        <%= render 'add_described_person', :f => builder %>
+        <%= render 'add_concerned_person', :f => builder %>
     <% end %>
     <br/>
     <%= fields_for :work do |builder| %>

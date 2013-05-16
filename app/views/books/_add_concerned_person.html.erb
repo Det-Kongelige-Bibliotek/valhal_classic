@@ -1,7 +1,7 @@
 <div>
   <br/>
-  <%= f.label :person_described, "Select person/people described by the book" %>
-  <%= collection_select(:person_described,
+  <%= f.label :person_concerned, "Select person/people concerned by the book" %>
+  <%= collection_select(:person_concerned,
                         :id,
                         Person.all.sort_by(&:comma_seperated_lastname_firstname),
                         :id,

@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe Work do
+  subject { Book.new(title: "test") }
+
+  it_behaves_like "a manifestation with authors"
+
+  it_behaves_like "a manifestation with concerns"
+
   describe '#title' do
     it 'should be created with a title' do
       t = "The title"

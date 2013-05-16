@@ -2,7 +2,7 @@
 class Work < ActiveFedora::Base
   include Concerns::IntellectualEntity
   include Concerns::Manifestation::Author
-  include Concerns::Manifestation::Described
+  include Concerns::Manifestation::Concerning
   include Solr::Indexable
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata

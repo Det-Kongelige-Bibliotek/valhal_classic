@@ -13,7 +13,7 @@ describe 'relationship between book and people' do
 
         page.should have_content("Author")
         page.should have_content("No author defined for this book.")
-        page.should_not have_content("Description of")
+        page.should_not have_content("Concerning")
       end
     end
 
@@ -22,7 +22,7 @@ describe 'relationship between book and people' do
         visit person_path(@person)
 
         page.should have_content("No books authored by this person.")
-        page.should have_content("No book describes this person.")
+        page.should have_content("No book is concerning this person.")
       end
     end
   end
@@ -41,7 +41,7 @@ describe 'relationship between book and people' do
         visit book_path(@book1)
 
         page.should_not have_content("No author defined for this book.")
-        page.should_not have_content("Description of")
+        page.should_not have_content("Concerning")
         page.has_link?(@person1.name, :href => person_path(@person1) + '?locale=en').should == true
       end
 
@@ -53,7 +53,7 @@ describe 'relationship between book and people' do
         visit book_path(@book1)
 
         page.should_not have_content("No author defined for this book.")
-        page.should_not have_content("Description of")
+        page.should_not have_content("Concerning")
         page.has_link?(@person1.name, :href => person_path(@person1) + '?locale=en').should == true
         page.has_link?(@person2.name, :href => person_path(@person2) + '?locale=en').should == true
       end
@@ -74,7 +74,7 @@ describe 'relationship between book and people' do
         visit person_path(@person1)
 
         page.should_not have_content("No books authored by this person.")
-        page.should have_content("No book describes this person.")
+        page.should have_content("No book is concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should == true
         page.has_link?(@book2.get_title_for_display, :href => book_path(@book2) + '?locale=en').should == false
       end
@@ -89,14 +89,14 @@ describe 'relationship between book and people' do
         visit person_path(@person1)
 
         page.should_not have_content("No books authored by this person.")
-        page.should have_content("No book describes this person.")
+        page.should have_content("No book is concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should == true
         page.has_link?(@book2.get_title_for_display, :href => book_path(@book2) + '?locale=en').should == true
       end
     end
   end
 
-  describe '#description_of' do
+  describe '#is_concerned_by' do
     describe 'book view' do
       before(:each) do
         @book1 = Book.create(:title => 'book1 title')
@@ -104,25 +104,25 @@ describe 'relationship between book and people' do
         @person2 = Person.create(:firstname => 'person2 firstname', :lastname => 'person2 lastname', :date_of_birth => Time.new.to_i.to_s)
       end
       it 'should contain a single description_of relationship' do
-        @book1.people_described << @person1
+        @book1.people_concerned << @person1
         @book1.save!
 
         visit book_path(@book1)
 
         page.should have_content("No author defined for this book.")
-        page.should have_content("Description of")
+        page.should have_content("Concerning")
         page.has_link?(@person1.name, :href => person_path(@person1) + '?locale=en').should == true
       end
 
       it 'should contain multiple description_of relationships' do
-        @book1.people_described << @person1
-        @book1.people_described << @person2
+        @book1.people_concerned << @person1
+        @book1.people_concerned << @person2
         @book1.save!
 
         visit book_path(@book1)
 
         page.should have_content("No author defined for this book.")
-        page.should have_content("Description of")
+        page.should have_content("Concerning")
         page.has_link?(@person1.name, :href => person_path(@person1) + '?locale=en').should == true
         page.has_link?(@person2.name, :href => person_path(@person2) + '?locale=en').should == true
       end
@@ -136,35 +136,35 @@ describe 'relationship between book and people' do
       end
       it 'should contain a single description_of relationship' do
         # author relationship is defined on book
-        @book1.people_described << @person1
+        @book1.people_concerned << @person1
         @book1.save!
 
         visit person_path(@person1)
 
         page.should have_content("No books authored by this person.")
-        page.should_not have_content("No book describes this person.")
+        page.should_not have_content("No book is concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should == true
         page.has_link?(@book2.get_title_for_display, :href => book_path(@book2) + '?locale=en').should == false
       end
 
       it 'should contain multiple author relationships' do
         # author relationship is defined on book
-        @book1.people_described << @person1
+        @book1.people_concerned << @person1
         @book1.save!
-        @book2.people_described << @person1
+        @book2.people_concerned << @person1
         @book2.save!
 
         visit person_path(@person1)
 
         page.should have_content("No books authored by this person.")
-        page.should_not have_content("No book describes this person.")
+        page.should_not have_content("No book is concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should == true
         page.has_link?(@book2.get_title_for_display, :href => book_path(@book2) + '?locale=en').should == true
       end
     end
   end
 
-  describe ' both author and description_of' do
+  describe 'both author and is_concerned_by' do
     describe 'book view' do
       before(:each) do
         @book1 = Book.create(:title => 'book1 title')
@@ -172,14 +172,14 @@ describe 'relationship between book and people' do
         @person2 = Person.create(:firstname => 'person2 firstname', :lastname => 'person2 lastname', :date_of_birth => Time.new.to_i.to_s)
       end
       it 'should contain both relationships' do
-        @book1.people_described << @person1
+        @book1.people_concerned << @person1
         @book1.authors << @person2
         @book1.save!
 
         visit book_path(@book1)
 
         page.should_not have_content("No author defined for this book.")
-        page.should have_content("Description of")
+        page.should have_content("Concerning")
         page.has_link?(@person1.name, :href => person_path(@person1) + '?locale=en').should == true
         page.has_link?(@person2.name, :href => person_path(@person2) + '?locale=en').should == true
       end
@@ -193,7 +193,7 @@ describe 'relationship between book and people' do
       end
       it 'should contain both relationships' do
         # author relationship is defined on book
-        @book1.people_described << @person1
+        @book1.people_concerned << @person1
         @book1.save!
         @book2.authors << @person1
         @book2.save!
@@ -201,7 +201,7 @@ describe 'relationship between book and people' do
         visit person_path(@person1)
 
         page.should_not have_content("No books authored by this person.")
-        page.should_not have_content("No book describes this person.")
+        page.should_not have_content("No book is concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should == true
         page.has_link?(@book2.get_title_for_display, :href => book_path(@book2) + '?locale=en').should == true
       end

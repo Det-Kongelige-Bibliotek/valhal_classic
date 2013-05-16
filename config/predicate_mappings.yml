@@ -15,16 +15,16 @@
 #
 :predicate_mapping:
   http://www.kb.dk/:
+    # A book or a work can concern a person
+    :concerning: isDescriptionOf
     # A book or a work can have a person as author
     :has_author: hasMember
-    # A person can be described by a book or a work
-    :has_description: hasDescription
     # A book or a work can have representations
     :has_representation: hasSubset
     # A person can be the author of a book and/or a work
     :is_author_of: isMemberOf
-    # A book or a work can be used to describe a person
-    :is_description_of: isDescriptionOf
+    # A person can be concerned by a book or a work
+    :is_concerned_by: hasDescription
     # A representation is representing either a book or a work.
     :is_representation_of: isSubsetOf
   info:fedora/fedora-system:def/relations-external#:

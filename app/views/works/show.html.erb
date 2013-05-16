@@ -10,9 +10,9 @@
      <tr><td><b>Author</b></td><td><p>No author defined for this work.</p></td></tr>
   <% end %>
 
-  <% if @work.has_described_person? %>
-      <% @work.people_described.each do |person| %>
-          <tr><td><b>Description of</b></td><td><%= link_to person.name, person_path(person) %></td></tr>
+  <% if @work.has_concerned_person? %>
+      <% @work.people_concerned.each do |person| %>
+          <tr><td><b>Concerning</b></td><td><%= link_to person.name, person_path(person) %></td></tr>
       <% end %>
   <% end %>
 

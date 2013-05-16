@@ -25,26 +25,26 @@ describe 'Person and Work' do
     end
   end
 
-  describe '#described relationship' do
+  describe '#concerns relationship' do
     before :each do
       @person = Person.create(:firstname => 'firstname', :lastname => 'lastname', :date_of_birth => Time.new.to_i.to_s)
       @work = Work.create(:title => 'work title')
     end
 
     it 'should be possible to defined the relationship from the person' do
-      @person.describing_manifestations << @work
+      @person.concerning_manifestations << @work
       @person.save!
 
-      @person.describing_manifestations.should == [@work]
-      @work.people_described.should == [@person]
+      @person.concerning_manifestations.should == [@work]
+      @work.people_concerned.should == [@person]
     end
 
     it 'should be possible to defined the relationship from the work' do
-      @work.people_described << @person
+      @work.people_concerned << @person
       @work.save!
 
-      @work.people_described.should == [@person]
-      @person.describing_manifestations.should == [@work]
+      @work.people_concerned.should == [@person]
+      @person.concerning_manifestations.should == [@work]
     end
   end
 

@@ -123,10 +123,11 @@ class BooksController < ApplicationController
       # add new persons as authors
       add_authors(params[:person][:id], @book)
     end
-    # add the people described by the book
-    if !params[:person_described].blank? && !params[:person_described][:id].blank?
+    # add the people concerned by the book
+    if !params[:person_concerned].blank? && !params[:person_concerned][:id].blank?
+      @book.clear_concerned_people
       # add new described people
-      add_described_people(params[:person_described][:id], @book)
+      add_concerned_people(params[:person_concerned][:id], @book)
     end
 
     #Create TEI representation of book using uploaded TEI file if a file was uploaded

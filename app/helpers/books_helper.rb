@@ -1,21 +1,5 @@
 # -*- encoding : utf-8 -*-
 module BooksHelper
-  # adds the person defined in the params as authors
-  def add_described_people(ids, book)
-    # add the authors to the book
-    ids.each do |person_pid|
-      if person_pid && !person_pid.empty?
-        person = Person.find(person_pid)
-        book.people_described << person
-
-        # TODO: Relationship should not be defined both ways.
-        person.describing_books << book
-        person.save!
-      end
-    end
-    book.save!
-  end
-
   # creates the tei representation with the tei file
   def add_tei_representation(tei_metadata, file, book)
     tei = DefaultRepresentation.new(tei_metadata)

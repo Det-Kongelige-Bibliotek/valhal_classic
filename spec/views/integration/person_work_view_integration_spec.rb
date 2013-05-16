@@ -13,7 +13,7 @@ describe 'relationship between work and people' do
 
         page.should have_content("Author")
         page.should have_content("No author defined for this work.")
-        page.should_not have_content("Description of")
+        page.should_not have_content("Concerning")
       end
     end
 
@@ -22,7 +22,7 @@ describe 'relationship between work and people' do
         visit person_path(@person)
 
         page.should have_content("No works authored by this person.")
-        page.should have_content("No work describes this person.")
+        page.should have_content("No work is concerning this person.")
       end
     end
   end
@@ -41,7 +41,7 @@ describe 'relationship between work and people' do
         visit work_path(@work1)
 
         page.should_not have_content("No author defined for this work.")
-        page.should_not have_content("Description of")
+        page.should_not have_content("Concerning")
         page.has_link?(@person1.name, :href => person_path(@person1) + '?locale=en').should == true
       end
 
@@ -53,7 +53,7 @@ describe 'relationship between work and people' do
         visit work_path(@work1)
 
         page.should_not have_content("No author defined for this work.")
-        page.should_not have_content("Description of")
+        page.should_not have_content("Concerning")
         page.has_link?(@person1.name, :href => person_path(@person1) + '?locale=en').should == true
         page.has_link?(@person2.name, :href => person_path(@person2) + '?locale=en').should == true
       end
@@ -74,7 +74,7 @@ describe 'relationship between work and people' do
         visit person_path(@person1)
 
         page.should_not have_content("No works authored by this person.")
-        page.should have_content("No work describes this person.")
+        page.should have_content("No work is concerning this person.")
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should == true
         page.has_link?(@work2.get_title_for_display, :href => work_path(@work2) + '?locale=en').should == false
       end
@@ -89,14 +89,14 @@ describe 'relationship between work and people' do
         visit person_path(@person1)
 
         page.should_not have_content("No works authored by this person.")
-        page.should have_content("No work describes this person.")
+        page.should have_content("No work is concerning this person.")
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should == true
         page.has_link?(@work2.get_title_for_display, :href => work_path(@work2) + '?locale=en').should == true
       end
     end
   end
 
-  describe '#description_of' do
+  describe '#is_concerned_by' do
     describe 'work view' do
       before(:each) do
         @work1 = Work.create(:title => 'work1 title')
@@ -104,25 +104,25 @@ describe 'relationship between work and people' do
         @person2 = Person.create(:firstname => 'person2 firstname', :lastname => 'person2 lastname', :date_of_birth => Time.new.to_i.to_s)
       end
       it 'should contain a single description_of relationship' do
-        @work1.people_described << @person1
+        @work1.people_concerned << @person1
         @work1.save!
 
         visit work_path(@work1)
 
         page.should have_content("No author defined for this work.")
-        page.should have_content("Description of")
+        page.should have_content("Concerning")
         page.has_link?(@person1.name, :href => person_path(@person1) + '?locale=en').should == true
       end
 
       it 'should contain multiple description_of relationships' do
-        @work1.people_described << @person1
-        @work1.people_described << @person2
+        @work1.people_concerned << @person1
+        @work1.people_concerned << @person2
         @work1.save!
 
         visit work_path(@work1)
 
         page.should have_content("No author defined for this work.")
-        page.should have_content("Description of")
+        page.should have_content("Concerning")
         page.has_link?(@person1.name, :href => person_path(@person1) + '?locale=en').should == true
         page.has_link?(@person2.name, :href => person_path(@person2) + '?locale=en').should == true
       end
@@ -136,35 +136,35 @@ describe 'relationship between work and people' do
       end
       it 'should contain a single description_of relationship' do
         # author relationship is defined on work
-        @work1.people_described << @person1
+        @work1.people_concerned << @person1
         @work1.save!
 
         visit person_path(@person1)
 
         page.should have_content("No works authored by this person.")
-        page.should_not have_content("No work describes this person.")
+        page.should_not have_content("No work is concerning this person.")
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should == true
         page.has_link?(@work2.get_title_for_display, :href => work_path(@work2) + '?locale=en').should == false
       end
 
       it 'should contain multiple author relationships' do
         # author relationship is defined on work
-        @work1.people_described << @person1
+        @work1.people_concerned << @person1
         @work1.save!
-        @work2.people_described << @person1
+        @work2.people_concerned << @person1
         @work2.save!
 
         visit person_path(@person1)
 
         page.should have_content("No works authored by this person.")
-        page.should_not have_content("No work describes this person.")
+        page.should_not have_content("No work is concerning this person.")
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should == true
         page.has_link?(@work2.get_title_for_display, :href => work_path(@work2) + '?locale=en').should == true
       end
     end
   end
 
-  describe ' both author and description_of' do
+  describe ' both author and is_concerned_by' do
     describe 'work view' do
       before(:each) do
         @work1 = Work.create(:title => 'work1 title')
@@ -172,14 +172,14 @@ describe 'relationship between work and people' do
         @person2 = Person.create(:firstname => 'person2 firstname', :lastname => 'person2 lastname', :date_of_birth => Time.new.to_i.to_s)
       end
       it 'should contain both relationships' do
-        @work1.people_described << @person1
+        @work1.people_concerned << @person1
         @work1.authors << @person2
         @work1.save!
 
         visit work_path(@work1)
 
         page.should_not have_content("No author defined for this work.")
-        page.should have_content("Description of")
+        page.should have_content("Concerning")
         page.has_link?(@person1.name, :href => person_path(@person1) + '?locale=en').should == true
         page.has_link?(@person2.name, :href => person_path(@person2) + '?locale=en').should == true
       end
@@ -193,7 +193,7 @@ describe 'relationship between work and people' do
       end
       it 'should contain both relationships' do
         # author relationship is defined on work
-        @work1.people_described << @person1
+        @work1.people_concerned << @person1
         @work1.save!
         @work2.authors << @person1
         @work2.save!
@@ -201,7 +201,7 @@ describe 'relationship between work and people' do
         visit person_path(@person1)
 
         page.should_not have_content("No works authored by this person.")
-        page.should_not have_content("No work describes this person.")
+        page.should_not have_content("No work is concerning this person.")
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should == true
         page.has_link?(@work2.get_title_for_display, :href => work_path(@work2) + '?locale=en').should == true
       end

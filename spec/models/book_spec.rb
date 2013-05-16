@@ -6,7 +6,7 @@ describe Book do
 
   it_behaves_like "a manifestation with authors"
 
-  it_behaves_like "a manifestation with descriptions"
+  it_behaves_like "a manifestation with concerns"
 
   before(:each) do
     @book = Book.create

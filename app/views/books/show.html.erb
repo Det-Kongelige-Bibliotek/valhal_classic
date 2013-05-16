@@ -9,9 +9,9 @@
      <tr><td><b>Author</b></td><td><p>No author defined for this book.</p></td></tr>
   <% end %>
 
-  <% if @book.has_described_person? %>
-    <% @book.people_described.each do |person| %>
-          <tr><td><b>Description of</b></td><td><%= link_to person.name, person_path(person) %></td></tr>
+  <% if @book.has_concerned_person? %>
+    <% @book.people_concerned.each do |person| %>
+          <tr><td><b>Concerning</b></td><td><%= link_to person.name, person_path(person) %></td></tr>
     <% end %>
   <% end %>
 
