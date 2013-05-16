@@ -8,7 +8,7 @@ class Person < ActiveFedora::Base
   include ActiveModel::Validations
   include Concerns::IntellectualEntity
   include Concerns::Person::Author
-  include Concerns::Person::Concerning
+  include Concerns::Person::Described
   include Solr::Indexable
 
   # Descriptive metadata stream for the abstract person.
