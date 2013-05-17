@@ -81,42 +81,42 @@ describe Book do
 
   describe "authors" do
     it "should not have an author, when noone has been assigned as author" do
-      @book.has_author?.should == false
+      @book.has_author?.should be_false
     end
 
     it "should have an author, when a person has been assigned as author" do
       person = Person.create(:firstname=>"fn#{Time.now.usec}", :lastname => "ln")
       @book.authors << person
 
-      @book.has_author?.should == true
+      @book.has_author?.should be_true
     end
   end
 
   describe "tiff_representation" do
     let(:representation) { OrderedRepresentation }
     it "should not have an tiff representation, when noone has been assigned" do
-      @book.tiff_rep?.should == false
+      @book.tiff_rep?.should be_false
     end
 
     it "should have an tiff representation, when one has been assigned" do
       tiff = representation.create
       @book.tif << tiff
 
-      @book.tiff_rep?.should == true
+      @book.tiff_rep?.should be_true
     end
   end
 
   describe "tei_representation" do
     let(:representation) { DefaultRepresentation }
     it "should not have an tei representation, when noone has been assigned" do
-      @book.tei_rep?.should == false
+      @book.tei_rep?.should be_false
     end
 
     it "should have an tei representation, when one has been assigned" do
       tei = representation.create
       @book.tei << tei
 
-      @book.tei_rep?.should == true
+      @book.tei_rep?.should be_true
     end
   end
 

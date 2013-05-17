@@ -43,7 +43,7 @@ describe DefaultRepresentation do
       context "with a person" do
         let(:default_ie) do
           Person.all.each { |p| p.delete }
-          Person.create(firstname: "the firstname", lastname: "the lastname", :date_of_birth => Time.new.to_i.to_s)
+          Person.create(firstname: "the firstname", lastname: "the lastname", :date_of_birth => Time.now.nsec.to_s)
         end
 
         it 'should be able to have a association with a person' do

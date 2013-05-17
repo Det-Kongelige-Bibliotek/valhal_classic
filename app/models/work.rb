@@ -18,7 +18,6 @@ class Work < ActiveFedora::Base
   has_many :representations, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of, :inverse_of => :has_representation
 
   validates :title, :presence => true
-  #validates :work_type, :presence => true
 
   # Determines whether any representations exists.
   def has_rep?

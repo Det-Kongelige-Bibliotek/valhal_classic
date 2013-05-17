@@ -8,13 +8,13 @@ end
 describe "representation" do
   it "should create a representation with label" do
     represent = Representation.new(:label=>"new label")
-    represent.save.should == true
+    represent.save.should be_true
     represent.label.should == "new label"
   end
 
   it "should create a representation without label" do
     represent = Representation.new
-    represent.save.should == true
+    represent.save.should be_true
   end
 
   it "should create a representation without label and make a label for it" do

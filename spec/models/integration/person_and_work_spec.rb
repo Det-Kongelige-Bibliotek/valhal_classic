@@ -4,7 +4,7 @@ require 'spec_helper'
 describe 'Person and Work' do
   describe '#author relationship' do
     before :each do
-      @person = Person.create(:firstname => 'firstname', :lastname => 'lastname', :date_of_birth => Time.new.to_i.to_s)
+      @person = Person.create(:firstname => 'firstname', :lastname => 'lastname', :date_of_birth => Time.now.nsec.to_s)
       @work = Work.create(:title => 'work title')
     end
 
@@ -27,7 +27,7 @@ describe 'Person and Work' do
 
   describe '#concerns relationship' do
     before :each do
-      @person = Person.create(:firstname => 'firstname', :lastname => 'lastname', :date_of_birth => Time.new.to_i.to_s)
+      @person = Person.create(:firstname => 'firstname', :lastname => 'lastname', :date_of_birth => Time.now.nsec.to_s)
       @work = Work.create(:title => 'work title')
     end
 

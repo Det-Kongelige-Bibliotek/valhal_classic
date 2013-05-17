@@ -271,7 +271,7 @@ describe BooksController do
       describe "with an author" do
         let(:representation) { OrderedRepresentation }
         before :all do
-          @author = Person.create(firstname:"the firstname", lastname:"the lastname", :date_of_birth => Time.new.to_i.to_s)
+          @author = Person.create(firstname:"the firstname", lastname:"the lastname", :date_of_birth => Time.now.nsec.to_s)
           @book_attributes = { :title => "Samlede Skrifter"}
           @person_attributes = { :id => ["", @author.id]}
         end

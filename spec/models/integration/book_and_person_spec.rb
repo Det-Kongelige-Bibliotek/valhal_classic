@@ -7,7 +7,7 @@ describe "Person and Book" do
   end
   describe " author relationship" do
     before(:each) do
-      @person = Person.create(:firstname=>"some name", :lastname=>"some lastname", :date_of_birth => Time.new.to_i.to_s)
+      @person = Person.create(:firstname=>"some name", :lastname=>"some lastname", :date_of_birth => Time.now.nsec.to_s)
       @book = Book.create(:title=>"some title")
       @book.save!
       @person.authored_manifestations << @book
@@ -37,7 +37,7 @@ describe "Person and Book" do
   describe " with representations" do
     before(:each) do
 
-      @person = Person.new(:firstname=>"some name", :lastname=>"some lastname", :date_of_birth => Time.new.to_i.to_s)
+      @person = Person.new(:firstname=>"some name", :lastname=>"some lastname", :date_of_birth => Time.now.nsec.to_s)
       @book = Book.new(:title=>"book with representation")
 
       @person.authored_manifestations << @book
@@ -107,31 +107,31 @@ describe "Person and Book" do
     end
 
     it "should be able to have many authors" do
-      person1 = Person.create(:firstname=>"first person", :lastname=>"first lastname", :date_of_birth => Time.new.to_i.to_s)
+      person1 = Person.create(:firstname=>"first person", :lastname=>"first lastname", :date_of_birth => Time.now.nsec.to_s)
       person1.save!
       person1.authored_manifestations << @book
       person1.save!
       @book.authors << person1
 
-      person2 = Person.create(:firstname=>"second person", :lastname=>"first lastname", :date_of_birth => Time.new.to_i.to_s)
+      person2 = Person.create(:firstname=>"second person", :lastname=>"first lastname", :date_of_birth => Time.now.nsec.to_s)
       person2.save!
       person2.authored_manifestations << @book
       person2.save!
       @book.authors << person2
 
-      person3 = Person.create(:firstname=>"third person", :lastname=>"first lastname", :date_of_birth => Time.new.to_i.to_s)
+      person3 = Person.create(:firstname=>"third person", :lastname=>"first lastname", :date_of_birth => Time.now.nsec.to_s)
       person3.save!
       person3.authored_manifestations << @book
       person3.save!
       @book.authors << person3
 
-      person4 = Person.create(:firstname=>"fourth person", :lastname=>"first lastname", :date_of_birth => Time.new.to_i.to_s)
+      person4 = Person.create(:firstname=>"fourth person", :lastname=>"first lastname", :date_of_birth => Time.now.nsec.to_s)
       person4.save!
       person4.authored_manifestations << @book
       person4.save!
       @book.authors << person4
 
-      person5 = Person.create(:firstname=>"fifth person", :lastname=>"first lastname", :date_of_birth => Time.new.to_i.to_s)
+      person5 = Person.create(:firstname=>"fifth person", :lastname=>"first lastname", :date_of_birth => Time.now.nsec.to_s)
       person5.save!
       person5.authored_manifestations << @book
       person5.save!

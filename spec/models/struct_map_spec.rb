@@ -11,7 +11,7 @@ describe StructMap do
   describe "New" do
       it "should be possible to create and save a structmap" do
         @smap = StructMap.new
-        @smap.save.should == true
+        @smap.save.should be_true
       end
     end
 
