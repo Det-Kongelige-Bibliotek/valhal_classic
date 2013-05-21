@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Work < ActiveFedora::Base
-  include Concerns::IntellectualEntity
+  include Concerns::Manifest
   include Concerns::Manifestation::Author
   include Concerns::Manifestation::Concerning
   include Solr::Indexable
@@ -14,15 +14,7 @@ class Work < ActiveFedora::Base
                               :physicalExtent], :unique=>true
   delegate :work_type, :to => 'descMetadata', :at => [:genre], :unique => true
 
-  # A work can have many representations
-  has_many :representations, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of, :inverse_of => :has_representation
-
   validates :title, :presence => true
-
-  # Determines whether any representations exists.
-  def has_rep?
-    return representations.any?
-  end
 
   has_solr_fields do |m|
     m.field "search_result_title", method: :title

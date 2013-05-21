@@ -1,39 +1,7 @@
 # -*- encoding : utf-8 -*-
 module BooksHelper
-  # creates the tei representation with the tei file
-  def add_tei_representation(tei_metadata, file, book)
-    tei = DefaultRepresentation.new(tei_metadata)
-    tei_file = BasicFile.new
-    tei_file.add_file(file)
-    tei_file.save!
-    tei.files << tei_file
-    tei.ie = book
-    tei.save
 
-    book.tei << tei
-    book.save!
-  end
-
-  # creates the tiff representation and adds the tiff images with the structmap
-  def add_tiff_representation(tiff_metadata, files, book)
-    tiff = OrderedRepresentation.new(tiff_metadata)
-
-    files.each do |f|
-      tiff_file = TiffFile.new
-      tiff_file.add_file(f)
-      logger.debug f.original_filename
-      tiff.files << tiff_file
-    end
-
-    #Create METS Structmap for book using uploaded METS file if file was uploaded
-    #if !params[:file][:structmap_file].blank?
-    #  add_structmap(tiff, params[:file][:structmap_file])
-    #end
-
-    book.tif << tiff
-    book.save!
-  end
-
+  # TODO find out whether this method is necessary
   #Helper function for generating a METS structmap
   # @param [String] file_order_string
   # @param [BookTiffRepresentation] representation

@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Book < ActiveFedora::Base
   include ActiveModel::Validations
-  include Concerns::IntellectualEntity
+  include Concerns::Manifest
   include Concerns::Manifestation::Author
   include Concerns::Manifestation::Concerning
   include Solr::Indexable
@@ -14,17 +14,10 @@ class Book < ActiveFedora::Base
                                :originPlace, :languageISO, :languageText, :subjectTopic, :dateIssued,
                                :physicalExtent], :unique => true
 
-
-  # has_many is used as there doesn't seem to be any has_one relation in Active Fedora
-  has_many :tei, :class_name => 'ActiveFedora::Base', :property => :is_representation_of, :inverse_of => :has_representation
-
-  has_many :tif, :class_name => 'ActiveFedora::Base', :property => :is_part_of, :inverse_of => :has_part
-
   validates :title, :presence => true
   validates :isbn, :numericality => true, :allow_blank => true
   validates_with BookValidator
   after_save :add_ie_to_reps
-
 
   # Determines whether any TEI representations exists.
   def tei_rep?
@@ -72,8 +65,7 @@ class Book < ActiveFedora::Base
   private
 
   def add_ie_to_reps
-    add_ie_to_rep tif
-    add_ie_to_rep tei
+    add_ie_to_rep representations
   end
 
   def add_ie_to_rep(rep_array)

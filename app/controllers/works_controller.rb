@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 class WorksController < ApplicationController
   include ManifestationsHelper
-  include WorksHelper
   load_and_authorize_resource
 
   def index
@@ -24,7 +23,7 @@ class WorksController < ApplicationController
     #Validate form params
     logger.debug 'Validating parameters...'
     if params.empty?
-      @work.errors.add(:metadata, "The work cannot exist without metadata.")
+      @work.errors.add(:metadata, 'The work cannot exist without metadata.')
     end
 
     logger.debug 'Validation finished'
@@ -54,8 +53,8 @@ class WorksController < ApplicationController
 
       #Create representation of work using uploaded file if a file was uploaded
       if !params[:file].blank? && !params[:file][:file].blank?
-        logger.debug "Creating a tei representation"
-        add_single_file_representation(params[:file][:file], params[:tei], @work)
+        logger.debug 'Creating a tei representation'
+        add_single_file_rep(params[:file][:file], params[:tei], @work)
       end
 
       redirect_to @work, notice: 'Work was successfully created.'
@@ -76,8 +75,8 @@ class WorksController < ApplicationController
 
     if @work.update_attributes(params[:work])
       if !params[:file].blank? && !params[:file][:file].blank?
-          logger.debug "Creating a representation"
-          add_single_file_representation(params[:file][:file], params[:tei], @work)
+          logger.debug 'Creating a representation'
+          add_single_file_rep(params[:file][:file], params[:tei], @work)
       end
       # add the authors to the work
       if !params[:person].blank? && !params[:person][:id].blank?

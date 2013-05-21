@@ -1,8 +1,8 @@
 # -*- encoding : utf-8 -*-
 class BooksController < ApplicationController
   include Wicked::Wizard
-  include BooksHelper
   include ManifestationsHelper
+  include BooksHelper
 
   steps :sort_tiff_files
 

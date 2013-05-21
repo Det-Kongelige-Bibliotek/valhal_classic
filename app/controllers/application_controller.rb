@@ -2,8 +2,8 @@
 #TODO: make class description
 class ApplicationController < ActionController::Base
   # Adds a few additional behaviors into the application controller 
-   include Blacklight::Controller  
-# Adds Hydra behaviors into the application controller 
+  include Blacklight::Controller
+  # Adds Hydra behaviors into the application controller
   include Hydra::Controller::ControllerBehavior
 
   # TODO: Please be sure to implement current_user and user_session. Blacklight depends on
@@ -81,5 +81,4 @@ class ApplicationController < ActionController::Base
     logger.debug "default_url_options is passed options: #{options.inspect}\n"
     { :locale => I18n.locale }
   end
-
 end
