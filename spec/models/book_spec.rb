@@ -172,8 +172,8 @@ describe Book do
 
   after(:all) do
     Book.all.each { |book| book.delete }
-    BookTeiRepresentation.all.each { |btr| btr.delete }
-    BookTiffRepresentation.all.each { |btr| btr.delete }
+    OrderedRepresentation.all.each { |rep| rep.delete }
+    SingleFileRepresentation.all.each { |rep| rep.delete }
     BasicFile.all.each { |bf| bf.delete }
   end
 

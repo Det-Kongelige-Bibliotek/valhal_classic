@@ -425,12 +425,10 @@ describe BooksController do
 
   after(:all) do
     Book.all.each { |book| book.delete }
-    BookTeiRepresentation.all.each { |btr| btr.delete }
-    BookTiffRepresentation.all.each { |btr| btr.delete }
     BasicFile.all.each { |bf| bf.delete }
     TiffFile.all.each { |tf| tf.delete }
     Person.all.each { |p| p.delete }
-    DefaultRepresentation.all.each { |dr| dr.delete }
+    SingleFileRepresentation.all.each { |dr| dr.delete }
     OrderedRepresentation.all.each { |rep| rep.delete }
   end
 
