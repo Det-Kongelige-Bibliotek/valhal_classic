@@ -36,16 +36,16 @@ describe "Person and Book" do
 
   describe " with representations" do
     before(:each) do
-
+      pending "Person cannot have TEI representations"
       @person = Person.new(:firstname=>"some name", :lastname=>"some lastname", :date_of_birth => Time.now.nsec.to_s)
       @book = Book.new(:title=>"book with representation")
 
       @person.authored_manifestations << @book
       @book.authors << @person
 
-      @ptr = DefaultRepresentation.new
+      @ptr = SingleFileRepresentation.new
       @person.tei << @ptr
-      @btr = DefaultRepresentation.new
+      @btr = SingleFileRepresentation.new
       @book.tei << @btr
 
       @book.save!

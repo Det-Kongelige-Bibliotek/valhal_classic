@@ -31,26 +31,18 @@
 
 <hr/>
 <% #Handle the tei representations. %>
-<% if @book.tei_rep? %>
-    <p><b>TEI representations:</b></p>
+<% if @book.has_rep? %>
+    <p><b>Representations:</b></p>
     <ul>
-    <% @book.tei.each do |t| %>
-      <li><%= link_to t.label + " (" + t.pid + ")", book_tei_representation_path(t) %></li>
+    <% @book.single_file_reps.each do |t| %>
+      <li><%= link_to t.label + ' (' + t.pid + ')', single_file_representation_path(t) %></li>
     <% end %>
+      <% @book.ordered_reps.each do |t| %>
+          <li><%= link_to t.label + ' (' + t.pid + ')', ordered_representation_path(t) %></li>
+      <% end %>
     </ul>
 <% else %>
-    <p>No TEI representations for this book.</p>
-<% end %>
-<hr/>
-<% if @book.tiff_rep? %>
-    <p><b>TIFF representations:</b></p>
-    <ul>
-    <% @book.tif.each do |t| %>
-      <li><%= link_to t.label + " (" + t.pid + ")", book_tiff_representation_path(t) %></li>
-    <% end %>
-    </ul>
-<% else %>
-    <p>No TIFF representations for this book.</p>
+    <p>No representations for this book.</p>
 <% end %>
 <hr/>
 

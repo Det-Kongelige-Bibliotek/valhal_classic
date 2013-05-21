@@ -2,7 +2,6 @@
 class BooksController < ApplicationController
   include Wicked::Wizard
   include ManifestationsHelper
-  include BooksHelper
 
   steps :sort_tiff_files
 
@@ -72,7 +71,7 @@ class BooksController < ApplicationController
       #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
       if !params[:file].blank? && !params[:file][:tiff_file].blank?
         logger.debug "Creating a tiff representation"
-        add_tiff_representation(params[:tiff], params[:file][:tiff_file], @book)
+        add_tiff_order_rep(params[:file][:tiff_file], params[:tiff], @book)
         render_wizard
       else
         redirect_to @book, notice: 'Book was successfully created.'
@@ -98,7 +97,7 @@ class BooksController < ApplicationController
       #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
       if !params[:file].blank? &&!params[:file][:tiff_file].blank?
         logger.debug "Creating a tiff representation"
-        add_tiff_representation(params[:tiff], params[:file][:tiff_file], @book)
+        add_tiff_order_rep(params[:file][:tiff_file], params[:tiff], @book)
       end
 
       redirect_to @book, notice: 'Book was successfully updated.'
@@ -133,7 +132,7 @@ class BooksController < ApplicationController
     #Create TEI representation of book using uploaded TEI file if a file was uploaded
     if !params[:file].blank? && !params[:file][:tei_file].blank?
       logger.debug "Creating a tei representation"
-      add_tei_representation(params[:tei], params[:file][:tei_file], @book)
+      add_single_tei_rep(params[:tei], params[:file][:tei_file], {}, @book)
     end
   end
 end

@@ -19,23 +19,13 @@ class Book < ActiveFedora::Base
   validates_with BookValidator
   after_save :add_ie_to_reps
 
-  # Determines whether any TEI representations exists.
-  def tei_rep?
-    return tei.any?
-  end
-
-  # Determines whether any TIFF representations exists.
-  def tiff_rep?
-    return tif.any?
-  end
-
   # Delivers the title and subtitle in a format for displaying.
   # Should only include the subtitle, if it has been defined.
   def get_title_for_display
     if subTitle == nil || subTitle.empty?
       return title
     else
-      return title + ", " + subTitle
+      return title + ', ' + subTitle
     end
   end
 
@@ -46,20 +36,20 @@ class Book < ActiveFedora::Base
       authors.each do |a|
         names << a.name
       end
-      names.join(", ")
+      names.join(', ')
     end
   end
 
 
   has_solr_fields do |m|
-    m.field "search_result_title", method: :title
-    m.field "search_results_book_authors", index_as: [:string, :indexed, :stored], method: :authors_names_to_s
-    m.field "isbn", index_as: [:string, :indexed, :stored]
-    m.field "genre"
-    m.field "shelf_locator", index_as: [:string, :indexed, :stored], method: :shelfLocator
-    m.field "title"
-    m.field "sub_title", method: :subTitle
-    m.field "type_of_resource", method: :typeOfResource
+    m.field 'search_result_title', method: :title
+    m.field 'search_results_book_authors', index_as: [:string, :indexed, :stored], method: :authors_names_to_s
+    m.field 'isbn', index_as: [:string, :indexed, :stored]
+    m.field 'genre'
+    m.field 'shelf_locator', index_as: [:string, :indexed, :stored], method: :shelfLocator
+    m.field 'title'
+    m.field 'sub_title', method: :subTitle
+    m.field 'type_of_resource', method: :typeOfResource
   end
 
   private

@@ -1,0 +1,280 @@
+require 'spec_helper'
+
+describe ManifestationsHelper do
+
+  describe '#add_single_tei_rep' do
+    before(:each) do
+      @manifestation = Work.create(:title => 'Work')
+      @tei_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
+      @other_xml_file = ActionDispatch::Http::UploadedFile.new(filename: 'samlede_skrifter_bd_1_arrebo_mods_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/samlede_skrifter_bd_1_arrebo_mods_sample.xml"))
+      @non_xml_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'image/png', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
+    end
+
+    it 'should be possible with a TEI file' do
+      add_single_tei_rep({}, @tei_file, {}, @manifestation).should be_true
+
+      @manifestation.single_file_reps.length.should == 1
+      @manifestation.single_file_reps.first.kind_of?(SingleFileRepresentation).should be_true
+      @manifestation.single_file_reps.first.files.length.should == 1
+      @manifestation.single_file_reps.first.files.first.kind_of?(TeiFile).should be_true
+      @manifestation.single_file_reps.first.files.first.original_filename.should == @tei_file.original_filename
+    end
+
+    it 'should be possible with a TEI file with metadata' do
+      version = 'p5'
+      label = 'Tei p5 test label'
+      add_single_tei_rep({:tei_version => version}, @tei_file, {:label => label}, @manifestation).should be_true
+
+      @manifestation.single_file_reps.length.should == 1
+      @manifestation.single_file_reps.first.kind_of?(SingleFileRepresentation).should be_true
+      @manifestation.single_file_reps.first.files.length.should == 1
+      @manifestation.single_file_reps.first.files.first.kind_of?(TeiFile).should be_true
+      @manifestation.single_file_reps.first.files.first.original_filename.should == @tei_file.original_filename
+
+      @manifestation.single_file_reps.first.label.should == label
+      @manifestation.single_file_reps.first.files.first.tei_version.should == version
+    end
+
+    # TODO this is probably not the intended behavior (non-tei xml files accepted as tei files.)
+    it 'should be possible with a XML file' do
+      add_single_tei_rep({}, @other_xml_file, {}, @manifestation).should be_true
+
+      @manifestation.single_file_reps.length.should == 1
+      @manifestation.single_file_reps.first.kind_of?(SingleFileRepresentation).should be_true
+      @manifestation.single_file_reps.first.files.length.should == 1
+      @manifestation.single_file_reps.first.files.first.kind_of?(TeiFile).should be_true
+      @manifestation.single_file_reps.first.files.first.original_filename.should == @other_xml_file.original_filename
+    end
+
+    it 'should not be possible with a non-xml file' do
+      add_single_tei_rep({}, @non_xml_file, {}, @manifestation).should be_false
+
+      @manifestation.single_file_reps.length.should == 0
+    end
+  end
+
+  describe '#add_single_file_rep' do
+    before(:each) do
+      @manifestation = Work.create(:title => 'Work')
+      @tei_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
+      @octet_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'octet-stream', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
+    end
+
+    it 'should be possible with a TEI file' do
+      add_single_file_rep(@tei_file, {}, @manifestation).should be_true
+
+      @manifestation.single_file_reps.length.should == 1
+      @manifestation.single_file_reps.first.kind_of?(SingleFileRepresentation).should be_true
+      @manifestation.single_file_reps.first.files.length.should == 1
+      @manifestation.single_file_reps.first.files.first.kind_of?(BasicFile).should be_true
+      @manifestation.single_file_reps.first.files.first.original_filename.should == @tei_file.original_filename
+    end
+
+    it 'should be possible with an binary file' do
+      add_single_file_rep(@octet_file, {}, @manifestation).should be_true
+
+      @manifestation.single_file_reps.length.should == 1
+      @manifestation.single_file_reps.first.kind_of?(SingleFileRepresentation).should be_true
+      @manifestation.single_file_reps.first.files.length.should == 1
+      @manifestation.single_file_reps.first.files.first.kind_of?(BasicFile).should be_true
+      @manifestation.single_file_reps.first.files.first.original_filename.should == @octet_file.original_filename
+    end
+  end
+
+  describe '#add_tiff_order_rep' do
+    before(:each) do
+      @manifestation = Work.create(:title => 'Work')
+      @tiff1 = ActionDispatch::Http::UploadedFile.new(filename: 'arre1fm001.xml', type: 'image/tif', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
+      @tiff2 = ActionDispatch::Http::UploadedFile.new(filename: 'arre1fm002.xml', type: 'image/tif', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm002.tif"))
+      @other_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'octet-stream', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
+    end
+
+    it 'should be possible with a single tiff file' do
+      add_tiff_order_rep([@tiff1], {}, @manifestation).should be_true
+
+      @manifestation.ordered_reps.length.should == 1
+      @manifestation.ordered_reps.first.kind_of?(OrderedRepresentation).should be_true
+      @manifestation.ordered_reps.first.files.length.should == 1
+      @manifestation.ordered_reps.first.files.first.kind_of?(TiffFile).should be_true
+      @manifestation.ordered_reps.first.files.first.original_filename.should == @tiff1.original_filename
+    end
+
+    it 'should be possible with several tiff files' do
+      add_tiff_order_rep([@tiff1, @tiff2], {}, @manifestation).should be_true
+
+      @manifestation.ordered_reps.length.should == 1
+      @manifestation.ordered_reps.first.kind_of?(OrderedRepresentation).should be_true
+      @manifestation.ordered_reps.first.files.length.should == 2
+      @manifestation.ordered_reps.first.files.first.kind_of?(TiffFile).should be_true
+      @manifestation.ordered_reps.first.files.first.original_filename.should == @tiff1.original_filename
+      @manifestation.ordered_reps.first.files.last.kind_of?(TiffFile).should be_true
+      @manifestation.ordered_reps.first.files.last.original_filename.should == @tiff2.original_filename
+    end
+
+    it 'should not be possible with an binary file' do
+      add_tiff_order_rep([@other_file], {}, @manifestation).should be_false
+
+      @manifestation.ordered_reps.length.should == 0
+    end
+
+    it 'should validate the structmap' do
+      pending "TODO validate the structmap"
+    end
+  end
+
+  describe '#add_order_rep' do
+    before(:each) do
+      @manifestation = Work.create(:title => 'Work')
+      @tiff = ActionDispatch::Http::UploadedFile.new(filename: 'arre1fm001.xml', type: 'image/tif', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
+      @other_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'octet-stream', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
+    end
+
+    it 'should be possible with two different kind of files' do
+      add_order_rep([@tiff, @other_file], {}, @manifestation).should be_true
+
+      @manifestation.ordered_reps.length.should == 1
+      @manifestation.ordered_reps.first.kind_of?(OrderedRepresentation).should be_true
+      @manifestation.ordered_reps.first.files.length.should == 2
+      @manifestation.ordered_reps.first.files.first.kind_of?(BasicFile).should be_true
+      @manifestation.ordered_reps.first.files.first.original_filename.should == @tiff.original_filename
+      @manifestation.ordered_reps.first.files.last.kind_of?(BasicFile).should be_true
+      @manifestation.ordered_reps.first.files.last.original_filename.should == @other_file.original_filename
+    end
+
+    it 'should validate the structmap' do
+      pending "TODO validate the structmap"
+    end
+  end
+
+  describe '#add_authors' do
+    before(:each) do
+      @manifestation = Work.create(:title => 'Work')
+      @person1 = Person.create(:firstname => 'firstname1', :lastname => 'lastname1', :date_of_birth => Time.now.nsec.to_s)
+      @person2 = Person.create(:firstname => 'firstname2', :lastname => 'lastname2', :date_of_birth => Time.now.nsec.to_s)
+      @person3 = Person.create(:firstname => 'firstname3', :lastname => 'lastname3', :date_of_birth => Time.now.nsec.to_s)
+    end
+
+    it 'should be possible to add one person' do
+      add_authors([@person1.id], @manifestation)
+      #reload
+      m = Work.find(@manifestation.pid)
+      p1 = Person.find(@person1.pid)
+      p2 = Person.find(@person2.pid)
+      p3 = Person.find(@person3.pid)
+
+      m.has_author?.should be_true
+      m.authors.length.should == 1
+      m.authors.should == [p1]
+
+      p1.authored_manifestations.length.should == 1
+      p1.authored_manifestations.should == [m]
+
+      p2.authored_manifestations.length.should == 0
+      p3.authored_manifestations.length.should == 0
+    end
+
+    it 'should be possible to add more than one person' do
+      add_authors([@person1.id, @person2.id, @person3.id], @manifestation)
+      #reload
+      m = Work.find(@manifestation.pid)
+      p1 = Person.find(@person1.pid)
+      p2 = Person.find(@person2.pid)
+      p3 = Person.find(@person3.pid)
+
+      m.has_author?.should be_true
+      m.authors.length.should == 3
+      m.authors.include?(@person1).should be_true
+      m.authors.include?(@person2).should be_true
+      m.authors.include?(@person3).should be_true
+
+      p1.authored_manifestations.length.should == 1
+      p1.authored_manifestations.should == [m]
+
+      p2.authored_manifestations.length.should == 1
+      p2.authored_manifestations.should == [m]
+
+      p3.authored_manifestations.length.should == 1
+      p3.authored_manifestations.should == [m]
+    end
+
+    it 'should allow the empty set' do
+      add_authors([], @manifestation)
+      m = Work.find(@manifestation.pid)
+      p1 = Person.find(@person1.pid)
+      p2 = Person.find(@person2.pid)
+      p3 = Person.find(@person3.pid)
+
+      m.has_author?.should be_false
+      m.authors.length.should == 0
+      p1.authored_manifestations.length.should == 0
+      p2.authored_manifestations.length.should == 0
+      p3.authored_manifestations.length.should == 0
+    end
+  end
+
+  describe '#add_concerned_people' do
+    before(:each) do
+      @manifestation = Work.create(:title => 'Work')
+      @person1 = Person.create(:firstname => 'firstname1', :lastname => 'lastname1', :date_of_birth => Time.now.nsec.to_s)
+      @person2 = Person.create(:firstname => 'firstname2', :lastname => 'lastname2', :date_of_birth => Time.now.nsec.to_s)
+      @person3 = Person.create(:firstname => 'firstname3', :lastname => 'lastname3', :date_of_birth => Time.now.nsec.to_s)
+    end
+
+    it 'should be possible to add one person' do
+      add_concerned_people([@person1.id], @manifestation)
+      #reload
+      m = Work.find(@manifestation.pid)
+      p1 = Person.find(@person1.pid)
+      p2 = Person.find(@person2.pid)
+      p3 = Person.find(@person3.pid)
+
+      m.has_concerned_person?.should be_true
+      m.people_concerned.length.should == 1
+      m.people_concerned.should == [p1]
+
+      p1.concerning_manifestations.length.should == 1
+      p1.concerning_manifestations.should == [m]
+
+      p2.concerning_manifestations.length.should == 0
+      p3.concerning_manifestations.length.should == 0
+    end
+
+    it 'should be possible to add more than one person' do
+      add_concerned_people([@person1.id, @person2.id, @person3.id], @manifestation)
+      #reload
+      m = Work.find(@manifestation.pid)
+      p1 = Person.find(@person1.pid)
+      p2 = Person.find(@person2.pid)
+      p3 = Person.find(@person3.pid)
+
+      m.has_concerned_person?.should be_true
+      m.people_concerned.length.should == 3
+      m.people_concerned.include?(@person1).should be_true
+      m.people_concerned.include?(@person2).should be_true
+      m.people_concerned.include?(@person3).should be_true
+
+      p1.concerning_manifestations.length.should == 1
+      p1.concerning_manifestations.should == [m]
+
+      p2.concerning_manifestations.length.should == 1
+      p2.concerning_manifestations.should == [m]
+
+      p3.concerning_manifestations.length.should == 1
+      p3.concerning_manifestations.should == [m]
+    end
+
+    it 'should allow the empty set' do
+      add_concerned_people([], @manifestation)
+      m = Work.find(@manifestation.pid)
+      p1 = Person.find(@person1.pid)
+      p2 = Person.find(@person2.pid)
+      p3 = Person.find(@person3.pid)
+
+      m.has_concerned_person?.should be_false
+      m.people_concerned.length.should == 0
+      p1.concerning_manifestations.length.should == 0
+      p2.concerning_manifestations.length.should == 0
+      p3.concerning_manifestations.length.should == 0
+    end
+  end
+end

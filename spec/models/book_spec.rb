@@ -95,28 +95,32 @@ describe Book do
   describe "tiff_representation" do
     let(:representation) { OrderedRepresentation }
     it "should not have an tiff representation, when noone has been assigned" do
-      @book.tiff_rep?.should be_false
+      @book.has_rep?.should be_false
+      @book.ordered_reps.length.should == 0
     end
 
     it "should have an tiff representation, when one has been assigned" do
-      tiff = representation.create
-      @book.tif << tiff
+      tiff_rep = representation.create
+      @book.representations << tiff_rep
 
-      @book.tiff_rep?.should be_true
+      @book.has_rep?.should be_true
+      @book.ordered_reps.length.should == 1
     end
   end
 
   describe "tei_representation" do
-    let(:representation) { DefaultRepresentation }
+    let(:representation) { SingleFileRepresentation }
     it "should not have an tei representation, when noone has been assigned" do
-      @book.tei_rep?.should be_false
+      @book.has_rep?.should be_false
+      @book.single_file_reps.length.should == 0
     end
 
     it "should have an tei representation, when one has been assigned" do
-      tei = representation.create
-      @book.tei << tei
+      tei_rep = representation.create
+      @book.representations << tei_rep
 
-      @book.tei_rep?.should be_true
+      @book.has_rep?.should be_true
+      @book.single_file_reps.length.should == 1
     end
   end
 

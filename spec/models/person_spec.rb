@@ -7,7 +7,7 @@ describe Person do
   it_behaves_like "a person with manifestations"
   it_behaves_like "a person with concerns"
 
-  let(:person_image_rep) { DefaultRepresentation }
+  let(:person_image_rep) { SingleFileRepresentation }
   describe "#create" do
 
     it "should be created when given a firstname and lastname" do
@@ -39,6 +39,7 @@ describe Person do
     end
 
     it "should be created when given a firstname, lastname and person_images" do
+      pending "Person cannot have representations"
       person_image = BasicFile.new
       uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aoa._foto.jpg', type: 'image/jpeg', tempfile: File.new("#{Rails.root}/spec/fixtures/aoa._foto.jpg"))
       person_image.add_file(uploaded_file)
@@ -55,6 +56,7 @@ describe Person do
 
   describe "#update" do
     before do
+      pending "Person cannot have representations"
       @person = Person.new(firstname: "the firstname", lastname: "the lastname", :date_of_birth => Time.now.nsec.to_s)
       person_image = BasicFile.new
       uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aoa._foto.jpg', type: 'image/jpeg', tempfile: File.new("#{Rails.root}/spec/fixtures/aoa._foto.jpg"))

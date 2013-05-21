@@ -3,6 +3,7 @@ module Concerns
   # The common manifest for containing representations
   # provides both the representation relationships and relevant methods.
   module Manifest
+    extend ActiveSupport::Concern
 
     included do
       include Concerns::IntellectualEntity
@@ -19,7 +20,7 @@ module Concerns
     # @return all ordered representations.
     def ordered_reps
       res = []
-      representations.all.each do |rep|
+      representations.each do |rep|
         if rep.kind_of? OrderedRepresentation
           res << rep
         end
@@ -31,7 +32,7 @@ module Concerns
     # @return all single file representations
     def single_file_reps
       res = []
-      representations.all.each do |rep|
+      representations.each do |rep|
         if rep.kind_of? SingleFileRepresentation
           res << rep
         end

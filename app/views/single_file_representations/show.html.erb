@@ -6,7 +6,7 @@
 
 <hr/>
 
-<%- @single_file_representation.file do |file| %>
+<%- @single_file_representation.files do |file| %>
     <% # TODO fix the following %>
     <span style="font-weight: bold;">File Name:</span> <%= file.nil? ? "No file" : file.original_filename %>
     <br/>

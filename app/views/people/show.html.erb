@@ -8,19 +8,6 @@
 
 <hr/>
 <div>
-  <p><b>TEI representations</b></p>
-  <% if @person.tei_rep? %>
-      <ul>
-        <% @person.tei.each do |tei| %>
-            <li><%= link_to tei.label + " (" + tei.pid + ")", person_tei_representation_path(tei) %></li>
-        <% end %>
-      </ul>
-  <% else %>
-      <p>No tei file for this person.</p>
-  <% end %>
-</div>
-<hr/>
-<div>
   <p><b>Books authored</b></p>
   <% if @person.is_author_of_book? %>
       <ul>

@@ -10,8 +10,11 @@ module ManifestationsHelper
   # @param manifestation The manifestation to contain the SingleFileRepresentation
   def add_single_tei_rep(tei_metadata, file, rep_metadata, manifestation)
     tei_file = TeiFile.new(tei_metadata)
-    tei_file.add_file(file)
-    tei_file.save!
+    if tei_file.add_file(file)
+      tei_file.save!
+    else
+      return false
+    end
 
     create_as_single_file_rep(tei_file, rep_metadata, manifestation)
   end
@@ -22,8 +25,11 @@ module ManifestationsHelper
   # @param manifestation The manifestation to contain the SingleFileRepresentation
   def add_single_file_rep(file, metadata, manifestation)
     rep_file = BasicFile.new
-    rep_file.add_file(file)
-    rep_file.save!
+    if rep_file.add_file(file)
+      rep_file.save!
+    else
+      return false
+    end
 
     create_as_single_file_rep(rep_file, metadata, manifestation)
   end
@@ -38,7 +44,9 @@ module ManifestationsHelper
 
     files.each do |f|
       tiff_file = TiffFile.new
-      tiff_file.add_file(f)
+      unless tiff_file.add_file(f)
+        return false
+      end
       tiff_file.save!
 
       tiff_files << tiff_file
@@ -79,6 +87,8 @@ module ManifestationsHelper
       if author_pid && !author_pid.empty?
         author = Person.find(author_pid)
         manifestation.authors << author
+        #author.authored_manifestations << manifestation
+        #author.save!
       end
     end
     manifestation.save!
@@ -118,7 +128,7 @@ module ManifestationsHelper
   def create_as_order_rep(files, metadata, manifestation)
     rep = OrderedRepresentation.new(metadata)
     rep.files << files
-    rep.structmap = generate_structmap(files)
+    generate_structmap(files, rep)
     rep.save!
 
     add_representation(rep, manifestation)
@@ -139,11 +149,11 @@ module ManifestationsHelper
 
   # Generates a StructMap based on a ordered array of files.
   # @param file_order The ordered array of files.
-  def generate_structmap(file_order)
+  # @param representation The representation with the structmap
+  def generate_structmap(file_order, representation)
     logger.debug 'Generating structmap xml file...'
     logger.debug "structmap_file_order = #{file_order.to_s}"
-    structmap = StructMap.new
-    ng_doc = structmap.techMetadata.ng_xml
+    ng_doc = representation.techMetadata.ng_xml
 
     structmap_element = ng_doc.at_css 'structMap'
     #remove the empty div element populated on calling new
@@ -163,6 +173,6 @@ module ManifestationsHelper
       count = count + 1
     end
 
-    structmap
+
   end
 end
