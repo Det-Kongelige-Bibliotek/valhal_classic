@@ -23,9 +23,9 @@ class TeiFile < ActiveFedora::Base
   # @return The
   def file_type
     if tei_version.blank?
-      'TEI file'
+      super
     else
-      'TEI ' + tei_version
+      'TEI version: ' + tei_version
     end
   end
 end
