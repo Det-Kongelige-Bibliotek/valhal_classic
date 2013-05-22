@@ -38,18 +38,6 @@ describe SingleFileRepresentationsController do
     {}
   end
 
-  describe "GET index" do
-    before :each do
-      SingleFileRepresentation.all.each { |sfr| sfr.destroy }
-    end
-    it "assigns all single_file_representations as @single_file_representations" do
-
-      single_file_representation = SingleFileRepresentation.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:single_file_representations).should eq([single_file_representation])
-    end
-  end
-
   describe "GET show" do
     it "assigns the requested single_file_representation as @single_file_representation" do
       single_file_representation = SingleFileRepresentation.create! valid_attributes
@@ -58,55 +46,11 @@ describe SingleFileRepresentationsController do
     end
   end
 
-  describe "GET new" do
-    it "assigns a new single_file_representation as @single_file_representation" do
-      get :new, {}, valid_session
-      assigns(:single_file_representation).should be_a_new(SingleFileRepresentation)
-    end
-  end
-
   describe "GET edit" do
     it "assigns the requested single_file_representation as @single_file_representation" do
       single_file_representation = SingleFileRepresentation.create! valid_attributes
       get :edit, {:id => single_file_representation.to_param}, valid_session
       assigns(:single_file_representation).should eq(single_file_representation)
-    end
-  end
-
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new SingleFileRepresentation" do
-        expect {
-          post :create, {:single_file_representation => valid_attributes}, valid_session
-        }.to change(SingleFileRepresentation, :count).by(1)
-      end
-
-      it "assigns a newly created single_file_representation as @single_file_representation" do
-        post :create, {:single_file_representation => valid_attributes}, valid_session
-        assigns(:single_file_representation).should be_a(SingleFileRepresentation)
-        assigns(:single_file_representation).should be_persisted
-      end
-
-      it "redirects to the created single_file_representation" do
-        post :create, {:single_file_representation => valid_attributes}, valid_session
-        response.should redirect_to(SingleFileRepresentation.all.last)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved single_file_representation as @single_file_representation" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        SingleFileRepresentation.any_instance.stub(:save).and_return(false)
-        post :create, {:single_file_representation => {  }}, valid_session
-        assigns(:single_file_representation).should be_a_new(SingleFileRepresentation)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        SingleFileRepresentation.any_instance.stub(:save).and_return(false)
-        post :create, {:single_file_representation => {  }}, valid_session
-        response.should render_template("new")
-      end
     end
   end
 
