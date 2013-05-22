@@ -277,4 +277,25 @@ describe ManifestationsHelper do
       p3.concerning_manifestations.length.should == 0
     end
   end
+
+  describe '#create_structmap' do
+    before(:each) do
+      @manifestation = Work.create(:title => 'Work')
+      @file1 = ActionDispatch::Http::UploadedFile.new(filename: 'arre1fm001.xml', type: 'image/tif', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
+      @file2 = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'octet-stream', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
+    end
+
+    it 'should create structmap and be able to restructure it afterwards' do
+      add_order_rep([@file1, @file2], {}, @manifestation)
+
+      xml_before_ordering = @manifestation.representations.last.techMetadata.ng_xml.to_s
+      xml_before_ordering.index(@file1.original_filename).should be < xml_before_ordering.index(@file2.original_filename)
+
+      order = @file2.original_filename.to_s + ',' + @file1.original_filename.to_s
+      create_structmap_for_representation(order, @manifestation.representations.last)
+
+      xml_after_ordering = @manifestation.representations.last.techMetadata.ng_xml.to_s
+      xml_after_ordering.index(@file1.original_filename).should be > xml_after_ordering.index(@file2.original_filename)
+    end
+  end
 end

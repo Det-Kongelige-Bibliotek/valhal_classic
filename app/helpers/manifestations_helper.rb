@@ -107,6 +107,24 @@ module ManifestationsHelper
     manifestation.save!
   end
 
+  # Creates the structmap for a representation based on the file_name order of the files.
+  # @param file_order_string The ordered list of filenames.
+  # @param representation The representation containing the files.
+  def create_structmap_for_representation(file_order_string, representation)
+    file_order = []
+    # TODO silly sorting...
+    file_order_string.split(',').each do |f|
+      representation.files.each do |file|
+        if file.original_filename == f
+          file_order << file
+          break
+        end
+      end
+    end
+
+    generate_structmap(file_order, representation)
+  end
+
   private
   # Creates a SingleFileRepresentation with the given file and adds it to the manifestation
   # @param file The file for the SingleFileRepresentation
@@ -153,12 +171,15 @@ module ManifestationsHelper
   def generate_structmap(file_order, representation)
     logger.debug 'Generating structmap xml file...'
     logger.debug "structmap_file_order = #{file_order.to_s}"
+
     ng_doc = representation.techMetadata.ng_xml
 
-    structmap_element = ng_doc.at_css 'structMap'
-    #remove the empty div element populated on calling new
-    dummy_div = ng_doc.at_css 'div'
-    dummy_div.remove
+    mets_element = ng_doc.at_css 'mets'
+    # recreate the structMap element (thus removing all 'div' elements)
+    structmap_element = mets_element.at_css 'structMap'
+    structmap_element.remove
+    structmap_element = Nokogiri::XML::Node.new 'structMap', ng_doc
+    mets_element.add_child(structmap_element)
 
     count = 1
     #for each filename create the required XML elements and attributes
@@ -168,11 +189,11 @@ module ManifestationsHelper
       fptr_element.set_attribute('FILEID', file.uuid.to_s)
       div_element.add_child(fptr_element)
       div_element.set_attribute('ORDER', count.to_s)
-      div_element.set_attribute('ID', file.pid.to_s)
+      div_element.set_attribute('ID', file.original_filename.to_s)
       structmap_element.add_child(div_element)
       count = count + 1
     end
 
-
+    representation.save!
   end
 end

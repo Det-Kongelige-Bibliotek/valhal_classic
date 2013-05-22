@@ -46,10 +46,11 @@ class BooksController < ApplicationController
     logger.debug 'Creating structmap...'
     logger.debug params.to_s
     if params[:structmap_file_order].blank?
+      logger.warn 'Cannot generate structmap, when no file_order is given.'
       redirect_to @book, notice: 'Book was successfully created.'
     else
       #generate structmap file and add to the TIFF representation
-      generate_structmap(params[:structmap_file_order], @book.tif.first)
+      create_structmap_for_representation(params[:structmap_file_order], @book.ordered_reps.last)
       redirect_to @book, notice: 'Book was successfully created.'
     end
   end
