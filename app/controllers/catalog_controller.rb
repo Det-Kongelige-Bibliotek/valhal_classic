@@ -26,7 +26,7 @@ class CatalogController < ApplicationController
   end
 
   def unwanted_models
-    [BookTiffRepresentation, BookTeiRepresentation ,BasicFile, TiffFile, DefaultRepresentation, OrderedRepresentation, SingleFileRepresentation]
+    [BasicFile, TiffFile, TeiFile, OrderedRepresentation, SingleFileRepresentation]
   end
 
 
