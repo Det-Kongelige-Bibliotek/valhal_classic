@@ -132,7 +132,11 @@ class BooksController < ApplicationController
     #Create TEI representation of book using uploaded TEI file if a file was uploaded
     if !params[:file].blank? && !params[:file][:tei_file].blank?
       logger.debug "Creating a tei representation"
-      add_single_tei_rep(params[:tei], params[:file][:tei_file], {}, @book)
+      if params[:representation_metadata].blank? || params[:representation_metadata][:label].blank?
+        add_single_tei_rep(params[:tei_metadata], params[:file][:tei_file], {:label => 'TEI representation'}, @book)
+      else
+        add_single_tei_rep(params[:tei_metadata], params[:file][:tei_file], params[:representation_metadata], @book)
+      end
     end
   end
 end

@@ -75,6 +75,11 @@ module Concerns
       end
     end
 
+    # @return The name of the representation (default the label)
+    def representation_name
+      label
+    end
+
     # class variable for holding methods symbols
     @@methods = [:book, :book=, :person, :person=, :work, :work=]
 

@@ -8,4 +8,8 @@ class SingleFileRepresentation < ActiveFedora::Base
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name => 'descMetadata', :type => ActiveFedora::SimpleDatastream
 
+  # Overrides the default one by adding the file type in parenthesis.
+  def representation_name
+    super + ' (' + files.last.file_type + ')'
+  end
 end

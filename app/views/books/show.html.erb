@@ -35,10 +35,10 @@
     <p><b>Representations:</b></p>
     <ul>
     <% @book.single_file_reps.each do |t| %>
-      <li><%= link_to t.label + ' (' + t.pid + ')', single_file_representation_path(t) %></li>
+      <li><%= link_to t.representation_name + ' (' + t.pid + ')', single_file_representation_path(t) %></li>
     <% end %>
       <% @book.ordered_reps.each do |t| %>
-          <li><%= link_to t.label + ' (' + t.pid + ')', ordered_representation_path(t) %></li>
+          <li><%= link_to t.representation_name + ' (' + t.pid + ')', ordered_representation_path(t) %></li>
       <% end %>
     </ul>
 <% else %>
