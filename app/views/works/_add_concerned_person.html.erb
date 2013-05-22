@@ -1,11 +1,11 @@
 <div>
   <br/>
-  <%= f.label :person_concerned, "Select person/people concerned by the work" %>
+  <%= f.label :person_concerned, 'Select person/people concerned by the work' %>
   <%= collection_select(:person_concerned,
                         :id,
                         Person.all,
                         :id,
                         :comma_seperated_lastname_firstname,
-                        options = { :prompt => "(Select people)", :include_blank => false },
+                        options = { :prompt => '(Select people)', :include_blank => false },
                         { :multiple => true }) %>
 </div>

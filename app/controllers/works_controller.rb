@@ -19,83 +19,38 @@ class WorksController < ApplicationController
     @work = Work.find(params[:id])
   end
 
-  def validate_work(params)
-    #Validate form params
-    logger.debug 'Validating parameters...'
-    if params.empty?
-      @work.errors.add(:metadata, 'The work cannot exist without metadata.')
-    end
-
-    logger.debug 'Validation finished'
-  end
-
   def create
     #Validation passed begin processing parameters
     @work = Work.new(params[:work])
 
-    validate_work(params)
-    if @work.errors.size > 0
+    if invalid_arguments?(params)
       logger.debug "#{@work.errors.size.to_s} Validation errors found, returning to form"
-      render action: "new"
+      render action: 'new'
       return
     end
 
     if @work.save
-      # add the authors to the work
-      if !params[:person].blank? && !params[:person][:id].blank?
-        add_authors(params[:person][:id], @work)
-      end
-
-      # add the described persons to the work
-      if !params[:person_concerned].blank? && !params[:person_concerned][:id].blank?
-        add_concerned_people(params[:person_concerned][:id], @work)
-      end
-
-      #Create representation of work using uploaded file if a file was uploaded
-      if !params[:file].blank? && !params[:file][:file].blank?
-        logger.debug 'Creating a tei representation'
-        add_single_file_rep(params[:file][:file], params[:tei], @work)
-      end
-
+      handle_arguments
       redirect_to @work, notice: 'Work was successfully created.'
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
   def update
     @work = Work.find(params[:id])
 
-    validate_work(params)
-    if @work.errors.size > 0
+    if invalid_arguments?(params)
       logger.debug "#{@work.errors.size.to_s} Validation errors found, returning to form"
-      render action: "edit"
+      render action: 'edit'
       return
     end
 
     if @work.update_attributes(params[:work])
-      if !params[:file].blank? && !params[:file][:file].blank?
-          logger.debug 'Creating a representation'
-          add_single_file_rep(params[:file][:file], params[:tei], @work)
-      end
-      # add the authors to the work
-      if !params[:person].blank? && !params[:person][:id].blank?
-        # Remove any existing relationships
-        @work.authors.clear
-        # add new persons as authors
-        add_authors(params[:person][:id], @work)
-      end
-
-      # add the described persons to the work
-      if !params[:person_concerned].blank? && !params[:person_concerned][:id].blank?
-        # Remove any existing relationships
-        @work.clear_concerned_people
-
-        add_concerned_people(params[:person_concerned][:id], @work)
-      end
+      handle_arguments
       redirect_to @work, notice: 'Work was successfully updated.'
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
@@ -104,5 +59,43 @@ class WorksController < ApplicationController
     @work.destroy
 
     redirect_to works_url
+  end
+
+  private
+
+  # Handles the parameter arguments
+  # If any single file is given, then a SingeFileRepresentation is made from it.
+  #
+  def handle_arguments
+    if !params[:single_file].blank? && !params[:single_file][:file].blank?
+      logger.debug 'Creating a representation'
+      add_single_file_rep(params[:single_file][:file], params[:rep], @work)
+    end
+    # add the authors to the work
+    if !params[:person].blank? && !params[:person][:id].blank?
+      # Remove any existing relationships
+      @work.authors.clear
+      # add new persons as authors
+      add_authors(params[:person][:id], @work)
+    end
+
+    # add the described persons to the work
+    if !params[:person_concerned].blank? && !params[:person_concerned][:id].blank?
+      # Remove any existing relationships
+      @work.clear_concerned_people
+
+      add_concerned_people(params[:person_concerned][:id], @work)
+    end
+  end
+
+  def invalid_arguments?(params)
+    #Validate form params
+    logger.debug 'Validating parameters...'
+    if params.empty?
+      @work.errors.add(:metadata, 'The work cannot exist without metadata.')
+    end
+
+    logger.debug 'Validation finished'
+    @work.errors.size > 0
   end
 end
