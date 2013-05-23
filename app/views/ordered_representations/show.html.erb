@@ -1,26 +1,27 @@
 <p id="notice"><%= notice %></p>
 
-<table border="0">
-  <tr><td style="font-weight: bold;">Label</td><td><%= @ordered_representation.label %></td></tr>
+<table border='0'>
+  <tr><td style='font-weight: bold;'>Representation name: </td><td><%= @ordered_representation.representation_name %></td></tr>
+  <tr><td>Number of files: </td><td><%= @ordered_representation.files.length.to_s %></td></tr>
 </table>
 
 <hr/>
 
-<%- @ordered_representation.files do |file| %>
+<%- @ordered_representation.files.each do |file| %>
     <% # TODO fix the following %>
-    <span style="font-weight: bold;">File Name:</span> <%= file.nil? ? "No file" : file.original_filename %>
+    <span style='font-weight: bold;'>File Name:</span> <%= file.nil? ? 'No file' : file.original_filename %>
     <br/>
-    <span style="font-weight: bold;">Created:</span> <%= file.nil? ? "N/A" : file.created %>
+    <span style='font-weight: bold;'>Created:</span> <%= file.nil? ? 'N/A' : file.created %>
     <br/>
-    <span style="font-weight: bold;">MIME:</span> <%= file.nil? ? "N/A" : file.mime_type %>
+    <span style='font-weight: bold;'>MIME:</span> <%= file.nil? ? 'N/A' : file.mime_type %>
     <br/>
-    <span style="font-weight: bold;">File Size:</span> <%= file.nil? ? "N/A" : file.size %> bytes
+    <span style='font-weight: bold;'>File Size:</span> <%= file.nil? ? 'N/A' : file.size %> bytes
     <br/>
-    <span style="font-weight: bold;">Checksum:</span> <%= file.nil? ? "N/A" : file.checksum %>
+    <span style='font-weight: bold;'>Checksum:</span> <%= file.nil? ? 'N/A' : file.checksum %>
     <br/>
-    <span style="font-weight: bold;">UUID:</span> <%= file.nil? ? "N/A" : file.uuid %>
+    <span style='font-weight: bold;'>UUID:</span> <%= file.nil? ? 'N/A' : file.uuid %>
     <br/>
-    <%= file.nil? ? "N/A" : (link_to "Download", {:action => "show", :pid => file.pid, :controller => "view_file" }) %>
+    <%= file.nil? ? 'N/A' : (link_to 'Download', {:action => 'show', :pid => file.pid, :controller => 'view_file' }) %>
     <br />
     <hr/>
 <%- end %>
