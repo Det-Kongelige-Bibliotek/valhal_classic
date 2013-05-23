@@ -8,6 +8,7 @@ module ManifestationsHelper
   # @param file The uploaded TEI file for the SingleFileRepresentation
   # @param rep_metadata The metadata for the SingleFileRepresentation
   # @param manifestation The manifestation to contain the SingleFileRepresentation
+  # @return false if operation was unsuccessful
   def add_single_tei_rep(tei_metadata, file, rep_metadata, manifestation)
     tei_file = TeiFile.new(tei_metadata)
     if tei_file.add_file(file)
@@ -39,6 +40,7 @@ module ManifestationsHelper
   # @param files The uploaded TIFF Image files for the OrderedRepresentation
   # @param metadata The metadata for the OrderedRepresentation
   # @param manifestation The manifestation to contain the OrderedRepresentation
+  # @return false if operation was unsuccessful
   def add_tiff_order_rep(files, metadata, manifestation)
     tiff_files = []
 

@@ -4,7 +4,14 @@
   <%= f.file_field :tei_file %>
   <a class="btn btn-small btn-danger" href="#" id="tei_file_clear" title="Clear file"><i class="icon-remove"></i></a>
 
+
+  <%= fields_for :person_description_metadata do |builder| %>
+      <%= builder.text_field :title, :placeholder => "Title of the person description" %>
+  <% end %>
   <%= fields_for :tei_metadata do |builder| %>
+      <%= builder.text_field :tei_version, :placeholder => "Version for TEI file (e.g. P5)" %>
+  <% end %>
+  <%= fields_for :tei_representation_metadata do |builder| %>
       <%= builder.text_field :label, :placeholder => "Label" %>
   <% end %>
 </div>

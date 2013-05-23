@@ -18,7 +18,7 @@ module Concerns
             res << man
           end
         end
-        return res
+        res
       end
 
       # extract the manifestations of the type book.
@@ -29,7 +29,7 @@ module Concerns
             res << man
           end
         end
-        return res
+        res
       end
 
       # Determines whether any book concerns this person.

@@ -3,7 +3,9 @@
   <tr><td><b>Date of Birth</b></td><td><%= @person.date_of_birth %></td></tr>
   <tr><td><b>Date of Death</b></td><td><%= @person.date_of_death %></td></tr>
   <tr><td><b>UUID</b></td><td><%= @person.uuid %></td></tr>
-  <%= image_tag url_for(show_image_person_path @person.pid), :alt => ""  %>
+  <% if @person.has_portrait? %>
+    <%= image_tag url_for(show_image_person_path @person.pid), :alt => ""  %>
+  <% end %>
 </table>
 
 <hr/>
@@ -59,18 +61,6 @@
   <% end %>
 </div>
 <hr/>
-<div>
-  <p><b>Images of person</b></p>
-  <% if @person.has_portrait? %>
-      <ul>
-        <% @person.person_image_representation.each do |portrait| %>
-            <li><%= link_to portrait.label + "(" + portrait.pid + ")", url_for(image_url_person_path :pid => portrait.pid) %></li>
-        <% end %>
-      </ul>
-  <% else %>
-      <p>No portrait of this person.</p>
-  <% end %>
-</div>
 
 <%= link_to 'Edit', edit_person_path(@person) %> |
 <%= link_to 'People', people_path %>

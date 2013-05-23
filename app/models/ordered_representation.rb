@@ -7,5 +7,5 @@ class OrderedRepresentation < ActiveFedora::Base
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name => 'techMetadata',   :type => Datastreams::MetsStructMap
 
-  delegate_to 'techMetadata',[:div, :order, :fptr, :file_id]
+  delegate_to 'techMetadata', [:div, :order, :fptr, :file_id]
 end
