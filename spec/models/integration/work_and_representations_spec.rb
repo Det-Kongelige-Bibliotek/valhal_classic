@@ -49,7 +49,7 @@ describe 'Work relationships' do
     end
   end
 
-  describe '#ordered_representation' do
+  describe '#ordered_representations' do
     before :each do
       @work = Work.create(:title => "The title")
       @rep = OrderedRepresentation.create

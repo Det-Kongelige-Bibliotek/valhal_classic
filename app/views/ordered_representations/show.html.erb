@@ -6,7 +6,7 @@
 
 <hr/>
 
-<%- @ordered_representation.file do |file| %>
+<%- @ordered_representation.files do |file| %>
     <% # TODO fix the following %>
     <span style="font-weight: bold;">File Name:</span> <%= file.nil? ? "No file" : file.original_filename %>
     <br/>
@@ -27,5 +27,4 @@
 
 <br/>
 
-<%= link_to 'Edit', edit_ordered_representation_path(@ordered_representation) %> |
-<%= link_to 'Back', ordered_representation_path %>
+<%= link_to 'Edit', edit_ordered_representation_path(@ordered_representation) %>

@@ -50,7 +50,7 @@ class PeopleController < ApplicationController
       handle_arguments
       redirect_to @person, notice: 'Person was successfully updated.'
     else
-      render action: 'edit'
+      render action: 'new'
     end
   end
 

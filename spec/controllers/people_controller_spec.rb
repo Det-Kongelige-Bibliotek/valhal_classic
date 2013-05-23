@@ -86,7 +86,7 @@ describe PeopleController do
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Person.any_instance.stub(:save).and_return(false)
-        post :create, {:person => {firstname: 'firstname', lastname: 'lastname'  }}, valid_session
+        post :create, {:person => { }}, valid_session
         response.should render_template("new")
       end
     end
