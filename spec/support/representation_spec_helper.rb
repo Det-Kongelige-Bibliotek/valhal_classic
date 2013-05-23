@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module RepresentationSpecHelper
   def association_with_ie(rep, ie)
     rep.ie = ie
