@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :pid, :uid
   # attr_accessible :title, :body
 
-  ROLES = %w[admin depositor guest]
+  ROLES = %w[admin depositor guest test]
 
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_create do |user|
@@ -79,6 +79,11 @@ class User < ActiveRecord::Base
       false
     end
   end
+
+  def test?
+     name== "sifdtest"
+  end
+
 
   #anybody that can login, is a depositor. No restrictions
   def depositor?

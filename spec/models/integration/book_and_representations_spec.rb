@@ -7,9 +7,9 @@ describe Book do
   end
 
   # tests for the relationship between the Book and the BookTeiRepresentation
-  describe " - BookTeiRepresentation relationship" do
+  describe " - DefaultRepresentation relationship" do
     before(:each) do
-      @book = Book.new(:title => "My First Book")
+      @book = Book.create(:title => "My First Book")
       @tei = DefaultRepresentation.new
       @book.tei << @tei
       @book.save!
@@ -22,11 +22,31 @@ describe Book do
       @book.tei.first.should == @tei
     end
 
-    it "should be defined in the BookTeiRepresentation entity" do
+    it "should be defined in the DefaultRepresentation entity" do
       @tei.book.should_not be_nil
       @tei.book.should == @book
       @tei.book.tei.first.should == @tei
     end
+
+    it "should be able to have more then one TEI file" do
+      @tei2 = DefaultRepresentation.new
+      @book.tei << @tei2
+      @book.tei.length.should == 2
+    end
+
+    it "should retrieve file after save" do
+      @book2 = Book.find(@book.pid)
+      @book2.tei.should include @tei
+    end
+
+    it "should be able to contain XML file"  do
+      @tif = OrderedRepresentation.new
+      @book.tif << @tif
+      @book.save!
+    end
+
+
+
   end
 
   after(:all) do
