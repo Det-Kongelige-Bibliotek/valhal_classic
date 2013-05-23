@@ -16,7 +16,7 @@ describe Work do
       w.title.should == t
     end
 
-    it 'should not be possible to create a work without a title' do
+    it 'should not be possible to create a work without a work type' do
       w = Work.new
       w.save.should be_false
     end

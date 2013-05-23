@@ -33,8 +33,8 @@ describe 'relationships for people, book and work' do
 
         page.should_not have_content("No books authored by this person.")
         page.should have_content("No works authored by this person.")
-        page.should have_content("No book is concerning this person.")
-        page.should have_content("No work is concerning this person.")
+        page.should have_content("No books are concerning this person.")
+        page.should have_content("No works are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_true
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_false
       end
@@ -70,8 +70,8 @@ describe 'relationships for people, book and work' do
 
         page.should have_content("No books authored by this person.")
         page.should_not have_content("No works authored by this person.")
-        page.should have_content("No book is concerning this person.")
-        page.should have_content("No work is concerning this person.")
+        page.should have_content("No books are concerning this person.")
+        page.should have_content("No works are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_false
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_true
       end
@@ -109,8 +109,8 @@ describe 'relationships for people, book and work' do
 
         page.should_not have_content("No books authored by this person.")
         page.should_not have_content("No works authored by this person.")
-        page.should have_content("No book is concerning this person.")
-        page.should have_content("No work is concerning this person.")
+        page.should have_content("No books are concerning this person.")
+        page.should have_content("No works are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_true
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_true
       end
@@ -148,8 +148,8 @@ describe 'relationships for people, book and work' do
 
         page.should have_content("No books authored by this person.")
         page.should have_content("No works authored by this person.")
-        page.should_not have_content("No book is concerning this person.")
-        page.should have_content("No work is concerning this person.")
+        page.should_not have_content("No books are concerning this person.")
+        page.should have_content("No works are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_true
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_false
       end
@@ -185,8 +185,8 @@ describe 'relationships for people, book and work' do
 
         page.should have_content("No books authored by this person.")
         page.should have_content("No works authored by this person.")
-        page.should have_content("No book is concerning this person.")
-        page.should_not have_content("No work is concerning this person.")
+        page.should have_content("No books are concerning this person.")
+        page.should_not have_content("No works are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_false
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_true
       end
@@ -224,8 +224,8 @@ describe 'relationships for people, book and work' do
 
         page.should have_content("No books authored by this person.")
         page.should have_content("No works authored by this person.")
-        page.should_not have_content("No book is concerning this person.")
-        page.should_not have_content("No work is concerning this person.")
+        page.should_not have_content("No books are concerning this person.")
+        page.should_not have_content("No works are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_true
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_true
       end
@@ -267,8 +267,8 @@ describe 'relationships for people, book and work' do
 
         page.should_not have_content("No books authored by this person.")
         page.should have_content("No works authored by this person.")
-        page.should have_content("No book is concerning this person.")
-        page.should have_content("No work is concerning this person.")
+        page.should have_content("No books are concerning this person.")
+        page.should have_content("No works are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_true
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_false
       end
@@ -278,8 +278,8 @@ describe 'relationships for people, book and work' do
 
         page.should have_content("No books authored by this person.")
         page.should have_content("No works authored by this person.")
-        page.should_not have_content("No book is concerning this person.")
-        page.should have_content("No work is concerning this person.")
+        page.should_not have_content("No books are concerning this person.")
+        page.should have_content("No works are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_true
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_false
       end
@@ -320,8 +320,8 @@ describe 'relationships for people, book and work' do
 
         page.should have_content("No books authored by this person.")
         page.should_not have_content("No works authored by this person.")
-        page.should have_content("No book is concerning this person.")
-        page.should have_content("No work is concerning this person.")
+        page.should have_content("No books are concerning this person.")
+        page.should have_content("No works are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_false
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_true
       end
@@ -331,8 +331,8 @@ describe 'relationships for people, book and work' do
 
         page.should have_content("No books authored by this person.")
         page.should have_content("No works authored by this person.")
-        page.should have_content("No book is concerning this person.")
-        page.should_not have_content("No work is concerning this person.")
+        page.should have_content("No books are concerning this person.")
+        page.should_not have_content("No works are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_false
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_true
       end
@@ -395,8 +395,8 @@ describe 'relationships for people, book and work' do
 
         page.should_not have_content("No books authored by this person.")
         page.should_not have_content("No works authored by this person.")
-        page.should_not have_content("No book is concerning this person.")
-        page.should_not have_content("No work is concerning this person.")
+        page.should_not have_content("No books are concerning this person.")
+        page.should_not have_content("No works are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_true
         page.has_link?(@book2.get_title_for_display, :href => book_path(@book2) + '?locale=en').should be_true
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_true

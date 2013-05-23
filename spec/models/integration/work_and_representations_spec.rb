@@ -8,7 +8,7 @@ describe 'Work relationships' do
       @rep = SingleFileRepresentation.create
     end
 
-    it 'should be possible to define a relation from work, which can be viewed both ways' do
+    it 'should be possible to define a ordered relation from work, which can be viewed both ways' do
       @work.representations << @rep
       @work.save!
 
