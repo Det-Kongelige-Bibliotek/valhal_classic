@@ -5,6 +5,17 @@
   <tr><td>Number of files: </td><td><%= @single_file_representation.files.length.to_s %></td></tr>
 </table>
 
+<br/>
+
+<%= link_to 'Edit', edit_single_file_representation_path(@single_file_representation) %> |
+<% if @single_file_representation.ie.kind_of?(Work) %>
+    <%= link_to 'Work', work_path(@single_file_representation.ie) %>
+<% elsif @single_file_representation.ie.kind_of?(Book) %>
+    <%= link_to 'Book', book_path(@single_file_representation.ie) %>
+<% else %>
+    <p>UNKNOWN !!!!</p>
+<% end %>
+
 <hr/>
 
 <%- @single_file_representation.files.each do |file| %>
@@ -25,7 +36,3 @@
     <br />
     <hr/>
 <%- end %>
-
-<br/>
-
-<%= link_to 'Edit', edit_single_file_representation_path(@single_file_representation) %>
