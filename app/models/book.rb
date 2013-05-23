@@ -40,7 +40,6 @@ class Book < ActiveFedora::Base
     end
   end
 
-
   has_solr_fields do |m|
     m.field 'search_result_title', method: :title
     m.field 'search_results_book_authors', index_as: [:string, :indexed, :stored], method: :authors_names_to_s
