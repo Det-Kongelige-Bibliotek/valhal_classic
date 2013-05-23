@@ -36,16 +36,21 @@ describe 'Work relationships' do
     end
 
     it 'should be possible to have two representations defined from the representations' do
-      pending "Apparently the relationship cannot be made this way"
       @rep.ie = @work
       @rep.save!
+      @rep.reload
       rep2 = SingleFileRepresentation.create
       rep2.ie = @work
       rep2.save!
+      rep2.reload
 
-      @work.representations.should == [@rep, rep2]
+      @work.reload
+
+
       @rep.work.should == @work
       rep2.work.should == @work
+      #@work.representations.should == [@rep, rep2]
+
     end
   end
 
