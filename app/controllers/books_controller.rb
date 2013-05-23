@@ -127,7 +127,7 @@ class BooksController < ApplicationController
     # add the people concerned by the book
     if !params[:person_concerned].blank? && !params[:person_concerned][:id].blank?
       @book.clear_concerned_people
-      # add new described people
+      # add new concerned people
       add_concerned_people(params[:person_concerned][:id], @book)
     end
 

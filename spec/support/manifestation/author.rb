@@ -5,7 +5,7 @@ shared_examples "a manifestation with authors" do
   # if not all these tests will fail
   # look at book_spec.rb for how to override subject to provide a valid object
   let(:manifestation) { subject }
-  let(:default_person) { Person.create(firstname: "first_test #{Time.now.usec}", lastname: "last_test") }
+  let(:default_person) { Person.create(firstname: "first_test #{Time.now.nsec.to_s}", lastname: "last_test") }
 
   describe "#authors" do
 

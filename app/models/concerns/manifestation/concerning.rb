@@ -6,8 +6,8 @@ module Concerns
       extend ActiveSupport::Concern
 
       included do
-        #A manifestatino can concern a person, e.g. as a AuthorDescrption, biography, etc.
-        has_and_belongs_to_many :people_concerned, :class_name => "Person", :property => :concerning, :inverse_of => :is_concerned_by
+        #A manifestation can concern a person, e.g. as a AuthorDescription, biography, etc.
+        has_and_belongs_to_many :people_concerned, :class_name => 'ActiveFedora::Base', :property => :concerning, :inverse_of => :is_concerned_by
       end
 
       # Whether any person is concerned by this manifestation.
