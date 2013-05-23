@@ -113,7 +113,7 @@ class CatalogController < ApplicationController
     #config.add_index_field 'title_t', :label => 'Titel:'
     #config.add_index_field 'person_name_t', :label => 'Person Name:'
     config.add_index_field book_solr_names[:search_results_book_authors], :label => 'Author(s):'
-    config.add_index_field work_solr_names[:search_result_work_type]
+    config.add_index_field work_solr_names[:search_result_work_type] , :label => "Type of work:"
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
