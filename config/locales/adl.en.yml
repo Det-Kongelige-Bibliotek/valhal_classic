@@ -1,19 +1,10 @@
 en:
-  adl:
+  valhal:
     views:
       homepage:
         welcome: "Welcome to SIFD!"
         new_book: "New Book"
         new_person: "New Person"
         new_work: "New Work"
-      book_tei_reps:
-        form: "prohibited this book_tei_representation from being saved:"
-        tei_file_upload: "TEI file representation"
-        edit_heading: "Editing book_tei_representation"
-        edit_update: "Update"
-        index_heading: "Listing book_tei_representations"
-        index_show: "Show"
-        index_edit: "Edit"
-        index_destroy: "Destroy"
       general:
         confirmation: "Are you sure?"

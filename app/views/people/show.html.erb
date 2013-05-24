@@ -3,22 +3,11 @@
   <tr><td><b>Date of Birth</b></td><td><%= @person.date_of_birth %></td></tr>
   <tr><td><b>Date of Death</b></td><td><%= @person.date_of_death %></td></tr>
   <tr><td><b>UUID</b></td><td><%= @person.uuid %></td></tr>
-  <%= image_tag url_for(show_image_person_path @person.pid), :alt => ""  %>
+  <% if @person.has_portrait? %>
+    <%= image_tag url_for(show_image_person_path @person.pid), :alt => ""  %>
+  <% end %>
 </table>
 
-<hr/>
-<div>
-  <p><b>TEI representations</b></p>
-  <% if @person.tei_rep? %>
-      <ul>
-        <% @person.tei.each do |tei| %>
-            <li><%= link_to tei.label + " (" + tei.pid + ")", person_tei_representation_path(tei) %></li>
-        <% end %>
-      </ul>
-  <% else %>
-      <p>No tei file for this person.</p>
-  <% end %>
-</div>
 <hr/>
 <div>
   <p><b>Books authored</b></p>
@@ -47,43 +36,31 @@
 </div>
 <hr/>
 <div>
-  <p><b>Biographies / books describing person</b></p>
-  <% if @person.is_described_by_book? %>
+  <p><b>Biographies / books concerning person</b></p>
+  <% if @person.is_concerned_by_book? %>
       <ul>
-        <% @person.describing_books.each do |book| %>
+        <% @person.concerning_books.each do |book| %>
             <li><%= link_to book.get_title_for_display, book_path(book) %></li>
         <% end %>
       </ul>
   <% else %>
-      <p>No book describes this person.</p>
+      <p>No book is concerning this person.</p>
   <% end %>
 </div>
 <hr/>
 <div>
-  <p><b>Work describing person</b></p>
-  <% if @person.is_described_by_work? %>
+  <p><b>Work concerning person</b></p>
+  <% if @person.is_concerned_by_work? %>
       <ul>
-        <% @person.describing_works.each do |work| %>
+        <% @person.concerning_works.each do |work| %>
             <li><%= link_to work.get_title_for_display, work_path(work) %></li>
         <% end %>
       </ul>
   <% else %>
-      <p>No work describes this person.</p>
+      <p>No work is concerning this person.</p>
   <% end %>
 </div>
 <hr/>
-<div>
-  <p><b>Images of person</b></p>
-  <% if @person.has_portrait? %>
-      <ul>
-        <% @person.person_image_representation.each do |portrait| %>
-            <li><%= link_to portrait.label + "(" + portrait.pid + ")", url_for(image_url_person_path :pid => portrait.pid) %></li>
-        <% end %>
-      </ul>
-  <% else %>
-      <p>No books authored by this person.</p>
-  <% end %>
-</div>
 
 <%= link_to 'Edit', edit_person_path(@person) %> |
 <%= link_to 'People', people_path %>

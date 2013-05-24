@@ -9,23 +9,24 @@ describe Book do
   # tests for the relationship between the Book and the BookTeiRepresentation
   describe " - DefaultRepresentation relationship" do
     before(:each) do
-      @book = Book.create(:title => "My First Book")
-      @tei = DefaultRepresentation.new
-      @book.tei << @tei
+
+      @book = Book.new(:title => "My First Book")
+      @tei = SingleFileRepresentation.new
+      @book.representations << @tei
       @book.save!
     end
 
     it "should be defined in the Book entity" do
-      @book.tei.should_not be_nil
-      @book.tei.should_not be_empty
-      @book.tei.length.should == 1
-      @book.tei.first.should == @tei
+      @book.representations.should_not be_nil
+      @book.representations.should_not be_empty
+      @book.representations.length.should == 1
+      @book.representations.first.should == @tei
     end
 
     it "should be defined in the DefaultRepresentation entity" do
       @tei.book.should_not be_nil
       @tei.book.should == @book
-      @tei.book.tei.first.should == @tei
+      @tei.book.representations.first.should == @tei
     end
 
     it "should be able to have more then one TEI file" do
@@ -50,7 +51,7 @@ describe Book do
   end
 
   after(:all) do
-#    Book.all.each { |book| book.delete }
-#     BookTeiRepresentation.all.each { |btr| btr.delete }
+    Book.all.each { |book| book.delete }
+    SingleFileRepresentation.all.each { |btr| btr.delete }
   end
 end

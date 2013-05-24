@@ -33,7 +33,7 @@ describe "The basic relationships" do
         hm = HasMany.create
 
         bt.hm = hm
-        bt.save.should == true
+        bt.save.should be_true
         bt.hm.should == hm
       end
 
@@ -86,7 +86,7 @@ describe "The basic relationships" do
         hm = HasMany.create
 
         hm.bt << bt
-        hm.save.should == true
+        hm.save.should be_true
         hm.bt.should == [bt]
       end
 
@@ -163,7 +163,7 @@ describe "The basic relationships" do
         hm = HasMany.create
 
         bt.hm = hm
-        bt.save.should == true
+        bt.save.should be_true
         bt.hm.should == hm
       end
 
@@ -216,7 +216,7 @@ describe "The basic relationships" do
         hm = HasMany.create
 
         hm.bt << bt
-        hm.save.should == true
+        hm.save.should be_true
         hm.bt.should == [bt]
       end
 
@@ -293,7 +293,7 @@ describe "The basic relationships" do
         hm = HasMany.create
 
         bt.hm = hm
-        bt.save.should == true
+        bt.save.should be_true
         bt.hm.should == hm
       end
 
@@ -347,7 +347,7 @@ describe "The basic relationships" do
         hm = HasMany.create
 
         hm.bt << bt
-        hm.save.should == true
+        hm.save.should be_true
         hm.bt.should == [bt]
       end
 
@@ -431,7 +431,7 @@ describe "The basic relationships" do
         hab2 = Habtm2.create
 
         hab1.other = [hab2]
-        hab1.save.should == true
+        hab1.save.should be_true
         hab1.other.should == [hab2]
       end
 
@@ -508,7 +508,7 @@ describe "The basic relationships" do
         hab2 = Habtm2.create
 
         hab1.other = [hab2]
-        hab1.save.should == true
+        hab1.save.should be_true
         hab1.other.should == [hab2]
       end
 
@@ -585,7 +585,7 @@ describe "The basic relationships" do
         hab2 = Habtm2.create
 
         hab1.other = [hab2]
-        hab1.save.should == true
+        hab1.save.should be_true
         hab1.other.should == [hab2]
       end
 

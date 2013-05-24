@@ -37,23 +37,26 @@
       -->
       <str name="qf">
         id
-        all_text_timv
         active_fedora_model_ssi
-        object_type_si
+        search_result_title_tsi
+        search_result_work_type_tsi
       </str>
       <str name="pf">
         all_text_timv^10
       </str>
 
       <str name="author_qf">
+        author_tesim
       </str>
       <str name="author_pf">
       </str>
       <str name="title_qf">
+        title_tesim
       </str>
       <str name="title_pf">
       </str>
       <str name="subject_qf">
+        subject_tesim
       </str>
       <str name="subject_pf">
       </str>
@@ -67,7 +70,7 @@
       <str name="facet.mincount">1</str>
       <str name="facet.limit">10</str>
       <str name="facet.field">active_fedora_model_ssi</str>
-      <str name="facet.field">object_type_si</str>
+      <str name="facet.field">subject_sim</str>
 
       <str name="spellcheck">true</str>
       <str name="spellcheck.dictionary">default</str>
@@ -82,13 +85,12 @@
     </arr>
   </requestHandler>
 
-  <requestHandler name="permissions" class="solr.SearchHandler">
+  <requestHandler name="permissions" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="facet">off</str>
       <str name="echoParams">all</str>
       <str name="rows">1</str>
-      <str name="q">{!raw f=id v=$id}</str>
-      <!-- use id=666 instead of q=id:666 -->
+      <str name="q">{!raw f=id v=$id}</str> <!-- use id=666 instead of q=id:666 -->
       <str name="fl">
         id,
         access_ssim,
@@ -114,13 +116,12 @@
   </requestHandler>
 
   <!-- for requests to get a single document; use id=666 instead of q=id:666 -->
-  <requestHandler name="document" class="solr.SearchHandler">
+  <requestHandler name="document" class="solr.SearchHandler" >
     <lst name="defaults">
       <str name="echoParams">all</str>
       <str name="fl">*</str>
       <str name="rows">1</str>
-      <str name="q">{!raw f=id v=$id}</str>
-      <!-- use id=666 instead of q=id:666 -->
+      <str name="q">{!raw f=id v=$id}</str> <!-- use id=666 instead of q=id:666 -->
     </lst>
   </requestHandler>
 
@@ -138,15 +139,15 @@
     </lst>
   </searchComponent>
 
-  <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy"/>
+  <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" />
 
-  <requestDispatcher handleSelect="true">
-    <requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048"/>
+  <requestDispatcher handleSelect="true" >
+    <requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048" />
   </requestDispatcher>
 
-  <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler"/>
-  <requestHandler name="/update" class="solr.UpdateRequestHandler"/>
-  <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers"/>
+  <requestHandler name="/analysis/field" startup="lazy" class="solr.FieldAnalysisRequestHandler" />
+  <requestHandler name="/update" class="solr.UpdateRequestHandler"  />
+  <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
 
   <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
     <lst name="invariants">

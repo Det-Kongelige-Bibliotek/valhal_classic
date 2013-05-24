@@ -5,7 +5,13 @@ class TiffFile < ActiveFedora::Base
   include Concerns::BasicFile
   include Concerns::IntellectualEntity
 
+  has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
+
   def add_file(file)
+    unless file.content_type == 'image/tif' || file.content_type == 'image/tiff'
+      return false
+    end
+
     valid = super
     if(valid)
       self.save!

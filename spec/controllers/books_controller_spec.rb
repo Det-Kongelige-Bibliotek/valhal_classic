@@ -122,7 +122,7 @@ describe BooksController do
       end
 
       describe "with a Tei representation" do
-        let(:representation) { DefaultRepresentation }
+        let(:representation) { SingleFileRepresentation }
 
         before :all do
           @book_attributes = { :title => "Samlede Skrifter"}
@@ -146,7 +146,7 @@ describe BooksController do
         it "should create a basic file" do
           expect {
             post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
-          }.to change(BasicFile, :count).by(1)
+          }.to change(TeiFile, :count).by(1)
         end
         it "should not create a tifffile" do
           expect {
@@ -155,16 +155,16 @@ describe BooksController do
         end
         it "should create a relation between book and tei-representation" do
           post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
-          Book.all.last.tei_rep?.should be_true
+          Book.all.last.has_rep?.should be_true
           representation.all.last.has_ie?.should be_true
-          Book.all.last.tei.length.should == 1
-          Book.all.last.tei.first.should == representation.all.last
+          Book.all.last.single_file_reps.length.should == 1
+          Book.all.last.single_file_reps.first.should == representation.all.last
           representation.all.last.ie.should == Book.all.last
         end
         it "should create a relation between tei-representation and basic-file" do
           post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
           representation.all.last.files.length.should == 1
-          representation.all.last.files.first.should == BasicFile.all.last
+          representation.all.last.files.first.should == TeiFile.all.last
         end
       end
 
@@ -201,10 +201,10 @@ describe BooksController do
         end
         it "should create a relation between book and tiff-representation" do
           post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
-          Book.all.last.tiff_rep?.should be_true
+          Book.all.last.has_rep?.should be_true
           representation.all.last.has_ie?.should be_true
-          Book.all.last.tif.length.should == 1
-          Book.all.last.tif.first.should == representation.all.last
+          Book.all.last.ordered_reps.length.should == 1
+          Book.all.last.ordered_reps.first.should == representation.all.last
           representation.all.last.book.should == Book.all.last
         end
         it "should create a relation between tiff-representation and basic-file" do
@@ -231,7 +231,7 @@ describe BooksController do
         it "should not create a tei representation" do
           expect {
             post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
-          }.not_to change(DefaultRepresentation, :count)
+          }.not_to change(SingleFileRepresentation, :count)
         end
         it "should create a Tiff representation" do
           expect {
@@ -251,10 +251,10 @@ describe BooksController do
         end
         it "should create a relation between book and tiff-representation" do
           post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
-          Book.all.last.tiff_rep?.should be_true
+          Book.all.last.has_rep?.should be_true
           representation.all.last.has_ie?.should be_true
-          Book.all.last.tif.length.should == 1
-          Book.all.last.tif.first.should == representation.all.last
+          Book.all.last.ordered_reps.length.should == 1
+          Book.all.last.ordered_reps.first.should == representation.all.last
           representation.all.last.book.should == Book.all.last
         end
 
@@ -271,7 +271,7 @@ describe BooksController do
       describe "with an author" do
         let(:representation) { OrderedRepresentation }
         before :all do
-          @author = Person.create(firstname:"the firstname", lastname:"the lastname", :date_of_birth => Time.new.to_i.to_s)
+          @author = Person.create(firstname:"the firstname", lastname:"the lastname", :date_of_birth => Time.now.nsec.to_s)
           @book_attributes = { :title => "Samlede Skrifter"}
           @person_attributes = { :id => ["", @author.id]}
         end
@@ -297,8 +297,7 @@ describe BooksController do
         end
         it "should have no relations to any representation" do
           post :create, {:book => @book_attributes , :person => @person_attributes }, valid_session
-          Book.all.last.tei_rep?.should be_false
-          Book.all.last.tiff_rep?.should be_false
+          Book.all.last.has_rep?.should be_false
         end
         it "should create a relation between book and person" do
           post :create, {:book => @book_attributes , :person => @person_attributes }, valid_session
@@ -425,12 +424,10 @@ describe BooksController do
 
   after(:all) do
     Book.all.each { |book| book.delete }
-    BookTeiRepresentation.all.each { |btr| btr.delete }
-    BookTiffRepresentation.all.each { |btr| btr.delete }
     BasicFile.all.each { |bf| bf.delete }
     TiffFile.all.each { |tf| tf.delete }
     Person.all.each { |p| p.delete }
-    DefaultRepresentation.all.each { |dr| dr.delete }
+    SingleFileRepresentation.all.each { |dr| dr.delete }
     OrderedRepresentation.all.each { |rep| rep.delete }
   end
 

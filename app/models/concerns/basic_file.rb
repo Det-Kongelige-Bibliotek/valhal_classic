@@ -47,6 +47,11 @@ module Concerns
       valid_file
     end
 
+    # @return the type of file. Default the mime-type
+    def file_type
+      mime_type
+    end
+
     private
     def generate_checksum(file)
       Digest::MD5.file(file).hexdigest

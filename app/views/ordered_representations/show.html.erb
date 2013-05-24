@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<table border='0'>
+  <tr><td style='font-weight: bold;'>Representation name: </td><td><%= @ordered_representation.representation_name %></td></tr>
+  <tr><td>Number of files: </td><td><%= @ordered_representation.files.length.to_s %></td></tr>
+</table>
+
+<br/>
+
+<%= link_to 'Edit', edit_ordered_representation_path(@ordered_representation) %> |
+<% if @ordered_representation.ie.kind_of?(Work) %>
+    <%= link_to 'Work', work_path(@ordered_representation.ie) %>
+<% elsif @ordered_representation.ie.kind_of?(Book) %>
+    <%= link_to 'Book', book_path(@ordered_representation.ie) %>
+<% else %>
+    <p>UNKNOWN !!!!</p>
+<% end %>
+
+<hr/>
+
+<%- @ordered_representation.files.each do |file| %>
+    <% # TODO fix the following %>
+    <span style='font-weight: bold;'>File Name:</span> <%= file.nil? ? 'No file' : file.original_filename %>
+    <br/>
+    <span style='font-weight: bold;'>Created:</span> <%= file.nil? ? 'N/A' : file.created %>
+    <br/>
+    <span style='font-weight: bold;'>MIME:</span> <%= file.nil? ? 'N/A' : file.mime_type %>
+    <br/>
+    <span style='font-weight: bold;'>File Size:</span> <%= file.nil? ? 'N/A' : file.size %> bytes
+    <br/>
+    <span style='font-weight: bold;'>Checksum:</span> <%= file.nil? ? 'N/A' : file.checksum %>
+    <br/>
+    <span style='font-weight: bold;'>UUID:</span> <%= file.nil? ? 'N/A' : file.uuid %>
+    <br/>
+    <%= file.nil? ? 'N/A' : (link_to 'Download', {:action => 'show', :pid => file.pid, :controller => 'view_file' }) %>
+    <br />
+    <hr/>
+<%- end %>

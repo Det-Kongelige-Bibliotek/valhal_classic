@@ -6,13 +6,13 @@ module Datastreams
     include OM::XML::Document
 
     set_terminology do |t|
-      t.root(:path => "mets")
+      t.root(:path => 'mets')
 
       t.structMap do
         t.div do
-          t.order(:path => {:attribute => "ORDER"})
+          t.order(:path => {:attribute => 'ORDER'})
           t.fptr do
-            t.file_id(:path => {:attribute => "FILEID"})
+            t.file_id(:path => {:attribute => 'FILEID'})
           end
         end
       end
@@ -25,7 +25,7 @@ module Datastreams
 
     def self.xml_template
       builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
-        xml.mets(:version => "1.0", "xmlns" => "http://www.loc.gov/METS/") do
+        xml.mets(:version => '1.0', 'xmlns' => 'http://www.loc.gov/METS/') do
           xml.structMap(:ID => '', :TYPE => '', :LABEL => '') do
             xml.div(:ORDER => '', :LABEL => '', :DMDID => '', :ADMID => '', :TYPE => '', :ID => '') do
               xml.fptr(:FILEID => '')

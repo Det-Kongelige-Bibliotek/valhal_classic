@@ -1,17 +1,24 @@
+# -*- encoding : utf-8 -*-
 require 'spec_helper'
 
 describe Work do
+  subject { Book.new(title: "test") }
+
+  it_behaves_like "a manifestation with authors"
+
+  it_behaves_like "a manifestation with concerns"
+
   describe '#title' do
     it 'should be created with a title' do
       t = "The title"
       w = Work.new(:title => t)
-      w.save.should == true
+      w.save.should be_true
       w.title.should == t
     end
 
     it 'should not be possible to create a work without a title' do
       w = Work.new
-      w.save.should == false
+      w.save.should be_false
     end
 
     it 'should be possible to change the title' do
@@ -29,13 +36,13 @@ describe Work do
     it 'should be created with a worktype' do
       type = "The worktype"
       w = Work.new(:title => "title", :work_type => type)
-      w.save.should == true
+      w.save.should be_true
       w.work_type.should == type
     end
 
     it 'should be possible to create a work without a title' do
       w = Work.new(:title => "title")
-      w.save.should == true
+      w.save.should be_true
     end
 
     it 'should be created with a worktype' do
@@ -70,7 +77,7 @@ describe Work do
 
     it "should be possible to create with the attributes" do
       w = Work.new(@attributes_hash)
-      w.save.should == true
+      w.save.should be_true
 
       w.title.should == @attributes_hash[:title]
       w.work_type.should == @attributes_hash[:work_type]
@@ -131,9 +138,9 @@ describe Work do
       w.save!
 
       d = w.get_title_for_display
-      d.include?(t).should == true
-      d.include?(st).should == true
-      d.include?(',').should == true
+      d.include?(t).should be_true
+      d.include?(st).should be_true
+      d.include?(',').should be_true
     end
 
     it 'should only contain the title when no subtitle is defined' do
@@ -143,9 +150,9 @@ describe Work do
       w.save!
 
       d = w.get_title_for_display
-      d.include?(t).should == true
-      d.include?(st).should == false
-      d.include?(',').should == false
+      d.include?(t).should be_true
+      d.include?(st).should be_false
+      d.include?(',').should be_false
     end
   end
 end

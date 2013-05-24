@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 class BooksController < ApplicationController
   include Wicked::Wizard
-  include BooksHelper
   include ManifestationsHelper
 
   steps :sort_tiff_files
@@ -47,10 +46,11 @@ class BooksController < ApplicationController
     logger.debug 'Creating structmap...'
     logger.debug params.to_s
     if params[:structmap_file_order].blank?
+      logger.warn 'Cannot generate structmap, when no file_order is given.'
       redirect_to @book, notice: 'Book was successfully created.'
     else
       #generate structmap file and add to the TIFF representation
-      generate_structmap(params[:structmap_file_order], @book.tif.first)
+      create_structmap_for_representation(params[:structmap_file_order], @book.ordered_reps.last)
       redirect_to @book, notice: 'Book was successfully created.'
     end
   end
@@ -72,7 +72,7 @@ class BooksController < ApplicationController
       #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
       if !params[:file].blank? && !params[:file][:tiff_file].blank?
         logger.debug "Creating a tiff representation"
-        add_tiff_representation(params[:tiff], params[:file][:tiff_file], @book)
+        add_tiff_order_rep(params[:file][:tiff_file], params[:tiff], @book)
         render_wizard
       else
         redirect_to @book, notice: 'Book was successfully created.'
@@ -98,10 +98,11 @@ class BooksController < ApplicationController
       #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
       if !params[:file].blank? &&!params[:file][:tiff_file].blank?
         logger.debug "Creating a tiff representation"
-        add_tiff_representation(params[:tiff], params[:file][:tiff_file], @book)
+        add_tiff_order_rep(params[:file][:tiff_file], params[:tiff], @book)
+        render_wizard
+      else
+        redirect_to @book, notice: 'Book was successfully updated.'
       end
-
-      redirect_to @book, notice: 'Book was successfully updated.'
     else
       render action: "edit"
     end
@@ -123,16 +124,21 @@ class BooksController < ApplicationController
       # add new persons as authors
       add_authors(params[:person][:id], @book)
     end
-    # add the people described by the book
-    if !params[:person_described].blank? && !params[:person_described][:id].blank?
+    # add the people concerned by the book
+    if !params[:person_concerned].blank? && !params[:person_concerned][:id].blank?
+      @book.clear_concerned_people
       # add new described people
-      add_described_people(params[:person_described][:id], @book)
+      add_concerned_people(params[:person_concerned][:id], @book)
     end
 
     #Create TEI representation of book using uploaded TEI file if a file was uploaded
     if !params[:file].blank? && !params[:file][:tei_file].blank?
       logger.debug "Creating a tei representation"
-      add_tei_representation(params[:tei], params[:file][:tei_file], @book)
+      if params[:representation_metadata].blank? || params[:representation_metadata][:label].blank?
+        add_single_tei_rep(params[:tei_metadata], params[:file][:tei_file], {:label => 'TEI representation'}, @book)
+      else
+        add_single_tei_rep(params[:tei_metadata], params[:file][:tei_file], params[:representation_metadata], @book)
+      end
     end
   end
 end

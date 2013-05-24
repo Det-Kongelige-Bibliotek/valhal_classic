@@ -12,7 +12,7 @@ describe "add_file" do
 
     it "should have shorthand for adding a file" do
       file = BasicFile.new
-      file.add_file(@uploaded_file).should == true
+      file.add_file(@uploaded_file).should be_true
     end
 
     it "should have mime type" do
@@ -33,7 +33,7 @@ describe "add_file" do
     end
 
     it "should be able to be saved in repository with a file attended" do
-      @basic_file.save.should == true
+      @basic_file.save.should be_true
     end
 
     it "should have the file size" do
@@ -69,7 +69,7 @@ describe "add_file" do
     end
 
     it "should return false when a object that is not a file is passed down" do
-      @basic_file.add_file("file").should == false
+      @basic_file.add_file("file").should be_false
     end
   end
 
@@ -82,7 +82,7 @@ describe "add_file" do
 
     it "should have shorthand for adding a file" do
       file = BasicFile.new
-      file.add_file(@uploaded_file).should == true
+      file.add_file(@uploaded_file).should be_true
     end
 
    it "should have mime type" do
@@ -103,7 +103,7 @@ describe "add_file" do
     end
 
     it "should be able to be saved in repository with a file attended" do
-     @basic_file.save.should == true
+     @basic_file.save.should be_true
     end
 
     it "should have the file size" do
@@ -140,7 +140,7 @@ describe "add_file" do
 
     it "should return false when a object doesn't support the require methods is passed down" do
 
-      @basic_file.add_file("file").should == false
+      @basic_file.add_file("file").should be_false
     end
   end
 end

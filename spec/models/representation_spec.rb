@@ -10,12 +10,12 @@ describe Representation do
   describe "Create" do
     it "should be possible to create and save a raw representation without arguments" do
       rep = Representation.new
-      rep.save.should == true
+      rep.save.should be_true
     end
 
     it "should be possible to create and save a raw representation with the label as argument" do
       rep = Representation.new(:label=>"LaBeL")
-      rep.save.should == true
+      rep.save.should be_true
     end
 
     it "should be assigned a label when created without the label argument" do

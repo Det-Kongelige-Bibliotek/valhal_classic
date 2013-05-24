@@ -4,14 +4,6 @@
     <h5 class="index_title"><%= t('blacklight.search.documents.counter', :counter => (document_counter + 1 + @response.params[:start].to_i)) %>
       <% #Override the main title container view in Blacklight so that the hyperlink for the Book or Person links to the landing page for it  %>
 
-      <% if document["active_fedora_model_ssi"].to_s.include? "PersonTeiRepresentation" %>
-        <a href="<%= "/active_fedora_model_ssi/#{document.id.to_s}" %>"><%=document[document_show_link_field] %></a>
-      <% elsif document["active_fedora_model_ssi"].to_s.include? "BookTeiRepresentation"%>
-          <a href="<%= "/book_tei_representations/#{document.id.to_s}" %>"><%=document[document_show_link_field] %></a>
-      <% elsif document["active_fedora_model_ssi"].to_s.include? "BookTiffRepresentation"%>
-          <a href="<%= "/book_tiff_representations/#{document.id.to_s}" %>"><%=document[document_show_link_field] %></a>
-      <% else %>
-        <a href="<%= "/#{document["active_fedora_model_ssi"].pluralize.to_s.downcase}/#{document.id.to_s}" %>"><%=document[document_show_link_field] %></a>
-      <% end %>
+      <a href="<%= "/#{document["active_fedora_model_ssi"].pluralize.to_s.downcase}/#{document.id.to_s}" %>"><%=document[document_show_link_field] %></a>
     </h5>
 </div>

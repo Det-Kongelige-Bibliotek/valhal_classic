@@ -24,12 +24,11 @@ describe User do
 
   it "should be a depositor when uid is defined" do
     @user.uid = "uid:123"
-    @user.depositor?.should == true
+    @user.depositor?.should be_true
   end
 
   it "should not be a admin or despositor when no attributes are set" do
-    @user.admin?.should == false
-    @user.depositor?.should == false
+    @user.admin?.should be_false
+    @user.depositor?.should be_false
   end
-
 end

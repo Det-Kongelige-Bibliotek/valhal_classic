@@ -1,0 +1,10 @@
+<div>
+  <br/>
+  <%= f.label :person_concerned, "Select person/people concerned by the book" %>
+  <%= collection_select(:person_concerned,
+                        :id,
+                        Person.all.sort_by(&:comma_seperated_lastname_firstname),
+                        :id,
+                        :comma_seperated_lastname_firstname,
+                        options = { :prompt => "(Select people)", :include_blank => false }, { :multiple => true }) %>
+</div>

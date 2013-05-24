@@ -2,9 +2,9 @@
   <h1>Sort TIFFs</h1>
 
   <ul id="structmap_file_list" class="sortable grid">
-    <%- @book.tif.first.files.each do |file| %>
+    <%- @book.ordered_reps.first.files.each do |file| %>
         <% # TODO fix the following %>
-        <li><%= file.nil? ? "No file" : file.original_filename.chomp(".tif") %></li>
+        <li><%= file.nil? ? "No file" : file.original_filename %></li>
     <%- end %>
   </ul>
   <br/>

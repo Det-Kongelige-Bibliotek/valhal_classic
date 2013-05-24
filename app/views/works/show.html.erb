@@ -1,4 +1,4 @@
-<h3>Type: <%= @work.work_type%></h3>
+<h3>Type: <%= @work.work_type.blank? ? 'Undefined' : @work.work_type.to_s %></h3>
 <h3><%= @work.title %></h3>
 <table border="0">
   <tr><td><b>Subtitle</b></td><td><%= @work.subTitle %></td></tr>
@@ -10,9 +10,9 @@
      <tr><td><b>Author</b></td><td><p>No author defined for this work.</p></td></tr>
   <% end %>
 
-  <% if @work.has_described_person? %>
-      <% @work.people_described.each do |person| %>
-          <tr><td><b>Description of</b></td><td><%= link_to person.name, person_path(person) %></td></tr>
+  <% if @work.has_concerned_person? %>
+      <% @work.people_concerned.each do |person| %>
+          <tr><td><b>Concerning</b></td><td><%= link_to person.name, person_path(person) %></td></tr>
       <% end %>
   <% end %>
 
@@ -33,11 +33,12 @@
 <% if @work.has_rep? %>
     <p><b>Representations:</b></p>
     <ul>
-    <% @work.representations.each do |t| %>
-      <li><%= t.file.nil? ? t.label + " (" + t.pid + ")" :
-                      (link_to t.label + " (" + t.pid + ")", {:action => "show", :pid => t.file.pid, :controller => "view_file" }) %></li>
-
-    <% end %>
+      <% @work.single_file_reps.each do |t| %>
+          <li><%= link_to t.representation_name + ' (' + t.pid + ')', single_file_representation_path(t) %></li>
+      <% end %>
+      <% @work.ordered_reps.each do |t| %>
+          <li><%= link_to t.representation_name + ' (' + t.pid + ')', ordered_representation_path(t) %></li>
+      <% end %>
     </ul>
 <% else %>
     <p>No representations for this work.</p>
