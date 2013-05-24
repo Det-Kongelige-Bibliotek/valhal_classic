@@ -8,11 +8,27 @@ describe "Works" do
     click_button 'Login'
   end
 
-  describe "GET /works" do
-    it "works! (now write some real specs)" do
-      # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
-      get works_path
-      response.status.should be(200)
+  describe "Create works" do
+    before (:each) do
+      #visit new_person_path
+      visit "http://localhost:3000/people/new?locale=en"
+      fill_in "person_firstname", :with => "FNPerson"
+      fill_in "person_lastname", :with => "LNPerson"
+      click_button "Create"
+      visit "http://localhost:3000/books/new?locale=en"
+      fill_in "Title", :with => "test book"
+      click_button "Create"
     end
+    it "Create works" do
+      visit "http://localhost:3000/works/new?locale=en"
+      fill_in  "work_title", :with => "my work"
+
+    end
+  end
+
+  after(:all) do
+    Book.all.each { |book| book.delete }
+    Person.all.each { |person| person.delete }
+    Work.all.each { |work| work.delete }
   end
 end
