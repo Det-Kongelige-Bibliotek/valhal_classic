@@ -22,7 +22,7 @@ describe 'relationship between book and people' do
         visit person_path(@person)
 
         page.should have_content("No books authored by this person.")
-        page.should have_content("No book is concerning this person.")
+        page.should have_content("No books are concerning this person.")
       end
     end
   end
@@ -73,7 +73,7 @@ describe 'relationship between book and people' do
         visit person_path(@person1)
 
         page.should_not have_content("No books authored by this person.")
-        page.should have_content("No book is concerning this person.")
+        page.should have_content("No books are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_true
         page.has_link?(@book2.get_title_for_display, :href => book_path(@book2) + '?locale=en').should be_false
       end
@@ -88,7 +88,7 @@ describe 'relationship between book and people' do
         visit person_path(@person1)
 
         page.should_not have_content("No books authored by this person.")
-        page.should have_content("No book is concerning this person.")
+        page.should have_content("No books are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_true
         page.has_link?(@book2.get_title_for_display, :href => book_path(@book2) + '?locale=en').should be_true
       end
@@ -141,7 +141,7 @@ describe 'relationship between book and people' do
         visit person_path(@person1)
 
         page.should have_content("No books authored by this person.")
-        page.should_not have_content("No book is concerning this person.")
+        page.should_not have_content("No books are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_true
         page.has_link?(@book2.get_title_for_display, :href => book_path(@book2) + '?locale=en').should be_false
       end
@@ -156,7 +156,7 @@ describe 'relationship between book and people' do
         visit person_path(@person1)
 
         page.should have_content("No books authored by this person.")
-        page.should_not have_content("No book is concerning this person.")
+        page.should_not have_content("No books are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_true
         page.has_link?(@book2.get_title_for_display, :href => book_path(@book2) + '?locale=en').should be_true
       end
@@ -200,7 +200,7 @@ describe 'relationship between book and people' do
         visit person_path(@person1)
 
         page.should_not have_content("No books authored by this person.")
-        page.should_not have_content("No book is concerning this person.")
+        page.should_not have_content("No books are concerning this person.")
         page.has_link?(@book1.get_title_for_display, :href => book_path(@book1) + '?locale=en').should be_true
         page.has_link?(@book2.get_title_for_display, :href => book_path(@book2) + '?locale=en').should be_true
       end

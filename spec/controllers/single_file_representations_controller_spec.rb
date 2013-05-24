@@ -97,20 +97,4 @@ describe SingleFileRepresentationsController do
       end
     end
   end
-
-  describe "DELETE destroy" do
-    it "destroys the requested single_file_representation" do
-      single_file_representation = SingleFileRepresentation.create! valid_attributes
-      expect {
-        delete :destroy, {:id => single_file_representation.to_param}, valid_session
-      }.to change(SingleFileRepresentation, :count).by(-1)
-    end
-
-    it "redirects to the single_file_representations list" do
-      single_file_representation = SingleFileRepresentation.create! valid_attributes
-      delete :destroy, {:id => single_file_representation.to_param}, valid_session
-      response.should redirect_to(single_file_representations_url)
-    end
-  end
-
 end

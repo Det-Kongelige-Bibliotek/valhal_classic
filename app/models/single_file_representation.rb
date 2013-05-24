@@ -10,7 +10,7 @@ class SingleFileRepresentation < ActiveFedora::Base
 
   # Overrides the default one by adding the file type in parenthesis.
   def representation_name
-    if files.last.file_type.blank?
+    if files.size == 0 || files.last.file_type.blank?
       super
     else
       super + ' (' + files.last.file_type + ')'

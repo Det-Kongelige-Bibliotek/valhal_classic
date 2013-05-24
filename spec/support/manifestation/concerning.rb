@@ -5,7 +5,7 @@ shared_examples "a manifestation with concerns" do
   # if not these tests will fail
   # look at book_spec.rb for how to override subject to provide a valid object
   let(:manifestation) { subject }
-  let(:default_person) { Person.create(firstname: "first_test #{Time.now.usec}", lastname: "last_test") }
+  let(:default_person) { Person.create(firstname: "first_test #{Time.now.nsec.to_s}", lastname: "last_test") }
 
   describe "#people_concerned" do
     it "add person to people_concerned" do
@@ -33,10 +33,10 @@ shared_examples "a manifestation with concerns" do
     it "remove all people from people_concerned" do
       manifestation.save!
       manifestation.people_concerned << default_person
-      manifestation.people_concerned << default_person
-      manifestation.people_concerned << default_person
       manifestation.save!
       manifestation.reload
+
+      manifestation.has_concerned_person?.should be_true
 
       manifestation.clear_concerned_people
       manifestation.save

@@ -21,7 +21,7 @@ module Concerns
         return res
       end
 
-      # extract the manifestations of the type book.
+      # extract the manifestations of the type work.
       def authored_works
         res = []
         authored_manifestations.each do |man|

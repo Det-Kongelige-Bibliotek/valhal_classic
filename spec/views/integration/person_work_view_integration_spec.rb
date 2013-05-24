@@ -22,7 +22,7 @@ describe 'relationship between work and people' do
         visit person_path(@person)
 
         page.should have_content("No works authored by this person.")
-        page.should have_content("No work is concerning this person.")
+        page.should have_content("No works are concerning this person.")
       end
     end
   end
@@ -74,7 +74,7 @@ describe 'relationship between work and people' do
         visit person_path(@person1)
 
         page.should_not have_content("No works authored by this person.")
-        page.should have_content("No work is concerning this person.")
+        page.should have_content("No works are concerning this person.")
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_true
         page.has_link?(@work2.get_title_for_display, :href => work_path(@work2) + '?locale=en').should be_false
       end
@@ -89,7 +89,7 @@ describe 'relationship between work and people' do
         visit person_path(@person1)
 
         page.should_not have_content("No works authored by this person.")
-        page.should have_content("No work is concerning this person.")
+        page.should have_content("No works are concerning this person.")
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_true
         page.has_link?(@work2.get_title_for_display, :href => work_path(@work2) + '?locale=en').should be_true
       end
@@ -142,7 +142,7 @@ describe 'relationship between work and people' do
         visit person_path(@person1)
 
         page.should have_content("No works authored by this person.")
-        page.should_not have_content("No work is concerning this person.")
+        page.should_not have_content("No works are concerning this person.")
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_true
         page.has_link?(@work2.get_title_for_display, :href => work_path(@work2) + '?locale=en').should be_false
       end
@@ -157,7 +157,7 @@ describe 'relationship between work and people' do
         visit person_path(@person1)
 
         page.should have_content("No works authored by this person.")
-        page.should_not have_content("No work is concerning this person.")
+        page.should_not have_content("No works are concerning this person.")
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_true
         page.has_link?(@work2.get_title_for_display, :href => work_path(@work2) + '?locale=en').should be_true
       end
@@ -201,7 +201,7 @@ describe 'relationship between work and people' do
         visit person_path(@person1)
 
         page.should_not have_content("No works authored by this person.")
-        page.should_not have_content("No work is concerning this person.")
+        page.should_not have_content("No works are concerning this person.")
         page.has_link?(@work1.get_title_for_display, :href => work_path(@work1) + '?locale=en').should be_true
         page.has_link?(@work2.get_title_for_display, :href => work_path(@work2) + '?locale=en').should be_true
       end

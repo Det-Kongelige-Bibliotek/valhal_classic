@@ -36,7 +36,7 @@
 </div>
 <hr/>
 <div>
-  <p><b>Biographies / books concerning person</b></p>
+  <p><b>Biographies / books concerning this person</b></p>
   <% if @person.is_concerned_by_book? %>
       <ul>
         <% @person.concerning_books.each do |book| %>
@@ -44,12 +44,12 @@
         <% end %>
       </ul>
   <% else %>
-      <p>No book is concerning this person.</p>
+      <p>No books are concerning this person.</p>
   <% end %>
 </div>
 <hr/>
 <div>
-  <p><b>Work concerning person</b></p>
+  <p><b>Work concerning this person</b></p>
   <% if @person.is_concerned_by_work? %>
       <ul>
         <% @person.concerning_works.each do |work| %>
@@ -57,7 +57,7 @@
         <% end %>
       </ul>
   <% else %>
-      <p>No work is concerning this person.</p>
+      <p>No works are concerning this person.</p>
   <% end %>
 </div>
 <hr/>

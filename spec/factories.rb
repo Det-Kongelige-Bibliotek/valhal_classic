@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 FactoryGirl.define do
   factory :admin, class: User do
     sequence(:pid) { |n| "DO_NOT_USE#{n}"}
