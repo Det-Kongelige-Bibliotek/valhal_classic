@@ -99,9 +99,8 @@ class BooksController < ApplicationController
       if !params[:file].blank? &&!params[:file][:tiff_file].blank?
         logger.debug "Creating a tiff representation"
         add_tiff_order_rep(params[:file][:tiff_file], params[:tiff], @book)
-      else
-        redirect_to @book, notice: 'Book was successfully updated.'
       end
+      redirect_to @book, notice: 'Book was successfully updated.'
     else
       render action: "edit"
     end
