@@ -28,26 +28,6 @@ describe Book do
       @tei.book.should == @book
       @tei.book.representations.first.should == @tei
     end
-
-    it "should be able to have more then one TEI file" do
-      @tei2 = DefaultRepresentation.new
-      @book.tei << @tei2
-      @book.tei.length.should == 2
-    end
-
-    it "should retrieve file after save" do
-      @book2 = Book.find(@book.pid)
-      @book2.tei.should include @tei
-    end
-
-    it "should be able to contain XML file"  do
-      @tif = OrderedRepresentation.new
-      @book.tif << @tif
-      @book.save!
-    end
-
-
-
   end
 
   after(:all) do
