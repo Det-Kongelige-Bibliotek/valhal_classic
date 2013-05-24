@@ -44,13 +44,13 @@ end
 
 gem 'rspec-rails', :group => [:development, :test]
 gem 'jettywrapper', :group => [:development, :test]
+gem 'thin', :group => [:development, :test]
 
 group :development do
   gem 'better_errors'
   gem 'debugger'
   gem 'equivalent-xml'
   gem 'jettywrapper'
-  gem 'thin'
   gem "binding_of_caller"
   gem 'guard-rspec'
   gem 'rb-inotify', :require => false
