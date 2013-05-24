@@ -11,7 +11,7 @@ describe "Person" do
 
   describe "Create person" do
     it "Create Person" do
-      visit 'http://localhost:3000/people/new?locale=en'
+      visit new_person_url
       fill_in "person_firstname", :with => "FNPerson"
       fill_in "person_lastname", :with => "LNPerson"
       click_button "Create"
@@ -20,7 +20,7 @@ describe "Person" do
     end
 
     it "Person exist in book" do
-      visit 'http://localhost:3000/books/new?locale=en'
+      visit new_book_url
       page.should have_content("LNPerson, FNPerson")
     end
 

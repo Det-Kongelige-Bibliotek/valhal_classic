@@ -35,18 +35,10 @@ describe "Books" do
       page.should have_content("FNPerson LNPerson")
     end
 
-    it "Create book with TEI file" do
-      visit new_book_url
-      fill_in "Title", :with => "test book"
-      select  "LNPerson, FNPerson", :from => "person_id"
-      click_button "Create"
-      page.should have_content("Book was successfully created.")
-      page.should have_content("FNPerson LNPerson")
-    end
-
   end
 
   after(:all) do
     Book.all.each { |book| book.delete }
+    Person.all.each { |person| person.delete }
   end
 end
