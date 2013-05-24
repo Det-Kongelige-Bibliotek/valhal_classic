@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe "Person" do
   before(:each) do
-    visit 'http://localhost:3000/users/sign_in?locale=en'
+    visit "http://localhost:3000/users/sign_in?locale=en"
     fill_in 'Username', :with => CONFIG[:test][:user]
     fill_in 'Password', :with => CONFIG[:test][:password]
     click_button 'Login'
@@ -11,7 +11,7 @@ describe "Person" do
 
   describe "Create person" do
     it "Create Person" do
-      visit new_person_url
+      visit "http://localhost:3000/people/new?locale=en"   #new_person_url
       fill_in "person_firstname", :with => "FNPerson"
       fill_in "person_lastname", :with => "LNPerson"
       click_button "Create"
@@ -20,13 +20,17 @@ describe "Person" do
     end
 
     it "Person exist in book" do
-      visit new_book_url
+      visit "http://localhost:3000/people/new?locale=en"   #new_person_url
+      fill_in "person_firstname", :with => "FNPerson"
+      fill_in "person_lastname", :with => "LNPerson"
+      click_button "Create"
+      visit "http://localhost:3000/books/new?locale=en"       #new_book_url
       page.should have_content("LNPerson, FNPerson")
     end
 
     it "Person exist in work" do
-      visit 'http://localhost:3000/works/new?locale=en'
-      page.should have_content("LNPerson, FNPerson")
+      visit "http://localhost:3000/works/new?locale=en"
+      page.should have_content("LNPerson FNPerson")
     end
   end
 

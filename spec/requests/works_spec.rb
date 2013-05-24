@@ -10,20 +10,20 @@ describe "Works" do
 
   describe "Create works" do
     before (:each) do
-      visit new_person_url
+      visit 'http://localhost:3000/people/new?locale=en'   #new_person_url
       fill_in "person_firstname", :with => "FNPerson"
       fill_in "person_lastname", :with => "LNPerson"
       click_button "Create"
     end
 
     it "Create works" do
-      visit new_work_url
+      visit 'http://localhost:3000/works/new?locale=en'   #new_work_url
       fill_in  "work_title", :with => "my work"
       click_button "Create"
     end
 
     it "Create work with Author" do
-      visit new_work_url
+      visit 'http://localhost:3000/works/new?locale=en'   #new_work_url
       fill_in  "work_title", :with => "my work"
       select  "LNPerson, FNPerson", :from => "person_id"
       click_button "Create"
