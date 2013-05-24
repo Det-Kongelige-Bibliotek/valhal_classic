@@ -12,12 +12,9 @@ require 'rspec/autorun'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
-Rails.application.routes.default_url_options[:host] = 'localhost:3000'
-
 RSpec.configure do |config|
 
   config.include Capybara::DSL
-  config.include Rails.application.routes.url_helpers
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
