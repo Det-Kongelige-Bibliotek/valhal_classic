@@ -33,7 +33,7 @@ describe "Works" do
 
   end
 
-  after(:all) do
+  after(:each) do
     Person.all.each { |person| person.delete }
     Work.all.each { |work| work.delete }
   end

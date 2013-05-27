@@ -38,7 +38,7 @@ describe "Person" do
     end
   end
 
-  after(:all) do
+  after(:each) do
     Person.all.each { |person| person.delete }
   end
 end
