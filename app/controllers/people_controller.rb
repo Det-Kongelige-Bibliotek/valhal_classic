@@ -48,7 +48,7 @@ class PeopleController < ApplicationController
     @person = Person.new(params[:person])
     if @person.save
       handle_arguments
-      redirect_to @person, notice: 'Person was successfully updated.'
+      redirect_to @person, notice: 'Person was successfully created.'
     else
       render action: 'new'
     end
