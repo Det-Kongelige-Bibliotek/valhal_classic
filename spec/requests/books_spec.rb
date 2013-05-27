@@ -37,7 +37,7 @@ describe "Books" do
 
   end
 
-  after(:all) do
+  after(:each) do
     Book.all.each { |book| book.delete }
     Person.all.each { |person| person.delete }
   end

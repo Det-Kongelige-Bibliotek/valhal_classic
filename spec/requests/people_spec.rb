@@ -17,7 +17,6 @@ describe "Person" do
       click_button "Create"
       page.should have_content("Person was successfully created.")
       page.should have_content("FNP LNP")
-      Person.all.each { |person| person.delete }
     end
 
     it "Person exist in book" do
@@ -27,7 +26,6 @@ describe "Person" do
       click_button "Create"
       visit "http://localhost:3000/books/new?locale=en"       #new_book_url
       page.should have_content("LNP, FNP")
-      Person.all.each { |person| person.delete }
     end
 
     it "Person exist in work" do
@@ -37,11 +35,10 @@ describe "Person" do
       click_button "Create"
       visit "http://localhost:3000/works/new?locale=en"
       page.should have_content("LNP, FNP")
-      Person.all.each { |person| person.delete }
     end
   end
 
-  #after(:all) do
-  #  Person.all.each { |person| person.delete }
-  #end
+  after(:each) do
+    Person.all.each { |person| person.delete }
+  end
 end
