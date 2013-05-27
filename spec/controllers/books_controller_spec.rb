@@ -111,7 +111,7 @@ describe BooksController do
       end
 
       it "redirects to the created book" do
-        pending "Need to work out why this test passes locally but not on Jenkins"
+        #pending "TODO: Need to work out why this test passes locally but not on Jenkins"
         attributes = { :genre => "Valhal bog", :uuid => "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66", :isbn => "4787504073",
                        :typeOfResource =>"text", :shelfLocator => "Pligtaflevering", :title => "Samlede Skrifter", :subTitle => "Bd. 1",
                        :publisher => "Det Danske Sprog og Litteraturselskab", :originPlace => "Copenhagen",
@@ -243,12 +243,6 @@ describe BooksController do
             post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
           }.to change(TiffFile, :count).by(1)
         end
-        it "should create a basic file for the struct map" do
-          pending "Need to test the addition of a structmap file to a BookTiffRepresentation after a structmap is generated"
-          expect {
-            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
-          }.to change(StructMap, :count).by(1)
-        end
         it "should create a relation between book and tiff-representation" do
           post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
           Book.all.last.has_rep?.should be_true
@@ -259,12 +253,10 @@ describe BooksController do
         end
 
         it "should create a relation between tiff-representation and struct-map" do
-          pending "Need to test the addition of a structmap file to a BookTiffRepresentation after a structmap is generated"
+          #pending "Need to test the addition of a structmap file to a BookTiffRepresentation after a structmap is generated"
           post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
           representation.all.last.files.length.should == 1
           representation.all.last.files.first.should == TiffFile.all.last
-          representation.all.last.smaps.length.should == 1
-          representation.all.last.smaps.first.should == StructMap.all.last
         end
       end
 

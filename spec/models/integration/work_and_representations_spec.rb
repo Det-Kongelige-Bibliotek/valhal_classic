@@ -4,7 +4,7 @@ require 'spec_helper'
 describe 'Work relationships' do
   describe '#single_file_representation' do
     before :each do
-      @work = Work.create(:title => "The title")
+      @work = Work.create(:title => 'The title' + Time.now.nsec.to_s)
       @rep = SingleFileRepresentation.create
     end
 
@@ -24,15 +24,6 @@ describe 'Work relationships' do
       @work.representations.should == [@rep, rep2]
       @rep.work.should == @work
       rep2.work.should == @work
-    end
-
-    it 'should be possible to define a relation from the representation, which can be viewed both ways' do
-      pending "Apparently the relationship cannot be made this way"
-      @rep.ie = @work
-      @rep.save!
-
-      @rep.work.should == @work
-      @work.representations.should == [@rep]
     end
 
     it 'should be possible to have two representations defined from the representations' do
@@ -77,28 +68,5 @@ describe 'Work relationships' do
       @rep.work.should == @work
       rep2.work.should == @work
     end
-
-    it 'should be possible to define a relation from the representation, which can be viewed both ways' do
-      pending "Apparently the relationship cannot be made this way"
-      @rep.ie = @work
-      @rep.save!
-
-      @rep.work.should == @work
-      @work.representations.should == [@rep]
-    end
-
-    it 'should be possible to have two representations defined from the representations' do
-      pending "Apparently the relationship cannot be made this way"
-      @rep.ie = @work
-      @rep.save!
-      rep2 = OrderedRepresentation.create
-      rep2.ie = @work
-      rep2.save!
-
-      @work.representations.should == [@rep, rep2]
-      @rep.work.should == @work
-      rep2.work.should == @work
-    end
   end
-
 end

@@ -119,7 +119,10 @@ describe ManifestationsHelper do
     end
 
     it 'should validate the structmap' do
-      pending "TODO validate the structmap"
+      add_order_rep([@tiff1, @tiff2], {}, @manifestation).should be_true
+
+      structmap = @manifestation.representations.last.techMetadata.ng_xml.to_s
+      structmap.index(@tiff1.original_filename).should be < structmap.index(@tiff2.original_filename)
     end
   end
 
@@ -143,7 +146,10 @@ describe ManifestationsHelper do
     end
 
     it 'should validate the structmap' do
-      pending "TODO validate the structmap"
+      add_order_rep([@tiff, @other_file], {}, @manifestation).should be_true
+
+      structmap = @manifestation.representations.last.techMetadata.ng_xml.to_s
+      structmap.index(@tiff.original_filename).should be < structmap.index(@other_file.original_filename)
     end
   end
 
