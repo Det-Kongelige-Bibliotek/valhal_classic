@@ -49,7 +49,6 @@ class BooksController < ApplicationController
       logger.warn 'Cannot generate structmap, when no file_order is given.'
       redirect_to @book, notice: 'Book was successfully created.'
     else
-      #generate structmap file and add to the TIFF representation
       create_structmap_for_representation(params[:structmap_file_order], @book.ordered_reps.last)
       redirect_to @book, notice: 'Book was successfully created.'
     end
@@ -131,7 +130,9 @@ class BooksController < ApplicationController
 
     #Create TEI representation of book using uploaded TEI file if a file was uploaded
     if !params[:file].blank? && !params[:file][:tei_file].blank?
-      logger.debug "Creating a tei representation"
+      logger.debug 'Creating a tei representation'
+
+      # If the label for the representation has not been defined, then it is set to 'TEI representation'.
       if params[:representation_metadata].blank? || params[:representation_metadata][:label].blank?
         add_single_tei_rep(params[:tei_metadata], params[:file][:tei_file], {:label => 'TEI representation'}, @book)
       else

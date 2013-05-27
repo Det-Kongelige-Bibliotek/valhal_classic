@@ -20,7 +20,7 @@ class TeiFile < ActiveFedora::Base
     super(file)
   end
 
-  # @return The
+  # @return The type tei of file. If unknown, then just use the super-method for returning the mime-type.
   def file_type
     if tei_version.blank?
       super

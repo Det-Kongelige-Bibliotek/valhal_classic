@@ -50,21 +50,4 @@ class Book < ActiveFedora::Base
     m.field 'sub_title', method: :subTitle
     m.field 'type_of_resource', method: :typeOfResource
   end
-
-  private
-
-  def add_ie_to_reps
-    add_ie_to_rep representations
-  end
-
-  def add_ie_to_rep(rep_array)
-    if rep_array
-      rep_array.each do |rep|
-        if rep.ie.nil?
-          rep.ie = self
-          rep.save
-        end
-      end
-    end
-  end
 end

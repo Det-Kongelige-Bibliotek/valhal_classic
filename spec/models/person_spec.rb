@@ -7,7 +7,6 @@ describe Person do
   it_behaves_like "a person with manifestations"
   it_behaves_like "a person with concerns"
 
-  let(:person_image_rep) { SingleFileRepresentation }
   describe "#create" do
 
     it "should be created when given a firstname and lastname" do
@@ -37,33 +36,11 @@ describe Person do
       person = Person.new(firstname: "the firstname")
       person.save.should be_false
     end
-
-    it "should be created when given a firstname, lastname and person_images" do
-      pending "Person cannot have representations"
-      person_image = BasicFile.new
-      uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aoa._foto.jpg', type: 'image/jpeg', tempfile: File.new("#{Rails.root}/spec/fixtures/aoa._foto.jpg"))
-      person_image.add_file(uploaded_file)
-      person_image_representation = person_image_rep.new
-
-      person = Person.new(firstname: "the firstname", lastname: "the lastname")
-      person_image_representation.files << person_image
-
-      person.person_image_representation << person_image_representation
-
-      person.save.should be_true
-    end
   end
 
   describe "#update" do
     before do
-      pending "Person cannot have representations"
       @person = Person.new(firstname: "the firstname", lastname: "the lastname", :date_of_birth => Time.now.nsec.to_s)
-      person_image = BasicFile.new
-      uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aoa._foto.jpg', type: 'image/jpeg', tempfile: File.new("#{Rails.root}/spec/fixtures/aoa._foto.jpg"))
-      person_image.add_file(uploaded_file)
-      person_image_representation = person_image_rep.new
-      person_image_representation.files << person_image
-      @person.person_image_representation << person_image_representation
       @person.save!
     end
 
@@ -79,21 +56,6 @@ describe Person do
       @person.save!
       person1 = Person.find(@person.pid)
       person1.lastname.should == "another last name"
-    end
-
-    it "should be possible to update the person_images" do
-
-      person_image = BasicFile.new
-      uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'image/png', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
-      person_image.add_file(uploaded_file)
-
-      person_image_representation = person_image_rep.new
-      person_image_representation.files << person_image
-
-      @person.person_image_representation << person_image_representation
-      @person.save!
-      person1 = Person.find(@person.pid)
-      person1.person_image_representation.last.files.last.original_filename.should == "rails.png"
     end
 
     it "should be possible to update the person date of birth" do

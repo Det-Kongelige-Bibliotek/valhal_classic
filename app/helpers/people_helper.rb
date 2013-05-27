@@ -9,6 +9,7 @@ module PeopleHelper
   # @param file The image file for the portrait
   # @param representation_metadata The metadata for the representation containing the image file.
   # @param portrait_metadata The metadata for the representation. If no work_type is defined, then it is set to 'PersonPortrait'
+  # If no title is defined, then it will be defined as the portrait of the person.
   # @return false if operation was unsuccessful
   # @param person The person to have the portrait added.
   def add_portrait(file, representation_metadata, portrait_metadata, person)
@@ -29,9 +30,10 @@ module PeopleHelper
 
   # Creates and adds a person description for the person.
   # @param tei_metadata The metadata for the tei file.
-  # @param file The image file for the portrait.
+  # @param file The tei file for the portrait.
   # @param representation_metadata The metadata for the representation containing the tei file.
-  # @param person_description_metadata The metadata hash for the portrait. If no work_type is given, then it is set to 'PersonPortrait'.
+  # @param person_description_metadata The metadata hash for the portrait. If no work_type is given, then it is set to 'PersonDescription'.
+  # If no title has been defined, then it will be set to description of the person.
   # @param person The person to have the portrait added.
   # @return false if operation was unsuccessful
   def add_person_description(tei_metadata, file, representation_metadata, person_description_metadata, person)

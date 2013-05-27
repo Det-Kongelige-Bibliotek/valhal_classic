@@ -8,7 +8,7 @@ class TiffFile < ActiveFedora::Base
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
 
   def add_file(file)
-    unless file.content_type == 'image/tif' || file.content_type == 'image/tiff'
+    unless file.content_type.include?('image/tif')
       return false
     end
 

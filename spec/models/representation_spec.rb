@@ -71,10 +71,10 @@ describe Representation do
       rep.respond_to?(:work=).should be_true
     end
 
-    it "should respond to person" do
+    it "should not respond to person" do
       rep = Representation.new
-      rep.respond_to?(:person).should be_true
-      rep.respond_to?(:person=).should be_true
+      rep.respond_to?(:person).should be_false
+      rep.respond_to?(:person=).should be_false
     end
 
     it "should respond to book" do

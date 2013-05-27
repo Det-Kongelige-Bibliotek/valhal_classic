@@ -94,6 +94,8 @@ class PeopleController < ApplicationController
     end
   end
 
+  # validates the parameter arguments.
+  # ensures that the parameters are not empty, that the portrait is a image file, and that the TEI files are in XML.
   def invalid_arguments?
     if params.empty?
       @person.errors.add(:metadata, 'The work cannot exist without metadata.')

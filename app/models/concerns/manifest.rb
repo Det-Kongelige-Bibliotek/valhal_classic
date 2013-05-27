@@ -40,5 +40,24 @@ module Concerns
 
       res
     end
+
+    private
+    # adds the manifest as intellectual entity for the representations.
+    def add_ie_to_reps
+      add_ie_to_rep representations
+    end
+
+    # go through the given representation array and add itself as intellectual entity for the given representation for each of them.
+    # @param rep_array The array of representations to add the intellectual entity for.
+    def add_ie_to_rep(rep_array)
+      if rep_array
+        rep_array.each do |rep|
+          if rep.ie.nil?
+            rep.ie = self
+            rep.save
+          end
+        end
+      end
+    end
   end
 end

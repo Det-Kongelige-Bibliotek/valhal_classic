@@ -15,7 +15,11 @@ Valhal::Application.routes.draw do
 
   #Standard resource mapping
   resources :single_file_representations
-  resources :ordered_representations
+  resources :ordered_representations do
+    member do
+      get 'thumbnail_url'
+    end
+  end
   resources :works
   resources :people do
     member do

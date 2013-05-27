@@ -5,7 +5,6 @@ class CatalogController < ApplicationController
   #You don't need login to view catalog
   skip_authorization_check
 
-
   include Blacklight::Catalog
   # Extend Blacklight::Catalog with Hydra behaviors (primarily editing).
   include Hydra::Controller::ControllerBehavior
@@ -29,25 +28,12 @@ class CatalogController < ApplicationController
     [BasicFile, TiffFile, TeiFile, OrderedRepresentation, SingleFileRepresentation]
   end
 
-
-
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = { 
       :qt => 'search',
       :rows => 10 
     }
-
-    ## Default parameters to send on single-document requests to Solr. These settings are the Blackligt defaults (see SolrHelper#solr_doc_params) or 
-    ## parameters included in the Blacklight-jetty document requestHandler.
-    #
-    #config.default_document_solr_params = {
-    #  :qt => 'document',
-    #  ## These are hard-coded in the blacklight 'document' requestHandler
-    #  # :fl => '*',
-    #  # :rows => 1
-    #  # :q => '{!raw f=id v=$id}' 
-    #}
 
     # solr field configuration for search results/index views
     person_solr_names = Person.solr_names

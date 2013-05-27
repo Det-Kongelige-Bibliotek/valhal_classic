@@ -40,7 +40,7 @@ describe Work do
       w.work_type.should == type
     end
 
-    it 'should be possible to create a work without a title' do
+    it 'should be possible to create a work without a work_type' do
       w = Work.new(:title => "title")
       w.save.should be_true
     end

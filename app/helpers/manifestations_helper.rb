@@ -45,13 +45,13 @@ module ManifestationsHelper
     tiff_files = []
 
     files.each do |f|
-      tiff_file = TiffFile.new
-      unless tiff_file.add_file(f)
+      tf = TiffFile.new
+      unless tf.add_file(f)
         return false
       end
-      tiff_file.save!
+      tf.save!
 
-      tiff_files << tiff_file
+      tiff_files << tf
     end
 
     create_as_order_rep(tiff_files, metadata, manifestation)
@@ -89,8 +89,6 @@ module ManifestationsHelper
       if author_pid && !author_pid.empty?
         author = Person.find(author_pid)
         manifestation.authors << author
-        #author.authored_manifestations << manifestation
-        #author.save!
       end
     end
     manifestation.save!
@@ -98,7 +96,7 @@ module ManifestationsHelper
 
   # Creates the concerned relationship between the manifestation and people behind the ids.
   # @param ids The ids for the people who are concerned about the manifestation
-  # @param manifestation The manifestation which is concerns the people behind the ids.
+  # @param manifestation The manifestation which concerns the people behind the ids.
   def add_concerned_people(ids, manifestation)
     ids.each do |person_pid|
       if person_pid && !person_pid.empty?
@@ -114,7 +112,6 @@ module ManifestationsHelper
   # @param representation The representation containing the files.
   def create_structmap_for_representation(file_order_string, representation)
     file_order = []
-    # TODO silly sorting...
     file_order_string.split(',').each do |f|
       representation.files.each do |file|
         if file.original_filename == f
@@ -158,10 +155,6 @@ module ManifestationsHelper
   # @param representation The representation to be added to the manifestation
   # @param manifestation The manifestation to have the representation added.
   def add_representation(representation, manifestation)
-    if representation == nil || manifestation == nil
-      return false
-    end
-
     representation.ie = manifestation
     manifestation.representations << representation
     return representation.save && manifestation.save
@@ -169,7 +162,7 @@ module ManifestationsHelper
 
   # Generates a StructMap based on a ordered array of files.
   # @param file_order The ordered array of files.
-  # @param representation The representation with the structmap
+  # @param representation The ordered representation with the structmap
   def generate_structmap(file_order, representation)
     logger.debug 'Generating structmap xml file...'
     logger.debug "structmap_file_order = #{file_order.to_s}"

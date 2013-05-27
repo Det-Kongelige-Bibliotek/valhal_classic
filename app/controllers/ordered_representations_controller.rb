@@ -22,4 +22,13 @@ class OrderedRepresentationsController < ApplicationController
       render action: "edit"
     end
   end
+
+  def thumbnail_url(pid = nil)
+    if pid.nil?
+      pid = params[:pid]
+    end
+    file = TiffFile.find(pid)
+
+    send_data(file.thumbnail.content, {:filename => file.thumbnail.label, :type => file.thumbnail.mimeType, :disposition => 'inline'})
+  end
 end

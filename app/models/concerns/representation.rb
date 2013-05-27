@@ -6,7 +6,7 @@ module Concerns
     included do
       # Descriptive metadata for the label
       has_metadata :name => 'provenanceMetadata', :type => ActiveFedora::SimpleDatastream do |m|
-        m.field "label", :string
+        m.field 'label', :string
       end
 
       # Define the label as an accessinbn ble part of the descriptive metadata.
@@ -48,7 +48,6 @@ module Concerns
       # @work.save
       after_save :add_representation_to_files
 
-
       def add_representation_to_files
         if self.files
           self.files.each do |file|
@@ -81,7 +80,7 @@ module Concerns
     end
 
     # class variable for holding methods symbols
-    @@methods = [:book, :book=, :person, :person=, :work, :work=]
+    @@methods = [:book, :book=, :work, :work=]
 
     def method_missing(method, *args)
 

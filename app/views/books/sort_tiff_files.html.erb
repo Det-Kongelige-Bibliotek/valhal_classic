@@ -3,7 +3,6 @@
 
   <ul id="structmap_file_list" class="sortable grid">
     <%- @book.ordered_reps.first.files.each do |file| %>
-        <% # TODO fix the following %>
         <li><%= file.nil? ? "No file" : file.original_filename %></li>
     <%- end %>
   </ul>
