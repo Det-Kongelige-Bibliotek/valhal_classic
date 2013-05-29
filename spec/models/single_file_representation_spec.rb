@@ -92,7 +92,7 @@ describe SingleFileRepresentation do
         subject.save.should be_true
       end
 
-      it "should be able to retrieve BasicFiles from a saved representation" do
+      it 'should be able to retrieve BasicFiles from a saved representation' do
         basic_files = default_files
         subject.files << basic_files
         subject.save
@@ -100,7 +100,19 @@ describe SingleFileRepresentation do
         def_rep = subject.class.find(pid)
         def_rep.files.should == basic_files
       end
+    end
+  end
 
+  describe 'with a single file' do
+    it 'should have a representation name containing the file content type' do
+      basic_file = BasicFile.new
+      uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
+      basic_file.add_file(uploaded_file)
+      rep = SingleFileRepresentation.create!
+
+      rep.files << basic_file
+
+      rep.representation_name.include?(basic_file.file_type).should be_true
     end
   end
 end

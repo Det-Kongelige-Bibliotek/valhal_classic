@@ -11,8 +11,8 @@ describe Book do
     before(:each) do
 
       @book = Book.new(:title => "My First Book")
-      @tei = SingleFileRepresentation.new
-      @book.representations << @tei
+      @rep = SingleFileRepresentation.new
+      @book.representations << @rep
       @book.save!
     end
 
@@ -20,13 +20,13 @@ describe Book do
       @book.representations.should_not be_nil
       @book.representations.should_not be_empty
       @book.representations.length.should == 1
-      @book.representations.first.should == @tei
+      @book.representations.first.should == @rep
     end
 
     it "should be defined in the DefaultRepresentation entity" do
-      @tei.book.should_not be_nil
-      @tei.book.should == @book
-      @tei.book.representations.first.should == @tei
+      @rep.ie.should_not be_nil
+      @rep.ie.should == @book
+      @rep.ie.representations.first.should == @rep
     end
   end
 

@@ -64,27 +64,6 @@ describe Representation do
     end
   end
 
-  describe "Dynamic methods" do
-    it "should respond to work" do
-      rep = Representation.new
-      rep.respond_to?(:work).should be_true
-      rep.respond_to?(:work=).should be_true
-    end
-
-    it "should not respond to person" do
-      rep = Representation.new
-      rep.respond_to?(:person).should be_false
-      rep.respond_to?(:person=).should be_false
-    end
-
-    it "should respond to book" do
-      rep = Representation.new
-      rep.respond_to?(:book).should be_true
-      rep.respond_to?(:book=).should be_true
-    end
-  end
-
-
   after (:all) do
     Representation.all.each { |r| r.destroy }
   end

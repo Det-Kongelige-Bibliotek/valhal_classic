@@ -205,7 +205,7 @@ describe BooksController do
           representation.all.last.has_ie?.should be_true
           Book.all.last.ordered_reps.length.should == 1
           Book.all.last.ordered_reps.first.should == representation.all.last
-          representation.all.last.book.should == Book.all.last
+          representation.all.last.ie.should == Book.all.last
         end
         it "should create a relation between tiff-representation and basic-file" do
           post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
@@ -249,7 +249,7 @@ describe BooksController do
           representation.all.last.has_ie?.should be_true
           Book.all.last.ordered_reps.length.should == 1
           Book.all.last.ordered_reps.first.should == representation.all.last
-          representation.all.last.book.should == Book.all.last
+          representation.all.last.ie.should == Book.all.last
         end
 
         it "should create a relation between tiff-representation and struct-map" do

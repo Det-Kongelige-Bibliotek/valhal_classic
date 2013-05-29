@@ -52,6 +52,14 @@ module Concerns
       mime_type
     end
 
+    # @return Whether the file has a thumbnail.
+    def has_thumbnail?
+      if self.respond_to? :thumbnail
+        return self.thumbnail ? true : false
+      end
+      return false
+    end
+
     private
     def generate_checksum(file)
       Digest::MD5.file(file).hexdigest

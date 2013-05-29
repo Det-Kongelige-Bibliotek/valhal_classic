@@ -71,6 +71,9 @@ describe BasicFile do
       @basic_file.add_file("file").should be_false
     end
 
+    it 'should not have a thumbnail' do
+      @basic_file.has_thumbnail?.should be_false
+    end
   end
   context "with a png file" do
     before do

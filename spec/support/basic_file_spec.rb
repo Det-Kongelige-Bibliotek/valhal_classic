@@ -71,6 +71,10 @@ describe "add_file" do
     it "should return false when a object that is not a file is passed down" do
       @basic_file.add_file("file").should be_false
     end
+
+    it 'should have the same file-type as mime-type' do
+      @basic_file.file_type.should == @basic_file.mime_type
+    end
   end
 
   context "with a png file" do
@@ -118,8 +122,8 @@ describe "add_file" do
     it "should be able to retrive a saved object from the repository" do
       @basic_file.save
 
-    file = BasicFile.find(@basic_file.pid)
-    file.should == @basic_file
+      file = BasicFile.find(@basic_file.pid)
+      file.should == @basic_file
     end
 
     it "should have a descMetadata datastream" do
@@ -139,8 +143,11 @@ describe "add_file" do
     end
 
     it "should return false when a object doesn't support the require methods is passed down" do
-
       @basic_file.add_file("file").should be_false
+    end
+
+    it 'should have the same file-type as mime-type' do
+      @basic_file.file_type.should == @basic_file.mime_type
     end
   end
 end

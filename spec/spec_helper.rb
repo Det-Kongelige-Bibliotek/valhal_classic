@@ -1,6 +1,11 @@
 # -*- encoding : utf-8 -*-
 require 'rubygems'
 
+# Add coverage
+if ENV['COVERAGE']
+    require 'simplecov'
+    SimpleCov.start 'rails'
+end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'

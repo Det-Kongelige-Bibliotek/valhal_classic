@@ -28,11 +28,4 @@ class TiffFile < ActiveFedora::Base
     self.add_file_datastream(thumb.to_blob, :label => file.original_filename.to_s + "_thumbnail.png", :mimeType => "image/png", :dsid => 'thumbnail')
     self.save!
   end
-
-  def has_thumbnail?
-    if self.respond_to? :thumbnail
-      return self.thumbnail ? true : false
-    end
-    return false
-  end
 end

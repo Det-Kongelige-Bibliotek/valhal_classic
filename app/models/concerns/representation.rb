@@ -59,42 +59,18 @@ module Concerns
         end
       end
 
-
+      # @return Whether any intellectual entity for this representation has been defined.
       def has_ie?
         !self.ie.nil?
       end
 
       private
-      def read_or_set_ie(*args)
-        if args.empty?
-          self.send :ie
-        else
-          self.send :ie=, *args
-        end
-      end
     end
 
     # @return The name of the representation (default the label)
     def representation_name
       label
     end
-
-    # class variable for holding methods symbols
-    @@methods = [:book, :book=, :work, :work=]
-
-    def method_missing(method, *args)
-
-      if @@methods.include?(method)
-        read_or_set_ie *args
-      else
-        super
-      end
-    end
-
-    def respond_to_missing?(method_name, include_private = false)
-      @@methods.include?(method_name) || super
-    end
-
   end
 
 end

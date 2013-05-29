@@ -27,7 +27,7 @@ describe "representation" do
     represent = Representation.new(:label=>"")
     represent.label.should == ""
     represent.save!
-    represent.label.should_not be_nil
+    represent.label.should_not be_blank
   end
 end
 

@@ -13,7 +13,7 @@ describe 'Work relationships' do
       @work.save!
 
       @work.representations.should == [@rep]
-      @rep.work.should == @work
+      @rep.ie.should == @work
     end
 
     it 'should be possible to have two representations defined from work' do
@@ -22,8 +22,8 @@ describe 'Work relationships' do
       @work.save!
 
       @work.representations.should == [@rep, rep2]
-      @rep.work.should == @work
-      rep2.work.should == @work
+      @rep.ie.should == @work
+      rep2.ie.should == @work
     end
 
     it 'should be possible to have two representations defined from the representations' do
@@ -38,8 +38,8 @@ describe 'Work relationships' do
       @work.reload
 
 
-      @rep.work.should == @work
-      rep2.work.should == @work
+      @rep.ie.should == @work
+      rep2.ie.should == @work
       #@work.representations.should == [@rep, rep2]
 
     end
@@ -56,7 +56,7 @@ describe 'Work relationships' do
       @work.save!
 
       @work.representations.should == [@rep]
-      @rep.work.should == @work
+      @rep.ie.should == @work
     end
 
     it 'should be possible to have two representations defined from work' do
@@ -65,8 +65,8 @@ describe 'Work relationships' do
       @work.save!
 
       @work.representations.should == [@rep, rep2]
-      @rep.work.should == @work
-      rep2.work.should == @work
+      @rep.ie.should == @work
+      rep2.ie.should == @work
     end
   end
 end
