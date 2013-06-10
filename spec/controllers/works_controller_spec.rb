@@ -28,7 +28,7 @@ describe WorksController do
   # Work. As you add validations to Work, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { :title => "TestTitle", :work_type => "TestWorkType" }
+    { :title => 'TestTitle', :work_type => 'TestWorkType' }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -38,104 +38,113 @@ describe WorksController do
     {}
   end
 
-  describe "GET index" do
+  describe 'GET index' do
     before :each do
       Work.all.each { |w| w.destroy }
     end
-    it "assigns all works as @works" do
+    it 'assigns all works as @works' do
       work = Work.create! valid_attributes
       get :index, {}, valid_session
       assigns(:works).should eq([work])
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested work as @work" do
+  describe 'GET show' do
+    it 'assigns the requested work as @work' do
       work = Work.create! valid_attributes
       get :show, {:id => work.to_param}, valid_session
       assigns(:work).should eq(work)
     end
   end
 
-  describe "GET new" do
-    it "assigns a new work as @work" do
+  describe 'GET new' do
+    it 'assigns a new work as @work' do
       get :new, {}, valid_session
       assigns(:work).should be_a_new(Work)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested work as @work" do
+  describe 'GET edit' do
+    it 'assigns the requested work as @work' do
       work = Work.create! valid_attributes
       get :edit, {:id => work.to_param}, valid_session
       assigns(:work).should eq(work)
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Work" do
+  describe 'POST create' do
+    describe 'with valid params' do
+      it 'creates a new Work' do
         expect {
           post :create, {:work => valid_attributes}, valid_session
         }.to change(Work, :count).by(1)
       end
 
-      it "assigns a newly created work as @work" do
+      it 'assigns a newly created work as @work' do
         post :create, {:work => valid_attributes}, valid_session
         assigns(:work).should be_a(Work)
         assigns(:work).should be_persisted
       end
 
-      it "redirects to the created work" do
+      it 'redirects to the created work' do
         post :create, {:work => valid_attributes}, valid_session
         response.should redirect_to(Work.all.last)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved work as @work" do
+    describe 'with invalid params' do
+      it 'assigns a newly created but unsaved work as @work' do
         # Trigger the behavior that occurs when invalid params are submitted
         Work.any_instance.stub(:save).and_return(false)
         post :create, {:work => {  }}, valid_session
         assigns(:work).should be_a_new(Work)
       end
 
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Work.any_instance.stub(:save).and_return(false)
+      it 're-renders the \'new\' template' do
         post :create, {:work => {  }}, valid_session
-        response.should render_template("new")
+        response.should render_template('new')
+      end
+    end
+
+    describe 'with a single file parameter' do
+      it 'should use create a SingleFileRepresentation with the file' do
+        post :create, {:work => valid_attributes, :single_file => {'file' => ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml")) }}, valid_session
+        response.should redirect_to(Work.all.last)
+        Work.all.last.representations.length.should == 1
+        Work.all.last.representations.last.kind_of?(SingleFileRepresentation).should be_true
+        Work.all.last.representations.last.files.length.should == 1
+        Work.all.last.representations.last.files.last.kind_of?(BasicFile).should be_true
       end
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested work" do
+  describe 'PUT update' do
+    describe 'with valid params' do
+      it 'updates the requested work' do
         work = Work.create! valid_attributes
         # Assuming there are no other works in the database, this
         # specifies that the Work created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Work.any_instance.should_receive(:update_attributes).with({ "these" => "params" })
-        put :update, {:id => work.to_param, :work => { "these" => "params" }}, valid_session
+        Work.any_instance.should_receive(:update_attributes).with({ 'these' => 'params' })
+        put :update, {:id => work.to_param, :work => { 'these' => 'params' }}, valid_session
       end
 
-      it "assigns the requested work as @work" do
+      it 'assigns the requested work as @work' do
         work = Work.create! valid_attributes
         put :update, {:id => work.to_param, :work => valid_attributes}, valid_session
         assigns(:work).should eq(work)
       end
 
-      it "redirects to the work" do
+      it 'redirects to the work' do
         work = Work.create! valid_attributes
         put :update, {:id => work.to_param, :work => valid_attributes}, valid_session
         response.should redirect_to(work)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the work as @work" do
+    describe 'with invalid params' do
+      it 'assigns the work as @work' do
         work = Work.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Work.any_instance.stub(:save).and_return(false)
@@ -143,25 +152,23 @@ describe WorksController do
         assigns(:work).should eq(work)
       end
 
-      it "re-renders the 'edit' template" do
+      it 're-renders the \'edit\' template' do
         work = Work.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Work.any_instance.stub(:save).and_return(false)
         put :update, {:id => work.to_param, :work => {  }}, valid_session
-        response.should render_template("edit")
+        response.should render_template('edit')
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested work" do
+  describe 'DELETE destroy' do
+    it 'destroys the requested work' do
       work = Work.create! valid_attributes
       expect {
         delete :destroy, {:id => work.to_param}, valid_session
       }.to change(Work, :count).by(-1)
     end
 
-    it "redirects to the works list" do
+    it 'redirects to the works list' do
       work = Work.create! valid_attributes
       delete :destroy, {:id => work.to_param}, valid_session
       response.should redirect_to(works_url)

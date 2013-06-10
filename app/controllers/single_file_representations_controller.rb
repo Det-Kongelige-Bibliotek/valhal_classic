@@ -1,9 +1,6 @@
 # -*- encoding : utf-8 -*-
 class SingleFileRepresentationsController < ApplicationController
   load_and_authorize_resource
-  def index
-    @single_file_representations = SingleFileRepresentation.all
-  end
 
   def show
     @single_file_representation = SingleFileRepresentation.find(params[:id])

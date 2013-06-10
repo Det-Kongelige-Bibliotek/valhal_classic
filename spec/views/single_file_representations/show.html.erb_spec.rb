@@ -23,7 +23,9 @@ describe "single_file_representations/show" do
     end
 
     it 'should display the type of file' do
+      visit single_file_representation_path(@single_file_representation)
 
+      page.should have_content(@file.file_type)
     end
   end
 end

@@ -91,7 +91,7 @@ class WorksController < ApplicationController
   def invalid_arguments?(params)
     #Validate form params
     logger.debug 'Validating parameters...'
-    if params.empty?
+    if params.empty? || params[:work].empty?
       @work.errors.add(:metadata, 'The work cannot exist without metadata.')
     end
 
