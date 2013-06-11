@@ -173,7 +173,7 @@ module ManifestationsHelper
     # recreate the structMap element (thus removing all 'div' elements)
     structmap_element = mets_element.at_css 'structMap'
     structmap_element.remove
-    structmap_element = Nokogiri::XML::Node.new 'structMap', ng_doc
+    structmap_element = Nokogiri::XML::Node.new('structMap', ng_doc)
     mets_element.add_child(structmap_element)
 
     count = 1
@@ -189,6 +189,8 @@ module ManifestationsHelper
       count = count + 1
     end
 
+    representation.techMetadata.ng_xml = ng_doc
+    representation.techMetadata.ng_xml.encoding = 'UTF-8'
     representation.save!
   end
 end

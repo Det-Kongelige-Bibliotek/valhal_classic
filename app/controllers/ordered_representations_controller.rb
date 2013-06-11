@@ -16,7 +16,7 @@ class OrderedRepresentationsController < ApplicationController
     if @ordered_representation.update_attributes(params[:ordered_representation])
       redirect_to @ordered_representation, notice: 'Ordered representation was successfully updated.'
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
@@ -29,7 +29,6 @@ class OrderedRepresentationsController < ApplicationController
     end
     file = TiffFile.find(pid)
 
-    puts file.respond_to?(:thumbnail)
     if file.nil?
       return nil
     end

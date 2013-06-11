@@ -304,5 +304,16 @@ describe ManifestationsHelper do
       xml_after_ordering = @manifestation.representations.last.techMetadata.ng_xml.to_s
       xml_after_ordering.index(@file1.original_filename).should be > xml_after_ordering.index(@file2.original_filename)
     end
+
+    it 'should be the same after reload' do
+      add_order_rep([@file1, @file2], {}, @manifestation)
+      structmap = @manifestation.representations.last.techMetadata.ng_xml.to_s
+
+      rep = OrderedRepresentation.find(@manifestation.representations.last.pid)
+      rep.techMetadata.should_not be_nil
+      # TODO this is very odd. The UTF-8 encoding is on when it is created, but not when it has been reloaded...
+      rep.techMetadata.ng_xml.encoding = 'UTF-8'
+      structmap.should == rep.techMetadata.ng_xml.to_s
+    end
   end
 end

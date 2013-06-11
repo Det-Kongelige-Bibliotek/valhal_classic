@@ -6,7 +6,7 @@ module Datastreams
     include OM::XML::Document
 
     set_terminology do |t|
-      t.root(:path => 'mets')
+      t.root(:path => 'mets', :encoding => 'UTF-8')
 
       t.structMap do
         t.div do
