@@ -29,6 +29,7 @@ class WorksController < ApplicationController
       return
     end
 
+
     if @work.save
       handle_arguments
       redirect_to @work, notice: 'Work was successfully created.'

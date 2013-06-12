@@ -21,6 +21,10 @@ class PeopleController < ApplicationController
     if portrait.nil?
       portrait = Person.find(params[:id]).get_all_portraits.last
     end
+    if portrait.nil?
+      send_data({}, {:status => 404})
+      return
+    end
 
     image_file = portrait.representations.last.files.last
     image_content = image_file.content.content
@@ -97,7 +101,7 @@ class PeopleController < ApplicationController
   # validates the parameter arguments.
   # ensures that the parameters are not empty, that the portrait is a image file, and that the TEI files are in XML.
   def invalid_arguments?
-    if params.empty?
+    if params.empty? || params[:person].nil?
       @person.errors.add(:metadata, 'The work cannot exist without metadata.')
     end
     if (!params[:portrait].blank? && !params[:portrait][:portrait_file].blank?)  && (!params[:portrait][:portrait_file].content_type.start_with? 'image/')
@@ -105,8 +109,8 @@ class PeopleController < ApplicationController
       @person.errors.add(:portrait_file, ' - You tried to upload a non-image file, please select a valid image file')
     end
     if (!params[:tei].blank? && !params[:tei][:tei_file].blank?) && (params[:tei][:tei_file].content_type !=  'text/xml')
-      logger.error 'Invalid file type uploaded: ' + params[:portrait][:portrait_file].content_type.to_s
-      @person.errors.add(:portrait_file, ' - You tried to upload a non-xml file as a person description')
+      logger.error 'Invalid file type uploaded: ' + params[:tei][:tei_file].content_type.to_s
+      @person.errors.add(:tei_file, ' - You tried to upload a non-xml file as a person description')
     end
 
     logger.debug 'Validation finished'

@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
+include PeopleHelper
 
 describe PeopleController do
   before(:each) do
@@ -14,7 +15,7 @@ describe PeopleController do
   # Person. As you add validations to Person, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { :firstname => "firstname", :lastname => "lastname" }
+    { :firstname => 'firstname', :lastname => 'lastname', :date_of_birth => Time.now.nsec.to_s }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -24,101 +25,134 @@ describe PeopleController do
     {}
   end
 
-  describe "GET index" do
-    it "assigns all people as @people" do
+  describe 'GET index' do
+    it 'assigns all people as @people' do
       person = Person.create! valid_attributes
       get :index, {}, valid_session
       assigns(:people).should eq([person])
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested person as @person" do
+  describe 'GET show' do
+    it 'assigns the requested person as @person' do
       person = Person.create! valid_attributes
       get :show, {:id => person.to_param}, valid_session
       assigns(:person).should eq(person)
     end
   end
 
-  describe "GET new" do
-    it "assigns a new person as @person" do
+  describe 'GET new' do
+    it 'assigns a new person as @person' do
       get :new, {}, valid_session
       assigns(:person).should be_a_new(Person)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested person as @person" do
+  describe 'GET edit' do
+    it 'assigns the requested person as @person' do
       person = Person.create! valid_attributes
       get :edit, {:id => person.to_param}, valid_session
       assigns(:person).should eq(person)
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Person" do
+  describe 'POST create' do
+    describe 'with valid params' do
+      it 'creates a new Person' do
         expect {
           post :create, {:person => valid_attributes}, valid_session
         }.to change(Person, :count).by(1)
       end
 
-      it "assigns a newly created person as @person" do
+      it 'assigns a newly created person as @person' do
         post :create, {:person => valid_attributes}, valid_session
         assigns(:person).should be_a(Person)
         assigns(:person).should be_persisted
       end
 
-      it "redirects to the created person" do
+      it 'redirects to the created person' do
         post :create, {:person => valid_attributes}, valid_session
         response.should redirect_to(Person.all.last)
       end
+
+      it 'should be able to create a portrait' do
+        post :create, { :person => valid_attributes, :portrait_representation_metadata => {}, :portrait_metadata => {:title => 'Test portrait' + Time.now.nsec.to_s},
+            :portrait => { :portrait_file => ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/png', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))}}
+
+        person = Person.all.last
+        response.should redirect_to(person)
+        person.has_portrait?.should be_true
+        person.concerning_works.length.should == 1
+      end
+      it 'should be able to create a portrait' do
+        post :create, { :person => valid_attributes, :tei_representation_metadata => {}, :person_description_metadata => {:title => 'Test description' + Time.now.nsec.to_s}, :tei_metadata => {},
+                        :tei => { :tei_file => ActionDispatch::Http::UploadedFile.new(filename: 'test.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarebo_mets_structmap_sample.xml"))}}
+
+        person = Person.all.last
+        response.should redirect_to(person)
+        person.has_portrait?.should be_false
+        person.concerning_works.length.should == 1
+      end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved person as @person" do
+    describe 'with invalid params' do
+      it 'assigns a newly created but unsaved person as @person' do
         # Trigger the behavior that occurs when invalid params are submitted
         Person.any_instance.stub(:save).and_return(false)
         post :create, {:person => {firstname: 'firstname', lastname: 'lastname'}}, valid_session
         assigns(:person).should be_a_new(Person)
       end
 
-      it "re-renders the 'new' template" do
+      it 're-renders the \'new\' template' do
         # Trigger the behavior that occurs when invalid params are submitted
         Person.any_instance.stub(:save).and_return(false)
         post :create, {:person => { }}, valid_session
-        response.should render_template("new")
+        response.should render_template('new')
+      end
+
+      it 'should not allow empty arguments' do
+        post :create, {}
+        response.should render_template('new')
+      end
+
+      it 'should not allow a non-image file as portrait' do
+        post :create, { :person => valid_attributes, :portrait => { :portrait_file => ActionDispatch::Http::UploadedFile.new(filename: 'test.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarebo_mets_structmap_sample.xml"))}}
+        response.should render_template('new')
+      end
+      it 'should not allow a non-xml file as description' do
+        post :create, { :person => valid_attributes, :tei => { :tei_file => ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))}}
+        response.should render_template('new')
       end
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested person" do
+  describe 'PUT update' do
+    describe 'with valid params' do
+      it 'updates the requested person' do
         person = Person.create! valid_attributes
         # Assuming there are no other people in the database, this
         # specifies that the Person created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Person.any_instance.should_receive(:update_attributes).with({ "these" => "params" })
-        put :update, {:id => person.to_param, :person => { "these" => "params" }}, valid_session
+        Person.any_instance.should_receive(:update_attributes).with({ 'these' => 'params' })
+        put :update, {:id => person.to_param, :person => { 'these' => 'params' }}, valid_session
       end
 
-      it "assigns the requested person as @person" do
+      it 'assigns the requested person as @person' do
         person = Person.create! valid_attributes
         put :update, {:id => person.to_param, :person => valid_attributes}, valid_session
         assigns(:person).should eq(person)
       end
 
-      it "redirects to the person" do
+      it 'redirects to the person' do
         person = Person.create! valid_attributes
         put :update, {:id => person.to_param, :person => valid_attributes}, valid_session
         response.should redirect_to(person)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the person as @person" do
+    describe 'with invalid params' do
+      it 'assigns the person as @person' do
         person = Person.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Person.any_instance.stub(:save).and_return(false)
@@ -126,28 +160,57 @@ describe PeopleController do
         assigns(:person).should eq(person)
       end
 
-      it "re-renders the 'edit' template" do
+      it 're-renders the \'edit\' template' do
         person = Person.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Person.any_instance.stub(:save).and_return(false)
         put :update, {:id => person.to_param, :person => {  }}, valid_session
-        response.should render_template("edit")
+        response.should render_template('edit')
+      end
+
+      it 'should not allow a non-xml file as description' do
+        person = Person.create! valid_attributes
+        post :update, { :id => person.to_param, :tei => { :tei_file => ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))}}
+        response.should render_template('edit')
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested person" do
+  describe 'DELETE destroy' do
+    it 'destroys the requested person' do
       person = Person.create! valid_attributes
       expect {
         delete :destroy, {:id => person.to_param}, valid_session
       }.to change(Person, :count).by(-1)
     end
 
-    it "redirects to the people list" do
+    it 'redirects to the people list' do
       person = Person.create! valid_attributes
       delete :destroy, {:id => person.to_param}, valid_session
       response.should redirect_to(people_url)
     end
+  end
+  
+  describe 'GET show_image' do
+    before(:each) do
+      @person = Person.create! valid_attributes
+      @tiff_file = ActionDispatch::Http::UploadedFile.new(filename: 'aoa._foto.jpg', type: 'image/jpg', tempfile: File.new("#{Rails.root}/spec/fixtures/aoa._foto.jpg"))
+    end
+
+    it 'should be able to deliver the URL for the image when the portrait is defined' do
+      add_portrait(@tiff_file, {}, {:title => 'Portrait of ' + Time.now.nsec.to_s}, @person).should be_true
+
+      get :show_image, {:id => @person.pid}
+      response.response_code.should == 200
+    end
+
+    it 'should not be able, when no portrait exists' do
+      get :show_image, {:id => @person.pid}
+      response.response_code.should == 404
+    end
+  end
+
+  after(:all) do
+    Person.all.each {|p| p.delete}
   end
 end

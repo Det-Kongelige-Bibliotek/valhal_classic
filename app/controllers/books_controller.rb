@@ -22,26 +22,6 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
   end
 
-  def validate_book(params)
-    #Validate form params
-    logger.debug 'Validating parameters...'
-    if (!params[:file].blank? && !params[:file][:tiff_file].blank?)  && (!params[:file][:tiff_file].first.content_type.start_with? "image/tiff")
-      logger.error "Invalid file type uploaded: " + params[:file][:tiff_file].first.content_type.to_s
-      @book.errors.add(:fileupload, " - You tried to upload a non TIFF image file, please select a valid TIFF image file")
-    end
-
-    if (!params[:file].blank? && !params[:file][:tei_file].blank?)  && (!params[:file][:tei_file].content_type.start_with? "text/xml")
-      logger.error "Invalid file type uploaded: " + params[:file][:tei_file].content_type.to_s
-      @book.errors.add(:file_tei_file, " - You tried to upload a non XML file, please select a valid XML file")
-    end
-
-    if (!params[:file].blank? && !params[:file][:structmap_file].blank?)  && (!params[:file][:structmap_file].content_type.start_with? "text/xml")
-      logger.error "Invalid file type uploaded: " + params[:file][:structmap_file].content_type.to_s
-      @book.errors.add(:file_structmap_file, " - You tried to upload a non XML file, please select a valid XML file")
-    end
-    logger.debug 'Validation finished'
-  end
-
   def create_structmap
     logger.debug 'Creating structmap...'
     logger.debug params.to_s
@@ -57,8 +37,8 @@ class BooksController < ApplicationController
   def create
     validate_book(params)
     if @book.errors.size > 0
-      logger.debug "#{@book.errors.size.to_s} Validation errors found, returning to form"
-      render action: "new"
+      logger.debug '#{@book.errors.size.to_s} Validation errors found, returning to form'
+      render action: 'new'
       return
     end
 
@@ -70,14 +50,14 @@ class BooksController < ApplicationController
 
       #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
       if !params[:file].blank? && !params[:file][:tiff_file].blank?
-        logger.debug "Creating a tiff representation"
+        logger.debug 'Creating a tiff representation'
         add_tiff_order_rep(params[:file][:tiff_file], params[:tiff], @book)
         render_wizard
       else
         redirect_to @book, notice: 'Book was successfully created.'
       end
     else
-      render action: "new"
+      render action: 'new'
     end
   end
 
@@ -86,8 +66,8 @@ class BooksController < ApplicationController
 
     validate_book(params)
     if @book.errors.size > 0
-      logger.debug "#{@book.errors.size.to_s} Validation errors found, returning to form"
-      render action: "edit"
+      logger.debug '#{@book.errors.size.to_s} Validation errors found, returning to form'
+      render action: 'edit'
       return
     end
 
@@ -96,12 +76,12 @@ class BooksController < ApplicationController
 
       #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
       if !params[:file].blank? &&!params[:file][:tiff_file].blank?
-        logger.debug "Creating a tiff representation"
+        logger.debug 'Creating a tiff representation'
         add_tiff_order_rep(params[:file][:tiff_file], params[:tiff], @book)
       end
       redirect_to @book, notice: 'Book was successfully updated.'
     else
-      render action: "edit"
+      render action: 'edit'
     end
   end
 
@@ -113,6 +93,25 @@ class BooksController < ApplicationController
   end
 
   private
+  def validate_book(params)
+    #Validate form params
+    logger.debug 'Validating parameters...'
+    if params.empty? || params[:book].nil?
+      @book.errors.add(:metadata, 'The book cannot exist without metadata.')
+    end
+
+    if (!params[:file].blank? && !params[:file][:tiff_file].blank?)  && (!params[:file][:tiff_file].first.content_type.start_with? 'image/tiff')
+      logger.error 'Invalid file type uploaded: ' + params[:file][:tiff_file].first.content_type.to_s
+      @book.errors.add(:fileupload, ' - You tried to upload a non TIFF image file, please select a valid TIFF image file')
+    end
+
+    if (!params[:file].blank? && !params[:file][:tei_file].blank?)  && (!params[:file][:tei_file].content_type.start_with? 'text/xml')
+      logger.error 'Invalid file type uploaded: ' + params[:file][:tei_file].content_type.to_s
+      @book.errors.add(:file_tei_file, ' - You tried to upload a non XML file, please select a valid XML file')
+    end
+    logger.debug 'Validation finished'
+  end
+
   def handle_parameters
     # add the authors to the book
     if !params[:person].blank? && !params[:person][:id].blank?

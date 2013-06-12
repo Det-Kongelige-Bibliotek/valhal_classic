@@ -80,6 +80,11 @@ describe ManifestationsHelper do
       @manifestation.single_file_reps.first.files.first.kind_of?(BasicFile).should be_true
       @manifestation.single_file_reps.first.files.first.original_filename.should == @octet_file.original_filename
     end
+
+    it 'should not allow non-files to be added' do
+      add_single_file_rep('TEI file', {}, @manifestation).should be_false
+      @manifestation.single_file_reps.length.should == 0
+    end
   end
 
   describe '#add_tiff_order_rep' do

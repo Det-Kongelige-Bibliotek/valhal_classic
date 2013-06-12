@@ -2,15 +2,15 @@
 require 'spec_helper'
 
 describe Work do
-  subject { Book.new(title: "test") }
+  subject { Book.new(title: 'test' + Time.now.nsec.to_s) }
 
-  it_behaves_like "a manifestation with authors"
+  it_behaves_like 'a manifestation with authors'
 
-  it_behaves_like "a manifestation with concerns"
+  it_behaves_like 'a manifestation with concerns'
 
   describe '#title' do
     it 'should be created with a title' do
-      t = "The title"
+      t = 'The title'
       w = Work.new(:title => t)
       w.save.should be_true
       w.title.should == t
@@ -22,8 +22,8 @@ describe Work do
     end
 
     it 'should be possible to change the title' do
-      t = "The new title"
-      w = Work.new(:title => "some title")
+      t = 'The new title'
+      w = Work.new(:title => 'some title')
       w.save!
       w.title.should_not be_nil
       w.title = t;
@@ -34,20 +34,20 @@ describe Work do
 
   describe '#worktype' do
     it 'should be created with a worktype' do
-      type = "The worktype"
-      w = Work.new(:title => "title", :work_type => type)
+      type = 'The worktype'
+      w = Work.new(:title => 'title', :work_type => type)
       w.save.should be_true
       w.work_type.should == type
     end
 
     it 'should be possible to create a work without a work_type' do
-      w = Work.new(:title => "title")
+      w = Work.new(:title => 'title')
       w.save.should be_true
     end
 
     it 'should be created with a worktype' do
-      type = "The new worktype"
-      w = Work.new(:title => "title", :work_type => "Some worktype")
+      type = 'The new worktype'
+      w = Work.new(:title => 'title', :work_type => 'Some worktype')
       w.save!
       w.work_type.should_not be_nil
       w.work_type = type
@@ -57,25 +57,25 @@ describe Work do
   end
 
   describe '#attributes' do
-    before :all do
+    before(:each) do
       @attributes_hash = {
-          title: "Some test title",
-          work_type: "The test type of work",
-          uuid: "urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66",
-          typeOfResource: "text",
-          shelfLocator: "Pligtaflevering",
-          subTitle: "Bd. 1",
-          publisher: "Det Danske Sprog og Litteraturselskab",
-          originPlace: "Copenhagen",
-          dateIssued: "2002-10-02T10:00:00-05:00",
-          languageISO: "dan",
-          languageText: "DANSK",
-          subjectTopic: "N8217.H68",
-          physicalExtent: "510"
+          title: 'Some test title' + Time.now.nsec.to_s,
+          work_type: 'The test type of work',
+          uuid: 'urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66',
+          typeOfResource: 'text',
+          shelfLocator: 'Pligtaflevering',
+          subTitle: 'Bd. 1',
+          publisher: 'Det Danske Sprog og Litteraturselskab',
+          originPlace: 'Copenhagen',
+          dateIssued: '2002-10-02T10:00:00-05:00',
+          languageISO: 'dan',
+          languageText: 'DANSK',
+          subjectTopic: 'N8217.H68',
+          physicalExtent: '510'
       }
     end
 
-    it "should be possible to create with the attributes" do
+    it 'should be possible to create with the attributes' do
       w = Work.new(@attributes_hash)
       w.save.should be_true
 
@@ -94,8 +94,8 @@ describe Work do
       w.physicalExtent.should == @attributes_hash[:physicalExtent]
     end
 
-    it "should be possible to update with the attributes" do
-      w = Work.new(:title => "Random title")
+    it 'should be possible to update with the attributes' do
+      w = Work.new(:title => 'Random title' + Time.now.nsec.to_s)
       w.save!
 
       w.title.should_not be_blank
@@ -132,8 +132,8 @@ describe Work do
 
   describe '#get_title_for_display' do
     it 'should contain both the title and subtitle when both is defined' do
-      t = "The title";
-      st = "The subtitle";
+      t = 'The title' + Time.now.nsec.to_s
+      st = 'The subtitle'
       w = Work.new(:title => t, :subTitle => st)
       w.save!
 
@@ -144,8 +144,8 @@ describe Work do
     end
 
     it 'should only contain the title when no subtitle is defined' do
-      t = "The title";
-      st = "The subtitle";
+      t = 'The title' + Time.now.nsec.to_s
+      st = 'The subtitle'
       w = Work.new(:title => t)
       w.save!
 
@@ -154,5 +154,20 @@ describe Work do
       d.include?(st).should be_false
       d.include?(',').should be_false
     end
+  end
+
+  describe ' validation' do
+    it 'should not be possible to create two identical works' do
+      title = 'identical work'
+      workType = 'identical work'
+      Work.create(:title => title, :work_type => workType).should be_true
+
+      identicalWork = Work.new(:title => title, :work_type => workType)
+      identicalWork.save.should be_false
+    end
+  end
+
+  after(:all) do
+    Work.all.each {|w| w.delete }
   end
 end

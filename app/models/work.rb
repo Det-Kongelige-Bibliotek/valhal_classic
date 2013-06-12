@@ -15,6 +15,7 @@ class Work < ActiveFedora::Base
   delegate :work_type, :to => 'descMetadata', :at => [:genre], :unique => true
 
   validates :title, :presence => true
+  validates_with WorkValidator
 
   has_solr_fields do |m|
     m.field "search_result_title", method: :title
@@ -33,6 +34,11 @@ class Work < ActiveFedora::Base
     else
       return title + ", " + subTitle
     end
+  end
+
+  has_solr_fields do |m|
+    m.field "search_result_title", method: :get_title_for_display
+    m.field "work_type", method: :work_type
   end
 
   after_save :add_ie_to_reps

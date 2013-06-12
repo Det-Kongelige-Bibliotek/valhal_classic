@@ -284,6 +284,15 @@ describe Person do
       person2.valid?.should be_true
       person2.save.should be_true
     end
+
+    it "should allow people with identical names, but one without birth dates and death dates" do
+      person1 = Person.new(firstname: "Søren", lastname: "Kierkegaard", date_of_birth: "5. maj 1813", date_of_death: "11. november 1855")
+      person1.valid?.should be_true
+      person1.save!
+      person2 = Person.new(firstname: "Søren", lastname: "Kierkegaard")
+      person2.valid?.should be_true
+      person2.save.should be_true
+    end
   end
 
   describe " as an IntellectualEntity" do

@@ -13,7 +13,7 @@ module PeopleHelper
   # @return false if operation was unsuccessful
   # @param person The person to have the portrait added.
   def add_portrait(file, representation_metadata, portrait_metadata, person)
-   if portrait_metadata[:work_type].blank?
+    if portrait_metadata[:work_type].blank?
       portrait_metadata[:work_type] = 'PersonPortrait'
     end
     if portrait_metadata[:title].blank?

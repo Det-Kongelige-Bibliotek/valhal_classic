@@ -11,7 +11,7 @@ describe PeopleHelper do
 
     it 'should not require metadata for creating the portrait' do
       @person.concerning_manifestations.length.should == 0
-      add_portrait(@image_file, {}, {}, @person).should be_true
+      add_portrait(@image_file, {}, {:subTitle => Time.now.nsec.to_s}, @person).should be_true
 
       #reload person
       person = Person.find(@person.pid)
@@ -32,7 +32,7 @@ describe PeopleHelper do
       representation_label = 'A non-default label for the representation' + Time.now.nsec.to_s
       portrait_title = 'A non-default title for the portrait ' + Time.now.nsec.to_s
       portrait_work_type = 'A non-defeault work type for the portrait' + Time.now.nsec.to_s
-      add_portrait(@image_file, {:label => representation_label}, {:title => portrait_title, :work_type => portrait_work_type}, @person).should be_true
+      add_portrait(@image_file, {:label => representation_label}, {:title => portrait_title, :work_type => portrait_work_type, :subTitle => Time.now.nsec.to_s}, @person).should be_true
 
       #reload person
       person = Person.find(@person.pid)
@@ -55,7 +55,7 @@ describe PeopleHelper do
 
     it 'should not require metadata for creating the person description' do
       @person.concerning_manifestations.length.should == 0
-      add_person_description({}, @tei_file, {}, {}, @person).should be_true
+      add_person_description({}, @tei_file, {}, {:subTitle => Time.now.nsec.to_s}, @person).should be_true
 
       #reload person
       person = Person.find(@person.pid)
@@ -81,7 +81,7 @@ describe PeopleHelper do
       add_person_description({:tei_version => tei_metadata},
                              @tei_file,
                              {:label => representation_label},
-                             {:title => person_description_title, :work_type => person_description_work_type},
+                             {:title => person_description_title, :work_type => person_description_work_type, :subTitle => Time.now.nsec.to_s},
                              @person).should be_true
 
       #reload person
@@ -100,7 +100,7 @@ describe PeopleHelper do
 
     it 'should not allow non-tei files as person description' do
       @person.concerning_manifestations.length.should == 0
-      add_person_description({}, @non_tei_file, {}, {}, @person).should be_false
+      add_person_description({}, @non_tei_file, {}, {:subTitle => Time.now.nsec.to_s}, @person).should be_false
 
       #reload person
       person = Person.find(@person.pid)
