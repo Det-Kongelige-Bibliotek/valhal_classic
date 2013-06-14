@@ -5,6 +5,9 @@
   <tr><td>Number of files: </td><td><%= @ordered_representation.files.length.to_s %></td></tr>
 </table>
 
+<p><span style="font-weight: bold;"><%= link_to 'Download All', download_all_ordered_representation_path(@ordered_representation) %></span> </p>
+
+
 <br/>
 
 <%= link_to 'Edit', edit_ordered_representation_path(@ordered_representation) %> |

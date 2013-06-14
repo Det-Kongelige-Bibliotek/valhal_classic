@@ -107,4 +107,34 @@ describe OrderedRepresentationsController do
       response.response_code.should == 404
     end
   end
+
+  describe 'GET download_all' do
+    it 'should respond with a empty zip file' do
+      rep = OrderedRepresentation.create!
+
+      get :download_all, {:id => rep.pid}
+      response.response_code.should == 200
+      response.content_type.should == 'application/zip'
+      # TODO empty zip-file has size 22. Figure out a better way of validating that it is empty.
+      response.body.length.should == 22
+
+    end
+
+    it 'should deliver a zip file of smaller size than the file within' do
+      rep = OrderedRepresentation.create!
+      @tiff1 = ActionDispatch::Http::UploadedFile.new(filename: 'first.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
+      tiff_file = TiffFile.create!
+      tiff_file.add_file(@tiff1)
+      rep.files << tiff_file
+      rep.save!
+
+      get :download_all, {:id => rep.pid}
+      response.response_code.should == 200
+      response.content_type.should == 'application/zip'
+      response.body.length.should < tiff_file.size
+      # TODO empty zip-file has size 22. Figure out a better way of validating that the file is not empty.
+      response.body.length.should > 22
+    end
+
+  end
 end

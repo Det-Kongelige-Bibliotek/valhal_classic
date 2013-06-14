@@ -1,4 +1,6 @@
 # -*- encoding : utf-8 -*-
+require 'zip/zip'
+
 class OrderedRepresentationsController < ApplicationController
   load_and_authorize_resource
 
@@ -40,5 +42,32 @@ class OrderedRepresentationsController < ApplicationController
     end
 
     send_data(file.thumbnail.content, {:filename => file.thumbnail.label, :type => file.thumbnail.mimeType, :disposition => 'inline'})
+  end
+
+  # Method for downloading all the files.
+  def download_all
+    begin
+      @ordered_representation = OrderedRepresentation.find(params[:id])
+      file_name = "#{@ordered_representation.representation_name}-#{@ordered_representation.pid}.zip"
+      t = Tempfile.new("temp-zip-#{params[:id]}-#{Time.now}")
+      Zip::ZipOutputStream.open(t.path) do |z|
+        @ordered_representation.files.each do |f|
+          #add file to zip file
+          z.put_next_entry(f.original_filename)
+          z.write f.content.content
+        end
+      end
+
+      send_file t.path, :type => 'application/zip', :disposition => 'attachment', :filename => file_name
+      t.close
+    rescue ActiveFedora::ObjectNotFoundError => obj_not_found
+      flash[:error] = 'The file you requested could not be found in Fedora! Please contact your system administrator'
+      logger.error obj_not_found.to_s
+      redirect_to :back
+    rescue StandardError => standard_error
+      flash[:error] = 'An error has occurred. Please contact your system administrator'
+      logger.error standard_error.to_s
+      redirect_to :back
+    end
   end
 end
