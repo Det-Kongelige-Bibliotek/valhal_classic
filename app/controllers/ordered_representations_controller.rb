@@ -25,14 +25,19 @@ class OrderedRepresentationsController < ApplicationController
   # @return The thumbnail of the image, or nil if no file was found.
   def thumbnail_url(pid = nil)
     if pid.nil?
+      if params[:pid].blank?
+        send_data({}, {:status => 404})
+        return
+      end
       pid = params[:pid]
     end
+
     file = TiffFile.find(pid)
 
-    if file.nil?
-      return nil
+    if file.datastreams['thumbnail'].nil?
+      send_data({}, {:status => 404})
+      return
     end
-    #return nil unless file.respond_to?(thumbnail)
 
     send_data(file.thumbnail.content, {:filename => file.thumbnail.label, :type => file.thumbnail.mimeType, :disposition => 'inline'})
   end

@@ -80,4 +80,31 @@ describe OrderedRepresentationsController do
       end
     end
   end
+
+  describe 'GET thumbnail_url' do
+    it 'should return the thumbnail image' do
+      rep = OrderedRepresentation.create!
+      @tiff1 = ActionDispatch::Http::UploadedFile.new(filename: 'first.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
+      tiff_file = TiffFile.create!
+      tiff_file.add_file(@tiff1)
+
+      get :thumbnail_url, {:pid => tiff_file.pid, :id => rep.pid}
+      response.response_code.should == 200
+    end
+
+    it 'should return 404 when no pid' do
+      rep = OrderedRepresentation.create!
+
+      get :thumbnail_url, {:pid => nil, :id => rep.pid}
+      response.response_code.should == 404
+    end
+
+    it 'should return 404 when no pid' do
+      rep = OrderedRepresentation.create!
+      rep.save!
+
+      get :thumbnail_url, {:pid => rep.pid, :id => rep.pid}
+      response.response_code.should == 404
+    end
+  end
 end
