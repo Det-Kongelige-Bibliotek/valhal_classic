@@ -1,0 +1,14 @@
+<%= form_for @work, :html=>{:multipart=>true}, url: "http://localhost:3000/work_steps/rest?locale=en&work_id=#{@work.pid}" do |f| %>
+    <%= puts wizard_path %>
+    <%= fields_for :author, :html=>{:multipart=>true} do |builder| %>
+        <%= render 'add_author', :f => builder %>
+    <% end %>
+    <br/>
+    <%= fields_for :person_described, :html=>{:multipart=>true} do |builder| %>
+        <%= render 'add_concerned_person', :f => builder %>
+    <% end %>
+    <br/>
+    <div class="action">
+      <%= f.submit "Next" %>
+    </div>
+<% end %>

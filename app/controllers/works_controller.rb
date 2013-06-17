@@ -19,6 +19,10 @@ class WorksController < ApplicationController
     @work = Work.find(params[:id])
   end
 
+  def person
+    @work = Work.person
+  end
+
   def create
     #Validation passed begin processing parameters
     @work = Work.new(params[:work])
@@ -31,11 +35,55 @@ class WorksController < ApplicationController
 
     if @work.save
       handle_arguments
-      redirect_to @work, notice: 'Work was successfully created.'
+      #redirect_to work_work_steps_path(@work)   #@work, notice: 'Work was successfully created.'
+      @work.save
+      redirect_to  work_person_path @work
     else
       render action: 'new'
     end
   end
+
+  def  savefinish
+    #Validation passed begin processing parameters
+    @work = Work.new(params[:work])
+
+    if invalid_arguments?(params)
+      logger.debug "#{@work.errors.size.to_s} Validation errors found, returning to form"
+      render action: 'new'
+      return
+    end
+
+    if @work.save
+      handle_arguments
+      #redirect_to work_work_steps_path(@work)   #@work, notice: 'Work was successfully created.'
+      @work.save
+      redirect_to  work_finish_path @work
+    else
+      render action: 'new'
+    end
+  end
+
+  def person
+    @work = Work.find(params[:work_id])
+    handle_arguments
+  end
+
+  def metadata
+    @work = Work.find(params[:work_id])
+    handle_arguments
+  end
+
+  def file
+    @work = Work.find(params[:work_id])
+    handle_arguments
+  end
+
+  def finish
+    @work = Work.find(params[:work_id])
+    handle_arguments
+    redirect_to @work, notice: 'Work was successfully created.'
+  end
+
 
   def update
     @work = Work.find(params[:id])

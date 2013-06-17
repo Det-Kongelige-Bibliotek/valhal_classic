@@ -20,7 +20,25 @@ Valhal::Application.routes.draw do
       get 'thumbnail_url'
     end
   end
-  resources :works
+
+  resources :works  do
+      get 'new'
+      put 'new'
+      get 'person'
+      get 'metadata'
+      put 'metadata'
+      get 'file'
+      put 'file'
+      get 'finish'
+      put 'finish'
+      get 'savefinish'
+      put 'savefinish'
+  end
+
+#   resources :work_steps, controller: 'WorkSteps'
+  #resources :work_steps
+
+
   resources :people do
     member do
       get 'show_image'
@@ -28,6 +46,7 @@ Valhal::Application.routes.draw do
       put 'add_manifest'
     end
   end
+
   resources :books do
     member do
       put 'create_structmap'
