@@ -1,4 +1,5 @@
 <h1>New work</h1>
+
 <%= form_for @work, :html=>{:multipart=>true} do |f| %>
     <%= f.error_messages :header_message => 'New work error', :class => 'alert alert-error', :header_tag => :h3 %>
     <%= fields_for :work do |builder| %>
@@ -6,8 +7,7 @@
     <% end %>
     <br/>
 
-    <%= f.submit 'Create and continue' %>
-    <%= f.submit 'Save and Finish' %>
+    <%= f.submit 'Create and continue'  %>
 <% end %>
-<!-- not finished -->
+
 <%= link_to 'Work', works_path %>

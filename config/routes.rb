@@ -22,7 +22,6 @@ Valhal::Application.routes.draw do
   end
 
   resources :works  do
-      get 'new'
       put 'new'
       get 'person'
       get 'metadata'
@@ -31,8 +30,6 @@ Valhal::Application.routes.draw do
       put 'file'
       get 'finish'
       put 'finish'
-      get 'savefinish'
-      put 'savefinish'
   end
 
 #   resources :work_steps, controller: 'WorkSteps'
@@ -50,6 +47,14 @@ Valhal::Application.routes.draw do
   resources :books do
     member do
       put 'create_structmap'
+      put 'new'
+      get 'person'
+      get 'metadata'
+      put 'metadata'
+      get 'file'
+      put 'file'
+      get 'finish'
+      put 'finish'
     end
   end
 end

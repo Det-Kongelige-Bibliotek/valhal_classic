@@ -10,3 +10,4 @@ ActionView::Base.field_error_proc = Proc.new {|html, instance| html }
 
 # Initialize the rails application
 Valhal::Application.initialize!
+
