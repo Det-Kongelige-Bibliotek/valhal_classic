@@ -18,6 +18,10 @@ class BooksController < ApplicationController
     @book = Book.new
   end
 
+  def part_edit
+    @book = Book.find(params[:id])
+  end
+
   def edit
     @book = Book.find(params[:id])
   end
@@ -66,7 +70,7 @@ class BooksController < ApplicationController
     @book = Book.new(params[:book])
 
     if @book.save
-      redirect_to person_book_path @book
+      redirect_to w_person_book_path @book
     else
       render action: "new"
     end
@@ -84,11 +88,18 @@ class BooksController < ApplicationController
 
   def file
     @book = Book.find(params[:id])
-
     if !@book.update_attributes(params[:book])
        render action: "metadata"
     end
+  end
 
+  def file_edit
+    @book = Book.find(params[:id])
+    if @book.update_attributes(params[:book])
+      handle_parameters
+    else
+      render action: "part_edit"
+    end
   end
 
   def finish

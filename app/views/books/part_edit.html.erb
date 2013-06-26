@@ -1,7 +1,7 @@
-<h1>Editing Work</h1>
-<%= form_for @work, :html=>{:multipart=>true}, :url => {:action=> "file_edit"}  do |f| %>
-    <%= f.error_messages :header_message => 'Edit work error', :class => 'alert alert-error', :header_tag => :h3 %>
-    <%= fields_for :work do |builder| %>
+h1>Editing book</h1>
+<%= form_for @book, :html=>{:multipart=>true}, :url => {:action=> "file_edit"}  do |f| %>
+    <%= f.error_messages :header_message => "Edit book error", :class => "alert alert-error", :header_tag => :h3 %>
+    <%= fields_for :book do |builder| %>
         <%= render 'title_fields', :f => builder %>
     <% end %>
     <br/>
@@ -13,12 +13,12 @@
         <%= render 'add_concerned_person', :f => builder %>
     <% end %>
     <br/>
-    <%= fields_for :work do |builder| %>
+    <%= fields_for :book do |builder| %>
         <%= render 'metadata_fields', :f => builder %>
     <% end %>
     <br/>
-    <%= f.submit 'Next' %>
+    <%= f.submit "Next" %>
 <% end %>
 
-<%= link_to 'Show', @work %> |
-<%= link_to 'Works', works_path %>
+<%= link_to 'Show', @book %> |
+<%= link_to 'Books', books_path %>

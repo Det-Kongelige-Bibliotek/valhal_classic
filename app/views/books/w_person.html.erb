@@ -1,14 +1,13 @@
 <%= form_for @book, :html=>{:multipart=>true}, :url => {:action=> "metadata"} do |f| %>
-     <%= fields_for :author, :html=>{:multipart=>true} do |builder| %>
-         <%= render 'add_author', :f => builder %>
-     <% end %>
+    <%= fields_for :author, :html=>{:multipart=>true} do |builder| %>
+        <%= render 'add_author', :f => builder %>
+    <% end %>
     <br/>
     <%= fields_for :person_described, :html=>{:multipart=>true} do |builder| %>
-         <%= render 'add_concerned_person', :f => builder %>
-     <% end %>
+        <%= render 'add_concerned_person', :f => builder %>
+    <% end %>
     <br/>
     <div class="action">
       <%= f.submit 'Next' %>
     </div>
 <% end %>
-

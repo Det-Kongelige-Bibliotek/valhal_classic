@@ -1,0 +1,13 @@
+<%= form_for @book, :html=>{:multipart=>true}, :url => {:action=> "finish"}  do |f| %>
+    <%= fields_for :file, :html=>{:multipart=>true} do |builder| %>
+        <%= render 'tei_file_upload', :f => builder %>
+        <%= render 'tiff_file_upload', :f => builder %>
+    <% end %>
+    <br/>
+
+    <div class="action">
+      <%= f.submit 'Finish'  %>
+    </div>
+<% end %>
+
+<%= link_to 'Book', books_path %>

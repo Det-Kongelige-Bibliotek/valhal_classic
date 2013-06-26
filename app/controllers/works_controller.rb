@@ -15,6 +15,10 @@ class WorksController < ApplicationController
     @work = Work.new
   end
 
+  def part_edit
+    @work = Work.find(params[:work_id])
+  end
+
   def edit
     @work = Work.find(params[:id])
   end
@@ -36,13 +40,13 @@ class WorksController < ApplicationController
     if @work.save
       handle_arguments
       @work.save
-      redirect_to  work_person_path @work
+      redirect_to  work_w_person_path @work
     else
       render action: 'new'
     end
   end
 
-  def person
+  def w_person
     @work = Work.find(params[:work_id])
     handle_arguments
   end
@@ -65,6 +69,14 @@ class WorksController < ApplicationController
     redirect_to @work, notice: 'Work was successfully created.'
   end
 
+  def file_edit
+    @work = Work.find(params[:work_id])
+    if @work.update_attributes(params[:work])
+      handle_arguments
+    else
+      render action: "part_edit"
+    end
+  end
 
   def update
     @work = Work.find(params[:id])

@@ -23,18 +23,18 @@ Valhal::Application.routes.draw do
 
   resources :works  do
       put 'new'
-      get 'person'
+      get 'w_person'
       get 'metadata'
       put 'metadata'
       get 'file'
       put 'file'
       get 'finish'
       put 'finish'
+      get 'part_edit'
+      put 'part_edit'
+      get 'file_edit'
+      put 'file_edit'
   end
-
-#   resources :work_steps, controller: 'WorkSteps'
-  #resources :work_steps
-
 
   resources :people do
     member do
@@ -48,13 +48,17 @@ Valhal::Application.routes.draw do
     member do
       put 'create_structmap'
       put 'new'
-      get 'person'
+      get 'w_person'
       get 'metadata'
       put 'metadata'
       get 'file'
       put 'file'
       get 'finish'
       put 'finish'
+      get 'part_edit'
+      put 'part_edit'
+      get 'file_edit'
+      put 'file_edit'
     end
   end
 end
