@@ -18,10 +18,6 @@ class BooksController < ApplicationController
     @book = Book.new
   end
 
-  def part_edit
-    @book = Book.find(params[:id])
-  end
-
   def edit
     @book = Book.find(params[:id])
   end
@@ -70,67 +66,70 @@ class BooksController < ApplicationController
     @book = Book.new(params[:book])
 
     if @book.save
-      redirect_to w_person_book_path @book
+      redirect_to show_person_book_path @book
     else
       render action: "new"
     end
   end
 
-  def person
+  def update_person
     @book = Book.find(params[:id])
     handle_parameters
-  end
-
-  def metadata
-    @book = Book.find(params[:id])
-    handle_parameters
-  end
-
-  def file
-    @book = Book.find(params[:id])
-    if !@book.update_attributes(params[:book])
-       render action: "metadata"
+    if @book.save
+       redirect_to show_metadata_book_path @book
+    else
+      render action: "update_person"
     end
   end
 
-  def file_edit
+  def update_metadata
+    @book = Book.find(params[:id])
+    if @book.update_attributes(params[:book])
+       redirect_to show_file_book_path @book
+    else
+       render action: "update_metadata"
+    end
+  end
+
+  def save_edit
     @book = Book.find(params[:id])
     if @book.update_attributes(params[:book])
       handle_parameters
+      redirect_to show_file_book_path @book
     else
-      render action: "part_edit"
+      render action: "edit"
     end
   end
 
-  def finish
+  def update_file
     @book = Book.find(params[:id])
     handle_parameters
     redirect_to @book, notice: 'Book was successfully created.'
   end
 
-  def update
-    @book = Book.find(params[:id])
+  #def update
+  #  @book = Book.find(params[:id])
+  #
+  #  validate_book(params)
+  #  if @book.errors.size > 0
+  #    logger.debug "#{@book.errors.size.to_s} Validation errors found, returning to form"
+  #    render action: "edit"
+  #    return
+  #  end
 
-    validate_book(params)
-    if @book.errors.size > 0
-      logger.debug "#{@book.errors.size.to_s} Validation errors found, returning to form"
-      render action: "edit"
-      return
-    end
+  #  if @book.update_attributes(params[:book])
+  #    handle_parameters
 
-    if @book.update_attributes(params[:book])
-      handle_parameters
-
-      #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
-      if !params[:file].blank? &&!params[:file][:tiff_file].blank?
-        logger.debug "Creating a tiff representation"
-        add_tiff_order_rep(params[:file][:tiff_file], params[:tiff], @book)
-      end
-      redirect_to @book, notice: 'Book was successfully updated.'
-    else
-      render action: "edit"
-    end
-  end
+  #    #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
+  #    if !params[:file].blank? &&!params[:file][:tiff_file].blank?
+  #      logger.debug "Creating a tiff representation"
+  #      add_tiff_order_rep(params[:file][:tiff_file], params[:tiff], @book)
+  #    end
+  #    redirect_to @book, notice: 'Book was successfully updated.'
+  #  else
+  #    render action: "edit"
+  #  end
+  #end
 
   def destroy
     @book = Book.find(params[:id])

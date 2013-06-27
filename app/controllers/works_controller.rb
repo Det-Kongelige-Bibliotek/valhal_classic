@@ -15,10 +15,6 @@ class WorksController < ApplicationController
     @work = Work.new
   end
 
-  def part_edit
-    @work = Work.find(params[:work_id])
-  end
-
   def edit
     @work = Work.find(params[:id])
   end
@@ -38,39 +34,49 @@ class WorksController < ApplicationController
     end
 
     if @work.save
-      handle_arguments
-      @work.save
-      redirect_to  work_w_person_path @work
+      redirect_to  show_person_work_path @work
     else
       render action: 'new'
     end
   end
 
-  def w_person
-    @work = Work.find(params[:work_id])
+  def update_person
+    @work = Work.find(params[:id])
     handle_arguments
-  end
-
-  def metadata
-    @work = Work.find(params[:work_id])
-    handle_arguments
-  end
-
-  def file
-    @work = Work.find(params[:work_id])
-    if !@work.update_attributes(params[:work])
-      render action: "metadata"
+    if @work.save
+      redirect_to show_metadata_work_path @work
+    else
+      render action "update_person"
     end
   end
 
-  def finish
-    @work = Work.find(params[:work_id])
+  def update_metadata
+    @work = Work.find(params[:id])
+    if @work.update_attributes(params[:work])
+      redirect_to show_file_work_path @work
+    else
+      render action: "show_metadata"
+    end
+  end
+
+  def update_file
+    @work = Work.find(params[:id])
     handle_arguments
     redirect_to @work, notice: 'Work was successfully created.'
   end
 
+  def save_edit
+    @work = Work.find(params[:id])
+    if @work.update_attributes(params[:work])
+      handle_arguments
+      redirect_to show_file_work_path @work
+    else
+      render action: "edit"
+    end
+  end
+
   def file_edit
-    @work = Work.find(params[:work_id])
+    @work = Work.find(params[:id])
     if @work.update_attributes(params[:work])
       handle_arguments
     else
@@ -78,22 +84,22 @@ class WorksController < ApplicationController
     end
   end
 
-  def update
-    @work = Work.find(params[:id])
-
-    if invalid_arguments?(params)
-      logger.debug "#{@work.errors.size.to_s} Validation errors found, returning to form"
-      render action: 'edit'
-      return
-    end
-
-    if @work.update_attributes(params[:work])
-      handle_arguments
-      redirect_to @work, notice: 'Work was successfully updated.'
-    else
-      render action: 'edit'
-    end
-  end
+  #def update
+  #  @work = Work.find(params[:id])
+  #
+  #  if invalid_arguments?(params)
+  #    logger.debug "#{@work.errors.size.to_s} Validation errors found, returning to form"
+  #    render action: 'edit'
+  #    return
+  #  end
+  #
+  #  if @work.update_attributes(params[:work])
+  #    handle_arguments
+  #    redirect_to @work, notice: 'Work was successfully updated.'
+  #  else
+  #    render action: 'edit'
+  #  end
+  #end
 
   def destroy
     @work = Work.find(params[:id])

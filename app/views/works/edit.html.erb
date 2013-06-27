@@ -1,5 +1,5 @@
 <h1>Editing Work</h1>
-<%= form_for @work, :html=>{:multipart=>true}, :url => {:action=> "file_edit"}  do |f| %>
+<%= form_for @work, :html=>{:multipart=>true}, :url => {:action=> "save_edit"}  do |f| %>
     <%= f.error_messages :header_message => 'Edit work error', :class => 'alert alert-error', :header_tag => :h3 %>
     <%= fields_for :work do |builder| %>
         <%= render 'title_fields', :f => builder %>

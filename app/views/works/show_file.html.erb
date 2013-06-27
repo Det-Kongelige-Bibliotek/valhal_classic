@@ -1,11 +1,11 @@
-<%= form_for @work, :html=>{:multipart=>true}, :url => {:action=> "finish"}  do|f| %>
+<%= form_for @work, :html=>{:multipart=>true}, :url => {:action=> "update_file"} do|f| %>
     <%= fields_for :single_file, :html=>{:multipart=>true} do |builder| %>
         <%= render 'single_file_upload', :f => builder %>
     <% end %>
     <br/>
 
     <div class="action">
-      <%= f.submit 'Finish'  %>
+      <%= f.submit 'Update'  %>
     </div>
 <% end %>
 
