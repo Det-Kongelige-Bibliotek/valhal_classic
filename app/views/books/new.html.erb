@@ -5,24 +5,7 @@
         <%= render 'title_fields', :f => builder %>
     <% end %>
     <br/>
-    <%= fields_for :author, :html=>{:multipart=>true} do |builder| %>
-        <%= render 'add_author', :f => builder %>
-    <% end %>
-    <br/>
-    <%= fields_for :person_described, :html=>{:multipart=>true} do |builder| %>
-        <%= render 'add_concerned_person', :f => builder %>
-    <% end %>
-    <br/>
-    <%= fields_for :book do |builder| %>
-        <%= render 'metadata_fields', :f => builder %>
-    <% end %>
-    <br/>
-    <%= fields_for :file, :html=>{:multipart=>true} do |builder| %>
-        <%= render 'tei_file_upload', :f => builder %>
-        <%= render 'tiff_file_upload', :f => builder %>
-    <% end %>
-    <br/>
-    <%= f.submit "Create" %>
+    <%= f.submit "Create and continue" %>
 <% end %>
 
 <%= link_to 'Books', books_path %>

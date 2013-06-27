@@ -21,7 +21,23 @@ Valhal::Application.routes.draw do
       get 'download_all'
     end
   end
-  resources :works
+
+  resources :works  do
+    member do
+      put 'new'
+      put 'update_person'
+      get 'show_person'
+      put 'show_person'
+      put 'update_metadata'
+      get 'show_metadata'
+      put 'show_metadata'
+      put 'update_file'
+      get 'show_file'
+      put 'show_file'
+      put 'save_edit'
+    end
+  end
+
   resources :people do
     member do
       get 'show_image'
@@ -29,9 +45,21 @@ Valhal::Application.routes.draw do
       put 'add_manifest'
     end
   end
+
   resources :books do
     member do
       put 'create_structmap'
+      put 'new'
+      put 'update_person'
+      get 'show_person'
+      put 'show_person'
+      put 'update_metadata'
+      get 'show_metadata'
+      put 'show_metadata'
+      put 'update_file'
+      get 'show_file'
+      put 'show_file'
+      put 'save_edit'
     end
   end
 end

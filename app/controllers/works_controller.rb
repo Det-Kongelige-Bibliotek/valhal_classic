@@ -19,6 +19,10 @@ class WorksController < ApplicationController
     @work = Work.find(params[:id])
   end
 
+  def person
+    @work = Work.person
+  end
+
   def create
     #Validation passed begin processing parameters
     @work = Work.new(params[:work])
@@ -31,27 +35,53 @@ class WorksController < ApplicationController
 
 
     if @work.save
-      handle_arguments
-      redirect_to @work, notice: 'Work was successfully created.'
+      redirect_to  show_person_work_path @work
     else
       render action: 'new'
     end
   end
 
-  def update
+  def update_person
     @work = Work.find(params[:id])
-
-    if invalid_arguments?(params)
-      logger.debug "#{@work.errors.size.to_s} Validation errors found, returning to form"
-      render action: 'edit'
-      return
+    handle_arguments
+    if @work.save
+      redirect_to show_metadata_work_path @work
+    else
+      render action "update_person"
     end
+  end
 
+  def update_metadata
+    @work = Work.find(params[:id])
+    if @work.update_attributes(params[:work])
+      redirect_to show_file_work_path @work
+    else
+      render action: "show_metadata"
+    end
+  end
+
+  def update_file
+    @work = Work.find(params[:id])
+    handle_arguments
+    redirect_to @work, notice: 'Work was successfully created.'
+  end
+
+  def save_edit
+    @work = Work.find(params[:id])
     if @work.update_attributes(params[:work])
       handle_arguments
-      redirect_to @work, notice: 'Work was successfully updated.'
+      redirect_to show_file_work_path @work
     else
-      render action: 'edit'
+      render action: "edit"
+    end
+  end
+
+  def file_edit
+    @work = Work.find(params[:id])
+    if @work.update_attributes(params[:work])
+      handle_arguments
+    else
+      render action: "edit"
     end
   end
 
