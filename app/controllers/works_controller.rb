@@ -80,26 +80,9 @@ class WorksController < ApplicationController
     if @work.update_attributes(params[:work])
       handle_arguments
     else
-      render action: "part_edit"
+      render action: "edit"
     end
   end
-
-  #def update
-  #  @work = Work.find(params[:id])
-  #
-  #  if invalid_arguments?(params)
-  #    logger.debug "#{@work.errors.size.to_s} Validation errors found, returning to form"
-  #    render action: 'edit'
-  #    return
-  #  end
-  #
-  #  if @work.update_attributes(params[:work])
-  #    handle_arguments
-  #    redirect_to @work, notice: 'Work was successfully updated.'
-  #  else
-  #    render action: 'edit'
-  #  end
-  #end
 
   def destroy
     @work = Work.find(params[:id])

@@ -107,30 +107,6 @@ class BooksController < ApplicationController
     redirect_to @book, notice: 'Book was successfully created.'
   end
 
-  #def update
-  #  @book = Book.find(params[:id])
-  #
-  #  validate_book(params)
-  #  if @book.errors.size > 0
-  #    logger.debug "#{@book.errors.size.to_s} Validation errors found, returning to form"
-  #    render action: "edit"
-  #    return
-  #  end
-
-  #  if @book.update_attributes(params[:book])
-  #    handle_parameters
-
-  #    #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
-  #    if !params[:file].blank? &&!params[:file][:tiff_file].blank?
-  #      logger.debug "Creating a tiff representation"
-  #      add_tiff_order_rep(params[:file][:tiff_file], params[:tiff], @book)
-  #    end
-  #    redirect_to @book, notice: 'Book was successfully updated.'
-  #  else
-  #    render action: "edit"
-  #  end
-  #end
-
   def destroy
     @book = Book.find(params[:id])
     @book.destroy

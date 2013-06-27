@@ -1,4 +1,4 @@
-<%= form_for @work, :html=>{:multipart=>true}, :url => {:action=> "show_file"} do |f| %>
+<%= form_for @work, :html=>{:multipart=>true}, :url => {:action=> "update_metadata"} do |f| %>
     <%= fields_for :work do |builder| %>
         <%= render 'metadata_fields', :f => builder %>
     <% end %>
