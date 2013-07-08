@@ -102,9 +102,17 @@ class BooksController < ApplicationController
   end
 
   def update_file
-    @book = Book.find(params[:id])
-    handle_parameters
-    redirect_to @book, notice: 'Book was successfully created.'
+
+    validate_book(params)
+    if @book.errors.size > 0
+      logger.debug "#{@book.errors.size.to_s} Validation errors found, returning to last screen"
+      render action: "show_file"
+      return
+    else
+      @book = Book.find(params[:id])
+      handle_parameters
+      redirect_to @book, notice: 'Book was successfully created.'
+    end
   end
 
   def destroy
