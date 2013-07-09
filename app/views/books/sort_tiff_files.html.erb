@@ -1,17 +1,19 @@
-<div class="all-center">
-  <h1>Sort TIFFs</h1>
+<%= form_for @book, :html=>{:multipart=>true}, :url => {:action=> "finish_book_with_structmap"}  do|f| %>
+    <div class="all-center">
+      <h1>Sort TIFFs</h1>
 
-  <ul id="structmap_file_list" class="sortable grid">
-    <%- @book.ordered_reps.first.files.each do |file| %>
-        <li><%= file.nil? ? "No file" : file.original_filename %></li>
-    <%- end %>
-  </ul>
-  <br/>
+      <ul id="structmap_file_list" class="sortable grid">
+        <%- params[:file][:tiff_file].each do |file| %>
+            <li><%= file.nil? ? "No file" : file.original_filename %></li>
+        <%- end %>
+      </ul>
+      <br/>
 
-  <%= form_tag(create_structmap_book_path(@book.pid), :method => "put") do %>
-      <%= hidden_field_tag("structmap_file_order") %>
-      <div class="btn btn-small actions text-center">
-        <%= submit_tag "Generate Structmap", :onclick => "handle_onsubmit();" %>
-      </div>
-  <% end %>
-</div>
+      <%= form_tag(create_structmap_book_path(@book.pid), :method => "put") do %>
+          <%= hidden_field_tag("structmap_file_order") %>
+          <div class="btn btn-small actions text-center">
+            <%= submit_tag "Finish", :onclick => "handle_onsubmit();" %>
+          </div>
+      <% end %>
+    </div>
+<% end %>
