@@ -3,6 +3,7 @@
 # The helper methods for all manifestations.
 # Provides methods for generating representations and relationships generic for the manifestations.
 module ManifestationsHelper
+  include UtilityHelper
   # Creates and adds a SingleFileRepresentation with a TEI file to the manifestation
   # @param tei_metadata The metadata for the TEI file.
   # @param file The uploaded TEI file for the SingleFileRepresentation
@@ -80,11 +81,12 @@ module ManifestationsHelper
   # Creates the author relationship between the manifestation and people behind the ids.
   # @param ids The ids for the people who are author of the manifestation
   # @param manifestation The manifestation which is authored by the people behind the ids.
-  def add_authors(ids, manifestation)
-    if ids.blank? or manifestation.blank?
+  def set_authors(ids, manifestation)
+    if ids.blank? or manifestation.blank? or contentless_array?(ids)
       return false
     end
 
+    manifestation.clear_authors
     ids.each do |author_pid|
       if author_pid && !author_pid.empty?
         author = Person.find(author_pid)
@@ -97,7 +99,12 @@ module ManifestationsHelper
   # Creates the concerned relationship between the manifestation and people behind the ids.
   # @param ids The ids for the people who are concerned about the manifestation
   # @param manifestation The manifestation which concerns the people behind the ids.
-  def add_concerned_people(ids, manifestation)
+  def set_concerned_people(ids, manifestation)
+    if ids.blank? or manifestation.blank? or contentless_array?(ids)
+      return false
+    end
+
+    manifestation.clear_concerned_people
     ids.each do |person_pid|
       if person_pid && !person_pid.empty?
         person = Person.find(person_pid)

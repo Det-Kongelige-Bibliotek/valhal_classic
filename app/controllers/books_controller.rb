@@ -106,16 +106,14 @@ class BooksController < ApplicationController
   def handle_parameters
     # add the authors to the book
     if !params[:person].blank? && !params[:person][:id].blank?
-      # Remove any existing relationships
-      @book.authors.clear
       # add new persons as authors
-      add_authors(params[:person][:id], @book)
+      set_authors(params[:person][:id], @book)
     end
     # add the people concerned by the book
     if !params[:person_concerned].blank? && !params[:person_concerned][:id].blank?
       @book.clear_concerned_people
       # add new concerned people
-      add_concerned_people(params[:person_concerned][:id], @book)
+      set_concerned_people(params[:person_concerned][:id], @book)
     end
 
     #Create TEI representation of book using uploaded TEI file if a file was uploaded

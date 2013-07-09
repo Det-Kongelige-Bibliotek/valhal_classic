@@ -7,30 +7,30 @@ class Representation < ActiveFedora::Base
 end
 
 describe Representation do
-  describe "Create" do
-    it "should be possible to create and save a raw representation without arguments" do
+  describe 'Create' do
+    it 'should be possible to create and save a raw representation without arguments' do
       rep = Representation.new
       rep.save.should be_true
     end
 
-    it "should be possible to create and save a raw representation with the label as argument" do
-      rep = Representation.new(:label=>"LaBeL")
+    it 'should be possible to create and save a raw representation with the label as argument' do
+      rep = Representation.new(:label=>'LaBeL')
       rep.save.should be_true
     end
 
-    it "should be assigned a label when created without the label argument" do
+    it 'should be assigned a label when created without the label argument' do
       rep = Representation.new
       rep.save!
       rep.label.should_not be_nil
     end
 
-    it "should store the assigned a label when created with the label argument" do
-      rep = Representation.new(:label => "LaBeL")
+    it 'should store the assigned a label when created with the label argument' do
+      rep = Representation.new(:label => 'LaBeL')
       rep.save!
-      rep.label.should == "LaBeL"
+      rep.label.should == 'LaBeL'
     end
 
-    it "should assign a label if the label has been defined as nil" do
+    it 'should assign a label if the label has been defined as nil' do
       rep = Representation.new(:label => nil)
       rep.label.should be_nil
       rep.save!
@@ -38,30 +38,47 @@ describe Representation do
     end
   end
 
-  describe "Update" do
+  describe 'Update' do
     before do
       @rep = Representation.new
       @rep.save!
     end
-    it "should be possible to set a new value for the label" do
+    it 'should be possible to set a new value for the label' do
       @rep.label.should_not be_nil
-      @rep.label = "LaBeL"
+      @rep.label = 'LaBeL'
       @rep.save!
       rep2 = Representation.find(@rep.pid)
-      rep2.label.should == "LaBeL"
+      rep2.label.should == 'LaBeL'
     end
   end
 
-  describe "Destroy" do
+  describe 'Destroy' do
     before do
       @rep = Representation.new
       @rep.save!
     end
-    it "should be possible to delete a representation" do
+    it 'should be possible to delete a representation' do
       count = Representation.count
       @rep.destroy
       Representation.count.should == count - 1
     end
+  end
+
+  describe 'has_ie?' do
+    it 'should not have an intellectual entity initially' do
+      rep = Representation.create!
+      rep.has_ie?.should be_false
+    end
+
+    it 'should have an intellectual entity, when given one' do
+      rep = Representation.create!
+      book = Book.create(title: "title #{Time.now.nsec.to_s}")
+      book.representations << rep
+      book.save!
+      rep.reload
+      rep.has_ie?.should be_true
+    end
+
   end
 
   after (:all) do

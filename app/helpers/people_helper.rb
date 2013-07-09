@@ -25,7 +25,7 @@ module PeopleHelper
       return false
     end
 
-    add_concerned_people([person.pid], portrait)
+    set_concerned_people([person.pid], portrait)
   end
 
   # Creates and adds a person description for the person.
@@ -49,6 +49,6 @@ module PeopleHelper
       return false
     end
 
-    add_concerned_people([person.pid], portrait)
+    set_concerned_people([person.pid], portrait)
   end
 end
