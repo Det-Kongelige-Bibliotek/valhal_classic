@@ -104,18 +104,12 @@ class WorksController < ApplicationController
     end
     # add the authors to the work
     if !params[:person].blank? && !params[:person][:id].blank?
-      # Remove any existing relationships
-      @work.authors.clear
-      # add new persons as authors
-      add_authors(params[:person][:id], @work)
+      set_authors(params[:person][:id], @work)
     end
 
     # add the described persons to the work
     if !params[:person_concerned].blank? && !params[:person_concerned][:id].blank?
-      # Remove any existing relationships
-      @work.clear_concerned_people
-
-      add_concerned_people(params[:person_concerned][:id], @work)
+      set_concerned_people(params[:person_concerned][:id], @work)
     end
   end
 

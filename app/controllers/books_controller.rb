@@ -22,26 +22,6 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
   end
 
-  def validate_book(params)
-    #Validate form params
-    logger.debug 'Validating parameters...'
-    if (!params[:file].blank? && !params[:file][:tiff_file].blank?)  && (!params[:file][:tiff_file].first.content_type.start_with? "image/tiff")
-      logger.error "Invalid file type uploaded: " + params[:file][:tiff_file].first.content_type.to_s
-      @book.errors.add(:fileupload, " - You tried to upload a non TIFF image file, please select a valid TIFF image file")
-    end
-
-    if (!params[:file].blank? && !params[:file][:tei_file].blank?)  && (!params[:file][:tei_file].content_type.start_with? "text/xml")
-      logger.error "Invalid file type uploaded: " + params[:file][:tei_file].content_type.to_s
-      @book.errors.add(:file_tei_file, " - You tried to upload a non XML file, please select a valid XML file")
-    end
-
-    if (!params[:file].blank? && !params[:file][:structmap_file].blank?)  && (!params[:file][:structmap_file].content_type.start_with? "text/xml")
-      logger.error "Invalid file type uploaded: " + params[:file][:structmap_file].content_type.to_s
-      @book.errors.add(:file_structmap_file, " - You tried to upload a non XML file, please select a valid XML file")
-    end
-    logger.debug 'Validation finished'
-  end
-
   def create_structmap
     logger.debug 'Creating structmap...'
     logger.debug params.to_s
@@ -136,16 +116,14 @@ class BooksController < ApplicationController
   def handle_parameters
     # add the authors to the book
     if !params[:person].blank? && !params[:person][:id].blank?
-      # Remove any existing relationships
-      @book.authors.clear
       # add new persons as authors
-      add_authors(params[:person][:id], @book)
+      set_authors(params[:person][:id], @book)
     end
     # add the people concerned by the book
     if !params[:person_concerned].blank? && !params[:person_concerned][:id].blank?
       @book.clear_concerned_people
       # add new concerned people
-      add_concerned_people(params[:person_concerned][:id], @book)
+      set_concerned_people(params[:person_concerned][:id], @book)
     end
 
     #Create TEI representation of book using uploaded TEI file if a file was uploaded
@@ -165,5 +143,25 @@ class BooksController < ApplicationController
       logger.debug "Creating a tiff representation"
       add_tiff_order_rep(params[:file][:tiff_file], params[:tiff], @book)
     end
+  end
+
+  def validate_book(params)
+    #Validate form params
+    logger.debug 'Validating parameters...'
+    if (!params[:file].blank? && !params[:file][:tiff_file].blank?)  && (!params[:file][:tiff_file].first.content_type.start_with? "image/tiff")
+      logger.error "Invalid file type uploaded: " + params[:file][:tiff_file].first.content_type.to_s
+      @book.errors.add(:fileupload, " - You tried to upload a non TIFF image file, please select a valid TIFF image file")
+    end
+
+    if (!params[:file].blank? && !params[:file][:tei_file].blank?)  && (!params[:file][:tei_file].content_type.start_with? "text/xml")
+      logger.error "Invalid file type uploaded: " + params[:file][:tei_file].content_type.to_s
+      @book.errors.add(:file_tei_file, " - You tried to upload a non XML file, please select a valid XML file")
+    end
+
+    if (!params[:file].blank? && !params[:file][:structmap_file].blank?)  && (!params[:file][:structmap_file].content_type.start_with? "text/xml")
+      logger.error "Invalid file type uploaded: " + params[:file][:structmap_file].content_type.to_s
+      @book.errors.add(:file_structmap_file, " - You tried to upload a non XML file, please select a valid XML file")
+    end
+    logger.debug 'Validation finished'
   end
 end

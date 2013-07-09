@@ -158,7 +158,7 @@ describe ManifestationsHelper do
     end
   end
 
-  describe '#add_authors' do
+  describe '#set_authors' do
     before(:each) do
       @manifestation = Work.create(:title => 'Work')
       @person1 = Person.create(:firstname => 'firstname1', :lastname => 'lastname1', :date_of_birth => Time.now.nsec.to_s)
@@ -167,7 +167,7 @@ describe ManifestationsHelper do
     end
 
     it 'should be possible to add one person' do
-      add_authors([@person1.id], @manifestation)
+      set_authors([@person1.id], @manifestation).should be_true
       #reload
       m = Work.find(@manifestation.pid)
       p1 = Person.find(@person1.pid)
@@ -186,7 +186,7 @@ describe ManifestationsHelper do
     end
 
     it 'should be possible to add more than one person' do
-      add_authors([@person1.id, @person2.id, @person3.id], @manifestation)
+      set_authors([@person1.id, @person2.id, @person3.id], @manifestation).should be_true
       #reload
       m = Work.find(@manifestation.pid)
       p1 = Person.find(@person1.pid)
@@ -210,7 +210,7 @@ describe ManifestationsHelper do
     end
 
     it 'should allow the empty set' do
-      add_authors([], @manifestation)
+      set_authors([], @manifestation).should be_false
       m = Work.find(@manifestation.pid)
       p1 = Person.find(@person1.pid)
       p2 = Person.find(@person2.pid)
@@ -224,7 +224,7 @@ describe ManifestationsHelper do
     end
   end
 
-  describe '#add_concerned_people' do
+  describe '#set_concerned_people' do
     before(:each) do
       @manifestation = Work.create(:title => 'Work')
       @person1 = Person.create(:firstname => 'firstname1', :lastname => 'lastname1', :date_of_birth => Time.now.nsec.to_s)
@@ -233,7 +233,7 @@ describe ManifestationsHelper do
     end
 
     it 'should be possible to add one person' do
-      add_concerned_people([@person1.id], @manifestation)
+      set_concerned_people([@person1.id], @manifestation).should be_true
       #reload
       m = Work.find(@manifestation.pid)
       p1 = Person.find(@person1.pid)
@@ -252,7 +252,7 @@ describe ManifestationsHelper do
     end
 
     it 'should be possible to add more than one person' do
-      add_concerned_people([@person1.id, @person2.id, @person3.id], @manifestation)
+      set_concerned_people([@person1.id, @person2.id, @person3.id], @manifestation).should be_true
       #reload
       m = Work.find(@manifestation.pid)
       p1 = Person.find(@person1.pid)
@@ -276,7 +276,7 @@ describe ManifestationsHelper do
     end
 
     it 'should allow the empty set' do
-      add_concerned_people([], @manifestation)
+      set_concerned_people([], @manifestation).should be_false
       m = Work.find(@manifestation.pid)
       p1 = Person.find(@person1.pid)
       p2 = Person.find(@person2.pid)
