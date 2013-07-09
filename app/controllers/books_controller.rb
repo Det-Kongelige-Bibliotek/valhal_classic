@@ -85,12 +85,24 @@ class BooksController < ApplicationController
     validate_book(params)
     if @book.errors.size > 0
       logger.debug "#{@book.errors.size.to_s} Validation errors found, returning to last screen"
+      @book = Book.find(params[:id])
+      redirect_to @book, notice: 'Book was successfully created.'
       render action: 'show_file'
     else
       @book = Book.find(params[:id])
       handle_representation_parameters
-      redirect_to @book, notice: 'Book was successfully created.'
+      if !params[:file][:tiff_file].blank?
+        render action: 'sort_tiff_files'
+      else
+        redirect_to @book, notice: 'Book was successfully created.'
+      end
     end
+  end
+
+  def finish_book_with_structmap
+
+    create_structmap_for_representation(params['structmap_file_order'], @book.ordered_reps[0])
+    redirect_to @book, notice: 'Book was successfully created.'
   end
 
   def destroy

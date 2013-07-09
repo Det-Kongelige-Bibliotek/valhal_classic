@@ -60,6 +60,7 @@ Valhal::Application.routes.draw do
       get 'show_file'
       put 'show_file'
       put 'save_edit'
+      put 'finish_book_with_structmap'
     end
   end
 end
