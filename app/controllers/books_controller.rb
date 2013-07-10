@@ -91,7 +91,6 @@ class BooksController < ApplicationController
     if @book.errors.size > 0
       logger.debug "#{@book.errors.size.to_s} Validation errors found, returning to last screen"
       @book = Book.find(params[:id])
-      redirect_to @book, notice: 'Book was successfully created.'
       render action: 'show_file'
     else
       @book = Book.find(params[:id])
