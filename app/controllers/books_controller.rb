@@ -44,11 +44,16 @@ class BooksController < ApplicationController
 
     #Validation passed begin processing parameters
     @book = Book.new(params[:book])
+    handle_representation_parameters
 
-    if @book.save
-      redirect_to show_person_book_path @book
-    else
-      render action: 'new'
+    respond_to do |format|
+      if @book.save
+        format.html { redirect_to show_person_book_path @book }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @book.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -91,7 +96,7 @@ class BooksController < ApplicationController
     else
       @book = Book.find(params[:id])
       handle_representation_parameters
-      if !params[:file][:tiff_file].blank?
+      if !params[:file].blank? && !params[:file][:tiff_file].blank?
         render action: 'sort_tiff_files'
       else
         redirect_to @book, notice: 'Book was successfully created.'
