@@ -8,7 +8,7 @@
 # at all. In general you do NOT need to deploy solr in Jetty, you can deploy it
 # however you want.  
 # jetty_path is only required for rake tasks that need to know
-
+#
 # how to start up solr, generally for automated testing. 
 production:
   url: http://sifd-staging-01.kb.dk:8080/solr/sifd-01
