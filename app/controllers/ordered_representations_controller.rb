@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-require 'zip/zip'
+#require 'zip/zip'
 
 class OrderedRepresentationsController < ApplicationController
   load_and_authorize_resource
