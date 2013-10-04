@@ -48,6 +48,7 @@
 
 <br/>
 
-<%= link_to 'Edit', edit_book_path(@book) %> |
-<%= link_to 'Books', books_path %> |
-<%= link_to 'New Book', new_book_path %>
+<%= link_to 'Show book', @book %> |
+<%= link_to 'Edit metadata', edit_book_path(@book) %> |
+<%= link_to 'Preservation settings', preservation_book_path(@book) %> |
+<%= link_to 'Books', books_path %>

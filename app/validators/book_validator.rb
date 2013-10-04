@@ -10,9 +10,11 @@ class BookValidator < ActiveModel::Validator
   end
 
   private
+  # Validate that the ISBN value is unique.
+  # @param isbn The ISBN value to validate.
+  # @param id The id of the record.
+  # @return Whether any duplicate ISBN number exists.
   def duplicate_isbn?(isbn, id)
-    logger.debug ":isbn.blank? = #{isbn.blank?}"
-    logger.debug ":isbn = #{isbn}"
     if isbn.blank?
       logger.debug "Returning false as the ISBN is blank"
       false

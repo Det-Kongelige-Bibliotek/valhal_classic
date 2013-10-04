@@ -1,0 +1,61 @@
+<!--
+ Must be included through rendering of multipart fields.
+ The given preservation metadata must be passed on as @preservationMetadata, and the element with the preservation metadata must be given as @object.
+ The 'fields for' builder must be delivered as a the 'f' parameter.
+-->
+<div class="preservation_current_settings">
+  <h3>Current preservation settings for this <%= @object.class %>:</h3>
+  <dt><strong>Preservation profile:</strong></dt>
+  <dd><%= @preservationMetadata.preservation_profile.blank? ? 'N/A' : @preservationMetadata.preservation_profile.first %></dd>
+  <dt><strong>Preservation comment:</strong></dt>
+  <dd><%= @preservationMetadata.preservation_comment.blank? ? 'N/A' : @preservationMetadata.preservation_comment.first %></dd>
+</div>
+
+<div class="preservation_current_state">
+  <h3>Current preservation state for this element</h3>
+  <dt><strong>Preservation state:</strong></dt>
+  <dd><%= @preservationMetadata.preservation_state.blank? ? 'N/A' : @preservationMetadata.preservation_state.first %></dd>
+  <dt><strong>Preservation details:</strong></dt>
+  <dd><%= @preservationMetadata.preservation_details.blank? ? 'N/A' : @preservationMetadata.preservation_details.first %></dd>
+  <dt><strong>Preservation date:</strong></dt>
+  <dd><%= @preservationMetadata.preservation_date.blank? ? 'N/A' : @preservationMetadata.preservation_date.first %></dd>
+</div>
+
+<hr/>
+<div class="preservation_profile">
+  <h3>Change preservation profile</h3>
+  <table border="5px">
+    <tr>
+      <th>Profile name</th>
+      <th>Bitsafety</th>
+      <th>Confidentaility</th>
+    </tr>
+    <%- PRESERVATION_CONFIG["preservation_profile"].each do |key, value| %>
+      <tr>
+        <td>
+          <b>
+            <%= key %>
+          </b>
+        </td>
+        <td>
+          <%= value["bit_safety"] %>
+        </td>
+        <td>
+          <%= value["confidentiality"] %>
+        </td>
+      </tr>
+    <%- end %>
+  </table>
+  <div class="set_profile">
+    <br/>
+    <%= f.label :preservation_profile, "Preservation profile" %>
+    <%= f.select :preservation_profile, options_for_select(PRESERVATION_CONFIG["preservation_profile"].keys, ':placeholder => @preservationMetadata.preservation_profile') %>
+  </div>
+</div>
+
+<div class="set_comment">
+  <h3>Change comment for preservation</h3>
+  <br/>
+  <%= f.label :preservation_comment, "Preservation comment" %>
+  <%= f.text_field :preservation_comment, :class => 'text_field', :value => @preservationMetadata.preservation_comment.first %>
+</div>

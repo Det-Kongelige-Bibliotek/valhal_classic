@@ -20,5 +20,7 @@
     <%= f.submit "Next" %>
 <% end %>
 
-<%= link_to 'Show', @book %> |
+<%= link_to 'Show book', @book %> |
+<%= link_to 'Edit metadata', edit_book_path(@book) %> |
+<%= link_to 'Preservation settings', preservation_book_path(@book) %> |
 <%= link_to 'Books', books_path %>

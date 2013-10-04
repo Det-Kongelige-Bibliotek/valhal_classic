@@ -4,6 +4,7 @@ class Book < ActiveFedora::Base
   include Concerns::Manifest
   include Concerns::Manifestation::Author
   include Concerns::Manifestation::Concerning
+  include Concerns::Preservation
   include Solr::Indexable
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
@@ -14,9 +15,11 @@ class Book < ActiveFedora::Base
                                :originPlace, :languageISO, :languageText, :subjectTopic, :dateIssued,
                                :physicalExtent], :unique => true
 
+
   validates :title, :presence => true
   validates :isbn, :numericality => true, :allow_blank => true
   validates_with BookValidator
+  #after_create :initialize_preservation
   after_save :add_ie_to_reps
 
   # Delivers the title and subtitle in a format for displaying.
@@ -49,5 +52,8 @@ class Book < ActiveFedora::Base
     m.field 'title'
     m.field 'sub_title', method: :subTitle
     m.field 'type_of_resource', method: :typeOfResource
+    m.field 'preservation_profile', method: :preservation_profile
+    m.field 'preservation_state', method: :preservation_state
+    m.field 'preservation_details', method: :preservation_details
   end
 end

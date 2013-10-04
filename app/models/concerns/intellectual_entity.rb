@@ -20,7 +20,6 @@ module Concerns
 
       # Automatical creation of a random value in the UUID if it has not been defined at the point of saving.
       before_validation(:on => :create) do
-        #Alwb: Fails big time after the update to HH6, commented it out for now. TODO will need to investigate why this fails
         self.uuid = UUID.new.generate if self.uuid.blank?
       end
     end

@@ -2,6 +2,7 @@
 class BooksController < ApplicationController
   include Wicked::Wizard
   include ManifestationsHelper
+  include PreservationHelper
 
   steps :sort_tiff_files
 
@@ -104,7 +105,6 @@ class BooksController < ApplicationController
   end
 
   def finish_book_with_structmap
-
     create_structmap_for_representation(params['structmap_file_order'], @book.ordered_reps.last)
     redirect_to @book, notice: 'Book was successfully created.'
   end
@@ -114,6 +114,22 @@ class BooksController < ApplicationController
     @book.destroy
 
     redirect_to books_url
+  end
+
+  # Updates the preservation settings.
+  def update_preservation
+    @book = Book.find(params[:id])
+
+    if update_preservation_metadata(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment], @book)
+      if(params[:commit] == 'Perform preservation')
+        logger.warn "CANNOT PERFORM PRESERVATION YET!!!"
+        redirect_to @book, notice: 'Preservation metadata for the Book successfully updated, BUT NOT PERFORMED SINCE NOT IMPLEMENTED!!!'
+      else
+        redirect_to @book, notice: 'Preservation metadata for the Book successfully updated'
+      end
+    else
+      render action: 'preservation'
+    end
   end
 
   private
