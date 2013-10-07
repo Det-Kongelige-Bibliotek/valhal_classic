@@ -1,0 +1,14 @@
+development:
+  activemq:
+    uri: "failover:(tcp://localhost:61613?keepAlive=true)"
+    destination: "/topic/event"
+
+test:
+  activemq:
+    uri: "failover:(tcp://localhost:61613?keepAlive=true)"
+    destination: "/topic/event"
+
+production:
+  activemq:
+    uri: "failover:(tcp://localhost:61613?keepAlive=true)"
+    destination: "/topic/event"

@@ -17,6 +17,9 @@ gem 'dynamic_form'
 gem 'rubyzip'
 gem 'wicked'
 
+# Preservation
+gem 'stomp', '~> 1.3.1'
+
 # NOTE: the :require arg is necessary on Linux-based hosts
 gem 'rmagick', '2.13.1', :require => 'RMagick'
 gem 'paperclip'

@@ -3,6 +3,7 @@ class BooksController < ApplicationController
   include Wicked::Wizard
   include ManifestationsHelper
   include PreservationHelper
+  include ActivemqHelper
 
   steps :sort_tiff_files
 
@@ -122,6 +123,7 @@ class BooksController < ApplicationController
 
     if update_preservation_metadata(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment], @book)
       if(params[:commit] == 'Perform preservation')
+        send_activemq_message(@book.uuid, @book.descMetadata.to_xml, nil)
         logger.warn "CANNOT PERFORM PRESERVATION YET!!!"
         redirect_to @book, notice: 'Preservation metadata for the Book successfully updated, BUT NOT PERFORMED SINCE NOT IMPLEMENTED!!!'
       else
