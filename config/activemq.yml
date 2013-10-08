@@ -1,14 +1,14 @@
 development:
   activemq:
-    uri: "failover:(tcp://localhost:61613?keepAlive=true)"
-    destination: "/topic/event"
+    broker_uri: "failover:(tcp://localhost:61613?keepAlive=true)"
+    preservation_destination: "/topic/event"
 
 test:
   activemq:
-    uri: "failover:(tcp://localhost:61613?keepAlive=true)"
-    destination: "/topic/event"
+    broker_uri: "failover:(tcp://localhost:61613?keepAlive=true)"
+    preservation_destination: "/topic/event"
 
 production:
   activemq:
-    uri: "failover:(tcp://localhost:61613?keepAlive=true)"
-    destination: "/topic/event"
+    broker_uri: "failover:(tcp://localhost:61613?keepAlive=true)"
+    preservation_destination: "/topic/event"

@@ -4,6 +4,7 @@ require "spec_helper"
 describe 'ActiveMQ' do
   describe 'STOMP access' do
     it 'should put a message on a queue' do
+      pending "Are we really going to use ActiveMQ??"
       uri = "failover:(tcp://localhost:61613?keepAlive=true)"
       destination = "/topic/event"
       client = Stomp::Client.new(uri)

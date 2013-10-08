@@ -1,14 +1,22 @@
 # -*- encoding : utf-8 -*-
 
 # Provides methods for all elements for sending a message over ActiveMQ
-module ActivemqHelper
+module MqHelper
   # Sends a message containing the UUID of the element, the metadata for the element, and optionally the URI for the content-data.
+  #
+  # The message format:
+  # UUID: 'uuid for the element'
+  # CONTENT_URI: 'url for downloading the content metadata' (optional)
+  # METADATA: 'the metadata for the element'
+  #
+  # TODO: figure out whether to use ActiveMQ and STOMP, as in this case.
+  #
   # @param uuid The UUID for the given element
   # @param metadata The metadata for the element
   # @param content_uri The URI for extracting the content files.
-  def send_activemq_message(uuid, metadata, content_uri)
-    uri = ACTIVE_MQ_CONFIG["activemq"]["uri"]
-    destination = ACTIVE_MQ_CONFIG["activemq"]["destination"]
+  def send_message_to_preservation(uuid, metadata, content_uri)
+    uri = MQ_CONFIG["activemq"]["broker_uri"]
+    destination = MQ_CONFIG["activemq"]["preservation_destination"]
 
     client = Stomp::Client.new(uri)
     message = "UUID: #{uuid}\n\nContent_URI: #{content_uri}\n\nMETADATA: #{metadata}"

@@ -19,7 +19,6 @@ class Book < ActiveFedora::Base
   validates :title, :presence => true
   validates :isbn, :numericality => true, :allow_blank => true
   validates_with BookValidator
-  #after_create :initialize_preservation
   after_save :add_ie_to_reps
 
   # Delivers the title and subtitle in a format for displaying.

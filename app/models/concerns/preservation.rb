@@ -7,15 +7,16 @@ module Concerns
 
     included do
       include ActiveFedora::Callbacks
+      include PreservationHelper
 
       has_metadata :name => 'preservationMetadata', :type => Datastreams::PreservationDatastream
-      delegate_to 'preservationMetadata', [:preservation_profile, :preservation_state, :preservation_details, :preservation_date], :unique => true
+      delegate_to 'preservationMetadata', [:preservation_profile, :preservation_state, :preservation_details, :preservation_modify_date, :preservation_comment], :unique => true
 
       before_validation(:on => :create) do
         self.preservation_profile = "Undefined" if preservation_profile.blank?
         self.preservation_state = "None" if preservation_state.blank?
         self.preservation_details = "N/A" if preservation_details.blank?
-        self.preservation_date = DateTime.now.to_s if preservation_date.blank?
+        set_preservation_time(self)
       end
     end
   end

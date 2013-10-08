@@ -4,9 +4,11 @@ require 'spec_helper'
 describe Book do
   subject { Book.new(title: "test") }
 
-  it_behaves_like "a manifestation with authors"
+  #it_behaves_like "a manifestation with authors"
 
-  it_behaves_like "a manifestation with concerns"
+  #it_behaves_like "a manifestation with concerns"
+
+  it_behaves_like 'a preservable element'
 
   before(:each) do
     @book = Book.create
@@ -170,7 +172,7 @@ describe Book do
       first_book = Book.new(:title => "Java in a Nutshell", :isbn => 9788175257661)
       first_book.save!
       duplicate_book = Book.new(:title => "MITRE", :isbn => 9788175257666)
-      expect { duplicate_book.save! }.to_not raise_error(ActiveFedora::RecordInvalid, /Isbn cannot be duplicated/)
+      expect { duplicate_book.save! }.to_not raise_error
     end
   end
 

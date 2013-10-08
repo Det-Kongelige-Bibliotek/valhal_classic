@@ -2,7 +2,7 @@ development:
   preservation_profile:
     simple:
       bit_safety: "Medium Bitsafety (Bitrepository with 3 x copies: 2 full and one checksum, and regularly integrity checks)"
-      confidentiality: "Medium confidentiality (no access through bitrepository, and limitted access to files at pillars/backends)"
+      confidentiality: "Medium confidentiality (no access through bitrepository, and limited access to files at pillars/backends)"
     storage:
       bit_safety: "Minimum Bitsafety (Not in Bitrepository: 1 local copy, no integrity checks)"
       confidentiality: "Low confidentiality (Everyone with access to Valhal)."
@@ -14,7 +14,7 @@ test:
   preservation_profile:
     simple:
       bit_safety: "Medium Bitsafety (Bitrepository with 3 x copies: 2 full and one checksum, and regularly integrity checks)"
-      confidentiality: "Medium confidentiality (no access through bitrepository, and limitted access to files at pillars/backends)"
+      confidentiality: "Medium confidentiality (no access through bitrepository, and limited access to files at pillars/backends)"
     storage:
       bit_safety: "Minimum Bitsafety (Not in Bitrepository: 1 local copy, no integrity checks)"
       confidentiality: "Low confidentiality (Everyone with access to Valhal)."
@@ -26,7 +26,7 @@ production:
   preservation_profile:
     simple:
       bit_safety: "Medium Bitsafety (Bitrepository with 3 x copies: 2 full and one checksum, and regularly integrity checks)"
-      confidentiality: "Medium confidentiality (no access through bitrepository, and limitted access to files at pillars/backends)"
+      confidentiality: "Medium confidentiality (no access through bitrepository, and limited access to files at pillars/backends)"
     storage:
       bit_safety: "Minimum Bitsafety (Not in Bitrepository: 1 local copy, no integrity checks)"
       confidentiality: "Low confidentiality (Everyone with access to Valhal)."

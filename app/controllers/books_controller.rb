@@ -3,7 +3,7 @@ class BooksController < ApplicationController
   include Wicked::Wizard
   include ManifestationsHelper
   include PreservationHelper
-  include ActivemqHelper
+  include MqHelper
 
   steps :sort_tiff_files
 
@@ -121,11 +121,12 @@ class BooksController < ApplicationController
   def update_preservation
     @book = Book.find(params[:id])
 
-    if update_preservation_metadata(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment], @book)
+    if update_preservation_profile(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment], @book)
+      # If it is the 'perform preservation' button which has been pushed, then it should send a message.
       if(params[:commit] == 'Perform preservation')
-        send_activemq_message(@book.uuid, @book.descMetadata.to_xml, nil)
-        logger.warn "CANNOT PERFORM PRESERVATION YET!!!"
-        redirect_to @book, notice: 'Preservation metadata for the Book successfully updated, BUT NOT PERFORMED SINCE NOT IMPLEMENTED!!!'
+        update_preservation_state("Preservation initiated", "The preservation button has been pushed.", @book)
+        send_message_to_preservation(@book.uuid, @book.descMetadata.to_xml, nil)
+        redirect_to @book, notice: 'Preservation metadata for the Book successfully updated and the preservation has begun.'
       else
         redirect_to @book, notice: 'Preservation metadata for the Book successfully updated'
       end

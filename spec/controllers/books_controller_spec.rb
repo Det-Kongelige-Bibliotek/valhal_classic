@@ -545,7 +545,91 @@ describe BooksController do
       before_xml = b.representations.first.techMetadata.ng_xml.to_s
       before_xml.index(@tiff1.original_filename).should be < before_xml.index(@tiff2.original_filename)
     end
+  end
 
+  describe 'Update preservation metadata' do
+    before(:each) do
+      @book = Book.create!(:title => 'test title')
+    end
+    it 'should have a default preservation settings' do
+      b = Book.find(@book.pid)
+      b.preservation_profile.should_not be_blank
+      b.preservation_state.should_not be_blank
+      b.preservation_details.should_not be_blank
+      b.preservation_modify_date.should_not be_blank
+      b.preservation_comment.should be_blank
+    end
+
+    it 'should be updated and redirect to the book' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+
+      put :update_preservation, {:id => @book.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@book)
+
+      b = Book.find(@book.pid)
+      b.preservation_state.should_not be_blank
+      b.preservation_details.should_not be_blank
+      b.preservation_modify_date.should_not be_blank
+      b.preservation_profile.should == profile
+      b.preservation_comment.should == comment
+    end
+
+    it 'should not update or redirect, when the profile is wrong.' do
+      profile = "wrong profile #{Time.now.to_s}"
+      comment = "This is the preservation comment"
+
+      put :update_preservation, {:id => @book.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should_not redirect_to(@book)
+
+      b = Book.find(@book.pid)
+      b.preservation_state.should_not be_blank
+      b.preservation_details.should_not be_blank
+      b.preservation_modify_date.should_not be_blank
+      b.preservation_profile.should_not == profile
+      b.preservation_comment.should_not == comment
+    end
+
+    it 'should update the preservation date' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+      b = Book.find(@book.pid)
+      d = b.preservation_modify_date
+
+      put :update_preservation, {:id => @book.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@book)
+
+      b = Book.find(@book.pid)
+      b.preservation_modify_date.should_not == d
+    end
+
+    it 'should not update the preservation date, when the same profile and comment is given.' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+      @book.preservation_profile = profile
+      @book.preservation_comment = comment
+      @book.save
+
+      b = Book.find(@book.pid)
+      d = b.preservation_modify_date
+
+      put :update_preservation, {:id => @book.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@book)
+
+      b = Book.find(@book.pid)
+      b.preservation_modify_date.should == d
+    end
+
+    it 'should send a message, when performing preservation' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+
+      put :update_preservation, {:id => @book.pid, :commit => "Perform preservation", :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@book)
+
+      b = Book.find(@book.pid)
+      b.preservation_state.should == 'Preservation initiated'
+    end
   end
 
   after(:all) do
