@@ -4,9 +4,9 @@ require 'spec_helper'
 describe Book do
   subject { Book.new(title: "test") }
 
-  #it_behaves_like "a manifestation with authors"
+  it_behaves_like 'a manifestation with authors'
 
-  #it_behaves_like "a manifestation with concerns"
+  it_behaves_like 'a manifestation with concerns'
 
   it_behaves_like 'a preservable element'
 
