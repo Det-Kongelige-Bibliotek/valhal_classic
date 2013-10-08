@@ -5,6 +5,10 @@ require 'support/representation_spec_helper'
 describe OrderedRepresentation do
   include RepresentationSpecHelper
 
+  subject { OrderedRepresentation.new }
+  it_behaves_like 'a preservable element'
+
+
   it 'should have a datastream named descMetadata ' do
     subject.descMetadata.should_not be_nil
   end

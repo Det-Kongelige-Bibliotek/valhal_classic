@@ -3,6 +3,34 @@
 # The helper methods for preservation.
 # Provides methods for managing the preservation metadata, etc.
 module PreservationHelper
+  include MqHelper
+
+  # Updates the preservation settings from the controller.
+  # @param params The parameters from the controller.
+  # @param element The element to have its preservation settings updated.
+  def update_preservation_profile_from_controller(params, element)
+    if update_preservation_profile(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment], element)
+      # If it is the 'perform preservation' button which has been pushed, then it should send a message.
+      if(params[:commit] == 'Perform preservation')
+        update_preservation_state('Preservation initiated', 'The preservation button has been pushed.', element)
+        send_message_to_preservation(element.uuid, element.descMetadata.to_xml, nil)
+        redirect_to element, notice: "Preservation metadata for the #{element.class} successfully updated and the preservation has begun."
+      else
+        redirect_to element, notice: "Preservation metadata for the #{element.class} successfully updated"
+      end
+    else
+      render action: 'preservation'
+    end
+  end
+
+  # Updates the preservation date to this exact point in time.
+  # The date has to be formatted explicitly to include the milli/micro/nano-seconds.
+  # @param element The element to have its preservation date updated.
+  def set_preservation_time(element)
+    element.preservationMetadata.preservation_modify_date = DateTime.now.strftime("%FT%T.%L%:z")
+  end
+
+  private
   # Updates the preservation profile for a given element (e.g. a file, a representation, a work, etc.)
   # @param profile The name of the profile to update with.
   # @param comment The comment attached to the preservation
@@ -41,12 +69,5 @@ module PreservationHelper
     element.preservationMetadata.preservation_state = state
     element.preservationMetadata.preservation_details = details
     element.save
-  end
-
-  # Updates the preservation date to this exact point in time.
-  # The date has to be formatted explicitly to include the milli/micro/nano-seconds.
-  # @param element The element to have its preservation date updated.
-  def set_preservation_time(element)
-    element.preservationMetadata.preservation_modify_date = DateTime.now.strftime("%FT%T.%L%:z")
   end
 end

@@ -119,20 +119,7 @@ class BooksController < ApplicationController
 
   # Updates the preservation settings.
   def update_preservation
-    @book = Book.find(params[:id])
-
-    if update_preservation_profile(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment], @book)
-      # If it is the 'perform preservation' button which has been pushed, then it should send a message.
-      if(params[:commit] == 'Perform preservation')
-        update_preservation_state("Preservation initiated", "The preservation button has been pushed.", @book)
-        send_message_to_preservation(@book.uuid, @book.descMetadata.to_xml, nil)
-        redirect_to @book, notice: 'Preservation metadata for the Book successfully updated and the preservation has begun.'
-      else
-        redirect_to @book, notice: 'Preservation metadata for the Book successfully updated'
-      end
-    else
-      render action: 'preservation'
-    end
+    update_preservation_profile_from_controller(params, Book.find(params[:id]))
   end
 
   private

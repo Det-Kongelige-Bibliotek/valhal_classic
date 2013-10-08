@@ -5,8 +5,8 @@ describe Work do
   subject { Book.new(title: 'test' + Time.now.nsec.to_s) }
 
   it_behaves_like 'a manifestation with authors'
-
   it_behaves_like 'a manifestation with concerns'
+  it_behaves_like 'a preservable element'
 
   describe '#title' do
     it 'should be created with a title' do

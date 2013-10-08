@@ -6,6 +6,8 @@ describe Person do
   subject { Person.new(firstname: "Test #{Time.now.nsec.to_s}", lastname: "last_test") }
   it_behaves_like "a person with manifestations"
   it_behaves_like "a person with concerns"
+  it_behaves_like 'a preservable element'
+
 
   describe "#create" do
 

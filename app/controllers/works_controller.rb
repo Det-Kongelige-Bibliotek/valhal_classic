@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 class WorksController < ApplicationController
   include ManifestationsHelper
+  include PreservationHelper
+
   load_and_authorize_resource
 
   def index
@@ -90,6 +92,11 @@ class WorksController < ApplicationController
     @work.destroy
 
     redirect_to works_url
+  end
+
+  # Updates the preservation settings.
+  def update_preservation
+    update_preservation_profile_from_controller(params, Work.find(params[:id]))
   end
 
   private

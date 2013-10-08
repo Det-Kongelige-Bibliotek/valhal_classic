@@ -3,6 +3,7 @@ class Work < ActiveFedora::Base
   include Concerns::Manifest
   include Concerns::Manifestation::Author
   include Concerns::Manifestation::Concerning
+  include Concerns::Preservation
   include Solr::Indexable
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
@@ -39,6 +40,9 @@ class Work < ActiveFedora::Base
   has_solr_fields do |m|
     m.field "search_result_title", method: :get_title_for_display
     m.field "work_type", method: :work_type
+    m.field 'preservation_profile', method: :preservation_profile
+    m.field 'preservation_state', method: :preservation_state
+    m.field 'preservation_details', method: :preservation_details
   end
 
   after_save :add_ie_to_reps

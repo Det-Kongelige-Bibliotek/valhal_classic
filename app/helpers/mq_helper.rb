@@ -18,10 +18,11 @@ module MqHelper
     uri = MQ_CONFIG["activemq"]["broker_uri"]
     destination = MQ_CONFIG["activemq"]["preservation_destination"]
 
-    client = Stomp::Client.new(uri)
     message = "UUID: #{uuid}\n\nContent_URI: #{content_uri}\n\nMETADATA: #{metadata}"
     logger.info "Sending message '#{message}' on destination '#{destination}' at broker '#{uri}'"
+
     # Stop sending, since it does not work for testing environment.
+    #client = Stomp::Client.new(uri)
     #client.publish(destination, message)
   end
 end

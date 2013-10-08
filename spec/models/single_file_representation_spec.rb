@@ -5,6 +5,9 @@ require 'support/representation_spec_helper'
 describe SingleFileRepresentation do
   include RepresentationSpecHelper
 
+  subject { SingleFileRepresentation.new }
+  it_behaves_like 'a preservable element'
+
   it "should have a datastream named descMetadata " do
     subject.descMetadata.should_not be_nil
   end

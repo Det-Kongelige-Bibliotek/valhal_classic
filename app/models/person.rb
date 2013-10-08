@@ -10,6 +10,7 @@ class Person < ActiveFedora::Base
   include Concerns::Person::Author
   include Concerns::Person::Concerning
   include Concerns::Person::Portrait
+  include Concerns::Preservation
   include Solr::Indexable
 
   # Descriptive metadata stream for the abstract person.

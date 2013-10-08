@@ -14,11 +14,19 @@ Valhal::Application.routes.draw do
   # first created -> highest priority.
 
   #Standard resource mapping
-  resources :single_file_representations
+  resources :single_file_representations do
+    member do
+      get 'preservation'
+      put 'update_preservation'
+    end
+  end
+
   resources :ordered_representations do
     member do
       get 'thumbnail_url'
       get 'download_all'
+      get 'preservation'
+      put 'update_preservation'
     end
   end
 
@@ -35,6 +43,8 @@ Valhal::Application.routes.draw do
       get 'show_file'
       put 'show_file'
       put 'save_edit'
+      get 'preservation'
+      put 'update_preservation'
     end
   end
 
@@ -43,6 +53,8 @@ Valhal::Application.routes.draw do
       get 'show_image'
       get 'image_url'
       put 'add_manifest'
+      get 'preservation'
+      put 'update_preservation'
     end
   end
 

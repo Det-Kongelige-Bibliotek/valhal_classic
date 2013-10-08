@@ -2,6 +2,9 @@
 #require 'zip/zip'
 
 class OrderedRepresentationsController < ApplicationController
+  include PreservationHelper
+  include MqHelper
+
   load_and_authorize_resource
 
   def show
@@ -69,5 +72,10 @@ class OrderedRepresentationsController < ApplicationController
       logger.error standard_error.to_s
       redirect_to :back
     end
+  end
+
+  # Updates the preservation settings.
+  def update_preservation
+    update_preservation_profile_from_controller(params, OrderedRepresentation.find(params[:id]))
   end
 end

@@ -49,7 +49,7 @@
   <div class="set_profile">
     <br/>
     <%= f.label :preservation_profile, "Preservation profile" %>
-    <%= f.select :preservation_profile, options_for_select(PRESERVATION_CONFIG["preservation_profile"].keys, ':placeholder => @preservationMetadata.preservation_profile') %>
+    <%= f.select :preservation_profile, options_for_select(PRESERVATION_CONFIG["preservation_profile"].keys, @preservationMetadata.preservation_profile.first ) %>
   </div>
 </div>
 

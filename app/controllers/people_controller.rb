@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class PeopleController < ApplicationController
   include PeopleHelper
+  include PreservationHelper
 
   load_and_authorize_resource
 
@@ -80,6 +81,11 @@ class PeopleController < ApplicationController
     @person.destroy
 
     redirect_to people_url
+  end
+
+  # Updates the preservation settings.
+  def update_preservation
+    update_preservation_profile_from_controller(params, Person.find(params[:id]))
   end
 
   private

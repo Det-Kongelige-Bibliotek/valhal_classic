@@ -3,7 +3,9 @@
 # Representation with only a single file.
 # No underlying structure to keep track of order/relationship between files.
 class SingleFileRepresentation < ActiveFedora::Base
+  include Concerns::IntellectualEntity
   include Concerns::Representation
+  include Concerns::Preservation
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name => 'descMetadata', :type => ActiveFedora::SimpleDatastream

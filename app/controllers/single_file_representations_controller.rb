@@ -1,5 +1,7 @@
 # -*- encoding : utf-8 -*-
 class SingleFileRepresentationsController < ApplicationController
+  include PreservationHelper
+
   load_and_authorize_resource
 
   def show
@@ -18,5 +20,10 @@ class SingleFileRepresentationsController < ApplicationController
     else
       render action: "edit"
     end
+  end
+
+  # Updates the preservation settings.
+  def update_preservation
+    update_preservation_profile_from_controller(params, SingleFileRepresentation.find(params[:id]))
   end
 end
