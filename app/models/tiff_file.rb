@@ -3,7 +3,6 @@ require 'RMagick'
 
 class TiffFile < ActiveFedora::Base
   include Concerns::BasicFile
-  include Concerns::IntellectualEntity
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
 

@@ -12,6 +12,8 @@ module Concerns
     include Hydra::Models::FileAsset
 
     included do
+      include Concerns::IntellectualEntity
+      include Concerns::Preservation
       # a ActiveFedora::SimpleDatastream for the techMetadata
       # TODO find out if we need to make our own Datastream for techMetadata
       has_metadata :name => 'techMetadata', :type => ActiveFedora::SimpleDatastream do |m|

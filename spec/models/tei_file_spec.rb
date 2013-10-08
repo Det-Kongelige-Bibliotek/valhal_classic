@@ -2,6 +2,10 @@
 require 'spec_helper'
 
 describe TeiFile do
+
+  subject { BasicFile.new }
+  it_behaves_like 'a preservable element'
+
   before(:all) do
     @uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'test.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
   end

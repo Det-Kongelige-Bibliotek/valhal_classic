@@ -2,6 +2,10 @@
 require 'spec_helper'
 
 describe BasicFile do
+
+  subject { BasicFile.new }
+  it_behaves_like 'a preservable element'
+
   context "with a xml file" do
     before do
       @basic_file = BasicFile.new

@@ -2,6 +2,9 @@
 require 'spec_helper'
 
 describe TiffFile do
+  subject { BasicFile.new }
+  it_behaves_like 'a preservable element'
+
   context "with a tiff file" do
     before do
       @uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"), head: "Content-Disposition: form-data; name=\"file[tiff_file][]\"; filename=\"arre1fm005.tif\"\r\nContent-Type: image/tiff\r\n")
