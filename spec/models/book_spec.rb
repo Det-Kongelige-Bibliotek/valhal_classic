@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe Book do
-  subject { Book.new(title: "test") }
+  subject { Book.new(title: "test titel") }
 
   it_behaves_like 'a manifestation with authors'
 
