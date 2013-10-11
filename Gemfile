@@ -4,7 +4,7 @@ gem 'rails', '3.2.13'
 
 gem "devise", "~> 2.1.2"
 gem "blacklight"
-gem 'hydra-head', '~> 6.1.0'
+gem 'hydra-head', '6.1.0'
 gem 'sqlite3'
 gem 'bootswatch-rails'
 
@@ -18,7 +18,8 @@ gem 'rubyzip'
 gem 'wicked'
 
 # Preservation
-gem 'stomp', '~> 1.3.1'
+gem 'amqp'
+gem 'bunny'
 
 # NOTE: the :require arg is necessary on Linux-based hosts
 gem 'rmagick', '2.13.1', :require => 'RMagick'

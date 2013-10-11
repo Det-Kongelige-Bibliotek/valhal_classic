@@ -1,0 +1,17 @@
+development:
+  rabbitmq:
+    broker_uri: "amqp://localhost:5672"
+  preservation:
+    destination: "dev-queue"
+
+test:
+  rabbitmq:
+    broker_uri: "amqp://localhost:5672"
+  preservation:
+    destination: "test-queue"
+
+production:
+  rabbitmq:
+    broker_uri: "amqp://localhost:5672"
+  preservation:
+    destination: "prod-queue"

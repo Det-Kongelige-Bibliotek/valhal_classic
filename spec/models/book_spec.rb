@@ -82,7 +82,7 @@ describe Book do
   end
 
   describe "authors" do
-    it "should not have an author, when noone has been assigned as author" do
+    it "should not have an author, when no one has been assigned as author" do
       @book.has_author?.should be_false
     end
 
@@ -96,7 +96,7 @@ describe Book do
 
   describe "tiff_representation" do
     let(:representation) { OrderedRepresentation }
-    it "should not have an tiff representation, when noone has been assigned" do
+    it "should not have an tiff representation, when no one has been assigned" do
       @book.has_rep?.should be_false
       @book.ordered_reps.length.should == 0
     end
@@ -112,7 +112,7 @@ describe Book do
 
   describe "tei_representation" do
     let(:representation) { SingleFileRepresentation }
-    it "should not have an tei representation, when noone has been assigned" do
+    it "should not have an tei representation, when no one has been assigned" do
       @book.has_rep?.should be_false
       @book.single_file_reps.length.should == 0
     end

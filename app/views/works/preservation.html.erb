@@ -3,16 +3,7 @@
   <h1><%=t 'helpers.titles.preservation', :default => [:'helpers.titles.preservation', 'Preservation for %{model}'], :model => model_class.model_name.human %></h1>
 </div>
 
-<%= form_for @work, :html=>{:multipart=>true}, url: {action: 'update_preservation'} do |f| %>
-    <%= f.error_messages :header_message => 'Error when editing preservation settings', :class => 'alert alert-error', :header_tag => :h3 %>
-    <%- @object = @work-%>
-    <%- @preservationMetadata = @work.preservationMetadata -%>
-    <%= fields_for :preservation do |builder| %>
-        <%= render 'shared/preservation_management/preservation_admin', :f => builder %>
-    <% end %>
-    <br/>
-    <%= f.submit 'Update settings', :class => 'btn btn-primary' %>
-    <%= f.submit 'Perform preservation', :class => 'btn btn-primary' %>
-<% end %>
+<%- @object = @work-%>
+<%= render 'shared/preservation_management/preservation' %>
 
 <%= render 'footer' %>

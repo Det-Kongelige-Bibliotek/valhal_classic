@@ -1,9 +1,8 @@
 # -*- encoding : utf-8 -*-
 class BooksController < ApplicationController
   include Wicked::Wizard
-  include ManifestationsHelper
-  include PreservationHelper
-  include MqHelper
+  include ManifestationsHelper # methods: create_structmap_for_representation, set_authors, set_concerned_people, add_single_tei_rep, add_tiff_order_rep
+  include PreservationHelper # methods: update_preservation_profile_from_controller
 
   steps :sort_tiff_files
 

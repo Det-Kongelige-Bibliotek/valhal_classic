@@ -621,14 +621,28 @@ describe BooksController do
     end
 
     it 'should send a message, when performing preservation' do
+      #pending "Needs to retrieve and validate message."
       profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
       comment = "This is the preservation comment"
+      destination = MQ_CONFIG["preservation"]["destination"]
+      uri = MQ_CONFIG["rabbitmq"]["broker_uri"]
+
+      conn = Bunny.new(uri)
+      conn.start
+
+      ch = conn.create_channel
+      q = ch.queue(destination, :durable => true)
 
       put :update_preservation, {:id => @book.pid, :commit => "Perform preservation", :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
       response.should redirect_to(@book)
 
+      q.subscribe do |delivery_info, metadata, payload|
+        payload.should include @book.pid
+      end
+
       b = Book.find(@book.pid)
       b.preservation_state.should == 'Preservation initiated'
+      conn.close
     end
   end
 

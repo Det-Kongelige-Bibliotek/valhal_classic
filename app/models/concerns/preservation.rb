@@ -1,16 +1,17 @@
 # -*- encoding : utf-8 -*-
 module Concerns
-  # The preservation definition which are to be used by all elements.
+  # The preservation definition which is to be used by all elements.
   # Adds the preservation metadata datastream, and sets up default values.
   module Preservation
     extend ActiveSupport::Concern
 
     included do
-      include ActiveFedora::Callbacks
-      include PreservationHelper
+      include ActiveFedora::Callbacks # to be able to define the 'before_validation' method
+      include PreservationHelper # only for method: set_preservation_time
 
       has_metadata :name => 'preservationMetadata', :type => Datastreams::PreservationDatastream
-      delegate_to 'preservationMetadata', [:preservation_profile, :preservation_state, :preservation_details, :preservation_modify_date, :preservation_comment], :unique => true
+      delegate_to 'preservationMetadata', [:preservation_profile, :preservation_state, :preservation_details,
+                                           :preservation_modify_date, :preservation_comment], :multiple => false
 
       before_validation(:on => :create) do
         self.preservation_profile = "Undefined" if preservation_profile.blank?

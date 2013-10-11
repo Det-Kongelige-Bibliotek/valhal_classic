@@ -12,7 +12,7 @@ class WorkValidator < ActiveModel::Validator
   private
   def duplicate_work?(record)
     solr_names = record.class.solr_names
-    logger.debug ':work_type = ' + record.work_type + ', :title = ' + record.title + ', :subTitle = ' + record.subTitle + ', :pid = ' + record.pid
+    logger.debug ':work_type = ' + record.work_type.to_s + ', :title = ' + record.title.to_s + ', :subTitle = ' + record.subTitle.to_s + ', :pid = ' + record.pid.to_s
     if record.id.eql? "__DO_NOT_USE__"
       potential_works = Work.find_with_conditions("#{solr_names[:search_result_title]}:\"#{record.get_title_for_display}\"")
     else

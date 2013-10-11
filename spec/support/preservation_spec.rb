@@ -1,7 +1,7 @@
 shared_examples 'a preservable element' do
   let(:element) { subject }
 
-  describe 'preservation metadata' do
+  describe 'with initial preservation metadata' do
     it 'should have a preservation metadata stream' do
       element.save!
       element.preservationMetadata.should be_kind_of Datastreams::PreservationDatastream
@@ -48,6 +48,48 @@ shared_examples 'a preservable element' do
       element.preservation_modify_date.should_not be_blank
       element.preservationMetadata.preservation_modify_date.first.should be_kind_of String
       element.preservationMetadata.preservation_modify_date.first.should_not be_blank
+    end
+  end
+
+  describe 'changing the preservation metadata' do
+    it 'should be possible to assign and save a preservation profile.' do
+      profile = "Preservation-Profile-#{Time.now.to_s}"
+      element.preservation_profile = profile
+      element.save!
+      e2 = element.reload
+
+      e2.preservation_profile.should == profile
+      e2.preservationMetadata.preservation_profile.first.should == profile
+    end
+
+    it 'should be possible to assign and save a preservation state.' do
+      state = "Preservation-State-#{Time.now.to_s}"
+      element.preservation_state = state
+      element.save!
+      e2 = element.reload
+
+      e2.preservation_state.should == state
+      e2.preservationMetadata.preservation_state.first.should == state
+    end
+
+    it 'should be possible to assign and save a preservation details.' do
+      details = "Preservation-Details-#{Time.now.to_s}"
+      element.preservation_details = details
+      element.save!
+      e2 = element.reload
+
+      e2.preservation_details.should == details
+      e2.preservationMetadata.preservation_details.first.should == details
+    end
+
+    it 'should be possible to assign and save a preservation profile.' do
+      comment = "Preservation-Comment-#{Time.now.to_s}"
+      element.preservation_comment = comment
+      element.save!
+      e2 = element.reload
+
+      e2.preservation_comment.should == comment
+      e2.preservationMetadata.preservation_comment.first.should == comment
     end
   end
 end
