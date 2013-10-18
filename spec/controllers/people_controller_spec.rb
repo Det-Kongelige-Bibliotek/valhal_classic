@@ -210,6 +210,106 @@ describe PeopleController do
     end
   end
 
+
+  describe 'Update preservation profile metadata' do
+    before(:each) do
+      @person = Person.create! valid_attributes
+    end
+    it 'should have a default preservation settings' do
+      person = Person.find(@person.pid)
+      person.preservation_profile.should_not be_blank
+      person.preservation_state.should_not be_blank
+      person.preservation_details.should_not be_blank
+      person.preservation_modify_date.should_not be_blank
+      person.preservation_comment.should be_blank
+    end
+
+    it 'should be updated and redirect to the person' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+
+      put :update_preservation_profile, {:id => @person.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@person)
+
+      person = Person.find(@person.pid)
+      person.preservation_state.should_not be_blank
+      person.preservation_details.should_not be_blank
+      person.preservation_modify_date.should_not be_blank
+      person.preservation_profile.should == profile
+      person.preservation_comment.should == comment
+    end
+
+    it 'should not update or redirect, when the profile is wrong.' do
+      profile = "wrong profile #{Time.now.to_s}"
+      comment = "This is the preservation comment"
+
+      put :update_preservation_profile, {:id => @person.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should_not redirect_to(@person)
+
+      person = Person.find(@person.pid)
+      person.preservation_state.should_not be_blank
+      person.preservation_details.should_not be_blank
+      person.preservation_modify_date.should_not be_blank
+      person.preservation_profile.should_not == profile
+      person.preservation_comment.should_not == comment
+    end
+
+    it 'should update the preservation date' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+      person = Person.find(@person.pid)
+      d = person.preservation_modify_date
+
+      put :update_preservation_profile, {:id => @person.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@person)
+
+      person = Person.find(@person.pid)
+      person.preservation_modify_date.should_not == d
+    end
+
+    it 'should not update the preservation date, when the same profile and comment is given.' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+      @person.preservation_profile = profile
+      @person.preservation_comment = comment
+      @person.save
+
+      person = Person.find(@person.pid)
+      d = person.preservation_modify_date
+
+      put :update_preservation_profile, {:id => @person.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@person)
+
+      person = Person.find(@person.pid)
+      person.preservation_modify_date.should == d
+    end
+
+    it 'should send a message, when performing preservation' do
+      pending "Should not be run on CI."
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+      destination = MQ_CONFIG["preservation"]["destination"]
+      uri = MQ_CONFIG["broker_uri"]
+
+      conn = Bunny.new(uri)
+      conn.start
+
+      ch = conn.create_channel
+      q = ch.queue(destination, :durable => true)
+
+      put :update_preservation_profile, {:id => @person.pid, :commit => "Perform preservation", :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@person)
+
+      q.subscribe do |delivery_info, metadata, payload|
+        payload.should include @person.pid
+      end
+
+      person = Person.find(@person.pid)
+      person.preservation_state.should == 'Preservation initiated'
+      conn.close
+    end
+  end
+
   after(:all) do
     Person.all.each {|p| p.delete}
   end

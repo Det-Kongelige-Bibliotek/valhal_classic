@@ -193,4 +193,102 @@ describe WorksController do
     end
   end
 
+  describe 'Update preservation profile metadata' do
+    before(:each) do
+      @work = Work.create! valid_attributes
+    end
+    it 'should have a default preservation settings' do
+      work = Work.find(@work.pid)
+      work.preservation_profile.should_not be_blank
+      work.preservation_state.should_not be_blank
+      work.preservation_details.should_not be_blank
+      work.preservation_modify_date.should_not be_blank
+      work.preservation_comment.should be_blank
+    end
+
+    it 'should be updated and redirect to the ordered workresentation' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+
+      put :update_preservation_profile, {:id => @work.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@work)
+
+      work = Work.find(@work.pid)
+      work.preservation_state.should_not be_blank
+      work.preservation_details.should_not be_blank
+      work.preservation_modify_date.should_not be_blank
+      work.preservation_profile.should == profile
+      work.preservation_comment.should == comment
+    end
+
+    it 'should not update or redirect, when the profile is wrong.' do
+      profile = "wrong profile #{Time.now.to_s}"
+      comment = "This is the preservation comment"
+
+      put :update_preservation_profile, {:id => @work.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should_not redirect_to(@work)
+
+      work = Work.find(@work.pid)
+      work.preservation_state.should_not be_blank
+      work.preservation_details.should_not be_blank
+      work.preservation_modify_date.should_not be_blank
+      work.preservation_profile.should_not == profile
+      work.preservation_comment.should_not == comment
+    end
+
+    it 'should update the preservation date' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+      work = Work.find(@work.pid)
+      d = work.preservation_modify_date
+
+      put :update_preservation_profile, {:id => @work.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@work)
+
+      work = Work.find(@work.pid)
+      work.preservation_modify_date.should_not == d
+    end
+
+    it 'should not update the preservation date, when the same profile and comment is given.' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+      @work.preservation_profile = profile
+      @work.preservation_comment = comment
+      @work.save
+
+      work = Work.find(@work.pid)
+      d = work.preservation_modify_date
+
+      put :update_preservation_profile, {:id => @work.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@work)
+
+      work = Work.find(@work.pid)
+      work.preservation_modify_date.should == d
+    end
+
+    it 'should send a message, when performing preservation' do
+      pending "Should not be run on CI."
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+      destination = MQ_CONFIG["preservation"]["destination"]
+      uri = MQ_CONFIG["broker_uri"]
+
+      conn = Bunny.new(uri)
+      conn.start
+
+      ch = conn.create_channel
+      q = ch.queue(destination, :durable => true)
+
+      put :update_preservation_profile, {:id => @work.pid, :commit => "Perform preservation", :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@work)
+
+      q.subscribe do |delivery_info, metadata, payload|
+        payload.should include @work.pid
+      end
+
+      work = Work.find(@work.pid)
+      work.preservation_state.should == 'Preservation initiated'
+      conn.close
+    end
+  end
 end

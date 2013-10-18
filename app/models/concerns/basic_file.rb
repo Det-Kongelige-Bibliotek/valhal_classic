@@ -26,11 +26,11 @@ module Concerns
         m.field "last_accessed", :string
       end
 
-      delegate_to 'techMetadata', [:last_modified, :created, :last_accessed, :original_filename, :mime_type], :unique => true
-      delegate_to 'descMetadata', [:description], :unique => true
+      delegate_to 'techMetadata', [:last_modified, :created, :last_accessed, :original_filename, :mime_type], :multiple => false
+      delegate_to 'descMetadata', [:description], :multiple => false
       # TODO have more than one checksum (both MD5 and SHA), and specify their checksum algorithm.
-      delegate :checksum, :to => 'techMetadata', :at => [:file_checksum], :unique => true
-      delegate :size, :to => 'techMetadata', :at => [:file_size], :unique => true
+      delegate :checksum, :to => 'techMetadata', :at => [:file_checksum], :multiple => false
+      delegate :size, :to => 'techMetadata', :at => [:file_size], :multiple => false
     end
 
     # adds a content datastream to the object and generate techMetadata for the file

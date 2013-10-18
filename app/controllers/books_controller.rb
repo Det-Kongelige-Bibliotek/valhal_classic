@@ -118,12 +118,19 @@ class BooksController < ApplicationController
 
   # Updates the preservation profile metadata.
   def update_preservation_profile
-    update_preservation_profile_from_controller(params, update_preservation_state_book_path, nil, Book.find(params[:id]))
+    @book = Book.find(params[:id])
+    begin
+      update_preservation_profile_from_controller(params, update_preservation_state_book_path, nil, @book)
+    rescue => error
+      @book.errors[:preservation] << error.inspect.to_s
+      render action: 'preservation'
+    end
   end
 
   # Updates the preservation state metadata.
   def update_preservation_state
-    update_preservation_state_from_controller(params, Book.find(params[:id]))
+    @book = Book.find(params[:id])
+    update_preservation_state_from_controller(params, @book)
   end
 
   private

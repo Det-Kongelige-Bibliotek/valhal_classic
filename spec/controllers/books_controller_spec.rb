@@ -621,11 +621,11 @@ describe BooksController do
     end
 
     it 'should send a message, when performing preservation' do
-      #pending "Needs to retrieve and validate message."
+      pending "Should not be run on CI."
       profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
       comment = "This is the preservation comment"
       destination = MQ_CONFIG["preservation"]["destination"]
-      uri = MQ_CONFIG["rabbitmq"]["broker_uri"]
+      uri = MQ_CONFIG["broker_uri"]
 
       conn = Bunny.new(uri)
       conn.start

@@ -97,4 +97,104 @@ describe SingleFileRepresentationsController do
       end
     end
   end
+
+
+  describe 'Update preservation profile metadata' do
+    before(:each) do
+      @rep = SingleFileRepresentation.create!
+    end
+    it 'should have a default preservation settings' do
+      rep = SingleFileRepresentation.find(@rep.pid)
+      rep.preservation_profile.should_not be_blank
+      rep.preservation_state.should_not be_blank
+      rep.preservation_details.should_not be_blank
+      rep.preservation_modify_date.should_not be_blank
+      rep.preservation_comment.should be_blank
+    end
+
+    it 'should be updated and redirect to the single file representation' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+
+      put :update_preservation_profile, {:id => @rep.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@rep)
+
+      rep = SingleFileRepresentation.find(@rep.pid)
+      rep.preservation_state.should_not be_blank
+      rep.preservation_details.should_not be_blank
+      rep.preservation_modify_date.should_not be_blank
+      rep.preservation_profile.should == profile
+      rep.preservation_comment.should == comment
+    end
+
+    it 'should not update or redirect, when the profile is wrong.' do
+      profile = "wrong profile #{Time.now.to_s}"
+      comment = "This is the preservation comment"
+
+      put :update_preservation_profile, {:id => @rep.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should_not redirect_to(@rep)
+
+      rep = SingleFileRepresentation.find(@rep.pid)
+      rep.preservation_state.should_not be_blank
+      rep.preservation_details.should_not be_blank
+      rep.preservation_modify_date.should_not be_blank
+      rep.preservation_profile.should_not == profile
+      rep.preservation_comment.should_not == comment
+    end
+
+    it 'should update the preservation date' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+      rep = SingleFileRepresentation.find(@rep.pid)
+      d = rep.preservation_modify_date
+
+      put :update_preservation_profile, {:id => @rep.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@rep)
+
+      rep = SingleFileRepresentation.find(@rep.pid)
+      rep.preservation_modify_date.should_not == d
+    end
+
+    it 'should not update the preservation date, when the same profile and comment is given.' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+      @rep.preservation_profile = profile
+      @rep.preservation_comment = comment
+      @rep.save
+
+      rep = SingleFileRepresentation.find(@rep.pid)
+      d = rep.preservation_modify_date
+
+      put :update_preservation_profile, {:id => @rep.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@rep)
+
+      rep = SingleFileRepresentation.find(@rep.pid)
+      rep.preservation_modify_date.should == d
+    end
+
+    it 'should send a message, when performing preservation' do
+      pending "Should not be run on CI."
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+      destination = MQ_CONFIG["preservation"]["destination"]
+      uri = MQ_CONFIG["broker_uri"]
+
+      conn = Bunny.new(uri)
+      conn.start
+
+      ch = conn.create_channel
+      q = ch.queue(destination, :durable => true)
+
+      put :update_preservation_profile, {:id => @rep.pid, :commit => "Perform preservation", :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@rep)
+
+      q.subscribe do |delivery_info, metadata, payload|
+        payload.should include @rep.pid
+      end
+
+      rep = SingleFileRepresentation.find(@rep.pid)
+      rep.preservation_state.should == 'Preservation initiated'
+      conn.close
+    end
+  end
 end

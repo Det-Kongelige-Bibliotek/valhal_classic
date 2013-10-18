@@ -24,12 +24,19 @@ class SingleFileRepresentationsController < ApplicationController
 
   # Updates the preservation settings.
   def update_preservation_profile
-    update_preservation_profile_from_controller(params, update_preservation_state_single_file_representation_path, nil, SingleFileRepresentation.find(params[:id]))
+    @rep = SingleFileRepresentation.find(params[:id])
+    begin
+      update_preservation_profile_from_controller(params, update_preservation_state_single_file_representation_path, nil, @rep)
+    rescue => error
+      @rep.errors[:preservation] << error.inspect.to_s
+      render action: 'preservation'
+    end
   end
 
   # Updates the preservation state metadata.
   def update_preservation_state
-    update_preservation_state_from_controller(params, SingleFileRepresentation.find(params[:id]))
+    @rep = SingleFileRepresentation.find(params[:id])
+    update_preservation_state_from_controller(params, @rep)
   end
 
 end
