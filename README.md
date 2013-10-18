@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Det-Kongelige-Bibliotek/valhal.png?branch=master)](https://travis-ci.org/Det-Kongelige-Bibliotek/valhal)
+
 Valhal
 ===
 
