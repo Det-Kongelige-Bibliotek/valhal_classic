@@ -1,17 +1,20 @@
 development:
-  rabbitmq:
-    broker_uri: "amqp://localhost:5672"
+  broker_uri: "amqp://localhost:5672"
   preservation:
-    destination: "dev-queue"
+    destination: "preservation-dev-queue"
+  dissemination:
+    destination: "dissemination-dev-queue"
 
 test:
-  rabbitmq:
-    broker_uri: "amqp://localhost:5672"
+  broker_uri: "amqp://localhost:5672"
   preservation:
-    destination: "test-queue"
+    destination: "preservation-test-queue"
+  dissemination:
+    destination: "dissemination-test-queue"
 
 production:
-  rabbitmq:
-    broker_uri: "amqp://localhost:5672"
+  broker_uri: "amqp://localhost:5672"
   preservation:
-    destination: "prod-queue"
+    destination: "preservation-prod-queue"
+  dissemination:
+    destination: "dissemination-prod-queue"
