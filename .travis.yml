@@ -1,4 +1,6 @@
 language: ruby
+services:
+  - rabbitmq
 notifications:
   email: true
 rvm:
