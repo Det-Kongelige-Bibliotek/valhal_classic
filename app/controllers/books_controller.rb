@@ -64,7 +64,7 @@ class BooksController < ApplicationController
     if @book.save
       redirect_to show_metadata_book_path @book
     else
-      render action: 'update_person'
+      render action: 'show_person'
     end
   end
 
@@ -73,7 +73,7 @@ class BooksController < ApplicationController
     if @book.update_attributes(params[:book])
       redirect_to show_file_book_path @book
     else
-      render action: 'update_metadata'
+      render action: 'show_metadata'
     end
   end
 
@@ -116,9 +116,14 @@ class BooksController < ApplicationController
     redirect_to books_url
   end
 
-  # Updates the preservation settings.
-  def update_preservation
-    update_preservation_profile_from_controller(params, Book.find(params[:id]))
+  # Updates the preservation profile metadata.
+  def update_preservation_profile
+    update_preservation_profile_from_controller(params, update_preservation_state_book_path, nil, Book.find(params[:id]))
+  end
+
+  # Updates the preservation state metadata.
+  def update_preservation_state
+    update_preservation_state_from_controller(params, Book.find(params[:id]))
   end
 
   private

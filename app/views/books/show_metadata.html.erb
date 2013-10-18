@@ -1,5 +1,6 @@
 <%= form_for @book, :html=>{:multipart=>true}, :url => {:action=> "update_metadata"} do |f| %>
 <%= fields_for :book do |builder| %>
+    <%= f.error_messages :header_message => "Edit book error", :class => "alert alert-error", :header_tag => :h3 %>
     <%= render 'metadata_fields', :f => builder %>
 <% end %>
 <br>
@@ -7,3 +8,4 @@
   <%= f.submit "Next" %>
 </div>
 <% end %>
+<%= @book.errors.inspect.to_s %>

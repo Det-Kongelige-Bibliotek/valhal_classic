@@ -75,7 +75,14 @@ class OrderedRepresentationsController < ApplicationController
   end
 
   # Updates the preservation settings.
-  def update_preservation
-    update_preservation_profile_from_controller(params, OrderedRepresentation.find(params[:id]))
+  def update_preservation_profile
+    update_preservation_profile_from_controller(params, update_preservation_state_ordered_representation_path, nil, OrderedRepresentation.find(params[:id]))
   end
+
+
+  # Updates the preservation state metadata.
+  def update_preservation_state
+    update_preservation_state_from_controller(params, OrderedRepresentation.find(params[:id]))
+  end
+
 end

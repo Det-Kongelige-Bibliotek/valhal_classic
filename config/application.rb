@@ -7,6 +7,7 @@ require 'rails/all'
 require 'log4r'
 require 'log4r/yamlconfigurator'
 require 'log4r/outputter/datefileoutputter'
+require 'dynamic_form'
 include Log4r
 
 if defined?(Bundler)

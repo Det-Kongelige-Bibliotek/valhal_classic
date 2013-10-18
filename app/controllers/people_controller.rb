@@ -84,8 +84,20 @@ class PeopleController < ApplicationController
   end
 
   # Updates the preservation settings.
-  def update_preservation
-    update_preservation_profile_from_controller(params, Person.find(params[:id]))
+  def update_preservation_profile
+    @person = Person.find(params[:id])
+    begin
+      update_preservation_profile_from_controller(params, update_preservation_state_person_path, nil, @person)
+    rescue => error
+      @person.errors[:preservation] << error.inspect.to_s
+      render action: 'preservation'
+    end
+  end
+
+  # Updates the preservation state metadata.
+  def update_preservation_state
+    @person = Person.find(params[:id])
+    update_preservation_state_from_controller(params, @person)
   end
 
   private

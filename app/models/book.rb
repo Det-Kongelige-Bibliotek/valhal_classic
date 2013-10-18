@@ -13,7 +13,7 @@ class Book < ActiveFedora::Base
   # TODO define restrictions for these metadata fields.
   delegate_to 'descMetadata', [:isbn, :genre, :shelfLocator, :title, :subTitle, :typeOfResource, :publisher,
                                :originPlace, :languageISO, :languageText, :subjectTopic, :dateIssued,
-                               :physicalExtent], :unique => true
+                               :physicalExtent], :multiple => false
 
 
   validates :title, :presence => true

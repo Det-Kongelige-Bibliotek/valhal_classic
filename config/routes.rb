@@ -17,7 +17,8 @@ Valhal::Application.routes.draw do
   resources :single_file_representations do
     member do
       get 'preservation'
-      put 'update_preservation'
+      put 'update_preservation_profile'
+      put 'update_preservation_state'
     end
   end
 
@@ -26,7 +27,8 @@ Valhal::Application.routes.draw do
       get 'thumbnail_url'
       get 'download_all'
       get 'preservation'
-      put 'update_preservation'
+      put 'update_preservation_profile'
+      put 'update_preservation_state'
     end
   end
 
@@ -44,7 +46,8 @@ Valhal::Application.routes.draw do
       put 'show_file'
       put 'save_edit'
       get 'preservation'
-      put 'update_preservation'
+      put 'update_preservation_profile'
+      put 'update_preservation_state'
     end
   end
 
@@ -54,7 +57,8 @@ Valhal::Application.routes.draw do
       get 'image_url'
       put 'add_manifest'
       get 'preservation'
-      put 'update_preservation'
+      put 'update_preservation_profile'
+      put 'update_preservation_state'
     end
   end
 
@@ -74,7 +78,8 @@ Valhal::Application.routes.draw do
       put 'save_edit'
       put 'finish_book_with_structmap'
       get 'preservation'
-      put 'update_preservation'
+      put 'update_preservation_profile'
+      put 'update_preservation_state'
     end
   end
 end

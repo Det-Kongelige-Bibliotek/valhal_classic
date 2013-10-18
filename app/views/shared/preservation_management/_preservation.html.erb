@@ -1,4 +1,5 @@
-<%= form_for @object, :html=>{:multipart=>true}, url: {action: 'update_preservation'} do |f| %>
+<% logger.info "Error found: #{@object.errors.inspect}" %>
+<%= form_for @object, :html=>{:multipart=>true}, url: {action: 'update_preservation_profile'} do |f| %>
     <%= f.error_messages :header_message => 'Error when editing preservation settings', :class => 'alert alert-error',
                          :header_tag => :h3 %>
     <%- @preservationMetadata = @object.preservationMetadata -%>
@@ -9,3 +10,6 @@
     <%= f.submit 'Update settings', :class => 'btn btn-primary' %>
     <%= f.submit Constants::PERFORM_PRESERVATION_BUTTON, :class => 'btn btn-primary' %>
 <% end %>
+
+<%= @object.errors.inspect %>
+<br/>

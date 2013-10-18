@@ -95,12 +95,23 @@ class WorksController < ApplicationController
   end
 
   # Updates the preservation settings.
-  def update_preservation
-    update_preservation_profile_from_controller(params, Work.find(params[:id]))
+  def update_preservation_profile
+    @work = Work.find(params[:id])
+    begin
+      update_preservation_profile_from_controller(params, update_preservation_state_person_path, nil, @work)
+    rescue => error
+      @work.errors[:preservation] << error.inspect.to_s
+      render action: 'preservation'
+    end
+  end
+
+  # Updates the preservation state metadata.
+  def update_preservation_state
+    @work = Work.find(params[:id])
+    update_preservation_state_from_controller(params, @work)
   end
 
   private
-
   # Handles the parameter arguments
   # If any single file is given, then a SingeFileRepresentation is made from it.
   #

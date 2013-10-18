@@ -547,7 +547,7 @@ describe BooksController do
     end
   end
 
-  describe 'Update preservation metadata' do
+  describe 'Update preservation profile metadata' do
     before(:each) do
       @book = Book.create!(:title => 'test title')
     end
@@ -564,7 +564,7 @@ describe BooksController do
       profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
       comment = "This is the preservation comment"
 
-      put :update_preservation, {:id => @book.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      put :update_preservation_profile, {:id => @book.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
       response.should redirect_to(@book)
 
       b = Book.find(@book.pid)
@@ -579,7 +579,7 @@ describe BooksController do
       profile = "wrong profile #{Time.now.to_s}"
       comment = "This is the preservation comment"
 
-      put :update_preservation, {:id => @book.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      put :update_preservation_profile, {:id => @book.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
       response.should_not redirect_to(@book)
 
       b = Book.find(@book.pid)
@@ -596,7 +596,7 @@ describe BooksController do
       b = Book.find(@book.pid)
       d = b.preservation_modify_date
 
-      put :update_preservation, {:id => @book.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      put :update_preservation_profile, {:id => @book.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
       response.should redirect_to(@book)
 
       b = Book.find(@book.pid)
@@ -613,7 +613,7 @@ describe BooksController do
       b = Book.find(@book.pid)
       d = b.preservation_modify_date
 
-      put :update_preservation, {:id => @book.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      put :update_preservation_profile, {:id => @book.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
       response.should redirect_to(@book)
 
       b = Book.find(@book.pid)
@@ -633,7 +633,7 @@ describe BooksController do
       ch = conn.create_channel
       q = ch.queue(destination, :durable => true)
 
-      put :update_preservation, {:id => @book.pid, :commit => "Perform preservation", :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      put :update_preservation_profile, {:id => @book.pid, :commit => "Perform preservation", :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
       response.should redirect_to(@book)
 
       q.subscribe do |delivery_info, metadata, payload|
@@ -644,6 +644,76 @@ describe BooksController do
       b.preservation_state.should == 'Preservation initiated'
       conn.close
     end
+  end
+
+  describe 'Update preservation state metadata' do
+    before(:each) do
+      @book = Book.create!(:title => 'test title')
+    end
+    it 'should be updated and redirect to the book' do
+      state = "TheNewState-#{Time.now.to_s}"
+      details = "Any details will suffice."
+
+      put :update_preservation_state, {:id => @book.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      response.should redirect_to(@book)
+
+      b = Book.find(@book.pid)
+      b.preservation_state.should == state
+      b.preservation_details.should == details
+      b.preservation_modify_date.should_not be_blank
+      b.preservation_profile.should_not be_blank
+    end
+
+    it 'should change the values when updating' do
+      old_state = "TheOldState-#{Time.now.to_s}"
+      new_state = "tHEnEWsTATE-#{Time.now.to_s}"
+      old_details = "Any details will suffice."
+      new_details = "No details are accepted!"
+
+      b = Book.find(@book.pid)
+      b.preservation_state = old_state
+      b.preservation_details = old_details
+      b.save!
+
+      d = b.preservation_modify_date
+
+      b = Book.find(@book.pid)
+      b.preservation_state.should == old_state
+      b.preservation_state.should_not == new_state
+      b.preservation_details.should == old_details
+      b.preservation_details.should_not == new_details
+
+      put :update_preservation_state, {:id => @book.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
+      response.should redirect_to(@book)
+
+      b = Book.find(@book.pid)
+      b.preservation_state.should == new_state
+      b.preservation_state.should_not == old_state
+      b.preservation_details.should == new_details
+      b.preservation_details.should_not == old_details
+      b.preservation_modify_date.should_not == d
+    end
+
+    it 'should not update when same values' do
+      state = "TheState-#{Time.now.to_s}"
+      details = "TheDetails-#{Time.now.to_s}"
+
+      b = Book.find(@book.pid)
+      b.preservation_state = state
+      b.preservation_details = details
+      b.save!
+
+      d = b.preservation_modify_date
+
+      put :update_preservation_state, {:id => @book.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      response.should redirect_to(@book)
+
+      b = Book.find(@book.pid)
+      b.preservation_state.should == state
+      b.preservation_details.should == details
+      b.preservation_modify_date.should == d
+    end
+
   end
 
   after(:all) do
