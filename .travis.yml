@@ -7,8 +7,8 @@ rvm:
   - "1.9.3"
 install:
   - bundle install --deployment
-  - rails generate hydra:jetty
-  - hydra:jetty:config
+  - rake jetty:clean
+  - rake hydra:jetty:config
 before_script:
   - rake db:migrate db:seed db:test:prepare
   - rake jetty:start
