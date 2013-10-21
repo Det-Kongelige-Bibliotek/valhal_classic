@@ -11,7 +11,9 @@ Run
 
 to run on a local development machine:
 
-install the institution specific application.local.yml file in the config folder.
+Install ruby, git and rabbitmq (start rabbitmq on default ports).
+
+$ git clone https://github.com/Det-Kongelige-Bibliotek/valhal.git
 
 $ bundle install
 
@@ -23,5 +25,10 @@ $ rake hydra:jetty:config
 
 $ rake jetty:start
 
-$ rails server
+The tests can be run by:
 
+$ rake
+
+The interface can be started on localhost:3000 by:
+
+$ rails server

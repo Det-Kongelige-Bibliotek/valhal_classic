@@ -267,7 +267,6 @@ describe WorksController do
     end
 
     it 'should send a message, when performing preservation' do
-      pending "Should not be run on CI."
       profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
       comment = "This is the preservation comment"
       destination = MQ_CONFIG["preservation"]["destination"]
