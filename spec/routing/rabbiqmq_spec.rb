@@ -5,7 +5,7 @@ describe 'Advanced Message Queue Protocol' do
   describe 'bunny gem' do
     it 'should send a message' do
       pending "Should not be run on CI"
-      uri = MQ_CONFIG["broker_uri"]
+      uri = MQ_CONFIG["mq_uri"]
       destination = MQ_CONFIG["preservation"]["destination"]
 
       conn = Bunny.new(uri)

@@ -270,7 +270,7 @@ describe WorksController do
       profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
       comment = "This is the preservation comment"
       destination = MQ_CONFIG["preservation"]["destination"]
-      uri = MQ_CONFIG["broker_uri"]
+      uri = MQ_CONFIG["mq_uri"]
 
       conn = Bunny.new(uri)
       conn.start
