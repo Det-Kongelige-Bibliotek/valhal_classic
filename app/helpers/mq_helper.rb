@@ -15,7 +15,7 @@ module MqHelper
   # @param content_uri The URI for extracting the content files.
   # @param metadata The metadata for the element
   def send_message_to_preservation(uuid, update_uri, content_uri, metadata)
-    destination = MQ_CONFIG["preservation"]["destination"]
+    destination = MQ_CONFIG['preservation']['destination']
 
     message = "UUID: #{uuid}\n\nUpdate_URI: #{update_uri}\n\nContent_URI: #{content_uri}\n\nMETADATA: #{metadata}"
 
@@ -24,7 +24,7 @@ module MqHelper
 
   private
   def send_on_rabbitmq(message, destination)
-    uri = MQ_CONFIG["broker_uri"]
+    uri = MQ_CONFIG['mq_uri']
     logger.info "Sending message '#{message}' on destination '#{destination}' at broker '#{uri}'"
 
     conn = Bunny.new(uri)
