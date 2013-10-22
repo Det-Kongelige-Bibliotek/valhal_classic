@@ -19,7 +19,9 @@ $ bundle install
 
 $ rake db:migrate
 
-$ rails generate hydra:jetty
+$ rake jetty:clean
+
+(In the current edition of 'jetty', the start.ini file has to be fixed, according to https://github.com/projecthydra/hydra-jetty/commit/b49c04a0dcf7e3ee5be97f697a3fcce922ec86ff)
 
 $ rake hydra:jetty:config 
 
