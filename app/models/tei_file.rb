@@ -8,9 +8,9 @@ class TeiFile < ActiveFedora::Base
     m.field 'tei_version', :string
   end
 
-  delegate_to 'techMetadata2', [:tei_version], :unique => true
+  delegate_to 'techMetadata2', [:tei_version], :multiple => false
 
-  # Overrides the super method, by validating that it at least is an XML file.
+  # Overrides the super method, by validating that it at least is an XML basic_files.
   # @param file The TEI file to add as content.
   def add_file(file)
     unless file.content_type == 'text/xml'

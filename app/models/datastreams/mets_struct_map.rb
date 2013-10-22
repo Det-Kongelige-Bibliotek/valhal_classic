@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 module Datastreams
   #This class is designed to reflect the METS 1.9.1 schema with emphasis upon the structMap element used for defining
-  #the sequential order in which files appear
+  #the sequential order in which basic_files appear
   class MetsStructMap < ActiveFedora::OmDatastream
     include OM::XML::Document
 

@@ -98,7 +98,7 @@ describe PeopleHelper do
       person.concerning_manifestations.last.representations.first.files.first.tei_version.should == tei_metadata
     end
 
-    it 'should not allow non-tei files as person description' do
+    it 'should not allow non-tei basic_files as person description' do
       @person.concerning_manifestations.length.should == 0
       add_person_description({}, @non_tei_file, {}, {:subTitle => Time.now.nsec.to_s}, @person).should be_false
 

@@ -4,7 +4,7 @@
 # Provides methods for generating representations and relationships generic for the manifestations.
 module ManifestationsHelper
   include UtilityHelper
-  # Creates and adds a SingleFileRepresentation with a TEI file to the manifestation
+  # Creates and adds a SingleFileRepresentation with a TEI basic_files to the manifestation
   # @param tei_metadata The metadata for the TEI file.
   # @param file The uploaded TEI file for the SingleFileRepresentation
   # @param rep_metadata The metadata for the SingleFileRepresentation
@@ -21,7 +21,7 @@ module ManifestationsHelper
     create_as_single_file_rep(tei_file, rep_metadata, manifestation)
   end
 
-  # Creates and adds a SingleFileRepresentation with a basic file to the manifestation
+  # Creates and adds a SingleFileRepresentation with a basic basic_files to the manifestation
   # @param file The uploaded file for the SingleFileRepresentation
   # @param metadata The metadata for the SingleFileRepresentation
   # @param manifestation The manifestation to contain the SingleFileRepresentation
@@ -36,8 +36,8 @@ module ManifestationsHelper
     create_as_single_file_rep(rep_file, metadata, manifestation)
   end
 
-  # Creates and adds a OrderedRepresentation with TIFF image files to the manifestation
-  # The StructMap for the OrderedRepresentation will be based on the order of the TIFF files.
+  # Creates and adds a OrderedRepresentation with TIFF image basic_files to the manifestation
+  # The StructMap for the OrderedRepresentation will be based on the order of the TIFF basic_files.
   # @param files The uploaded TIFF Image files for the OrderedRepresentation
   # @param metadata The metadata for the OrderedRepresentation
   # @param manifestation The manifestation to contain the OrderedRepresentation
@@ -58,8 +58,8 @@ module ManifestationsHelper
     create_as_order_rep(tiff_files, metadata, manifestation)
   end
 
-  # Creates and adds a OrderedRepresentation with basic files to the manifestation
-  # The StructMap for the OrderedRepresentation will be based on the order of the files.
+  # Creates and adds a OrderedRepresentation with basic basic_files to the manifestation
+  # The StructMap for the OrderedRepresentation will be based on the order of the basic_files.
   # @param files The uploaded files for the OrderedRepresentation
   # @param metadata The metadata for the OrderedRepresentation
   # @param manifestation The manifestation to contain the OrderedRepresentation
@@ -114,7 +114,7 @@ module ManifestationsHelper
     manifestation.save!
   end
 
-  # Creates the structmap for a representation based on the file_name order of the files.
+  # Creates the structmap for a representation based on the file_name order of the basic_files.
   # @param file_order_string The ordered list of filenames.
   # @param representation The representation containing the files.
   def create_structmap_for_representation(file_order_string, representation)
@@ -132,7 +132,7 @@ module ManifestationsHelper
   end
 
   private
-  # Creates a SingleFileRepresentation with the given file and adds it to the manifestation
+  # Creates a SingleFileRepresentation with the given basic_files and adds it to the manifestation
   # @param file The file for the SingleFileRepresentation
   # @param metadata The metadata for the SingleFileRepresentation
   # @param manifestation The manifestation to contain the SingleFileRepresentation
@@ -144,8 +144,8 @@ module ManifestationsHelper
     add_representation(rep, manifestation)
   end
 
-  # Creates a OrderedRepresentation with the given files and adds it to the manifestation
-  # The StructMap for the OrderedRepresentation will be generated based on the order of the files.
+  # Creates a OrderedRepresentation with the given basic_files and adds it to the manifestation
+  # The StructMap for the OrderedRepresentation will be generated based on the order of the basic_files.
   # @param files The ordered array of files for the ordered representation
   # @param metadata The metadata for the OrderedRepresentation
   # @param manifestation The manifestation to contain the OrderedRepresentation
@@ -167,11 +167,11 @@ module ManifestationsHelper
     return representation.save && manifestation.save
   end
 
-  # Generates a StructMap based on a ordered array of files.
+  # Generates a StructMap based on a ordered array of basic_files.
   # @param file_order The ordered array of files.
   # @param representation The ordered representation with the structmap
   def generate_structmap(file_order, representation)
-    logger.debug 'Generating structmap xml file...'
+    logger.debug 'Generating structmap xml basic_files...'
     logger.debug "structmap_file_order = #{file_order.to_s}"
 
     ng_doc = representation.techMetadata.ng_xml

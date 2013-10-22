@@ -1,9 +1,9 @@
 # -*- encoding : utf-8 -*-
 module Concerns
 
-  # BasicFile contains tha basic functionality for a class meant to be a kind af file
+  # BasicFile contains tha basic functionality for a class meant to be a kind af basic_files
   # in order for this module to work a class must inherit from ActiveFedora::Base
-  # it is meant to be included in the file classes
+  # it is meant to be included in the basic_files classes
   # Example:
   # Class TiffFile < ActiveFedora::Base
   # include Concerns::BasicFile
@@ -33,8 +33,8 @@ module Concerns
       delegate :size, :to => 'techMetadata', :at => [:file_size], :multiple => false
     end
 
-    # adds a content datastream to the object and generate techMetadata for the file
-    # file must have the following methods [size, content_type, original_filename, tempfile]
+    # adds a content datastream to the object and generate techMetadata for the basic_files
+    # basic_files must have the following methods [size, content_type, original_filename, tempfile]
     # return true if successful, else false
     def add_file(file)
       valid_file = check_file?(file)
@@ -74,12 +74,12 @@ module Concerns
       self.last_modified = file.mtime.to_s
     end
 
-    #returns true if file has all the methods that is needed by #add_file else false is returned
+    #returns true if basic_files has all the methods that is needed by #add_file else false is returned
     def check_file?(file)
       file_methods = [:size, :tempfile, :content_type, :original_filename,]
       file_methods.each do |method_name|
         unless file.respond_to?(method_name)
-          logger.error "file doesn't support #{method_name} method"
+          logger.error "basic_files doesn't support #{method_name} method"
           return false
         end
       end

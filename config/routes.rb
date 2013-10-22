@@ -1,8 +1,5 @@
 # -*- encoding : utf-8 -*-
 Valhal::Application.routes.draw do
-  get "view_file/show"
-  get "view_file/show_structmap"
-
   root :to => "catalog#index"
 
   Blacklight.add_routes(self)
@@ -12,6 +9,20 @@ Valhal::Application.routes.draw do
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
+  get "view_file/show"
+  get "view_file/show_structmap"
+
+  resources :basic_files do
+    member do
+      get 'show'
+      get 'edit'
+      put 'update'
+      get 'preservation'
+      put 'update_preservation_profile'
+      put 'update_preservation_state'
+      get 'download'
+    end
+  end
 
   #Standard resource mapping
   resources :single_file_representations do

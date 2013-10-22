@@ -13,7 +13,7 @@ module Concerns
       end
 
       # Define the uuid as an accessible part of the digitial provenance metadata.
-      delegate_to 'provenanceMetadata', [:uuid], :unique => true
+      delegate_to 'provenanceMetadata', [:uuid], :multiple => false
 
       # Validation criteria of the uuid.
       validates :uuid, :presence => true, :length => {:minimum => 16, :maximum => 64}

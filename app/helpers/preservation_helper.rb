@@ -45,7 +45,7 @@ module PreservationHelper
   end
 
   private
-  # Updates the preservation profile for a given element (e.g. a file, a representation, a work, etc.)
+  # Updates the preservation profile for a given element (e.g. a basic_files, a representation, a work, etc.)
   # @param profile The name of the profile to update with.
   # @param comment The comment attached to the preservation
   # @param element The element to have its preservation profile changed.
@@ -67,7 +67,7 @@ module PreservationHelper
     element.save
   end
 
-  # Updates the preservation state and details for a given element (e.g. a file, a representation, a work, etc.)
+  # Updates the preservation state and details for a given element (e.g. a basic_files, a representation, a work, etc.)
   # @param state The new state for the element.
   # @param details The details regarding the state.
   # @param element The element to has its preservation state updated.

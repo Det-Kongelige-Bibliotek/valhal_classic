@@ -13,7 +13,7 @@
 
 <%- @single_file_representation.files.each do |file| %>
     <% # TODO fix the following %>
-    <span style='font-weight: bold;'>File Name:</span> <%= file.nil? ? 'No file' : file.original_filename %>
+    <span style='font-weight: bold;'>File Name:</span> <%= file.nil? ? 'No basic_files' : file.original_filename %>
     <br/>
     <span style='font-weight: bold;'>Created:</span> <%= file.nil? ? 'N/A' : file.created %>
     <br/>

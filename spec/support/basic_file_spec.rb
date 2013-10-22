@@ -3,14 +3,14 @@ require 'spec_helper'
 
 
 describe "add_file" do
-  context "with a xml file" do
+  context "with a xml basic_files" do
     before do
       @basic_file = BasicFile.new
       @uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
       @basic_file.add_file(@uploaded_file)
     end
 
-    it "should have shorthand for adding a file" do
+    it "should have shorthand for adding a basic_files" do
       file = BasicFile.new
       file.add_file(@uploaded_file).should be_true
     end
@@ -23,7 +23,7 @@ describe "add_file" do
      @basic_file.original_filename.should == "aarrebo_tei_p5_sample.xml"
     end
 
-    it "should have the checksum of the file" do
+    it "should have the checksum of the basic_files" do
      @basic_file.checksum.should == "f6be4200b7b28861d793a19010cf41ce"
     end
 
@@ -32,11 +32,11 @@ describe "add_file" do
       @basic_file.uuid.should_not be_nil
     end
 
-    it "should be able to be saved in repository with a file attended" do
+    it "should be able to be saved in repository with a basic_files attended" do
       @basic_file.save.should be_true
     end
 
-    it "should have the file size" do
+    it "should have the basic_files size" do
       @basic_file.size.should == 1073753
     end
 
@@ -68,23 +68,23 @@ describe "add_file" do
       @basic_file.rightsMetadata.should be_kind_of Hydra::Datastream::RightsMetadata
     end
 
-    it "should return false when a object that is not a file is passed down" do
-      @basic_file.add_file("file").should be_false
+    it "should return false when a object that is not a basic_files is passed down" do
+      @basic_file.add_file("basic_files").should be_false
     end
 
-    it 'should have the same file-type as mime-type' do
+    it 'should have the same basic_files-type as mime-type' do
       @basic_file.file_type.should == @basic_file.mime_type
     end
   end
 
-  context "with a png file" do
+  context "with a png basic_files" do
     before do
       @basic_file = BasicFile.new
       @uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'image/png', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
       @basic_file.add_file(@uploaded_file)
     end
 
-    it "should have shorthand for adding a file" do
+    it "should have shorthand for adding a basic_files" do
       file = BasicFile.new
       file.add_file(@uploaded_file).should be_true
     end
@@ -97,7 +97,7 @@ describe "add_file" do
       @basic_file.original_filename.should == "rails.png"
     end
 
-    it "should have the checksum of the file" do
+    it "should have the checksum of the basic_files" do
       @basic_file.checksum.should == "9c0a079bdd7701d7e729bd956823d153"
     end
 
@@ -106,11 +106,11 @@ describe "add_file" do
       @basic_file.uuid.should_not be_nil
     end
 
-    it "should be able to be saved in repository with a file attended" do
+    it "should be able to be saved in repository with a basic_files attended" do
      @basic_file.save.should be_true
     end
 
-    it "should have the file size" do
+    it "should have the basic_files size" do
       @basic_file.size.should == 6646
     end
 
@@ -143,10 +143,10 @@ describe "add_file" do
     end
 
     it "should return false when a object doesn't support the require methods is passed down" do
-      @basic_file.add_file("file").should be_false
+      @basic_file.add_file("basic_files").should be_false
     end
 
-    it 'should have the same file-type as mime-type' do
+    it 'should have the same basic_files-type as mime-type' do
       @basic_file.file_type.should == @basic_file.mime_type
     end
   end

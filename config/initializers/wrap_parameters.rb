@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
-# Be sure to restart your server when you modify this file.
+# Be sure to restart your server when you modify this basic_files.
 #
-# This file contains settings for ActionController::ParamsWrapper which
+# This basic_files contains settings for ActionController::ParamsWrapper which
 # is enabled by default.
 
 # Enable parameter wrapping for JSON. You can disable this by setting :format to an empty array.

@@ -1,7 +1,7 @@
 <div>
   <br/>
-  <%= f.label :file, 'The file representation for the work' %>
-  <%= f.file_field :file, :multiple => false, :id => 'fileupload' %>
+  <%= f.label :basic_files, 'The basic_files representation for the work' %>
+  <%= f.file_field :basic_files, :multiple => false, :id => 'fileupload' %>
   <a class="btn btn-small btn-danger" href="#" id="file_clear" title="Clear file"><i class="icon-remove"></i></a>
   <%= fields_for :rep do |builder| %>
       <%= builder.text_field :label, :placeholder => 'Label' %>

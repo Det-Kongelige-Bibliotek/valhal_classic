@@ -11,7 +11,7 @@ describe ManifestationsHelper do
       @non_xml_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'image/png', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
     end
 
-    it 'should be possible with a TEI file' do
+    it 'should be possible with a TEI basic_files' do
       add_single_tei_rep({}, @tei_file, {}, @manifestation).should be_true
 
       @manifestation.single_file_reps.length.should == 1
@@ -21,7 +21,7 @@ describe ManifestationsHelper do
       @manifestation.single_file_reps.first.files.first.original_filename.should == @tei_file.original_filename
     end
 
-    it 'should be possible with a TEI file with metadata' do
+    it 'should be possible with a TEI basic_files with metadata' do
       version = 'p5'
       label = 'Tei p5 test label'
       add_single_tei_rep({:tei_version => version}, @tei_file, {:label => label}, @manifestation).should be_true
@@ -36,8 +36,8 @@ describe ManifestationsHelper do
       @manifestation.single_file_reps.first.files.first.tei_version.should == version
     end
 
-    # TODO this is probably not the intended behavior (non-tei xml files accepted as tei files.)
-    it 'should be possible with a XML file' do
+    # TODO this is probably not the intended behavior (non-tei xml basic_files accepted as tei basic_files.)
+    it 'should be possible with a XML basic_files' do
       add_single_tei_rep({}, @other_xml_file, {}, @manifestation).should be_true
 
       @manifestation.single_file_reps.length.should == 1
@@ -47,7 +47,7 @@ describe ManifestationsHelper do
       @manifestation.single_file_reps.first.files.first.original_filename.should == @other_xml_file.original_filename
     end
 
-    it 'should not be possible with a non-xml file' do
+    it 'should not be possible with a non-xml basic_files' do
       add_single_tei_rep({}, @non_xml_file, {}, @manifestation).should be_false
 
       @manifestation.single_file_reps.length.should == 0
@@ -61,7 +61,7 @@ describe ManifestationsHelper do
       @octet_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'octet-stream', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
     end
 
-    it 'should be possible with a TEI file' do
+    it 'should be possible with a TEI basic_files' do
       add_single_file_rep(@tei_file, {}, @manifestation).should be_true
 
       @manifestation.single_file_reps.length.should == 1
@@ -71,7 +71,7 @@ describe ManifestationsHelper do
       @manifestation.single_file_reps.first.files.first.original_filename.should == @tei_file.original_filename
     end
 
-    it 'should be possible with an binary file' do
+    it 'should be possible with an binary basic_files' do
       add_single_file_rep(@octet_file, {}, @manifestation).should be_true
 
       @manifestation.single_file_reps.length.should == 1
@@ -81,8 +81,8 @@ describe ManifestationsHelper do
       @manifestation.single_file_reps.first.files.first.original_filename.should == @octet_file.original_filename
     end
 
-    it 'should not allow non-files to be added' do
-      add_single_file_rep('TEI file', {}, @manifestation).should be_false
+    it 'should not allow non-basic_files to be added' do
+      add_single_file_rep('TEI basic_files', {}, @manifestation).should be_false
       @manifestation.single_file_reps.length.should == 0
     end
   end
@@ -95,7 +95,7 @@ describe ManifestationsHelper do
       @other_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'octet-stream', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
     end
 
-    it 'should be possible with a single tiff file' do
+    it 'should be possible with a single tiff basic_files' do
       add_tiff_order_rep([@tiff1], {}, @manifestation).should be_true
 
       @manifestation.ordered_reps.length.should == 1
@@ -105,7 +105,7 @@ describe ManifestationsHelper do
       @manifestation.ordered_reps.first.files.first.original_filename.should == @tiff1.original_filename
     end
 
-    it 'should be possible with several tiff files' do
+    it 'should be possible with several tiff basic_files' do
       add_tiff_order_rep([@tiff1, @tiff2], {}, @manifestation).should be_true
 
       @manifestation.ordered_reps.length.should == 1
@@ -117,7 +117,7 @@ describe ManifestationsHelper do
       @manifestation.ordered_reps.first.files.last.original_filename.should == @tiff2.original_filename
     end
 
-    it 'should not be possible with an binary file' do
+    it 'should not be possible with an binary basic_files' do
       add_tiff_order_rep([@other_file], {}, @manifestation).should be_false
 
       @manifestation.ordered_reps.length.should == 0
@@ -138,7 +138,7 @@ describe ManifestationsHelper do
       @other_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'octet-stream', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
     end
 
-    it 'should be possible with two different kind of files' do
+    it 'should be possible with two different kind of basic_files' do
       add_order_rep([@tiff, @other_file], {}, @manifestation).should be_true
 
       @manifestation.ordered_reps.length.should == 1

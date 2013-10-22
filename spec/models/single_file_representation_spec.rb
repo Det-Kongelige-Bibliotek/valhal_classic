@@ -69,7 +69,7 @@ describe SingleFileRepresentation do
     end
   end
 
-  describe "#files" do
+  describe "#basic_files" do
     context "with multiple BasicFiles" do
       let(:default_files) do
         array = []
@@ -106,8 +106,8 @@ describe SingleFileRepresentation do
     end
   end
 
-  describe 'with a single file' do
-    it 'should have a representation name containing the file content type' do
+  describe 'with a single basic_files' do
+    it 'should have a representation name containing the basic_files content type' do
       basic_file = BasicFile.new
       uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
       basic_file.add_file(uploaded_file)

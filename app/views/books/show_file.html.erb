@@ -1,6 +1,6 @@
 <%= form_for @book, :html=>{:multipart=>true}, :url => {:action=> "update_file"}  do|f| %>
     <%= f.error_messages :header_message => "New book error", :class => "alert alert-error", :header_tag => :h3 %>
-    <%= fields_for :file, :html=>{:multipart=>true} do |builder| %>
+    <%= fields_for :basic_files, :html=>{:multipart=>true} do |builder| %>
         <%= render 'tei_file_upload', :f => builder %>
         <%= render 'tiff_file_upload', :f => builder %>
     <% end %>

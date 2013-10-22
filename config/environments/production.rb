@@ -24,7 +24,7 @@ Valhal::Application.configure do
   # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
 
-  # Specifies the header that your server uses for sending files
+  # Specifies the header that your server uses for sending basic_files
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 

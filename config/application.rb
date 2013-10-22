@@ -28,15 +28,15 @@ begin
   CONFIG.merge! CONFIG.fetch(Rails.env, {})
   recursive_symbolize_keys! CONFIG
 rescue => error
-  puts "Couldn't load the file 'application.local.yml': #{error.inspect.to_s}"
+  puts "Couldn't load the basic_files 'application.local.yml': #{error.inspect.to_s}"
   CONFIG = {:ldap => {:user => 'sifd-ldap-read', :password => ''}, :test=>{:user=>'sifdtest', :password=>''}}
 end
 
 module Valhal
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
+    # Application configuration should go into basic_files in config/initializers
+    # -- all .rb basic_files in that directory are automatically loaded.
     config.application_name = "SIFD"
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
@@ -61,7 +61,7 @@ module Valhal
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
-    # Configure sensitive parameters which will be filtered from the log file.
+    # Configure sensitive parameters which will be filtered from the log basic_files.
     config.filter_parameters += [:password]
 
     #forces ssl to be turned on for all sites, requires the web server to have been setup for ssl/tls

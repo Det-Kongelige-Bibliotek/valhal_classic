@@ -10,7 +10,7 @@ module Concerns
       end
 
       # Define the label as an accessinbn ble part of the descriptive metadata.
-      delegate :label, :to => 'provenanceMetadata', :at => [:label], :unique => true
+      delegate :label, :to => 'provenanceMetadata', :at => [:label], :multiple => false
 
       # Automatical creation of a the label if it has not been defined.
       before_validation(:on => :create) do
@@ -19,20 +19,20 @@ module Concerns
 
       # relationships that all representations must have
       # belongs_to ie(short for IntellectualEntity), can be a Book, Person and so on
-      # has_many files, can be BasicFile, TiffFile and so on
+      # has_many basic_files, can be BasicFile, TiffFile and so on
       has_many :files, :class_name => 'ActiveFedora::Base', :property => :is_part_of, :inverse_of => :has_part
       belongs_to :ie, :class_name => 'ActiveFedora::Base', :property => :has_representation, :inverse_of => :is_representation_of
 
-      # adds the representation to the file container after a save so we dont have to manage all that saving before adding
+      # adds the representation to the basic_files container after a save so we dont have to manage all that saving before adding
       # example
       # Before:
       # rep = SingleFileRepresentation.new(params[:rep])
       # rep.save!
       # rep_file = BasicFile.new
-      # rep_file.add_file(params[:file][:file])
+      # rep_file.add_file(params[:basic_files][:basic_files])
       # rep_file.container = rep
       # rep_file.save!
-      # rep.files << rep_file
+      # rep.basic_files << rep_file
       #
       # rep.work = @work
       # rep.save!
@@ -41,8 +41,8 @@ module Concerns
       # rep = SingleFileRepresentation.new(params[:rep])
       #
       # rep_file = BasicFile.new
-      # rep_file.add_file(params[:file][:file])
-      # rep.files << rep_file
+      # rep_file.add_file(params[:basic_files][:basic_files])
+      # rep.basic_files << rep_file
       #
       # @work.representations << rep
       # @work.save

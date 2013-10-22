@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-# Be sure to restart your server when you modify this file.# Mime Types Added By Hydra Head:
+# Be sure to restart your server when you modify this basic_files.# Mime Types Added By Hydra Head:
 
 # Mime::Type.register "text/html", :html
 # Mime::Type.register "application/pdf", :pdf

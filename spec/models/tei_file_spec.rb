@@ -10,8 +10,8 @@ describe TeiFile do
     @uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'test.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
   end
 
-  context 'with a Tei file' do
-    it 'should have shorthand for adding a file just like a basic file' do
+  context 'with a Tei basic_files' do
+    it 'should have shorthand for adding a basic_files just like a basic basic_files' do
       file = TeiFile.create
       file.add_file(@uploaded_file).should be_true
       file.save.should be_true
@@ -19,14 +19,14 @@ describe TeiFile do
   end
 
   context 'metadata' do
-    it 'should contain TEI version in file type' do
-      version = 'This TEI file has version P5'
+    it 'should contain TEI version in basic_files type' do
+      version = 'This TEI basic_files has version P5'
       tei = TeiFile.create(:tei_version => version)
       tei.file_type.to_s.include?(version).should be_true
     end
 
-    it 'should contain the mimetype in the file type if no TEI version is defined' do
-      version = 'This TEI file has version P5'
+    it 'should contain the mimetype in the basic_files type if no TEI version is defined' do
+      version = 'This TEI basic_files has version P5'
       tei = TeiFile.create!
       tei.add_file(@uploaded_file).should be_true
       tei.file_type.to_s.include?(version).should be_false
@@ -34,7 +34,7 @@ describe TeiFile do
     end
 
     it 'should be possible to add a version afterwards' do
-      version = 'This TEI file has version P5'
+      version = 'This TEI basic_files has version P5'
       tei = TeiFile.create!
       tei.add_file(@uploaded_file).should be_true
       tei.file_type.to_s.include?(version).should be_false

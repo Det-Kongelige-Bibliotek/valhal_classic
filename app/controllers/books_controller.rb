@@ -1,10 +1,7 @@
 # -*- encoding : utf-8 -*-
 class BooksController < ApplicationController
-  include Wicked::Wizard
   include ManifestationsHelper # methods: create_structmap_for_representation, set_authors, set_concerned_people, add_single_tei_rep, add_tiff_order_rep
   include PreservationHelper # methods: update_preservation_profile_from_controller
-
-  steps :sort_tiff_files
 
   load_and_authorize_resource
   def index
@@ -96,7 +93,7 @@ class BooksController < ApplicationController
     else
       @book = Book.find(params[:id])
       handle_representation_parameters
-      if !params[:file].blank? && !params[:file][:tiff_file].blank?
+      if !params[:basic_files].blank? && !params[:basic_files][:tiff_file].blank?
         render action: 'sort_tiff_files'
       else
         redirect_to @book, notice: 'Book was successfully created.'
@@ -149,43 +146,43 @@ class BooksController < ApplicationController
     end
   end
 
-  # Creates representations from the files in the parameters.
+  # Creates representations from the basic_files in the parameters.
   def handle_representation_parameters
-    #Create TEI representation of book using uploaded TEI file if a file was uploaded
-    if !params[:file].blank? && !params[:file][:tei_file].blank?
+    #Create TEI representation of book using uploaded TEI basic_files if a basic_files was uploaded
+    if !params[:basic_files].blank? && !params[:basic_files][:tei_file].blank?
       logger.debug 'Creating a tei representation'
 
       # If the label for the representation has not been defined, then it is set to 'TEI representation'.
       if params[:representation_metadata].blank? || params[:representation_metadata][:label].blank?
-        add_single_tei_rep(params[:tei_metadata], params[:file][:tei_file], {:label => 'TEI representation'}, @book)
+        add_single_tei_rep(params[:tei_metadata], params[:basic_files][:tei_file], {:label => 'TEI representation'}, @book)
       else
-        add_single_tei_rep(params[:tei_metadata], params[:file][:tei_file], params[:representation_metadata], @book)
+        add_single_tei_rep(params[:tei_metadata], params[:basic_files][:tei_file], params[:representation_metadata], @book)
       end
     end
 
-    #Create TIFF representation of book using uploaded TIFF file(s) if file(s) was uploaded
-    if !params[:file].blank? && !params[:file][:tiff_file].blank?
+    #Create TIFF representation of book using uploaded TIFF basic_files(s) if basic_files(s) was uploaded
+    if !params[:basic_files].blank? && !params[:basic_files][:tiff_file].blank?
       logger.debug 'Creating a tiff representation'
-      add_tiff_order_rep(params[:file][:tiff_file], params[:tiff], @book)
+      add_tiff_order_rep(params[:basic_files][:tiff_file], params[:tiff], @book)
     end
   end
 
   def validate_book(params)
     #Validate form params
     logger.debug 'Validating parameters...'
-    if (!params[:file].blank? && !params[:file][:tiff_file].blank?)  && (!params[:file][:tiff_file].first.content_type.start_with? 'image/tiff')
-      logger.error 'Invalid file type uploaded: ' + params[:file][:tiff_file].first.content_type.to_s
-      @book.errors.add(:fileupload, ' - You tried to upload a non TIFF image file, please select a valid TIFF image file')
+    if (!params[:basic_files].blank? && !params[:basic_files][:tiff_file].blank?)  && (!params[:basic_files][:tiff_file].first.content_type.start_with? 'image/tiff')
+      logger.error 'Invalid basic_files type uploaded: ' + params[:basic_files][:tiff_file].first.content_type.to_s
+      @book.errors.add(:fileupload, ' - You tried to upload a non TIFF image basic_files, please select a valid TIFF image basic_files')
     end
 
-    if (!params[:file].blank? && !params[:file][:tei_file].blank?)  && (!params[:file][:tei_file].content_type.start_with? 'text/xml')
-      logger.error 'Invalid file type uploaded: ' + params[:file][:tei_file].content_type.to_s
-      @book.errors.add(:file_tei_file, ' - You tried to upload a non XML file, please select a valid XML file')
+    if (!params[:basic_files].blank? && !params[:basic_files][:tei_file].blank?)  && (!params[:basic_files][:tei_file].content_type.start_with? 'text/xml')
+      logger.error 'Invalid basic_files type uploaded: ' + params[:basic_files][:tei_file].content_type.to_s
+      @book.errors.add(:file_tei_file, ' - You tried to upload a non XML basic_files, please select a valid XML basic_files')
     end
 
-    if (!params[:file].blank? && !params[:file][:structmap_file].blank?)  && (!params[:file][:structmap_file].content_type.start_with? 'text/xml')
-      logger.error 'Invalid file type uploaded: ' + params[:file][:structmap_file].content_type.to_s
-      @book.errors.add(:file_structmap_file, ' - You tried to upload a non XML file, please select a valid XML file')
+    if (!params[:basic_files].blank? && !params[:basic_files][:structmap_file].blank?)  && (!params[:basic_files][:structmap_file].content_type.start_with? 'text/xml')
+      logger.error 'Invalid basic_files type uploaded: ' + params[:basic_files][:structmap_file].content_type.to_s
+      @book.errors.add(:file_structmap_file, ' - You tried to upload a non XML basic_files, please select a valid XML basic_files')
     end
     logger.debug 'Validation finished'
   end

@@ -15,7 +15,7 @@ gem 'uuid', '>= 2.3.6'
 gem 'omniauth-ldap'
 gem 'dynamic_form'
 gem 'rubyzip'
-gem 'wicked'
+#gem 'wicked'
 
 # Preservation
 gem 'amqp'

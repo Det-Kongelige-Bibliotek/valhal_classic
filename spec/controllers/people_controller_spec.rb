@@ -115,11 +115,11 @@ describe PeopleController do
         response.should render_template('new')
       end
 
-      it 'should not allow a non-image file as portrait' do
+      it 'should not allow a non-image basic_files as portrait' do
         post :create, { :person => valid_attributes, :portrait => { :portrait_file => ActionDispatch::Http::UploadedFile.new(filename: 'test.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarebo_mets_structmap_sample.xml"))}}
         response.should render_template('new')
       end
-      it 'should not allow a non-xml file as description' do
+      it 'should not allow a non-xml basic_files as description' do
         post :create, { :person => valid_attributes, :tei => { :tei_file => ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))}}
         response.should render_template('new')
       end
@@ -168,7 +168,7 @@ describe PeopleController do
         response.should render_template('edit')
       end
 
-      it 'should not allow a non-xml file as description' do
+      it 'should not allow a non-xml basic_files as description' do
         person = Person.create! valid_attributes
         post :update, { :id => person.to_param, :tei => { :tei_file => ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))}}
         response.should render_template('edit')

@@ -5,12 +5,12 @@ describe TiffFile do
   subject { BasicFile.new }
   it_behaves_like 'a preservable element'
 
-  context "with a tiff file" do
+  context "with a tiff basic_files" do
     before do
-      @uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"), head: "Content-Disposition: form-data; name=\"file[tiff_file][]\"; filename=\"arre1fm005.tif\"\r\nContent-Type: image/tiff\r\n")
+      @uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"), head: "Content-Disposition: form-data; name=\"basic_files[tiff_file][]\"; filename=\"arre1fm005.tif\"\r\nContent-Type: image/tiff\r\n")
     end
 
-    it "should have shorthand for adding a file just like a basic file" do
+    it "should have shorthand for adding a basic_files just like a basic basic_files" do
       file = TiffFile.create
       file.add_file(@uploaded_file).should be_true
       file.save.should be_true

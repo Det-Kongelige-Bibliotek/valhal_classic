@@ -8,7 +8,7 @@ describe Datastreams::AdlTeiP5 do
       xml_format.should_not be_nil
     end
   end
-  describe 'loaded from file' do
+  describe 'loaded from basic_files' do
     subject do
       @file = File.open(File.join(File.dirname(__FILE__), '..', 'fixtures', "aarrebo_tei_p5_sample.xml"))
       @document = Datastreams::AdlTeiP5.from_xml(@file, nil)

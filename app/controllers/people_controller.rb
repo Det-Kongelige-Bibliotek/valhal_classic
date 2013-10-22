@@ -103,32 +103,32 @@ class PeopleController < ApplicationController
   private
   # handles the parameters
   # If any portrait is defined, then a work with the image will be added as portrait to the person
-  # If any TEI file is defined, then it is added as a person description of the person.
+  # If any TEI basic_files is defined, then it is added as a person description of the person.
   def handle_arguments
     if (!params[:portrait].blank?) && (!params[:portrait][:portrait_file].blank?)
-      logger.debug "Valid image file uploaded, creating image related objects"
+      logger.debug "Valid image basic_files uploaded, creating image related objects"
       add_portrait(params[:portrait][:portrait_file], params[:portrait_representation_metadata], params[:portrait_metadata], @person)
     end
 
     if (!params[:tei].blank?) && (!params[:tei][:tei_file].blank?)
-      logger.debug "Valid image file uploaded, creating image related objects"
+      logger.debug "Valid image basic_files uploaded, creating image related objects"
       add_person_description(params[:tei_metadata], params[:tei][:tei_file], params[:tei_representation_metadata], params[:person_description_metadata], @person)
     end
   end
 
   # validates the parameter arguments.
-  # ensures that the parameters are not empty, that the portrait is a image file, and that the TEI files are in XML.
+  # ensures that the parameters are not empty, that the portrait is a image basic_files, and that the TEI basic_files are in XML.
   def invalid_arguments?
     if params.empty? || params[:person].nil?
       @person.errors.add(:metadata, 'The work cannot exist without metadata.')
     end
     if (!params[:portrait].blank? && !params[:portrait][:portrait_file].blank?)  && (!params[:portrait][:portrait_file].content_type.start_with? 'image/')
-      logger.error 'Invalid file type uploaded: ' + params[:portrait][:portrait_file].content_type.to_s
-      @person.errors.add(:portrait_file, ' - You tried to upload a non-image file, please select a valid image file')
+      logger.error 'Invalid basic_files type uploaded: ' + params[:portrait][:portrait_file].content_type.to_s
+      @person.errors.add(:portrait_file, ' - You tried to upload a non-image basic_files, please select a valid image basic_files')
     end
     if (!params[:tei].blank? && !params[:tei][:tei_file].blank?) && (params[:tei][:tei_file].content_type !=  'text/xml')
-      logger.error 'Invalid file type uploaded: ' + params[:tei][:tei_file].content_type.to_s
-      @person.errors.add(:tei_file, ' - You tried to upload a non-xml file as a person description')
+      logger.error 'Invalid basic_files type uploaded: ' + params[:tei][:tei_file].content_type.to_s
+      @person.errors.add(:tei_file, ' - You tried to upload a non-xml basic_files as a person description')
     end
 
     logger.debug 'Validation finished'

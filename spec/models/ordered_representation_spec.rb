@@ -74,7 +74,7 @@ describe OrderedRepresentation do
     end
   end
 
-  describe '#files' do
+  describe '#basic_files' do
     context 'with multiple BasicFiles' do
       let(:default_files) do
         array = []

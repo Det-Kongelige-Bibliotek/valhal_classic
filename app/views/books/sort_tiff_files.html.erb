@@ -3,8 +3,8 @@
       <h1>Sort TIFFs</h1>
 
       <ul id="structmap_file_list" class="sortable grid">
-        <%- params[:file][:tiff_file].each do |file| %>
-            <li><%= file.nil? ? "No file" : file.original_filename %></li>
+        <%- params[:basic_files][:tiff_file].each do |file| %>
+            <li><%= file.nil? ? "No basic_files" : file.original_filename %></li>
         <%- end %>
       </ul>
       <br/>

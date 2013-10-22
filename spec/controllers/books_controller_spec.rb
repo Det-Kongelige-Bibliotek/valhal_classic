@@ -132,49 +132,49 @@ describe BooksController do
         end
         it 'should create the book' do
           expect {
-            post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
+            post :create, {:book => @book_attributes , :basic_files => @tei_file_attributes }, valid_session
           }.to change(Book, :count).by(1)
         end
         it 'should create a Tei representation' do
           pending 'Failing unit-test'
           expect {
-            post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
+            post :create, {:book => @book_attributes , :basic_files => @tei_file_attributes }, valid_session
           }.to change(representation, :count).by(1)
         end
         it 'should not create a tiff representation' do
           expect {
-            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+            post :create, {:book => @book_attributes , :basic_files => @file_attributes }, valid_session
           }.not_to change(representation, :count)
         end
-        it 'should create a basic file' do
+        it 'should create a basic basic_files' do
           pending 'Failing unit-test'
           expect {
-            post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
+            post :create, {:book => @book_attributes , :basic_files => @tei_file_attributes }, valid_session
           }.to change(TeiFile, :count).by(1)
         end
         it 'should not create a tifffile' do
           expect {
-            post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
+            post :create, {:book => @book_attributes , :basic_files => @tei_file_attributes }, valid_session
           }.not_to change(TiffFile, :count)
         end
         it 'should create a relation between book and tei-representation' do
           pending 'Failing unit-test'
-          post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
+          post :create, {:book => @book_attributes , :basic_files => @tei_file_attributes }, valid_session
           Book.all.last.has_rep?.should be_true
           representation.all.last.has_ie?.should be_true
           Book.all.last.single_file_reps.length.should == 1
           Book.all.last.single_file_reps.first.should == representation.all.last
           representation.all.last.ie.should == Book.all.last
         end
-        it 'should create a relation between tei-representation and basic-file' do
+        it 'should create a relation between tei-representation and basic-basic_files' do
           pending 'Failing unit-test'
-          post :create, {:book => @book_attributes , :file => @tei_file_attributes }, valid_session
+          post :create, {:book => @book_attributes , :basic_files => @tei_file_attributes }, valid_session
           representation.all.last.files.length.should == 1
           representation.all.last.files.first.should == TeiFile.all.last
         end
         it 'should create a metadata for tei-representation' do
           pending 'Failing unit-test'
-          post :create, {:book => @book_attributes , :file => @tei_file_attributes, :representation_metadata => {:label => 'The label'}}, valid_session
+          post :create, {:book => @book_attributes , :basic_files => @tei_file_attributes, :representation_metadata => {:label => 'The label'}}, valid_session
           representation.all.last.files.length.should == 1
           representation.all.last.files.first.should == TeiFile.all.last
           representation.all.last.label.should == 'The label'
@@ -186,54 +186,54 @@ describe BooksController do
         before :all do
           @book_attributes = { :title => 'Samlede Skrifter'}
           @tiff_file_attributes = { :tiff_file => [ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff',
-                                                                                          tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"), head: 'Content-Disposition: form-data; name=\'file[tiff_file][]\'; filename=\'arre1fm005.tif\'\r\nContent-Type: image/tiff\r\n')]}
+                                                                                          tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"), head: 'Content-Disposition: form-data; name=\'basic_files[tiff_file][]\'; filename=\'arre1fm005.tif\'\r\nContent-Type: image/tiff\r\n')]}
         end
         it 'should create the book' do
           expect {
-            post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
+            post :create, {:book => @book_attributes , :basic_files => @tiff_file_attributes }, valid_session
           }.to change(Book, :count).by(1)
         end
         it 'should create a Tiff representation' do
           pending 'Failing unit-test'
           expect {
-            post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
+            post :create, {:book => @book_attributes , :basic_files => @tiff_file_attributes }, valid_session
           }.to change(representation, :count).by(1)
         end
         it 'should not create a tei representation' do
           expect {
-            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+            post :create, {:book => @book_attributes , :basic_files => @file_attributes }, valid_session
           }.not_to change(representation, :count)
         end
-        it 'should create a tiff file' do
+        it 'should create a tiff basic_files' do
           pending 'Failing unit-test'
           expect {
-            post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
+            post :create, {:book => @book_attributes , :basic_files => @tiff_file_attributes }, valid_session
           }.to change(TiffFile, :count).by(1)
         end
-        it 'should not create a basic file for the struct map' do
+        it 'should not create a basic basic_files for the struct map' do
           expect {
-            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+            post :create, {:book => @book_attributes , :basic_files => @file_attributes }, valid_session
           }.not_to change(BasicFile, :count)
         end
         it 'should create a relation between book and tiff-representation' do
           pending 'Failing unit-test'
-          post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
+          post :create, {:book => @book_attributes , :basic_files => @tiff_file_attributes }, valid_session
           Book.all.last.has_rep?.should be_true
           representation.all.last.has_ie?.should be_true
           Book.all.last.ordered_reps.length.should == 1
           Book.all.last.ordered_reps.first.should == representation.all.last
           representation.all.last.ie.should == Book.all.last
         end
-        it 'should create a relation between tiff-representation and basic-file' do
+        it 'should create a relation between tiff-representation and basic-basic_files' do
           pending 'Failing unit-test'
-          post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
+          post :create, {:book => @book_attributes , :basic_files => @tiff_file_attributes }, valid_session
           representation.all.last.files.length.should == 1
           representation.all.last.files.first.should == TiffFile.all.last
         end
 
-        it 'should create a relation between tiff-representation and basic-file' do
+        it 'should create a relation between tiff-representation and basic-basic_files' do
           pending 'Failing unit-test'
-          post :create, {:book => @book_attributes , :file => @tiff_file_attributes }, valid_session
+          post :create, {:book => @book_attributes , :basic_files => @tiff_file_attributes }, valid_session
           representation.all.last.files.length.should == 1
           representation.all.last.files.first.should == TiffFile.all.last
         end
@@ -246,34 +246,34 @@ describe BooksController do
           @book_attributes = { :title => 'Samlede Skrifter'}
           @file_attributes = { :tiff_file => [ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff',
                                                                                      tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"),
-                                                                                     head: 'Content-Disposition: form-data; name=\'file[tiff_file][]\'; filename=\'arre1fm005.tif\'\r\nContent-Type: image/tiff\r\n')]}
+                                                                                     head: 'Content-Disposition: form-data; name=\'basic_files[tiff_file][]\'; filename=\'arre1fm005.tif\'\r\nContent-Type: image/tiff\r\n')]}
         end
         it 'should create the book' do
           expect {
-            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+            post :create, {:book => @book_attributes , :basic_files => @file_attributes }, valid_session
           }.to change(Book, :count).by(1)
         end
         it 'should not create a tei representation' do
           pending 'Failing unit-test'
           expect {
-            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+            post :create, {:book => @book_attributes , :basic_files => @file_attributes }, valid_session
           }.not_to change(SingleFileRepresentation, :count)
         end
         it 'should create a Tiff representation' do
           pending 'Failing unit-test'
           expect {
-            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+            post :create, {:book => @book_attributes , :basic_files => @file_attributes }, valid_session
           }.to change(representation, :count).by(1)
         end
-        it 'should create a tiff file for the tiff representation' do
+        it 'should create a tiff basic_files for the tiff representation' do
           pending 'Failing unit-test'
           expect {
-            post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+            post :create, {:book => @book_attributes , :basic_files => @file_attributes }, valid_session
           }.to change(TiffFile, :count).by(1)
         end
         it 'should create a relation between book and tiff-representation' do
           pending 'Failing unit-test'
-          post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+          post :create, {:book => @book_attributes , :basic_files => @file_attributes }, valid_session
           Book.all.last.has_rep?.should be_true
           representation.all.last.has_ie?.should be_true
           Book.all.last.ordered_reps.length.should == 1
@@ -283,7 +283,7 @@ describe BooksController do
 
         it 'should create a relation between tiff-representation and struct-map' do
           pending 'Failing unit-test'
-          post :create, {:book => @book_attributes , :file => @file_attributes }, valid_session
+          post :create, {:book => @book_attributes , :basic_files => @file_attributes }, valid_session
           representation.all.last.files.length.should == 1
           representation.all.last.files.first.should == TiffFile.all.last
         end
@@ -307,13 +307,13 @@ describe BooksController do
             post :create, {:book => @book_attributes , :person => @person_attributes }, valid_session
           }.not_to change(representation, :count)
         end
-        it 'should not create a tiff file for the tiff representation' do
+        it 'should not create a tiff basic_files for the tiff representation' do
           pending 'Failing unit-test'
           expect {
             post :create, {:book => @book_attributes , :person => @person_attributes }, valid_session
           }.not_to change(TiffFile, :count)
         end
-        it 'should not create a basic file' do
+        it 'should not create a basic basic_files' do
           pending 'Failing unit-test'
           expect {
             post :create, {:book => @book_attributes , :person => @person_attributes }, valid_session
@@ -359,14 +359,14 @@ describe BooksController do
         response.should render_template('new')
       end
 
-      it 'should not allow any non-image file as tiff representation' do
+      it 'should not allow any non-image basic_files as tiff representation' do
         pending 'Failing unit-test'
-        post :create, { :book => @book_attributes, :file => { :tiff_file => [ActionDispatch::Http::UploadedFile.new(filename: 'test.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarebo_mets_structmap_sample.xml"))]}}
+        post :create, { :book => @book_attributes, :basic_files => { :tiff_file => [ActionDispatch::Http::UploadedFile.new(filename: 'test.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarebo_mets_structmap_sample.xml"))]}}
         response.should render_template('new')
       end
-      it 'should not allow a non-xml file as tei representation' do
+      it 'should not allow a non-xml basic_files as tei representation' do
         pending 'Failing unit-test'
-        post :create, { :book => @book_attributes, :file => { :tei_file => ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))}}
+        post :create, { :book => @book_attributes, :basic_files => { :tei_file => ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))}}
         response.should render_template('new')
       end
     end
@@ -426,7 +426,7 @@ describe BooksController do
         valid_params = {:title => 'title'}
         book = Book.create!(valid_params)
         book.representations.length.should == 0
-        post :update, { :id => book.to_param, :book => valid_params, :file => { :tiff_file => [ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))]}}, valid_session
+        post :update, { :id => book.to_param, :book => valid_params, :basic_files => { :tiff_file => [ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))]}}, valid_session
         response.should redirect_to(book)
 
         b = Book.find(book.pid)
@@ -461,10 +461,10 @@ describe BooksController do
         response.should render_template('edit')
       end
 
-      it 'should not allow a non-xml file as description' do
+      it 'should not allow a non-xml basic_files as description' do
         pending 'Failing unit-test'
         book = Book.create!(:title => 'title')
-        post :update, { :id => book.to_param, :file => { :tei_file => ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))}}
+        post :update, { :id => book.to_param, :basic_files => { :tei_file => ActionDispatch::Http::UploadedFile.new(filename: 'test.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))}}
         response.should render_template('edit')
       end
     end
@@ -499,7 +499,7 @@ describe BooksController do
       @tiff1 = ActionDispatch::Http::UploadedFile.new(filename: 'first.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
       @tiff2 = ActionDispatch::Http::UploadedFile.new(filename: 'second.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
     end
-    it 'should create a new structmap order from list of files' do
+    it 'should create a new structmap order from list of basic_files' do
       pending 'Failing unit-test'
       add_tiff_order_rep([@tiff1, @tiff2], {}, @book)
 
@@ -523,7 +523,7 @@ describe BooksController do
       before_xml.index(@tiff1.original_filename).should be > before_xml.index(@tiff2.original_filename)
     end
 
-    it 'should not change structmap when no list of files' do
+    it 'should not change structmap when no list of basic_files' do
       add_tiff_order_rep([@tiff1, @tiff2], {}, @book)
 
       b = Book.find(@book.pid)

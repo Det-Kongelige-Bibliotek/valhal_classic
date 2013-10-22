@@ -109,19 +109,19 @@ describe OrderedRepresentationsController do
   end
 
   describe 'GET download_all' do
-    it 'should respond with a empty zip file' do
+    it 'should respond with a empty zip basic_files' do
       pending "Failing... "
       rep = OrderedRepresentation.create!
 
       get :download_all, {:id => rep.pid}
       response.response_code.should == 200
       response.content_type.should == 'application/zip'
-      # TODO empty zip-file has size 22. Figure out a better way of validating that it is empty.
+      # TODO empty zip-basic_files has size 22. Figure out a better way of validating that it is empty.
       response.body.length.should == 22
 
     end
 
-    it 'should deliver a zip file of smaller size than the file within' do
+    it 'should deliver a zip basic_files of smaller size than the basic_files within' do
       pending "Failing... "
       rep = OrderedRepresentation.create!
       @tiff1 = ActionDispatch::Http::UploadedFile.new(filename: 'first.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
@@ -134,7 +134,7 @@ describe OrderedRepresentationsController do
       response.response_code.should == 200
       response.content_type.should == 'application/zip'
       response.body.length.should < tiff_file.size
-      # TODO empty zip-file has size 22. Figure out a better way of validating that the file is not empty.
+      # TODO empty zip-basic_files has size 22. Figure out a better way of validating that the basic_files is not empty.
       response.body.length.should > 22
     end
   end

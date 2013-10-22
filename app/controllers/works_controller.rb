@@ -113,12 +113,12 @@ class WorksController < ApplicationController
 
   private
   # Handles the parameter arguments
-  # If any single file is given, then a SingeFileRepresentation is made from it.
+  # If any single basic_files is given, then a SingeFileRepresentation is made from it.
   #
   def handle_arguments
-    if !params[:single_file].blank? && !params[:single_file][:file].blank?
+    if !params[:single_file].blank? && !params[:single_file][:basic_files].blank?
       logger.debug 'Creating a representation'
-      add_single_file_rep(params[:single_file][:file], params[:rep], @work)
+      add_single_file_rep(params[:single_file][:basic_files], params[:rep], @work)
     end
     # add the authors to the work
     if !params[:person].blank? && !params[:person][:id].blank?

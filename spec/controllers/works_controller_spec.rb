@@ -108,10 +108,10 @@ describe WorksController do
       end
     end
 
-    describe 'with a single file parameter' do
-      it 'should use create a SingleFileRepresentation with the file' do
+    describe 'with a single basic_files parameter' do
+      it 'should use create a SingleFileRepresentation with the basic_files' do
         pending 'Failing unit-test'
-        post :create, {:work => valid_attributes, :single_file => {'file' => ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml")) }}, valid_session
+        post :create, {:work => valid_attributes, :single_file => {'basic_files' => ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml")) }}, valid_session
         response.should redirect_to(Work.all.last)
         Work.all.last.representations.length.should == 1
         Work.all.last.representations.last.kind_of?(SingleFileRepresentation).should be_true

@@ -112,7 +112,7 @@ describe SingleFileRepresentationsController do
       rep.preservation_comment.should be_blank
     end
 
-    it 'should be updated and redirect to the single file representation' do
+    it 'should be updated and redirect to the single basic_files representation' do
       profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
       comment = "This is the preservation comment"
 

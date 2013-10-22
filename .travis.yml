@@ -8,6 +8,7 @@ rvm:
 install:
   - bundle install --deployment
   - rake jetty:clean
+  - wget https://github.com/projecthydra/hydra-jetty/raw/master/start.ini -O jetty/start.ini
   - rake hydra:jetty:config
 before_script:
   - rake db:migrate db:seed db:test:prepare

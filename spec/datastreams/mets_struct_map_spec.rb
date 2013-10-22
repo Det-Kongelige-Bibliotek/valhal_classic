@@ -40,7 +40,7 @@ describe Datastreams::MetsStructMap do
     @ds.find_by_terms(:order).last.content == "6"
   end
 
-  it "should have 6 file ids" do
+  it "should have 6 basic_files ids" do
     @ds.term_values(:file_id).length.should == 6
   end
 

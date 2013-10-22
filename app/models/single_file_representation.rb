@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 
-# Representation with only a single file.
-# No underlying structure to keep track of order/relationship between files.
+# Representation with only a single basic_files.
+# No underlying structure to keep track of order/relationship between basic_files.
 class SingleFileRepresentation < ActiveFedora::Base
   include Concerns::IntellectualEntity
   include Concerns::Representation
@@ -10,7 +10,7 @@ class SingleFileRepresentation < ActiveFedora::Base
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name => 'descMetadata', :type => ActiveFedora::SimpleDatastream
 
-  # Overrides the default one by adding the file type in parenthesis.
+  # Overrides the default one by adding the basic_files type in parenthesis.
   def representation_name
     if files.size == 0 || files.last.file_type.blank?
       super
