@@ -60,7 +60,7 @@ module PreservationHelper
       if Constants::NON_RETRIEVABLE_DATASTREAM_NAMES.include?(key)
         next
       end
-      message += "#{key}: #{content.ng_xml}\n"
+      message += "#{key}: #{content.respond_to?(:to_xml) ? content.to_xml : content.content}\n"
     end
 
     message

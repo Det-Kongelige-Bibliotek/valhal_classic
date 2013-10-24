@@ -9,7 +9,7 @@
        end
     %>
     <dt><strong><%= key %></strong></dt>
-    <dd><%= content.ng_xml %></dd>
+    <dd><%= content.respond_to?(:to_xml) ? content.to_xml : content.content %></dd>
     <br/>
 <% end %>
 <br/>
