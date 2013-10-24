@@ -11,7 +11,8 @@ Run
 
 to run on a local development machine:
 
-Install ruby, git and rabbitmq (start rabbitmq on default ports).
+Install ruby (with rvm, bundler, etc.), git and rabbitmq (start rabbitmq on default ports).
+Also requires to have ImageMagick-devel installed (on RHEL6 run ’yum install ImageMagick-devel’ with repo ’rhel-x86_64-server-optional-6’)
 
 $ git clone https://github.com/Det-Kongelige-Bibliotek/valhal.git
 

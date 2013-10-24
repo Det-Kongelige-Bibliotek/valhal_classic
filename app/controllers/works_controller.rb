@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class WorksController < ApplicationController
-  include ManifestationsHelper
-  include PreservationHelper
+  include ManifestationsHelper # methods: add_single_file_rep, set_authors, set_concerned_people
+  include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_state_from_controller
 
   load_and_authorize_resource
 
@@ -94,7 +94,7 @@ class WorksController < ApplicationController
     redirect_to works_url
   end
 
-  # Updates the preservation settings.
+  # Updates the preservation profile metadata.
   def update_preservation_profile
     @work = Work.find(params[:id])
     begin

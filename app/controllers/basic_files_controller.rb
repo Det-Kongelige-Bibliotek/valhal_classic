@@ -1,13 +1,13 @@
 # -*- encoding : utf-8 -*-
 #Controller for retrieving BasicFile objects from Fedora for display to the front-end
 class BasicFilesController < ApplicationController
-  include PreservationHelper
+  include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_state_from_controller
 
   def show
     @file = BasicFile.find(params[:id])
   end
 
-  # Updates the preservation settings.
+  # Updates the preservation profile metadata.
   def update_preservation_profile
     @file = BasicFile.find(params[:id])
     begin

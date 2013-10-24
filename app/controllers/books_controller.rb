@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class BooksController < ApplicationController
   include ManifestationsHelper # methods: create_structmap_for_representation, set_authors, set_concerned_people, add_single_tei_rep, add_tiff_order_rep
-  include PreservationHelper # methods: update_preservation_profile_from_controller
+  include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_state_from_controller
 
   load_and_authorize_resource
   def index
@@ -25,11 +25,10 @@ class BooksController < ApplicationController
     logger.debug params.to_s
     if params[:structmap_file_order].blank?
       logger.warn 'Cannot generate structmap, when no file_order is given.'
-      redirect_to @book, notice: 'Book was successfully created.'
     else
       create_structmap_for_representation(params[:structmap_file_order], @book.ordered_reps.last)
-      redirect_to @book, notice: 'Book was successfully created.'
     end
+    redirect_to @book, notice: 'Book was successfully created.'
   end
 
   def create

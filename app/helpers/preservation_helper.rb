@@ -3,7 +3,7 @@
 # The helper methods for preservation.
 # Provides methods for managing the preservation metadata, etc.
 module PreservationHelper
-  include MqHelper
+  include MqHelper # methods: send_message_to_preservation
 
   # Updates the preservation profile metadata from the controller.
   # @param params The parameters from the controller.

@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class PeopleController < ApplicationController
-  include PeopleHelper
-  include PreservationHelper
+  include PeopleHelper # methods: add_portrait, add_person_description
+  include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_state_from_controller
 
   load_and_authorize_resource
 
@@ -83,7 +83,7 @@ class PeopleController < ApplicationController
     redirect_to people_url
   end
 
-  # Updates the preservation settings.
+  # Updates the preservation profile metadata.
   def update_preservation_profile
     @person = Person.find(params[:id])
     begin

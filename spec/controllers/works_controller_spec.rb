@@ -206,7 +206,7 @@ describe WorksController do
       work.preservation_comment.should be_blank
     end
 
-    it 'should be updated and redirect to the ordered workresentation' do
+    it 'should be updated and redirect to the work' do
       profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
       comment = "This is the preservation comment"
 

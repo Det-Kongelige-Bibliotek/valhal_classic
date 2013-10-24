@@ -2,8 +2,7 @@
 #require 'zip/zip'
 
 class OrderedRepresentationsController < ApplicationController
-  include PreservationHelper
-  include MqHelper
+  include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_state_from_controller
 
   load_and_authorize_resource
 
@@ -74,7 +73,7 @@ class OrderedRepresentationsController < ApplicationController
     end
   end
 
-  # Updates the preservation settings.
+  # Updates the preservation profile metadata.
   def update_preservation_profile
     @rep = OrderedRepresentation.find(params[:id])
     begin
