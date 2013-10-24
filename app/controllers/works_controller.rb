@@ -98,7 +98,7 @@ class WorksController < ApplicationController
   def update_preservation_profile
     @work = Work.find(params[:id])
     begin
-      update_preservation_profile_from_controller(params, update_preservation_state_person_path, nil, @work)
+      update_preservation_profile_from_controller(params, update_preservation_state_person_url, nil, @work)
     rescue => error
       @work.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'

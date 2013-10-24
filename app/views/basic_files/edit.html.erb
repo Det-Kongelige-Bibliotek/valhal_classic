@@ -1,7 +1,0 @@
-<h1>Editing file</h1>
-<%= form_for @file, :html=>{:multipart=>true}, :url => {:action=> 'update_metadata'}  do |f| %>
-    <%= f.error_messages :header_message => 'Edit book error', :class => 'alert alert-error', :header_tag => :h3 %>
-    <%= f.submit 'Update' %>
-<% end %>
-
-<%= render 'footer' %>

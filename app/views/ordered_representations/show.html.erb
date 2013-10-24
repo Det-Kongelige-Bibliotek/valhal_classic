@@ -16,7 +16,7 @@
 
 <%- @ordered_representation.files.each do |file| %>
     <% # TODO fix the following %>
-    <span style='font-weight: bold;'>File Name:</span> <%= file.nil? ? 'No basic_files' : file.original_filename %>
+    <span style='font-weight: bold;'>File Name:</span> <%= file.nil? ? 'No basic_files' : (link_to file.original_filename, basic_file_path(file)) %>
     <br/>
     <span style='font-weight: bold;'>Created:</span> <%= file.nil? ? 'N/A' : file.created %>
     <br/>
@@ -33,8 +33,8 @@
         <p>"N/A"</p>
     <% else %>
         <%= file.kind_of?(TiffFile) ? (link_to image_tag(url_for(thumbnail_url_ordered_representation_path :pid => file.pid), :style => "border: 1px solid black;"),
-                                               {:action => "show", :pid => file.pid, :controller => "view_file" })
-            : (link_to 'Download', {:action => 'show', :pid => file.pid, :controller => 'view_file' }) %>
+                                               download_basic_file_path(file))
+            : (link_to 'Download', download_basic_file_path(file)) %>
     <% end %>
     <br />
     <hr/>

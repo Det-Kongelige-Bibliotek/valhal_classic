@@ -3,31 +3,18 @@
 class BasicFilesController < ApplicationController
   include PreservationHelper
 
-  load_and_authorize_resource
-
   def show
     @file = BasicFile.find(params[:id])
-  end
-
-  def edit
-    @file = BasicFile.find(params[:id])
-  end
-
-  def update
-    @file = BasicFile.find(params[:id])
-
-    if @file.update_attributes(params[:file])
-      redirect_to @file, notice: 'Single basic_files representation was successfully updated.'
-    else
-      render action: "edit"
-    end
   end
 
   # Updates the preservation settings.
   def update_preservation_profile
     @file = BasicFile.find(params[:id])
     begin
-      update_preservation_profile_from_controller(params, update_preservation_state_single_file_representation_path, nil, @file)
+      update_preservation_profile_from_controller(params,
+                                                  update_preservation_state_single_file_representation_url(@file),
+                                                  download_basic_file_url(@file),
+                                                  @file)
     rescue => error
       @file.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'
@@ -38,6 +25,10 @@ class BasicFilesController < ApplicationController
   def update_preservation_state
     @file = BasicFile.find(params[:id])
     update_preservation_state_from_controller(params, @file)
+  end
+
+  def preservation
+    @file = BasicFile.find(params[:id])
   end
 
   # Retrieve a given basic_files.

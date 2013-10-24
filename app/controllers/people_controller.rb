@@ -87,7 +87,7 @@ class PeopleController < ApplicationController
   def update_preservation_profile
     @person = Person.find(params[:id])
     begin
-      update_preservation_profile_from_controller(params, update_preservation_state_person_path, nil, @person)
+      update_preservation_profile_from_controller(params, update_preservation_state_person_url, nil, @person)
     rescue => error
       @person.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'

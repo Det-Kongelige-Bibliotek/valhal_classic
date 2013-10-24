@@ -15,7 +15,9 @@ module PreservationHelper
     # If it is the 'perform preservation' button which has been pushed, then it should send a message.
     if(params[:commit] == Constants::PERFORM_PRESERVATION_BUTTON)
       set_preservation_state(Constants::PRESERVATION_STATE_INITIATED, 'The preservation button has been pushed.', element)
-      send_message_to_preservation(element.uuid, update_preservation_state_uri, content_uri, element.descMetadata.to_xml)
+      message = create_message(element.uuid, update_preservation_state_uri, content_uri, element)
+      logger.info "Sending preservation message: #{message.to_s}"
+      send_message_to_preservation(message)
       redirect_to element, notice: "Preservation metadata for the #{element.class} successfully updated and the preservation has begun."
     else
       redirect_to element, notice: "Preservation metadata for the #{element.class} successfully updated"
@@ -45,6 +47,26 @@ module PreservationHelper
   end
 
   private
+  def create_message(uuid, update_uri, content_uri, element)
+    message = "UUID: #{uuid}\n"
+    unless update_uri.blank?
+      message += "Update_URI: #{update_uri}\n"
+    end
+    unless content_uri.blank?
+      message += "Content_URI: #{content_uri}\n"
+    end
+
+    element.datastreams.each do |key, content|
+      if Constants::NON_RETRIEVABLE_DATASTREAM_NAMES.include?(key)
+        next
+      end
+      message += "#{key}: #{content.ng_xml}\n"
+    end
+
+    message
+  end
+
+
   # Updates the preservation profile for a given element (e.g. a basic_files, a representation, a work, etc.)
   # @param profile The name of the profile to update with.
   # @param comment The comment attached to the preservation

@@ -3,26 +3,20 @@ require 'bunny'
 
 # Provides methods for all elements for sending a message over RabbitMQ
 module MqHelper
-  # Sends a message containing the UUID of the element, the metadata for the element, and optionally the URI for the content-data.
+  # Sends a preservation message on the MQ.
   #
-  # The message format:
-  # UUID: 'uuid for the element'
-  # CONTENT_URI: 'url for downloading the content metadata' (optional)
-  # METADATA: 'the metadata for the element'
-  #
-  # @param uuid The UUID for the given element
-  # @param update_uri The URI for updating the preservation state
-  # @param content_uri The URI for extracting the content files.
-  # @param metadata The metadata for the element
-  def send_message_to_preservation(uuid, update_uri, content_uri, metadata)
+  # @param message The message content to be sent on the preservation destination.
+  def send_message_to_preservation(message)
     destination = MQ_CONFIG['preservation']['destination']
-
-    message = "UUID: #{uuid}\n\nUpdate_URI: #{update_uri}\n\nContent_URI: #{content_uri}\n\nMETADATA: #{metadata}"
 
     send_on_rabbitmq(message, destination)
   end
 
   private
+  # Sends a given message at the given destination on the MQ with the uri in the configuration.
+  # @param message The message content to send.
+  # @param destination The destination on the MQ where the message is sent.
+  # @return Weather the message successfully is sent.
   def send_on_rabbitmq(message, destination)
     uri = MQ_CONFIG['mq_uri']
     logger.info "Sending message '#{message}' on destination '#{destination}' at broker '#{uri}'"

@@ -117,7 +117,7 @@ class BooksController < ApplicationController
   def update_preservation_profile
     @book = Book.find(params[:id])
     begin
-      update_preservation_profile_from_controller(params, update_preservation_state_book_path, nil, @book)
+      update_preservation_profile_from_controller(params, update_preservation_state_book_url, nil, @book)
     rescue => error
       @book.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'

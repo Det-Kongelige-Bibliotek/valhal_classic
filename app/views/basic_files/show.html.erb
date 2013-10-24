@@ -1,3 +1,16 @@
+<h3>File info:</h3>
 <%= @file.inspect %>
+<br/>
+<hr/>
+<h4>Datastreams:</h4>
+<% @file.datastreams.each do |key, content| %>
+    <% if Constants::NON_RETRIEVABLE_DATASTREAM_NAMES.include?(key)
+         next
+       end
+    %>
+    <dt><strong><%= key %></strong></dt>
+    <dd><%= content.ng_xml %></dd>
+    <br/>
+<% end %>
 <br/>
 <%= render 'footer' %>

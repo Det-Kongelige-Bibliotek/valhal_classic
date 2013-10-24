@@ -34,20 +34,6 @@ describe BasicFilesController do
     end
   end
 
-  describe 'GET edit' do
-    it 'assigns the requested file as @file' do
-      file = create_basic_file(nil)
-      get :edit, {:id =>file.to_param}
-      assigns(:file).should eq(file)
-    end
-  end
-
-  describe 'PUT update' do
-    it 'should be tested' do
-      pending "Not implemented yet."
-    end
-  end
-
   describe 'Update preservation profile metadata' do
     before(:each) do
       @file = create_basic_file(nil)

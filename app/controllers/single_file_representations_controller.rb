@@ -26,7 +26,7 @@ class SingleFileRepresentationsController < ApplicationController
   def update_preservation_profile
     @rep = SingleFileRepresentation.find(params[:id])
     begin
-      update_preservation_profile_from_controller(params, update_preservation_state_single_file_representation_path, nil, @rep)
+      update_preservation_profile_from_controller(params, update_preservation_state_single_file_representation_url, nil, @rep)
     rescue => error
       @rep.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'

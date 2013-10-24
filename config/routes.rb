@@ -15,12 +15,10 @@ Valhal::Application.routes.draw do
   resources :basic_files do
     member do
       get 'show'
-      get 'edit'
-      put 'update'
+      get 'download'
       get 'preservation'
       put 'update_preservation_profile'
       put 'update_preservation_state'
-      get 'download'
     end
   end
 
