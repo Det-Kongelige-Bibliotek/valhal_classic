@@ -304,8 +304,77 @@ describe PeopleController do
       end
 
       person = Person.find(@person.pid)
-      person.preservation_state.should == 'Preservation initiated'
+      person.preservation_state.should == Constants::PRESERVATION_STATE_INITIATED.keys.first
       conn.close
+    end
+  end
+
+  describe 'Update preservation state metadata' do
+    before(:each) do
+      @person = Person.create! valid_attributes
+    end
+    it 'should be updated and redirect to the person' do
+      state = "TheNewState-#{Time.now.to_s}"
+      details = "Any details will suffice."
+
+      put :update_preservation_state, {:id => @person.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      response.should redirect_to(@person)
+
+      per = Person.find(@person.pid)
+      per.preservation_state.should == state
+      per.preservation_details.should == details
+      per.preservation_modify_date.should_not be_blank
+      per.preservation_profile.should_not be_blank
+    end
+
+    it 'should change the values when updating' do
+      old_state = "TheOldState-#{Time.now.to_s}"
+      new_state = "tHEnEWsTATE-#{Time.now.to_s}"
+      old_details = "Any details will suffice."
+      new_details = "No details are accepted!"
+
+      per = Person.find(@person.pid)
+      per.preservation_state = old_state
+      per.preservation_details = old_details
+      per.save!
+
+      d = per.preservation_modify_date
+
+      per = Person.find(@person.pid)
+      per.preservation_state.should == old_state
+      per.preservation_state.should_not == new_state
+      per.preservation_details.should == old_details
+      per.preservation_details.should_not == new_details
+
+      put :update_preservation_state, {:id => @person.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
+      response.should redirect_to(@person)
+
+      per = Person.find(@person.pid)
+      per.preservation_state.should == new_state
+      per.preservation_state.should_not == old_state
+      per.preservation_details.should == new_details
+      per.preservation_details.should_not == old_details
+      per.preservation_modify_date.should_not == d
+    end
+
+    it 'should not update when same values' do
+      state = "TheState-#{Time.now.to_s}"
+      details = "TheDetails-#{Time.now.to_s}"
+
+      per = Person.find(@person.pid)
+      per.preservation_state = state
+      per.preservation_details = details
+      per.save!
+
+      d = per.preservation_modify_date
+
+      put :update_preservation_state, {:id => @person.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      response.should redirect_to(@person)
+
+      per = Person.find(@person.pid)
+      per.preservation_state.should == state
+      per.preservation_details.should == details
+      per.preservation_modify_date.should == d
     end
   end
 

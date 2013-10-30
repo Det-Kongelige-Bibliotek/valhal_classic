@@ -632,7 +632,7 @@ describe BooksController do
       ch = conn.create_channel
       q = ch.queue(destination, :durable => true)
 
-      put :update_preservation_profile, {:id => @book.pid, :commit => "Perform preservation", :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      put :update_preservation_profile, {:id => @book.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
       response.should redirect_to(@book)
 
       q.subscribe do |delivery_info, metadata, payload|
@@ -640,7 +640,7 @@ describe BooksController do
       end
 
       b = Book.find(@book.pid)
-      b.preservation_state.should == 'Preservation initiated'
+      b.preservation_state.should == Constants::PRESERVATION_STATE_INITIATED.keys.first
       conn.close
     end
   end

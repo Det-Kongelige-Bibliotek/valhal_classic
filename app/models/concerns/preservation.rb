@@ -14,9 +14,9 @@ module Concerns
                                            :preservation_modify_date, :preservation_comment], :multiple => false
 
       before_validation(:on => :create) do
-        self.preservation_profile = "Undefined" if preservation_profile.blank?
-        self.preservation_state = "None" if preservation_state.blank?
-        self.preservation_details = "N/A" if preservation_details.blank?
+        self.preservation_profile = 'Undefined' if preservation_profile.blank?
+        self.preservation_state = Constants::PRESERVATION_STATE_NOT_STARTED.keys.first if preservation_state.blank?
+        self.preservation_details = 'N/A' if preservation_details.blank?
         set_preservation_time(self)
       end
     end

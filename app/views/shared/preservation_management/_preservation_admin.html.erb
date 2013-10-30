@@ -11,15 +11,22 @@
   <dd><%= @preservationMetadata.preservation_comment.blank? ? 'N/A' : @preservationMetadata.preservation_comment.first %></dd>
 </div>
 
-<div class="preservation_current_state">
-  <h3>Current preservation state for this element</h3>
+<% if @preservationMetadata.preservation_state.first.blank? ||
+        !Constants::PRESERVATION_STATES.keys.include?(@preservationMetadata.preservation_state.first)%>
+    <% @preservation_state = Constants::PRESERVATION_STATE_INVALID %>
+<% else %>
+    <% @preservation_state = Constants::PRESERVATION_STATES[@preservationMetadata.preservation_state.first] %>
+<% end %>
+<%= content_tag(:div, :class=>'preservation_current_state', :style => "background-color:#{@preservation_state['color']};") do %>
+  <h3>Current preservation state for this element: </h3>
+  <%= @preservation_state['error'] ? content_tag(:h3, 'ERROR') : '' %>
   <dt><strong>Preservation state:</strong></dt>
-  <dd><%= @preservationMetadata.preservation_state.blank? ? 'N/A' : @preservationMetadata.preservation_state.first %></dd>
+  <%= content_tag(:dd, @preservation_state['text']) %>
   <dt><strong>Preservation details:</strong></dt>
   <dd><%= @preservationMetadata.preservation_details.blank? ? 'N/A' : @preservationMetadata.preservation_details.first %></dd>
   <dt><strong>Preservation modify date:</strong></dt>
   <dd><%= @preservationMetadata.preservation_modify_date.blank? ? 'N/A' : @preservationMetadata.preservation_modify_date.first %></dd>
-</div>
+<% end %>
 
 <hr/>
 <div class="preservation_profile">

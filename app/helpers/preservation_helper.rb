@@ -14,7 +14,7 @@ module PreservationHelper
     set_preservation_profile(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment], element)
     # If it is the 'perform preservation' button which has been pushed, then it should send a message.
     if(params[:commit] == Constants::PERFORM_PRESERVATION_BUTTON)
-      set_preservation_state(Constants::PRESERVATION_STATE_INITIATED, 'The preservation button has been pushed.', element)
+      set_preservation_state(Constants::PRESERVATION_STATE_INITIATED.keys.first, 'The preservation button has been pushed.', element)
       message = create_message(element.uuid, update_preservation_state_uri, content_uri, element)
       logger.info "Sending preservation message: #{message.to_s}"
       send_message_to_preservation(message)
@@ -90,7 +90,7 @@ module PreservationHelper
   end
 
   # Updates the preservation state and details for a given element (e.g. a basic_files, a representation, a work, etc.)
-  # @param state The new state for the element.
+  # @param state The new state for the element. Expected to match the Constants::PRESERVATION_STATES
   # @param details The details regarding the state.
   # @param element The element to has its preservation state updated.
   # @return Whether the update was successfull.
@@ -99,6 +99,11 @@ module PreservationHelper
     if (state.blank? || element.preservationMetadata.preservation_state.first == state) && (details.blank? || element.preservationMetadata.preservation_details.first == details)
       logger.debug 'Nothing to change for the preservation update'
       return true
+    end
+
+    unless Constants::PRESERVATION_STATES.keys.include? state
+      logger.warn("Undefined preservation state #{state} not among the defined ones:
+                   #{Constants::PRESERVATION_STATES.keys.to_s}")
     end
 
     set_preservation_time(element)

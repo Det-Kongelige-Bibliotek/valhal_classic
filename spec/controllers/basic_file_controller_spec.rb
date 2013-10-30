@@ -127,7 +127,7 @@ describe BasicFilesController do
       end
 
       b = BasicFile.find(@file.pid)
-      b.preservation_state.should == 'Preservation initiated'
+      b.preservation_state.should == Constants::PRESERVATION_STATE_INITIATED.keys.first
       conn.close
     end
   end
@@ -199,7 +199,6 @@ describe BasicFilesController do
       b.preservation_details.should == details
       b.preservation_modify_date.should == d
     end
-
   end
 
   after(:all) do
