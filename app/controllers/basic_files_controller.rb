@@ -3,6 +3,7 @@
 class BasicFilesController < ApplicationController
   include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_state_from_controller
 
+  # Retrieves the basic file for the show view
   def show
     @file = BasicFile.find(params[:id])
   end
@@ -27,23 +28,24 @@ class BasicFilesController < ApplicationController
     update_preservation_state_from_controller(params, @file)
   end
 
+  # Retrieves the basic file for the preservation view
   def preservation
     @file = BasicFile.find(params[:id])
   end
 
-  # Retrieve a given basic_files.
-  # Bad client-side arguments, e.g. no basic_files-id, or wrong basic_files-id, then a 400 is returned.
+  # Retrieve the content file for a given BasicFile.
+  # Bad client-side arguments, e.g. no BasicFile-id, or wrong BasicFile-id, then a 400 is returned.
   # If something goes wrong service-side, then a 500 is returned.
   def download
     begin
       @file = BasicFile.find(params[:id])
       send_data @file.content.content, {:filename => @file.original_filename, :type => @file.mime_type}
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
-      flash[:error] = 'The basic_files you requested could not be found in Fedora!  Please contact your system administrator'
+      flash[:error] = 'The basic_files you requested could not be found in Fedora! Please contact your system administrator'
       logger.error obj_not_found.to_s
       render status: 400
     rescue => standard_error
-      flash[:error] = 'An error has occurred.  Please contact your system administrator'
+      flash[:error] = 'An error has occurred. Please contact your system administrator'
       logger.error standard_error.to_s
       render status: 500
     end
