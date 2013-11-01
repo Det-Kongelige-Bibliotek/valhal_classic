@@ -14,6 +14,8 @@ module Datastreams
                                  :path => 'preservation_modify_date', :label => 'Preservation Modify Date')
       t.preservation_comment(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
                              :path => 'preservation_comment', :label => 'Preservation Comment')
+      t.warc_id(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
+                :path => 'warc_id', :label => 'Warc ID')
     end
 
     def self.xml_template

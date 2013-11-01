@@ -119,7 +119,7 @@ describe BasicFilesController do
       ch = conn.create_channel
       q = ch.queue(destination, :durable => true)
 
-      put :update_preservation_profile, {:id => @file.pid, :commit => "Perform preservation", :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      put :update_preservation_profile, {:id => @file.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
       response.should redirect_to(@file)
 
       q.subscribe do |delivery_info, metadata, payload|
@@ -132,7 +132,7 @@ describe BasicFilesController do
     end
   end
 
-  describe 'Update preservation state metadata' do
+  describe 'Update preservation metadata' do
     before(:each) do
       @file = create_basic_file(nil)
     end
@@ -140,7 +140,7 @@ describe BasicFilesController do
       state = "TheNewState-#{Time.now.to_s}"
       details = "Any details will suffice."
 
-      put :update_preservation_state, {:id => @file.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      put :update_preservation_metadata, {:id => @file.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
       response.should redirect_to(@file)
 
       b = BasicFile.find(@file.pid)
@@ -169,7 +169,7 @@ describe BasicFilesController do
       b.preservation_details.should == old_details
       b.preservation_details.should_not == new_details
 
-      put :update_preservation_state, {:id => @file.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
+      put :update_preservation_metadata, {:id => @file.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
       response.should redirect_to(@file)
 
       b = BasicFile.find(@file.pid)
@@ -191,7 +191,7 @@ describe BasicFilesController do
 
       d = b.preservation_modify_date
 
-      put :update_preservation_state, {:id => @file.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      put :update_preservation_metadata, {:id => @file.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
       response.should redirect_to(@file)
 
       b = BasicFile.find(@file.pid)
@@ -199,6 +199,27 @@ describe BasicFilesController do
       b.preservation_details.should == details
       b.preservation_modify_date.should == d
     end
+
+    it 'should be able to update only the warc id' do
+      warc_id = "WarcId-#{Time.now.to_s}"
+
+      b = BasicFile.find(@file.pid)
+      state = b.preservation_state
+      details = b.preservation_details
+      b.save!
+
+      d = b.preservation_modify_date
+
+      put :update_preservation_metadata, {:id => @file.pid, :preservation => {:warc_id => warc_id}}
+      response.should redirect_to(@file)
+
+      b = BasicFile.find(@file.pid)
+      b.preservation_state.should == state
+      b.preservation_details.should == details
+      b.warc_id.should == warc_id
+      b.preservation_modify_date.should_not == d
+    end
+
   end
 
   after(:all) do

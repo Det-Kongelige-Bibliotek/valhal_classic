@@ -11,7 +11,7 @@ module Concerns
 
       has_metadata :name => 'preservationMetadata', :type => Datastreams::PreservationDatastream
       delegate_to 'preservationMetadata', [:preservation_profile, :preservation_state, :preservation_details,
-                                           :preservation_modify_date, :preservation_comment], :multiple => false
+                                           :preservation_modify_date, :preservation_comment, :warc_id], :multiple => false
 
       before_validation(:on => :create) do
         self.preservation_profile = 'Undefined' if preservation_profile.blank?

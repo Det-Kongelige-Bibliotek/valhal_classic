@@ -653,7 +653,7 @@ describe BooksController do
       state = "TheNewState-#{Time.now.to_s}"
       details = "Any details will suffice."
 
-      put :update_preservation_state, {:id => @book.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      put :update_preservation_metadata, {:id => @book.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
       response.should redirect_to(@book)
 
       b = Book.find(@book.pid)
@@ -682,7 +682,7 @@ describe BooksController do
       b.preservation_details.should == old_details
       b.preservation_details.should_not == new_details
 
-      put :update_preservation_state, {:id => @book.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
+      put :update_preservation_metadata, {:id => @book.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
       response.should redirect_to(@book)
 
       b = Book.find(@book.pid)
@@ -704,7 +704,7 @@ describe BooksController do
 
       d = b.preservation_modify_date
 
-      put :update_preservation_state, {:id => @book.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      put :update_preservation_metadata, {:id => @book.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
       response.should redirect_to(@book)
 
       b = Book.find(@book.pid)

@@ -205,7 +205,7 @@ describe SingleFileRepresentationsController do
       state = "TheNewState-#{Time.now.to_s}"
       details = "Any details will suffice."
 
-      put :update_preservation_state, {:id => @rep.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      put :update_preservation_metadata, {:id => @rep.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
       response.should redirect_to(@rep)
 
       sfr = SingleFileRepresentation.find(@rep.pid)
@@ -234,7 +234,7 @@ describe SingleFileRepresentationsController do
       sfr.preservation_details.should == old_details
       sfr.preservation_details.should_not == new_details
 
-      put :update_preservation_state, {:id => @rep.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
+      put :update_preservation_metadata, {:id => @rep.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
       response.should redirect_to(@rep)
 
       sfr = SingleFileRepresentation.find(@rep.pid)
@@ -256,7 +256,7 @@ describe SingleFileRepresentationsController do
 
       d = sfr.preservation_modify_date
 
-      put :update_preservation_state, {:id => @rep.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      put :update_preservation_metadata, {:id => @rep.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
       response.should redirect_to(@rep)
 
       sfr = SingleFileRepresentation.find(@rep.pid)

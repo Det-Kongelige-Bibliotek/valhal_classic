@@ -23,10 +23,12 @@ module MqHelper
 
     conn = Bunny.new(uri)
     conn.start
-    ch = conn.create_channel
-    x = ch.default_exchange
 
-    x.publish(message, :routing_key => destination)
+    ch   = conn.create_channel
+    q    = ch.queue(destination, :durable => true)
+
+    q.publish(message, :routing_key => destination, :persistent => true, :content_type => 'application/json')
+
     conn.close
     true
   end

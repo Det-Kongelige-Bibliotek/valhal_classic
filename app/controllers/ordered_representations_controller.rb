@@ -2,7 +2,7 @@
 #require 'zip/zip'
 
 class OrderedRepresentationsController < ApplicationController
-  include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_state_from_controller
+  include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_metadata_from_controller
 
   load_and_authorize_resource
 
@@ -77,7 +77,7 @@ class OrderedRepresentationsController < ApplicationController
   def update_preservation_profile
     @rep = OrderedRepresentation.find(params[:id])
     begin
-      update_preservation_profile_from_controller(params, update_preservation_state_ordered_representation_url, nil, @rep)
+      update_preservation_profile_from_controller(params, update_preservation_metadata_ordered_representation_url, nil, @rep)
     rescue => error
       @rep.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'
@@ -86,9 +86,9 @@ class OrderedRepresentationsController < ApplicationController
 
 
   # Updates the preservation state metadata.
-  def update_preservation_state
+  def update_preservation_metadata
     @rep = OrderedRepresentation.find(params[:id])
-    update_preservation_state_from_controller(params, @rep)
+    update_preservation_metadata_from_controller(params, @rep)
   end
 
 end

@@ -26,6 +26,8 @@
   <dd><%= @preservationMetadata.preservation_details.blank? ? 'N/A' : @preservationMetadata.preservation_details.first %></dd>
   <dt><strong>Preservation modify date:</strong></dt>
   <dd><%= @preservationMetadata.preservation_modify_date.blank? ? 'N/A' : @preservationMetadata.preservation_modify_date.first %></dd>
+  <dt><strong>WARC id:</strong></dt>
+  <dd><%= @preservationMetadata.warc_id.blank? ? 'N/A' : @preservationMetadata.warc_id.first %></dd>
 <% end %>
 
 <hr/>

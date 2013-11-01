@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class WorksController < ApplicationController
   include ManifestationsHelper # methods: add_single_file_rep, set_authors, set_concerned_people
-  include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_state_from_controller
+  include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_metadata_from_controller
 
   load_and_authorize_resource
 
@@ -19,10 +19,6 @@ class WorksController < ApplicationController
 
   def edit
     @work = Work.find(params[:id])
-  end
-
-  def person
-    @work = Work.person
   end
 
   def create
@@ -98,7 +94,7 @@ class WorksController < ApplicationController
   def update_preservation_profile
     @work = Work.find(params[:id])
     begin
-      update_preservation_profile_from_controller(params, update_preservation_state_person_url, nil, @work)
+      update_preservation_profile_from_controller(params, update_preservation_metadata_work_url, nil, @work)
     rescue => error
       @work.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'
@@ -106,9 +102,9 @@ class WorksController < ApplicationController
   end
 
   # Updates the preservation state metadata.
-  def update_preservation_state
+  def update_preservation_metadata
     @work = Work.find(params[:id])
-    update_preservation_state_from_controller(params, @work)
+    update_preservation_metadata_from_controller(params, @work)
   end
 
   private

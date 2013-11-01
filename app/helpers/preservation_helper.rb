@@ -7,16 +7,15 @@ module PreservationHelper
 
   # Updates the preservation profile metadata from the controller.
   # @param params The parameters from the controller.
-  # @param update_preservation_state_uri The uri for the updating the preservation state.
+  # @param update_preservation_metadata_uri The uri for the updating the preservation state.
   # @param content_uri The uri for the retrieving the content-file.
   # @param element The element to have its preservation settings updated.
-  def update_preservation_profile_from_controller(params, update_preservation_state_uri, content_uri, element)
+  def update_preservation_profile_from_controller(params, update_preservation_metadata_uri, content_uri, element)
     set_preservation_profile(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment], element)
     # If it is the 'perform preservation' button which has been pushed, then it should send a message.
     if(params[:commit] == Constants::PERFORM_PRESERVATION_BUTTON)
-      set_preservation_state(Constants::PRESERVATION_STATE_INITIATED.keys.first, 'The preservation button has been pushed.', element)
-      message = create_message(element.uuid, update_preservation_state_uri, content_uri, element)
-      logger.info "Sending preservation message: #{message.to_s}"
+      set_preservation_metadata({'preservation_state' => Constants::PRESERVATION_STATE_INITIATED.keys.first, 'preservation_details' => 'The preservation button has been pushed.'}, element)
+      message = create_message(element.uuid, update_preservation_metadata_uri, content_uri, element)
       send_message_to_preservation(message)
       redirect_to element, notice: "Preservation metadata for the #{element.class} successfully updated and the preservation has begun."
     else
@@ -30,8 +29,8 @@ module PreservationHelper
   # params[:preservation][:preservation_details]
   # @param params The parameters from the controller.
   # @param element The element to have its preservation settings updated.
-  def update_preservation_state_from_controller(params, element)
-    if set_preservation_state(params[:preservation][:preservation_state], params[:preservation][:preservation_details], element)
+  def update_preservation_metadata_from_controller(params, element)
+    if set_preservation_metadata(params[:preservation], element)
       redirect_to element, notice: "Preservation metadata for the #{element.class} successfully updated"
     else
       render status: 400
@@ -47,25 +46,34 @@ module PreservationHelper
   end
 
   private
+  # Creates a JSON message based in the defined format.
+  # @param uuid The UUID for the element to be preserved.
+  # @param update_uri The URL for updating the preservation metadata.
+  # @param content_uri The URL for where the content-file can be downloaded. This is only expected from BasicFile.
+  # @param element The element to be preserved.
+  # @return The preservation message in JSON format.
   def create_message(uuid, update_uri, content_uri, element)
-    message = "UUID: #{uuid}\n"
+    message = Hash.new
+    message['UUID'] = uuid
+    message['Preservation_profile'] = element.preservationMetadata.preservation_profile.first
     unless update_uri.blank?
-      message += "Update_URI: #{update_uri}\n"
+      message['Update_URI'] = update_uri
     end
     unless content_uri.blank?
-      message += "Content_URI: #{content_uri}\n"
+      message['Content_URI'] = content_uri
     end
 
+    metadata = Hash.new
     element.datastreams.each do |key, content|
       if Constants::NON_RETRIEVABLE_DATASTREAM_NAMES.include?(key)
         next
       end
-      message += "#{key}: #{content.respond_to?(:to_xml) ? content.to_xml : content.content}\n"
+      metadata[key] = content.respond_to?(:to_xml) ? content.to_xml : content.content
     end
+    message['metadata'] = metadata
 
-    message
+    message.to_json
   end
-
 
   # Updates the preservation profile for a given element (e.g. a basic_files, a representation, a work, etc.)
   # @param profile The name of the profile to update with.
@@ -90,25 +98,37 @@ module PreservationHelper
   end
 
   # Updates the preservation state and details for a given element (e.g. a basic_files, a representation, a work, etc.)
-  # @param state The new state for the element. Expected to match the Constants::PRESERVATION_STATES
-  # @param details The details regarding the state.
+  # The preservation state is expected to be among the Constants::PRESERVATION_STATES, a warning will be issued if not.
+  # @param metadata The hash with metadata to be updated.
   # @param element The element to has its preservation state updated.
-  # @return Whether the update was successfull.
-  def set_preservation_state(state, details, element)
-    logger.debug "Updating '#{element.to_s}' with state '#{state}' and details '#{details}'"
-    if (state.blank? || element.preservationMetadata.preservation_state.first == state) && (details.blank? || element.preservationMetadata.preservation_details.first == details)
-      logger.debug 'Nothing to change for the preservation update'
-      return true
+  # @return Whether the update was successful.
+  def set_preservation_metadata(metadata, element)
+    logger.debug "Updating '#{element.to_s}' with preservation metadata '#{metadata}'"
+    updated = false
+
+    unless (metadata['preservation_state'].blank? || metadata['preservation_state'] == element.preservationMetadata.preservation_state.first)
+      updated = true
+      unless Constants::PRESERVATION_STATES.keys.include? metadata['preservation_state']
+        logger.warn("Undefined preservation state #{metadata['preservation_state']} not among the defined ones:
+                     #{Constants::PRESERVATION_STATES.keys.to_s}")
+      end
+      element.preservationMetadata.preservation_state = metadata['preservation_state']
     end
 
-    unless Constants::PRESERVATION_STATES.keys.include? state
-      logger.warn("Undefined preservation state #{state} not among the defined ones:
-                   #{Constants::PRESERVATION_STATES.keys.to_s}")
+    unless (metadata['preservation_details'].blank? || metadata['preservation_details'] == element.preservationMetadata.preservation_details.first)
+      updated = true
+      element.preservationMetadata.preservation_details = metadata['preservation_details']
     end
 
-    set_preservation_time(element)
-    element.preservationMetadata.preservation_state = state
-    element.preservationMetadata.preservation_details = details
+    unless (metadata['warc_id'].blank? || metadata['warc_id'] == element.preservationMetadata.warc_id.first)
+      updated = true
+      element.preservationMetadata.warc_id = metadata['warc_id']
+    end
+
+    if updated
+      set_preservation_time(element)
+    end
+
     element.save
   end
 end

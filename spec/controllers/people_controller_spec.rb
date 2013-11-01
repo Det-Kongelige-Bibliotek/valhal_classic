@@ -317,7 +317,7 @@ describe PeopleController do
       state = "TheNewState-#{Time.now.to_s}"
       details = "Any details will suffice."
 
-      put :update_preservation_state, {:id => @person.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      put :update_preservation_metadata, {:id => @person.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
       response.should redirect_to(@person)
 
       per = Person.find(@person.pid)
@@ -346,7 +346,7 @@ describe PeopleController do
       per.preservation_details.should == old_details
       per.preservation_details.should_not == new_details
 
-      put :update_preservation_state, {:id => @person.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
+      put :update_preservation_metadata, {:id => @person.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
       response.should redirect_to(@person)
 
       per = Person.find(@person.pid)
@@ -368,7 +368,7 @@ describe PeopleController do
 
       d = per.preservation_modify_date
 
-      put :update_preservation_state, {:id => @person.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      put :update_preservation_metadata, {:id => @person.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
       response.should redirect_to(@person)
 
       per = Person.find(@person.pid)

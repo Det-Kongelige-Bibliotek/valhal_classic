@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class SingleFileRepresentationsController < ApplicationController
-  include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_state_from_controller
+  include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_metadata_from_controller
 
   load_and_authorize_resource
 
@@ -26,7 +26,7 @@ class SingleFileRepresentationsController < ApplicationController
   def update_preservation_profile
     @rep = SingleFileRepresentation.find(params[:id])
     begin
-      update_preservation_profile_from_controller(params, update_preservation_state_single_file_representation_url,
+      update_preservation_profile_from_controller(params, update_preservation_metadata_single_file_representation_url,
                                                   nil, @rep)
     rescue => error
       @rep.errors[:preservation] << error.inspect.to_s
@@ -35,9 +35,9 @@ class SingleFileRepresentationsController < ApplicationController
   end
 
   # Updates the preservation state metadata.
-  def update_preservation_state
+  def update_preservation_metadata
     @rep = SingleFileRepresentation.find(params[:id])
-    update_preservation_state_from_controller(params, @rep)
+    update_preservation_metadata_from_controller(params, @rep)
   end
 
 end

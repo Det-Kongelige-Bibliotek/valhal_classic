@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class BooksController < ApplicationController
   include ManifestationsHelper # methods: create_structmap_for_representation, set_authors, set_concerned_people, add_single_tei_rep, add_tiff_order_rep
-  include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_state_from_controller
+  include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_metadata_from_controller
 
   load_and_authorize_resource
   def index
@@ -116,7 +116,7 @@ class BooksController < ApplicationController
   def update_preservation_profile
     @book = Book.find(params[:id])
     begin
-      update_preservation_profile_from_controller(params, update_preservation_state_book_url, nil, @book)
+      update_preservation_profile_from_controller(params, update_preservation_metadata_book_url, nil, @book)
     rescue => error
       @book.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'
@@ -124,9 +124,9 @@ class BooksController < ApplicationController
   end
 
   # Updates the preservation state metadata.
-  def update_preservation_state
+  def update_preservation_metadata
     @book = Book.find(params[:id])
-    update_preservation_state_from_controller(params, @book)
+    update_preservation_metadata_from_controller(params, @book)
   end
 
   private
