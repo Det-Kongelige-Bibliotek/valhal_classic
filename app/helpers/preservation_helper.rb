@@ -6,16 +6,20 @@ module PreservationHelper
   include MqHelper # methods: send_message_to_preservation
 
   # Updates the preservation profile metadata from the controller.
+  # If it is the 'perform preservation' button which has been pushed, then it should send a message, and set the state
+  # to 'PRESERVATION INITIATED'.
   # @param params The parameters from the controller.
   # @param update_preservation_metadata_uri The uri for the updating the preservation state.
   # @param content_uri The uri for the retrieving the content-file.
   # @param element The element to have its preservation settings updated.
-  def update_preservation_profile_from_controller(params, update_preservation_metadata_uri, content_uri, element)
-    set_preservation_profile(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment], element)
-    # If it is the 'perform preservation' button which has been pushed, then it should send a message.
+  def update_preservation_profile_from_controller(params, update_preservation_metadata_uri, file_uuid, content_uri,
+      element)
+    set_preservation_profile(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment],
+                             element)
     if(params[:commit] == Constants::PERFORM_PRESERVATION_BUTTON)
-      set_preservation_metadata({'preservation_state' => Constants::PRESERVATION_STATE_INITIATED.keys.first, 'preservation_details' => 'The preservation button has been pushed.'}, element)
-      message = create_message(element.uuid, update_preservation_metadata_uri, content_uri, element)
+      set_preservation_metadata({'preservation_state' => Constants::PRESERVATION_STATE_INITIATED.keys.first,
+                                 'preservation_details' => 'The preservation button has been pushed.'}, element)
+      message = create_message(element.uuid, update_preservation_metadata_uri, file_uuid, content_uri, element)
       send_message_to_preservation(message)
       redirect_to element, notice: "Preservation metadata for the #{element.class} successfully updated and the preservation has begun."
     else
@@ -52,12 +56,15 @@ module PreservationHelper
   # @param content_uri The URL for where the content-file can be downloaded. This is only expected from BasicFile.
   # @param element The element to be preserved.
   # @return The preservation message in JSON format.
-  def create_message(uuid, update_uri, content_uri, element)
+  def create_message(uuid, update_uri, file_uuid, content_uri, element)
     message = Hash.new
     message['UUID'] = uuid
     message['Preservation_profile'] = element.preservationMetadata.preservation_profile.first
     unless update_uri.blank?
       message['Update_URI'] = update_uri
+    end
+    unless file_uuid.blank?
+      message['File_UUID'] = file_uuid
     end
     unless content_uri.blank?
       message['Content_URI'] = content_uri
@@ -109,8 +116,8 @@ module PreservationHelper
     unless (metadata['preservation_state'].blank? || metadata['preservation_state'] == element.preservationMetadata.preservation_state.first)
       updated = true
       unless Constants::PRESERVATION_STATES.keys.include? metadata['preservation_state']
-        logger.warn("Undefined preservation state #{metadata['preservation_state']} not among the defined ones:
-                     #{Constants::PRESERVATION_STATES.keys.to_s}")
+        logger.warn("Undefined preservation state #{metadata['preservation_state']} not among the defined ones:" +
+                     "#{Constants::PRESERVATION_STATES.keys.to_s}")
       end
       element.preservationMetadata.preservation_state = metadata['preservation_state']
     end

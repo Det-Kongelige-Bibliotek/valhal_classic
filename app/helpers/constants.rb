@@ -31,13 +31,13 @@ class Constants
   PRESERVATION_REQUEST_RECEIVED_BUT_INCOMPLETE = {'PRESERVATION_REQUEST_RECEIVED_BUT_INCOMPLETE' => {
       'error' => true, 'color' => 'red', 'text' => 'Preservation request is incomplete and cannot be handled by Yggdrasil.'}}
 
-  # Yggdrasil has download metadata from Valhal successful.
+  # Yggdrasil has downloaded metadata from Valhal successful.
   PRESERVATION_METADATA_DOWNLOAD_SUCCESS = {'PRESERVATION_METADATA_DOWNLOAD_SUCCESS' => {
       'error' => false, 'color' => 'limegreen', 'text' => 'Preservation metadata downloaded successfully.'}}
 
   # Yggdrasil has experienced an error while downloading metadata from Valhal. Failstate.
   PRESERVATION_METADATA_DOWNLOAD_FAILURE = {'PRESERVATION_METADATA_DOWNLOAD_FAILURE' => {
-      'error' => true, 'color' => 'red', 'text' => 'Yggdrasil could not retrieve the metadata from Valhal.'}}
+      'error' => true, 'color' => 'red', 'text' => 'Yggdrasil could not download the metadata from Valhal.'}}
 
   # Yggdrasil has packaged the metadata successfully.
   PRESERVATION_METADATA_PACKAGED_SUCCESSFULLY = {'PRESERVATION_METADATA_PACKAGED_SUCCESSFULLY' => {

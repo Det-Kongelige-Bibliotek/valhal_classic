@@ -77,7 +77,8 @@ class OrderedRepresentationsController < ApplicationController
   def update_preservation_profile
     @rep = OrderedRepresentation.find(params[:id])
     begin
-      update_preservation_profile_from_controller(params, update_preservation_metadata_ordered_representation_url, nil, @rep)
+      update_preservation_profile_from_controller(params, update_preservation_metadata_ordered_representation_url, nil,
+                                                  nil, @rep)
     rescue => error
       @rep.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'

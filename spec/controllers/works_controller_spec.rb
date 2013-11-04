@@ -278,7 +278,7 @@ describe WorksController do
       ch = conn.create_channel
       q = ch.queue(destination, :durable => true)
 
-      put :update_preservation_profile, {:id => @work.pid, :commit => "Perform preservation", :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      put :update_preservation_profile, {:id => @work.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
       response.should redirect_to(@work)
 
       q.subscribe do |delivery_info, metadata, payload|

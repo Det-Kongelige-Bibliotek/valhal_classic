@@ -14,6 +14,7 @@ class BasicFilesController < ApplicationController
     begin
       update_preservation_profile_from_controller(params,
                                                   update_preservation_metadata_basic_file_url(@file),
+                                                  @file.file_uuid,
                                                   download_basic_file_url(@file),
                                                   @file)
     rescue => error

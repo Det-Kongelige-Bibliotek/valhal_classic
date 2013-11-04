@@ -24,9 +24,10 @@ module Concerns
         m.field "last_modified", :string
         m.field "created", :string
         m.field "last_accessed", :string
+        m.field "file_uuid", :string
       end
 
-      delegate_to 'techMetadata', [:last_modified, :created, :last_accessed, :original_filename, :mime_type], :multiple => false
+      delegate_to 'techMetadata', [:last_modified, :created, :last_accessed, :original_filename, :mime_type, :file_uuid], :multiple => false
       delegate_to 'descMetadata', [:description], :multiple => false
       # TODO have more than one checksum (both MD5 and SHA), and specify their checksum algorithm.
       delegate :checksum, :to => 'techMetadata', :at => [:file_checksum], :multiple => false
@@ -45,6 +46,7 @@ module Concerns
         self.original_filename = file.original_filename
         self.mime_type = file.content_type
         self.size = file.size
+        self.file_uuid = UUID.new.generate
       end
       valid_file
     end
