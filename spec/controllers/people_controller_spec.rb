@@ -301,10 +301,23 @@ describe PeopleController do
 
       q.subscribe do |delivery_info, metadata, payload|
         payload.should include @person.pid
+        json = JSON.parse(payload)
+        json.keys.should include ('UUID')
+        json.keys.should include ('Preservation_profile')
+        json.keys.should include ('Update_URI')
+        json.keys.should_not include ('File_UUID')
+        json.keys.should_not include ('Content_URI')
+        json.keys.should include ('metadata')
+        json['metadata'].keys.each do |k|
+          @person.datastreams.keys.should include k
+          Constants::NON_RETRIEVABLE_DATASTREAM_NAMES.should_not include k
+        end
       end
 
       person = Person.find(@person.pid)
       person.preservation_state.should == Constants::PRESERVATION_STATE_INITIATED.keys.first
+      person.preservation_comment.should == comment
+      sleep 1.second
       conn.close
     end
   end
