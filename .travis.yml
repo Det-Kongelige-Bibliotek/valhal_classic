@@ -10,6 +10,7 @@ install:
   - rake jetty:clean
   - wget https://github.com/projecthydra/hydra-jetty/raw/master/start.ini -O jetty/start.ini
   - rake hydra:jetty:config
+  - sleep 5
 before_script:
   - rake db:migrate db:seed db:test:prepare
   - rake jetty:start
