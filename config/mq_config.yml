@@ -6,14 +6,14 @@ development:
     destination: "dissemination-dev-queue"
 
 test:
-  mq_uri: "amqp://localhost:5672"
+  mq_uri: "amqp://dia-prod-udv-01.kb.dk:5673"
   preservation:
     destination: "preservation-test-queue"
   dissemination:
     destination: "dissemination-test-queue"
 
 production:
-  mq_uri: "amqp://localhost:5672"
+  mq_uri: "amqp://dia-prod-udv-01.kb.dk:5673"
   preservation:
     destination: "preservation-prod-queue"
   dissemination:
