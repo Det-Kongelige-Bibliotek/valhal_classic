@@ -31,7 +31,7 @@ namespace :sifd do
   def ping_fedora
     begin
       fedora = RSolr.connect :url => 'http://localhost:8983/fedora'
-      response = fedora.get 'select', :params => {:q => '*:*'}
+      response = fedora.get 'describe'
       puts 'Fedora is up!'
       return
     rescue Errno::ECONNREFUSED
