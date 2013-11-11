@@ -6,7 +6,7 @@ require 'uri'
 namespace :sifd do
   desc "Delete all ActiveFedora::Base objects from solr and fedora"
   task :clean => :environment do
-    ping_fedora #check fedora is up
+    ping_solr
     objects = ActiveFedora::Base.all
     objects.each {|af| af.delete }
     puts "#{objects.length} objects deleted from #{Rails.env.titleize} environment"
@@ -28,16 +28,16 @@ namespace :sifd do
   #Because Jetty takes a long time to start Solr and Fedora we need to wait for it before starting the tests
   #Following code attempts to connect to Solr and run a simple query, if the connection refused it catches
   #this error and sleeps for 5 seconds before trying again until successful
-  def ping_fedora
+  def ping_solr
     begin
-      fedora = RSolr.connect :url => 'http://localhost:8983/fedora'
-      response = fedora.get 'describe'
-      puts 'Fedora is up!'
+      solr = RSolr.connect :url => 'http://localhost:8983/solr'
+      response = solr.get 'select', :params => {:q => '*:*'}
+      puts 'Solr is up!'
       return
     rescue Errno::ECONNREFUSED
-      puts 'Fedora not up yet, sleeping for 10 seconds... zzz'
+      puts 'Solr not up yet, sleeping for 10 seconds... zzz'
       sleep 10
-      ping_fedora
+      ping_solr
     end
   end
 
