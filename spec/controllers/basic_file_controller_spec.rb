@@ -34,6 +34,28 @@ describe BasicFilesController do
     end
   end
 
+  describe 'GET download' do
+    it 'should be possible to download the file' do
+      file = create_basic_file(nil)
+      get :download, {:id => file.pid}
+      response.status.should == 200
+    end
+
+    it 'should give a 404 error when pointing to non-existing id' do
+      file = create_basic_file(nil)
+      id = "#{file.pid}#{DateTime.now.to_i}" # non-existing id
+      get :download, {:id => id}
+      response.status.should == 404
+    end
+
+    it 'should give a 500 error when wrong id format' do
+      file = create_basic_file(nil)
+      id = "#{file.pid}+#{DateTime.now.to_s}" # wrong id format
+      get :download, {:id => id}
+      response.status.should == 500
+    end
+  end
+
   describe 'Update preservation profile metadata' do
     before(:each) do
       @file = create_basic_file(nil)

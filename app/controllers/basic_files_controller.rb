@@ -43,7 +43,7 @@ class BasicFilesController < ApplicationController
   end
 
   # Retrieve the content file for a given BasicFile.
-  # Bad client-side arguments, e.g. no BasicFile-id, or wrong BasicFile-id, then a 400 is returned.
+  # If a wrong BasicFile-id, then a 404 is returned.
   # If something goes wrong service-side, then a 500 is returned.
   def download
     begin
@@ -52,11 +52,11 @@ class BasicFilesController < ApplicationController
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
       flash[:error] = 'The basic_files you requested could not be found in Fedora! Please contact your system administrator'
       logger.error obj_not_found.to_s
-      render status: 400
+      render text: obj_not_found.to_s, status: 404
     rescue => standard_error
       flash[:error] = 'An error has occurred. Please contact your system administrator'
       logger.error standard_error.to_s
-      render status: 500
+      render text: standard_error.to_s, status: 500
     end
   end
 end

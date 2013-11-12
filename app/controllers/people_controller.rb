@@ -97,7 +97,6 @@ class PeopleController < ApplicationController
   # Updates the preservation state metadata.
   def update_preservation_metadata
     begin
-      puts params
       @person = Person.find(params[:id])
       status = update_preservation_metadata_from_controller(params, @person)
       render text: status, status: status
