@@ -3,7 +3,9 @@ class BooksController < ApplicationController
   include ManifestationsHelper # methods: create_structmap_for_representation, set_authors, set_concerned_people, add_single_tei_rep, add_tiff_order_rep
   include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_metadata_from_controller
 
-  load_and_authorize_resource
+
+  authorize_resource
+
   def index
     @books = Book.all
   end
@@ -21,8 +23,8 @@ class BooksController < ApplicationController
   end
 
   def create_structmap
+    @book = Book.find(params[:id])
     logger.debug 'Creating structmap...'
-    logger.debug params.to_s
     if params[:structmap_file_order].blank?
       logger.warn 'Cannot generate structmap, when no file_order is given.'
     else
@@ -32,6 +34,7 @@ class BooksController < ApplicationController
   end
 
   def create
+    @book = Book.new(params[:book])
     validate_book(params)
     if @book.errors.size > 0
       logger.debug "#{@book.errors.size.to_s} Validation errors found, returning to form"
@@ -40,7 +43,6 @@ class BooksController < ApplicationController
     end
 
     #Validation passed begin processing parameters
-    @book = Book.new(params[:book])
     handle_representation_parameters
 
     respond_to do |format|
@@ -125,8 +127,16 @@ class BooksController < ApplicationController
 
   # Updates the preservation state metadata.
   def update_preservation_metadata
-    @book = Book.find(params[:id])
-    update_preservation_metadata_from_controller(params, @book)
+    begin
+      @book = Book.find(params[:id])
+      status = update_preservation_metadata_from_controller(params, @book)
+      render text: status, status: status
+    rescue ActiveFedora::ObjectNotFoundError => error
+      render text: error, status: :not_found #404
+    rescue => error
+      logger.warn "Could not update preservation metadata: #{error.inspect}"
+      render text: error, status: :internal_server_error #500
+    end
   end
 
   private

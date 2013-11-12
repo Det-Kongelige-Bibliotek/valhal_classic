@@ -330,8 +330,8 @@ describe PeopleController do
       state = "TheNewState-#{Time.now.to_s}"
       details = "Any details will suffice."
 
-      put :update_preservation_metadata, {:id => @person.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
-      response.should redirect_to(@person)
+      post :update_preservation_metadata, {:id => @person.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      response.status.should == 200
 
       per = Person.find(@person.pid)
       per.preservation_state.should == state
@@ -359,8 +359,8 @@ describe PeopleController do
       per.preservation_details.should == old_details
       per.preservation_details.should_not == new_details
 
-      put :update_preservation_metadata, {:id => @person.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
-      response.should redirect_to(@person)
+      post :update_preservation_metadata, {:id => @person.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
+      response.status.should == 200
 
       per = Person.find(@person.pid)
       per.preservation_state.should == new_state
@@ -381,13 +381,50 @@ describe PeopleController do
 
       d = per.preservation_modify_date
 
-      put :update_preservation_metadata, {:id => @person.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
-      response.should redirect_to(@person)
+      post :update_preservation_metadata, {:id => @person.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      response.status.should == 200
 
       per = Person.find(@person.pid)
       per.preservation_state.should == state
       per.preservation_details.should == details
       per.preservation_modify_date.should == d
+    end
+
+    it 'should be able to update only the warc id' do
+      warc_id = "WarcId-#{Time.now.to_s}"
+
+      b = Person.find(@person.pid)
+      state = b.preservation_state
+      details = b.preservation_details
+      b.save!
+
+      d = b.preservation_modify_date
+
+      post :update_preservation_metadata, {:id => @person.pid, :preservation => {:warc_id => warc_id}}
+      response.status.should == 200
+
+      b = Person.find(@person.pid)
+      b.preservation_state.should == state
+      b.preservation_details.should == details
+      b.warc_id.should == warc_id
+      b.preservation_modify_date.should_not == d
+    end
+
+    it 'should give a 400 error response, if the message is incomplete' do
+      post :update_preservation_metadata, {:id => @person.pid}
+      response.status.should == 400
+    end
+
+    it 'should give a 404 error response, if the message is pointing to non-existing file' do
+      id = "#{@person.pid}#{DateTime.now.to_i}" # non-existing id
+      post :update_preservation_metadata, {:id => id, :preservation => {:warc_id => "warc_id"}}
+      response.status.should == 404
+    end
+
+    it 'should give a 500 error response, if the message contains incorrect id' do
+      id = "#{@person.pid}+#{DateTime.now.to_s}" # wrong id format
+      post :update_preservation_metadata, {:id => id, :preservation => {:warc_id => "warc_id"}}
+      response.status.should == 500
     end
   end
 

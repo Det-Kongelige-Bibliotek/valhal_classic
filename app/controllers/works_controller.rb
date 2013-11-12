@@ -3,7 +3,7 @@ class WorksController < ApplicationController
   include ManifestationsHelper # methods: add_single_file_rep, set_authors, set_concerned_people
   include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_metadata_from_controller
 
-  load_and_authorize_resource
+  authorize_resource
 
   def index
     @works = Work.all
@@ -103,8 +103,16 @@ class WorksController < ApplicationController
 
   # Updates the preservation state metadata.
   def update_preservation_metadata
-    @work = Work.find(params[:id])
-    update_preservation_metadata_from_controller(params, @work)
+    begin
+      @work = Work.find(params[:id])
+      status = update_preservation_metadata_from_controller(params, @work)
+      render text: status, status: status
+    rescue ActiveFedora::ObjectNotFoundError => error
+      render text: error, status: :not_found #404
+    rescue => error
+      logger.warn "Could not update preservation metadata: #{error.inspect}"
+      render text: error, status: :internal_server_error #500
+    end
   end
 
   private

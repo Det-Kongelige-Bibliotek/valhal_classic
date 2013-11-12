@@ -16,7 +16,7 @@ module PreservationHelper
       element)
     set_preservation_profile(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment],
                              element)
-    if(params[:commit] == Constants::PERFORM_PRESERVATION_BUTTON)
+    if(params[:commit] && params[:commit] == Constants::PERFORM_PRESERVATION_BUTTON)
       set_preservation_metadata({'preservation_state' => Constants::PRESERVATION_STATE_INITIATED.keys.first,
                                  'preservation_details' => 'The preservation button has been pushed.'}, element)
       message = create_message(element.uuid, update_preservation_metadata_uri, file_uuid, content_uri, element)
@@ -33,11 +33,12 @@ module PreservationHelper
   # params[:preservation][:preservation_details]
   # @param params The parameters from the controller.
   # @param element The element to have its preservation settings updated.
+  # @return The http response code.
   def update_preservation_metadata_from_controller(params, element)
     if set_preservation_metadata(params[:preservation], element)
-      redirect_to element, notice: "Preservation metadata for the #{element.class} successfully updated"
+      return :ok #200
     else
-      render status: 400
+      return :bad_request #400
     end
   end
 
@@ -108,8 +109,12 @@ module PreservationHelper
   # The preservation state is expected to be among the Constants::PRESERVATION_STATES, a warning will be issued if not.
   # @param metadata The hash with metadata to be updated.
   # @param element The element to has its preservation state updated.
-  # @return Whether the update was successful.
+  # @return Whether the update was successful. Or just false, if no metadata is provided.
   def set_preservation_metadata(metadata, element)
+    unless metadata && !metadata.empty?
+      return false
+    end
+
     logger.debug "Updating '#{element.to_s}' with preservation metadata '#{metadata}'"
     updated = false
 

@@ -3,7 +3,7 @@ class PeopleController < ApplicationController
   include PeopleHelper # methods: add_portrait, add_person_description
   include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_metadata_from_controller
 
-  load_and_authorize_resource
+  authorize_resource
 
   def index
     @people = Person.all
@@ -43,6 +43,7 @@ class PeopleController < ApplicationController
   end
 
   def create
+    @person = Person.new(params[:person])
     if invalid_arguments?
       logger.debug "#{@person.errors.size.to_s}" + ' Validation errors found, returning to form'
       render action: 'new'
@@ -50,7 +51,6 @@ class PeopleController < ApplicationController
     end
 
     #create a person object and save it so component parts can be linked to it
-    @person = Person.new(params[:person])
     if @person.save
       handle_arguments
       redirect_to @person, notice: 'Person was successfully created.'
@@ -60,13 +60,13 @@ class PeopleController < ApplicationController
   end
 
   def update
+    @person = Person.find(params[:id])
+
     if invalid_arguments?
       logger.debug "#{@person.errors.size.to_s}" + ' Validation errors found, returning to form'
       render action: 'edit'
       return
     end
-
-    @person = Person.find(params[:id])
 
     if @person.update_attributes(params[:person])
       handle_arguments
@@ -96,8 +96,17 @@ class PeopleController < ApplicationController
 
   # Updates the preservation state metadata.
   def update_preservation_metadata
-    @person = Person.find(params[:id])
-    update_preservation_metadata_from_controller(params, @person)
+    begin
+      puts params
+      @person = Person.find(params[:id])
+      status = update_preservation_metadata_from_controller(params, @person)
+      render text: status, status: status
+    rescue ActiveFedora::ObjectNotFoundError => error
+      render text: error, status: :not_found #404
+    rescue => error
+      logger.warn "Could not update preservation metadata: #{error.inspect}"
+      render text: error, status: :internal_server_error #500
+    end
   end
 
   private

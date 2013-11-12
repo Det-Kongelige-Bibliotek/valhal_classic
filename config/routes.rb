@@ -18,7 +18,7 @@ Valhal::Application.routes.draw do
       get 'download'
       get 'preservation'
       put 'update_preservation_profile'
-      put 'update_preservation_metadata'
+      post 'update_preservation_metadata'
     end
   end
 
@@ -27,7 +27,7 @@ Valhal::Application.routes.draw do
     member do
       get 'preservation'
       put 'update_preservation_profile'
-      put 'update_preservation_metadata'
+      post 'update_preservation_metadata'
     end
   end
 
@@ -37,7 +37,7 @@ Valhal::Application.routes.draw do
       get 'download_all'
       get 'preservation'
       put 'update_preservation_profile'
-      put 'update_preservation_metadata'
+      post 'update_preservation_metadata'
     end
   end
 
@@ -56,7 +56,7 @@ Valhal::Application.routes.draw do
       put 'save_edit'
       get 'preservation'
       put 'update_preservation_profile'
-      put 'update_preservation_metadata'
+      post 'update_preservation_metadata'
     end
   end
 
@@ -67,7 +67,7 @@ Valhal::Application.routes.draw do
       put 'add_manifest'
       get 'preservation'
       put 'update_preservation_profile'
-      put 'update_preservation_metadata'
+      post 'update_preservation_metadata'
     end
   end
 
@@ -88,7 +88,7 @@ Valhal::Application.routes.draw do
       put 'finish_book_with_structmap'
       get 'preservation'
       put 'update_preservation_profile'
-      put 'update_preservation_metadata'
+      post 'update_preservation_metadata'
     end
   end
 end

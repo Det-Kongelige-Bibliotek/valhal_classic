@@ -258,8 +258,8 @@ describe OrderedRepresentationsController do
       state = "TheNewState-#{Time.now.to_s}"
       details = "Any details will suffice."
 
-      put :update_preservation_metadata, {:id => @rep.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
-      response.should redirect_to(@rep)
+      post :update_preservation_metadata, {:id => @rep.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      response.status.should == 200
 
       orep = OrderedRepresentation.find(@rep.pid)
       orep.preservation_state.should == state
@@ -287,8 +287,8 @@ describe OrderedRepresentationsController do
       orep.preservation_details.should == old_details
       orep.preservation_details.should_not == new_details
 
-      put :update_preservation_metadata, {:id => @rep.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
-      response.should redirect_to(@rep)
+      post :update_preservation_metadata, {:id => @rep.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
+      response.status.should == 200
 
       orep = OrderedRepresentation.find(@rep.pid)
       orep.preservation_state.should == new_state
@@ -309,13 +309,50 @@ describe OrderedRepresentationsController do
 
       d = orep.preservation_modify_date
 
-      put :update_preservation_metadata, {:id => @rep.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
-      response.should redirect_to(@rep)
+      post :update_preservation_metadata, {:id => @rep.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
+      response.status.should == 200
 
       orep = OrderedRepresentation.find(@rep.pid)
       orep.preservation_state.should == state
       orep.preservation_details.should == details
       orep.preservation_modify_date.should == d
+    end
+
+    it 'should be able to update only the warc id' do
+      warc_id = "WarcId-#{Time.now.to_s}"
+
+      b = OrderedRepresentation.find(@rep.pid)
+      state = b.preservation_state
+      details = b.preservation_details
+      b.save!
+
+      d = b.preservation_modify_date
+
+      post :update_preservation_metadata, {:id => @rep.pid, :preservation => {:warc_id => warc_id}}
+      response.status.should == 200
+
+      b = OrderedRepresentation.find(@rep.pid)
+      b.preservation_state.should == state
+      b.preservation_details.should == details
+      b.warc_id.should == warc_id
+      b.preservation_modify_date.should_not == d
+    end
+
+    it 'should give a 400 error response, if the message is incomplete' do
+      post :update_preservation_metadata, {:id => @rep.pid}
+      response.status.should == 400
+    end
+
+    it 'should give a 404 error response, if the message is pointing to non-existing file' do
+      id = "#{@rep.pid}#{DateTime.now.to_i}" # non-existing id
+      post :update_preservation_metadata, {:id => id, :preservation => {:warc_id => "warc_id"}}
+      response.status.should == 404
+    end
+
+    it 'should give a 500 error response, if the message contains incorrect id' do
+      id = "#{@rep.pid}+#{DateTime.now.to_s}" # wrong id format
+      post :update_preservation_metadata, {:id => id, :preservation => {:warc_id => "warc_id"}}
+      response.status.should == 500
     end
   end
 end

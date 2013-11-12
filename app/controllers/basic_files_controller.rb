@@ -25,8 +25,16 @@ class BasicFilesController < ApplicationController
 
   # Updates the preservation state metadata.
   def update_preservation_metadata
-    @file = BasicFile.find(params[:id])
-    update_preservation_metadata_from_controller(params, @file)
+    begin
+      @file = BasicFile.find(params[:id])
+      status = update_preservation_metadata_from_controller(params, @file)
+      render text: status, status: status
+    rescue ActiveFedora::ObjectNotFoundError => error
+      render text: error, status: :not_found #404
+    rescue => error
+      logger.warn "Could not update preservation metadata: #{error.inspect}"
+      render text: error, status: :internal_server_error #500
+    end
   end
 
   # Retrieves the basic file for the preservation view
