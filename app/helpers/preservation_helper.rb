@@ -9,8 +9,9 @@ module PreservationHelper
   # If it is the 'perform preservation' button which has been pushed, then it should send a message, and set the state
   # to 'PRESERVATION INITIATED'.
   # @param params The parameters from the controller.
-  # @param update_preservation_metadata_uri The uri for the updating the preservation state.
-  # @param content_uri The uri for the retrieving the content-file.
+  # @param update_preservation_metadata_uri The uri for updating the preservation state.
+  # @param file_uuid The uuid for the content-file. Should be nil, if no content-file.
+  # @param content_uri The uri for the retrieving the content-file. Should be nil, if no content-file.
   # @param element The element to have its preservation settings updated.
   def update_preservation_profile_from_controller(params, update_preservation_metadata_uri, file_uuid, content_uri,
       element)
@@ -46,7 +47,7 @@ module PreservationHelper
   # The date has to be formatted explicitly to include the milli/micro/nano-seconds.
   # E,g, 2013-10-08T11:02:00.240+02:00
   # @param element The element to have its preservation date updated.
-  def set_preservation_time(element)
+  def set_preservation_modified_time(element)
     element.preservationMetadata.preservation_modify_date = DateTime.now.strftime("%FT%T.%L%:z")
   end
 
@@ -54,6 +55,7 @@ module PreservationHelper
   # Creates a JSON message based in the defined format.
   # @param uuid The UUID for the element to be preserved.
   # @param update_uri The URL for updating the preservation metadata.
+  # @param file_uuid The uuid for the content-file. This is only expected from BasicFile.
   # @param content_uri The URL for where the content-file can be downloaded. This is only expected from BasicFile.
   # @param element The element to be preserved.
   # @return The preservation message in JSON format.
@@ -99,7 +101,7 @@ module PreservationHelper
       raise ArgumentError, "The profile '#{profile}' is not amongst the valid ones: #{PRESERVATION_CONFIG["preservation_profile"].keys}"
     end
 
-    set_preservation_time(element)
+    set_preservation_modified_time(element)
     element.preservationMetadata.preservation_profile = profile
     element.preservationMetadata.preservation_comment = comment
     element.save
@@ -138,7 +140,7 @@ module PreservationHelper
     end
 
     if updated
-      set_preservation_time(element)
+      set_preservation_modified_time(element)
     end
 
     element.save

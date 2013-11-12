@@ -98,7 +98,6 @@ describe SingleFileRepresentationsController do
     end
   end
 
-
   describe 'Update preservation profile metadata' do
     before(:each) do
       @rep = SingleFileRepresentation.create!

@@ -210,7 +210,6 @@ describe PeopleController do
     end
   end
 
-
   describe 'Update preservation profile metadata' do
     before(:each) do
       @person = Person.create! valid_attributes

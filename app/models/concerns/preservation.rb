@@ -17,7 +17,7 @@ module Concerns
         self.preservation_profile = 'Undefined' if preservation_profile.blank?
         self.preservation_state = Constants::PRESERVATION_STATE_NOT_STARTED.keys.first if preservation_state.blank?
         self.preservation_details = 'N/A' if preservation_details.blank?
-        set_preservation_time(self)
+        set_preservation_modified_time(self)
       end
     end
   end
