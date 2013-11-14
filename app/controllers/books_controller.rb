@@ -3,7 +3,6 @@ class BooksController < ApplicationController
   include ManifestationsHelper # methods: create_structmap_for_representation, set_authors, set_concerned_people, add_single_tei_rep, add_tiff_order_rep
   include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_metadata_from_controller
 
-
   authorize_resource
 
   def index
@@ -14,11 +13,27 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
   end
 
+  def show_person
+    @book = Book.find(params[:id])
+  end
+
+  def show_metadata
+    @book = Book.find(params[:id])
+  end
+
+  def show_file
+    @book = Book.find(params[:id])
+  end
+
   def new
     @book = Book.new
   end
 
   def edit
+    @book = Book.find(params[:id])
+  end
+
+  def preservation
     @book = Book.find(params[:id])
   end
 
@@ -86,6 +101,7 @@ class BooksController < ApplicationController
   end
 
   def update_file
+    @book = Book.find(params[:id])
     validate_book(params)
     if @book.errors.size > 0
       logger.debug "#{@book.errors.size.to_s} Validation errors found, returning to last screen"

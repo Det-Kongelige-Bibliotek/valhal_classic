@@ -13,11 +13,27 @@ class WorksController < ApplicationController
     @work = Work.find(params[:id])
   end
 
+  def show_person
+    @work = Work.find(params[:id])
+  end
+
+  def show_metadata
+    @work = Work.find(params[:id])
+  end
+
+  def show_file
+    @work = Work.find(params[:id])
+  end
+
   def new
     @work = Work.new
   end
 
   def edit
+    @work = Work.find(params[:id])
+  end
+
+  def preservation
     @work = Work.find(params[:id])
   end
 
@@ -30,7 +46,6 @@ class WorksController < ApplicationController
       render action: 'new'
       return
     end
-
 
     if @work.save
       redirect_to  show_person_work_path @work

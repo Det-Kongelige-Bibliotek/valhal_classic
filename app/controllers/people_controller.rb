@@ -42,6 +42,10 @@ class PeopleController < ApplicationController
     @person = Person.find(params[:id])
   end
 
+  def preservation
+    @person = Person.find(params[:id])
+  end
+
   def create
     @person = Person.new(params[:person])
     if invalid_arguments?

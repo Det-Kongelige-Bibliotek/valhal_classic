@@ -12,6 +12,10 @@ class SingleFileRepresentationsController < ApplicationController
     @single_file_representation = SingleFileRepresentation.find(params[:id])
   end
 
+  def preservation
+    @single_file_representation = SingleFileRepresentation.find(params[:id])
+  end
+
   def update
     @single_file_representation = SingleFileRepresentation.find(params[:id])
 
