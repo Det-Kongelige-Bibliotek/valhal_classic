@@ -3,19 +3,37 @@
 Valhal
 ===
 
-SIFD forvaltning
+Valhal - SIFD management
 
+
+GIT checkout of repository
+===
+
+git clone https://gitusername@github.com/Det-Kongelige-Bibliotek/valhal.git
+
+Replace 'gitusername' with your own gitusername.
+This is necessary, if you want to push commits back to master branch.
+
+Software requisites
+===
+
+The Hydra part of valhal has the same software requisites as the Hydra-Head component (Ruby, Rails, etc.).
+  - The software requisites for the Hydra-head can be found here: https://github.com/projecthydra/hydra-head/wiki/Installation-Prerequisites
+  - A set of step-by-step instructions for installing Ruby, Rails, and other useful tools can be found here: http://installfest.railsbridge.org/installfest/
+
+RabbitMQ comes as a package for most operating systems.
+
+ImageMagick-devel (on RHEL6 run ’yum install ImageMagick-devel’ with repo ’rhel-x86_64-server-optional-6’).
+
+RubyMine setup for developers
+===
+In RubyMine chose File->Open Directory and select the valhal directory.
+RubyMine should automatically integrate with the valhal Git repository.
 
 Run
 ===
 
-to run on a local development machine:
-
-Install ruby (with rvm, bundler, etc.), git and RabbitMQ (should be possible to install all from default rpm provider, e.g. yum)
-Also requires to have ImageMagick-devel installed (on RHEL6 run ’yum install ImageMagick-devel’ with repo ’rhel-x86_64-server-optional-6’)
 Start RabbitMQ on default ports - 5672 (on RHEL6 there might be a Qpid daemon running on port 5672 already)
-
-$ git clone https://github.com/Det-Kongelige-Bibliotek/valhal.git
 
 $ bundle install
 
@@ -36,3 +54,4 @@ $ rake
 The interface can be started on localhost:3000 by:
 
 $ rails server
+
