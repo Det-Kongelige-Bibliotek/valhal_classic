@@ -14,6 +14,10 @@ class OrderedRepresentationsController < ApplicationController
     @ordered_representation = OrderedRepresentation.find(params[:id])
   end
 
+  def preservation
+    @ordered_representation = OrderedRepresentation.find(params[:id])
+  end
+
   def update
     @ordered_representation = OrderedRepresentation.find(params[:id])
 
