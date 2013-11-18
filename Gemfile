@@ -7,6 +7,7 @@ gem "blacklight"
 gem 'hydra-head', '6.1.0'
 gem 'sqlite3'
 gem 'bootswatch-rails'
+gem 'hydra-file_characterization'
 
 gem 'jquery-rails'
 gem 'client_side_validations'

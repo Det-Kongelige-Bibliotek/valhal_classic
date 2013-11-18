@@ -27,6 +27,8 @@ module Concerns
         m.field "file_uuid", :string
       end
 
+      has_metadata :name => 'fitsMetadata', :label => 'FITS Metadata', :type => ActiveFedora::OmDatastream
+
       delegate_to 'techMetadata', [:last_modified, :created, :last_accessed, :original_filename, :mime_type, :file_uuid], :multiple => false
       delegate_to 'descMetadata', [:description], :multiple => false
       # TODO have more than one checksum (both MD5 and SHA), and specify their checksum algorithm.
@@ -41,6 +43,7 @@ module Concerns
       valid_file = check_file?(file)
       if (valid_file)
         self.add_file_datastream(file.tempfile, :label => file.original_filename, :mimeType => file.content_type, :dsid => 'content')
+        self.add_fits_metadata_datastream(file)
         set_file_timestamps(file.tempfile)
         self.checksum = generate_checksum(file.tempfile)
         self.original_filename = file.original_filename
@@ -49,6 +52,30 @@ module Concerns
         self.file_uuid = UUID.new.generate
       end
       valid_file
+    end
+
+    #function for extracting FITS metadata from the file data associated with this BasicFile
+    #and storing the XML produced as a datastream on the BasicFile Fedora object.
+    #If something goes wrong with the file extraction, the RuntimeError is caught, logged and the function
+    #will return allowing normal processing of the BasicFile to continue
+    def add_fits_metadata_datastream(file)
+      begin
+        fitsMetadata = Hydra::FileCharacterization.characterize(file, 'test.xml', :fits)
+      rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
+        logger.error tnfe.to_s
+        logger.error 'Tool for extracting FITS metadata not found, continuing with normal processing...'
+        return
+      rescue RuntimeError => re
+        logger.error 'Something went wrong with extraction of file metadata using FITS'
+        logger.error re.to_s
+        logger.error 'Continuing with normal processing...'
+        return
+      end
+
+      fitsDatastream = ActiveFedora::OmDatastream.from_xml(fitsMetadata)
+
+      self.add_datastream(fitsDatastream, :dsid => 'fitsMetadata')
+      self.datastreams["fitsMetadata"].save
     end
 
     # @return the type of file. Default the mime-type
