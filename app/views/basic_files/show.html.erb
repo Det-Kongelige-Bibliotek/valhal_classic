@@ -1,6 +1,7 @@
+<script src="google-code-prettify/run_prettify.js"></script>
 <h3>File info:</h3>
 <pre>
-<%= @file.inspect %>
+<%= @file.inspect%>
 </pre>
 <br/>
 <hr/>
@@ -18,7 +19,7 @@
     %>
     <dt><strong><%= key %></strong></dt>
     <dd>
-      <pre>
+      <pre class="prettyprint">
         <%= content.respond_to?(:to_xml) ? content.to_xml : doc.to_xml %>
       </pre>
     </dd>
