@@ -27,8 +27,6 @@ module Concerns
         m.field "file_uuid", :string
       end
 
-      has_metadata :name => 'fitsMetadata', :label => 'FITS Metadata', :type => ActiveFedora::OmDatastream
-
       delegate_to 'techMetadata', [:last_modified, :created, :last_accessed, :original_filename, :mime_type, :file_uuid], :multiple => false
       delegate_to 'descMetadata', [:description], :multiple => false
       # TODO have more than one checksum (both MD5 and SHA), and specify their checksum algorithm.
@@ -74,8 +72,8 @@ module Concerns
 
       fitsDatastream = ActiveFedora::OmDatastream.from_xml(fitsMetadata)
 
-      self.add_datastream(fitsDatastream, :dsid => 'fitsMetadata')
-      self.datastreams["fitsMetadata"].save
+      self.add_datastream(fitsDatastream, {:prefix => 'fitsMetadata'})
+      self.save
     end
 
     # @return the type of file. Default the mime-type
