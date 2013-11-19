@@ -1,5 +1,8 @@
+<script src="google-code-prettify/run_prettify.js"></script>
 <h3>File info:</h3>
-<%= @file.inspect %>
+<pre>
+<%= @file.inspect%>
+</pre>
 <br/>
 <hr/>
 <h4>Datastreams:</h4>
@@ -7,9 +10,19 @@
     <% if Constants::NON_RETRIEVABLE_DATASTREAM_NAMES.include?(key)
          next
        end
+
+       if content.respond_to?(:to_xml)
+        doc = Nokogiri.XML(content)
+       else
+        doc = Nokogiri.XML(content.content)
+       end
     %>
     <dt><strong><%= key %></strong></dt>
-    <dd><%= content.respond_to?(:to_xml) ? content.to_xml : content.content %></dd>
+    <dd>
+      <pre class="prettyprint">
+        <%= content.respond_to?(:to_xml) ? content.to_xml : doc.to_xml %>
+      </pre>
+    </dd>
     <br/>
 <% end %>
 <br/>

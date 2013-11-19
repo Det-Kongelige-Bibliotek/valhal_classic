@@ -17,11 +17,12 @@ This is necessary, if you want to push commits back to master branch.
 Software requisites
 ===
 
-The Hydra part of valhal has the same software requisites as the Hydra-Head component (Ruby, Rails, etc.).
-  - The software requisites for the Hydra-head can be found here: https://github.com/projecthydra/hydra-head/wiki/Installation-Prerequisites
-  - A set of step-by-step instructions for installing Ruby, Rails, and other useful tools can be found here: http://installfest.railsbridge.org/installfest/
+The Hydra part of valhal has the same basic software requisites as the Hydra-Head component (Ruby, Rails, etc.).
+  - The software requisites for the Hydra-Head can be found here: https://github.com/projecthydra/hydra-head/wiki/Installation-Prerequisites
+  - A set of step-by-step instructions for installing Ruby, Rails, and other useful tools,
+    on a selection of operation systems, can be found here: http://installfest.railsbridge.org/installfest/
 
-RabbitMQ comes as a package for most operating systems.
+RabbitMQ which comes as a package for most operating systems.
 
 ImageMagick-devel (on RHEL6 run ’yum install ImageMagick-devel’ with repo ’rhel-x86_64-server-optional-6’).
 
@@ -32,6 +33,8 @@ RubyMine should automatically integrate with the valhal Git repository.
 
 Run
 ===
+
+Create an application.local.yml file based on the application.local.template.yml.
 
 Start RabbitMQ on default ports - 5672 (on RHEL6 there might be a Qpid daemon running on port 5672 already)
 
