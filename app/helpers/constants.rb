@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Constants
   # The name on the button for performing the preservation
   PERFORM_PRESERVATION_BUTTON = 'Perform preservation'

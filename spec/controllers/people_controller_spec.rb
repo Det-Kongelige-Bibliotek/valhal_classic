@@ -324,6 +324,8 @@ describe PeopleController do
   describe 'Update preservation state metadata' do
     before(:each) do
       @person = Person.create! valid_attributes
+      @person.preservation_state = Constants::PRESERVATION_STATE_INITIATED.keys.first
+      @person.save!
     end
     it 'should be updated and redirect to the person' do
       state = "TheNewState-#{Time.now.to_s}"
@@ -412,6 +414,13 @@ describe PeopleController do
     it 'should give a 400 error response, if the message is incomplete' do
       post :update_preservation_metadata, {:id => @person.pid}
       response.status.should == 400
+    end
+
+    it 'should give a 403 error response, when the element is in state \'PRESERVATION NOT STARTED\'' do
+      @person.preservation_state = Constants::PRESERVATION_STATE_NOT_STARTED.keys.first
+      @person.save!
+      post :update_preservation_metadata, {:id => @person.pid, :preservation => {:warc_id => "warc_id"}}
+      response.status.should == 403
     end
 
     it 'should give a 404 error response, if the message is pointing to non-existing file' do

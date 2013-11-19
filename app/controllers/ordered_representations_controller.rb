@@ -96,7 +96,11 @@ class OrderedRepresentationsController < ApplicationController
       @rep = OrderedRepresentation.find(params[:id])
       status = update_preservation_metadata_from_controller(params, @rep)
       render text: status, status: status
+    rescue ValhalErrors::InvalidStateError => error
+      logger.warn "Sending a 403 response to the error: #{error.inspect}"
+      render text: error, status: :forbidden #403
     rescue ActiveFedora::ObjectNotFoundError => error
+      logger.warn "Sending a 404 response to the error: #{error.inspect}"
       render text: error, status: :not_found #404
     rescue => error
       logger.warn "Could not update preservation metadata: #{error.inspect}"
