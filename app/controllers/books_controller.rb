@@ -119,6 +119,7 @@ class BooksController < ApplicationController
   end
 
   def finish_book_with_structmap
+    @book = Book.find(params[:id])
     create_structmap_for_representation(params['structmap_file_order'], @book.ordered_reps.last)
     redirect_to @book, notice: 'Book was successfully created.'
   end
