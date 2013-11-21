@@ -11,7 +11,7 @@ module MqHelper
 
     send_on_rabbitmq(message, destination, {
         'content_type' => 'application/json',
-        'type' => 'PreservationRequest'
+        'type' => Constants::MESSAGE_TYPE_PRESERVATION_REQUEST
         })
   end
 
@@ -20,7 +20,7 @@ module MqHelper
   # @param message The message content to send.
   # @param destination The destination on the MQ where the message is sent.
   # @param options Is a hash with header values for the message, e.g. content-type, type.
-  # @return Weather the message successfully is sent.
+  # @return True, if the message is sent successfully. Otherwise false
   def send_on_rabbitmq(message, destination, options={})
     uri = MQ_CONFIG['mq_uri']
     logger.info "Sending message '#{message}' on destination '#{destination}' at broker '#{uri}'"
