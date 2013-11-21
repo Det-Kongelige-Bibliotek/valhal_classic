@@ -6,7 +6,7 @@ describe "basic_files/preservation" do
     before(:each) do
       @file = create_basic_file(nil)
     end
-    it 'should contain the default information about the file.' do
+    it 'should contain the default preservation metadata about the file.' do
       visit preservation_basic_file_path(@file)
 
       page.has_text?(@file.preservation_profile)
