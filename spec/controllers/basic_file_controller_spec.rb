@@ -170,6 +170,8 @@ describe BasicFilesController do
   describe 'Update preservation metadata' do
     before(:each) do
       @file = create_basic_file(nil)
+      @file.preservation_state = Constants::PRESERVATION_STATE_INITIATED.keys.first
+      @file.save!
     end
     it 'should be updated and redirect to the file' do
       state = "TheNewState-#{Time.now.to_s}"
@@ -258,6 +260,13 @@ describe BasicFilesController do
     it 'should give a 400 error response, if the message is incomplete' do
       post :update_preservation_metadata, {:id => @file.pid}
       response.status.should == 400
+    end
+
+    it 'should give a 403 error response, when the element is in state \'PRESERVATION NOT STARTED\'' do
+      @file.preservation_state = Constants::PRESERVATION_STATE_NOT_STARTED.keys.first
+      @file.save!
+      post :update_preservation_metadata, {:id => @file.pid, :preservation => {:warc_id => "warc_id"}}
+      response.status.should == 403
     end
 
     it 'should give a 404 error response, if the message is pointing to non-existing file' do

@@ -9,15 +9,19 @@ module MqHelper
   def send_message_to_preservation(message)
     destination = MQ_CONFIG['preservation']['destination']
 
-    send_on_rabbitmq(message, destination)
+    send_on_rabbitmq(message, destination, {
+        'content_type' => 'application/json',
+        'type' => 'PreservationRequest'
+        })
   end
 
   private
   # Sends a given message at the given destination on the MQ with the uri in the configuration.
   # @param message The message content to send.
   # @param destination The destination on the MQ where the message is sent.
+  # @param options Is a hash with header values for the message, e.g. content-type, type.
   # @return Weather the message successfully is sent.
-  def send_on_rabbitmq(message, destination)
+  def send_on_rabbitmq(message, destination, options={})
     uri = MQ_CONFIG['mq_uri']
     logger.info "Sending message '#{message}' on destination '#{destination}' at broker '#{uri}'"
 
@@ -27,7 +31,9 @@ module MqHelper
     ch   = conn.create_channel
     q    = ch.queue(destination, :durable => true)
 
-    q.publish(message, :routing_key => destination, :persistent => true, :content_type => 'application/json')
+    q.publish(message, :routing_key => destination, :persistent => true, :timestamp => Time.now.to_i,
+              :content_type => options['content_type'], :type => options['type']
+    )
 
     conn.close
     true

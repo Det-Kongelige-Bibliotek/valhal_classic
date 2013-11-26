@@ -22,9 +22,9 @@ module PreservationHelper
                                  'preservation_details' => 'The preservation button has been pushed.'}, element)
       message = create_message(element.uuid, update_preservation_metadata_uri, file_uuid, content_uri, element)
       send_message_to_preservation(message)
-      redirect_to element, notice: "Preservation metadata for the #{element.class} successfully updated and the preservation has begun."
+      redirect_to element, notice: "Preservation profile for the #{element.class} successfully updated and the preservation has begun."
     else
-      redirect_to element, notice: "Preservation metadata for the #{element.class} successfully updated"
+      redirect_to element, notice: "Preservation profile for the #{element.class} successfully updated"
     end
   end
 
@@ -36,6 +36,8 @@ module PreservationHelper
   # @param element The element to have its preservation settings updated.
   # @return The http response code.
   def update_preservation_metadata_from_controller(params, element)
+    ensure_preservation_state_allows_update_from_controller(element.preservation_state)
+
     if set_preservation_metadata(params[:preservation], element)
       return :ok #200
     else
@@ -144,5 +146,14 @@ module PreservationHelper
     end
 
     element.save
+  end
+
+  # Validates whether the preservation_state allows updating through the controller.
+  # Checks whether the preservation state is set to not stated.
+  # @param state The state to validate.
+  def ensure_preservation_state_allows_update_from_controller(state)
+    if !state.blank? && state == Constants::PRESERVATION_STATE_NOT_STARTED.keys.first
+      raise ValhalErrors::InvalidStateError, 'Cannot update preservation state, when preservation has not yet started.'
+    end
   end
 end
