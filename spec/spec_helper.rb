@@ -65,7 +65,7 @@ RSpec.configure do |config|
   def create_basic_file_for_tif(holding_object)
     basic_file = TiffFile.new
     uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'arre1fm001.tif', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
-    basic_file.add_file(uploaded_file)
+    basic_file.add_file(uploaded_file, nil)
     basic_file.container = holding_object
     basic_file.save
     basic_file
@@ -74,7 +74,7 @@ RSpec.configure do |config|
   def create_basic_file_for_tif_with_filename(file_name)
     basic_file = TiffFile.new
     uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: file_name, type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/#{file_name}"))
-    basic_file.add_file(uploaded_file)
+    basic_file.add_file(uploaded_file, nil)
     basic_file
   end
 
