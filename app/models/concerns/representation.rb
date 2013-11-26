@@ -10,7 +10,7 @@ module Concerns
       end
 
       # Define the label as an accessionable part of the descriptive metadata.
-      delegate :label, :to => 'provenanceMetadata', :at => [:label], :multiple => false
+      has_attributes :label, datastream: 'provenanceMetadata', :multiple => false
 
       # Automatical creation of a the label if it has not been defined.
       before_validation(:on => :create) do
