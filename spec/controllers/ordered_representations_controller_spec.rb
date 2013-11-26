@@ -86,7 +86,7 @@ describe OrderedRepresentationsController do
       rep = OrderedRepresentation.create!
       @tiff1 = ActionDispatch::Http::UploadedFile.new(filename: 'first.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
       tiff_file = TiffFile.create!
-      tiff_file.add_file(@tiff1)
+      tiff_file.add_file(@tiff1, '1')
 
       get :thumbnail_url, {:pid => tiff_file.pid, :id => rep.pid}
       response.response_code.should == 200
@@ -126,7 +126,7 @@ describe OrderedRepresentationsController do
       rep = OrderedRepresentation.create!
       @tiff1 = ActionDispatch::Http::UploadedFile.new(filename: 'first.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
       tiff_file = TiffFile.create!
-      tiff_file.add_file(@tiff1)
+      tiff_file.add_file(@tiff1, '1')
       rep.files << tiff_file
       rep.save!
 
@@ -253,6 +253,8 @@ describe OrderedRepresentationsController do
   describe 'Update preservation state metadata' do
     before(:each) do
       @rep = OrderedRepresentation.create!
+      @rep.preservation_state = Constants::PRESERVATION_STATE_INITIATED.keys.first
+      @rep.save!
     end
     it 'should be updated and redirect to the ordered representation' do
       state = "TheNewState-#{Time.now.to_s}"
@@ -341,6 +343,13 @@ describe OrderedRepresentationsController do
     it 'should give a 400 error response, if the message is incomplete' do
       post :update_preservation_metadata, {:id => @rep.pid}
       response.status.should == 400
+    end
+
+    it 'should give a 403 error response, when the element is in state \'PRESERVATION NOT STARTED\'' do
+      @rep.preservation_state = Constants::PRESERVATION_STATE_NOT_STARTED.keys.first
+      @rep.save!
+      post :update_preservation_metadata, {:id => @rep.pid, :preservation => {:warc_id => "warc_id"}}
+      response.status.should == 403
     end
 
     it 'should give a 404 error response, if the message is pointing to non-existing file' do

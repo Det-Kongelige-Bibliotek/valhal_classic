@@ -21,7 +21,7 @@ module PeopleHelper
     end
 
     portrait = Work.create(portrait_metadata)
-    unless add_single_file_rep(file, representation_metadata, portrait)
+    unless add_single_file_rep(file, representation_metadata, nil, portrait)
       return false
     end
 

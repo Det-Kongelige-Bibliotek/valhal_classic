@@ -19,7 +19,7 @@ describe "people/show" do
       @portrait = Work.create(:work_type => 'PersonPortrait', :title => 'portrait of person')
       uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'test.png', type: 'image/png', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
       @file = BasicFile.create!
-      @file.add_file(uploaded_file)
+      @file.add_file(uploaded_file, '1')
       rep = SingleFileRepresentation.create!
       rep.files << @file
       @portrait.representations << rep
@@ -41,7 +41,7 @@ describe "people/show" do
       @portrait = Work.create(:work_type => 'PersonDescription', :title => 'description of person')
       uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'test.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
       @file = BasicFile.create!
-      @file.add_file(uploaded_file)
+      @file.add_file(uploaded_file, '1')
       rep = SingleFileRepresentation.create!
       rep.files << @file
       @portrait.representations << rep

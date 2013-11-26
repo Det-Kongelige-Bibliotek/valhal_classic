@@ -9,7 +9,7 @@ module Concerns
         m.field 'label', :string
       end
 
-      # Define the label as an accessinbn ble part of the descriptive metadata.
+      # Define the label as an accessionable part of the descriptive metadata.
       delegate :label, :to => 'provenanceMetadata', :at => [:label], :multiple => false
 
       # Automatical creation of a the label if it has not been defined.

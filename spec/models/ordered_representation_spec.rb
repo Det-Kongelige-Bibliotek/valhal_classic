@@ -81,7 +81,7 @@ describe OrderedRepresentation do
         (1..3).each do
           basic_file = BasicFile.new
           uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
-          basic_file.add_file(uploaded_file)
+          basic_file.add_file(uploaded_file, nil)
           basic_file.save!
           array << basic_file
         end

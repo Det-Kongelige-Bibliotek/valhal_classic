@@ -12,7 +12,7 @@ module ManifestationsHelper
   # @return false if operation was unsuccessful
   def add_single_tei_rep(tei_metadata, file, rep_metadata, manifestation)
     tei_file = TeiFile.new(tei_metadata)
-    if tei_file.add_file(file)
+    if tei_file.add_file(file, nil)
       tei_file.save!
     else
       return false
@@ -24,10 +24,11 @@ module ManifestationsHelper
   # Creates and adds a SingleFileRepresentation with a basic basic_files to the manifestation
   # @param file The uploaded file for the SingleFileRepresentation
   # @param metadata The metadata for the SingleFileRepresentation
+  # @param skip_file_characterisation boolean value determining whether to skip file characterisation or not
   # @param manifestation The manifestation to contain the SingleFileRepresentation
-  def add_single_file_rep(file, metadata, manifestation)
+  def add_single_file_rep(file, metadata, skip_file_characterisation, manifestation)
     rep_file = BasicFile.new
-    if rep_file.add_file(file)
+    if rep_file.add_file(file, skip_file_characterisation)
       rep_file.save!
     else
       return false
@@ -47,7 +48,7 @@ module ManifestationsHelper
 
     files.each do |f|
       tf = TiffFile.new
-      unless tf.add_file(f)
+      unless tf.add_file(f, nil)
         return false
       end
       tf.save!
@@ -68,7 +69,7 @@ module ManifestationsHelper
 
     files.each do |f|
       file = BasicFile.new
-      file.add_file(f)
+      file.add_file(f, nil)
       file.save!
 
       basic_files << file

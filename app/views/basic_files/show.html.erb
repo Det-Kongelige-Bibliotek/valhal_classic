@@ -10,17 +10,11 @@
     <% if Constants::NON_RETRIEVABLE_DATASTREAM_NAMES.include?(key)
          next
        end
-
-       if content.respond_to?(:to_xml)
-        doc = Nokogiri.XML(content)
-       else
-        doc = Nokogiri.XML(content.content)
-       end
     %>
     <dt><strong><%= key %></strong></dt>
     <dd>
       <pre class="prettyprint">
-        <%= content.respond_to?(:to_xml) ? content.to_xml : doc.to_xml %>
+        <%= content.respond_to?(:to_xml) ? content.to_xml : content.content %>
       </pre>
     </dd>
     <br/>

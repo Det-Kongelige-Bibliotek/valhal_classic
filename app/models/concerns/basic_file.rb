@@ -37,11 +37,13 @@ module Concerns
     # adds a content datastream to the object and generate techMetadata for the basic_files
     # basic_files must have the following methods [size, content_type, original_filename, tempfile]
     # return true if successful, else false
-    def add_file(file)
+    def add_file(file, skip_file_characterisation)
       valid_file = check_file?(file)
       if (valid_file)
         self.add_file_datastream(file.tempfile, :label => file.original_filename, :mimeType => file.content_type, :dsid => 'content')
-        self.add_fits_metadata_datastream(file)
+        if skip_file_characterisation.eql? nil
+          self.add_fits_metadata_datastream(file)
+        end
         set_file_timestamps(file.tempfile)
         self.checksum = generate_checksum(file.tempfile)
         self.original_filename = file.original_filename
@@ -56,9 +58,11 @@ module Concerns
     #and storing the XML produced as a datastream on the BasicFile Fedora object.
     #If something goes wrong with the file extraction, the RuntimeError is caught, logged and the function
     #will return allowing normal processing of the BasicFile to continue
+    #TODO place some sensible limit on the file size so far we don't know what the upper limit should be
     def add_fits_metadata_datastream(file)
+      #puts File.size(file.tempfile.path)
       begin
-        fitsMetadata = Hydra::FileCharacterization.characterize(file, 'test.xml', :fits)
+        fitsMetadata = Hydra::FileCharacterization.characterize(file, file.original_filename, :fits)
       rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
         logger.error tnfe.to_s
         logger.error 'Tool for extracting FITS metadata not found, continuing with normal processing...'
