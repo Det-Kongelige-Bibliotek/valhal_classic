@@ -77,6 +77,7 @@ describe "add_file" do
     end
 
     it 'should have a fitsMetadataDatastream with valid content regarding the file metadata' do
+      puts @basic_file.datastreams.inspect
       @basic_file.datastreams['fitsMetadata1'].should_not be_nil
       @basic_file.datastreams['fitsMetadata1'].content.should_not be_nil
       expect(@basic_file.datastreams['fitsMetadata1'].content).to include('<metadata>
