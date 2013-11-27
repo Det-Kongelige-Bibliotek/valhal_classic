@@ -18,7 +18,7 @@ describe "single_file_representations/show" do
       @single_file_representation = SingleFileRepresentation.create!
       uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'test.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
       @file = BasicFile.create!
-      @file.add_file(uploaded_file)
+      @file.add_file(uploaded_file, '1')
       @single_file_representation.files << @file
     end
 

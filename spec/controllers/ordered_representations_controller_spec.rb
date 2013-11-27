@@ -86,7 +86,7 @@ describe OrderedRepresentationsController do
       rep = OrderedRepresentation.create!
       @tiff1 = ActionDispatch::Http::UploadedFile.new(filename: 'first.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
       tiff_file = TiffFile.create!
-      tiff_file.add_file(@tiff1)
+      tiff_file.add_file(@tiff1, '1')
 
       get :thumbnail_url, {:pid => tiff_file.pid, :id => rep.pid}
       response.response_code.should == 200
@@ -126,7 +126,7 @@ describe OrderedRepresentationsController do
       rep = OrderedRepresentation.create!
       @tiff1 = ActionDispatch::Http::UploadedFile.new(filename: 'first.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
       tiff_file = TiffFile.create!
-      tiff_file.add_file(@tiff1)
+      tiff_file.add_file(@tiff1, '1')
       rep.files << tiff_file
       rep.save!
 
@@ -228,8 +228,6 @@ describe OrderedRepresentationsController do
       response.should redirect_to(@rep)
 
       q.subscribe do |delivery_info, metadata, payload|
-        metadata['type'].should_not be_blank
-        metadata['type'].should == Constants::MESSAGE_TYPE_PRESERVATION_REQUEST
         payload.should include @rep.pid
         json = JSON.parse(payload)
         json.keys.should include ('UUID')

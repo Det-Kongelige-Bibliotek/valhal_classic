@@ -13,7 +13,7 @@ describe TeiFile do
   context 'with a Tei basic_files' do
     it 'should have shorthand for adding a basic_files just like a basic basic_files' do
       file = TeiFile.create
-      file.add_file(@uploaded_file).should be_true
+      file.add_file(@uploaded_file, '1').should be_true
       file.save.should be_true
     end
   end
@@ -28,7 +28,7 @@ describe TeiFile do
     it 'should contain the mimetype in the basic_files type if no TEI version is defined' do
       version = 'This TEI basic_files has version P5'
       tei = TeiFile.create!
-      tei.add_file(@uploaded_file).should be_true
+      tei.add_file(@uploaded_file, '1').should be_true
       tei.file_type.to_s.include?(version).should be_false
       tei.file_type.to_s.include?(@uploaded_file.content_type).should be_true
     end
@@ -36,7 +36,7 @@ describe TeiFile do
     it 'should be possible to add a version afterwards' do
       version = 'This TEI basic_files has version P5'
       tei = TeiFile.create!
-      tei.add_file(@uploaded_file).should be_true
+      tei.add_file(@uploaded_file, '1').should be_true
       tei.file_type.to_s.include?(version).should be_false
       tei.file_type.to_s.include?(@uploaded_file.content_type).should be_true
 

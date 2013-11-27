@@ -22,7 +22,7 @@ class Person < ActiveFedora::Base
   end
 
   # Define the name of the person as an accessible part of the descriptive metadata.
-  has_attributes :firstname, :lastname, :date_of_birth, :date_of_death, datastream: 'descMetadata', :multiple => false
+  delegate_to 'descMetadata', [:firstname, :lastname, :date_of_birth, :date_of_death], :multiple => false
 
   # Validation criteria of the firstname (at least 1 non-space character).
   validates :firstname, :presence => true, :length => {:minimum => 1}

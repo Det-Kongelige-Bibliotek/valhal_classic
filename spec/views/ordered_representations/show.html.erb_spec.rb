@@ -18,7 +18,7 @@ describe "ordered_representations/show" do
     before(:each) do
       @ordered_representation = OrderedRepresentation.create!
       @tiff = TiffFile.create!
-      @tiff.add_file(ActionDispatch::Http::UploadedFile.new(filename: 'arre1fm001.tif', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif")))
+      @tiff.add_file(ActionDispatch::Http::UploadedFile.new(filename: 'arre1fm001.tif', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif")), '1')
       @tiff.save!
       @ordered_representation.files << @tiff
       @ordered_representation.save!

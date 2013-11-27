@@ -282,8 +282,6 @@ describe WorksController do
       response.should redirect_to(@work)
 
       q.subscribe do |delivery_info, metadata, payload|
-        metadata['type'].should_not be_blank
-        metadata['type'].should == Constants::MESSAGE_TYPE_PRESERVATION_REQUEST
         payload.should include @work.pid
         json = JSON.parse(payload)
         json.keys.should include ('UUID')

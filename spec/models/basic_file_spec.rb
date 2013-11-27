@@ -10,12 +10,12 @@ describe BasicFile do
     before do
       @basic_file = BasicFile.new
       @uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
-      @basic_file.add_file(@uploaded_file)
+      @basic_file.add_file(@uploaded_file, nil)
     end
 
     it "should have shorthand for adding a basic_files" do
       file = BasicFile.new
-      file.add_file(@uploaded_file).should be_true
+      file.add_file(@uploaded_file, nil).should be_true
     end
 
     it "should have mime type" do
@@ -72,23 +72,36 @@ describe BasicFile do
     end
 
     it "should return false when a object that isnt a basic_files is passed down" do
-      @basic_file.add_file("basic_files").should be_false
+      @basic_file.add_file("basic_files", nil).should be_false
     end
 
     it 'should not have a thumbnail' do
       @basic_file.has_thumbnail?.should be_false
     end
+
+    it 'should have a fitsMetadataDatastream with valid content regarding the file metadata' do
+      @basic_file.datastreams['fitsMetadata1'].should_not be_nil
+      @basic_file.datastreams['fitsMetadata1'].content.should_not be_nil
+      expect(@basic_file.datastreams['fitsMetadata1'].content).to include('<metadata>
+    <text>
+      <charset toolname="Jhove" toolversion="1.5">UTF-8</charset>
+      <markupBasis toolname="Jhove" toolversion="1.5">XML</markupBasis>
+      <markupBasisVersion toolname="Jhove" toolversion="1.5">1.0</markupBasisVersion>
+    </text>
+  </metadata>')
+    end
   end
+
   context "with a png basic_files" do
     before do
       @basic_file = BasicFile.new
       @uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'image/png', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
-      @basic_file.add_file(@uploaded_file)
+      @basic_file.add_file(@uploaded_file, nil)
     end
 
     it "should have shorthand for adding a basic_files" do
       file = BasicFile.new
-      file.add_file(@uploaded_file).should be_true
+      file.add_file(@uploaded_file, nil).should be_true
     end
 
     it "should have mime type" do
@@ -146,7 +159,7 @@ describe BasicFile do
 
     it "should return false when a object doesn't support the require methods is passed down" do
 
-      @basic_file.add_file("basic_files").should be_false
+      @basic_file.add_file("basic_files", nil).should be_false
     end
   end
 end

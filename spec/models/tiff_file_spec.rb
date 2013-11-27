@@ -12,13 +12,13 @@ describe TiffFile do
 
     it "should have shorthand for adding a basic_files just like a basic basic_files" do
       file = TiffFile.create
-      file.add_file(@uploaded_file).should be_true
+      file.add_file(@uploaded_file, '1').should be_true
       file.save.should be_true
     end
 
     it "should create a thumbnail when the tiff image is loaded" do
       file = TiffFile.create
-      file.add_file(@uploaded_file).should be_true
+      file.add_file(@uploaded_file, '1').should be_true
       file.save!
 
       file.thumbnail.should_not be_nil

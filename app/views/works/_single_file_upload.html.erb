@@ -6,4 +6,8 @@
   <%= fields_for :rep do |builder| %>
       <%= builder.text_field :label, :placeholder => 'Label' %>
   <% end %>
+  <br>
+  <%= f.label :basic_files, 'Skip file characterisation?' %>
+  <%= check_box_tag 'skip_file_characterisation' %>
+  <br>
 </div>

@@ -11,8 +11,6 @@ class Constants
   # rightsMetadata = The Hydra rights metadata format (Not preservable).
   NON_RETRIEVABLE_DATASTREAM_NAMES = ['DC', 'RELS-EXT', 'content', 'rightsMetadata', 'thumbnail'];
 
-  # The name for preservation request type of messages.
-  MESSAGE_TYPE_PRESERVATION_REQUEST = 'PreservationRequest'
 
   #######################
   # PRESERVATION_STATES

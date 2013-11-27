@@ -17,32 +17,33 @@ module Concerns
       # a ActiveFedora::SimpleDatastream for the techMetadata
       # TODO find out if we need to make our own Datastream for techMetadata
       has_metadata :name => 'techMetadata', :type => ActiveFedora::SimpleDatastream do |m|
-        m.field 'file_checksum', :string
-        m.field 'original_filename', :string
-        m.field 'mime_type', :string
-        m.field 'file_size', :integer
-        m.field 'last_modified', :string
-        m.field 'created', :string
-        m.field 'last_accessed', :string
-        m.field 'file_uuid', :string
+        m.field "file_checksum", :string
+        m.field "original_filename", :string
+        m.field "mime_type", :string
+        m.field "file_size", :integer
+        m.field "last_modified", :string
+        m.field "created", :string
+        m.field "last_accessed", :string
+        m.field "file_uuid", :string
       end
 
-      has_attributes :last_modified, :created, :last_accessed, :original_filename, :mime_type, :file_uuid,
-                     datastream: 'techMetadata', :multiple => false
-      has_attributes :description, datastream: 'descMetadata', :multiple => false
+      delegate_to 'techMetadata', [:last_modified, :created, :last_accessed, :original_filename, :mime_type, :file_uuid], :multiple => false
+      delegate_to 'descMetadata', [:description], :multiple => false
       # TODO have more than one checksum (both MD5 and SHA), and specify their checksum algorithm.
-      has_attributes :checksum, datastream: 'techMetadata', :at => [:file_checksum], :multiple => false
-      has_attributes :size, datastream: 'techMetadata', :at => [:file_size], :multiple => false
+      delegate :checksum, :to => 'techMetadata', :at => [:file_checksum], :multiple => false
+      delegate :size, :to => 'techMetadata', :at => [:file_size], :multiple => false
     end
 
     # adds a content datastream to the object and generate techMetadata for the basic_files
     # basic_files must have the following methods [size, content_type, original_filename, tempfile]
     # return true if successful, else false
-    def add_file(file)
+    def add_file(file, skip_file_characterisation)
       valid_file = check_file?(file)
       if (valid_file)
         self.add_file_datastream(file.tempfile, :label => file.original_filename, :mimeType => file.content_type, :dsid => 'content')
-        self.add_fits_metadata_datastream(file)
+        if skip_file_characterisation.eql? nil
+          self.add_fits_metadata_datastream(file)
+        end
         set_file_timestamps(file.tempfile)
         self.checksum = generate_checksum(file.tempfile)
         self.original_filename = file.original_filename
@@ -57,9 +58,12 @@ module Concerns
     #and storing the XML produced as a datastream on the BasicFile Fedora object.
     #If something goes wrong with the file extraction, the RuntimeError is caught, logged and the function
     #will return allowing normal processing of the BasicFile to continue
+    #TODO place some sensible limit on the file size so far we don't know what the upper limit should be
     def add_fits_metadata_datastream(file)
+      #puts File.size(file.tempfile.path)
+      logger.info 'Characterizing file using FITS tool'
       begin
-        fitsMetadata = Hydra::FileCharacterization.characterize(file, 'test.xml', :fits)
+        fitsMetadata = Hydra::FileCharacterization.characterize(file, file.original_filename, :fits)
       rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
         logger.error tnfe.to_s
         logger.error 'Tool for extracting FITS metadata not found, continuing with normal processing...'
@@ -70,7 +74,6 @@ module Concerns
         logger.error 'Continuing with normal processing...'
         return
       end
-
       fitsDatastream = ActiveFedora::OmDatastream.from_xml(fitsMetadata)
 
       self.add_datastream(fitsDatastream, {:prefix => 'fitsMetadata'})

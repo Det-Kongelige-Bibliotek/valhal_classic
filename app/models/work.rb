@@ -10,10 +10,10 @@ class Work < ActiveFedora::Base
   has_metadata :name => 'descMetadata', :type=>Datastreams::WorkMods
 
   # TODO define restrictions for these metadata fields.
-  has_attributes :shelfLocator, :title, :subTitle, :typeOfResource, :publisher, :originPlace, :languageISO,
-                 :languageText, :subjectTopic, :dateIssued, :physicalExtent,
-                 datastream: 'descMetadata', :multiple => false
-  has_attributes :work_type, datastream: 'descMetadata', :at => [:genre], :multiple => false
+  delegate_to 'descMetadata',[:shelfLocator, :title, :subTitle, :typeOfResource, :publisher,
+                              :originPlace, :languageISO, :languageText, :subjectTopic, :dateIssued,
+                              :physicalExtent], :multiple => false
+  delegate :work_type, :to => 'descMetadata', :at => [:genre], :multiple => false
 
   validates :title, :presence => true
   validates_with WorkValidator

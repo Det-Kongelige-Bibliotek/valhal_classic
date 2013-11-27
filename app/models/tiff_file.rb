@@ -6,12 +6,12 @@ class TiffFile < ActiveFedora::Base
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
 
-  def add_file(file)
+  def add_file(file, skip_file_characterisation)
     unless file.content_type.include?('image/tif')
       return false
     end
 
-    valid = super
+    valid = super(file, skip_file_characterisation)
     if(valid)
       self.save!
       self.create_thumbnail(file)

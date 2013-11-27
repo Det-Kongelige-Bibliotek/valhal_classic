@@ -141,7 +141,7 @@ class WorksController < ApplicationController
   def handle_arguments
     if !params[:single_file].blank? && !params[:single_file][:basic_files].blank?
       logger.debug 'Creating a representation'
-      add_single_file_rep(params[:single_file][:basic_files], params[:rep], @work)
+      add_single_file_rep(params[:single_file][:basic_files], params[:rep], params[:skip_file_characterisation], @work)
     end
     # add the authors to the work
     if !params[:person].blank? && !params[:person][:id].blank?

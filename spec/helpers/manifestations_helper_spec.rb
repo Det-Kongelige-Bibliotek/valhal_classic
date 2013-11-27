@@ -62,7 +62,7 @@ describe ManifestationsHelper do
     end
 
     it 'should be possible with a TEI basic_files' do
-      add_single_file_rep(@tei_file, {}, @manifestation).should be_true
+      add_single_file_rep(@tei_file, {}, nil, @manifestation).should be_true
 
       @manifestation.single_file_reps.length.should == 1
       @manifestation.single_file_reps.first.kind_of?(SingleFileRepresentation).should be_true
@@ -72,7 +72,7 @@ describe ManifestationsHelper do
     end
 
     it 'should be possible with an binary basic_files' do
-      add_single_file_rep(@octet_file, {}, @manifestation).should be_true
+      add_single_file_rep(@octet_file, {}, nil, @manifestation).should be_true
 
       @manifestation.single_file_reps.length.should == 1
       @manifestation.single_file_reps.first.kind_of?(SingleFileRepresentation).should be_true
@@ -82,7 +82,7 @@ describe ManifestationsHelper do
     end
 
     it 'should not allow non-basic_files to be added' do
-      add_single_file_rep('TEI basic_files', {}, @manifestation).should be_false
+      add_single_file_rep('TEI basic_files', {}, nil, @manifestation).should be_false
       @manifestation.single_file_reps.length.should == 0
     end
   end

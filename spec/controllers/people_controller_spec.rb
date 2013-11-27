@@ -299,8 +299,6 @@ describe PeopleController do
       response.should redirect_to(@person)
 
       q.subscribe do |delivery_info, metadata, payload|
-        metadata['type'].should_not be_blank
-        metadata['type'].should == Constants::MESSAGE_TYPE_PRESERVATION_REQUEST
         payload.should include @person.pid
         json = JSON.parse(payload)
         json.keys.should include ('UUID')
