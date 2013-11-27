@@ -325,4 +325,18 @@ describe SingleFileRepresentationsController do
       response.status.should == 500
     end
   end
+
+  describe 'GET preservation' do
+    it 'should assign \'@rep\' to the single_file_representation' do
+      @rep = SingleFileRepresentation.create!
+      get :preservation, {:id => @rep.pid}
+      assigns(:single_file_representation).should eq(@rep)
+    end
+  end
+
+  after(:all) do
+    BasicFile.all.each { |bf| bf.delete }
+    TiffFile.all.each { |tf| tf.delete }
+    SingleFileRepresentation.all.each { |rep| rep.delete }
+  end
 end

@@ -775,6 +775,14 @@ describe BooksController do
     end
   end
 
+  describe 'GET preservation' do
+    it 'should assign \'@book\' to the book' do
+      @book = Book.create!(:title => 'test title')
+      get :preservation, {:id => @book.pid}
+      assigns(:book).should eq(@book)
+    end
+  end
+
   after(:all) do
     Book.all.each { |book| book.delete }
     BasicFile.all.each { |bf| bf.delete }

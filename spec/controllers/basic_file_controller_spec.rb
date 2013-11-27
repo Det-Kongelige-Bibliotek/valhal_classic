@@ -284,6 +284,14 @@ describe BasicFilesController do
     end
   end
 
+  describe 'GET preservation' do
+    it 'should assign \'@file\' to the file' do
+      @file = create_basic_file(nil)
+      get :preservation, {:id => @file.pid}
+      assigns(:file).should eq(@file)
+    end
+  end
+
   after(:all) do
     BasicFile.all.each { |file| file.delete }
   end

@@ -438,6 +438,14 @@ describe PeopleController do
     end
   end
 
+  describe 'GET preservation' do
+    it 'should assign \'@person\' to the person' do
+      @person = Person.create! valid_attributes
+      get :preservation, {:id => @person.pid}
+      assigns(:person).should eq(@person)
+    end
+  end
+
   after(:all) do
     Person.all.each {|p| p.delete}
   end

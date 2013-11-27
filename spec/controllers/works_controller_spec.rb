@@ -420,4 +420,16 @@ describe WorksController do
       response.status.should == 500
     end
   end
+
+  describe 'GET preservation' do
+    it 'should assign \'@work\' to the work' do
+      @work = Work.create! valid_attributes
+      get :preservation, {:id => @work.pid}
+      assigns(:work).should eq(@work)
+    end
+  end
+
+  after(:all) do
+    Work.all.each {|p| p.delete}
+  end
 end

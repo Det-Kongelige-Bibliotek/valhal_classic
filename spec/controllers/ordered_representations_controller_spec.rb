@@ -366,4 +366,18 @@ describe OrderedRepresentationsController do
       response.status.should == 500
     end
   end
+
+  describe 'GET preservation' do
+    it 'should assign \'@rep\' to the ordered_representation' do
+      @rep = OrderedRepresentation.create!
+      get :preservation, {:id => @rep.pid}
+      assigns(:ordered_representation).should eq(@rep)
+    end
+  end
+
+  after(:all) do
+    BasicFile.all.each { |bf| bf.delete }
+    TiffFile.all.each { |tf| tf.delete }
+    OrderedRepresentation.all.each { |rep| rep.delete }
+  end
 end
