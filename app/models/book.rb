@@ -11,10 +11,9 @@ class Book < ActiveFedora::Base
   has_metadata :name => 'descMetadata', :type => Datastreams::BookMods
 
   # TODO define restrictions for these metadata fields.
-  delegate_to 'descMetadata', [:isbn, :genre, :shelfLocator, :title, :subTitle, :typeOfResource, :publisher,
-                               :originPlace, :languageISO, :languageText, :subjectTopic, :dateIssued,
-                               :physicalExtent], :multiple => false
-
+  has_attributes :isbn, :genre, :shelfLocator, :title, :subTitle, :typeOfResource, :publisher, :originPlace,
+                 :languageISO, :languageText, :subjectTopic, :dateIssued, :physicalExtent,
+                 datastream: 'descMetadata', :multiple => false
 
   validates :title, :presence => true
   validates :isbn, :numericality => true, :allow_blank => true
