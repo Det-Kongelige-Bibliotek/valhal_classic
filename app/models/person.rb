@@ -37,6 +37,11 @@ class Person < ActiveFedora::Base
     "#{lastname.to_s}, #{firstname.to_s}"
   end
 
+  # @return whether its preservation can be inherited. For the person, this is false.
+  def preservation_inheritance?
+    return false
+  end
+
   has_solr_fields do |m|
     m.field "search_result_title", method: :comma_seperated_lastname_firstname
     m.field "person_name", method: :name

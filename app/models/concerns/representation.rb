@@ -71,6 +71,20 @@ module Concerns
     def representation_name
       label
     end
+
+    # @return whether its preservation can be inherited. For the representations, this is true (since it has the files).
+    def preservation_inheritance?
+      return true
+    end
+
+    # @return the object, which can inherit the preservation settings.
+    def preservation_inheritable_objects
+      res = []
+      files.each do |f|
+        res << f
+      end
+      res
+    end
   end
 
 end

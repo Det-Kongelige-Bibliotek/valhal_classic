@@ -94,6 +94,11 @@ module Concerns
       return false
     end
 
+    # @return whether its preservation can be inherited. For the files, this is false.
+    def preservation_inheritance?
+      return false
+    end
+
     private
     def generate_checksum(file)
       Digest::MD5.file(file).hexdigest

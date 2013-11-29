@@ -41,6 +41,22 @@ module Concerns
       res
     end
 
+    # @return whether its preservation can be inherited.
+    # For the manifests, this is true (since it has the representations).
+    def preservation_inheritance?
+      return true
+    end
+
+    # @return the object, which can inherit the preservation settings.
+    def preservation_inheritable_objects
+      res = []
+      representations.each do |rep|
+        res << rep.preservation_inheritable_objects
+        res << rep
+      end
+      res
+    end
+
     private
     # adds the manifest as intellectual entity for the representations.
     def add_ie_to_reps

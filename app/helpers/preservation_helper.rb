@@ -15,6 +15,7 @@ module PreservationHelper
   # @param element The element to have its preservation settings updated.
   def update_preservation_profile_from_controller(params, update_preservation_metadata_uri, file_uuid, content_uri,
       element)
+    inherit(params, element)
     set_preservation_profile(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment],
                              element)
     if(params[:commit] && params[:commit] == Constants::PERFORM_PRESERVATION_BUTTON)
@@ -154,6 +155,13 @@ module PreservationHelper
   def ensure_preservation_state_allows_update_from_controller(state)
     if !state.blank? && state == Constants::PRESERVATION_STATE_NOT_STARTED.keys.first
       raise ValhalErrors::InvalidStateError, 'Cannot update preservation state, when preservation has not yet started.'
+    end
+  end
+
+  #
+  def inherit(params, element)
+    if(params['preservation'][''])
+
     end
   end
 end
