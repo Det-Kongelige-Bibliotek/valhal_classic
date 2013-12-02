@@ -7,7 +7,7 @@ module Concerns
   # Example:
   # Class TiffFile < ActiveFedora::Base
   # include Concerns::BasicFile
-  module BasicFile
+  module GenericFile
     extend ActiveSupport::Concern
     include Hydra::Models::FileAsset
 
@@ -91,12 +91,22 @@ module Concerns
       if self.respond_to? :thumbnail
         return self.thumbnail ? true : false
       end
-      return false
+      false
     end
 
     # @return whether its preservation can be inherited. For the files, this is false.
     def preservation_inheritance?
-      return false
+      false
+    end
+
+    # @return the path for updating the preservation metadata
+    def update_preservation_metadata_uri
+      update_preservation_metadata_basic_file_url(self)
+    end
+
+    # @return the uri for downloading the file.
+    def content_uri
+      download_basic_file_url(self)
     end
 
     private

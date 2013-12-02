@@ -71,10 +71,9 @@
 
 <% # Do not make this possible for BasicFile, since it cannot inherit %>
 <% if @object.preservation_inheritance? %>
-  <%= @object.preservation_inheritable_objects %>
   <div class="set_inheritance">
     <%= f.label :preservation_inheritance, 'Inherit preservation' %>
     <%= f.check_box :preservation_inheritance %>
-    <%#= f.select :preservation_inheritance, [['True', true], ['False', false]] %>
   </div>
 <% end %>
+

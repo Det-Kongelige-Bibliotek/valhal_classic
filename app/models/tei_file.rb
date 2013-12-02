@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class TeiFile < ActiveFedora::Base
-  include Concerns::BasicFile
+  include Concerns::GenericFile
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
 

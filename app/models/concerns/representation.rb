@@ -77,12 +77,14 @@ module Concerns
       return true
     end
 
+    # Returns all the files as BasicFile objects.
     # @return the object, which can inherit the preservation settings.
     def preservation_inheritable_objects
       res = []
-      files.each do |f|
-        res << f
+      self.files.each do |f|
+        res << BasicFile.find(f.pid)
       end
+      logger.debug "Found following inheiritable objects: #{res.to_s}"
       res
     end
   end

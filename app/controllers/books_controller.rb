@@ -119,6 +119,7 @@ class BooksController < ApplicationController
   end
 
   def finish_book_with_structmap
+    @book = Book.find(params[:id])
     create_structmap_for_representation(params['structmap_file_order'], @book.ordered_reps.last)
     redirect_to @book, notice: 'Book was successfully created.'
   end
@@ -134,8 +135,10 @@ class BooksController < ApplicationController
   def update_preservation_profile
     @book = Book.find(params[:id])
     begin
-      update_preservation_profile_from_controller(params, update_preservation_metadata_book_url, nil, nil, @book)
+      notice = update_preservation_profile_from_controller(params, @book)
+      redirect_to @book, notice: notice
     rescue => error
+      logger.warn "Could not update preservation profile: #{error.inspect}\n#{error.backtrace}"
       @book.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'
     end

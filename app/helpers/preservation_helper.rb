@@ -9,23 +9,20 @@ module PreservationHelper
   # If it is the 'perform preservation' button which has been pushed, then it should send a message, and set the state
   # to 'PRESERVATION INITIATED'.
   # @param params The parameters from the controller.
-  # @param update_preservation_metadata_uri The uri for updating the preservation state.
-  # @param file_uuid The uuid for the content-file. Should be nil, if no content-file.
-  # @param content_uri The uri for the retrieving the content-file. Should be nil, if no content-file.
   # @param element The element to have its preservation settings updated.
-  def update_preservation_profile_from_controller(params, update_preservation_metadata_uri, file_uuid, content_uri,
-      element)
-    inherit(params, element)
+  def update_preservation_profile_from_controller(params, element)
+    logger.info "Update preservation profile #{element}"
+    inherit_preservation(params, element)
     set_preservation_profile(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment],
                              element)
     if(params[:commit] && params[:commit] == Constants::PERFORM_PRESERVATION_BUTTON)
       set_preservation_metadata({'preservation_state' => Constants::PRESERVATION_STATE_INITIATED.keys.first,
                                  'preservation_details' => 'The preservation button has been pushed.'}, element)
-      message = create_message(element.uuid, update_preservation_metadata_uri, file_uuid, content_uri, element)
+      message = create_message(element.uuid, element)
       send_message_to_preservation(message)
-      redirect_to element, notice: "Preservation profile for the #{element.class} successfully updated and the preservation has begun."
+      return "Preservation profile for the #{element.class} successfully updated and the preservation has begun."
     else
-      redirect_to element, notice: "Preservation profile for the #{element.class} successfully updated"
+      return "Preservation profile for the #{element.class} successfully updated"
     end
   end
 
@@ -57,23 +54,18 @@ module PreservationHelper
   private
   # Creates a JSON message based in the defined format.
   # @param uuid The UUID for the element to be preserved.
-  # @param update_uri The URL for updating the preservation metadata.
-  # @param file_uuid The uuid for the content-file. This is only expected from BasicFile.
-  # @param content_uri The URL for where the content-file can be downloaded. This is only expected from BasicFile.
   # @param element The element to be preserved.
   # @return The preservation message in JSON format.
-  def create_message(uuid, update_uri, file_uuid, content_uri, element)
+  def create_message(uuid, element)
     message = Hash.new
     message['UUID'] = uuid
     message['Preservation_profile'] = element.preservationMetadata.preservation_profile.first
-    unless update_uri.blank?
-      message['Update_URI'] = update_uri
-    end
-    unless file_uuid.blank?
-      message['File_UUID'] = file_uuid
-    end
-    unless content_uri.blank?
-      message['Content_URI'] = content_uri
+    message['Update_URI'] = url_for(controller: element.class.name.underscore.pluralize, action: 'update_preservation_metadata', id: element.pid)
+    #message['Update_URI'] = element.update_preservation_metadata_uri
+
+    if element.kind_of?(BasicFile)
+      message['File_UUID'] = element.file_uuid
+      message['Content_URI'] = download_basic_file_url(element)
     end
 
     metadata = Hash.new
@@ -158,10 +150,15 @@ module PreservationHelper
     end
   end
 
-  #
-  def inherit(params, element)
-    if(params['preservation'][''])
-
+  # Check whether it should be inherited, and also perform the inheritance.
+  # @param params The parameter from the controller. Contains the parameter for whether the preservation
+  # should be inherit.
+  # @param element The element to have stuff inherited.
+  def inherit_preservation(params, element)
+    if(element.preservation_inheritance? && params['preservation']['preservation_inheritance'] == '1')
+      element.preservation_inheritable_objects.each do |pib|
+        update_preservation_profile_from_controller(params, pib)
+      end
     end
   end
 end

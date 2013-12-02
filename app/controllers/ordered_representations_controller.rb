@@ -79,22 +79,22 @@ class OrderedRepresentationsController < ApplicationController
 
   # Updates the preservation profile metadata.
   def update_preservation_profile
-    @rep = OrderedRepresentation.find(params[:id])
+    @ordered_representation = OrderedRepresentation.find(params[:id])
     begin
-      update_preservation_profile_from_controller(params, update_preservation_metadata_ordered_representation_url, nil,
-                                                  nil, @rep)
+      notice = update_preservation_profile_from_controller(params, @ordered_representation)
+      redirect_to @ordered_representation, notice: notice
     rescue => error
-      @rep.errors[:preservation] << error.inspect.to_s
+      logger.warn "Could not update preservation profile: #{error.inspect}\n#{error.backtrace}"
+      @ordered_representation.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'
     end
   end
 
-
   # Updates the preservation state metadata.
   def update_preservation_metadata
     begin
-      @rep = OrderedRepresentation.find(params[:id])
-      status = update_preservation_metadata_from_controller(params, @rep)
+      @ordered_representation = OrderedRepresentation.find(params[:id])
+      status = update_preservation_metadata_from_controller(params, @ordered_representation)
       render text: status, status: status
     rescue ValhalErrors::InvalidStateError => error
       logger.warn "Sending a 403 response to the error: #{error.inspect}"

@@ -12,12 +12,10 @@ class BasicFilesController < ApplicationController
   def update_preservation_profile
     @file = BasicFile.find(params[:id])
     begin
-      update_preservation_profile_from_controller(params,
-                                                  update_preservation_metadata_basic_file_url(@file),
-                                                  @file.file_uuid,
-                                                  download_basic_file_url(@file),
-                                                  @file)
+      notice = update_preservation_profile_from_controller(params, @file)
+      redirect_to @file, notice: notice
     rescue => error
+      logger.warn "Could not update preservation profile: #{error.inspect}\n#{error.backtrace}"
       @file.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'
     end

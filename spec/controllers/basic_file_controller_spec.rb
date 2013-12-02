@@ -165,6 +165,33 @@ describe BasicFilesController do
       sleep 1.seconds
       conn.close
     end
+
+    it 'should not send inheritable settings upwards' do
+      rep = SingleFileRepresentation.new
+      rep.files << @file
+      rep.save!
+      @file.save!
+
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      comment = "This is the preservation comment"
+
+      put :update_preservation_profile, {:id => @file.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON, :preservation =>
+          {:preservation_profile => profile, :preservation_comment => comment, :preservation_inheritance => '1'}}
+
+      b = BasicFile.find(@file.pid)
+      b.preservation_state.should_not be_blank
+      b.preservation_details.should_not be_blank
+      b.preservation_modify_date.should_not be_blank
+      b.preservation_profile.should == profile
+      b.preservation_comment.should == comment
+
+      rep = SingleFileRepresentation.find(rep.pid)
+      rep.preservation_state.should_not be_blank
+      rep.preservation_details.should_not be_blank
+      rep.preservation_modify_date.should_not be_blank
+      rep.preservation_profile.should_not == profile
+      rep.preservation_comment.should_not == comment
+    end
   end
 
   describe 'Update preservation metadata' do

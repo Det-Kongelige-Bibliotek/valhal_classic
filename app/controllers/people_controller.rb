@@ -91,8 +91,10 @@ class PeopleController < ApplicationController
   def update_preservation_profile
     @person = Person.find(params[:id])
     begin
-      update_preservation_profile_from_controller(params, update_preservation_metadata_person_url, nil, nil, @person)
+      notice = update_preservation_profile_from_controller(params, @person)
+      redirect_to @person, notice: notice
     rescue => error
+      logger.warn "Could not update preservation profile: #{error.inspect}\n#{error.backtrace}"
       @person.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'
     end
