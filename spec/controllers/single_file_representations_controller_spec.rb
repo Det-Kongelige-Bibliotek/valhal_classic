@@ -187,6 +187,7 @@ describe SingleFileRepresentationsController do
       response.should redirect_to(@rep)
 
       q.subscribe do |delivery_info, metadata, payload|
+        metadata[:type].should == Constants::MQ_MESSAGE_TYPE_PRESERVATION_REQUEST
         payload.should include @rep.pid
         json = JSON.parse(payload)
         json.keys.should include ('UUID')

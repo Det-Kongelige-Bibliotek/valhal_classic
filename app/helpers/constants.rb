@@ -3,6 +3,9 @@ class Constants
   # The name on the button for performing the preservation
   PERFORM_PRESERVATION_BUTTON = 'Perform preservation'
 
+  # The message type for a preservation request.
+  MQ_MESSAGE_TYPE_PRESERVATION_REQUEST = 'PreservationRequest'
+
   # The name of the datastreams, which are not to be retrieved for messages.
   # DC = The Fedora internal Dublin-Core.
   # RELS_EXT = The Fedora datastream for relationships.
