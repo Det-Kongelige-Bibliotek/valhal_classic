@@ -2,6 +2,7 @@
 require 'yaml'
 require 'net/http'
 require 'uri'
+require 'logger'
 
 namespace :sifd do
   desc "Delete all ActiveFedora::Base objects from solr and fedora"
@@ -44,39 +45,54 @@ namespace :sifd do
     end
   end
 
+  #Function gets all BasicFile objects from the repo and checks to see if they have a fitsMetadata Datastream, if not
+  #the function generates one by writing the content from the BasicFile into a temp file and then passing that to the
+  #Hydra FileCharacterization gem.  If any problem is encountered running the fits characterisation then the task aborts
   def add_file_characterization_to_all_basic_files
+    logger = Logger.new(STDOUT)
+    logger.level = Logger::INFO
+    logger.datetime_format = "%H:%M:%S"
     bfs = BasicFile.all
     bfs.each do |bf|
         if bf.datastreams['fitsMetadata1'].nil?
-          puts 'No FITS datastream found, going to add one...'
+          logger.info "No FITS datastream found for #{bf.pid}, going to add one..."
           #need to create a new temp file using the content from the datastream
-          temp_file = File.new("temp_content_file", "r+")
-
-          temp_file.puts bf.content.content.force_encoding("UTF-8")
+          temp_file = File.new('temp_content_file', 'w+')
+          begin
+            temp_file.puts bf.content.content
+          rescue StandardError => re
+            logger.error 'Got error writing BasicFile contents to file'
+            logger.error re.to_s
+            if re.to_s.match 'from ASCII-8BIT to UTF-8'
+              logger.info 'ASCII file detected'
+              temp_file.puts bf.content.content.force_encoding('UTF-8')
+            end
+          end
+          #temp_file.puts bf.content.content.force_encoding('UTF-8')
 
           f = ActionDispatch::Http::UploadedFile.new(filename: bf.content.label, type: bf.content.profile['dsMIME'], tempfile: temp_file)
 
           begin
+            logger.info 'Generating FITS metadata XML'
             fitsMetadata = Hydra::FileCharacterization.characterize(f, f.original_filename, :fits)
           rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
             logger.error tnfe.to_s
-            logger.error 'Tool for extracting FITS metadata not found, continuing with normal processing...'
-            return
+            abort 'FITS tool not found, terminating, check FITS_HOME environment variable is set and FITS is installed'
           rescue RuntimeError => re
             logger.error 'Something went wrong with extraction of file metadata using FITS'
             logger.error re.to_s
-            logger.error 'Continuing with normal processing...'
-            return
+            abort 'FITS tool not found, terminating, check FITS_HOME environment variable is set and FITS is installed'
           end
           fitsDatastream = ActiveFedora::OmDatastream.from_xml(fitsMetadata)
           fitsDatastream.digital_object = bf.inner_object
 
           bf.add_datastream(fitsDatastream, {:prefix => 'fitsMetadata'})
           bf.save
+          logger.info 'FITS metadata datastream added, tidying up resources used'
           temp_file.close
-          FileUtils.remove "temp_content_file"
-        else
-          puts bf.datastreams['fitsMetadata1']
+          FileUtils.remove_file 'temp_content_file'
+          logger.info "Finished adding FITS metadata for #{bf.pid}"
+          logger.info '********************************************'
         end
       end
   end
