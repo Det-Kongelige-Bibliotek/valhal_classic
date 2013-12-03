@@ -16,10 +16,7 @@ module PreservationHelper
     set_preservation_profile(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment],
                              element)
     if(params[:commit] && params[:commit] == Constants::PERFORM_PRESERVATION_BUTTON)
-      set_preservation_metadata({'preservation_state' => Constants::PRESERVATION_STATE_INITIATED.keys.first,
-                                 'preservation_details' => 'The preservation button has been pushed.'}, element)
-      message = create_message(element.uuid, element)
-      send_message_to_preservation(message)
+      initiate_preservation(element)
       return "Preservation profile for the #{element.class} successfully updated and the preservation has begun."
     else
       return "Preservation profile for the #{element.class} successfully updated"
@@ -52,13 +49,28 @@ module PreservationHelper
   end
 
   private
+  # Initiates the preservation. If the profile
+  # @param element The element to perform the preservation upon.
+  def initiate_preservation(element)
+    profile = PRESERVATION_CONFIG['preservation_profile'][element.preservation_profile]
+
+    if profile['yggdrasil'].blank? or profile['yggdrasil'] == 'false'
+      set_preservation_metadata({'preservation_state' => Constants::PRESERVATION_STATE_NOT_LONGTERM.keys.first,
+                                 'preservation_details' => 'Not longterm preservation.'}, element)
+    else
+      set_preservation_metadata({'preservation_state' => Constants::PRESERVATION_STATE_INITIATED.keys.first,
+                                 'preservation_details' => 'The preservation button has been pushed.'}, element)
+      message = create_message(element)
+      send_message_to_preservation(message)
+    end
+  end
+
   # Creates a JSON message based in the defined format.
-  # @param uuid The UUID for the element to be preserved.
   # @param element The element to be preserved.
   # @return The preservation message in JSON format.
-  def create_message(uuid, element)
+  def create_message(element)
     message = Hash.new
-    message['UUID'] = uuid
+    message['UUID'] = element.uuid
     message['Preservation_profile'] = element.preservationMetadata.preservation_profile.first
     message['Update_URI'] = url_for(controller: element.class.name.underscore.pluralize, action: 'update_preservation_metadata', id: element.pid)
     #message['Update_URI'] = element.update_preservation_metadata_uri
@@ -92,7 +104,7 @@ module PreservationHelper
     end
 
     # Do not update, if the preservation profile is not among the valid profiles in the configuration.
-    unless PRESERVATION_CONFIG["preservation_profile"].keys.include? profile
+    unless PRESERVATION_CONFIG['preservation_profile'].keys.include? profile
       raise ArgumentError, "The profile '#{profile}' is not amongst the valid ones: #{PRESERVATION_CONFIG["preservation_profile"].keys}"
     end
 

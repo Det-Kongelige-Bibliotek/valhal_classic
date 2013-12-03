@@ -224,7 +224,7 @@ describe PeopleController do
     end
 
     it 'should be updated and redirect to the person' do
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment"
 
       put :update_preservation_profile, {:id => @person.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
@@ -254,7 +254,7 @@ describe PeopleController do
     end
 
     it 'should update the preservation date' do
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment"
       person = Person.find(@person.pid)
       d = person.preservation_modify_date
@@ -267,7 +267,7 @@ describe PeopleController do
     end
 
     it 'should not update the preservation date, when the same profile and comment is given.' do
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment"
       @person.preservation_profile = profile
       @person.preservation_comment = comment
@@ -283,8 +283,9 @@ describe PeopleController do
       person.preservation_modify_date.should == d
     end
 
-    it 'should send a message, when performing preservation' do
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+    it 'should send a message, when performing preservation and the profile has Yggdrasil set to true' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
+      PRESERVATION_CONFIG['preservation_profile'][profile]['yggdrasil'].should == 'true'
       comment = "This is the preservation comment"
       destination = MQ_CONFIG["preservation"]["destination"]
       uri = MQ_CONFIG["mq_uri"]
@@ -319,6 +320,21 @@ describe PeopleController do
       person.preservation_comment.should == comment
       sleep 1.second
       conn.close
+    end
+
+    it 'should not send a message, when performing preservation and the profile has Yggdrasil set to false' do
+      profile = PRESERVATION_CONFIG['preservation_profile'].keys.first
+      PRESERVATION_CONFIG['preservation_profile'][profile]['yggdrasil'].should == 'false'
+      comment = 'This is the preservation comment'
+
+      put :update_preservation_profile, {:id => @person.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON,
+                                         :preservation => {:preservation_profile => profile,
+                                                           :preservation_comment => comment }}
+      response.should redirect_to(@person)
+
+      person = Person.find(@person.pid)
+      person.preservation_state.should == Constants::PRESERVATION_STATE_NOT_LONGTERM.keys.first
+      person.preservation_comment.should == comment
     end
   end
 

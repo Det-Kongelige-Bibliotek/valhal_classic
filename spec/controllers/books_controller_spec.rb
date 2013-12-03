@@ -561,7 +561,7 @@ describe BooksController do
     end
 
     it 'should be updated and redirect to the book' do
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment"
 
       put :update_preservation_profile, {:id => @book.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
@@ -591,7 +591,7 @@ describe BooksController do
     end
 
     it 'should update the preservation date' do
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment"
       b = Book.find(@book.pid)
       d = b.preservation_modify_date
@@ -604,7 +604,7 @@ describe BooksController do
     end
 
     it 'should not update the preservation date, when the same profile and comment is given.' do
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment"
       @book.preservation_profile = profile
       @book.preservation_comment = comment
@@ -620,8 +620,9 @@ describe BooksController do
       b.preservation_modify_date.should == d
     end
 
-    it 'should send a message, when performing preservation' do
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+    it 'should send a message, when performing preservation and the profile has Yggdrasil set to true' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
+      PRESERVATION_CONFIG['preservation_profile'][profile]['yggdrasil'].should == 'true'
       comment = "This is the preservation comment"
       destination = MQ_CONFIG["preservation"]["destination"]
       uri = MQ_CONFIG["mq_uri"]
@@ -658,6 +659,21 @@ describe BooksController do
       conn.close
     end
 
+    it 'should not send a message, when performing preservation and the profile has Yggdrasil set to false' do
+      profile = PRESERVATION_CONFIG['preservation_profile'].keys.first
+      PRESERVATION_CONFIG['preservation_profile'][profile]['yggdrasil'].should == 'false'
+      comment = 'This is the preservation comment'
+
+      put :update_preservation_profile, {:id => @book.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON,
+                                         :preservation => {:preservation_profile => profile,
+                                                           :preservation_comment => comment }}
+      response.should redirect_to(@book)
+
+      b = Book.find(@book.pid)
+      b.preservation_state.should == Constants::PRESERVATION_STATE_NOT_LONGTERM.keys.first
+      b.preservation_comment.should == comment
+    end
+
     it 'should send inheritable settings to representations and their files' do
       file = create_basic_file(nil)
       rep = SingleFileRepresentation.new
@@ -668,7 +684,7 @@ describe BooksController do
       file.save!
       @book.save!
 
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment-#{Time.now.to_s}"
 
       put :update_preservation_profile, {:id => @book.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON, :preservation =>

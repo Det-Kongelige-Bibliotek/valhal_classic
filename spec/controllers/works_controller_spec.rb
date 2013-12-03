@@ -207,7 +207,7 @@ describe WorksController do
     end
 
     it 'should be updated and redirect to the work' do
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment"
 
       put :update_preservation_profile, {:id => @work.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
@@ -237,7 +237,7 @@ describe WorksController do
     end
 
     it 'should update the preservation date' do
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment"
       work = Work.find(@work.pid)
       d = work.preservation_modify_date
@@ -250,7 +250,7 @@ describe WorksController do
     end
 
     it 'should not update the preservation date, when the same profile and comment is given.' do
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment"
       @work.preservation_profile = profile
       @work.preservation_comment = comment
@@ -266,8 +266,9 @@ describe WorksController do
       work.preservation_modify_date.should == d
     end
 
-    it 'should send a message, when performing preservation' do
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+    it 'should send a message, when performing preservation and the profile has Yggdrasil set to true' do
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
+      PRESERVATION_CONFIG['preservation_profile'][profile]['yggdrasil'].should == 'true'
       comment = "This is the preservation comment"
       destination = MQ_CONFIG["preservation"]["destination"]
       uri = MQ_CONFIG["mq_uri"]
@@ -304,6 +305,21 @@ describe WorksController do
       conn.close
     end
 
+    it 'should not send a message, when performing preservation and the profile has Yggdrasil set to false' do
+      profile = PRESERVATION_CONFIG['preservation_profile'].keys.first
+      PRESERVATION_CONFIG['preservation_profile'][profile]['yggdrasil'].should == 'false'
+      comment = 'This is the preservation comment'
+
+      put :update_preservation_profile, {:id => @work.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON,
+                                         :preservation => {:preservation_profile => profile,
+                                                           :preservation_comment => comment }}
+      response.should redirect_to(@work)
+
+      work = Work.find(@work.pid)
+      work.preservation_state.should == Constants::PRESERVATION_STATE_NOT_LONGTERM.keys.first
+      work.preservation_comment.should == comment
+    end
+
     it 'should send inheritable settings to representations and their files' do
       file = create_basic_file(nil)
       rep = SingleFileRepresentation.new
@@ -314,7 +330,7 @@ describe WorksController do
       file.save!
       @work.save!
 
-      profile = PRESERVATION_CONFIG["preservation_profile"].keys.first
+      profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment-#{Time.now.to_s}"
 
       put :update_preservation_profile, {:id => @work.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON, :preservation =>
