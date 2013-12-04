@@ -38,8 +38,9 @@
       <th>Profile name</th>
       <th>Bitsafety</th>
       <th>Confidentaility</th>
+      <th>Yggdrasil</th>
     </tr>
-    <%- PRESERVATION_CONFIG["preservation_profile"].each do |key, value| %>
+    <%- PRESERVATION_CONFIG['preservation_profile'].each do |key, value| %>
       <tr>
         <td>
           <b>
@@ -47,18 +48,22 @@
           </b>
         </td>
         <td>
-          <%= value["bit_safety"] %>
+          <%= value['bit_safety'] %>
         </td>
         <td>
-          <%= value["confidentiality"] %>
+          <%= value['confidentiality'] %>
+        </td>
+        <td>
+          <%= value['yggdrasil'] %>
         </td>
       </tr>
     <%- end %>
   </table>
   <div class="set_profile">
     <br/>
-    <%= f.label :preservation_profile, "Preservation profile" %>
-    <%= f.select :preservation_profile, options_for_select(PRESERVATION_CONFIG["preservation_profile"].keys, @preservationMetadata.preservation_profile.first ) %>
+    <%= f.label :preservation_profile, 'Preservation profile' %>
+    <%= f.select :preservation_profile, options_for_select(PRESERVATION_CONFIG["preservation_profile"].keys,
+                                                           @preservationMetadata.preservation_profile.first ) %>
   </div>
 </div>
 
