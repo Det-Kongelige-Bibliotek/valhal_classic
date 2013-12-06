@@ -14,6 +14,7 @@ gem 'client_side_validations'
 gem 'uuid', '>= 2.3.6'
 
 gem 'omniauth-ldap'
+gem 'omniauth'
 gem 'dynamic_form'
 gem 'rubyzip'
 #gem 'wicked' test comment
@@ -47,9 +48,19 @@ group :test do
   gem 'simplecov', :require => false
 end
 
-gem 'rspec-rails', :group => [:development, :test]
-gem 'jettywrapper', :group => [:development, :test]
-gem 'thin', :group => [:development, :test]
+#gem 'rspec-rails', :group => [:development, :test]
+#gem 'jettywrapper', :group => [:development, :test]
+#gem 'thin', :group => [:development, :test]
+
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'jettywrapper'
+  gem 'thin'
+  gem 'cucumber-rails', :require => false
+  gem 'database_cleaner'
+  gem 'capybara'
+  gem 'capybara-webkit'
+end
 
 group :development do
   gem 'better_errors'
