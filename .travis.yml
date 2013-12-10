@@ -16,3 +16,5 @@ before_script:
   - rake jetty:start
 after_script:
   - rake jetty:stop
+gemfile:
+  - gemfiles/Gemfile.travis
