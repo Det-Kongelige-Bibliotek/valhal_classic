@@ -5,6 +5,9 @@ notifications:
   email: true
 rvm:
   - "1.9.3"
+before_install:
+  - travis_retry gem update --system
+  - travis_retry gem install bundler --pre
 install:
   - bundle install --deployment
   - rake jetty:clean
