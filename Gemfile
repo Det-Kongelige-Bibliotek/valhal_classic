@@ -59,7 +59,7 @@ group :development, :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
   gem 'capybara'
-  #gem 'capybara-webkit' Uncomment this to run cucumber tests locally, unfortunately capybara-webkit is incompatible with the version of RedHat Jenkins runs on
+  gem 'capybara-webkit' #Uncomment this to run cucumber tests locally, unfortunately capybara-webkit is incompatible with the version of RedHat Jenkins runs on
 end
 
 group :development do
