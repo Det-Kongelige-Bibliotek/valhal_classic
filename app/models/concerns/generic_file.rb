@@ -68,11 +68,13 @@ module Concerns
         logger.error tnfe.to_s
         logger.error 'Tool for extracting FITS metadata not found, check FITS_HOME environment variable is set and valid installation of fits is present'
         logger.error 'Continuing with normal processing...'
+        puts tnfe.to_s
         return
       rescue RuntimeError => re
         logger.error 'Something went wrong with extraction of file metadata using FITS'
         logger.error re.to_s
         logger.error 'Continuing with normal processing...'
+        puts re.to_s
         return
       end
       fitsDatastream = ActiveFedora::OmDatastream.from_xml(fitsMetadata)
