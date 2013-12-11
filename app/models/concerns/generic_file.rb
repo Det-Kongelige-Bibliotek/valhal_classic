@@ -62,6 +62,7 @@ module Concerns
     #TODO place some sensible limit on the file size so far we don't know what the upper limit should be
     def add_fits_metadata_datastream(file)
       logger.info 'Characterizing file using FITS tool'
+      puts "FITS_HOME in RAILS ENV = #{ENV["FITS_HOME"].to_s}"
       begin
         fitsMetadata = Hydra::FileCharacterization.characterize(file, file.original_filename, :fits)
       rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
@@ -69,12 +70,14 @@ module Concerns
         logger.error 'Tool for extracting FITS metadata not found, check FITS_HOME environment variable is set and valid installation of fits is present'
         logger.error 'Continuing with normal processing...'
         puts tnfe.to_s
+        puts 'Tool for extracting FITS metadata not found, check FITS_HOME environment variable is set and valid installation of fits is present'
         return
       rescue RuntimeError => re
         logger.error 'Something went wrong with extraction of file metadata using FITS'
         logger.error re.to_s
         logger.error 'Continuing with normal processing...'
         puts re.to_s
+        puts 'Something went wrong with extraction of file metadata using FITS'
         return
       end
       fitsDatastream = ActiveFedora::OmDatastream.from_xml(fitsMetadata)
