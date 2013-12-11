@@ -23,3 +23,5 @@ after_script:
   - rake jetty:stop
 gemfile:
   - gemfiles/Gemfile.travis
+env:
+  - FITS_HOME=/home/travis/build/Det-Kongelige-Bibliotek/valhal/fits-0.6.2/fits.sh
