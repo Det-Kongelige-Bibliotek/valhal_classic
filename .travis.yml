@@ -9,6 +9,7 @@ rvm:
 before_install:
   - travis_retry gem update --system
   - travis_retry gem install bundler --pre
+  - ./script/fits_install.sh
 install:
   - bundle install --deployment --without debug
   - rake jetty:clean
