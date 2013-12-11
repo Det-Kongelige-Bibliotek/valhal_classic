@@ -11,7 +11,9 @@ include Log4r
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
+  puts "RAILS_ENV=#{Rails.env.to_s}"
   Bundler.require(*Rails.groups(:assets => %w(development test)))
+  Bundler.require(*Rails.groups(:debug => %w(development)))
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
