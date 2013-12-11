@@ -62,7 +62,6 @@ module Concerns
     #TODO place some sensible limit on the file size so far we don't know what the upper limit should be
     def add_fits_metadata_datastream(file)
       logger.info 'Characterizing file using FITS tool'
-      puts "FITS_HOME in RAILS ENV = #{ENV["FITS_HOME"].to_s}"
       begin
         fitsMetadata = Hydra::FileCharacterization.characterize(file, file.original_filename, :fits)
       rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
