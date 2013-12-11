@@ -45,6 +45,7 @@ group :test do
   gem 'rb-readline'
   gem 'simplecov-rcov'
   gem 'simplecov', :require => false
+  gem 'rake', '~> 10.0.0'
 end
 
 group :development, :test do
@@ -59,7 +60,6 @@ end
 
 group :development do
   gem 'better_errors'
-  gem 'debugger'
   gem 'equivalent-xml'
   gem "binding_of_caller"
   gem 'guard-rspec'
@@ -68,6 +68,10 @@ group :development do
   gem 'rb-fchange', :require => false
   gem 'libnotify'
   gem 'listen'
+end
+
+group :debug do
+  gem 'debugger'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]

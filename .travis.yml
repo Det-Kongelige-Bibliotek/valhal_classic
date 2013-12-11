@@ -1,4 +1,5 @@
 language: ruby
+bundler_args: --without debug
 services:
   - rabbitmq
 notifications:
