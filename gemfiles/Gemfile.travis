@@ -45,7 +45,7 @@ group :test do
   gem 'rb-readline'
   gem 'simplecov-rcov'
   gem 'simplecov', :require => false
-  gem 'rake', '~> 10.0.0'
+  gem 'rake', '~> 10.1.0'
 end
 
 group :development, :test do
