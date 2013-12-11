@@ -71,7 +71,7 @@ group :development do
 end
 
 group :debug do
-  #gem 'debugger' uncomment locally to debug
+  gem 'debugger'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
