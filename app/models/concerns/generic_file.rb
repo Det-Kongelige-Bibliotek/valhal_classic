@@ -61,18 +61,22 @@ module Concerns
     #will return allowing normal processing of the BasicFile to continue
     #TODO place some sensible limit on the file size so far we don't know what the upper limit should be
     def add_fits_metadata_datastream(file)
-      #puts File.size(file.tempfile.path)
       logger.info 'Characterizing file using FITS tool'
       begin
         fitsMetadata = Hydra::FileCharacterization.characterize(file, file.original_filename, :fits)
       rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
         logger.error tnfe.to_s
-        logger.error 'Tool for extracting FITS metadata not found, continuing with normal processing...'
+        logger.error 'Tool for extracting FITS metadata not found, check FITS_HOME environment variable is set and valid installation of fits is present'
+        logger.error 'Continuing with normal processing...'
+        puts tnfe.to_s
+        puts 'Tool for extracting FITS metadata not found, check FITS_HOME environment variable is set and valid installation of fits is present'
         return
       rescue RuntimeError => re
         logger.error 'Something went wrong with extraction of file metadata using FITS'
         logger.error re.to_s
         logger.error 'Continuing with normal processing...'
+        puts re.to_s
+        puts 'Something went wrong with extraction of file metadata using FITS'
         return
       end
       fitsDatastream = ActiveFedora::OmDatastream.from_xml(fitsMetadata)

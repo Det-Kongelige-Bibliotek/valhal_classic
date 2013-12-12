@@ -42,15 +42,11 @@ end
 
 group :test do
   gem 'factory_girl_rails', '~> 4.1'
-  gem 'capybara'
   gem 'rb-readline'
   gem 'simplecov-rcov'
   gem 'simplecov', :require => false
+  gem 'rake', '~> 10.1.0'
 end
-
-#gem 'rspec-rails', :group => [:development, :test]
-#gem 'jettywrapper', :group => [:development, :test]
-#gem 'thin', :group => [:development, :test]
 
 group :development, :test do
   gem 'rspec-rails'
@@ -59,13 +55,12 @@ group :development, :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
   gem 'capybara'
+  gem 'capybara-webkit'
 end
 
 group :development do
   gem 'better_errors'
-  gem 'debugger'
   gem 'equivalent-xml'
-  gem 'jettywrapper'
   gem "binding_of_caller"
   gem 'guard-rspec'
   gem 'rb-inotify', :require => false
@@ -73,6 +68,10 @@ group :development do
   gem 'rb-fchange', :require => false
   gem 'libnotify'
   gem 'listen'
+end
+
+group :debug do
+  gem 'debugger'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]

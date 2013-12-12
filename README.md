@@ -22,9 +22,12 @@ The Hydra part of valhal has the same basic software requisites as the Hydra-Hea
   - A set of step-by-step instructions for installing Ruby, Rails, and other useful tools,
     on a selection of operation systems, can be found here: http://installfest.railsbridge.org/installfest/
 
-RabbitMQ which comes as a package for most operating systems.
+RabbitMQ. Note that RabbitMQ depends on Erlang.
 
-ImageMagick-devel (on RHEL6 run ’yum install ImageMagick-devel’ with repo ’rhel-x86_64-server-optional-6’).
+ImageMagick-devel (on RHEL6 run ’yum install ImageMagick-devel’ with repo ’rhel-x86_64-server-optional-6’)
+(on Ubuntu run ’apt-get install libmagickwand-dev’).
+
+File Information Tool Set (FITS), http://code.google.com/p/fits/downloads/list. The FITS script should be added to the executable PATH.
 
 RubyMine setup for developers
 ===
@@ -36,7 +39,7 @@ Run
 
 Create an application.local.yml file based on the application.local.template.yml.
 
-Start RabbitMQ on default ports - 5672 (on RHEL6 there might be a Qpid daemon running on port 5672 already)
+Run RabbitMQ on default port - 5672 (on RHEL6 there might be a Qpid daemon running on port 5672 already)
 
 $ bundle install
 
@@ -44,9 +47,7 @@ $ rake db:migrate
 
 $ rake jetty:clean
 
-(In the current edition of 'jetty', the start.ini file has to be fixed, according to https://github.com/projecthydra/hydra-jetty/commit/b49c04a0dcf7e3ee5be97f697a3fcce922ec86ff)
-
-$ rake hydra:jetty:config 
+$ rake hydra:jetty:config
 
 $ rake jetty:start
 
