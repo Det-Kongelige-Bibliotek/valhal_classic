@@ -49,12 +49,12 @@ module PreservationHelper
   end
 
   private
-  # Initiates the preservation. If the profile
+  # Initiates the preservation. If the profile is set to long-term preservation, then a message is created and sent.
   # @param element The element to perform the preservation upon.
   def initiate_preservation(element)
     profile = PRESERVATION_CONFIG['preservation_profile'][element.preservation_profile]
 
-    if profile['yggdrasil'].blank? or profile['yggdrasil'] == 'false'
+    if profile['yggdrasil'].blank? || profile['yggdrasil'] == 'false'
       set_preservation_metadata({'preservation_state' => Constants::PRESERVATION_STATE_NOT_LONGTERM.keys.first,
                                  'preservation_details' => 'Not longterm preservation.'}, element)
     else

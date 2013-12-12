@@ -80,9 +80,13 @@ class Constants
   PRESERVATION_PACKAGE_UPLOAD_FAILURE = {'PRESERVATION_PACKAGE_UPLOAD_FAILURE' => {
       'error' => true, 'color' => 'red', 'text' => 'The WARC file has failed to be uploaded to the BitRepository.'}}
 
-  # Upload to Bitrepository was successful. 
+  # Upload to Bitrepository was successful.
   PRESERVATION_PACKAGE_UPLOAD_SUCCESS = {'PRESERVATION_PACKAGE_UPLOAD_SUCCESS' => {
       'error' => false, 'color' => 'skyblue', 'text' => 'Preservation complete.'}}
+
+  # The state for failures, which does not fit in any of the other states.
+  PRESERVATION_REQUEST_FAILED = {'PRESERVATION_REQUEST_FAILED' => {
+      'error' => false, 'color' => 'red', 'text' => 'Preservation failure'}}
 
   PRESERVATION_STATE_NOT_LONGTERM = {'PRESERVATION_STATE_NOT_LONGTERM' => {
       'error' => false, 'color' => 'skyblue', 'text' => 'Not longterm preservation.'}}
@@ -95,7 +99,7 @@ class Constants
    PRESERVATION_METADATA_PACKAGED_FAILURE,PRESERVATION_RESOURCES_DOWNLOAD_SUCCESS,
    PRESERVATION_RESOURCES_DOWNLOAD_FAILURE,PRESERVATION_PACKAGE_COMPLETE,PRESERVATION_PACKAGE_WAITING_FOR_MORE_DATA,
    PRESERVATION_PACKAGE_UPLOAD_INITIATED,PRESERVATION_PACKAGE_UPLOAD_FAILURE,PRESERVATION_PACKAGE_UPLOAD_SUCCESS,
-   PRESERVATION_STATE_NOT_LONGTERM
+   PRESERVATION_REQUEST_FAILED, PRESERVATION_STATE_NOT_LONGTERM
   ].each {|h| PRESERVATION_STATES.merge!(h)}
 
   PRESERVATION_STATE_INVALID = {'error' => true, 'color' => 'yellow', 'text' => 'The current preservation state is invalid.'}
