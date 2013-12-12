@@ -38,13 +38,13 @@
       <th>Profile name</th>
       <th>Bitsafety</th>
       <th>Confidentaility</th>
-      <th>Yggdrasil</th>
+      <th>Long term preservation</th>
     </tr>
     <%- PRESERVATION_CONFIG['preservation_profile'].each do |key, value| %>
       <tr>
         <td>
           <b>
-            <%= key %>
+            <%= value['name'].blank? ? key : value['name'] %>
           </b>
         </td>
         <td>
