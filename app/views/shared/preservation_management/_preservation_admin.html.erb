@@ -74,7 +74,7 @@
   <%= f.text_field :preservation_comment, :class => 'text_field', :value => @preservationMetadata.preservation_comment.first %>
 </div>
 
-<% # Do not make this possible for BasicFile, since it cannot inherit %>
+<% # Do not make this possible for all elements (e.g. BasicFile and Person), since it is no possible to inherit from them %>
 <% if @object.preservation_inheritance? %>
   <div class="set_inheritance">
     <%= f.label :preservation_inheritance, 'Inherit preservation' %>

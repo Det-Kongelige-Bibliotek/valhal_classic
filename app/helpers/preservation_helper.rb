@@ -65,7 +65,13 @@ module PreservationHelper
     end
   end
 
-  # Creates a JSON message based in the defined format.
+  # Creates a JSON message based in the defined format:
+  # - UUID
+  # - Preservation_profile
+  # - Update_URI
+  # - File_UUID
+  # - Content_URI
+  #
   # @param element The element to be preserved.
   # @return The preservation message in JSON format.
   def create_message(element)
@@ -167,7 +173,7 @@ module PreservationHelper
   # should be inherit.
   # @param element The element to have stuff inherited.
   def inherit_preservation(params, element)
-    if(element.preservation_inheritance? && params['preservation']['preservation_inheritance'] == '1')
+    if(element.preservation_inheritance? && params['preservation']['preservation_inheritance'] == Constants::PRESERVATION_INHERITANCE_TRUE)
       element.preservation_inheritable_objects.each do |pib|
         update_preservation_profile_from_controller(params, pib)
       end

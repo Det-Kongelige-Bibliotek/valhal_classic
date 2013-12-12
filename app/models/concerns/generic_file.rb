@@ -1,12 +1,12 @@
 # -*- encoding : utf-8 -*-
 module Concerns
 
-  # BasicFile contains tha basic functionality for a class meant to be a kind af basic_files
+  # GenericFile contains tha basic functionality for a class meant to be a kind af basic_files
   # in order for this module to work a class must inherit from ActiveFedora::Base
-  # it is meant to be included in the basic_files classes
+  # it is meant to be included in the generic_files classes
   # Example:
   # Class TiffFile < ActiveFedora::Base
-  # include Concerns::BasicFile
+  # include Concerns::GenericFile
   module GenericFile
     extend ActiveSupport::Concern
     include Hydra::Models::FileAsset
@@ -15,7 +15,6 @@ module Concerns
       include Concerns::IntellectualEntity
       include Concerns::Preservation
       # a ActiveFedora::SimpleDatastream for the techMetadata
-      # TODO find out if we need to make our own Datastream for techMetadata
       has_metadata :name => 'techMetadata', :type => ActiveFedora::SimpleDatastream do |m|
         m.field "file_checksum", :string
         m.field "original_filename", :string
@@ -55,11 +54,10 @@ module Concerns
       valid_file
     end
 
-    #function for extracting FITS metadata from the file data associated with this BasicFile
-    #and storing the XML produced as a datastream on the BasicFile Fedora object.
+    #function for extracting FITS metadata from the file data associated with this GenericFile
+    #and storing the XML produced as a datastream on the GenericFile Fedora object.
     #If something goes wrong with the file extraction, the RuntimeError is caught, logged and the function
-    #will return allowing normal processing of the BasicFile to continue
-    #TODO place some sensible limit on the file size so far we don't know what the upper limit should be
+    #will return allowing normal processing of the GenericFile to continue
     def add_fits_metadata_datastream(file)
       logger.info 'Characterizing file using FITS tool'
       begin
@@ -118,7 +116,8 @@ module Concerns
       Digest::MD5.file(file).hexdigest
     end
 
-    # TODO describe the different timestamps.
+    # Extracts the timestamps from the file and inserts them into the technical metadata.
+    # @param file The file to extract the timestamps of.
     def set_file_timestamps(file)
       self.created = file.ctime.to_s
       self.last_accessed = file.atime.to_s

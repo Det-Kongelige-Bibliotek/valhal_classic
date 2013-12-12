@@ -112,7 +112,11 @@ class WorksController < ApplicationController
       notice = update_preservation_profile_from_controller(params, @work)
       redirect_to @work, notice: notice
     rescue => error
-      logger.warn "Could not update preservation profile: #{error.inspect}\n#{error.backtrace}"
+      error_msg = "Could not update preservation profile: #{error.inspect}"
+      error.backtrace.each do |l|
+        error_msg += "\n#{l}"
+      end
+      logger.error error_msg
       @work.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'
     end
@@ -131,7 +135,7 @@ class WorksController < ApplicationController
       logger.warn "Sending a 404 response to the error: #{error.inspect}"
       render text: error, status: :not_found #404
     rescue => error
-      logger.warn "Could not update preservation metadata: #{error.inspect}"
+      logger.error "Could not update preservation metadata: #{error.inspect}"
       render text: error, status: :internal_server_error #500
     end
   end

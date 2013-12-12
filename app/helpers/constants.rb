@@ -15,6 +15,8 @@ class Constants
   NON_RETRIEVABLE_DATASTREAM_NAMES = ['DC', 'RELS-EXT', 'content', 'rightsMetadata', 'thumbnail'];
 
 
+  PRESERVATION_INHERITANCE_TRUE = '1'
+
   #######################
   # PRESERVATION_STATES
   #######################

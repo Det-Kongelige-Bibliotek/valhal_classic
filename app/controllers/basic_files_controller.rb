@@ -15,7 +15,11 @@ class BasicFilesController < ApplicationController
       notice = update_preservation_profile_from_controller(params, @file)
       redirect_to @file, notice: notice
     rescue => error
-      logger.warn "Could not update preservation profile: #{error.inspect}\n#{error.backtrace}"
+      error_msg = "Could not update preservation profile: #{error.inspect}"
+      error.backtrace.each do |l|
+        error_msg += "\n#{l}"
+      end
+      logger.error error_msg
       @file.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'
     end

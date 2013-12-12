@@ -49,11 +49,7 @@ module Concerns
 
     # @return the list of objects, which can inherit the preservation settings (only one level)
     def preservation_inheritable_objects
-      res = []
-      representations.each do |r|
-        res << r
-      end
-      res
+      representations
     end
 
     private
