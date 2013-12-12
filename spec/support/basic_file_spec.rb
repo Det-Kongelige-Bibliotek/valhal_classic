@@ -176,6 +176,7 @@ describe "add_file" do
     end
   end
 
+=begin
   context "with a very big pdf file" do
     before do
       @basic_file = BasicFile.new
@@ -254,5 +255,5 @@ describe "add_file" do
       @basic_file.datastreams['fitsMetadata1'].content.should_not be_nil
       expect(@basic_file.datastreams['fitsMetadata1'].content).to include('<metadata>')
     end
-  end
+=end
 end
