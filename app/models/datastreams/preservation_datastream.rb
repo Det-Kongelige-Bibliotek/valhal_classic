@@ -16,6 +16,10 @@ module Datastreams
                              :path => 'preservation_comment', :label => 'Preservation Comment')
       t.warc_id(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
                 :path => 'warc_id', :label => 'Warc ID')
+      t.preservation_bitsafety(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
+                               :path => 'preservation_bitsafety', :label => 'Preservation BitSafety')
+      t.preservation_confidentiality(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
+                               :path => 'preservation_confidentiality', :label => 'Preservation Confidentiality')
     end
 
     def self.xml_template

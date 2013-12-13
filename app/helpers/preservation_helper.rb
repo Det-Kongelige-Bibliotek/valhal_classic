@@ -86,16 +86,29 @@ module PreservationHelper
       message['Content_URI'] = download_basic_file_url(element)
     end
 
-    metadata = Hash.new
+    metadata = create_message_metadata(element)
+    message['metadata'] = metadata
+
+    message.to_json
+  end
+
+  # Creates the metadata part of the message.
+  # @param element The element with the metadata.
+  # @return The metadata for the element.
+  def create_message_metadata(element)
+    res = ''
     element.datastreams.each do |key, content|
       if Constants::NON_RETRIEVABLE_DATASTREAM_NAMES.include?(key)
         next
       end
-      metadata[key] = content.respond_to?(:to_xml) ? content.to_xml : content.content
+      res += "<#{key}>"
+      res += content.respond_to?(:to_xml) ? content.to_xml.to_s : content.content.to_s
+      res += "</#{key}>\n"
     end
-    message['metadata'] = metadata
-
-    message.to_json
+    if element.respond_to? 'get_specific_preservation_metadata'
+      res += element.get_specific_preservation_metadata
+    end
+    res
   end
 
   # Updates the preservation profile for a given element (e.g. a basic_files, a representation, a work, etc.)
@@ -116,6 +129,8 @@ module PreservationHelper
 
     set_preservation_modified_time(element)
     element.preservationMetadata.preservation_profile = profile
+    element.preservationMetadata.preservation_bitsafety = PRESERVATION_CONFIG['preservation_profile'][profile]['bit_safety']
+    element.preservationMetadata.preservation_confidentiality = PRESERVATION_CONFIG['preservation_profile'][profile]['confidentiality']
     element.preservationMetadata.preservation_comment = comment
     element.save
   end

@@ -52,6 +52,31 @@ module Concerns
       representations
     end
 
+    # Retrieves a formatted relation to the people and the representations of the manifest.
+    # @return The specific metadata for the manifest.
+    def get_specific_preservation_metadata
+      res = ''
+      representations.each do |rep|
+        res += '<representation>'
+        res += "<name>#{rep.representation_name}</name>"
+        res += "<uuid>#{rep.uuid}</uuid>"
+        res += '</representation>'
+      end
+      authors.each do |p|
+        res += '<author>'
+        res += "<name>#{p.comma_seperated_lastname_firstname}</name>"
+        res += "<uuid>#{p.uuid}</uuid>"
+        res += '</author>'
+      end
+      people_concerned.each do |p|
+        res += '<related_person>'
+        res += "<name>#{p.comma_seperated_lastname_firstname}</name>"
+        res += "<uuid>#{p.uuid}</uuid>"
+        res += '</related_person>'
+      end
+      res
+    end
+
     private
     # adds the manifest as intellectual entity for the representations.
     def add_ie_to_reps

@@ -18,4 +18,18 @@ class SingleFileRepresentation < ActiveFedora::Base
       "#{super} (#{files.last.file_type})"
     end
   end
+
+
+  # Retrieves a formatted relation to the relations of the manifest.
+  # @return The specific metadata for the manifest.
+  def get_specific_preservation_metadata
+    res = ''
+    files.each do |file|
+      res += '<file>'
+      res += "<name>#{file.original_filename}</name>"
+      res += "<uuid>#{file.uuid}</uuid>"
+      res += '</file>'
+    end
+    res
+  end
 end
