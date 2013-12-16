@@ -96,7 +96,7 @@ module PreservationHelper
   # @param element The element with the metadata.
   # @return The metadata for the element.
   def create_message_metadata(element)
-    res = ''
+    res = '<metadata>'
     element.datastreams.each do |key, content|
       if Constants::NON_RETRIEVABLE_DATASTREAM_NAMES.include?(key)
         next
@@ -108,7 +108,7 @@ module PreservationHelper
     if element.respond_to? 'get_specific_preservation_metadata'
       res += element.get_specific_preservation_metadata
     end
-    res
+    res += '</metadata>'
   end
 
   # Updates the preservation profile for a given element (e.g. a basic_files, a representation, a work, etc.)
