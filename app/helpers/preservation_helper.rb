@@ -79,7 +79,7 @@ module PreservationHelper
     message['UUID'] = element.uuid
     message['Preservation_profile'] = element.preservationMetadata.preservation_profile.first
     message['Update_URI'] = url_for(controller: element.class.name.underscore.pluralize, action: 'update_preservation_metadata', id: element.pid)
-    #message['Update_URI'] = element.update_preservation_metadata_uri
+    message['Model'] = element.class.name
 
     if element.kind_of?(BasicFile)
       message['File_UUID'] = element.file_uuid
