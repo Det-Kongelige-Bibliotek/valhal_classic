@@ -196,6 +196,7 @@ describe SingleFileRepresentationsController do
         json.keys.should include ('Update_URI')
         json.keys.should_not include ('File_UUID')
         json.keys.should_not include ('Content_URI')
+        json.keys.should include ('Model')
         json.keys.should include ('metadata')
         json['metadata'].keys.each do |k|
           @rep.datastreams.keys.should include k
