@@ -27,7 +27,8 @@ RabbitMQ. Note that RabbitMQ depends on Erlang.
 ImageMagick-devel (on RHEL6 run ’yum install ImageMagick-devel’ with repo ’rhel-x86_64-server-optional-6’)
 (on Ubuntu run ’apt-get install libmagickwand-dev’).
 
-File Information Tool Set (FITS), http://code.google.com/p/fits/downloads/list. The FITS script should be added to the executable PATH.
+File Information Tool Set (FITS), http://code.google.com/p/fits/downloads/list.
+Set environment variable FITS_HOME to the full script path of the FITS script.
 
 RubyMine setup for developers
 ===
