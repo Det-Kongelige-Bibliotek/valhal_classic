@@ -33,7 +33,7 @@ class Person < ActiveFedora::Base
     "#{firstname.to_s} #{lastname.to_s}"
   end
 
-  def comma_seperated_lastname_firstname
+  def comma_separated_lastname_firstname
     "#{lastname.to_s}, #{firstname.to_s}"
   end
 
@@ -43,7 +43,7 @@ class Person < ActiveFedora::Base
   end
 
   has_solr_fields do |m|
-    m.field "search_result_title", method: :comma_seperated_lastname_firstname
+    m.field "search_result_title", method: :comma_separated_lastname_firstname
     m.field "person_name", method: :name
   end
 end

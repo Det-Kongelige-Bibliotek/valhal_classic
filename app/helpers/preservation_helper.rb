@@ -105,8 +105,8 @@ module PreservationHelper
       res += content.respond_to?(:to_xml) ? content.to_xml.to_s : content.content.to_s
       res += "</#{key}>\n"
     end
-    if element.respond_to? 'get_specific_preservation_metadata'
-      res += element.get_specific_preservation_metadata
+    if element.respond_to? 'get_specific_metadata_for_preservation'
+      res += element.get_specific_metadata_for_preservation
     end
     res += '</metadata>'
   end

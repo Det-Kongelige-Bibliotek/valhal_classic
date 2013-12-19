@@ -54,7 +54,7 @@ module Concerns
 
     # Retrieves a formatted relation to the people and the representations of the manifest.
     # @return The specific metadata for the manifest.
-    def get_specific_preservation_metadata
+    def get_specific_metadata_for_preservation
       res = ''
       representations.each do |rep|
         res += '<representation>'
@@ -64,13 +64,13 @@ module Concerns
       end
       authors.each do |p|
         res += '<author>'
-        res += "<name>#{p.comma_seperated_lastname_firstname}</name>"
+        res += "<name>#{p.comma_separated_lastname_firstname}</name>"
         res += "<uuid>#{p.uuid}</uuid>"
         res += '</author>'
       end
       people_concerned.each do |p|
         res += '<related_person>'
-        res += "<name>#{p.comma_seperated_lastname_firstname}</name>"
+        res += "<name>#{p.comma_separated_lastname_firstname}</name>"
         res += "<uuid>#{p.uuid}</uuid>"
         res += '</related_person>'
       end

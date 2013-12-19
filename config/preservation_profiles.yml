@@ -33,7 +33,7 @@ production:
     storage:
       name: 'Not long-term preservation'
       bit_safety: 'bitSafetyVeryLow'
-      confidentiality: 'confidentialityLow'
+      confidentiality: 'confidentialityVeryLow'
       yggdrasil: 'false'
     A:
       name: 'A: Pligtafleveret digitalt født materiale, som ikke er i Netarkivet'

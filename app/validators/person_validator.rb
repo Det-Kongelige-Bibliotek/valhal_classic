@@ -12,13 +12,13 @@ class PersonValidator < ActiveModel::Validator
   # Validates whether anoter person with same name, birth and death dates exists.
   def has_duplicate_person(record)
     solr_names = record.class.solr_names
-    logger.debug "Looking for duplicate people with name = #{record.comma_seperated_lastname_firstname}"
+    logger.debug "Looking for duplicate people with name = #{record.comma_separated_lastname_firstname}"
     if record.id.eql? "__DO_NOT_USE__"
-      potential_people = Person.find_with_conditions("#{solr_names[:search_result_title]}:\"#{record.comma_seperated_lastname_firstname}\"")
+      potential_people = Person.find_with_conditions("#{solr_names[:search_result_title]}:\"#{record.comma_separated_lastname_firstname}\"")
     else
       logger.debug "self.id = #{record.id}"
       logger.debug "self.pid = #{record.pid}"
-      potential_people = Person.find_with_conditions("#{solr_names[:search_result_title]}:\"#{record.comma_seperated_lastname_firstname}\" NOT id:\"#{record.id}\"")
+      potential_people = Person.find_with_conditions("#{solr_names[:search_result_title]}:\"#{record.comma_separated_lastname_firstname}\" NOT id:\"#{record.id}\"")
     end
     logger.info "duplicate person names count = #{potential_people.length}"
 
