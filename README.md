@@ -28,7 +28,7 @@ ImageMagick-devel (on RHEL6 run ’yum install ImageMagick-devel’ with repo �
 (on Ubuntu run ’apt-get install libmagickwand-dev’).
 
 File Information Tool Set (FITS), http://code.google.com/p/fits/downloads/list.
-Set environment variable FITS_HOME to the full script path of the FITS script.
+Set environment variable FITS_HOME to the fully qualified file name of the FITS script.
 
 RubyMine setup for developers
 ===
