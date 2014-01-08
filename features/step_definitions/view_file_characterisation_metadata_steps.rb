@@ -3,8 +3,8 @@ require 'capybara/rspec'
 
 Given(/^I am signed in with provider "(.*?)"$/) do |provider|
   visit new_user_session_path
-  fill_in 'username', :with => 'sifd-ldap-read'
-  fill_in 'password', :with => '25};mMnsjydEB./>1pX[O~3NCx9JDV'
+  fill_in 'username', :with => 'username'
+  fill_in 'password', :with => 'password'
   click_button 'Login'
   page.should have_content 'Logged in as Test User!'
 end
