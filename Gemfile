@@ -13,8 +13,7 @@ gem 'jquery-rails'
 gem 'client_side_validations'
 gem 'uuid', '>= 2.3.6'
 
-gem 'omniauth-ldap'
-gem 'omniauth'
+gem 'omniauth-ldap', '~> 1.0.4'
 gem 'dynamic_form'
 gem 'rubyzip'
 #gem 'wicked' test comment
@@ -59,10 +58,12 @@ group :development, :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
   gem 'capybara'
+  #gem 'capybara-webkit' uncomment if you want to run cucumber tests (cukes) in local dev environment.
 end
 
 group :development do
   gem 'better_errors'
+  #Following gem has to be commented out if you want to debug Valhal in RubyMine
   gem 'debugger'
   gem 'equivalent-xml'
   gem 'jettywrapper'
