@@ -38,9 +38,15 @@ RubyMine should automatically integrate with the valhal Git repository.
 Run
 ===
 
-Create an application.local.yml file based on the application.local.template.yml.
+In the config directory, create an application.local.yml file based on the application.local.template.yml file.
 
 Run RabbitMQ on default port - 5672 (on RHEL6 there might be a Qpid daemon running on port 5672 already)
+
+$ source $HOME/.rvm/scripts/rvm
+
+$ rvm install ruby-1.9.3
+
+$ rvm use 1.9.3
 
 $ bundle install
 
@@ -59,4 +65,12 @@ $ rake
 The interface can be started on localhost:3000 by:
 
 $ rails server
+
+
+Stopping valhal
+===================
+
+use "ctrl-c" for stopping the rails server
+then stop the jetty application with "rake jetty:stop"
+
 
