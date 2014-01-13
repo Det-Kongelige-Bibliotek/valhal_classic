@@ -214,7 +214,7 @@ GEM
     mini_portile (0.5.2)
     multi_json (1.8.2)
     multi_test (0.0.2)
-    net-ldap (0.2.2)
+    net-ldap (0.3.1)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
     nom-xml (0.5.1)
@@ -231,8 +231,8 @@ GEM
     omniauth (1.1.4)
       hashie (>= 1.2, < 3)
       rack
-    omniauth-ldap (1.0.3)
-      net-ldap (~> 0.2.2)
+    omniauth-ldap (1.0.4)
+      net-ldap (~> 0.3.1)
       omniauth (~> 1.0)
       pyu-ruby-sasl (~> 0.0.3.1)
       rubyntlm (~> 0.1.1)
@@ -408,8 +408,7 @@ DEPENDENCIES
   libv8 (~> 3.11.8)
   listen
   log4r (= 1.1.9)
-  omniauth
-  omniauth-ldap
+  omniauth-ldap (~> 1.0.4)
   paperclip
   rails (= 3.2.13)
   rake (~> 10.1.0)

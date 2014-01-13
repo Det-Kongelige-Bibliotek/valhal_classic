@@ -13,8 +13,7 @@ gem 'jquery-rails'
 gem 'client_side_validations'
 gem 'uuid', '>= 2.3.6'
 
-gem 'omniauth-ldap'
-gem 'omniauth'
+gem 'omniauth-ldap', '~> 1.0.4'
 gem 'dynamic_form'
 gem 'rubyzip'
 #gem 'wicked' test comment
