@@ -102,7 +102,7 @@ module PreservationHelper
         next
       end
       res += "<#{key}>"
-      if content.content.to_s.start_with?('<?xml version') #hack to remove XML document header from any XML content
+      if content.content.to_s.start_with?('<?xml') #hack to remove XML document header from any XML content
         res += Nokogiri::XML.parse(content.content).root.to_s
       else
         res += content.respond_to?(:to_xml) ? content.to_xml.to_s : content.content.to_s
