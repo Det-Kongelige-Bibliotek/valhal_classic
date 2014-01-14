@@ -29,6 +29,7 @@ ImageMagick-devel (on RHEL6 run ’yum install ImageMagick-devel’ with repo �
 
 File Information Tool Set (FITS), http://code.google.com/p/fits/downloads/list.
 Set environment variable FITS_HOME to the fully qualified file name of the FITS script.
+We have tested with FITS 0.6.2
 
 RubyMine setup for developers
 ===
