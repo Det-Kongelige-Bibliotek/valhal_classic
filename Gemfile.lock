@@ -39,10 +39,7 @@ GEM
       i18n (= 0.6.1)
       multi_json (~> 1.0)
     addressable (2.3.5)
-    amq-protocol (1.9.0)
-    amqp (1.1.5)
-      amq-protocol (>= 1.9.0)
-      eventmachine
+    amq-protocol (1.9.2)
     arel (3.0.3)
     bcrypt-ruby (3.1.2)
     better_errors (1.0.1)
@@ -65,8 +62,8 @@ GEM
     bootswatch-rails (0.5.0)
       railties (>= 3.1)
     builder (3.0.4)
-    bunny (1.0.5)
-      amq-protocol (>= 1.9.0)
+    bunny (1.1.0)
+      amq-protocol (>= 1.9.2)
     cancan (1.6.10)
     capybara (2.2.0)
       mime-types (>= 1.16)
@@ -380,13 +377,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  amqp
+  amq-protocol (>= 1.9.2)
   better_errors
   binding_of_caller
   blacklight
   bootstrap-sass
   bootswatch-rails
-  bunny
+  bunny (~> 1.1.0)
   capybara
   client_side_validations
   coffee-rails (~> 3.2.1)

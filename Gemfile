@@ -19,8 +19,8 @@ gem 'rubyzip'
 #gem 'wicked' test comment
 
 # Preservation
-gem 'amqp'
-gem 'bunny'
+gem 'bunny', '~> 1.1.0'
+gem 'amq-protocol', '>= 1.9.2'
 
 # NOTE: the :require arg is necessary on Linux-based hosts
 gem 'rmagick', '2.13.1', :require => 'RMagick'
