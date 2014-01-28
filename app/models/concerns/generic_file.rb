@@ -63,7 +63,9 @@ module Concerns
       begin
         fits_home = `echo $FITS_HOME`
         logger.debug "fits_home = #{fits_home}"
-        `alias fits=$FITS_HOME` #dirty hack to overcome problem in sh environment
+        fits_home = `locate fits.sh`
+        logger.debug "fits_home = #{fits_home}"
+        `alias fits=#{fits_home}`#dirty hack to overcome problem in sh environment
         fitsMetadata = Hydra::FileCharacterization.characterize(file, file.original_filename, :fits)
       rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
         logger.error tnfe.to_s
