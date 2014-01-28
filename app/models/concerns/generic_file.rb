@@ -76,9 +76,11 @@ module Concerns
         logger.error 'Continuing with normal processing...'
         puts re.to_s
         puts 'Something went wrong with extraction of file metadata using FITS'
+        logger.debug file
+        logger.debug file.path
         fits_home = `locate fits.sh`
         `export FITS_HOME=#{fits_home}`
-        fitsMetadata = `#{fits_home} -i #{file.path}`
+        fitsMetadata = `#{fits_home} -i #{file}`
         logger.debug "fitsMetadata = #{fitsMetadata}"
         #return
       end
