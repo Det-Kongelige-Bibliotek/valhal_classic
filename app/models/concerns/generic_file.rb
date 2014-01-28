@@ -79,7 +79,7 @@ module Concerns
         fits_home = `locate fits.sh`
         `export FITS_HOME=#{fits_home}`
         fitsMetadata = `#{fits_home} -i #{file.path}`
-        echo "fitsMetadata = #{fitsMetadata}"
+        logger.debug "fitsMetadata = #{fitsMetadata}"
         #return
       end
       fitsDatastream = ActiveFedora::OmDatastream.from_xml(fitsMetadata)
