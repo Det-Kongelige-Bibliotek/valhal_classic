@@ -61,11 +61,6 @@ module Concerns
     def add_fits_metadata_datastream(file)
       logger.info 'Characterizing file using FITS tool'
       begin
-        fits_home = `echo $FITS_HOME`
-        logger.debug "fits_home = #{fits_home}"
-        fits_home = `locate fits.sh`
-        logger.debug "fits_home = #{fits_home}"
-        `alias fits=#{fits_home}`#dirty hack to overcome problem in sh environment
         logger.debug file.class.to_s
         fitsMetadata = Hydra::FileCharacterization.characterize(file, file.original_filename, :fits)
       rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
@@ -84,6 +79,7 @@ module Concerns
         fits_home = `locate fits.sh`
         `export FITS_HOME=#{fits_home}`
         fitsMetadata = `#{fits_home} -i #{file.path}`
+        echo "fitsMetadata = #{fitsMetadata}"
         #return
       end
       fitsDatastream = ActiveFedora::OmDatastream.from_xml(fitsMetadata)
