@@ -59,12 +59,13 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'capybara'
   #gem 'capybara-webkit' uncomment if you want to run cucumber tests (cukes) in local dev environment.
+  gem 'passenger', '~> 4.0.35'
 end
 
 group :development do
   gem 'better_errors'
   #Following gem has to be commented out if you want to debug Valhal in RubyMine
-  gem 'debugger'
+  #gem 'debugger'
   gem 'equivalent-xml'
   gem 'jettywrapper'
   gem "binding_of_caller"

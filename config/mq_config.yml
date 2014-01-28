@@ -4,6 +4,9 @@ development:
     destination: "preservation-dev-queue"
   dissemination:
     destination: "dissemination-dev-queue"
+  digitisation:
+    source: "digitisation-dev-queue"
+    polling_interval_in_minutes: 1
 
 test:
   mq_uri: "amqp://localhost:5672"
@@ -11,6 +14,9 @@ test:
     destination: "preservation-test-queue"
   dissemination:
     destination: "dissemination-test-queue"
+  digitisation:
+    source: "digitisation-dev-queue"
+    polling_interval_in_minutes: 15
 
 production:
   mq_uri: "amqp://dia-prod-udv-01.kb.dk:5673"
@@ -18,3 +24,6 @@ production:
     destination: "preservation-prod-queue"
   dissemination:
     destination: "dissemination-prod-queue"
+  digitisation:
+    source: "digitisation-dev-queue"
+    polling_interval_in_minutes: 15
