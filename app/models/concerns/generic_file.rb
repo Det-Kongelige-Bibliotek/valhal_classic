@@ -61,10 +61,9 @@ module Concerns
     def add_fits_metadata_datastream(file)
       logger.info 'Characterizing file using FITS tool'
       begin
-        user = `whoami`
-        logger.debug "whoami = #{user}"
-        id = `id`
-        logger.debug "id = #{id}"
+        fits_home = `echo $FITS_HOME`
+        logger.debug "fits_home = #{fits_home}"
+        `alias fits=$FITS_HOME` #dirty hack to overcome problem in sh environment
         fitsMetadata = Hydra::FileCharacterization.characterize(file, file.original_filename, :fits)
       rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
         logger.error tnfe.to_s
