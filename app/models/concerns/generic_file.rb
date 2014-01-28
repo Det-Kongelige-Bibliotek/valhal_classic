@@ -66,6 +66,7 @@ module Concerns
         fits_home = `locate fits.sh`
         logger.debug "fits_home = #{fits_home}"
         `alias fits=#{fits_home}`#dirty hack to overcome problem in sh environment
+        logger.debug file.class.to_s
         fitsMetadata = Hydra::FileCharacterization.characterize(file, file.original_filename, :fits)
       rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
         logger.error tnfe.to_s
@@ -80,7 +81,10 @@ module Concerns
         logger.error 'Continuing with normal processing...'
         puts re.to_s
         puts 'Something went wrong with extraction of file metadata using FITS'
-        return
+        fits_home = `locate fits.sh`
+        `export FITS_HOME=#{fits_home}`
+        fitsMetadata = `#{fits_home} -i #{file.path}`
+        #return
       end
       fitsDatastream = ActiveFedora::OmDatastream.from_xml(fitsMetadata)
 
