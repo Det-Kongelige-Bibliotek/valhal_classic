@@ -80,7 +80,7 @@ module Concerns
         puts 'Something went wrong with extraction of file metadata using FITS'
         logger.debug file
         logger.debug file.path
-        fits_home = `locate fits.sh`
+        fits_home = `locate fits.sh`.rstrip
         `export FITS_HOME=#{fits_home}`
 
         stdin, stdout, stderr = Open3.popen3("#{fits_home} -i #{file.path}")
