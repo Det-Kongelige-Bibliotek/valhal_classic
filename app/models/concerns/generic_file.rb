@@ -64,7 +64,7 @@ module Concerns
       logger.info 'Characterizing file using FITS tool'
       begin
         logger.debug file.class.to_s
-        fitsMetadata = Hydra::FileCharacterization.characterize(file, file.original_filename, :fits)
+        fits_meta_data = Hydra::FileCharacterization.characterize(file, file.original_filename, :fits)
       rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
         logger.error tnfe.to_s
         logger.error 'Tool for extracting FITS metadata not found, check FITS_HOME environment variable is set and valid installation of fits is present'
@@ -78,21 +78,20 @@ module Concerns
         logger.error 'Continuing with normal processing...'
         puts re.to_s
         puts 'Something went wrong with extraction of file metadata using FITS'
-        logger.debug file
-        logger.debug file.path
-        fits_home = `locate fits.sh`.rstrip
-        `export FITS_HOME=#{fits_home}`
-
-        stdin, stdout, stderr = Open3.popen3("#{fits_home} -i #{file.path}")
-
-        fitsMetadata = String.new
-        stdout.each_line {|line| fitsMetadata.concat(line)}
-        logger.debug "fitsMetadata = #{fitsMetadata}"
-        #return
+        if re.to_s.include? "command not found" #if for some reason the fits command cannot be run from the shell, this hack will get round it
+          fits_home = `locate fits.sh`.rstrip
+          `export FITS_HOME=#{fits_home}`
+          stdin, stdout, stderr = Open3.popen3("#{fits_home} -i #{file.path}")
+          fits_meta_data = String.new
+          stdout.each_line {|line| fits_meta_data.concat(line)}
+          logger.debug "fitsMetadata = #{fits_meta_data}"
+        else
+          return
+        end
       end
-      fitsDatastream = ActiveFedora::OmDatastream.from_xml(fitsMetadata)
+      fits_datastream = ActiveFedora::OmDatastream.from_xml(fits_meta_data)
 
-      self.add_datastream(fitsDatastream, {:prefix => 'fitsMetadata'})
+      self.add_datastream(fits_datastream, {:prefix => 'fitsMetadata'})
       self.save
     end
 
