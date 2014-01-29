@@ -1,4 +1,6 @@
 # -*- encoding : utf-8 -*-
+require 'open3'
+
 module Concerns
 
   # GenericFile contains tha basic functionality for a class meant to be a kind af basic_files
@@ -80,7 +82,11 @@ module Concerns
         logger.debug file.path
         fits_home = `locate fits.sh`
         `export FITS_HOME=#{fits_home}`
-        fitsMetadata = `#{fits_home} -i #{file.path}`
+
+        stdin, stdout, stderr = Open3.popen3("#{fits_home} -i #{file.path}")
+
+        fitsMetadata = String.new
+        stdout.each_line {|line| fitsMetadata.concat(line)}
         logger.debug "fitsMetadata = #{fitsMetadata}"
         #return
       end
