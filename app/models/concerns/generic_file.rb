@@ -80,7 +80,7 @@ module Concerns
         logger.debug file.path
         fits_home = `locate fits.sh`
         `export FITS_HOME=#{fits_home}`
-        fitsMetadata = `#{fits_home} -i #{file}`
+        fitsMetadata = `#{fits_home} -i #{file.path}`
         logger.debug "fitsMetadata = #{fitsMetadata}"
         #return
       end
