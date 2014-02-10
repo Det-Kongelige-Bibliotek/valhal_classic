@@ -134,7 +134,7 @@ describe ManifestationsHelper do
   describe '#add_order_rep' do
     before(:each) do
       @manifestation = Work.create(:title => 'Work')
-      @tiff = ActionDispatch::Http::UploadedFile.new(filename: 'arre1fm001.xml', type: 'image/tif', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
+      @tiff = ActionDispatch::Http::UploadedFile.new(filename: 'arre1fm001.tif', type: 'image/tif', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
       @other_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'octet-stream', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
     end
 
