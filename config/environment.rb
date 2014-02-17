@@ -11,3 +11,17 @@ ActionView::Base.field_error_proc = Proc.new {|html, instance| html }
 # Initialize the rails application
 Valhal::Application.initialize!
 
+if defined?(PhusionPassenger)
+  PhusionPassenger.on_event(:starting_worker_process) do |forked|
+    if forked
+      puts "Forked"
+      # We’re in a smart spawning mode
+      # Now is a good time to connect to RabbitMQ
+      listen_to_queue
+    end
+  end
+else
+  puts "We're over here"
+  listen_to_queue
+end
+

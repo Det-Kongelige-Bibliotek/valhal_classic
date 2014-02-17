@@ -52,15 +52,3 @@ def listen_to_queue
 end
 
 listen_to_queue
-
-if defined?(PhusionPassenger)
-  PhusionPassenger.on_event(:starting_worker_process) do |forked|
-    if forked
-      # We’re in a smart spawning mode
-      # Now is a good time to connect to RabbitMQ
-      listen_to_queue
-    end
-  end
-else
-  listen_to_queue
-end
