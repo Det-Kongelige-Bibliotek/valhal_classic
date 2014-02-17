@@ -15,13 +15,6 @@ module MqHelper
         })
   end
 
-  def read_message_from_digitisation
-    source_queue = MQ_CONFIG['digitisation']['source']
-    logger.info "source queue name: #{source_queue}"
-    #Object msg = read_from_rabbitmq(source_queue, options={})
-    #logger.debug "Msg received from digitisation queue: #{msg.to_s}"
-  end
-
   private
   # Sends a given message at the given destination on the MQ with the uri in the configuration.
   # @param message The message content to send.
@@ -45,36 +38,4 @@ module MqHelper
     conn.close
     true
   end
-
-  #Connect to RabbitMQ and listen to messages from the source queue
-  def read_from_rabbitmq(source_queue, options={})
-    uri = MQ_CONFIG['mq_uri']
-    logger.info "Reading message from source queue '#{source_queue}' at broker '#{uri}'"
-
-    begin
-      conn = Bunny.new(uri)
-      conn.start
-
-      ch = conn.create_channel
-      q = ch.queue(source_queue, :durable => true)
-
-      q.subscribe(:block => true) do |delivery_info, properties, body|
-        puts " [x] Received #{body}"
-        logger.info " [x] Received #{body}"
-
-        # cancel the consumer to exit
-        delivery_info.consumer.cancel
-      end
-      conn.close
-    rescue Bunny::TCPConnectionFailed => e
-      logger.error "Connection to #{uri} failed"
-      logger.error e.to_s
-    rescue Bunny::PossibleAuthenticationFailureError => e
-      logger.error "Could not authenticate while connecting to #{uri}"
-      logger.error e.to_s
-    rescue Bunny::PreconditionFailed => e
-      logger.error "Channel-level exception! Code: #{e.channel_close.reply_code}, message: #{e.channel_close.reply_text}"
-    end
-  end
-
 end
