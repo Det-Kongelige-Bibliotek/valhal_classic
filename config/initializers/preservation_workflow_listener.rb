@@ -10,18 +10,18 @@ def listen_to_queue
     while true
       #listen for messages from the queue
       logger.debug "Listening for messages from preservation workflow..."
-      source_queue = MQ_CONFIG['preservation']['source']
-      logger.info "source queue name: #{source_queue}"
+      response_queue = MQ_CONFIG['preservation']['response']
+      logger.info "response queue name: #{response_queue}"
 
       uri = MQ_CONFIG['mq_uri']
-      logger.info "Reading message from source queue '#{source_queue}' at broker '#{uri}'"
+      logger.info "Reading message from response queue '#{response_queue}' at broker '#{uri}'"
 
       begin
         conn = Bunny.new(uri)
         conn.start
 
         ch = conn.create_channel
-        q = ch.queue(source_queue, :durable => true)
+        q = ch.queue(response_queue, :durable => true)
         logger.info "About to subscribe for messages"
         q.subscribe(:block => false) do |delivery_info, properties, body|
           logger.info "Subscribing..."
