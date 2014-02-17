@@ -27,11 +27,6 @@ def listen_to_queue
           logger.info "Subscribing..."
           puts " [x] Received #{body}"
           logger.info " [x] Received #{body}"
-
-          # cancel the consumer to exit
-          logger.info "About to cancel the consumer"
-          #delivery_info.consumer.cancel
-          logger.info "consumer cancelled"
         end
         logger.info "Closing connection"
         conn.close
