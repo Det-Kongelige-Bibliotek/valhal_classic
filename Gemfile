@@ -59,7 +59,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'capybara'
   #gem 'capybara-webkit' uncomment if you want to run cucumber tests (cukes) in local dev environment.
-  gem 'passenger', '~> 4.0.35'
+  #gem 'passenger', '~> 4.0.35'
 end
 
 group :development do

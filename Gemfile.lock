@@ -99,7 +99,6 @@ GEM
       cucumber (>= 1.2.0)
       nokogiri (>= 1.5.0)
       rails (>= 3.0.0)
-    daemon_controller (1.1.8)
     daemons (1.1.9)
     database_cleaner (1.2.0)
     debug_inspector (0.0.2)
@@ -232,10 +231,6 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
-    passenger (4.0.35)
-      daemon_controller (>= 1.1.0)
-      rack
-      rake (>= 0.8.1)
     polyglot (0.3.3)
     pry (0.9.12.4)
       coderay (~> 1.0)
@@ -404,7 +399,6 @@ DEPENDENCIES
   log4r (= 1.1.9)
   omniauth-ldap (~> 1.0.4)
   paperclip
-  passenger (~> 4.0.35)
   rails (= 3.2.13)
   rb-fchange
   rb-fsevent
