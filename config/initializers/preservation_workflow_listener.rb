@@ -1,17 +1,16 @@
 #Initializer that starts a thread for listening to messages from the digitisation queue
 #and provides business logic on how to process these messages.
-MQ_CONFIG = YAML.load_file("#{Rails.root}/config/mq_config.yml")[Rails.env]
 
 def listen_to_queue
   #Start a background thread to listen for messages from the digitisation queue, naturally if the Rails app is stopped
   #so too will this thread
-  polling_interval = MQ_CONFIG['digitisation']['polling_interval_in_minutes']
+  polling_interval = MQ_CONFIG['preservation']['polling_interval_in_minutes']
 
   Thread.new do
     while true
       #listen for messages from the queue
       logger.debug "Listening for messages from digitisation workflow..."
-      source_queue = MQ_CONFIG['digitisation']['source']
+      source_queue = MQ_CONFIG['preservation']['source']
       logger.info "source queue name: #{source_queue}"
 
       uri = MQ_CONFIG['mq_uri']
@@ -25,7 +24,7 @@ def listen_to_queue
         q = ch.queue(source_queue, :durable => true)
         logger.info "About to subscribe for messages"
         q.subscribe(:block => false) do |delivery_info, properties, body|
-          logger.info "Subsribing..."
+          logger.info "Subscribing..."
           puts " [x] Received #{body}"
           logger.info " [x] Received #{body}"
 
@@ -59,7 +58,6 @@ end
 
 listen_to_queue
 
-=begin
 if defined?(PhusionPassenger)
   PhusionPassenger.on_event(:starting_worker_process) do |forked|
     if forked
@@ -70,4 +68,4 @@ if defined?(PhusionPassenger)
   end
 else
   listen_to_queue
-=end
+end
