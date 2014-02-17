@@ -1,15 +1,15 @@
-#Initializer that starts a thread for listening to messages from the digitisation queue
+#Initializer that starts a thread for listening to messages from the preservation queue
 #and provides business logic on how to process these messages.
 
 def listen_to_queue
-  #Start a background thread to listen for messages from the digitisation queue, naturally if the Rails app is stopped
+  #Start a background thread to listen for messages from the preservation queue, naturally if the Rails app is stopped
   #so too will this thread
   polling_interval = MQ_CONFIG['preservation']['polling_interval_in_minutes']
 
   Thread.new do
     while true
       #listen for messages from the queue
-      logger.debug "Listening for messages from digitisation workflow..."
+      logger.debug "Listening for messages from preservation workflow..."
       source_queue = MQ_CONFIG['preservation']['source']
       logger.info "source queue name: #{source_queue}"
 
