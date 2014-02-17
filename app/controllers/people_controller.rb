@@ -108,7 +108,7 @@ class PeopleController < ApplicationController
   def update_preservation_metadata
     begin
       @person = Person.find(params[:id])
-      status = update_preservation_metadata_from_controller(params, @person)
+      status = update_preservation_metadata_for_element(params, @person)
       render text: status, status: status
     rescue ValhalErrors::InvalidStateError => error
       logger.warn "Sending a 403 response to the error: #{error.inspect}"
