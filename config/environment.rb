@@ -14,6 +14,7 @@ Valhal::Application.initialize!
 if defined?(PhusionPassenger)
   PhusionPassenger.on_event(:starting_worker_process) do |forked|
     if forked
+      logger.debug "Forked"
       puts "Forked"
       # We’re in a smart spawning mode
       # Now is a good time to connect to RabbitMQ
@@ -21,6 +22,7 @@ if defined?(PhusionPassenger)
     end
   end
 else
+  logger.debug "We're over here"
   puts "We're over here"
   listen_to_queue
 end
