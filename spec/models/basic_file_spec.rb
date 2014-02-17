@@ -4,7 +4,7 @@ require 'spec_helper'
 describe BasicFile do
 
   subject { BasicFile.new }
-  it_behaves_like 'a preservable element'
+  #it_behaves_like 'a preservable element'
 
   context "with a xml basic_files" do
     before do
@@ -27,7 +27,7 @@ describe BasicFile do
     end
 
     it "should have the checksum of the basic_files" do
-      @basic_file.checksum.should == "f6be4200b7b28861d793a19010cf41ce"
+      @basic_file.checksum.should == "f6d3ea2837d092a1c0f91b09617f9bc1"
     end
 
     it "should have a uuid" do
@@ -40,7 +40,7 @@ describe BasicFile do
     end
 
     it "should have the basic_files size" do
-      @basic_file.size.should == 1073753
+      @basic_file.size.should == 141349
     end
 
     it "should have a description" do
@@ -82,13 +82,7 @@ describe BasicFile do
     it 'should have a fitsMetadataDatastream with valid content regarding the file metadata' do
       @basic_file.datastreams['fitsMetadata1'].should_not be_nil
       @basic_file.datastreams['fitsMetadata1'].content.should_not be_nil
-      expect(@basic_file.datastreams['fitsMetadata1'].content).to include('<metadata>
-    <text>
-      <charset toolname="Jhove" toolversion="1.5">UTF-8</charset>
-      <markupBasis toolname="Jhove" toolversion="1.5">XML</markupBasis>
-      <markupBasisVersion toolname="Jhove" toolversion="1.5">1.0</markupBasisVersion>
-    </text>
-  </metadata>')
+      expect(@basic_file.datastreams['fitsMetadata1'].content).to include('<fits')
     end
   end
 
@@ -157,25 +151,18 @@ describe BasicFile do
       @basic_file.rightsMetadata.should be_kind_of Hydra::Datastream::RightsMetadata
     end
 
-    it "should return false when a object doesn't support the require methods is passed down" do
-
     it 'should have the same basic_files-type as mime-type' do
       @basic_file.file_type.should == @basic_file.mime_type
     end
 
-    it 'should have a fitsMetadataDatastream with valid content regarding the file metadata' do
+    it 'should have a fitsMetadataDatastream' do
       @basic_file.datastreams['fitsMetadata1'].should_not be_nil
-      @basic_file.datastreams['fitsMetadata1'].content.should_not be_nil
-      expect(@basic_file.datastreams['fitsMetadata1'].content).to include('<metadata>
-    <image>
-      <compressionScheme toolname="Exiftool" toolversion="9.06" status="SINGLE_RESULT">Deflate/Inflate</compressionScheme>
-      <imageWidth toolname="Exiftool" toolversion="9.06" status="SINGLE_RESULT">50</imageWidth>
-      <imageHeight toolname="Exiftool" toolversion="9.06" status="SINGLE_RESULT">64</imageHeight>
-      <scanningSoftwareName toolname="Exiftool" toolversion="9.06" status="SINGLE_RESULT">Adobe ImageReady</scanningSoftwareName>
-    </image>
-  </metadata>')
     end
-  end
+
+    it 'should have a fitsMetadataDatastream with valid content regarding the file metadata' do
+      @basic_file.datastreams['fitsMetadata1'].content.should_not be_nil
+      expect(@basic_file.datastreams['fitsMetadata1'].content).to include('<fits')
+    end
 =begin
   context "with a very big pdf file" do
     before do
