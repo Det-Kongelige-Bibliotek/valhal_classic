@@ -7,19 +7,6 @@ if Rails.env.upcase == 'TEST' && !ENV['MQ_URI'].blank?
   puts "Setting test MQ settings from environment variables: #{MQ_CONFIG.inspect}"
 end
 
-# Handle the case when it is running on a PhusionPassenger webserver
-if defined?(PhusionPassenger)
-  PhusionPassenger.on_event(:starting_worker_process) do |forked|
-    if forked
-      # We’re in a smart spawning mode
-      # Now is a good time to connect to RabbitMQ
-      initialize_listeners
-    end
-  end
-else
-  initialize_listeners
-end
-
 include MqListenerHelper
 
 # Connect to the RabbitMQ broker, and initialize the listeners
@@ -50,3 +37,17 @@ def subscribe_to_preservation(channel)
     set_preservation_metadata_from_message(JSON.parse(payload))
   end
 end
+
+# Handle the case when it is running on a PhusionPassenger webserver
+if defined?(PhusionPassenger)
+  PhusionPassenger.on_event(:starting_worker_process) do |forked|
+    if forked
+      # We’re in a smart spawning mode
+      # Now is a good time to connect to RabbitMQ
+      initialize_listeners
+    end
+  end
+else
+  initialize_listeners
+end
+
