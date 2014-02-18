@@ -27,15 +27,19 @@ module PreservationHelper
   # Expected to receive parameters:
   # params[:preservation][:preservation_state]
   # params[:preservation][:preservation_details]
+  # params[:preservation][:warc_id]
   # @param params The parameters from the controller.
   # @param element The element to have its preservation settings updated.
   # @return The http response code.
   def update_preservation_metadata_for_element(params, element)
+    logger.debug "Updating preservation metadata for element #{element} with parameters #{params}"
     ensure_preservation_state_allows_update_from_controller(element.preservation_state)
 
-    if set_preservation_metadata(params[:preservation], element)
+    if set_preservation_metadata(params['preservation'], element)
+      logger.info "Preservation metadata updated successfully for #{element}"
       return :ok #200
     else
+      logger.warn "Failed to update preservation metadata for #{element}"
       return :bad_request #400
     end
   end
@@ -122,6 +126,7 @@ module PreservationHelper
   # @return Whether the update was successful. Or just false, if no metadata is provided.
   def set_preservation_metadata(metadata, element)
     unless metadata && !metadata.empty?
+      logger.warn "No metadata for updating element with: #{metadata}"
       return false
     end
 

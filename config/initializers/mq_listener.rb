@@ -33,8 +33,12 @@ def subscribe_to_preservation(channel)
   logger.info "Listening to preservation response queue: #{destination}"
 
   q.subscribe do |delivery_info, metadata, payload|
-    logger.debug "Received the following preservation response message: #{payload}"
-    set_preservation_metadata_from_message(JSON.parse(payload))
+    begin
+      logger.debug "Received the following preservation response message: #{payload}"
+      handle_preservation_response(JSON.parse(payload))
+    rescue => e
+      logger.error "Try to handle preservation response message: #{payload}\nCaught error: #{e}"
+    end
   end
 end
 

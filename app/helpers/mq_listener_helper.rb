@@ -4,15 +4,17 @@ include PreservationHelper
 
 # Provides methods for all elements for sending a message over RabbitMQ
 module MqListenerHelper
-
+  # Handles the preservation response messages
+  # @param message The message in JSON format.
   def handle_preservation_response(message)
-    if message['id'].blank? || message['type'].blank? || message['preservation'].nil?
+    if message['id'].blank? || message['model'].blank? || message['preservation'].nil?
       logger.warn "Invalid preservation response message: #{message}"
       return false
     end
 
     element = find_element(message['id'], message['model'])
-    update_preservation_metadata_for_element(message['preservation'], element)
+    logger.debug "Updating preservation metadata for: #{element}"
+    update_preservation_metadata_for_element(message, element)
   end
 
   private
