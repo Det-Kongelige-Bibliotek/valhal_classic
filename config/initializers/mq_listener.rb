@@ -42,16 +42,19 @@ def subscribe_to_preservation(channel)
   end
 end
 
-# Handle the case when it is running on a PhusionPassenger webserver
-if defined?(PhusionPassenger)
-  PhusionPassenger.on_event(:starting_worker_process) do |forked|
-    if forked
-      # We’re in a smart spawning mode
-      # Now is a good time to connect to RabbitMQ
+def start_listener_thread
+  polling_interval = MQ_CONFIG['preservation']['polling_interval_in_minutes']
+  Thread.new do
+    while true
       initialize_listeners
+      logger.debug "Going to sleep for #{polling_interval} minutes..."
+      sleep polling_interval.minutes
     end
   end
-else
-  initialize_listeners
+  #I've read here: https://www.agileplannerapp.com/blog/building-agile-planner/rails-background-jobs-in-threads
+  #that each thread started in a Rails app gets its own database connection so when the thread terminates we need
+  #to close any database connections too.
+  ActiveRecord::Base.connection.close
 end
 
+start_listener_thread

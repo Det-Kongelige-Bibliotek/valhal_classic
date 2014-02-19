@@ -58,8 +58,8 @@ group :development, :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
   gem 'capybara'
-  #gem 'capybara-webkit' uncomment if you want to run cucumber tests (cukes) in local dev environment.
-  #gem 'passenger', '~> 4.0.35'
+  #gem 'capybara-webkit' #uncomment if you want to run cucumber tests (cukes) in local dev environment.
+  #gem 'passenger', '~> 4.0.35' #uncomment if want to run passenger as your rails server locally
 end
 
 group :development do
