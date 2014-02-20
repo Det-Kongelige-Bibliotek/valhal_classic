@@ -151,7 +151,7 @@ describe BasicFilesController do
         json = JSON.parse(payload)
         json.keys.should include ('UUID')
         json.keys.should include ('Preservation_profile')
-        json.keys.should include ('Update_URI')
+        json.keys.should include ('Valhal_ID')
         json.keys.should include ('File_UUID')
         json.keys.should include ('Content_URI')
         json.keys.should include ('Model')
