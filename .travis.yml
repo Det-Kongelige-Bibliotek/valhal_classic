@@ -12,15 +12,15 @@ before_install:
   - ./script/fits_install.sh
 install:
   - travis_retry bundle install --deployment --without debug
-  - rake jetty:clean
+  - bundle exec rake jetty:clean
   - wget https://github.com/projecthydra/hydra-jetty/raw/master/start.ini -O jetty/start.ini
-  - rake hydra:jetty:config
+  - bundle exec rake hydra:jetty:config
   - sleep 5
 before_script:
-  - rake db:migrate db:seed db:test:prepare
-  - rake jetty:start
+  - bundle exec rake db:migrate db:seed db:test:prepare
+  - bundle exec rake jetty:start
 after_script:
-  - rake jetty:stop
+  - bundle exec rake jetty:stop
 gemfile:
   - gemfiles/Gemfile.travis
 env:
