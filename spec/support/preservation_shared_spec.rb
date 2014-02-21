@@ -121,6 +121,44 @@ shared_examples 'a preservable element' do
         element.preservationMetadata.warc_id.first.should == 'WARC_ID'
       end
 
+
+      it 'should be able to update only the preservation state' do
+        element.preservationMetadata.preservation_state = Constants::PRESERVATION_STATE_INITIATED.keys.first
+        element.save!
+
+        metadata = {'preservation' => {'preservation_state' => Constants::PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first}}
+        update_preservation_metadata_for_element(metadata, element).should be_true
+
+        element.preservationMetadata.preservation_state.first.should == Constants::PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first
+        element.preservationMetadata.preservation_details.first.should_not == 'From preservation shared spec'
+        element.preservationMetadata.warc_id.first.should_not == 'WARC_ID'
+      end
+
+
+      it 'should be able to update only the preservation details' do
+        element.preservationMetadata.preservation_state = Constants::PRESERVATION_STATE_INITIATED.keys.first
+        element.save!
+
+        metadata = {'preservation' => {'preservation_details' => 'From preservation shared spec'}}
+        update_preservation_metadata_for_element(metadata, element).should be_true
+
+        element.preservationMetadata.preservation_state.first.should_not == Constants::PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first
+        element.preservationMetadata.preservation_details.first.should == 'From preservation shared spec'
+        element.preservationMetadata.warc_id.first.should_not == 'WARC_ID'
+      end
+
+      it 'should be able to update only the warc-id' do
+        element.preservationMetadata.preservation_state = Constants::PRESERVATION_STATE_INITIATED.keys.first
+        element.save!
+
+        metadata = {'preservation' => {'warc_id' => 'WARC_ID'}}
+        update_preservation_metadata_for_element(metadata, element).should be_true
+
+        element.preservationMetadata.preservation_state.first.should_not == Constants::PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first
+        element.preservationMetadata.preservation_details.first.should_not == 'From preservation shared spec'
+        element.preservationMetadata.warc_id.first.should == 'WARC_ID'
+      end
+
       it 'should not be allowed when wrong preservation state' do
         element.preservationMetadata.preservation_state = Constants::PRESERVATION_STATE_NOT_STARTED.keys.first
         element.save!
