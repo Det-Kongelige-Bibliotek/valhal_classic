@@ -92,4 +92,48 @@ shared_examples 'a preservable element' do
       e2.preservationMetadata.preservation_comment.first.should == comment
     end
   end
+
+  describe 'using PreservationHelper' do
+    include PreservationHelper
+
+    it 'should change the preservation timestamp with #set_preservation_modified_time' do
+      time = element.preservationMetadata.preservation_modify_date
+      sleep 1
+      set_preservation_modified_time(element)
+      time.should_not == element.preservationMetadata.preservation_modify_date
+    end
+
+    it 'should update preservation profile with #update_preservation_profile_from_controller' do
+      #update_preservation_profile_from_controller(nil, element)
+    end
+
+    describe "#update_preservation_metadata_for_element" do
+      it 'should be able to update all the preservation metadata fields' do
+        element.preservationMetadata.preservation_state = Constants::PRESERVATION_STATE_INITIATED.keys.first
+        element.save!
+
+        metadata = {'preservation' => {'preservation_state' => Constants::PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first,
+                                      'preservation_details' => 'From preservation shared spec', 'warc_id' => 'WARC_ID'}}
+        update_preservation_metadata_for_element(metadata, element).should be_true
+
+        element.preservationMetadata.preservation_state.first.should == Constants::PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first
+        element.preservationMetadata.preservation_details.first.should == 'From preservation shared spec'
+        element.preservationMetadata.warc_id.first.should == 'WARC_ID'
+      end
+
+      it 'should not be allowed when wrong preservation state' do
+        element.preservationMetadata.preservation_state = Constants::PRESERVATION_STATE_NOT_STARTED.keys.first
+        element.save!
+
+        metadata = {'preservation' => {'preservation_state' => Constants::PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first,
+                                       'preservation_details' => 'From preservation shared spec', 'warc_id' => 'WARC_ID'}}
+        begin
+          update_preservation_metadata_for_element(metadata, element).should be_false
+          fail
+        rescue ValhalErrors::InvalidStateError
+          # Expected
+        end
+      end
+    end
+  end
 end
