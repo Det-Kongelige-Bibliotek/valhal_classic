@@ -42,6 +42,7 @@ def subscribe_to_preservation(channel)
   end
 end
 
+#This function starts the listener thread which will poll RabbitMQ at regular intervals set by the polling_interval
 def start_listener_thread
   polling_interval = MQ_CONFIG['preservation']['polling_interval_in_minutes']
   Thread.new do
