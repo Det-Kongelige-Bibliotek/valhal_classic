@@ -95,6 +95,11 @@ module Valhal
 
     log4r_config = YAML.load_file(File.join(File.dirname(__FILE__),"log4r.yml"))
     YamlConfigurator.decode_yaml( log4r_config['log4r_config'] )
-    config.logger = Log4r::Logger[Rails.env]
+    outputter = Log4r::FileOutputter.new('log4r', :filename => "sifd.log")
+    outputter.formatter = Log4r::PatternFormatter.new(:date_pattern => "%FT%T.000Z", :pattern => "%d [%1] %m")
+    logger = Log4r::Logger[Rails.env]
+
+    #config.logger = Log4r::Logger.new('log4r')
+    logger.outputters = [outputter]
   end
 end
