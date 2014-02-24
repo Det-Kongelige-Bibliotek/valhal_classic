@@ -7,10 +7,6 @@ describe "people/show" do
       @person = assign(:person, stub_model(Person))
     end
 
-    it "renders attributes in <p>" do
-      render
-      # Run the generator again with the --webrat flag if you want to use webrat matchers
-    end
   end
 
   describe 'with a portrait' do
@@ -28,7 +24,9 @@ describe "people/show" do
     end
 
     it 'should have both portrait and relationship link to the image' do
+      puts person_path(@person).inspect
       visit person_path(@person)
+
 
       page.has_link?(@portrait.get_title_for_display, :href => work_path(@portrait) + '?locale=en').should be_true
       page.should have_xpath("//img[@src=\"#{show_image_person_path @person}?locale=en\"]")
@@ -50,6 +48,7 @@ describe "people/show" do
     end
 
     it 'should have both portrait and relationship link to the image' do
+      puts person_path(@person).inspect
       visit person_path(@person)
 
       page.has_link?(@portrait.get_title_for_display, :href => work_path(@portrait) + '?locale=en').should be_true
