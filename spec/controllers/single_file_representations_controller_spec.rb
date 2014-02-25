@@ -193,7 +193,7 @@ describe SingleFileRepresentationsController do
         json = JSON.parse(payload)
         json.keys.should include ('UUID')
         json.keys.should include ('Preservation_profile')
-        json.keys.should include ('Update_URI')
+        json.keys.should include ('Valhal_ID')
         json.keys.should_not include ('File_UUID')
         json.keys.should_not include ('Content_URI')
         json.keys.should include ('Model')
@@ -251,121 +251,6 @@ describe SingleFileRepresentationsController do
       rep.preservation_modify_date.should_not be_blank
       rep.preservation_profile.should == profile
       rep.preservation_comment.should == comment
-    end
-  end
-
-  describe 'Update preservation state metadata' do
-    before(:each) do
-      @rep = SingleFileRepresentation.create!
-      @rep.preservation_state = Constants::PRESERVATION_STATE_INITIATED.keys.first
-      @rep.save!
-    end
-    it 'should be updated and redirect to the single file representation' do
-      state = "TheNewState-#{Time.now.to_s}"
-      details = "Any details will suffice."
-
-      post :update_preservation_metadata, {:id => @rep.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
-      response.status.should == 200
-
-      sfr = SingleFileRepresentation.find(@rep.pid)
-      sfr.preservation_state.should == state
-      sfr.preservation_details.should == details
-      sfr.preservation_modify_date.should_not be_blank
-      sfr.preservation_profile.should_not be_blank
-    end
-
-    it 'should change the values when updating' do
-      old_state = "TheOldState-#{Time.now.to_s}"
-      new_state = "tHEnEWsTATE-#{Time.now.to_s}"
-      old_details = "Any details will suffice."
-      new_details = "No details are accepted!"
-
-      sfr = SingleFileRepresentation.find(@rep.pid)
-      sfr.preservation_state = old_state
-      sfr.preservation_details = old_details
-      sfr.save!
-
-      d = sfr.preservation_modify_date
-
-      sfr = SingleFileRepresentation.find(@rep.pid)
-      sfr.preservation_state.should == old_state
-      sfr.preservation_state.should_not == new_state
-      sfr.preservation_details.should == old_details
-      sfr.preservation_details.should_not == new_details
-
-      post :update_preservation_metadata, {:id => @rep.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
-      response.status.should == 200
-
-      sfr = SingleFileRepresentation.find(@rep.pid)
-      sfr.preservation_state.should == new_state
-      sfr.preservation_state.should_not == old_state
-      sfr.preservation_details.should == new_details
-      sfr.preservation_details.should_not == old_details
-      sfr.preservation_modify_date.should_not == d
-    end
-
-    it 'should not update when same values' do
-      state = "TheState-#{Time.now.to_s}"
-      details = "TheDetails-#{Time.now.to_s}"
-
-      sfr = SingleFileRepresentation.find(@rep.pid)
-      sfr.preservation_state = state
-      sfr.preservation_details = details
-      sfr.save!
-
-      d = sfr.preservation_modify_date
-
-      post :update_preservation_metadata, {:id => @rep.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
-      response.status.should == 200
-
-      sfr = SingleFileRepresentation.find(@rep.pid)
-      sfr.preservation_state.should == state
-      sfr.preservation_details.should == details
-      sfr.preservation_modify_date.should == d
-    end
-
-    it 'should be able to update only the warc id' do
-      warc_id = "WarcId-#{Time.now.to_s}"
-
-      b = SingleFileRepresentation.find(@rep.pid)
-      state = b.preservation_state
-      details = b.preservation_details
-      b.save!
-
-      d = b.preservation_modify_date
-
-      post :update_preservation_metadata, {:id => @rep.pid, :preservation => {:warc_id => warc_id}}
-      response.status.should == 200
-
-      b = SingleFileRepresentation.find(@rep.pid)
-      b.preservation_state.should == state
-      b.preservation_details.should == details
-      b.warc_id.should == warc_id
-      b.preservation_modify_date.should_not == d
-    end
-
-    it 'should give a 400 error response, if the message is incomplete' do
-      post :update_preservation_metadata, {:id => @rep.pid}
-      response.status.should == 400
-    end
-
-    it 'should give a 403 error response, when the element is in state \'PRESERVATION NOT STARTED\'' do
-      @rep.preservation_state = Constants::PRESERVATION_STATE_NOT_STARTED.keys.first
-      @rep.save!
-      post :update_preservation_metadata, {:id => @rep.pid, :preservation => {:warc_id => "warc_id"}}
-      response.status.should == 403
-    end
-
-    it 'should give a 404 error response, if the message is pointing to non-existing file' do
-      id = "#{@rep.pid}#{DateTime.now.to_i}" # non-existing id
-      post :update_preservation_metadata, {:id => id, :preservation => {:warc_id => "warc_id"}}
-      response.status.should == 404
-    end
-
-    it 'should give a 500 error response, if the message contains incorrect id' do
-      id = "#{@rep.pid}+#{DateTime.now.to_s}" # wrong id format
-      post :update_preservation_metadata, {:id => id, :preservation => {:warc_id => "warc_id"}}
-      response.status.should == 500
     end
   end
 

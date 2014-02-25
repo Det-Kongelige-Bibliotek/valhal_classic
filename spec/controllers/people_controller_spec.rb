@@ -305,7 +305,7 @@ describe PeopleController do
         json = JSON.parse(payload)
         json.keys.should include ('UUID')
         json.keys.should include ('Preservation_profile')
-        json.keys.should include ('Update_URI')
+        json.keys.should include ('Valhal_ID')
         json.keys.should_not include ('File_UUID')
         json.keys.should_not include ('Content_URI')
         json.keys.should include ('Model')
@@ -336,121 +336,6 @@ describe PeopleController do
       person = Person.find(@person.pid)
       person.preservation_state.should == Constants::PRESERVATION_STATE_NOT_LONGTERM.keys.first
       person.preservation_comment.should == comment
-    end
-  end
-
-  describe 'Update preservation state metadata' do
-    before(:each) do
-      @person = Person.create! valid_attributes
-      @person.preservation_state = Constants::PRESERVATION_STATE_INITIATED.keys.first
-      @person.save!
-    end
-    it 'should be updated and redirect to the person' do
-      state = "TheNewState-#{Time.now.to_s}"
-      details = "Any details will suffice."
-
-      post :update_preservation_metadata, {:id => @person.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
-      response.status.should == 200
-
-      per = Person.find(@person.pid)
-      per.preservation_state.should == state
-      per.preservation_details.should == details
-      per.preservation_modify_date.should_not be_blank
-      per.preservation_profile.should_not be_blank
-    end
-
-    it 'should change the values when updating' do
-      old_state = "TheOldState-#{Time.now.to_s}"
-      new_state = "tHEnEWsTATE-#{Time.now.to_s}"
-      old_details = "Any details will suffice."
-      new_details = "No details are accepted!"
-
-      per = Person.find(@person.pid)
-      per.preservation_state = old_state
-      per.preservation_details = old_details
-      per.save!
-
-      d = per.preservation_modify_date
-
-      per = Person.find(@person.pid)
-      per.preservation_state.should == old_state
-      per.preservation_state.should_not == new_state
-      per.preservation_details.should == old_details
-      per.preservation_details.should_not == new_details
-
-      post :update_preservation_metadata, {:id => @person.pid, :preservation => {:preservation_state => new_state, :preservation_details => new_details }}
-      response.status.should == 200
-
-      per = Person.find(@person.pid)
-      per.preservation_state.should == new_state
-      per.preservation_state.should_not == old_state
-      per.preservation_details.should == new_details
-      per.preservation_details.should_not == old_details
-      per.preservation_modify_date.should_not == d
-    end
-
-    it 'should not update when same values' do
-      state = "TheState-#{Time.now.to_s}"
-      details = "TheDetails-#{Time.now.to_s}"
-
-      per = Person.find(@person.pid)
-      per.preservation_state = state
-      per.preservation_details = details
-      per.save!
-
-      d = per.preservation_modify_date
-
-      post :update_preservation_metadata, {:id => @person.pid, :preservation => {:preservation_state => state, :preservation_details => details }}
-      response.status.should == 200
-
-      per = Person.find(@person.pid)
-      per.preservation_state.should == state
-      per.preservation_details.should == details
-      per.preservation_modify_date.should == d
-    end
-
-    it 'should be able to update only the warc id' do
-      warc_id = "WarcId-#{Time.now.to_s}"
-
-      b = Person.find(@person.pid)
-      state = b.preservation_state
-      details = b.preservation_details
-      b.save!
-
-      d = b.preservation_modify_date
-
-      post :update_preservation_metadata, {:id => @person.pid, :preservation => {:warc_id => warc_id}}
-      response.status.should == 200
-
-      b = Person.find(@person.pid)
-      b.preservation_state.should == state
-      b.preservation_details.should == details
-      b.warc_id.should == warc_id
-      b.preservation_modify_date.should_not == d
-    end
-
-    it 'should give a 400 error response, if the message is incomplete' do
-      post :update_preservation_metadata, {:id => @person.pid}
-      response.status.should == 400
-    end
-
-    it 'should give a 403 error response, when the element is in state \'PRESERVATION NOT STARTED\'' do
-      @person.preservation_state = Constants::PRESERVATION_STATE_NOT_STARTED.keys.first
-      @person.save!
-      post :update_preservation_metadata, {:id => @person.pid, :preservation => {:warc_id => "warc_id"}}
-      response.status.should == 403
-    end
-
-    it 'should give a 404 error response, if the message is pointing to non-existing file' do
-      id = "#{@person.pid}#{DateTime.now.to_i}" # non-existing id
-      post :update_preservation_metadata, {:id => id, :preservation => {:warc_id => "warc_id"}}
-      response.status.should == 404
-    end
-
-    it 'should give a 500 error response, if the message contains incorrect id' do
-      id = "#{@person.pid}+#{DateTime.now.to_s}" # wrong id format
-      post :update_preservation_metadata, {:id => id, :preservation => {:warc_id => "warc_id"}}
-      response.status.should == 500
     end
   end
 

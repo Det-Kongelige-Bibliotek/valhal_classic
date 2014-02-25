@@ -37,10 +37,10 @@ module PreservationHelper
 
     if set_preservation_metadata(params['preservation'], element)
       logger.info "Preservation metadata updated successfully for #{element}"
-      return :ok #200
+      return true
     else
       logger.warn "Failed to update preservation metadata for #{element}"
-      return :bad_request #400
+      return false
     end
   end
 
@@ -72,7 +72,11 @@ module PreservationHelper
   # Creates a JSON message based in the defined format:
   # - UUID
   # - Preservation_profile
-  # - Update_URI
+  # - Valhal_ID
+  # - File_UUID
+  # - Content_URI
+  #
+  # Extra for BasicFile:
   # - File_UUID
   # - Content_URI
   #
@@ -82,7 +86,7 @@ module PreservationHelper
     message = Hash.new
     message['UUID'] = element.uuid
     message['Preservation_profile'] = element.preservationMetadata.preservation_profile.first
-    message['Update_URI'] = url_for(controller: element.class.name.underscore.pluralize, action: 'update_preservation_metadata', id: element.pid)
+    message['Valhal_ID'] = element.pid
     message['Model'] = element.class.name
 
     if element.kind_of?(BasicFile)
