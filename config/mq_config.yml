@@ -8,7 +8,7 @@ development:
     destination: "dissemination-dev-queue"
 
 test:
-  mq_uri: "amqp://localhost:5672"
+  mq_uri: "amqp://localhost:5673"
   preservation:
     destination: "preservation-test-queue"
     response: "preservation-response-test-queue"
