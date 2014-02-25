@@ -2,16 +2,16 @@ development:
   mq_uri: "amqp://dia-prod-udv-01.kb.dk:5673"
   preservation:
     destination: "preservation-dev-queue"
-    response: "preservation-dev-response-queue"
+    response: "preservation-response-dev-queue"
     polling_interval_in_minutes: 1
   dissemination:
     destination: "dissemination-dev-queue"
 
 test:
-  mq_uri: "amqp://localhost:5672"
+  mq_uri: "amqp://localhost:5673"
   preservation:
     destination: "preservation-test-queue"
-    response: "preservation-test-response-queue"
+    response: "preservation-response-test-queue"
     polling_interval_in_minutes: 1
   dissemination:
     destination: "dissemination-test-queue"
@@ -20,7 +20,7 @@ production:
   mq_uri: "amqp://localhost:5672"
   preservation:
     destination: "preservation-prod-queue"
+    response: "preservation-response-prod-queue"
     polling_interval_in_minutes: 1
-    response: "preservation-prod-response-queue"
   dissemination:
     destination: "dissemination-prod-queue"

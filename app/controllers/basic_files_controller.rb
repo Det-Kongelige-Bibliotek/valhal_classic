@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 #Controller for retrieving BasicFile objects from Fedora for display to the front-end
 class BasicFilesController < ApplicationController
-  include PreservationHelper # methods: update_preservation_profile_from_controller, update_preservation_metadata_from_controller
+  include PreservationHelper # methods: update_preservation_profile_from_controller
 
   # Retrieves the basic file for the show view
   def show
@@ -22,24 +22,6 @@ class BasicFilesController < ApplicationController
       logger.error error_msg
       @file.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'
-    end
-  end
-
-  # Updates the preservation state metadata.
-  def update_preservation_metadata
-    begin
-      @file = BasicFile.find(params[:id])
-      status = update_preservation_metadata_for_element(params, @file)
-      render text: status, status: status
-    rescue ValhalErrors::InvalidStateError => error
-      logger.warn "Sending a 403 response to the error: #{error.inspect}"
-      render text: error, status: :forbidden #403
-    rescue ActiveFedora::ObjectNotFoundError => error
-      logger.warn "Sending a 404 response to the error: #{error.inspect}"
-      render text: error, status: :not_found #404
-    rescue => error
-      logger.warn "Could not update preservation metadata: #{error.inspect}"
-      render text: error, status: :internal_server_error #500
     end
   end
 

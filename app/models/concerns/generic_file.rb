@@ -108,11 +108,6 @@ module Concerns
       false
     end
 
-    # @return the path for updating the preservation metadata
-    def update_preservation_metadata_uri
-      update_preservation_metadata_basic_file_url(self)
-    end
-
     # @return the uri for downloading the file.
     def content_uri
       download_basic_file_url(self)
