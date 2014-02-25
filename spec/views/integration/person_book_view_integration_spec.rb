@@ -9,7 +9,7 @@ describe 'relationship between book and people' do
     end
     describe 'book' do
       it 'should not contain any references' do
-        visit book_path(@book)
+        visit "books/#{@book.id}"
 
         page.should have_content("Author")
         page.should have_content("No author defined for this book.")
@@ -19,7 +19,7 @@ describe 'relationship between book and people' do
 
     describe 'person' do
       it 'should not contain any references' do
-        visit person_path(@person)
+        visit "people/#{@person.id}"
 
         page.should have_content("No books authored by this person.")
         page.should have_content("No books are concerning this person.")
@@ -38,7 +38,7 @@ describe 'relationship between book and people' do
         @book1.authors << @person1
         @book1.save!
 
-        visit book_path(@book1)
+        visit "books/#{@book1.id}"
 
         page.should_not have_content("No author defined for this book.")
         page.should_not have_content("Concerning")
@@ -50,7 +50,7 @@ describe 'relationship between book and people' do
         @book1.authors << @person2
         @book1.save!
 
-        visit book_path(@book1)
+        visit "books/#{@book1.id}"
 
         page.should_not have_content("No author defined for this book.")
         page.should_not have_content("Concerning")
@@ -70,7 +70,7 @@ describe 'relationship between book and people' do
         @book1.authors << @person1
         @book1.save!
 
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should_not have_content("No books authored by this person.")
         page.should have_content("No books are concerning this person.")
@@ -85,7 +85,7 @@ describe 'relationship between book and people' do
         @book2.authors << @person1
         @book2.save!
 
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should_not have_content("No books authored by this person.")
         page.should have_content("No books are concerning this person.")
@@ -106,7 +106,7 @@ describe 'relationship between book and people' do
         @book1.people_concerned << @person1
         @book1.save!
 
-        visit book_path(@book1)
+        visit "books/#{@book1.id}"
 
         page.should have_content("No author defined for this book.")
         page.should have_content("Concerning")
@@ -118,7 +118,7 @@ describe 'relationship between book and people' do
         @book1.people_concerned << @person2
         @book1.save!
 
-        visit book_path(@book1)
+        visit "books/#{@book1.id}"
 
         page.should have_content("No author defined for this book.")
         page.should have_content("Concerning")
@@ -138,7 +138,7 @@ describe 'relationship between book and people' do
         @book1.people_concerned << @person1
         @book1.save!
 
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should have_content("No books authored by this person.")
         page.should_not have_content("No books are concerning this person.")
@@ -153,7 +153,7 @@ describe 'relationship between book and people' do
         @book2.people_concerned << @person1
         @book2.save!
 
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should have_content("No books authored by this person.")
         page.should_not have_content("No books are concerning this person.")
@@ -175,7 +175,7 @@ describe 'relationship between book and people' do
         @book1.authors << @person2
         @book1.save!
 
-        visit book_path(@book1)
+        visit "books/#{@book1.id}"
 
         page.should_not have_content("No author defined for this book.")
         page.should have_content("Concerning")
@@ -197,7 +197,7 @@ describe 'relationship between book and people' do
         @book2.authors << @person1
         @book2.save!
 
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should_not have_content("No books authored by this person.")
         page.should_not have_content("No books are concerning this person.")
