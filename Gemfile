@@ -12,7 +12,7 @@ gem 'systemu'
 gem 'protected_attributes'
 
 gem 'jquery-rails'
-gem 'client_side_validations'
+#gem 'client_side_validations' -- Deprecated Do Not User anymore
 gem 'uuid', '>= 2.3.6'
 
 gem 'omniauth-ldap', '~> 1.0.4'

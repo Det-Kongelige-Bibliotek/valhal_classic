@@ -13,7 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //
-//= require rails.validations
+// require rails.validations DEPRECATED: Do Not Use
 //
 // Required by Blacklight
 //= require blacklight/blacklight
