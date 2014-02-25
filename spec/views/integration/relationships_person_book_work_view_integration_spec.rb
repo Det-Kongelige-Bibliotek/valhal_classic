@@ -358,7 +358,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should author be defined in the book1 view' do
-        visit "books/#{@book1.id}/show"
+        visit "books/#{@book1.id}"
 
         page.should_not have_content("No author defined for this book.")
         page.should_not have_content("Concerning")
