@@ -7,9 +7,6 @@ describe "basic_files/show" do
       @file = assign(:file, stub_model(BasicFile))
     end
 
-    it 'should be possible to render' do
-      render
-    end
   end
 
   describe 'with capybara' do
