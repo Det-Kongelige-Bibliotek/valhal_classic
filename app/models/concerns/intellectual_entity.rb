@@ -9,7 +9,7 @@ module Concerns
       include ActiveFedora::Validations
 
       has_metadata :name => 'provenanceMetadata', :type => ActiveFedora::SimpleDatastream do |m|
-        m.field "uuid", :string
+        m.field :uuid, :string
       end
 
       # Define the uuid as an accessible part of the digitial provenance metadata.

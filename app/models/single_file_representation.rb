@@ -3,7 +3,6 @@
 # Representation with only a single basic_files.
 # No underlying structure to keep track of order/relationship between basic_files.
 class SingleFileRepresentation < ActiveFedora::Base
-  include Concerns::IntellectualEntity
   include Concerns::Representation
   include Concerns::Preservation
 
