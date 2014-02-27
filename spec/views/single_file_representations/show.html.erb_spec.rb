@@ -4,7 +4,8 @@ require 'spec_helper'
 describe "single_file_representations/show" do
   describe 'default test' do
     before(:each) do
-      @single_file_representation = assign(:single_file_representation, stub_model(SingleFileRepresentation))
+      @single_file_representation = SingleFileRepresentation.create!
+      # @single_file_representation = assign(:single_file_representation, stub_model(SingleFileRepresentation))
     end
 
   end

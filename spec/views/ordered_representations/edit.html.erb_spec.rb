@@ -3,7 +3,8 @@ require 'spec_helper'
 
 describe "ordered_representations/edit" do
   before(:each) do
-    @ordered_representation = assign(:ordered_representation, stub_model(OrderedRepresentation))
+    # @ordered_representation = assign(:ordered_representation, stub_model(OrderedRepresentation))
+    @ordered_representation = OrderedRepresentation.create!
   end
 
   it "renders the edit ordered_representation form" do

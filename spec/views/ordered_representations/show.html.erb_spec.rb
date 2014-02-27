@@ -5,7 +5,8 @@ require 'uri'
 describe "ordered_representations/show" do
   describe 'default tests' do
     before(:each) do
-      @ordered_representation = assign(:ordered_representation, stub_model(OrderedRepresentation))
+      #@ordered_representation = assign(:ordered_representation, stub_model(OrderedRepresentation))
+      @ordered_representation = OrderedRepresentation.create!
     end
 
     it "renders attributes in <p>" do
