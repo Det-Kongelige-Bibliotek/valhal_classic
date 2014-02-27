@@ -37,10 +37,10 @@ module PreservationHelper
 
     if set_preservation_metadata(params['preservation'], element)
       logger.info "Preservation metadata updated successfully for #{element}"
-      return true
+      true
     else
       logger.warn "Failed to update preservation metadata for #{element}"
-      return false
+      false
     end
   end
 

@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 class OrderedRepresentation < ActiveFedora::Base
   include ActiveModel::Validations
-  include Concerns::IntellectualEntity
   include Concerns::Representation
   include Concerns::Preservation
 
