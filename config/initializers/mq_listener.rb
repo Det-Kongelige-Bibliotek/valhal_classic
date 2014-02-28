@@ -58,4 +58,4 @@ def start_listener_thread
   ActiveRecord::Base.connection.close
 end
 
-start_listener_thread
+#start_listener_thread

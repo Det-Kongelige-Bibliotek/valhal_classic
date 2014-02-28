@@ -27,6 +27,7 @@ def initialize_listeners
   ch = conn.create_channel
 
   subscribe_to_preservation(ch)
+  conn.close
 end
 
 # Subscribing to the preservation response queue
