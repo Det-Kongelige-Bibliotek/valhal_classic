@@ -21,6 +21,7 @@ require 'rspec/autorun'
 # end with _spec.rb. You can configure this pattern with with the --pattern
 # option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("app/helpers/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
 

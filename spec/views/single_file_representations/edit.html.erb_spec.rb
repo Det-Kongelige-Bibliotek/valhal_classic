@@ -3,7 +3,8 @@ require 'spec_helper'
 
 describe "single_file_representations/edit" do
   before(:each) do
-    @single_file_representation = assign(:single_file_representation, stub_model(SingleFileRepresentation))
+    @single_file_representation = SingleFileRepresentation.create!
+    # @single_file_representation = assign(:single_file_representation, stub_model(SingleFileRepresentation))
   end
 
   it "renders the edit single_file_representation form" do

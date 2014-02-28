@@ -13,7 +13,7 @@ describe 'relationships for people, book and work' do
         @book1.save!
       end
       it 'should be defined in the book view' do
-        visit book_path(@book1)
+        visit "books/#{@book1.id}"
 
         page.should_not have_content("No author defined for this book.")
         page.should_not have_content("Concerning")
@@ -21,7 +21,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should not be defined in the work view' do
-        visit work_path(@work1)
+        visit "works/#{@work1.id}"
 
         page.should have_content("No author defined for this work.")
         page.should_not have_content("Concerning")
@@ -29,7 +29,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should be defined in the person view' do
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should_not have_content("No books authored by this person.")
         page.should have_content("No works authored by this person.")
@@ -50,7 +50,7 @@ describe 'relationships for people, book and work' do
         @work1.save!
       end
       it 'should not be defined in the book view' do
-        visit book_path(@book1)
+        visit "books/#{@book1.id}"
 
         page.should have_content("No author defined for this book.")
         page.should_not have_content("Concerning")
@@ -58,7 +58,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should be defined in the work view' do
-        visit work_path(@work1)
+        visit "works/#{@work1.id}"
 
         page.should_not have_content("No author defined for this work.")
         page.should_not have_content("Concerning")
@@ -66,7 +66,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should be defined in the person view' do
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should have_content("No books authored by this person.")
         page.should_not have_content("No works authored by this person.")
@@ -89,7 +89,7 @@ describe 'relationships for people, book and work' do
         @work1.save!
       end
       it 'should be defined in the book view' do
-        visit book_path(@book1)
+        visit "books/#{@book1.id}"
 
         page.should_not have_content("No author defined for this book.")
         page.should_not have_content("Concerning")
@@ -97,7 +97,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should be defined in the work view' do
-        visit work_path(@work1)
+        visit "works/#{@work1.id}"
 
         page.should_not have_content("No author defined for this work.")
         page.should_not have_content("Concerning")
@@ -105,7 +105,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should be defined in the person view' do
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should_not have_content("No books authored by this person.")
         page.should_not have_content("No works authored by this person.")
@@ -128,7 +128,7 @@ describe 'relationships for people, book and work' do
         @book1.save!
       end
       it 'should be defined in the book view' do
-        visit book_path(@book1)
+        visit "books/#{@book1.id}"
 
         page.should have_content("No author defined for this book.")
         page.should have_content("Concerning")
@@ -136,7 +136,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should not be defined in the work view' do
-        visit work_path(@work1)
+        visit "works/#{@work1.id}"
 
         page.should have_content("No author defined for this work.")
         page.should_not have_content("Concerning")
@@ -144,7 +144,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should be defined in the person view' do
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should have_content("No books authored by this person.")
         page.should have_content("No works authored by this person.")
@@ -165,7 +165,7 @@ describe 'relationships for people, book and work' do
         @work1.save!
       end
       it 'should not be defined in the book view' do
-        visit book_path(@book1)
+        visit "books/#{@book1.id}"
 
         page.should have_content("No author defined for this book.")
         page.should_not have_content("Concerning")
@@ -173,7 +173,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should be defined in the work view' do
-        visit work_path(@work1)
+        visit "works/#{@work1.id}"
 
         page.should have_content("No author defined for this work.")
         page.should have_content("Concerning")
@@ -181,7 +181,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should be defined in the person view' do
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should have_content("No books authored by this person.")
         page.should have_content("No works authored by this person.")
@@ -204,7 +204,7 @@ describe 'relationships for people, book and work' do
         @work1.save!
       end
       it 'should be defined in the book view' do
-        visit book_path(@book1)
+        visit "books/#{@book1.id}"
 
         page.should have_content("No author defined for this book.")
         page.should have_content("Concerning")
@@ -212,7 +212,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should be defined in the work view' do
-        visit work_path(@work1)
+        visit "works/#{@work1.id}"
 
         page.should have_content("No author defined for this work.")
         page.should have_content("Concerning")
@@ -220,7 +220,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should be defined in the person view' do
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should have_content("No books authored by this person.")
         page.should have_content("No works authored by this person.")
@@ -245,7 +245,7 @@ describe 'relationships for people, book and work' do
         @book1.save!
       end
       it 'should both be defined in the book view' do
-        visit book_path(@book1)
+        visit "books/#{@book1.id}"
 
         page.should_not have_content("No author defined for this book.")
         page.should have_content("Concerning")
@@ -254,7 +254,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should not be defined in the work view' do
-        visit work_path(@work1)
+        visit "works/#{@work1.id}"
 
         page.should have_content("No author defined for this work.")
         page.should_not have_content("Concerning")
@@ -263,7 +263,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should author be defined in person1 view' do
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should_not have_content("No books authored by this person.")
         page.should have_content("No works authored by this person.")
@@ -274,7 +274,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should description_of be defined in person2 view' do
-        visit person_path(@person2)
+        visit "people/#{@person2.id}"
 
         page.should have_content("No books authored by this person.")
         page.should have_content("No works authored by this person.")
@@ -298,7 +298,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should not be defined in the book view' do
-        visit book_path(@book1)
+        visit "books/#{@book1.id}"
 
         page.should have_content("No author defined for this book.")
         page.should_not have_content("Concerning")
@@ -307,7 +307,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should both be defined in the work view' do
-        visit work_path(@work1)
+        visit "works/#{@work1.id}"
 
         page.should_not have_content("No author defined for this work.")
         page.should have_content("Concerning")
@@ -316,7 +316,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should author be defined in person1 view' do
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should have_content("No books authored by this person.")
         page.should_not have_content("No works authored by this person.")
@@ -327,7 +327,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should description_of be defined in person2 view' do
-        visit person_path(@person2)
+        visit "people/#{@person2.id}"
 
         page.should have_content("No books authored by this person.")
         page.should have_content("No works authored by this person.")
@@ -358,7 +358,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should author be defined in the book1 view' do
-        visit book_path(@book1)
+        visit "books/#{@book1.id}"
 
         page.should_not have_content("No author defined for this book.")
         page.should_not have_content("Concerning")
@@ -366,7 +366,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should description_of be defined in the book2 view' do
-        visit book_path(@book2)
+        visit "books/#{@book2.id}"
 
         page.should have_content("No author defined for this book.")
         page.should have_content("Concerning")
@@ -375,7 +375,7 @@ describe 'relationships for people, book and work' do
 
 
       it 'should author be defined in the work1 view' do
-        visit work_path(@work1)
+        visit "works/#{@work1.id}"
 
         page.should_not have_content("No author defined for this work.")
         page.should_not have_content("Concerning")
@@ -383,7 +383,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should description_of be defined in the work2 view' do
-        visit work_path(@work2)
+        visit "works/#{@work2.id}"
 
         page.should have_content("No author defined for this work.")
         page.should have_content("Concerning")
@@ -391,7 +391,7 @@ describe 'relationships for people, book and work' do
       end
 
       it 'should person1 have all the relationships defined in the view' do
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should_not have_content("No books authored by this person.")
         page.should_not have_content("No works authored by this person.")

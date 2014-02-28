@@ -9,7 +9,7 @@ describe 'relationship between work and people' do
     end
     describe 'work' do
       it 'should not contain any references' do
-        visit work_path(@work)
+        visit "works/#{@work.id}"
 
         page.should have_content("Author")
         page.should have_content("No author defined for this work.")
@@ -19,7 +19,7 @@ describe 'relationship between work and people' do
 
     describe 'person' do
       it 'should not contain any references' do
-        visit person_path(@person)
+        visit "people/#{@person.id}"
 
         page.should have_content("No works authored by this person.")
         page.should have_content("No works are concerning this person.")
@@ -38,7 +38,7 @@ describe 'relationship between work and people' do
         @work1.authors << @person1
         @work1.save!
 
-        visit work_path(@work1)
+        visit "works/#{@work1.id}"
 
         page.should_not have_content("No author defined for this work.")
         page.should_not have_content("Concerning")
@@ -50,7 +50,7 @@ describe 'relationship between work and people' do
         @work1.authors << @person2
         @work1.save!
 
-        visit work_path(@work1)
+        visit "works/#{@work1.id}"
 
         page.should_not have_content("No author defined for this work.")
         page.should_not have_content("Concerning")
@@ -71,7 +71,7 @@ describe 'relationship between work and people' do
         @work1.authors << @person1
         @work1.save!
 
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should_not have_content("No works authored by this person.")
         page.should have_content("No works are concerning this person.")
@@ -86,7 +86,7 @@ describe 'relationship between work and people' do
         @work2.authors << @person1
         @work2.save!
 
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should_not have_content("No works authored by this person.")
         page.should have_content("No works are concerning this person.")
@@ -107,7 +107,7 @@ describe 'relationship between work and people' do
         @work1.people_concerned << @person1
         @work1.save!
 
-        visit work_path(@work1)
+        visit "works/#{@work1.id}"
 
         page.should have_content("No author defined for this work.")
         page.should have_content("Concerning")
@@ -119,7 +119,7 @@ describe 'relationship between work and people' do
         @work1.people_concerned << @person2
         @work1.save!
 
-        visit work_path(@work1)
+        visit "works/#{@work1.id}"
 
         page.should have_content("No author defined for this work.")
         page.should have_content("Concerning")
@@ -139,7 +139,7 @@ describe 'relationship between work and people' do
         @work1.people_concerned << @person1
         @work1.save!
 
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should have_content("No works authored by this person.")
         page.should_not have_content("No works are concerning this person.")
@@ -154,7 +154,7 @@ describe 'relationship between work and people' do
         @work2.people_concerned << @person1
         @work2.save!
 
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should have_content("No works authored by this person.")
         page.should_not have_content("No works are concerning this person.")
@@ -176,7 +176,7 @@ describe 'relationship between work and people' do
         @work1.authors << @person2
         @work1.save!
 
-        visit work_path(@work1)
+        visit "works/#{@work1.id}"
 
         page.should_not have_content("No author defined for this work.")
         page.should have_content("Concerning")
@@ -198,7 +198,7 @@ describe 'relationship between work and people' do
         @work2.authors << @person1
         @work2.save!
 
-        visit person_path(@person1)
+        visit "people/#{@person1.id}"
 
         page.should_not have_content("No works authored by this person.")
         page.should_not have_content("No works are concerning this person.")
