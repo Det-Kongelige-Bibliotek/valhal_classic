@@ -30,7 +30,7 @@ gem 'paperclip'
 
 # Gems used only for assets and not required
 # in production environments by default.
-group :assets do
+#{group :assets do} -- asset group removed i Rails 4 
   gem 'sass-rails'
   gem 'coffee-rails', '~> 4.0.1'
   gem 'jquery-ui-rails'
@@ -39,7 +39,7 @@ group :assets do
   gem 'libv8', '~> 3.11.8'
   gem 'therubyracer', '0.11.1', :platforms => :ruby
   gem 'uglifier', '>= 1.0.3'
-end
+#end
 
 group :test do
   gem 'factory_girl_rails', '~> 4.1'
