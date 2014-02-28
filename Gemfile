@@ -43,7 +43,6 @@ end
 
 group :test do
   gem 'factory_girl_rails', '~> 4.1'
-  gem 'capybara'
   gem 'rb-readline'
   gem 'simplecov-rcov'
   gem 'simplecov', :require => false
@@ -69,7 +68,6 @@ group :development do
   #Following gem has to be commented out if you want to debug Valhal in RubyMine
   #gem 'debugger'
   gem 'equivalent-xml'
-  gem 'jettywrapper'
   gem "binding_of_caller"
   gem 'guard-rspec'
   gem 'rb-inotify', :require => false
