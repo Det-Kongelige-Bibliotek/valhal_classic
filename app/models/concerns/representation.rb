@@ -4,9 +4,11 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
+      include IntellectualEntity
       # Descriptive metadata for the label
       has_metadata :name => 'provenanceMetadata', :type => ActiveFedora::SimpleDatastream do |m|
         m.field 'label', :string
+        m.field 'uuid', :string
       end
 
       # Define the label as an accessionable part of the descriptive metadata.
