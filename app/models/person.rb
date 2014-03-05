@@ -44,6 +44,6 @@ class Person < ActiveFedora::Base
 
   has_solr_fields do |m|
     m.field "search_result_title", method: :comma_separated_lastname_firstname
-    m.field "person_name", method: :name
+    m.field "person_name", method: :comma_separated_lastname_firstname, :index_as => [:string, :indexed, :stored]
   end
 end
