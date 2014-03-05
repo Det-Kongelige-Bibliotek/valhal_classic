@@ -80,7 +80,6 @@ class CatalogController < ApplicationController
     # facet bar
 
     config.add_facet_field person_solr_names[:person_name], :label => 'Author', :sort => 'index'
-    config.add_facet_field book_solr_names[:title], :label => 'Title', :sort => 'index'
     config.add_facet_field work_solr_names[:search_result_work_type], :label => 'Work Types', :sort => 'index'
 
 
