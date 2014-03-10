@@ -42,21 +42,29 @@ module PnxHelper
     end
 
     record_xml.elements.each('links/linktorsrc') do |links|
-      key = "linktorsrc"
+      key = "linktosrc"
       if extracted_elements.has_key? key
         if extracted_elements[key].is_a?(Array)
           value = extracted_elements[key]
         else
           value = [extracted_elements[key]]
         end
-        value << links.text
+        value << parse_link_text(links.text)
       else
-        value = links.text
+        value = parse_link_text(links.text)
       end
       extracted_elements[key] = value
 
     end
 
     extracted_elements
+  end
+
+  # The PNX link text includes MARC subfields
+  # get rid of these and return just the link
+  def parse_link_text(link_str)
+    subfields = link_str.split(/\$\$[A-Z]/) # split on subfield divider
+    subfields.reject! {|e| e.empty?} # dump empties
+    subfields[0] # return the link
   end
 end

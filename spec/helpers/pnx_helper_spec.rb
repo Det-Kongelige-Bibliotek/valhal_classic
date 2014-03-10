@@ -18,6 +18,32 @@ describe PnxHelper do
       response_array = @dummy_class.parse_response(xml)
       response_array.length.should > 0
       response_array[0]['title'].should include('En Formiddag')
+      response_array[0]['linktosrc'].should start_with('http')
+    end
+  end
+
+  describe 'create_queue_message(record_hash)' do
+    before(:each) do
+      @record_hash = {
+          "sourcerecordid"=>"008506563",
+          "type"=>"book",
+          "title"=>"En Formiddag hos Frederik den Store, historisk Charakteerbillede",
+          "creator"=>"Mühlbach, Louise",
+          "creationdate"=>"1859",
+          "description"=>[
+              "Digitalisering 2012 af udgaven: [Kbh.]: Jordans' Forlag, 1859 (188 s.)", "Efter Det Kongelige Biblioteks eksemplar: 57,-458-8°"
+          ],
+          "language"=>"dan",
+          "rights"=>"Adgang: Alle har adgang",
+          "lds02"=>"57,-458",
+          "lds16"=>"af L. Mühlbach",
+          "lds37"=>"57,-458",
+          "version"=>"2",
+          "linktosrc"=>"http://www.kb.dk/e-mat/dod/130020101343.pdf"
+      }
+    end
+    it 'should create a json message for the ingest queue' do
+
     end
   end
 
