@@ -1,0 +1,297 @@
+<sear:SEGMENTS xmlns:sear="http://www.exlibrisgroup.com/xsd/jaguar/search">
+  <sear:JAGROOT>
+    <sear:RESULT>
+      <sear:QUERYTRANSFORMS/>
+      <sear:FACETLIST ACCURATE_COUNTERS="true">
+        <sear:FACET NAME="creator" COUNT="20">
+          <sear:FACET_VALUES KEY="Worsaae, J. J. A." VALUE="8"/>
+          <sear:FACET_VALUES KEY="Plesner, U. A." VALUE="1"/>
+          <sear:FACET_VALUES KEY="Ries, Thomas" VALUE="1"/>
+          <sear:FACET_VALUES KEY="Goldschmidt, Meïr Aron" VALUE="1"/>
+          <sear:FACET_VALUES KEY="Hoftved, Niels" VALUE="1"/>
+          <sear:FACET_VALUES KEY="Schröter, J. H." VALUE="1"/>
+          <sear:FACET_VALUES KEY="Rink, H." VALUE="3"/>
+          <sear:FACET_VALUES KEY="Holm, Hans" VALUE="3"/>
+          <sear:FACET_VALUES KEY="Andersen Nexø, Martin" VALUE="2"/>
+          <sear:FACET_VALUES KEY="Blicher, Niels" VALUE="2"/>
+          <sear:FACET_VALUES KEY="Paludan, Johan" VALUE="3"/>
+          <sear:FACET_VALUES KEY="Nielsen, Nic. C." VALUE="4"/>
+          <sear:FACET_VALUES KEY="Munch, A." VALUE="11"/>
+          <sear:FACET_VALUES KEY="Jensen, Johannes V." VALUE="4"/>
+          <sear:FACET_VALUES KEY="Schlegel, August Wilhelm" VALUE="1"/>
+          <sear:FACET_VALUES KEY="Dalhoff, N." VALUE="2"/>
+          <sear:FACET_VALUES KEY="Tolderlund, Hother" VALUE="2"/>
+          <sear:FACET_VALUES KEY="Krebs, A. M." VALUE="4"/>
+          <sear:FACET_VALUES KEY="Krebs, Fr." VALUE="9"/>
+          <sear:FACET_VALUES KEY="Nielsen, Chr." VALUE="3"/>
+        </sear:FACET>
+        <sear:FACET NAME="local3" COUNT="2">
+          <sear:FACET_VALUES KEY="laesesal_vest" VALUE="15"/>
+          <sear:FACET_VALUES KEY="danske" VALUE="5744"/>
+        </sear:FACET>
+        <sear:FACET NAME="lang" COUNT="13">
+          <sear:FACET_VALUES KEY="ger" VALUE="291"/>
+          <sear:FACET_VALUES KEY="fin" VALUE="1"/>
+          <sear:FACET_VALUES KEY="fre" VALUE="56"/>
+          <sear:FACET_VALUES KEY="heb" VALUE="1"/>
+          <sear:FACET_VALUES KEY="gre" VALUE="2"/>
+          <sear:FACET_VALUES KEY="nor" VALUE="160"/>
+          <sear:FACET_VALUES KEY="dut" VALUE="11"/>
+          <sear:FACET_VALUES KEY="rus" VALUE="1"/>
+          <sear:FACET_VALUES KEY="ita" VALUE="6"/>
+          <sear:FACET_VALUES KEY="dan" VALUE="4796"/>
+          <sear:FACET_VALUES KEY="eng" VALUE="81"/>
+          <sear:FACET_VALUES KEY="lat" VALUE="139"/>
+          <sear:FACET_VALUES KEY="spa" VALUE="13"/>
+        </sear:FACET>
+        <sear:FACET NAME="rtype" COUNT="4">
+          <sear:FACET_VALUES KEY="manuscripts" VALUE="1"/>
+          <sear:FACET_VALUES KEY="books" VALUE="5722"/>
+          <sear:FACET_VALUES KEY="other" VALUE="5"/>
+          <sear:FACET_VALUES KEY="journals" VALUE="16"/>
+        </sear:FACET>
+        <sear:FACET NAME="topic" COUNT="20">
+          <sear:FACET_VALUES KEY="Historie. I, Danmark" VALUE="12"/>
+          <sear:FACET_VALUES KEY="Retsvidenskab, Dansk Ret" VALUE="27"/>
+          <sear:FACET_VALUES KEY="Pestalozzi, Johann Heinrich" VALUE="1"/>
+          <sear:FACET_VALUES KEY="Philosophi, Ethik" VALUE="47"/>
+          <sear:FACET_VALUES KEY="Pedersen Mørke, Rasmus" VALUE="1"/>
+          <sear:FACET_VALUES KEY="Worm, Petri Claudi Ferdinand Emil" VALUE="1"/>
+          <sear:FACET_VALUES KEY="Historie. II, Personalhistorie" VALUE="137"/>
+          <sear:FACET_VALUES KEY="Literatur, Den Dramatiske Literatur" VALUE="115"/>
+          <sear:FACET_VALUES KEY="Historie. II, Danmark" VALUE="437"/>
+          <sear:FACET_VALUES KEY="Philosophi, Tillæg til Natur- og Religionsphilosophi" VALUE="8"/>
+          <sear:FACET_VALUES KEY="Stats-Videnskaberne, Statskunst" VALUE="43"/>
+          <sear:FACET_VALUES KEY="Literatur, Ordsprog, Eventyr, alvorlige og lystige Historier og Indfald m. m." VALUE="40"/>
+          <sear:FACET_VALUES KEY="Danmarks specielle topografi" VALUE="9"/>
+          <sear:FACET_VALUES KEY="Ebbesen, Nora" VALUE="1"/>
+          <sear:FACET_VALUES KEY="Brabrand, Michael Nielsen" VALUE="4"/>
+          <sear:FACET_VALUES KEY="Pædagogik, Pædagogik" VALUE="31"/>
+          <sear:FACET_VALUES KEY="Ingerslev, Christian Frederik" VALUE="1"/>
+          <sear:FACET_VALUES KEY="Sager" VALUE="2"/>
+          <sear:FACET_VALUES KEY="Literatur, Forfatteres samlede og blandede Skrifter" VALUE="16"/>
+          <sear:FACET_VALUES KEY="Dansk Ret" VALUE="4"/>
+        </sear:FACET>
+        <sear:FACET NAME="tlevel" COUNT="2">
+          <sear:FACET_VALUES KEY="new_material" VALUE="5744"/>
+          <sear:FACET_VALUES KEY="online_resource" VALUE="5744"/>
+        </sear:FACET>
+        <sear:FACET NAME="pfilter" COUNT="3">
+          <sear:FACET_VALUES KEY="manuscripts" VALUE="1"/>
+          <sear:FACET_VALUES KEY="books" VALUE="5722"/>
+          <sear:FACET_VALUES KEY="journals" VALUE="16"/>
+        </sear:FACET>
+        <sear:FACET NAME="creationdate" COUNT="30">
+          <sear:FACET_VALUES KEY="1910" VALUE="7"/>
+          <sear:FACET_VALUES KEY="2006" VALUE="2"/>
+          <sear:FACET_VALUES KEY="2005" VALUE="1"/>
+          <sear:FACET_VALUES KEY="2002" VALUE="3"/>
+          <sear:FACET_VALUES KEY="2003" VALUE="3"/>
+          <sear:FACET_VALUES KEY="1996" VALUE="2"/>
+          <sear:FACET_VALUES KEY="1997" VALUE="1"/>
+          <sear:FACET_VALUES KEY="1998" VALUE="2"/>
+          <sear:FACET_VALUES KEY="1500" VALUE="8"/>
+          <sear:FACET_VALUES KEY="1975" VALUE="1"/>
+          <sear:FACET_VALUES KEY="1994" VALUE="1"/>
+          <sear:FACET_VALUES KEY="1800" VALUE="1422"/>
+          <sear:FACET_VALUES KEY="2012" VALUE="1"/>
+          <sear:FACET_VALUES KEY="2011" VALUE="1"/>
+          <sear:FACET_VALUES KEY="1978" VALUE="1"/>
+          <sear:FACET_VALUES KEY="2010" VALUE="1"/>
+          <sear:FACET_VALUES KEY="1999" VALUE="3"/>
+          <sear:FACET_VALUES KEY="1700" VALUE="5"/>
+          <sear:FACET_VALUES KEY="1920" VALUE="8"/>
+          <sear:FACET_VALUES KEY="2013" VALUE="4"/>
+          <sear:FACET_VALUES KEY="2014" VALUE="1"/>
+          <sear:FACET_VALUES KEY="1900" VALUE="4260"/>
+          <sear:FACET_VALUES KEY="1940" VALUE="1"/>
+          <sear:FACET_VALUES KEY="1983" VALUE="4"/>
+          <sear:FACET_VALUES KEY="1987" VALUE="1"/>
+          <sear:FACET_VALUES KEY="1984" VALUE="1"/>
+          <sear:FACET_VALUES KEY="1985" VALUE="1"/>
+          <sear:FACET_VALUES KEY="1988" VALUE="1"/>
+          <sear:FACET_VALUES KEY="2001" VALUE="3"/>
+          <sear:FACET_VALUES KEY="2000" VALUE="2"/>
+        </sear:FACET>
+        <sear:FACET NAME="local2" COUNT="7">
+          <sear:FACET_VALUES KEY="farma" VALUE="5744"/>
+          <sear:FACET_VALUES KEY="teol" VALUE="5744"/>
+          <sear:FACET_VALUES KEY="hum" VALUE="5744"/>
+          <sear:FACET_VALUES KEY="life" VALUE="5744"/>
+          <sear:FACET_VALUES KEY="jura" VALUE="5744"/>
+          <sear:FACET_VALUES KEY="natsund" VALUE="5744"/>
+          <sear:FACET_VALUES KEY="city" VALUE="5744"/>
+        </sear:FACET>
+      </sear:FACETLIST>
+      <sear:DOCSET HIT_TIME="56" TOTALHITS="5744" FIRSTHIT="1" LASTHIT="10" TOTAL_TIME="185" IS_LOCAL="true">
+        <sear:DOC ID="2885768" RANK="2.0160725E-5" NO="1" SEARCH_ENGINE="Local Search Engine" SEARCH_ENGINE_TYPE="Local Search Engine">
+          <PrimoNMBib xmlns="http://www.exlibrisgroup.com/xsd/primo/primo_nm_bib">
+            <record>
+              <control>
+                <sourcerecordid>008506563</sourcerecordid>
+                <sourceid>KGL01</sourceid>
+                <recordid>KGL01008506563</recordid>
+                <originalsourceid>KGL01</originalsourceid>
+                <ilsapiid>KGL01008506563</ilsapiid>
+                <sourceformat>DANMARC2</sourceformat>
+                <sourcesystem>Aleph</sourcesystem>
+              </control>
+              <display>
+                <type>book</type>
+                <title>En Formiddag hos Frederik den Store, historisk Charakteerbillede</title>
+                <creator>Mühlbach, Louise</creator>
+                <creationdate>1859</creationdate>
+                <description>Digitalisering 2012 af udgaven: [Kbh.]: Jordans' Forlag, 1859 (188 s.)</description>
+                <description>Efter Det Kongelige Biblioteks eksemplar: 57,-458-8°</description>
+                <language>dan</language>
+                <rights>Adgang: Alle har adgang</rights>
+                <lds02>57,-458</lds02>
+                <lds16>af L. Mühlbach</lds16>
+                <lds37>57,-458</lds37>
+                <version>2</version>
+              </display>
+              <links>
+                <openurl>$$Topenurl_journal</openurl>
+                <linktorsrc>$$Uhttp://www.kb.dk/e-mat/dod/130020101343.pdf$$DAdgangAlle har adgang Link til elektronisk udgave.</linktorsrc>
+                <thumbnail>$$Tamazon_thumb</thumbnail>
+                <linktoholdings>$$Taleph_holdings</linktoholdings>
+                <lln02>$$Tlink_lkr$$1KGL01001926393$$DLink mellem trykt og elektronisk udgave</lln02>
+                <lln04>$$Tlink_MARC$$DMARC format</lln04>
+              </links>
+              <search>
+                <creatorcontrib>Mühlbach Louise</creatorcontrib>
+                <creatorcontrib>Bog</creatorcontrib>
+                <title>En Formiddag hos Frederik den Store historisk Charakteerbillede</title>
+                <subject>57,-458</subject>
+                <general>af L. Mühlbach</general>
+                <general>Digitalisering 2012 af udgaven: [Kbh.]: Jordans' Forlag, 1859 (188 s.)</general>
+                <general>Efter Det Kongelige Biblioteks eksemplar: 57,-458-8°</general>
+                <general>wbkers</general>
+                <general>wbhEDOD</general>
+                <general>wpiDigi201211</general>
+                <general>wpi1211</general>
+                <general>war2012</general>
+                <general>wwwhttp://www.kb.dk/e-mat/dod/130020101343.pdf</general>
+                <general>kglra0</general>
+                <general>wmabook</general>
+                <sourceid>KGL01</sourceid>
+                <recordid>KGL01008506563</recordid>
+                <rsrctype>book</rsrctype>
+                <creationdate>1859</creationdate>
+                <creationdate>2012</creationdate>
+                <startdate>18590101</startdate>
+                <enddate>18591231</enddate>
+                <searchscope>KGL01</searchscope>
+                <searchscope>FARMA</searchscope>
+                <searchscope>LIFEPRIMO</searchscope>
+                <searchscope>SAMFCITYPRIMO</searchscope>
+                <searchscope>JURPRIMO</searchscope>
+                <searchscope>TEOPRIMO</searchscope>
+                <searchscope>DANSKE</searchscope>
+                <searchscope>HUMPRIMO</searchscope>
+                <searchscope>NATSUNDPRIMO</searchscope>
+                <searchscope>ERS</searchscope>
+                <searchscope>ERSFULL</searchscope>
+                <searchscope>KGL</searchscope>
+                <scope>KGL01</scope>
+                <scope>FARMA</scope>
+                <scope>LIFEPRIMO</scope>
+                <scope>SAMFCITYPRIMO</scope>
+                <scope>JURPRIMO</scope>
+                <scope>TEOPRIMO</scope>
+                <scope>DANSKE</scope>
+                <scope>HUMPRIMO</scope>
+                <scope>NATSUNDPRIMO</scope>
+                <scope>ERS</scope>
+                <scope>ERSFULL</scope>
+                <scope>KGL</scope>
+                <lsr05>57,-458</lsr05>
+                <lsr37>57,-458</lsr37>
+              </search>
+              <sort>
+                <title>Formiddag hos Frederik den Store</title>
+                <creationdate>2012</creationdate>
+                <author>Mühlbach Louise</author>
+                <lso01>1859</lso01>
+              </sort>
+              <facets>
+                <language>dan</language>
+                <creationdate>1859</creationdate>
+                <toplevel>new_material</toplevel>
+                <toplevel>online_resource</toplevel>
+                <prefilter>books</prefilter>
+                <rsrctype>books</rsrctype>
+                <creatorcontrib>Mühlbach, Louise</creatorcontrib>
+                <lfc02>farma</lfc02>
+                <lfc02>life</lfc02>
+                <lfc02>jura</lfc02>
+                <lfc02>city</lfc02>
+                <lfc02>teol</lfc02>
+                <lfc02>natsund</lfc02>
+                <lfc02>hum</lfc02>
+                <lfc03>danske</lfc03>
+                <frbrgroupid>552000969</frbrgroupid>
+                <frbrtype>5</frbrtype>
+              </facets>
+              <dedup>
+                <t>1</t>
+                <c1>KGL01008506563</c1>
+                <c2>KGL01008506563</c2>
+                <c3>KGL01008506563</c3>
+                <c4>KGL01008506563</c4>
+                <f5>formiddaghosfrederikdenstore</f5>
+                <f6>KGL01008506563</f6>
+                <f7>KGL01008506563</f7>
+                <f8>formiddag hos frederik den store</f8>
+                <f9>KGL01008506563</f9>
+                <f10>control/recordid</f10>
+                <f11>KGL01008506563</f11>
+              </dedup>
+              <frbr>
+                <t>1</t>
+                <k1>$$KKGL_muehlbach louise$$AA</k1>
+                <k3>$$KKGL_en formiddag hos frederik den store historisk charakteerbillede$$AT</k3>
+              </frbr>
+              <delivery>
+                <institution>KGL</institution>
+                <delcategory>Online Resource</delcategory>
+              </delivery>
+              <ranking>
+                <booster1>1</booster1>
+                <booster2>1</booster2>
+              </ranking>
+              <addata>
+                <aulast>Mühlbach,</aulast>
+                <aufirst>Louise</aufirst>
+                <au>Mühlbach, Louise</au>
+                <btitle>En Formiddag hos Frederik den Store, historisk Charakteerbillede</btitle>
+                <date>1859</date>
+                <date>2012</date>
+                <risdate>2012</risdate>
+                <format>book</format>
+                <genre>book</genre>
+                <ristype>BOOK</ristype>
+                <notes>Digitalisering 2012 af udgaven: [Kbh.]: Jordans' Forlag, 1859 (188 s.)</notes>
+              </addata>
+              <browse>
+                <institution>KGL</institution>
+                <title>$$D&lt;&lt;En >>Formiddag hos Frederik den Store historisk Charakteerbillede$$E&lt;&lt;En >>Formiddag hos Frederik den Store historisk Charakteerbillede</title>
+                <author>$$DMühlbach, Louise$$EMühlbach Louise</author>
+              </browse>
+            </record>
+          </PrimoNMBib>
+          <sear:GETIT deliveryCategory="Online Resource" GetIt1="http://www.kb.dk/e-mat/dod/130020101343.pdf" GetIt2="http://e-tidsskrifter.kb.dk/resolve?ctx_ver=Z39.88-2004&amp;ctx_enc=info:ofi/enc:UTF-8&amp;ctx_tim=2014-02-20T14%3A31%3A14IST&amp;url_ver=Z39.88-2004&amp;url_ctx_fmt=infofi/fmt:kev:mtx:ctx&amp;rfr_id=info:sid/primo.exlibrisgroup.com:primo3-Article-KGL01&amp;rft_val_fmt=info:ofi/fmt:kev:mtx:book&amp;rft.genre=book&amp;rft.atitle=&amp;rft.jtitle=&amp;rft.btitle=En%20Formiddag%20hos%20Frederik%20den%20Store%2C%20historisk%20Charakteerbillede&amp;rft.aulast=Mühlbach%2C&amp;rft.auinit=&amp;rft.auinit1=&amp;rft.auinitm=&amp;rft.ausuffix=&amp;rft.au=Mühlbach%2C%20Louise&amp;rft.aucorp=&amp;rft.date=1859&amp;rft.volume=&amp;rft.issue=&amp;rft.part=&amp;rft.quarter=&amp;rft.ssn=&amp;rft.spage=&amp;rft.epage=&amp;rft.pages=&amp;rft.artnum=&amp;rft.issn=&amp;rft.eissn=&amp;rft.isbn=&amp;rft.sici=&amp;rft.coden=&amp;rft_id=info:doi/&amp;svc_val_fmt=info:ofi/fmt:kev:mtx:sch_svc&amp;svc.fulltext=no&amp;rft_dat=&lt;KGL01>008506563&lt;/KGL01>&amp;rft.eisbn=&amp;rft_id=info:oai/"/>
+          <sear:LINKS>
+            <sear:openurl><![CDATA[http://e-tidsskrifter.kb.dk/resolve?ctx_ver=Z39.88-2004&ctx_enc=info:ofi/enc:UTF-8&ctx_tim=2014-02-20T14%3A31%3A14IST&url_ver=Z39.88-2004&url_ctx_fmt=infofi/fmt:kev:mtx:ctx&rfr_id=info:sid/primo.exlibrisgroup.com:primo3-Journal-KGL01&rft_val_fmt=info:ofi/fmt:kev:mtx:book&rft.genre=book&rft.atitle=&rft.jtitle=&rft.btitle=En%20Formiddag%20hos%20Frederik%20den%20Store%2C%20historisk%20Charakteerbillede&rft.aulast=Mühlbach%2C&rft.aufirst=Louise&rft.auinit=&rft.auinit1=&rft.auinitm=&rft.ausuffix=&rft.au=Mühlbach%2C%20Louise&rft.aucorp=&rft.volume=&rft.issue=&rft.part=&rft.quarter=&rft.ssn=&rft.spage=&rft.epage=&rft.pages=&rft.artnum=&rft.issn=&rft.eissn=&rft.isbn=&rft.sici=&rft.coden=&rft_id=info:doi/&rft_dat=<KGL01>008506563</KGL01><grp_id>552000969</grp_id><oa></oa>&rft.eisbn=&rft_id=info:oai/]]></sear:openurl>
+            <sear:linktorsrc>http://www.kb.dk/e-mat/dod/130020101343.pdf</sear:linktorsrc>
+            <sear:thumbnail>http://images.amazon.com/images/P/.01._SSTHUM_.jpg</sear:thumbnail>
+            <sear:linktoholdings>OVP</sear:linktoholdings>
+            <sear:lln02>http://primo-17.kb.dk/primo_library/libweb/action/search.do?&amp;vid=KGL&amp;fn=search&amp;vl(freeText0)=KGL01001926393</sear:lln02>
+            <sear:lln04/>
+          </sear:LINKS>
+        </sear:DOC>
+      </sear:DOCSET>
+    </sear:RESULT>
+    <sear:searchToken>0</sear:searchToken>
+  </sear:JAGROOT>
+</sear:SEGMENTS>
