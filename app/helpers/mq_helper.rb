@@ -15,6 +15,10 @@ module MqHelper
         })
   end
 
+  def get_queue_name(target,type)
+    config = load_config
+    config[target][type]
+  end
   # Sends a given message at the given destination on the MQ with the uri in the configuration.
   # @param message The message content to send.
   # @param destination The destination on the MQ where the message is sent.
@@ -36,5 +40,15 @@ module MqHelper
 
     conn.close
     true
+  end
+
+  private
+
+  def load_config
+    if !defined? MQ_CONFIG
+      YAML.load_file("#{Rails.root}/config/mq_config.yml")[Rails.env]
+    else
+      MQ_CONFIG
+    end
   end
 end
