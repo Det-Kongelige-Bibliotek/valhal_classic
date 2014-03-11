@@ -11,6 +11,13 @@ describe PnxHelper do
     @dummy_class.extend(PnxHelper)
   end
 
+  describe 'get config' do
+    it 'should read yaml into a hash' do
+      config = @dummy_class.get_config
+      config['url'].should include "primo-97.kb.dk"
+    end
+  end
+
   describe 'parse_response(xml)' do
     it 'should produce an array of record hashes' do
       file = File.read("#{Rails.root}/spec/fixtures/primo_sample_response.xml")
@@ -52,4 +59,31 @@ describe PnxHelper do
     end
   end
 
+  describe 'search PNX' do
+    before(:each) do
+      @dummy_class.get_config
+      response_body = File.read("#{Rails.root}/spec/fixtures/primo_sample_response.xml")
+      stub_request(
+          :get, "http://primo-97.kb.dk:1701/PrimoWebServices/xservice/search/brief?bulkSize=1&indx=1&institution=KGL&onCampus=false&query=any,contains,wbhedod").
+          with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'primo-97.kb.dk:1701', 'User-Agent'=>'Ruby'}).
+          to_return(:status => 200, :body => response_body, :headers => {}
+      )
+    end
+
+    it 'should return an array of responses' do
+      responses = @dummy_class.search_pnx
+      responses.should be_a(Array)
+      responses.first.should be_a(Net::HTTPResponse)
+    end
+
+    it 'should convert responses to queue messages' do
+      responses = @dummy_class.search_pnx
+      messages = @dummy_class.convert_to_messages(responses)
+      messages.should be_a(Array)
+      messages.first.should be_a(String)
+      message = JSON.parse(messages.first)
+      message['id'].should eql '130020101343'
+    end
+
+  end
 end
