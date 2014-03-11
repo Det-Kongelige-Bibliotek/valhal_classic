@@ -60,6 +60,15 @@ module PnxHelper
     extracted_elements
   end
 
+  def create_ingest_message(record_hash)
+    message_hash = Hash.new
+    #cut out the barcode from the file link and remove pdf name
+    message_hash[:id] = record_hash['linktosrc'].split('/').last.split('.')[0]
+    message_hash[:fileUri] = record_hash['linktosrc']
+    message_hash[:workflowId] = 'DOD'
+    message_hash.to_json
+  end
+  private
   # The PNX link text includes MARC subfields
   # get rid of these and return just the link
   def parse_link_text(link_str)

@@ -43,7 +43,12 @@ describe PnxHelper do
       }
     end
     it 'should create a json message for the ingest queue' do
-
+      message = @dummy_class.create_ingest_message(@record_hash)
+      message_hash = JSON.parse(message)
+      message_hash.should be_instance_of(Hash)
+      message_hash['id'].should include('130020101343')
+      message_hash['fileUri'].should include('http://www.kb.dk/e-mat/dod/130020101343.pdf')
+      message_hash['workflowId'].should include('DOD')
     end
   end
 
