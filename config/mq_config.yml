@@ -6,6 +6,9 @@ development:
     polling_interval_in_minutes: 1
   dissemination:
     destination: "dissemination-dev-queue"
+  digitisation:
+    source: "digitisation-dev-queue"
+    polling_interval_in_minutes: 1
 
 test:
   mq_uri: "amqp://localhost:5672"
@@ -15,6 +18,9 @@ test:
     polling_interval_in_minutes: 1
   dissemination:
     destination: "dissemination-test-queue"
+  digitisation:
+      source: "digitisation-test-queue"
+      polling_interval_in_minutes: 1
 
 production:
   mq_uri: "amqp://localhost:5672"
@@ -24,3 +30,6 @@ production:
     polling_interval_in_minutes: 1
   dissemination:
     destination: "dissemination-prod-queue"
+  digitisation:
+      source: "digitisation-prod-queue"
+      polling_interval_in_minutes: 1
