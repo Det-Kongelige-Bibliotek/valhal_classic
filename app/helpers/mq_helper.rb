@@ -15,7 +15,6 @@ module MqHelper
         })
   end
 
-  private
   # Sends a given message at the given destination on the MQ with the uri in the configuration.
   # @param message The message content to send.
   # @param destination The destination on the MQ where the message is sent.
