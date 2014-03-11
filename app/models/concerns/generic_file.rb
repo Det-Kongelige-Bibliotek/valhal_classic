@@ -1,5 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'open3'
+require 'tempfile'
+require 'net/http'
 
 module Concerns
 
@@ -35,6 +37,19 @@ module Concerns
       has_attributes :checksum, datastream: 'techMetadata', :at => [:file_checksum], :multiple => false
       has_attributes :size, datastream: 'techMetadata', :at => [:file_size], :multiple => false
     end
+
+    # fetches file from external URL and adds a content datatream to the object
+    # using the add_file methom
+    def add_file_from_url(url, skip_file_characterisation)
+      valid_file=false;
+      file = fetch_file_from_url(url)
+      if (file)
+        add_file(file, skip_file_characterisation)
+      else
+        false
+      end
+    end
+
 
     # adds a content datastream to the object and generate techMetadata for the basic_files
     # basic_files must have the following methods [size, content_type, original_filename, tempfile]
@@ -79,7 +94,7 @@ module Concerns
           `export FITS_HOME=#{fits_home}`
           stdin, stdout, stderr = Open3.popen3("#{fits_home} -i #{file.path}")
           fits_meta_data = String.new
-          stdout.each_line {|line| fits_meta_data.concat(line)}
+          stdout.each_line { |line| fits_meta_data.concat(line) }
         else
           return
         end
@@ -137,5 +152,39 @@ module Concerns
       end
       true
     end
+
+    #fetches a file from a URL
+    #returns content from the url. If then url is invalid or no content is returned then the methorn returns nil
+    def fetch_file_from_url(url)
+      uri = URI.parse(url)
+      if (uri.kind_of?(URI::HTTP))
+        resp = Net::HTTP.get_response(uri)
+        case resp
+          when Net::HTTPSuccess then
+            filename = File.basename(uri.path)
+            tmpfile = Tempfile.new(filename,Dir.tmpdir)
+            File.open(tmpfile.path,'wb+') do |f|
+              f.write resp.body
+            end
+            tmpfile.flush
+            file= ActionDispatch::Http::UploadedFile.new(tempfile: tmpfile)
+            file.original_filename = filename
+            file.content_type = resp.content_type
+            return file
+          else
+            logger.error "Could not get file from location #{url} response is #{resp.code}:#{resp.message}"
+            return nil
+        end
+      else
+        return nil
+      end
+    rescue URI::InvalidURIError
+      logger.error "Invalid URI"
+      nil
+    end
   end
+
+
+
+
 end
