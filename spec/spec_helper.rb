@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'rubygems'
+require 'webmock/rspec'
 
 # Add coverage
 if ENV['COVERAGE']
@@ -22,6 +23,8 @@ require 'rspec/autorun'
 # option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 Dir[Rails.root.join("app/helpers/**/*.rb")].each {|f| require f}
+
+WebMock.disable_net_connect!(allow_localhost: true)
 
 RSpec.configure do |config|
 

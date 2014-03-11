@@ -1,7 +1,42 @@
 # -*- encoding : utf-8 -*-
 # Methods for querying and parsing the Primo PNX service
-require "rexml/document"
+require 'rexml/document'
+require 'net/http'
 module PnxHelper
+
+  def get_config
+    @config = YAML.load_file("#{Rails.root}/config/pnx.yml")[Rails.env]
+  end
+
+  # search the pnx for e-books up to max_index
+  def search_pnx
+    responses = []
+    # from 1 until the max index specified, search pnx, retrieving
+    # the num results specified each time
+    (1..@config['max_index']).each do |index|
+      response = get_search_response(index, @config['bulk_size'])
+      raise "Primo X-Services returned response #{response.code}" unless response.code == '200'
+      responses.push(response)
+    end
+    responses
+  end
+
+  # given an array of responses
+  # return an array of formatted queue messages
+  def convert_to_messages(responses)
+    message_array = []
+    responses.each do |r|
+      response_hashes = parse_response(REXML::Document.new(r.body))
+      message_array.concat(response_hashes.map {|h| create_ingest_message(h)})
+    end
+    message_array
+  end
+
+  # sub the values specified into search url and get response
+  def get_search_response(index, bulk_size)
+    url = @config['url'] % {index: index, bulk_size: bulk_size}
+    Net::HTTP.get_response(URI.parse(url))
+  end
 
   # Given a complete response,
   # create an array of record hashes
@@ -68,6 +103,7 @@ module PnxHelper
     message_hash[:workflowId] = 'DOD'
     message_hash.to_json
   end
+
   private
   # The PNX link text includes MARC subfields
   # get rid of these and return just the link
