@@ -368,8 +368,21 @@ describe WorksController do
     end
   end
 
-  describe 'GET dissemination' do
+  describe 'PATCH send to dissemination' do
+    it 'should redirect to it self' do
+      pending "NOT IMPLEMENTED!"
+      @work = Work.create! valid_attributes
+      put :send_to_dissemination, {:id => @work.pid}
+      response.should redirect_to(@work)
+    end
+  end
 
+  describe 'GET dissemination' do
+    it 'should assign \'@work\' to the work' do
+      @work = Work.create! valid_attributes
+      get :dissemination, {:id => @work.pid}
+      assigns(:work).should eq(@work)
+    end
   end
 
   after(:all) do
