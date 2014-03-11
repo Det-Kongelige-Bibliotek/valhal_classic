@@ -368,6 +368,10 @@ describe WorksController do
     end
   end
 
+  describe 'GET dissemination' do
+
+  end
+
   after(:all) do
     Work.all.each {|p| p.delete}
   end

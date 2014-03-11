@@ -1,0 +1,40 @@
+<%- model_class = Work -%>
+<div class="page-header">
+  <h1><%=t 'helpers.titles.dissemination', :default => [:'helpers.titles.dissemination', 'Dissemination for %{model}'], :model => model_class.model_name.human %></h1>
+</div>
+
+<pre>
+  <%= @work.inspect%>
+</pre>
+
+<%= form_for @work, :html=>{:multipart=>true}, url: {action: 'send_to_dissemination'} do |f| %>
+    <%= f.error_messages :header_message => 'Dissemination error', :class => 'alert alert-error', :header_tag => :h3 %>
+    <div class="preservation_profile">
+      <h3>Choosing Bifrost head for dissemination</h3>
+      <table border="5px">
+        <tr>
+          <th>Bifrost name</th>
+          <th>Details</th>
+        </tr>
+        <tr>
+          <td>
+            <b>BifrostBooks</b>
+          </td>
+          <td>
+            Dissemination of digital books.
+          </td>
+        </tr>
+      </table>
+      <div class="set_profile">
+        <br/>
+        <%= f.label :preservation_profile, 'Choose which Bifrost head' %>
+        <%= f.select :preservation_profile, options_for_select(["BifrostBooks"]) %>
+      </div>
+    </div>
+
+    <br/>
+    <%= f.submit 'Send to Bifrost', :class => 'btn btn-primary' %>
+<% end %>
+<br/>
+
+<%= render 'footer' %>

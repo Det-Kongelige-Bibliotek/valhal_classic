@@ -51,6 +51,8 @@ Valhal::Application.routes.draw do
       patch 'save_edit'
       get 'preservation'
       patch 'update_preservation_profile'
+      get 'dissemination'
+      patch 'send_to_dissemination'
     end
   end
 

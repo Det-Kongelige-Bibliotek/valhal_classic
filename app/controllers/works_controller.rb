@@ -37,6 +37,10 @@ class WorksController < ApplicationController
     @work = Work.find(params[:id])
   end
 
+  def dissemination
+    @work = Work.find(params[:id])
+  end
+
   def create
     #Validation passed begin processing parameters
     @work = Work.new(params[:work])
@@ -120,6 +124,13 @@ class WorksController < ApplicationController
       @work.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'
     end
+  end
+
+  # Updates the dissemination and performs the
+  def send_to_dissemination
+    @work = Work.find(params[:id])
+    @work.errors[:dissemination] << "COMMUNICATION WITH BIFROST NOT IMPLEMENTED"
+    render action: 'dissemination'
   end
 
   private
