@@ -5,10 +5,10 @@ development:
 
 test:
   url: 'http://primo-97.kb.dk:1701/PrimoWebServices/xservice/search/brief?institution=KGL&onCampus=false&query=any,contains,wbhedod&indx=%{index}&bulkSize=%{bulk_size}'
-  bulk_size: 1
+  bulk_size: 10
   max_index: 1
 
 production:
-  url: 'http://primo-17.kb.dk:1701/PrimoWebServices/xservice/search/brief?institution=KGL&onCampus=false&query=any,contains,wbhedod&indx=1&bulkSize=1000'
+  url: 'http://primo-97.kb.dk:1701/PrimoWebServices/xservice/search/brief?institution=KGL&onCampus=false&query=any,contains,wbhedod&indx=%{index}&bulkSize=%{bulk_size}'
   bulk_size: 1000
   max_index: 7
