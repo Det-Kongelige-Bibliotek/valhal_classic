@@ -79,4 +79,48 @@ module DigitisationHelper
     return Nokogiri::XML.parse(File.read("#{Rails.root}/spec/fixtures/mods_digitized_book.xml"))
   end
 
+
+  def create_work_object(mods,pdflink)
+    work = Work.new
+    work.datastreams['descMetadata'].content = mods
+    work.work_type='DOD bog'
+    if (!work.save)
+      return nil
+    end
+
+    # create Basicfile with pdflink as content data stream
+    file = BasicFile.new
+    if (!file.add_file_from_url(pdflink,nil))
+      logger.error "Unable to add pdffile from #{pdflink}"
+      work.delete
+      return nil
+    end
+
+    if (!file.save)
+      logger.error "Unable to save basicfile"
+      work.delete
+      return nil
+    end
+
+    rep = SingleFileRepresentation.new
+    rep.files << file
+
+    if (!rep.save)
+      logger.error "Unable to save file representation"
+      work.delete
+      file.delete #delete the BasicFile object again
+      return nil
+    end
+
+    rep.ie = work
+    work.representations << rep
+
+    if (work.save)
+      return work
+    else
+      rep.delete
+      file.delete
+      return nil
+    end
+  end
 end
