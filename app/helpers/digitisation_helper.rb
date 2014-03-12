@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 module DigitisationHelper
-  require 'services/http_service'
+
   #Subscribe to the DOD Digitisation Workflow queue
   #@param channel The channel to the message broker.
   def subscribe_to_dod_digitisation(channel)
