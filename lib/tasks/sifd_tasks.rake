@@ -32,6 +32,7 @@ namespace :sifd do
     puts "got #{responses.length} responses"
     # 2. for each response, create queue message and send to rabbitmq
     messages = PnxHelper.convert_to_messages(responses)
+    MQ_CONFIG = YAML.load_file("#{Rails.root}/config/mq_config.yml")[Rails.env]
     queue_name = MqHelper.get_queue_name('digitisation', 'source')
     puts "sending messages to queue #{queue_name}"
     messages.each {|m| MqHelper.send_on_rabbitmq(m, queue_name)}
