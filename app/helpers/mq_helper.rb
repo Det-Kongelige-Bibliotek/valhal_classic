@@ -25,6 +25,7 @@ module MqHelper
   # @param options Is a hash with header values for the message, e.g. content-type, type.
   # @return True, if the message is sent successfully. Otherwise false
   def send_on_rabbitmq(message, destination, options={})
+    load_config unless @config
     uri = @config['mq_uri']
     logger.info "Sending message '#{message}' on destination '#{destination}' at broker '#{uri}'"
 
