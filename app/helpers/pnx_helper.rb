@@ -13,7 +13,8 @@ module PnxHelper
     responses = []
     # from 1 until the max index specified, search pnx, retrieving
     # the num results specified each time
-    (1..@config['max_index']).each do |index|
+    (0..@config['max_index']).each do |i|
+      index = i * @config['bulk_size'] + 1
       response = get_search_response(index, @config['bulk_size'])
       raise "Primo X-Services returned response #{response.code}" unless response.code == '200'
       responses.push(response)
@@ -35,6 +36,7 @@ module PnxHelper
   # sub the values specified into search url and get response
   def get_search_response(index, bulk_size)
     url = @config['url'] % {index: index, bulk_size: bulk_size}
+    puts "retrieving url #{url}"
     Net::HTTP.get_response(URI.parse(url))
   end
 
