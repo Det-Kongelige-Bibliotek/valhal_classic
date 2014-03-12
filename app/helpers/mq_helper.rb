@@ -16,8 +16,7 @@ module MqHelper
   end
 
   def get_queue_name(target,type)
-    load_config
-    @config[target][type]
+    MQ_CONFIG[target][type]
   end
   # Sends a given message at the given destination on the MQ with the uri in the configuration.
   # @param message The message content to send.
@@ -25,8 +24,7 @@ module MqHelper
   # @param options Is a hash with header values for the message, e.g. content-type, type.
   # @return True, if the message is sent successfully. Otherwise false
   def send_on_rabbitmq(message, destination, options={})
-    load_config unless @config
-    uri = @config['mq_uri']
+    uri = MQ_CONFIG['mq_uri']
     logger.info "Sending message '#{message}' on destination '#{destination}' at broker '#{uri}'"
 
     conn = Bunny.new(uri)
@@ -43,14 +41,4 @@ module MqHelper
     true
   end
 
-  private
-
-  # when the initialiser hasn't been run, we need to load the config file ourselves
-  def load_config
-    if defined? MQ_CONFIG
-      @config = MQ_CONFIG
-    else
-      @config = YAML.load_file("#{Rails.root}/config/mq_config.yml")[Rails.env]
-    end
-  end
 end
