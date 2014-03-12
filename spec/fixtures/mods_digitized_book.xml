@@ -1,0 +1,41 @@
+﻿<modsCollection xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+<mods version="3.5">
+  	<titleInfo>
+  	  	<title>En Formiddag hos Frederik den Store, historisk Charakteerbillede</title>
+  	</titleInfo>
+  	<name type="personal">
+  	  	<namePart>Mühlbach, Louise</namePart>
+  	  	<role>
+  	  	  	<roleTerm type="code" authority="marcrelator">aut</roleTerm>
+  	  	  	<roleTerm type="text" authority="marcrelator">Author</roleTerm>
+  	  	</role>
+  	</name>
+  	<typeOfResource>text</typeOfResource>
+  	<originInfo eventType="publication">
+  	   <place>
+  	        <placeTerm authority="marccountry" type="code" authorityURI="http://id.loc.gov/vocabulary/countries" valueURI="http://id.loc.gov/vocabulary/countries/dk">dk</placeTerm>
+          </place>
+          <place>
+            <placeTerm type="text">Ålborg, Danmark</placeTerm>
+          </place>
+	        <publisher>Jordans' Forlag</publisher>
+  	  	<dateIssued keyDate="yes" encoding="w3cdtf">1859</dateIssued>
+  	</originInfo>
+  	<language>
+  	  	<languageTerm authority="iso639-2b">dan</languageTerm>
+  	  	<languageTerm type="text">Dansk</languageTerm>
+  	</language>
+  	<physicalDescription>
+  	  	<internetMediaType>application/pdf</internetMediaType>
+  	</physicalDescription>
+  	<physicalDescription>
+  	    <form authority="marcform">print</form>
+  	    <extent>188 s.</extent>
+  	</physicalDescription>
+  	<location>
+  	  	<url usage="primary display" access="object in context">http://www.kb.dk/e-mat/dod/130020101343.pdf</url>
+  	  	<shelfLocator>57,-458-8°</shelfLocator>
+  	</location>
+  	<accessCondition>Adgang: Alle har adgang</accessCondition>
+</mods>
+</modsCollection>

@@ -36,8 +36,8 @@ gem 'paperclip'
   gem 'jquery-ui-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'libv8', '~> 3.11.8'
-  gem 'therubyracer', '0.11.1', :platforms => :ruby
+  gem 'libv8', '~> 3.16.14.0'
+  gem 'therubyracer', '0.12.1', :platforms => :ruby
   gem 'uglifier', '>= 1.0.3'
 #end
 
