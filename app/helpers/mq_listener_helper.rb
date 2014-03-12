@@ -17,6 +17,17 @@ module MqListenerHelper
     update_preservation_metadata_for_element(message, element)
   end
 
+  def handle_digitisation_dod_ebook(message)
+    logger.debug "Received following DOD eBook message: #{message}"
+
+    if message['id'].blank? || message['fileUri'].blank? || message['workflowId'].nil?
+      logger.warn "Invalid preservation response message: #{message}"
+      return false
+    end
+
+    create_dod_work(message)
+  end
+
   private
   # Locates a given element based on its model and id.
   # If no model matches the element, then an error is raised.
