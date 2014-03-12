@@ -31,6 +31,13 @@ module DigitisationHelper
 
     puts "mods = #{mods}"
 
+    mods.remove_namespaces! #otherwise the xpath won't work
+    pdf_link = mods.xpath('//url/text()').to_s
+
+    puts "pdf_link = #{pdf_link}"
+
+    create_work_object(mods, pdf_link)
+
   end
 
   def get_aleph_set_number(barcode)
