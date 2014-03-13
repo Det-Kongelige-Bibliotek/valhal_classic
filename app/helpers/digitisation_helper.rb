@@ -25,27 +25,32 @@ module DigitisationHelper
     end
   end
 
+  #Manages the process of creating a DOD work in Valhal by getting the required meta-data from Aleph
+  #using the details contained in the message.  After getting the Aleph XML meta-data it transforms this to MODS
+  #and creates the Work for persistence to Fedora and indexing into Solr
+  #@message JSON format message about a DOD received from the DOD digitisation workflow
   def create_dod_work(message)
     logger.debug 'Going to generate MODS for eBook...'
     aleph_set_number = get_aleph_set_number(message['id'])
     aleph_marc_xml = get_aleph_marc_xml(aleph_set_number)
-    mods = transform_aleph_marc_xml_to_mods(aleph_marc_xml)
+
+    pdf_uri = message['fileUri']
+    mods = transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri)
 
     puts "mods = #{mods}"
 
-    pdf_link = message['fileUri']
-    puts "pdf_link = #{pdf_link}"
-    create_work_object(mods.to_s, pdf_link)
+    puts "pdf_uri = #{pdf_uri}"
+    create_work_object(mods.to_s, pdf_uri)
 
   end
 
   #Query Aleph X service to get the set_number for an eBook using the
   #eBooks barcode number.
+  #@barcode 12 digit number
   def get_aleph_set_number(barcode)
     logger.debug "Looking up aleph set number using barcode: #{barcode}"
     #make http request for set number
     aleph_base_uri = SERVICES_CONFIG['aleph_base_url']
-    #parse XML result to get set_number
     http_service = HttpService.new
     aleph_set_number_xml = http_service.do_post(aleph_base_uri, params = {
                                                     "op" => "find",
@@ -77,14 +82,14 @@ module DigitisationHelper
     aleph_marc_xml
   end
 
-  def transform_aleph_marc_xml_to_mods(aleph_marc_xml)
+  def transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri)
     logger.debug 'Running XSLT transformation of Aleph MARC XML to MODS...'
     doc = Nokogiri::XML.parse(aleph_marc_xml)
-    xslt1 = Nokogiri::XSLT(File.read("#{Rails.root}/xslt/dummy1.xsl"))
-    tmp_doc = xslt1.transform(doc)
-    xslt2 = Nokogiri::XSLT(File.read("#{Rails.root}/xslt/dummy2.xsl"))
+    xslt1 = Nokogiri::XSLT(File.read("#{Rails.root}/xslt/oaimarc2slimmarc.xsl"))
+    tmp_doc = xslt1.transform(doc, Nokogiri::XSLT.quote_params(['pdfUri', "#{pdf_uri}"]))
+    xslt2 = Nokogiri::XSLT(File.read("#{Rails.root}/xslt/marcToMODS.xsl"))
     mods = xslt2.transform(tmp_doc)
-    return Nokogiri::XML.parse(File.read("#{Rails.root}/spec/fixtures/mods_digitized_book.xml"))
+    return mods
   end
 
 

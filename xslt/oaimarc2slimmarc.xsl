@@ -3,8 +3,9 @@
 <xsl:transform version="1.0"
 	       xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	       xmlns:marc="http://www.loc.gov/MARC21/slim" 
-	       xmlns:xlink="http://www.w3.org/1999/xlink" 
-	       exclude-result-prefixes="xlink marc" >
+	       xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <xsl:param name="pdfUri"  select="'http://example.com/mock-file.pdf'" />
 
   <xsl:output method="xml"
 	      indent="yes"
@@ -13,6 +14,16 @@
   <xsl:template match="/">
     <marc:record>
       <xsl:apply-templates/>
+
+      <xsl:element name="marc:datafield">
+	<xsl:attribute name="ind1">#</xsl:attribute>
+	<xsl:attribute name="ind2">1</xsl:attribute>
+	<xsl:attribute name="tag">856</xsl:attribute>
+	<xsl:element name="marc:subfield">
+	  <xsl:attribute name="code">u</xsl:attribute>
+	  <xsl:value-of select="$pdfUri"/>
+	</xsl:element>
+      </xsl:element>
     </marc:record>
   </xsl:template>
   
@@ -136,13 +147,13 @@
 	<xsl:attribute name="code">b</xsl:attribute>
 
 	<xsl:for-each select="subfield[@label = 'a'][position() &gt; 1]">
-	  <xsl:text> ;</xsl:text><xsl:value-of select="."/>
+	  <xsl:text>; </xsl:text><xsl:value-of select="."/>
 	</xsl:for-each>
 
 	<xsl:for-each select="subfield[@label = 'c'] | subfield[@label = 'u']">
-	  <xsl:text> :</xsl:text><xsl:value-of select="."/>
+	  <xsl:text>: </xsl:text><xsl:value-of select="."/>
 	  <xsl:if test="following-sibling::subfield[@label = 'p']">
-	    <xsl:text> =</xsl:text><xsl:value-of select="following-sibling::subfield[@label = 'p']"/>
+	    <xsl:text>=</xsl:text><xsl:value-of select="following-sibling::subfield[@label = 'p']"/>
 	  </xsl:if>
 	</xsl:for-each>
       </xsl:element>
@@ -158,8 +169,8 @@
 			      subfield[@label = 't']">
 
 	  <xsl:choose>
-	    <xsl:when test="contains('efij',@label)"><xsl:text> /</xsl:text><xsl:value-of select="."/></xsl:when>
-	    <xsl:otherwise><xsl:text> =</xsl:text><xsl:value-of select="."/></xsl:otherwise>
+	    <xsl:when test="contains('efij',@label)"><xsl:text>/ </xsl:text><xsl:value-of select="."/></xsl:when>
+	    <xsl:otherwise><xsl:text>=</xsl:text><xsl:value-of select="."/></xsl:otherwise>
 	  </xsl:choose>
 	</xsl:for-each>
       </xsl:element>
@@ -184,7 +195,7 @@
 	<xsl:for-each select="subfield[@label='a']">
 	  <xsl:element name="marc:subfield">
 	    <xsl:attribute name="code">a</xsl:attribute>
-	    <xsl:if test="position() &gt; 1"><xsl:text> ;</xsl:text></xsl:if>
+	    <xsl:if test="position() &gt; 1"><xsl:text>; </xsl:text></xsl:if>
 	    <xsl:value-of select="translate(.,'[].:;','')"/>
 	  </xsl:element>
 	</xsl:for-each>
@@ -206,9 +217,9 @@
 	  </xsl:attribute>
 	  <xsl:if test="position()&gt;1">
 	    <xsl:choose>
-	      <xsl:when test="contains('bg',@label)"><xsl:text> :</xsl:text></xsl:when>
+	      <xsl:when test="contains('bg',@label)"><xsl:text>: </xsl:text></xsl:when>
 	      <xsl:when test="@label = 'c'">,</xsl:when>
-	      <xsl:when test="@label = 'g'"> ;</xsl:when>
+	      <xsl:when test="@label = 'g'"><xsl:text>; </xsl:text></xsl:when>
 	    </xsl:choose>
 	  </xsl:if><xsl:value-of select="."/>
 	</xsl:element>
@@ -260,5 +271,7 @@
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
+
+  <xsl:template match="session-id"/>
 
 </xsl:transform>
