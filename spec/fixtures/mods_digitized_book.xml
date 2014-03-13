@@ -1,45 +1,34 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<modsCollection xmlns:xlink="http://www.w3.org/1999/xlink"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xmlns="http://www.loc.gov/mods/v3"
-                xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
-  <mods version="3.5">
-      <titleInfo>
-          <title>En Formiddag hos Frederik den Store, historisk Charakteerbillede</title>
-      </titleInfo>
-      <name type="personal">
-          <namePart>Mühlbach, Louise</namePart>
-          <role>
-              <roleTerm type="code" authority="marcrelator">aut</roleTerm>
-              <roleTerm type="text" authority="marcrelator">Author</roleTerm>
-          </role>
-      </name>
-      <typeOfResource>text</typeOfResource>
-      <originInfo eventType="publication">
-         <place>
-              <placeTerm authority="marccountry" type="code" authorityURI="http://id.loc.gov/vocabulary/countries" valueURI="http://id.loc.gov/vocabulary/countries/dk">dk</placeTerm>
-            </place>
-            <place>
-              <placeTerm type="text">Ålborg, Danmark</placeTerm>
-            </place>
-              <publisher>Jordans' Forlag</publisher>
-          <dateIssued keyDate="yes" encoding="w3cdtf">1859</dateIssued>
-      </originInfo>
-      <language>
-          <languageTerm authority="iso639-2b">dan</languageTerm>
-          <languageTerm type="text">Dansk</languageTerm>
-      </language>
-      <physicalDescription>
-          <internetMediaType>application/pdf</internetMediaType>
-      </physicalDescription>
-      <physicalDescription>
-          <form authority="marcform">print</form>
-          <extent>188 s.</extent>
-      </physicalDescription>
-      <location>
-          <url usage="primary display" access="object in context">http://www.kb.dk/e-mat/dod/130020101343.pdf</url>
-          <shelfLocator>57,-458-8°</shelfLocator>
-      </location>
-      <accessCondition>Adgang: Alle har adgang</accessCondition>
-  </mods>
-</modsCollection>
+<mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.loc.gov/mods/v3"
+      version="3.4"
+      xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd">
+  <titleInfo>
+    <title>Er Danmark i Fare?</title>
+    <subTitle>: skrevet den 7. April 1848</subTitle>
+  </titleInfo>
+  <name type="personal" usage="primary">
+    <namePart>Klee, Frederik</namePart>
+  </name>
+  <typeOfResource/>
+  <originInfo>
+    <place>
+      <placeTerm type="text">Kbh</placeTerm>
+    </place>
+    <dateIssued>1848</dateIssued>
+  </originInfo>
+  <physicalDescription>
+    <extent>15 s.</extent>
+  </physicalDescription>
+  <note type="statement of responsibility" altRepGroup="00"/>
+  <location>
+    <physicalLocation>37,-376 8°</physicalLocation>
+  </location>
+  <location>
+    <url displayLabel="electronic resource" usage="primary display">http://aleph-00.kb.dk/X/130019448593.pdf</url>
+  </location>
+  <recordInfo>
+    <recordOrigin>Converted from MARCXML to MODS version 3.4 using MARC21slim2MODS3-4.xsl
+				(Revision 1.94 2014/02/21)</recordOrigin>
+  </recordInfo>
+</mods>
