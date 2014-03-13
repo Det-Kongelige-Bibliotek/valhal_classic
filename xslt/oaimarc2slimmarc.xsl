@@ -3,7 +3,9 @@
 <xsl:transform version="1.0"
 	       xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	       xmlns:marc="http://www.loc.gov/MARC21/slim" 
-	       xmlns:xlink="http://www.w3.org/1999/xlink">
+	       xmlns:xlink="http://www.w3.org/1999/xlink"
+	       xmlns:exsl="http://exslt.org/common"
+	       extension-element-prefixes="exsl">
 
   <xsl:param name="pdfUri"  select="'http://example.com/mock-file.pdf'" />
 
@@ -110,18 +112,7 @@
     </xsl:variable>
 
     <xsl:variable name="subfieldA">
-      <xsl:choose>
-	<xsl:when test="$ind2 &gt; 0">
-	  <xsl:value-of 
-	      select="substring-after(substring-before(subfield[@label = 'a'][1],'&gt;&gt;'),'&lt;&lt;')"/>
-	  <xsl:text> </xsl:text>
-	  <xsl:value-of 
-	      select="substring-after(subfield[@label = 'a'][1],'&gt;&gt;')"/>
-	</xsl:when>
-	<xsl:otherwise>
-	  <xsl:value-of select="subfield[@label = 'a'][1]"/>
-	</xsl:otherwise>
-      </xsl:choose>
+      <xsl:apply-templates select="subfield[@label = 'a'][1]"/>
     </xsl:variable>
 
     <xsl:element name="marc:datafield">
@@ -147,13 +138,13 @@
 	<xsl:attribute name="code">b</xsl:attribute>
 
 	<xsl:for-each select="subfield[@label = 'a'][position() &gt; 1]">
-	  <xsl:text>; </xsl:text><xsl:value-of select="."/>
+	  <xsl:text>; </xsl:text><xsl:apply-templates select="."/>
 	</xsl:for-each>
 
 	<xsl:for-each select="subfield[@label = 'c'] | subfield[@label = 'u']">
-	  <xsl:text>: </xsl:text><xsl:value-of select="."/>
+	  <xsl:text>: </xsl:text><xsl:apply-templates/>
 	  <xsl:if test="following-sibling::subfield[@label = 'p']">
-	    <xsl:text>=</xsl:text><xsl:value-of select="following-sibling::subfield[@label = 'p']"/>
+	    <xsl:text>=</xsl:text><xsl:apply-templates select="following-sibling::subfield[@label = 'p']"/>
 	  </xsl:if>
 	</xsl:for-each>
       </xsl:element>
@@ -169,8 +160,8 @@
 			      subfield[@label = 't']">
 
 	  <xsl:choose>
-	    <xsl:when test="contains('efij',@label)"><xsl:text>/ </xsl:text><xsl:value-of select="."/></xsl:when>
-	    <xsl:otherwise><xsl:text>=</xsl:text><xsl:value-of select="."/></xsl:otherwise>
+	    <xsl:when test="contains('efij',@label)"><xsl:text>/ </xsl:text><xsl:apply-templates select="."/></xsl:when>
+	    <xsl:otherwise><xsl:text>=</xsl:text><xsl:apply-templates select="."/></xsl:otherwise>
 	  </xsl:choose>
 	</xsl:for-each>
       </xsl:element>
@@ -221,7 +212,7 @@
 	      <xsl:when test="@label = 'c'">,</xsl:when>
 	      <xsl:when test="@label = 'g'"><xsl:text>; </xsl:text></xsl:when>
 	    </xsl:choose>
-	  </xsl:if><xsl:value-of select="."/>
+	  </xsl:if><xsl:apply-templates select="."/>
 	</xsl:element>
       </xsl:for-each>
 
@@ -239,7 +230,7 @@
 	  <xsl:if test="position()=1">(</xsl:if>
 	  <xsl:if test="@label='t' and position()=2"> :</xsl:if>
 	  <xsl:if test="@label='g' and position()&gt;=2">,</xsl:if>
-	  <xsl:value-of select="."/>
+	  <xsl:apply-templates select="."/>
 	  <xsl:if test="position()=last()">)</xsl:if>
 	</xsl:element>
       </xsl:for-each>
@@ -272,6 +263,41 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="session-id"/>
+  <xsl:template match="text()">
+
+    <!-- taking care of &lt;&lt;Bakkeskraaning=bakkeskråning&gt;&gt; -->
+    
+    <xsl:choose>
+      <xsl:when test="starts-with(.,'&lt;&lt;') and 
+			not(contains(substring-before(.,'&gt;&gt;'),'='))">
+	<xsl:value-of 
+	    select="substring-after(substring-before(.,'&gt;&gt;'),'&lt;&lt;')"/>
+	<xsl:variable name="therest">
+	  <the-rest>
+	    <xsl:value-of select="substring-after(.,'&gt;&gt;')"/>
+	  </the-rest>
+	</xsl:variable>
+	<xsl:apply-templates select="exsl:node-set($therest)/the-rest"/>
+      </xsl:when>
+
+      <xsl:when test="contains(substring-before(substring-after(.,'&lt;&lt;'),'&gt;&gt;'),'=')">
+	<xsl:value-of select="substring-before(.,'&lt;&lt;')"/>
+	<xsl:value-of select="substring-before(substring-after(.,'&lt;&lt;'),'=')"/>
+	<xsl:variable name="therest">
+	  <the-rest>
+	    <xsl:value-of select="substring-after(.,'&gt;&gt;')"/>
+	  </the-rest>
+	</xsl:variable>
+	<xsl:apply-templates select="exsl:node-set($therest)/the-rest"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:value-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
+
+  </xsl:template>
+
+  <xsl:template match="session-id|record_header|doc_number"/>
+
 
 </xsl:transform>
