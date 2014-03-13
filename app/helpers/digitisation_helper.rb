@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 module DigitisationHelper
 
+  SERVICES_CONFIG = YAML.load_file("#{Rails.root}/config/services.yml")[Rails.env]
+
   #Subscribe to the DOD Digitisation Workflow queue
   #@param channel The channel to the message broker.
   def subscribe_to_dod_digitisation(channel)
@@ -31,21 +33,18 @@ module DigitisationHelper
 
     puts "mods = #{mods}"
 
-    mods.remove_namespaces! #otherwise the xpath won't work
-    pdf_link = mods.xpath('//url/text()').to_s
-
+    pdf_link = message['fileUri']
     puts "pdf_link = #{pdf_link}"
-
-    puts "mods = #{mods.to_s.class.to_s}"
-
     create_work_object(mods.to_s, pdf_link)
 
   end
 
+  #Query Aleph X service to get the set_number for an eBook using the
+  #eBooks barcode number.
   def get_aleph_set_number(barcode)
     logger.debug "Looking up aleph set number using barcode: #{barcode}"
     #make http request for set number
-    aleph_base_uri = 'http://aleph-00.kb.dk/X'
+    aleph_base_uri = SERVICES_CONFIG['aleph_base_url']
     #parse XML result to get set_number
     http_service = HttpService.new
     aleph_set_number_xml = http_service.do_post(aleph_base_uri, params = {
@@ -68,7 +67,7 @@ module DigitisationHelper
   def get_aleph_marc_xml(aleph_set_number)
     logger.debug "Looking up aleph marc xml using set_number: #{aleph_set_number}"
 
-    aleph_base_uri = 'http://aleph-00.kb.dk/X'
+    aleph_base_uri = SERVICES_CONFIG['aleph_base_url']
     http_service = HttpService.new
     aleph_marc_xml = http_service.do_post(aleph_base_uri, params = {"op" => "present",
                                                                     "set_no" => "#{aleph_set_number}",

@@ -1,0 +1,6 @@
+development:
+  aleph_base_url: http://aleph-00.kb.dk/X
+test:
+  aleph_base_url: http://aleph-00.kb.dk/X
+production:
+  aleph_base_url: http://aleph-00.kb.dk/X
