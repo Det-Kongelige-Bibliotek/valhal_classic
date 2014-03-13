@@ -239,15 +239,22 @@
 
   <xsl:template match="varfield[@id='529']">
     <xsl:element name="marc:datafield">
-      <xsl:attribute name="ind1">
-	<xsl:value-of select="@i1"/>
-      </xsl:attribute>
-      <xsl:attribute name="ind2">
-	<xsl:value-of select="@i1"/>
-      </xsl:attribute>
-      <xsl:attribute name="tag">510</xsl:attribute>
+      <xsl:attribute name="ind1">1</xsl:attribute>
+      <xsl:attribute name="ind2"> </xsl:attribute>
+      <xsl:attribute name="tag">856</xsl:attribute>
 
-      <xsl:for-each select="subfield[@label='b']|subfield[@label='b']">
+      <xsl:for-each select="subfield[@label='b']">
+	<xsl:element name="marc:subfield">
+	  <xsl:attribute name="code">c</xsl:attribute>
+	  <xsl:apply-templates/>
+	</xsl:element>
+      </xsl:for-each>
+
+      <xsl:element name="marc:subfield">
+	<xsl:attribute name="code">z</xsl:attribute><xsl:text>cover image</xsl:text>
+      </xsl:element>
+
+      <xsl:for-each select="subfield[@label='u']">
 	<xsl:element name="marc:subfield">
 	  <xsl:attribute name="code"><xsl:value-of select="@label"/></xsl:attribute>
 	  <xsl:apply-templates/>
