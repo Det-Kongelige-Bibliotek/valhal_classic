@@ -76,7 +76,7 @@ module DigitisationHelper
                                                                     "set_no" => "#{aleph_set_number}",
                                                                     "set_entry" => "000000001",
                                                                     "format" => "marc"})
-    puts "#{aleph_marc_xml}"
+    logger.debug "#{aleph_marc_xml}"
     aleph_marc_xml
   end
 

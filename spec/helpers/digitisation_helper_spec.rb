@@ -69,6 +69,21 @@ describe 'DigitisationHelper' do
     end
   end
 
+  describe "#get_aleph_marc_xml" do
+    it "returns aleph marc xml for an aleph set number" do
+
+      aleph_test_marc_xml = File.read './spec/fixtures/aleph_marc.xml'
+      stub_request(:post, "http://aleph-00.kb.dk/X").
+         with(:body => {"format"=>"marc", "op"=>"present", "set_entry"=>"000000001", "set_no"=>"109558"},
+              :headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                           'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Ruby'}).
+         to_return(:status => 200, :body => "#{aleph_test_marc_xml}", :headers => {})
+
+      aleph_marc_xml = get_aleph_marc_xml('109558')
+      aleph_marc_xml.should_not be_nil
+    end
+  end
+
   describe "#transform_aleph_marc_xml_to_mods" do
     it "returns valid MODS XML" do
       aleph_marc_xml = File.read './spec/fixtures/aleph_marc.xml'
