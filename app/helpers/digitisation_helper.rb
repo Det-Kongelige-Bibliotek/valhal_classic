@@ -90,7 +90,6 @@ module DigitisationHelper
     xslt2 = Nokogiri::XSLT(File.read("#{Rails.root}/xslt/marcToMODS.xsl"))
     mods = xslt2.transform(tmp_doc)
     return mods
-    #return Nokogiri::XML.parse(File.read("#{Rails.root}/spec/fixtures/mods_digitized_book.xml"))
   end
 
 
