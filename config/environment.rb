@@ -81,7 +81,9 @@ if defined?(PhusionPassenger)
     end
   end
 else
-  start_listener_thread
+  if Rails.env.upcase != 'TEST'
+    start_listener_thread
+  end
   # We're in direct spawning mode. We don't need to do anything.
 end
 
