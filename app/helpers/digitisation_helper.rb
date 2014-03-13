@@ -58,12 +58,10 @@ module DigitisationHelper
                                                     "library" => "kgl01",
                                                     "request" => "bar=#{barcode}"})
     logger.debug aleph_set_number_xml
-    puts aleph_set_number_xml
 
     #get the set number out of XML
     aleph_set_number = Nokogiri::XML.parse(aleph_set_number_xml).xpath('/find/set_number/text()').to_s
 
-    puts "aleph_set_number = #{aleph_set_number}"
     logger.debug "aleph_set_number = #{aleph_set_number}"
 
     aleph_set_number

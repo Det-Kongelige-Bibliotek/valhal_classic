@@ -8,12 +8,10 @@ class HttpService
     logger.debug "Base URl = #{uri_string}"
     logger.debug "Params = #{params.to_s}"
 
-    puts params.to_s
     url = URI.parse(uri_string)
     request = Net::HTTP::Post.new(url.path)
     request.set_form_data(params)
     response = Net::HTTP.start(url.host, url.port) { |http| http.request(request) }
-    puts response.body
     response.body
   end
 
