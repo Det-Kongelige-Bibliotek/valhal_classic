@@ -264,6 +264,46 @@
     </xsl:element>
   </xsl:template>
 
+
+  <xsl:template match="varfield[@id='700']">
+    <xsl:element name="marc:datafield">
+      <xsl:choose>      
+	<xsl:when test="subfield[@label]">
+	  <xsl:attribute name="ind1">1</xsl:attribute>
+	  <xsl:attribute name="ind2"> </xsl:attribute>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:attribute name="ind1">0</xsl:attribute>
+	  <xsl:attribute name="ind2"> </xsl:attribute>
+	</xsl:otherwise>
+      </xsl:choose>
+
+      <xsl:attribute name="tag">700</xsl:attribute>
+
+
+
+      <xsl:if test="subfield[@label = 'a'] |
+		    subfield[@label = 'h']">
+	<xsl:element name="marc:subfield">
+	  <xsl:attribute name="code">a</xsl:attribute>
+	  <xsl:for-each select="subfield[@label = 'a'] |
+				subfield[@label = 'h']">
+	    <xsl:if test="position()&gt;1"><xsl:text>, </xsl:text></xsl:if><xsl:apply-templates/>
+	  </xsl:for-each>
+	</xsl:element>
+      </xsl:if>
+
+      <xsl:for-each select="subfield[not(contains('ah',@label))]">
+	<xsl:element name="marc:subfield">
+	  <xsl:attribute name="code">
+	    <xsl:value-of select="translate(.,'ecfkb','bdcqe')"/>
+	  </xsl:attribute>
+	  <xsl:apply-templates/>
+	</xsl:element>
+      </xsl:for-each>
+    </xsl:element>
+  </xsl:template>
+ 
   <xsl:template match="varfield">
     <xsl:element name="marc:datafield">
       <xsl:attribute name="ind1">
