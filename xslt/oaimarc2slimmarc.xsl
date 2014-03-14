@@ -42,23 +42,33 @@
     <xsl:apply-templates/>
   </xsl:template>
 
+  <xsl:template match="varfield[@id='008']">
+    <xsl:element name="marc:leader">
+      <xsl:text>------</xsl:text><xsl:choose>
+      <xsl:when test="subfield[@label='t']='a'"><xsl:text>a</xsl:text></xsl:when>
+      <xsl:when test="subfield[@label='t']='m'"><xsl:text>m</xsl:text></xsl:when>
+      <xsl:when test="subfield[@label='t']='p'"><xsl:text>s</xsl:text></xsl:when>
+      <xsl:when test="subfield[@label='t']='s'"><xsl:text>c</xsl:text></xsl:when></xsl:choose>
+    </xsl:element>
+  </xsl:template>
+
 
   <xsl:template match="varfield[@id='096']">
-
-    <xsl:element name="marc:datafield">
-      <xsl:attribute name="ind1">
-	<xsl:value-of select="@i1"/>
-      </xsl:attribute>
-      <xsl:attribute name="ind2">
-	<xsl:value-of select="@i1"/>
-      </xsl:attribute>
-      <xsl:attribute name="tag">852</xsl:attribute>
-      <xsl:element name="marc:subfield">
-	<xsl:attribute name="code">a</xsl:attribute>
-	<xsl:value-of select="subfield[@label='a']"/>
+    <xsl:if test="subfield[@label='a']">
+      <xsl:element name="marc:datafield">
+	<xsl:attribute name="ind1">
+	  <xsl:value-of select="@i1"/>
+	</xsl:attribute>
+	<xsl:attribute name="ind2">
+	  <xsl:value-of select="@i1"/>
+	</xsl:attribute>
+	<xsl:attribute name="tag">852</xsl:attribute>
+	<xsl:element name="marc:subfield">
+	  <xsl:attribute name="code">a</xsl:attribute>
+	  <xsl:value-of select="subfield[@label='a']"/>
+	</xsl:element>
       </xsl:element>
-    </xsl:element>
-
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="varfield[@id='100']">
@@ -134,38 +144,59 @@
 	</xsl:if>
       </xsl:element>
 
-      <xsl:element name="marc:subfield">
-	<xsl:attribute name="code">b</xsl:attribute>
 
-	<xsl:for-each select="subfield[@label = 'a'][position() &gt; 1]">
-	  <xsl:text>; </xsl:text><xsl:apply-templates select="."/>
-	</xsl:for-each>
+      <xsl:if test="subfield[@label = 'a'][position() &gt; 1] |subfield[@label = 'c'] | subfield[@label = 'u']">
+	<xsl:element name="marc:subfield">
+	  <xsl:attribute name="code">b</xsl:attribute>
 
-	<xsl:for-each select="subfield[@label = 'c'] | subfield[@label = 'u']">
-	  <xsl:text>: </xsl:text><xsl:apply-templates/>
-	  <xsl:if test="following-sibling::subfield[@label = 'p']">
-	    <xsl:text>=</xsl:text><xsl:apply-templates select="following-sibling::subfield[@label = 'p']"/>
-	  </xsl:if>
-	</xsl:for-each>
-      </xsl:element>
+	  <xsl:for-each select="subfield[@label = 'a'][position() &gt; 1]">
+	    <xsl:text>; </xsl:text><xsl:apply-templates select="."/>
+	  </xsl:for-each>
 
-      <xsl:element name="marc:subfield">
-	<xsl:attribute name="code">c</xsl:attribute>
+	  <xsl:for-each select="subfield[@label = 'c'] | subfield[@label = 'u']">
+	    <xsl:text>: </xsl:text><xsl:apply-templates/>
+	    <xsl:if test="following-sibling::subfield[@label = 'p']">
+	      <xsl:text>=</xsl:text><xsl:apply-templates select="following-sibling::subfield[@label = 'p']"/>
+	    </xsl:if>
+	  </xsl:for-each>
+	</xsl:element>
+      </xsl:if>
 
-	<xsl:for-each select="subfield[@label = 'e'] | 
+      <xsl:if test="subfield[@label = 'e'] | 
 			      subfield[@label = 'f'] |
 			      subfield[@label = 'i'] |
 			      subfield[@label = 'j'] |
 			      subfield[@label = 'æ'] |
 			      subfield[@label = 't']">
+	<xsl:element name="marc:subfield">
+	  <xsl:attribute name="code">c</xsl:attribute>
 
-	  <xsl:choose>
-	    <xsl:when test="contains('efij',@label)"><xsl:text>/ </xsl:text><xsl:apply-templates select="."/></xsl:when>
-	    <xsl:otherwise><xsl:text>=</xsl:text><xsl:apply-templates select="."/></xsl:otherwise>
-	  </xsl:choose>
-	</xsl:for-each>
-      </xsl:element>
+	  <xsl:for-each select="subfield[@label = 'e'] | 
+				subfield[@label = 'f'] |
+				subfield[@label = 'i'] |
+				subfield[@label = 'j'] |
+				subfield[@label = 'æ'] |
+				subfield[@label = 't']">
 
+	    <xsl:choose>
+	      <xsl:when test="contains('efij',@label)"><xsl:text>/ </xsl:text><xsl:apply-templates/></xsl:when>
+	      <xsl:otherwise><xsl:text>=</xsl:text><xsl:apply-templates/></xsl:otherwise>
+	    </xsl:choose>
+	  </xsl:for-each>
+	</xsl:element>
+      </xsl:if>
+
+      <xsl:for-each select="subfield[@label='m' or @label='n' or @label='q' or @label='r']">
+	<xsl:element name="marc:subfield">
+	  <xsl:attribute name="code">
+	    <xsl:choose>
+	      <xsl:when test="contains('nqr',@label)">n</xsl:when>
+	      <xsl:otherwise>h</xsl:otherwise>
+	    </xsl:choose>
+	  </xsl:attribute>
+	  <xsl:apply-templates/>
+	</xsl:element>
+      </xsl:for-each>
     </xsl:element>
   </xsl:template>
 
@@ -209,10 +240,10 @@
 	  <xsl:if test="position()&gt;1">
 	    <xsl:choose>
 	      <xsl:when test="contains('bg',@label)"><xsl:text>: </xsl:text></xsl:when>
-	      <xsl:when test="@label = 'c'">,</xsl:when>
+	      <xsl:when test="@label = 'c'"> </xsl:when>
 	      <xsl:when test="@label = 'g'"><xsl:text>; </xsl:text></xsl:when>
 	    </xsl:choose>
-	  </xsl:if><xsl:apply-templates select="."/>
+	  </xsl:if><xsl:apply-templates/>
 	</xsl:element>
       </xsl:for-each>
 
