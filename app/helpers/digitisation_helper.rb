@@ -46,7 +46,7 @@ module DigitisationHelper
 
     person = find_or_create_person(mods.to_s)
     unless person.nil?
-      work.set_authors(person.id, work)
+      work.set_authors([person.pid], work)
     end
   end
 

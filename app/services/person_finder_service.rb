@@ -11,7 +11,13 @@ module PersonFinderService
     name = parse_name(mods_xml)
     unless name.nil?
       hashed_name = hashify_personal_name(name)
-      find_person_by_name(hashed_name) || Person.new(hashed_name).save
+      p = find_person_by_name(hashed_name)
+
+      if p.nil?
+        p = Person.new(hashed_name)
+        p.save
+      end
+      p
     end
   end
 
