@@ -2,6 +2,8 @@
 module DigitisationHelper
 
   SERVICES_CONFIG = YAML.load_file("#{Rails.root}/config/services.yml")[Rails.env]
+  include ManifestationsHelper
+  include PersonFinderService
 
   #Subscribe to the DOD Digitisation Workflow queue
   #@param channel The channel to the message broker.
@@ -40,8 +42,12 @@ module DigitisationHelper
     puts "mods = #{mods}"
 
     puts "pdf_uri = #{pdf_uri}"
-    create_work_object(mods.to_s, pdf_uri)
+    work = create_work_object(mods.to_s, pdf_uri)
 
+    person = find_or_create_person(mods.to_s)
+    unless person.nil?
+      work.set_authors(person.id, work)
+    end
   end
 
   #Query Aleph X service to get the set_number for an eBook using the
