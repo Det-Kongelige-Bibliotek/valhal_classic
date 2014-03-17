@@ -1,26 +1,26 @@
-<div id="header-navbar-fixed-top" class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-    <div class="container">
-      <div class="row">
-        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-        <div class="span3 nav-collapse">
-          <ul class="nav">
-            <li>
-                <%= link_to APP_VERSION + " Home", root_path %>
-            </li>
-          </ul>
+<div class="navbar navbar-inverse navbar-fixed-top">
+
+    <div class="navbar-inner">
+        <div class="container">
+            <%= link_to APP_VERSION + "Home ", root_path, :class=>'appVersion'  %>
+            <a class="brand" href="<%=root_path%>">
+                <img src="/assets/valhal/logo.png">
+                <span>Valhal</span>
+            </a>
+            <%= render :partial=>'/user_util_links' %>
         </div>
-        <div class="span6 clearfix" id="searchbar">
-          <%= render_search_bar %>
-        </div>
-        <div class="span3 nav-collapse">
-          <%= render :partial=>'/user_util_links' %>
-        </div>
+    </div>
+
+</div>
+
+<div class="navbar navbar-fixed-top navbar-valhal">
+    <div class="navbar-inner">
+      <div class="container">
+
+        <%= render "catalog/valhal_navbar" %>
+        <%= render_search_bar %>
+
       </div>
     </div>
-  </div>
 </div>
+
