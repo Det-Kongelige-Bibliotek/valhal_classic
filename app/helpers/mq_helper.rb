@@ -15,6 +15,18 @@ module MqHelper
         })
   end
 
+  # Sends a dissemination message for BifrostBooks on the MQ.
+  #
+  # @param message The message content to be sent on the preservation destination.
+  def send_message_to_bifrost_books(message)
+    destination = MQ_CONFIG['dissemination']['bifrost_books']
+
+    send_on_rabbitmq(message, destination, {
+        'content_type' => 'application/json',
+        'type' => Constants::MQ_MESSAGE_TYPE_PRESERVATION_REQUEST
+    })
+  end
+
   def get_queue_name(target,type)
     MQ_CONFIG[target][type]
   end
