@@ -36,8 +36,8 @@ gem 'paperclip'
   gem 'jquery-ui-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'libv8', '~> 3.11.8'
-  gem 'therubyracer', '0.11.1', :platforms => :ruby
+  gem 'libv8', '~> 3.16.14.0'
+  gem 'therubyracer', '0.12.1', :platforms => :ruby
   gem 'uglifier', '>= 1.0.3'
 #end
 
@@ -46,6 +46,7 @@ group :test do
   gem 'rb-readline'
   gem 'simplecov-rcov'
   gem 'simplecov', :require => false
+  gem 'webmock'
 end
 
 #gem 'rspec-rails', :group => [:development, :test]
@@ -60,8 +61,8 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'capybara'
   #gem 'capybara-webkit' #uncomment if you want to run cucumber tests (cukes) in local dev environment.
-  #gem 'passenger', '~> 4.0.35' #uncomment if want to run passenger as your rails server locally
-  gem 'webmock'
+  #gem 'passenger', '~> 4.0.38' #uncomment if want to run passenger as your rails server locally
+  #gem 'passenger-rails', '~> 0.0.2'
 end
 
 group :development do

@@ -18,6 +18,7 @@ if Rails.env.upcase == 'TEST' && !ENV['MQ_URI'].blank?
 end
 
 include MqListenerHelper
+include DigitisationHelper
 
 # Connect to the RabbitMQ broker, and initialize the listeners
 def initialize_listeners
@@ -27,6 +28,7 @@ def initialize_listeners
   ch = conn.create_channel
 
   subscribe_to_preservation(ch)
+  subscribe_to_dod_digitisation(ch)
   conn.close
 end
 
@@ -79,6 +81,9 @@ if defined?(PhusionPassenger)
     end
   end
 else
+  if Rails.env.upcase != 'TEST'
+    start_listener_thread
+  end
   # We're in direct spawning mode. We don't need to do anything.
 end
 

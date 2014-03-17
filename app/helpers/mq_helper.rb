@@ -15,6 +15,9 @@ module MqHelper
         })
   end
 
+  def get_queue_name(target,type)
+    MQ_CONFIG[target][type]
+  end
   # Sends a given message at the given destination on the MQ with the uri in the configuration.
   # @param message The message content to send.
   # @param destination The destination on the MQ where the message is sent.
@@ -37,4 +40,5 @@ module MqHelper
     conn.close
     true
   end
+
 end

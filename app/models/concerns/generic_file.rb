@@ -179,7 +179,7 @@ module Concerns
         return nil
       end
     rescue URI::InvalidURIError
-      logger.error "Invalid URI"
+      logger.error "Invalid URI #{url}"
       nil
     end
   end

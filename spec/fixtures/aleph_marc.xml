@@ -1,0 +1,187 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<present>
+<record>
+<record_header>
+<set_entry>000000001</set_entry>
+</record_header>
+<doc_number>002245129</doc_number>
+<metadata>
+<oai_marc>
+<varfield id="001" i1="0" i2="0">
+<subfield label="a">x532899619</subfield>
+<subfield label="f">a</subfield>
+</varfield>
+<varfield id="004" i1="0" i2="0">
+<subfield label="r">n</subfield>
+<subfield label="a">e</subfield>
+</varfield>
+<varfield id="008" i1="0" i2="0">
+<subfield label="a">1848</subfield>
+<subfield label="b">dk</subfield>
+<subfield label="l">dan</subfield>
+<subfield label="t">m</subfield>
+</varfield>
+<varfield id="009" i1="0" i2="0">
+<subfield label="a">a</subfield>
+</varfield>
+<varfield id="088" i1="0" i2="0">
+<subfield label="o">37,-376</subfield>
+</varfield>
+<varfield id="096" i1="0" i2="0">
+<subfield label="a">37,-376 8°</subfield>
+<subfield label="u">Kan ikke hjemlånes</subfield>
+</varfield>
+<varfield id="100" i1="0" i2="0">
+<subfield label="a">Klee</subfield>
+<subfield label="h">Frederik</subfield>
+</varfield>
+<varfield id="245" i1="0" i2="0">
+<subfield label="a">Er Danmark i Fare?</subfield>
+<subfield label="c">skrevet den 7. April 1848</subfield>
+</varfield>
+<varfield id="260" i1="0" i2="0">
+<subfield label="a">Kbh.</subfield>
+<subfield label="c">1848</subfield>
+</varfield>
+<varfield id="300" i1="0" i2="0">
+<subfield label="a">15 s.</subfield>
+</varfield>
+<varfield id="599" i1="0" i2="0">
+<subfield label="c">SCK20010613</subfield>
+</varfield>
+<varfield id="B01" i1="0" i2="0">
+<subfield label="a">KBD</subfield>
+</varfield>
+<varfield id="B01" i1="0" i2="0">
+<subfield label="a">DPT</subfield>
+</varfield>
+<varfield id="B01" i1="0" i2="0">
+<subfield label="a">DOD</subfield>
+</varfield>
+<varfield id="CAT" i1=" " i2=" ">
+<subfield label="c">20010702</subfield>
+<subfield label="l">KGL01</subfield>
+<subfield label="h">1520</subfield>
+</varfield>
+<varfield id="CAT" i1=" " i2=" ">
+<subfield label="a">CONV14</subfield>
+<subfield label="b">00</subfield>
+<subfield label="c">20020705</subfield>
+<subfield label="l">KGL01</subfield>
+<subfield label="h">0159</subfield>
+</varfield>
+<varfield id="CAT" i1=" " i2=" ">
+<subfield label="a">BATCH</subfield>
+<subfield label="b">00</subfield>
+<subfield label="c">20041106</subfield>
+<subfield label="l">KGL01</subfield>
+<subfield label="h">1128</subfield>
+</varfield>
+<varfield id="CAT" i1=" " i2=" ">
+<subfield label="a">MANAGE-50</subfield>
+<subfield label="b">00</subfield>
+<subfield label="c">20041106</subfield>
+<subfield label="l">KGL01</subfield>
+<subfield label="h">1210</subfield>
+</varfield>
+<varfield id="CAT" i1=" " i2=" ">
+<subfield label="a">BATCH-UPD</subfield>
+<subfield label="b">00</subfield>
+<subfield label="c">20071228</subfield>
+<subfield label="l">KGL01</subfield>
+<subfield label="h">1820</subfield>
+</varfield>
+<varfield id="CAT" i1=" " i2=" ">
+<subfield label="a">BATCH-UPD</subfield>
+<subfield label="b">00</subfield>
+<subfield label="c">20110929</subfield>
+<subfield label="l">KGL01</subfield>
+<subfield label="h">1224</subfield>
+</varfield>
+<varfield id="CAT" i1=" " i2=" ">
+<subfield label="a">MAB</subfield>
+<subfield label="b">00</subfield>
+<subfield label="c">20120306</subfield>
+<subfield label="l">KGL01</subfield>
+<subfield label="h">1540</subfield>
+</varfield>
+<varfield id="CAT" i1=" " i2=" ">
+<subfield label="a">BATCH-UPD</subfield>
+<subfield label="b">00</subfield>
+<subfield label="c">20120330</subfield>
+<subfield label="l">KGL01</subfield>
+<subfield label="h">1607</subfield>
+</varfield>
+<varfield id="CAT" i1=" " i2=" ">
+<subfield label="a">EIMPORT</subfield>
+<subfield label="b"></subfield>
+<subfield label="c">20120602</subfield>
+<subfield label="l">KGL01</subfield>
+<subfield label="h">1909</subfield>
+</varfield>
+<varfield id="CAT" i1=" " i2=" ">
+<subfield label="a">BATCH-UPD</subfield>
+<subfield label="b">00</subfield>
+<subfield label="c">20120629</subfield>
+<subfield label="l">KGL01</subfield>
+<subfield label="h">1506</subfield>
+</varfield>
+<varfield id="CAT" i1=" " i2=" ">
+<subfield label="a">BATCH-UPD</subfield>
+<subfield label="b">00</subfield>
+<subfield label="c">20120703</subfield>
+<subfield label="l">KGL01</subfield>
+<subfield label="h">1035</subfield>
+</varfield>
+<varfield id="UID" i1=" " i2=" ">
+<subfield label="a">x532899619kbd</subfield>
+</varfield>
+<fixfield id="SYS">002245129</fixfield>
+<varfield id="PST" i1=" " i2=" ">
+<subfield label="e">DU</subfield>
+<subfield label="h">37,-376 8°</subfield>
+<subfield label="3">BOG</subfield>
+<subfield label="4">Closed stack</subfield>
+<subfield label="5">Danish coll. remote stack</subfield>
+<subfield label="7">USE DIGITAL VERSION</subfield>
+</varfield>
+<varfield id="SBL" i1=" " i2=" ">
+<subfield label="a">KLDA</subfield>
+</varfield>
+<varfield id="LOC" i1=" " i2=" ">
+<subfield label="b">KLDA</subfield>
+<subfield label="c">DAKAB</subfield>
+<subfield label="h">37,-376 8°</subfield>
+<subfield label="o">BOOK</subfield>
+</varfield>
+<varfield id="K15" i1="0" i2="0">
+<subfield label="a">Enkeltstående post</subfield>
+</varfield>
+<varfield id="K01" i1="0" i2="0">
+<subfield label="a">Danmark</subfield>
+</varfield>
+<varfield id="K02" i1="0" i2="0">
+<subfield label="a">Dansk</subfield>
+</varfield>
+<varfield id="K13" i1="0" i2="0">
+<subfield label="a">Bog; Mono</subfield>
+</varfield>
+<varfield id="AVA" i1=" " i2=" ">
+<subfield label="a">KGL50</subfield>
+<subfield label="b">KLDA</subfield>
+<subfield label="c">Danish coll. remote stack</subfield>
+<subfield label="d">37,-376 8°</subfield>
+<subfield label="e">available</subfield>
+<subfield label="t">Available</subfield>
+<subfield label="f">1</subfield>
+<subfield label="g">0</subfield>
+<subfield label="h">N</subfield>
+<subfield label="i">2</subfield>
+<subfield label="j">DAKAB</subfield>
+</varfield>
+</oai_marc>
+</metadata>
+</record>
+<session-id>T1JI597YNAB12J6LNG81MNIF1BLNSKD2358KS8UFLDRQMA5VJM</session-id>
+</present>
+ 

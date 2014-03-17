@@ -17,6 +17,20 @@ module MqListenerHelper
     update_preservation_metadata_for_element(message, element)
   end
 
+  #Handles messages about digitised eBooks for the DOD workflow, these messages contain information about the identity
+  # of the book in Aleph and where the actual file containing the eBook is stored in KB's digital infrastructure.  If
+  # anything is invalid in the message then we just log a warning message as we don't want to interrupt the normal
+  # operation of Valhal by raising an error.
+  def handle_digitisation_dod_ebook(message)
+    logger.debug "Received following DOD eBook message: #{message}"
+
+    if message['id'].blank? || message['fileUri'].blank? || message['workflowId'].nil?
+      logger.warn "Invalid DOD eBook input message: #{message}"
+    end
+
+    create_dod_work(message)
+  end
+
   private
   # Locates a given element based on its model and id.
   # If no model matches the element, then an error is raised.

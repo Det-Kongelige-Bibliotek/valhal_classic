@@ -3,8 +3,14 @@ require 'yaml'
 require 'net/http'
 require 'uri'
 require 'logger'
+require "#{Rails.root}/app/helpers/pnx_helper"
+require "#{Rails.root}/app/helpers/mq_helper"
+
 
 namespace :sifd do
+  include PnxHelper
+  include MqHelper
+
   desc "Delete all ActiveFedora::Base objects from solr and fedora"
   task :clean => :environment do
     #ping_solr
@@ -15,6 +21,23 @@ namespace :sifd do
   desc "Add FITS file characterization datastream to all SIFD BasicFile objects that don't have it"
   task :characterize_all => :environment do
     add_file_characterization_to_all_basic_files
+  end
+
+  desc "Import existing DOD books into valhal"
+  task :import_dod do
+    # 1. get all DOD books from PNX
+    PnxHelper.get_config
+    puts 'searching PNX'
+    responses = PnxHelper.search_pnx
+    puts "got #{responses.length} responses"
+    # 2. for each response, create queue message and send to rabbitmq
+    messages = PnxHelper.convert_to_messages(responses)
+    MQ_CONFIG = YAML.load_file("#{Rails.root}/config/mq_config.yml")[Rails.env]
+    queue_name = MqHelper.get_queue_name('digitisation', 'source')
+    puts "sending messages to queue #{queue_name}"
+    messages.each {|m| MqHelper.send_on_rabbitmq(m, queue_name)}
+
+
   end
   namespace :solr do
     desc "Reload the local jetty solr with config from solr_conf"
@@ -96,5 +119,4 @@ namespace :sifd do
         end
       end
   end
-
 end
