@@ -39,9 +39,9 @@ module DigitisationHelper
     pdf_uri = message['fileUri']
     mods = transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri)
 
-    puts "mods = #{mods}"
+    logger.debug "mods = #{mods}"
 
-    puts "pdf_uri = #{pdf_uri}"
+    logger.debug "pdf_uri = #{pdf_uri}"
     work = create_work_object(mods.to_s, pdf_uri)
 
     person = find_or_create_person(mods.to_s)
@@ -100,27 +100,22 @@ module DigitisationHelper
   def create_work_object(mods,pdflink)
     work = Work.new
     work.datastreams['descMetadata'].content = mods
-    puts "#########"
-    puts work.datastreams['descMetadata'].content.inspect
-    puts "#########"
     work.work_type='DOD bog'
     if (!work.save)
-      puts "Failed to save work"
+      logger.error "Failed to save work"
       return nil
     end
 
     # create Basicfile with pdflink as content data stream
     file = BasicFile.new
     if (!file.add_file_from_url(pdflink,nil))
-      logger.error "Unable to add pdffile from #{pdflink}"
-      puts "Unable to add pdffile from #{pdflink}"
+      logger.error "Unable to add pdf_file from #{pdflink}"
       work.delete
       return nil
     end
 
     if (!file.save)
       logger.error "Unable to save basicfile"
-      puts "Failed to save basicfile"
       work.delete
       return nil
     end
@@ -130,7 +125,6 @@ module DigitisationHelper
 
     if (!rep.save)
       logger.error "Unable to save file representation"
-      puts "Unable to save file representation"
       work.delete
       file.delete #delete the BasicFile object again
       return nil
