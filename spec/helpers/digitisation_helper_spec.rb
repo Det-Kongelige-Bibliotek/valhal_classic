@@ -13,7 +13,12 @@ describe 'DigitisationHelper' do
       stub_request(:get, "http://www.kb.dk/e-mat/dod/404.pdf").
           with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'www.kb.dk', 'User-Agent'=>'Ruby'}).
           to_return(:status => 404, :body => '', :headers => {})
+    end
 
+    after (:all) do
+      BasicFile.all.each { |file| file.delete }
+      Work.all.each { |w| w.delete }
+      SingleFileRepresentation.all.each { |rep| rep.delete}
     end
 
     it "should create a new object with singlefile representation" do
