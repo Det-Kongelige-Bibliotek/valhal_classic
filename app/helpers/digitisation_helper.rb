@@ -44,7 +44,7 @@ module DigitisationHelper
     aleph_marc_xml = get_aleph_marc_xml(aleph_set_number)
 
     pdf_uri = message['fileUri']
-    mods = transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri)
+    mods = transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri, message['id'])
 
     logger.debug "mods = #{mods}"
 
@@ -107,13 +107,18 @@ module DigitisationHelper
   #@param aleph_marc_xml - the aleph DanMARC XML in String format
   #@param pdf_uri - the URI to the location of the PDF file for this eBook in String format
   #@return Nokogiri::Document containing MODS XML
-  def transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri)
+  def transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri, barcode)
     logger.debug 'Running XSLT transformation of Aleph MARC XML to MODS...'
     doc = Nokogiri::XML.parse(aleph_marc_xml)
     xslt1 = Nokogiri::XSLT(File.read("#{Rails.root}/xslt/oaimarc2slimmarc.xsl"))
-    tmp_doc = xslt1.transform(doc, Nokogiri::XSLT.quote_params(['pdfUri', "#{pdf_uri}"]))
+    tmp_doc = xslt1.transform(doc, Nokogiri::XSLT.quote_params(['pdfUri', pdf_uri]))
     xslt2 = Nokogiri::XSLT(File.read("#{Rails.root}/xslt/marcToMODS.xsl"))
-    xslt2.transform(tmp_doc)
+    mods = xslt2.transform(tmp_doc)
+    code = Nokogiri::XML::Node.new("identifier", mods)
+    code.content = barcode
+    code.set_attribute('type', 'barcode')
+    mods.css('mods location').last.add_next_sibling(code)
+    mods
   end
 
   #Function for creating a new Work in Valhal and adding a MODS datastream with MODS XML produced from transformation

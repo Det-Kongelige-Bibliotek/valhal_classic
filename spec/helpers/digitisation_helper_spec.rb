@@ -87,13 +87,14 @@ describe 'DigitisationHelper' do
   describe "#transform_aleph_marc_xml_to_mods" do
     it "returns valid MODS XML" do
       aleph_marc_xml = File.read './spec/fixtures/aleph_marc.xml'
-      mods = transform_aleph_marc_xml_to_mods(aleph_marc_xml, 'http://aleph-00.kb.dk/X/130019448593.pdf')
+      mods = transform_aleph_marc_xml_to_mods(aleph_marc_xml, 'http://aleph-00.kb.dk/X/130019448593.pdf', '130019448593')
 
       mods.to_s.should_not be_nil
       mods.should be_kind_of Nokogiri::XML::Document
       expect(mods.root.include? '<mods')
       mods.css('mods originInfo edition').text.should eql '3. Oplag'
       mods.css('mods location physicalLocation').text.should eql '37,-376 8°'
+      mods.css('mods identifier').text.should eql '130019448593'
 
       mods_schema = Nokogiri::XML::Schema(File.read('./spec/fixtures/mods-3-5.xsd'))
       expect(mods_schema.validate(mods)).to be_empty
