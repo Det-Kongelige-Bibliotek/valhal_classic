@@ -90,7 +90,6 @@ describe 'DigitisationHelper' do
       mods = transform_aleph_marc_xml_to_mods(aleph_marc_xml, 'http://aleph-00.kb.dk/X/130019448593.pdf')
 
       mods.to_s.should_not be_nil
-      puts mods.to_s
       mods.should be_kind_of Nokogiri::XML::Document
       expect(mods.root.include? '<mods')
       mods.css('mods originInfo edition').text.should eql '3. Oplag'
@@ -98,7 +97,6 @@ describe 'DigitisationHelper' do
 
       mods_schema = Nokogiri::XML::Schema(File.read('./spec/fixtures/mods-3-5.xsd'))
       expect(mods_schema.validate(mods)).to be_empty
-
     end
   end
 end
