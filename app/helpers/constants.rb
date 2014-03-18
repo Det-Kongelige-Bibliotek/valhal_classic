@@ -5,6 +5,8 @@ class Constants
 
   # The message type for a preservation request.
   MQ_MESSAGE_TYPE_PRESERVATION_REQUEST = 'PreservationRequest'
+  # The message type for a dissemination request for BifrostBooks.
+  MQ_MESSAGE_TYPE_DISSEMINATION_BIFROST_BOOKS_REQUEST = 'BifrostBooksDisseminationRequest'
 
   # The name of the datastreams, which are not to be retrieved for messages.
   # DC = The Fedora internal Dublin-Core.

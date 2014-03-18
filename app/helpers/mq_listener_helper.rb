@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 
 include PreservationHelper
+include DisseminationService
 
 # Provides methods for all elements for sending a message over RabbitMQ
 module MqListenerHelper
@@ -28,7 +29,8 @@ module MqListenerHelper
       logger.warn "Invalid DOD eBook input message: #{message}"
     end
 
-    create_dod_work(message)
+    work = create_dod_work(message)
+    disseminate(work, message, DisseminationService::DISSEMINATION_TYPE_BIFROST_BOOKS)
   end
 
   private
