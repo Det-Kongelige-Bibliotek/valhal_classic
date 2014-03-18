@@ -35,6 +35,7 @@ module DigitisationHelper
   #using the details contained in the message.  After getting the Aleph XML meta-data it transforms this to MODS
   #and creates the Work for persistence to Fedora and indexing into Solr.
   #@param message JSON format message about a DOD received from the DOD digitisation workflow
+  # @return the created work for the dod-book.
   def create_dod_work(message)
     logger.debug 'Going to generate MODS for eBook...'
     #Getting the DanMARC record from Aleph for a digitised book is a 2-step process.  2 HTTP POSTs have to be made, the
@@ -56,7 +57,7 @@ module DigitisationHelper
       work.set_authors([person.pid], work)
     end
 
-    disseminate(work, message, DisseminationService::DISSEMINATION_TYPE_BIFROST_BOOKS)
+    work
   end
 
   #Query Aleph X service to get the set_number for an eBook using the eBooks barcode number. This is the first POST in

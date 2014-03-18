@@ -28,7 +28,9 @@ module MqListenerHelper
       logger.warn "Invalid DOD eBook input message: #{message}"
     end
 
-    create_dod_work(message)
+    work = create_dod_work(message)
+
+    disseminate(work, message, DisseminationService::DISSEMINATION_TYPE_BIFROST_BOOKS)
   end
 
   private
