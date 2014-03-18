@@ -7,7 +7,6 @@ module DigitisationHelper
   SERVICES_CONFIG = YAML.load_file("#{Rails.root}/config/services.yml")[Rails.env]
   include ManifestationsHelper
   include PersonFinderService
-  include DisseminationService
 
   #Subscribe to the DOD Digitisation Workflow queue
   #@param channel The channel to the message broker.

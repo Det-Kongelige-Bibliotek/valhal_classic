@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 
 include PreservationHelper
+include DisseminationService
 
 # Provides methods for all elements for sending a message over RabbitMQ
 module MqListenerHelper
