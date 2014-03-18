@@ -1,0 +1,21 @@
+<%= form_tag search_action_url, :method => :get, :class => 'navbar-form pull-right' do %>
+    <%= render_hash_as_hidden_fields(params_for_search().except(:q, :search_field, :qt, :page, :utf8)) %>
+
+    <% unless search_fields.empty? %>
+      <% end %>
+
+    <div class="input-append">
+         <%= text_field_tag :q, params[:q], :placeholder => t('blacklight.search.form.q'), :id => "q", :autofocus => should_autofocus_on_search_box? %>
+        <button type="submit" class="btn btn-primary" id="search">
+          <i class="icon-search icon-white"></i>
+          <span class="hidden-phone"><%=t('blacklight.search.form.submit')%></span>
+        </button>
+    </div>
+<% end %>
+
+
+
+
+
+
+
