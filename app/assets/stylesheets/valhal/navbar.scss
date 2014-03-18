@@ -1,0 +1,37 @@
+//
+// Navbars (Redux)
+// --------------------------------------------------
+
+
+// Brand: website or project name
+// -------------------------
+.navbar-fixed-top{
+  margin-bottom: 0px;
+}
+
+.navbar-inner{
+  .container{
+    position: relative;
+  }
+
+  .brand {
+    img{
+      max-height: 48px;
+      width: auto!important;
+    }
+    span{
+      display: none;
+    }
+  }
+}
+.appVersion{
+  position:absolute;
+  top: 45px;
+  right:0px;
+  z-index: 9999;
+}
+
+.navbar-valhal{
+  top:69px;
+  margin-bottom: 20px;
+}

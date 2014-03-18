@@ -1,13 +1,35 @@
-<ul class="nav">
-  <% if has_user_authentication_provider? %>
-      <li class="util-links-login">
-        <% if current_user %>
-          <%= link_to t('blacklight.header_links.logout'), destroy_user_session_path %> |
-          <%#= link_to_unless(current_user.to_s.blank?, current_user, "#") %>
-            &nbsp;<font color="white"><%= render :text => current_user %></font>
-        <% else %>
-            <%= link_to t('blacklight.header_links.login'), new_user_session_path %>
-        <% end %>
-      </li>
-  <% end %>
-</ul>
+
+<% if has_user_authentication_provider? %>
+
+    <% if current_user %>
+
+        <ul class="nav pull-right">
+          <li>
+            <p class="navbar-text"><%= render :text => current_user %>&nbsp;</p>
+          </li>
+          <li>
+            <%= button_to destroy_user_session_path, :action => destroy_user_session_path, :class => "btn btn-danger", :method => :get do %>
+                <i class="icon-off icon-white"></i>
+                <span class="hidden-phone"><%= t 'blacklight.header_links.logout' %></span>
+            <% end %>
+          </li>
+        </ul>
+
+    <% else %>
+
+        <ul class="nav pull-right">
+          <li>
+            <%= button_to new_user_session_path, :action => new_user_session_path, :class => "btn btn-success", :method => :get do %>
+                <i class="icon-off icon-white"></i>
+                <span class="hidden-phone"><%= t 'blacklight.header_links.login' %></span>
+            <% end %>
+
+          </li>
+        </ul>
+
+    <% end %>
+
+
+<% end %>
+
+

@@ -1,0 +1,31 @@
+<mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3" version="3.5" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+  <titleInfo>
+    <nonSort>En </nonSort>
+    <title>meget ynkelig Viise, hvorudi een Synderinde sukker over sine grove Misgierninger Navnlig Cicilia Johans Dotter som forbegangen Mord paa sit eget Barn, der var 18 Uger gammel, skal udstaae sin velfortiente Straf, Tisdagen den 26. May. I det hun med Sværd mister sit Hoved</title>
+    <subTitle/>
+  </titleInfo>
+  <typeOfResource/>
+  <originInfo>
+    <place>
+      <placeTerm type="text">Sl</placeTerm>
+    </place>
+    <dateIssued>Trykt i dette Aar</dateIssued>
+  </originInfo>
+  <physicalDescription>
+    <extent>4 bl.</extent>
+  </physicalDescription>
+  <note type="statement of responsibility" altRepGroup="00"/>
+  <location>
+    <physicalLocation>Hielmst. 1853 F 8° (Nr. 49)</physicalLocation>
+  </location>
+  <location>
+    <url displayLabel="electronic resource" note="cover image">http://images.kb.dk/bibliotheca_danica/bind%2030608.jpg</url>
+  </location>
+  <location>
+    <url displayLabel="electronic resource" usage="primary display">http://www.kb.dk/e-mat/dod/130020236885.pdf</url>
+  </location>
+  <recordInfo>
+    <recordOrigin>Converted from MARCXML to MODS version 3.4 using MARC21slim2MODS3-4.xsl
+				(Revision 1.94 2014/02/21)</recordOrigin>
+  </recordInfo>
+<genre>DOD bog</genre></mods>
