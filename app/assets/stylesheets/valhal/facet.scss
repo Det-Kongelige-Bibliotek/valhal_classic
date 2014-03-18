@@ -1,0 +1,33 @@
+@mixin badgeColor {
+  @extend .badge;
+}
+.facetHome {
+  @extend .text-center;
+  .facet_limit{
+    padding-bottom: 5px;
+  }
+  h5 {
+    @extend h3;
+    font-weight: normal;
+    line-height: 25px;
+    a{
+      color: inherit;
+    }
+    a:hover {
+      cursor: default;
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  ul{
+    @extend .inline;
+  }
+  .count {
+    @include badgeColor;
+  }
+}
+
+
+
+
