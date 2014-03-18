@@ -1,0 +1,30 @@
+
+.navbar .navbar-form{
+  @extend .pull-right;
+  .btn{
+    @extend .btn-primary;
+    i{
+      @extend .icon-white;
+    }
+  }
+}
+.searchHome{
+  @extend .text-center;
+    input{
+      @extend .btn-large;
+      -webkit-border-radius: 6px 0 0 6px;
+      -moz-border-radius: 6px 0 0 6px;
+      border-radius: 6px 0 0 6px;
+    }
+    .btn{
+      -webkit-border-radius:0px 6px 6px 0px;
+      -moz-border-radius: 0px 6px 6px 0px;
+      border-radius:0px 6px 6px 0px;
+      @extend .btn-large;
+      @extend .btn-primary;
+      i{
+        @extend .icon-white;
+      }
+    }
+
+}
