@@ -39,6 +39,9 @@
 <subfield label="a">Er Danmark i Fare?</subfield>
 <subfield label="c">skrevet den 7. April 1848</subfield>
 </varfield>
+<varfield id="250" i1="0" i2="0">
+  <subfield label="a">3. Oplag</subfield>
+</varfield>
 <varfield id="260" i1="0" i2="0">
 <subfield label="a">Kbh.</subfield>
 <subfield label="c">1848</subfield>

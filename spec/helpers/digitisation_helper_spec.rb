@@ -20,7 +20,7 @@ describe 'DigitisationHelper' do
       mods = File.open('spec/fixtures/mods_digitized_book.xml').read
       work = create_work_object(mods,"http://www.kb.dk/e-mat/dod/testdod.pdf")
       work.should_not be_nil
-      work.title.should == 'En Formiddag hos Frederik den Store, historisk Charakteerbillede'
+      work.title.should == 'Er Danmark i Fare?'
       work.work_type.should == 'DOD bog'
       work.single_file_reps.length.should == 1
       rep = work.single_file_reps[0]
@@ -93,6 +93,8 @@ describe 'DigitisationHelper' do
       puts mods.to_s
       mods.should be_kind_of Nokogiri::XML::Document
       expect(mods.root.include? '<mods')
+      mods.css('mods originInfo edition').text.should eql '3. Oplag'
+      mods.css('mods location physicalLocation').text.should eql '37,-376 8°'
 
       mods_schema = Nokogiri::XML::Schema(File.read('./spec/fixtures/mods-3-5.xsd'))
       expect(mods_schema.validate(mods)).to be_empty
