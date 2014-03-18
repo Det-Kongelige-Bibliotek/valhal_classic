@@ -22,14 +22,19 @@ include DigitisationHelper
 
 # Connect to the RabbitMQ broker, and initialize the listeners
 def initialize_listeners
-  uri = MQ_CONFIG["mq_uri"]
-  conn = Bunny.new(uri)
-  conn.start
-  ch = conn.create_channel
+  begin
+    uri = MQ_CONFIG["mq_uri"]
+    conn = Bunny.new(uri)
+    conn.start
+    ch = conn.create_channel
 
-  subscribe_to_preservation(ch)
-  subscribe_to_dod_digitisation(ch)
-  conn.close
+    subscribe_to_preservation(ch)
+    subscribe_to_dod_digitisation(ch)
+    conn.close
+  rescue Bunny::TCPConnectionFailed => e
+    logger.error 'Connection to RabbitMQ failed'
+    logger.error e.to_s
+  end
 end
 
 # Subscribing to the preservation response queue
@@ -65,6 +70,7 @@ def start_listener_thread
       sleep polling_interval.minutes
     end
   end
+  logger.debug "num_of_threads = #{t.group.list.size}"
   #I've read here: https://www.agileplannerapp.com/blog/building-agile-planner/rails-background-jobs-in-threads
   #that each thread started in a Rails app gets its own database connection so when the thread terminates we need
   #to close any database connections too.
