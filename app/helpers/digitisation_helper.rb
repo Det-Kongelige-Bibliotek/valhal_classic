@@ -7,7 +7,7 @@ module DigitisationHelper
   SERVICES_CONFIG = YAML.load_file("#{Rails.root}/config/services.yml")[Rails.env]
   include ManifestationsHelper
   include PersonFinderService
-  include DisseminationHelper
+  include DisseminationService
 
   #Subscribe to the DOD Digitisation Workflow queue
   #@param channel The channel to the message broker.
@@ -56,7 +56,7 @@ module DigitisationHelper
       work.set_authors([person.pid], work)
     end
 
-    disseminate(work, message, DisseminationHelper::DISSEMINATION_TYPE_BIFROST_BOOKS)
+    disseminate(work, message, DisseminationService::DISSEMINATION_TYPE_BIFROST_BOOKS)
   end
 
   #Query Aleph X service to get the set_number for an eBook using the eBooks barcode number. This is the first POST in

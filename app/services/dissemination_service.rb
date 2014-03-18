@@ -2,7 +2,7 @@
 
 # The helper methods for dissemination.
 # Currently only for dissemination through BifrostBøger.
-module DisseminationHelper
+module DisseminationService
   include MqHelper # methods: send_message_to_bifrost_books
 
   # constant for BifrostBooks type.
@@ -10,19 +10,20 @@ module DisseminationHelper
 
   # Disseminate a DOD-work
   # @param work The work with the DOD-book to disseminate
-  # @param message The message containing the URL for the PDF.
-  def disseminate(work, digitization_message, type)
-    message = create_message(work, digitization_message, type)
+  # @param options The message containing the URL for the PDF.
+  # @param type The type for dissemination
+  def disseminate(work, options, type)
+    message = create_message(work, options, type)
     send_message_to_bifrost_books(message)
   end
 
   private
   # Creates a message depending on the dissemination type
   # Currently only BifrostBøger supported.
-  def create_message(work, digitization_message, type)
+  def create_message(work, options, type)
     case type
       when DISSEMINATION_TYPE_BIFROST_BOOKS
-        create_message_for_dod_book(work, digitization_message)
+        create_message_for_dod_book(work, options)
       else
         raise "Cannot disseminate type #{type}"
     end
@@ -36,15 +37,15 @@ module DisseminationHelper
   # MODS - The descMetadata datastream in XML.
   #
   # @param work The work to create the DOD object for.
-  # @param digitization_message The message from digitization with the URL.
+  # @param options The options for the message containing the fileUri.
   # @return The message in JSON format.
-  def create_message_for_dod_book(work, digitization_message)
+  def create_message_for_dod_book(work, options)
     message = Hash.new
     message['UUID'] = work.uuid
     message['Dissemination_type'] = 'BifrostBøger'
     message['Type'] = element.pid
     # TODO this is a hack, since we currently cannot handle more than url.
-    message['Files'] = {'1' => digitization_message['fileUri']}
+    message['Files'] = {'1' => options['fileUri']}
     message['MODS'] = work.descMetadata.content.to_xml
 
     message.to_json
