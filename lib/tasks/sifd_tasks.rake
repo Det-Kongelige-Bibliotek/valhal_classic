@@ -18,7 +18,7 @@ namespace :sifd do
     end
     objects = ActiveFedora::Base.all
     objects.each {|af| af.delete }
-    if ENV['RAILS_ENV'].eql? 'test'
+    if Rails.env.to_s.eql? 'test'
       WebMock.disable_net_connect!(allow_localhost: true)
     end
     puts "#{objects.length} objects deleted from #{Rails.env.titleize} environment"
