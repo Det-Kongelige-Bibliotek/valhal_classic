@@ -48,7 +48,7 @@ def subscribe_to_preservation(channel)
 
   destination = MQ_CONFIG["preservation"]["response"]
   q = channel.queue(destination, :durable => true)
-  logger.info "Listening to preservation response queue: #{destination}"
+  #logger.info "Listening to preservation response queue: #{destination}"
 
   q.subscribe do |delivery_info, metadata, payload|
     begin
@@ -66,8 +66,8 @@ def start_listener_thread
   t = Thread.new do
     while true
       initialize_listeners
-      logger.debug "Going to sleep for #{polling_interval} minutes..."
-      sleep polling_interval.minutes
+      #logger.debug "Going to sleep for #{polling_interval} minutes..."
+      #sleep polling_interval.minutes
     end
   end
   logger.debug "num_of_threads = #{t.group.list.size}"
