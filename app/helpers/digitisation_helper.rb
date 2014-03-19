@@ -18,7 +18,7 @@ module DigitisationHelper
 
     source = MQ_CONFIG["digitisation"]["source"]
     q = channel.queue(source, :durable => true)
-    logger.info "Listening to DOD digitisation workflow queue: #{source}"
+    #logger.info "Listening to DOD digitisation workflow queue: #{source}"
 
     q.subscribe do |delivery_info, metadata, payload|
       begin

@@ -48,7 +48,7 @@ def subscribe_to_preservation(channel)
 
   destination = MQ_CONFIG["preservation"]["response"]
   q = channel.queue(destination, :durable => true)
-  logger.info "Listening to preservation response queue: #{destination}"
+  #logger.info "Listening to preservation response queue: #{destination}"
 
   q.subscribe do |delivery_info, metadata, payload|
     begin
@@ -80,7 +80,7 @@ end
 if defined?(PhusionPassenger)
   PhusionPassenger.on_event(:starting_worker_process) do |forked|
     if forked
-      logger.debug "Forked"
+      logger.trace "Forked"
       # We’re in a smart spawning mode
       # Now is a good time to connect to RabbitMQ
       start_listener_thread
