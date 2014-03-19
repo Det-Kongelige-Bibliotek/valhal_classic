@@ -80,7 +80,7 @@ end
 if defined?(PhusionPassenger)
   PhusionPassenger.on_event(:starting_worker_process) do |forked|
     if forked
-      logger.trace "Forked"
+      logger.debug "Forked"
       # We’re in a smart spawning mode
       # Now is a good time to connect to RabbitMQ
       start_listener_thread
