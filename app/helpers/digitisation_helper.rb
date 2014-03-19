@@ -114,10 +114,16 @@ module DigitisationHelper
     tmp_doc = xslt1.transform(doc, Nokogiri::XSLT.quote_params(['pdfUri', pdf_uri]))
     xslt2 = Nokogiri::XSLT(File.read("#{Rails.root}/xslt/marcToMODS.xsl"))
     mods = xslt2.transform(tmp_doc)
+
     code = Nokogiri::XML::Node.new("identifier", mods)
     code.content = barcode
     code.set_attribute('type', 'barcode')
     mods.css('mods location').last.add_next_sibling(code)
+
+    empty_uri_identifier_element = Nokogiri::XML::Node.new('identifier', mods)
+    empty_uri_identifier_element.content = ''
+    empty_uri_identifier_element.set_attribute('type', 'uri')
+    mods.css('mods location').last.add_next_sibling(empty_uri_identifier_element)
     mods
   end
 
