@@ -3,6 +3,7 @@
 # The helper methods for dissemination.
 # Currently only for dissemination through BifrostBøger.
 module DisseminationService
+  require 'active_support/core_ext/hash/conversions'
   include MqHelper # methods: send_message_to_bifrost_books
 
   # constant for BifrostBooks type.
@@ -49,7 +50,8 @@ module DisseminationService
     message['Type'] = work.pid
     # TODO this is a hack, since we currently cannot handle more than url.
     message['Files'] = {'1' => options['fileUri']}
-    message['MODS'] = work.descMetadata.content
+    mods_xml = Nokogiri::XML.parse(work.descMetadata.content)
+    message['MODS'] = Hash.from_xml(mods_xml.to_s)
 
     message.to_json
   end
