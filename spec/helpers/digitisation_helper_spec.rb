@@ -16,7 +16,7 @@ describe 'DigitisationHelper' do
           to_return(:status => 404, :body => '', :headers => {})
     end
 
-    after (:all) do
+    after (:each) do
       BasicFile.all.each { |file| file.delete }
       Work.all.each { |w| w.delete }
       SingleFileRepresentation.all.each { |rep| rep.delete}
@@ -46,6 +46,25 @@ describe 'DigitisationHelper' do
       work = create_work_object(@mods,"http://www.kb.dk/e-mat/dod/404.pdf")
       work.should be nil
 
+    end
+
+    it "should not create a duplicate work" do
+      #Create first work
+      work = create_work_object(@mods,"http://www.kb.dk/e-mat/dod/testdod.pdf")
+      work.should_not be_nil
+      work.title.should == 'Er Danmark i Fare?'
+      work.work_type.should == 'DOD bog'
+      work.single_file_reps.length.should == 1
+      rep = work.single_file_reps[0]
+      rep.should be_a_kind_of SingleFileRepresentation
+      rep.files.length.should == 1
+      file = rep.files[0]
+      file.should be_a_kind_of BasicFile
+      file.datastreams['content'].should_not be nil
+
+      #Create duplicate work
+      work2 = create_work_object(@mods,"http://www.kb.dk/e-mat/dod/testdod.pdf")
+      work2.should be_nil
     end
   end
 
