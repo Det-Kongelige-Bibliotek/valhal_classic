@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe Work do
-  subject { Book.new(title: 'test' + Time.now.nsec.to_s) }
+  subject { Work.new(title: 'test' + Time.now.nsec.to_s) }
 
   it_behaves_like 'a manifestation with authors'
   it_behaves_like 'a manifestation with concerns'

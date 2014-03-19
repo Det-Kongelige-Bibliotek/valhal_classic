@@ -25,7 +25,7 @@ module DisseminationService
       when DISSEMINATION_TYPE_BIFROST_BOOKS
         create_message_for_dod_book(work, options)
       else
-        raise "Cannot disseminate type #{type}"
+        raise ArgumentError.new("Cannot disseminate type #{type}")
     end
   end
 
@@ -40,6 +40,9 @@ module DisseminationService
   # @param options The options for the message containing the fileUri.
   # @return The message in JSON format.
   def create_message_for_dod_book(work, options)
+    if options['fileUri'].blank?
+      raise ArgumentError.new("Cannot handle dod book without any file URI.")
+    end
     message = Hash.new
     message['UUID'] = work.uuid
     message['Dissemination_type'] = 'BifrostBøger'
