@@ -13,11 +13,14 @@ namespace :sifd do
 
   desc "Delete all ActiveFedora::Base objects from solr and fedora"
   task :clean => :environment do
-    #ping_solr
-    WebMock.allow_net_connect!
+    if Rails.env.to_s.eql? 'test'
+      WebMock.allow_net_connect!
+    end
     objects = ActiveFedora::Base.all
     objects.each {|af| af.delete }
-    WebMock.disable_net_connect!(allow_localhost: true)
+    if ENV['RAILS_ENV'].eql? 'test'
+      WebMock.disable_net_connect!(allow_localhost: true)
+    end
     puts "#{objects.length} objects deleted from #{Rails.env.titleize} environment"
   end
   desc "Add FITS file characterization datastream to all SIFD BasicFile objects that don't have it"
