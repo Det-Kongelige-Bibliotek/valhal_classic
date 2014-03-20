@@ -12,7 +12,7 @@ module DigitisationHelper
   #@param channel The channel to the message broker.
   def subscribe_to_dod_digitisation(channel)
     if MQ_CONFIG["digitisation"]["source"].blank?
-      logger.warn 'No digitisation source queue defined -> Not listening'
+      logger.warn "#{Time.now.to_s} WARN: No digitisation source queue defined -> Not listening"
       return
     end
 
@@ -22,10 +22,10 @@ module DigitisationHelper
 
     q.subscribe do |delivery_info, metadata, payload|
       begin
-        logger.debug "Received the following DOD eBook message: #{payload}"
+        logger.debug "#{Time.now.to_s} DEBUG: Received the following DOD eBook message: #{payload}"
         handle_digitisation_dod_ebook(JSON.parse(payload))
       rescue => e
-        logger.error "Tried to handle DOD eBook message: #{payload}\nCaught error: #{e}"
+        logger.error "#{Time.now.to_s} ERROR: Tried to handle DOD eBook message: #{payload}\nCaught error: #{e}"
       end
     end
   end
@@ -36,7 +36,7 @@ module DigitisationHelper
   #@param message JSON format message about a DOD received from the DOD digitisation workflow
   # @return the created work for the dod-book.
   def create_dod_work(message)
-    logger.debug 'Going to generate MODS for eBook...'
+    logger.debug "#{Time.now.to_s} DEBUG: Going to generate MODS for eBook..."
     #Getting the DanMARC record from Aleph for a digitised book is a 2-step process.  2 HTTP POSTs have to be made, the
     #first uses the ID of the book which is assumed to be a barcode to get a set_number back from Aleph.  This set_number
     #becomes the parameter to the second Aleph POST that returns the actual meta-data for the book in DanMARC format
@@ -46,9 +46,9 @@ module DigitisationHelper
     pdf_uri = message['fileUri']
     mods = transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri, message['id'])
 
-    logger.debug "mods = #{mods}"
+    logger.debug "#{Time.now.to_s} DEBUG: mods = #{mods}"
 
-    logger.debug "pdf_uri = #{pdf_uri}"
+    logger.debug "#{Time.now.to_s} DEBUG: pdf_uri = #{pdf_uri}"
     work = create_work_object(mods.to_s, pdf_uri)
 
     person = find_or_create_person(mods.to_s)
@@ -64,7 +64,7 @@ module DigitisationHelper
   #@param barcode 12 digit number in String format
   #@return aleph_set_number
   def get_aleph_set_number(barcode)
-    logger.debug "Looking up aleph set number using barcode: #{barcode}"
+    logger.debug "#{Time.now.to_s} DEBUG: Looking up aleph set number using barcode: #{barcode}"
     #make http request for set number
     aleph_base_uri = SERVICES_CONFIG['aleph_base_url']
     http_service = HttpService.new
@@ -78,7 +78,7 @@ module DigitisationHelper
     #get the set number out of XML
     aleph_set_number = Nokogiri::XML.parse(aleph_set_number_xml).xpath('/find/set_number/text()').to_s
 
-    logger.debug "aleph_set_number = #{aleph_set_number}"
+    logger.debug "#{Time.now.to_s} DEBUG: aleph_set_number = #{aleph_set_number}"
 
     aleph_set_number
   end
@@ -89,7 +89,7 @@ module DigitisationHelper
   #record for the eBook.
   #@return
   def get_aleph_marc_xml(aleph_set_number)
-    logger.debug "Looking up aleph marc xml using set_number: #{aleph_set_number}"
+    logger.debug "#{Time.now.to_s} DEBUG: Looking up aleph marc xml using set_number: #{aleph_set_number}"
 
     aleph_base_uri = SERVICES_CONFIG['aleph_base_url']
     http_service = HttpService.new
@@ -97,7 +97,7 @@ module DigitisationHelper
                                                                     "set_no" => "#{aleph_set_number}",
                                                                     "set_entry" => "000000001",
                                                                     "format" => "marc"})
-    logger.debug "#{aleph_marc_xml}"
+    logger.debug "#{Time.now.to_s} DEBUG: #{aleph_marc_xml}"
     aleph_marc_xml
   end
 
@@ -108,7 +108,7 @@ module DigitisationHelper
   #@param pdf_uri - the URI to the location of the PDF file for this eBook in String format
   #@return Nokogiri::Document containing MODS XML
   def transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri, barcode)
-    logger.debug 'Running XSLT transformation of Aleph MARC XML to MODS...'
+    logger.debug "#{Time.now.to_s} DEBUG: Running XSLT transformation of Aleph MARC XML to MODS..."
     doc = Nokogiri::XML.parse(aleph_marc_xml)
     xslt1 = Nokogiri::XSLT(File.read("#{Rails.root}/xslt/oaimarc2slimmarc.xsl"))
     tmp_doc = xslt1.transform(doc, Nokogiri::XSLT.quote_params(['pdfUri', pdf_uri]))
@@ -137,20 +137,20 @@ module DigitisationHelper
     work.datastreams['descMetadata'].content = mods
     work.work_type='DOD bog'
     if (!work.save)
-      logger.error "Failed to save work"
+      logger.error "#{Time.now.to_s} ERROR: Failed to save work"
       return nil
     end
 
     # create Basicfile with pdflink as content data stream
     file = BasicFile.new
     if (!file.add_file_from_url(pdflink,nil))
-      logger.error "Unable to add pdf_file from #{pdflink}"
+      logger.error "#{Time.now.to_s} ERROR: Unable to add pdf_file from #{pdflink}"
       work.delete
       return nil
     end
 
     if (!file.save)
-      logger.error "Unable to save basicfile"
+      logger.error "#{Time.now.to_s} ERROR: Unable to save basicfile"
       work.delete
       return nil
     end
@@ -159,7 +159,7 @@ module DigitisationHelper
     rep.files << file
 
     if (!rep.save)
-      logger.error "Unable to save file representation"
+      logger.error "#{Time.now.to_s} ERROR: Unable to save file representation"
       work.delete
       file.delete #delete the BasicFile object again
       return nil
@@ -173,6 +173,7 @@ module DigitisationHelper
     else
       rep.delete
       file.delete
+      logger.error "#{Time.now.to_s} ERROR: Saving work second time, returning nil"
       return nil
     end
   end
