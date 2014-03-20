@@ -27,6 +27,7 @@ module MqHelper
     })
   end
 
+  # Retrieve queue name from config file
   def get_queue_name(target,type)
     MQ_CONFIG[target][type]
   end
