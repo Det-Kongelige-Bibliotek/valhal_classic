@@ -5,7 +5,7 @@ development:
     response: "preservation-response-dev-queue"
     polling_interval_in_minutes: 1
   dissemination:
-    bifrost_books: "dissemination-bifrost_books-dev-queue"
+    bifrost_books: "dissemination-bifrost-books-dev-queue"
   digitisation:
     source: "digitisation-dev-queue"
     polling_interval_in_minutes: 1
@@ -17,7 +17,7 @@ test:
     response: "preservation-response-test-queue"
     polling_interval_in_minutes: 1
   dissemination:
-    bifrost_books: "dissemination-bifrost_books-test-queue"
+    bifrost_books: "dissemination-bifrost-books-test-queue"
   digitisation:
       source: "digitisation-test-queue"
       polling_interval_in_minutes: 1
@@ -29,7 +29,7 @@ production:
     response: "preservation-response-prod-queue"
     polling_interval_in_minutes: 1
   dissemination:
-    bifrost_books: "dissemination-bifrost_books-prod-queue"
+    bifrost_books: "dissemination-bifrost-books-prod-queue"
   digitisation:
       source: "digitisation-prod-queue"
       polling_interval_in_minutes: 1

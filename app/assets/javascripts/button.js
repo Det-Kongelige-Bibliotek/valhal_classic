@@ -14,9 +14,9 @@ $(document)
     });
 
 $(document).ready(function () {
-    console.log("getting to button.js");
 
     $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
-        $('#js_button_text').text(label);
+        var button = $(this).siblings('.js_button_text');
+        button.text(label);
     });
 });
