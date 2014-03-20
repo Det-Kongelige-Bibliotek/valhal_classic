@@ -50,9 +50,8 @@ module DisseminationService
     message['Type'] = work.pid
     # TODO this is a hack, since we currently cannot handle more than url.
     message['Files'] = {'1' => options['fileUri']}
-    mods_xml = Nokogiri::XML.parse(work.descMetadata.content)
-    message['MODS'] = Hash.from_xml(mods_xml.to_s)
+    message['MODS'] = work.descMetadata.content
 
-    message.to_json
+    message.to_json()
   end
 end
