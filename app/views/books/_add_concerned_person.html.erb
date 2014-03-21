@@ -1,10 +1,11 @@
-<div>
-  <br/>
-  <%= f.label :person_concerned, "Select person/people concerned by the book" %>
-  <%= collection_select(:person_concerned,
-                        :id,
-                        Person.all.sort_by(&:comma_separated_lastname_firstname),
-                        :id,
-                        :comma_separated_lastname_firstname,
-                        options = { :prompt => "(Select people)", :include_blank => false }, { :multiple => true }) %>
+<div class="control-group">
+  <%= f.label :person_concerned, "Select person/people concerned by the book", :class=>'control-label' %>
+  <div class="controls">
+    <%= collection_select(:person_concerned,
+                          :id,
+                          Person.all.sort_by(&:comma_separated_lastname_firstname),
+                          :id,
+                          :comma_separated_lastname_firstname,
+                          options = { :prompt => "(Select people)", :include_blank => false }, { :multiple => true, :class=>'input-block-level'  }) %>
+  </div>
 </div>

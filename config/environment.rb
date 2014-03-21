@@ -67,7 +67,7 @@ def start_listener_thread
     while true
       initialize_listeners
       #logger.debug "Going to sleep for #{polling_interval} minutes..."
-      #sleep polling_interval.minutes
+      sleep polling_interval.minutes
     end
   end
   logger.debug "num_of_threads = #{t.group.list.size}"

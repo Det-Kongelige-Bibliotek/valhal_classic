@@ -59,7 +59,8 @@ module Concerns
       if (valid_file)
         self.add_file_datastream(file.tempfile, :label => file.original_filename, :mimeType => file.content_type, :dsid => 'content')
         if skip_file_characterisation.eql? nil
-          self.add_fits_metadata_datastream(file)
+          # we're skipping FITS here to make import quicker
+          # self.add_fits_metadata_datastream(file)
         end
         set_file_timestamps(file.tempfile)
         self.checksum = generate_checksum(file.tempfile)

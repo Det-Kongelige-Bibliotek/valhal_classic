@@ -1,11 +1,14 @@
-<div>
-  <br/>
-  <%= f.label :work_type, 'Work type' %>
-  <%= f.text_field :work_type, :placeholder => 'Work type' %>
+<div class="control-group">
+    <%= f.label :work_type, 'Work type', :class=>'control-label' %>
+    <div class="controls">
+        <%= f.text_field :work_type, :placeholder => 'Work type', :class=>'input-block-level' %>
+    </div>
 </div>
-<div>
-  <br/>
-  <%= f.label :title, 'Title' %>
-  <%= f.text_field :title, :placeholder => 'Title' %>
-  <%= f.text_field :subTitle, :placeholder => 'Subtitle' %>
+
+<div class="control-group">
+    <%= f.label :title, 'Title', :class=>'control-label' %>
+    <div class="controls">
+        <%= f.text_field :title, :placeholder => 'Title', :class=>'input-block-level' %>
+      <%= f.text_field :subTitle, :placeholder => 'Subtitle', :class=>'input-block-level' %>
+    </div>
 </div>

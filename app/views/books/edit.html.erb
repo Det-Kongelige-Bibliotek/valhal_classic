@@ -1,5 +1,4 @@
-<h1>Editing book</h1>
-<%= form_for @book, :html=>{:multipart=>true}, :url => {:action=> "save_edit"}  do |f| %>
+<%= form_for @book, :html=>{:multipart=>true, :class=>'form-horizontal'}, :url => {:action=> "save_edit"}  do |f| %>
     <%= f.error_messages :header_message => "Edit book error", :class => "alert alert-error", :header_tag => :h3 %>
     <%= fields_for :book do |builder| %>
         <%= render 'title_fields', :f => builder %>

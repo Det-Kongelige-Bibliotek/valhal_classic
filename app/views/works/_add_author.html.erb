@@ -1,11 +1,12 @@
-<div>
-  <br/>
-  <%= f.label :person, 'Select author(s) for the work' %>
+<div class="control-group">
+  <%= f.label :person, 'Select author(s) for the work', :class=>'control-label' %>
+  <div class="controls">
   <%= collection_select(:person,
                         :id,
                         Person.all,
                         :id,
                         :comma_separated_lastname_firstname,
                         options = { :prompt => '(Select authors)', :include_blank => false },
-                        { :multiple => true }) %>
+                        { :multiple => true, :class=>'input-block-level' }) %>
+  </div>
 </div>

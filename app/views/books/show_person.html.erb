@@ -1,13 +1,53 @@
-<%= form_for @book, :html=>{:multipart=>true}, :url => {:action=> "update_person"} do |f| %>
+<div class="page-header">
+  <h1 class="text-left">New book <small>wizard</small></h1>
+</div>
+
+<div class="row hidden-phone ">
+  <div class="span3">
+       <span class="lead ">
+         Step 1
+       </span>
+  </div>
+  <div class="span3 ">
+       <span class="lead">
+         Step 2
+       </span>
+  </div>
+  <div class="span3">
+       <span class="lead">
+         Step 3
+       </span>
+  </div>
+  <div class="span3">
+       <span class="lead">
+         Step 4
+       </span>
+  </div>
+</div>
+
+<div class="progress progress-success hidden-phone">
+  <div class="bar" style="width: 50%;"></div>
+</div>
+
+<p class="lead visible-phone">Step 2 / 4</p>
+
+<%= form_for @book, :html=>{:multipart=>true, :class=>'form-horizontal'}, :url => {:action=> "update_person"} do |f| %>
     <%= fields_for :author, :html=>{:multipart=>true} do |builder| %>
-        <%= render 'add_author', :f => builder %>
-    <% end %>
-    <br/>
-    <%= fields_for :person_described, :html=>{:multipart=>true} do |builder| %>
-        <%= render 'add_concerned_person', :f => builder %>
-    <% end %>
-    <br/>
-    <div class="action">
-      <%= f.submit 'Next' %>
+    <div class="row">
+        <div class="span9">
+            <%= render 'add_author', :f => builder %>
+            <% end %>
+            <%= fields_for :person_described, :html=>{:multipart=>true} do |builder| %>
+            <%= render 'add_concerned_person', :f => builder %>
+            <% end %>
+            <div class="control-group action">
+              <div class="controls">
+                <%= link_to_function 'Back', 'history.back()', :class=>'btn btn-large pull-left' %>
+              </div>
+              <div class="controls">
+                <%= f.submit 'Next', :class=>'btn btn-success btn-large pull-right' %>
+              </div>
+            </div>
+        </div>
     </div>
 <% end %>

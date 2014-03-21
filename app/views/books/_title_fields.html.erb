@@ -1,6 +1,16 @@
-<div>
-  <br/>
-  <%= f.label :title, "Title" %>
-  <%= f.text_field :title, :placeholder => "Title" %>
-  <%= f.text_field :subTitle, :placeholder => "Subtitle" %>
+
+<div class="control-group">
+  <%= f.label :title, "Title", :class=>'control-label' %>
+  <div class="controls">
+    <%= f.text_field :title, :placeholder => "Title", :class=>'input-block-level' %>
+  </div>
 </div>
+
+<div class="control-group">
+  <%= f.label :subTitle, "Subtitle", :class=>'control-label' %>
+  <div class="controls">
+    <%= f.text_field :subTitle, :placeholder => "Subtitle", :class=>'input-block-level' %>
+  </div>
+</div>
+
+

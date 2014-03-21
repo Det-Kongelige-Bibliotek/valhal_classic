@@ -2,6 +2,7 @@
 class WorksController < ApplicationController
   include ManifestationsHelper # methods: add_single_file_rep, set_authors, set_concerned_people
   include PreservationHelper # methods: update_preservation_profile_from_controller
+  include DisseminationService # methods: ??
 
   authorize_resource
 
@@ -129,8 +130,19 @@ class WorksController < ApplicationController
   # Updates the dissemination and performs the
   def send_to_dissemination
     @work = Work.find(params[:id])
-    @work.errors[:dissemination] << "COMMUNICATION WITH BIFROST NOT IMPLEMENTED"
-    render action: 'dissemination'
+
+    begin
+      # Using Nokogiri to locate DOOMSDAY DEVICE!!!
+      url = Nokogiri::XML(@work.descMetadata.to_xml).css("url").last.content()
+      disseminate(@work, {'fileUri' => url}, DisseminationService::DISSEMINATION_TYPE_BIFROST_BOOKS)
+      redirect_to @work, notice: "Sent to BifrostBooks"
+    rescue NoMethodError => e
+      @work.errors[:Metadata] << ": The metadata does not contain an URL for the pdf."
+      render action: 'dissemination'
+    rescue => e
+      @work.errors[:dissemination] << "Error while trying to disseminate #{e.inspect}"
+      render action: 'dissemination'
+    end
   end
 
   private
