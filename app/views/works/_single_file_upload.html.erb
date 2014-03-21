@@ -1,13 +1,20 @@
-<div>
-  <br/>
-  <%= f.label :basic_files, 'The basic_files representation for the work' %>
-  <%= f.file_field :basic_files, :multiple => false, :id => 'fileupload' %>
-  <a class="btn btn-small btn-danger" href="#" id="file_clear" title="Clear file"><i class="icon-remove"></i></a>
-  <%= fields_for :rep do |builder| %>
-      <%= builder.text_field :label, :placeholder => 'Label' %>
-  <% end %>
-  <br>
-  <%= f.label :basic_files, 'Skip file characterisation?' %>
-  <%= check_box_tag 'skip_file_characterisation' %>
-  <br>
+<div class="control-group">
+    <%= f.label :basic_files, 'The basic_files representation for the work', :class=>'control-label'  %>
+    <div class="controls">
+        <span class="btn btn-file">
+            <span class="js_button_text">Upload file</span>
+            <%= f.file_field :basic_files, :multiple => false, :id => 'fileupload' %>
+        </span>
+        <a class="btn btn-danger" href="#" id="file_clear" title="Clear file"><i class="icon-trash icon-white"></i></a>
+        <%= fields_for :rep do |builder| %>
+            <%= builder.text_field :label, :placeholder => 'Label' %>
+        <% end %>
+    </div>
+</div>
+
+<div class="control-group">
+    <%= f.label :basic_files, 'Skip file characterisation?', :class=>'control-label' %>
+    <div class="controls">
+        <%= check_box_tag 'skip_file_characterisation' %>
+    </div>
 </div>

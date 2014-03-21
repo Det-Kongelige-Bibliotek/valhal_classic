@@ -1,17 +1,22 @@
-<div>
-  <br/>
-  <%= f.label :tei_file, "TEI basic_files representation for the person" %>
-  <%= f.file_field :tei_file %>
-  <a class="btn btn-small btn-danger" href="#" id="tei_file_clear" title="Clear file"><i class="icon-remove"></i></a>
 
-
-  <%= fields_for :person_description_metadata do |builder| %>
-      <%= builder.text_field :title, :placeholder => "Title of the person description" %>
-  <% end %>
-  <%= fields_for :tei_metadata do |builder| %>
-      <%= builder.text_field :tei_version, :placeholder => "Version for TEI basic_files (e.g. P5)" %>
-  <% end %>
-  <%= fields_for :tei_representation_metadata do |builder| %>
-      <%= builder.text_field :label, :placeholder => "Label" %>
-  <% end %>
+<div class="control-group">
+  <%= f.label :tei_file, "TEI basic_files representation for the person", :class=>'control-label' %>
+  <div class="controls">
+      <span class="btn btn-file">
+        <span class="js_button_text">Upload file</span>
+        <%= f.file_field :tei_file %>
+      </span>
+    <a class="btn btn-danger" href="#" id="tei_file_clear" title="Clear file"><i class="icon-trash icon-white"></i></a>
+    <%= fields_for :person_description_metadata do |builder| %>
+        <%= builder.text_field :title, :placeholder => "Title of the person description", :class=>'input-medium' %>
+    <% end %>
+    <%= fields_for :tei_metadata do |builder| %>
+        <%= builder.text_field :tei_version, :placeholder => "Version for TEI (e.g. P5)", :class=>'input-medium' %>
+    <% end %>
+    <%= fields_for :tei_representation_metadata do |builder| %>
+        <%= builder.text_field :label, :placeholder => "Label", :class=>'input-medium' %>
+    <% end %>
+  </div>
 </div>
+
+

@@ -1,23 +1,33 @@
 <div class="page-header">
-  <h1>New person</h1>
+  <h1 class="text-left">New person <small>create</small></h1>
 </div>
 
 <%= form_for @person, :html => {:multipart => true, :class=>'form-horizontal'} do |f| %>
-    <%= f.error_messages :header_message => "New person error", :class => "alert alert-error", :header_tag => :h3 %>
-    <%= fields_for :person do |builder| %>
-        <%= render 'metadata_fields', :f => builder %>
-    <% end %>
-    <br/>
-    <%= fields_for :portrait, :html => {:multipart => true} do |builder| %>
-        <%= render 'portrait_upload', :f => builder %>
-    <% end %>
-    <br/>
-    <%= fields_for :tei, :html => {:multipart => true} do |builder| %>
-        <%= render 'tei_file_upload', :f => builder %>
-    <% end %>
-    <%= f.submit "Create" %>
+    <div class="row">
+        <div class="span9">
+            <div class="control-group">
+                <div class="controls">
+                    <%= f.error_messages :header_message => "New person error", :class => "alert alert-error", :header_tag => :h4 %>
+                </div>
+            </div>
 
+            <%= fields_for :person do |builder| %>
+                <%= render 'metadata_fields', :f => builder %>
+            <% end %>
+
+            <%= fields_for :portrait, :html => {:multipart => true} do |builder| %>
+                <%= render 'portrait_upload', :f => builder %>
+            <% end %>
+
+            <%= fields_for :tei, :html => {:multipart => true} do |builder| %>
+                <%= render 'tei_file_upload', :f => builder %>
+            <% end %>
+
+            <div class="control-group">
+                <div class="controls pull-right">
+                    <%= f.submit "Done", :class=>'btn btn-large btn-success' %>
+                </div>
+            </div>
+        </div>
+    </div>
 <% end %>
-
-<%= link_to 'Back', people_path %>
-

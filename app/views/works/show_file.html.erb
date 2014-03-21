@@ -1,12 +1,50 @@
-<%= form_for @work, :html=>{:multipart=>true}, :url => {:action=> "update_file"} do|f| %>
-    <%= fields_for :single_file, :html=>{:multipart=>true} do |builder| %>
-        <%= render 'single_file_upload', :f => builder %>
-    <% end %>
-    <br/>
+<div class="page-header">
+  <h1 class="text-left">New work <small>wizard</small></h1>
+</div>
 
-    <div class="action">
-      <%= f.submit 'Update'  %>
+<div class="row hidden-phone ">
+  <div class="span3">
+       <span class="lead ">
+         Step 1
+       </span>
+  </div>
+  <div class="span3 ">
+       <span class="lead">
+         Step 2
+       </span>
+  </div>
+  <div class="span3">
+       <span class="lead">
+         Step 3
+       </span>
+  </div>
+  <div class="span3">
+       <span class="lead">
+         Step 4
+       </span>
+  </div>
+</div>
+
+<div class="progress progress-success hidden-phone">
+  <div class="bar" style="width: 100%;"></div>
+</div>
+
+<p class="lead visible-phone">Step 4 / 4</p>
+
+<%= form_for @work, :html=>{:multipart=>true, :class=>'form-horizontal'}, :url => {:action=> "update_file"} do|f| %>
+    <div class="row">
+      <div class="span9">
+        <%= fields_for :single_file, :html=>{:multipart=>true} do |builder| %>
+            <%= render 'single_file_upload', :f => builder %>
+        <% end %>
+        <div class="control-group action">
+          <div class="controls">
+            <%= link_to_function 'Back', 'history.back()', :class=>'btn btn-large pull-left' %>
+          </div>
+          <div class="controls">
+            <%= f.submit 'Done', :class=>'btn btn-success btn-large pull-right' %>
+          </div>
+        </div>
+      </div>
     </div>
 <% end %>
-
-<%= link_to 'Work', works_path %>

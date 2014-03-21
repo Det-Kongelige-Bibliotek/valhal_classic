@@ -1,27 +1,47 @@
-<h2>Books</h2>
+<div class="page-header">
+  <h1>Books</h1>
+</div>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Subtitle</th>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<div class="row hidden-phone">
+  <div class="span4">
+    <strong class="lead">Title</strong>
+  </div>
+  <div class="span4">
+    <strong class="lead">Subtitle</strong>
+  </div>
+  <div class="span4"></div>
+</div>
+<hr class="hidden-phone">
 
 <% @books.each do |book| %>
-  <tr>
-    <td><%= book.title %></td>
-    <td><%= book.subTitle %></td>
-    <td><%= link_to 'Show', book %></td>
-    <td><%= link_to 'Edit metadata', edit_book_path(book) %></td>
-    <td><%= link_to 'Preservation settings', preservation_book_path(book) %></td>
-    <td><%= link_to 'Delete', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+    <div class="row">
+      <div class="span4">
+        <strong>
+          <%= link_to book do %>
+            <%= book.title %>
+          <% end %>
+        </strong>
+      </div>
+      <div class="span4">
+        <%= book.subTitle %>
+      </div>
+      <div class="span4">
+        <div class="btn-group">
+            <%= link_to edit_book_path(book), :class=>'btn' do %>
+              <i class="icon-edit"></i>
+              <span class="hidden-phone">Edit</span>
+            <% end %>
+            <%= link_to preservation_book_path(book), :class=>'btn' do %>
+              <i class="icon-time"></i>
+              <span class="hidden-phone">Preservation</span>
+            <% end %>
+            <%= link_to book, method: :delete, data: { confirm: 'Are you sure?' }, :class=>'btn'  do %>
+              <i class="icon-trash"></i>
+              <span class="hidden-phone">Delete</span>
+            <% end %>
+        </div>
+      </div>
+    </div>
+    <hr>
 <% end %>
-</table>
 
-<br />
-
-<%= link_to 'New Book', new_book_path %>

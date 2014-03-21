@@ -1,33 +1,167 @@
-<h3><%= @book.title %></h3>
-<table border="0">
-  <tr><td><b>Subtitle</b></td><td><%= @book.subTitle %></td></tr>
-  <% if @book.has_author? %>
-    <% @book.authors.each do |person| %>
-          <tr><td><b>Author</b></td><td><%= link_to person.name, person_path(person) %></td></tr>
-    <% end %>
-  <% else %>
-     <tr><td><b>Author</b></td><td><p>No author defined for this book.</p></td></tr>
-  <% end %>
 
-  <% if @book.has_concerned_person? %>
-    <% @book.people_concerned.each do |person| %>
-          <tr><td><b>Concerning</b></td><td><%= link_to person.name, person_path(person) %></td></tr>
-    <% end %>
-  <% end %>
 
-  <tr><td><b>ISBN</b></td><td><%= @book.isbn %></td></tr>
-  <tr><td><b>Genre</b></td><td><%= @book.genre %></td></tr>
-  <tr><td><b>Shelf Locator</b></td><td><%= @book.shelfLocator %></td></tr>
-  <tr><td><b>Type Of Resource</b></td><td><%= @book.typeOfResource %></td></tr>
-  <tr><td><b>Publisher</b></td><td><%= @book.publisher %></td></tr>
-  <tr><td><b>Place of Origin</b></td><td><%= @book.originPlace %></td></tr>
-  <tr><td><b>ISO Language</b></td><td><%= @book.languageISO %></td></tr>
-  <tr><td><b>Language</b></td><td><%= @book.languageText %></td></tr>
-  <tr><td><b>Topic</b></td><td><%= @book.subjectTopic %></td></tr>
-  <tr><td><b>Date issued</b></td><td><%= @book.dateIssued %></td></tr>
-  <tr><td><b>Physical extent</b></td><td><%= @book.physicalExtent %></td></tr>
-  <tr><td><b>UUID</b></td><td><%= @book.uuid %></td></tr>
-</table>
+<%= render 'header' %>
+
+
+<div class="row">
+    <div class="span10">
+        <h3><%= @book.title %></h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span2">
+        <strong>Subtitle</strong>
+    </div>
+    <div class="span8">
+        <%= @book.subTitle %>
+    </div>
+</div>
+
+    <% if @book.has_author? %>
+        <% @book.authors.each do |person| %>
+            <div class="row">
+                <div class="span2">
+                    <strong>Subtitle</strong>
+                </div>
+                <div class="span8">
+                    <%= @book.subTitle %>
+                </div>
+            </div>
+        <% end %>
+        <% else %>
+            <div class="row">
+                <div class="span2 ">
+                    <strong>Author</strong>
+                </div>
+                <div class="span8">
+                    No author defined for this book.
+                </div>
+            </div>
+        <% end %>
+        <% if @book.has_concerned_person? %>
+            <% @book.people_concerned.each do |person| %>
+            <div class="row">
+                <div class="span2">
+                    <strong>Concerning</strong>
+                </div>
+                <div class="span8">
+                  <%= link_to person.name, person_path(person) %>
+                </div>
+            </div>
+            <% end %>
+        <% end %>
+
+        <div class="row">
+            <div class="span2">
+                <strong>ISBN</strong>
+            </div>
+            <div class="span8">
+              <%= @book.isbn %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span2">
+                <strong>Genre</strong>
+            </div>
+            <div class="span8">
+                <%= @book.genre %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span2">
+                <strong>Shelf Locator</strong>
+            </div>
+            <div class="span8">
+                <%= @book.shelfLocator %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span2">
+                <strong>Type Of Resource</strong>
+            </div>
+            <div class="span8">
+              <%= @book.typeOfResource %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span2">
+                <strong>Publisher</strong>
+            </div>
+            <div class="span8">
+              <%= @book.publisher %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span2">
+                <strong>Place of Origin</strong>
+            </div>
+            <div class="span8">
+              <%= @book.originPlace %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span2">
+                <strong>ISO Language</strong>
+            </div>
+            <div class="span8">
+              <%= @book.languageISO %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span2">
+                <strong>Language</strong>
+            </div>
+            <div class="span8">
+                <%= @book.languageText %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span2">
+                <strong>Topic</strong>
+            </div>
+            <div class="span8">
+              <%= @book.subjectTopic %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span2">
+                <strong>Date issued</strong>
+            </div>
+            <div class="span8">
+              <%= @book.dateIssued %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span2">
+                <strong>Physical extent</strong>
+            </div>
+            <div class="span8">
+              <%= @book.physicalExtent %>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span2">
+                <strong>UUID</strong>
+            </div>
+            <div class="span8">
+                <%= @book.uuid %>
+            </div>
+        </div>
+
+</div>
+
 
 <hr/>
 <% #Handle the tei representations. %>
@@ -44,8 +178,6 @@
 <% else %>
     <p>No representations for this book.</p>
 <% end %>
-<hr/>
 
-<br/>
 
-<%= render 'footer' %>
+
