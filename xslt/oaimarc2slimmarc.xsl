@@ -2,7 +2,7 @@
 
 <xsl:transform version="1.0"
 	       xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	       xmlns:marc="http://www.loc.gov/MARC21/slim" 
+	       xmlns:marc="http://www.loc.gov/MARC21/slim"
 	       xmlns:xlink="http://www.w3.org/1999/xlink"
 	       xmlns:exsl="http://exslt.org/common"
 	       extension-element-prefixes="exsl">
@@ -15,9 +15,9 @@
 
   <xsl:template match="/">
     <marc:record>
-      <xsl:apply-templates/>
+  <xsl:apply-templates/>
 
-      <xsl:element name="marc:datafield">
+  <xsl:element name="marc:datafield">
 	<xsl:attribute name="ind1">#</xsl:attribute>
 	<xsl:attribute name="ind2">1</xsl:attribute>
 	<xsl:attribute name="tag">856</xsl:attribute>
@@ -28,7 +28,7 @@
       </xsl:element>
     </marc:record>
   </xsl:template>
-  
+
   <xsl:template match="present">
     <xsl:apply-templates/>
   </xsl:template>
@@ -61,6 +61,24 @@
 
   </xsl:template>
 
+  <xsl:template match="varfield[@id='008']">
+
+    <xsl:element name="marc:datafield">
+      <xsl:attribute name="ind1">
+        <xsl:value-of select="@i1"/>
+      </xsl:attribute>
+      <xsl:attribute name="ind2">
+        <xsl:value-of select="@i1"/>
+      </xsl:attribute>
+      <xsl:attribute name="tag">040</xsl:attribute>
+      <xsl:element name="marc:subfield">
+        <xsl:attribute name="code">l</xsl:attribute>
+        <xsl:value-of select="subfield[@label='l']"/>
+      </xsl:element>
+    </xsl:element>
+
+  </xsl:template>
+
   <xsl:template match="varfield[@id='100']">
 
     <xsl:element name="marc:datafield">
@@ -74,7 +92,7 @@
       <xsl:attribute name="tag">
 	<xsl:value-of select="@id"/>
       </xsl:attribute>
-      
+
       <xsl:if test="subfield[@label = 'a']">
 	<xsl:element name="marc:subfield">
 	  <xsl:attribute name="code">a</xsl:attribute>
@@ -84,7 +102,7 @@
 	</xsl:element>
       </xsl:if>
 
-      <xsl:if test="subfield[@label='k']">  
+      <xsl:if test="subfield[@label='k']">
 	<xsl:element name="marc:subfield">
 	  <xsl:attribute name="code">q</xsl:attribute>
 	  <xsl:for-each select="subfield[@label = 'a'] | subfield[@label = 'k']">
@@ -92,7 +110,7 @@
 	  </xsl:for-each>
 	</xsl:element>
       </xsl:if>
-      
+
     </xsl:element>
 
   </xsl:template>
@@ -102,9 +120,9 @@
 
     <xsl:variable name="ind2">
       <xsl:choose>
-	<xsl:when test="starts-with(subfield[@label = 'a'],'&lt;&lt;') and 
+	<xsl:when test="starts-with(subfield[@label = 'a'],'&lt;&lt;') and
 			not(contains(substring-before(subfield[@label = 'a'],'&gt;&gt;'),'='))">
-	  <xsl:value-of 
+	  <xsl:value-of
 	      select="string-length(substring-after(substring-before(subfield[@label = 'a'][1],'&gt;&gt;'),'&lt;&lt;'))"/>
 	</xsl:when>
 	<xsl:otherwise>0</xsl:otherwise>
@@ -128,7 +146,7 @@
 
       <xsl:element name="marc:subfield">
 	<xsl:attribute name="code">a</xsl:attribute>
-	<xsl:value-of select="$subfieldA"/> 
+	<xsl:value-of select="$subfieldA"/>
 	<xsl:if test="subfield[@label = 'b']">
 	  <xsl:text> </xsl:text><xsl:apply-templates select="subfield[@label = 'b']"/>
 	</xsl:if>
@@ -152,7 +170,7 @@
       <xsl:element name="marc:subfield">
 	<xsl:attribute name="code">c</xsl:attribute>
 
-	<xsl:for-each select="subfield[@label = 'e'] | 
+	<xsl:for-each select="subfield[@label = 'e'] |
 			      subfield[@label = 'f'] |
 			      subfield[@label = 'i'] |
 			      subfield[@label = 'j'] |
@@ -267,7 +285,7 @@
 
   <xsl:template match="varfield[@id='700']">
     <xsl:element name="marc:datafield">
-      <xsl:choose>      
+      <xsl:choose>
 	<xsl:when test="subfield[@label]">
 	  <xsl:attribute name="ind1">1</xsl:attribute>
 	  <xsl:attribute name="ind2"> </xsl:attribute>
@@ -279,8 +297,6 @@
       </xsl:choose>
 
       <xsl:attribute name="tag">700</xsl:attribute>
-
-
 
       <xsl:if test="subfield[@label = 'a'] |
 		    subfield[@label = 'h']">
@@ -303,7 +319,7 @@
       </xsl:for-each>
     </xsl:element>
   </xsl:template>
- 
+
   <xsl:template match="varfield">
     <xsl:element name="marc:datafield">
       <xsl:attribute name="ind1">
@@ -331,11 +347,11 @@
   <xsl:template match="text()">
 
     <!-- taking care of &lt;&lt;Bakkeskraaning=bakkeskråning&gt;&gt; -->
-    
+
     <xsl:choose>
       <xsl:when test="starts-with(.,'&lt;&lt;') and 
 			not(contains(substring-before(.,'&gt;&gt;'),'='))">
-	<xsl:value-of 
+	<xsl:value-of
 	    select="substring-after(substring-before(.,'&gt;&gt;'),'&lt;&lt;')"/>
 	<xsl:variable name="therest">
 	  <the-rest>
