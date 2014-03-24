@@ -15,9 +15,9 @@
 
   <xsl:template match="/">
     <marc:record>
-  <xsl:apply-templates/>
+      <xsl:apply-templates/>
 
-  <xsl:element name="marc:datafield">
+      <xsl:element name="marc:datafield">
 	<xsl:attribute name="ind1">#</xsl:attribute>
 	<xsl:attribute name="ind2">1</xsl:attribute>
 	<xsl:attribute name="tag">856</xsl:attribute>
@@ -64,15 +64,11 @@
   <xsl:template match="varfield[@id='008']">
 
     <xsl:element name="marc:datafield">
-      <xsl:attribute name="ind1">
-        <xsl:value-of select="@i1"/>
-      </xsl:attribute>
-      <xsl:attribute name="ind2">
-        <xsl:value-of select="@i1"/>
-      </xsl:attribute>
-      <xsl:attribute name="tag">040</xsl:attribute>
+      <xsl:attribute name="ind1">#</xsl:attribute>
+      <xsl:attribute name="ind2">#</xsl:attribute>
+      <xsl:attribute name="tag">041</xsl:attribute>
       <xsl:element name="marc:subfield">
-        <xsl:attribute name="code">l</xsl:attribute>
+        <xsl:attribute name="code">a</xsl:attribute>
         <xsl:value-of select="subfield[@label='l']"/>
       </xsl:element>
     </xsl:element>
