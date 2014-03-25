@@ -37,11 +37,12 @@ module DigitisationHelper
   # @return the created work for the dod-book.
   def create_dod_work(message)
     logger.debug "#{Time.now.to_s} DEBUG: Going to generate MODS for eBook..."
+    service = AlephService.new
     #Getting the DanMARC record from Aleph for a digitised book is a 2-step process.  2 HTTP POSTs have to be made, the
     #first uses the ID of the book which is assumed to be a barcode to get a set_number back from Aleph.  This set_number
     #becomes the parameter to the second Aleph POST that returns the actual meta-data for the book in DanMARC format
-    aleph_set_number = get_aleph_set_number(message['id'])
-    aleph_marc_xml = get_aleph_marc_xml(aleph_set_number)
+    aleph_set_number = service.find_set("sys=#{message['id']}")[:set_num]
+    aleph_marc_xml = service.get_record(aleph_set_number, "1")
 
     pdf_uri = message['fileUri']
     mods = transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri, message['id'])
@@ -59,47 +60,6 @@ module DigitisationHelper
     work
   end
 
-  #Query Aleph X service to get the set_number for an eBook using the eBooks barcode number. This is the first POST in
-  #the 2 POST process of getting Aleph DanMARC metadata for an eBook.
-  #@param barcode 12 digit number in String format
-  #@return aleph_set_number
-  def get_aleph_set_number(barcode)
-    logger.debug "#{Time.now.to_s} DEBUG: Looking up aleph set number using barcode: #{barcode}"
-    #make http request for set number
-    aleph_base_uri = SERVICES_CONFIG['aleph_base_url']
-    http_service = HttpService.new
-    aleph_set_number_xml = http_service.do_post(aleph_base_uri, params = {
-                                                    "op" => "find",
-                                                    "base" => "kgl01",
-                                                    "library" => "kgl01",
-                                                    "request" => "bar=#{barcode}"})
-    logger.debug aleph_set_number_xml
-
-    #get the set number out of XML
-    aleph_set_number = Nokogiri::XML.parse(aleph_set_number_xml).xpath('/find/set_number/text()').to_s
-
-    logger.debug "#{Time.now.to_s} DEBUG: aleph_set_number = #{aleph_set_number}"
-
-    aleph_set_number
-  end
-
-  #Query Aleph X Service for the Aleph DanMARC record for the corresponding set number.  This is the second POST in the
-  #2 POST process of getting Aleph DanMARC metadata for a book.
-  #@param aleph_set_number the set_number returned by Aleph for the book barcode which is then used to get the DanMARC
-  #record for the eBook.
-  #@return
-  def get_aleph_marc_xml(aleph_set_number)
-    logger.debug "#{Time.now.to_s} DEBUG: Looking up aleph marc xml using set_number: #{aleph_set_number}"
-
-    aleph_base_uri = SERVICES_CONFIG['aleph_base_url']
-    http_service = HttpService.new
-    aleph_marc_xml = http_service.do_post(aleph_base_uri, params = {"op" => "present",
-                                                                    "set_no" => "#{aleph_set_number}",
-                                                                    "set_entry" => "000000001",
-                                                                    "format" => "marc"})
-    logger.debug "#{Time.now.to_s} DEBUG: #{aleph_marc_xml}"
-    aleph_marc_xml
-  end
 
   #Function for transforming Aleph DanMARC XML into MODS.  The transformation process is a 2-step process.  First an XSLT
   #script is called that transforms the DanMARC XML into normal MARC 21 XML.  Secondly another XSLT is called to
