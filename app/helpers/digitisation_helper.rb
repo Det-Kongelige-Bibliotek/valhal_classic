@@ -20,7 +20,7 @@ module DigitisationHelper
     q = channel.queue(source, :durable => true)
     #logger.info "Listening to DOD digitisation workflow queue: #{source}"
 
-    q.subscribe do |delivery_info, metadata, payload|
+    q.subscribe(ack: true) do |delivery_info, metadata, payload|
       begin
         logger.debug "#{Time.now.to_s} DEBUG: Received the following DOD eBook message: #{payload}"
         handle_digitisation_dod_ebook(JSON.parse(payload))
