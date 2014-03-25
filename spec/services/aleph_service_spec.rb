@@ -31,7 +31,6 @@ require 'spec_helper'
     it 'should convert a digital record into a queue message' do
       record = fixture('aleph_dig_record.xml')
       message = @service.convert_marc_to_message(record.read)
-      puts message.inspect
       message.should be_a String
       message_hash = JSON.parse(message)
       message_hash['id'].should eql '001955976'

@@ -36,6 +36,7 @@ class AlephService
   #@return {aleph_set_number, num_entries} Hash
   def find_set(search_string)
     response = search_aleph(search_string)
+    logger.debug "aleph response is #{response}"
     set_num = Nokogiri::XML.parse(response).xpath('/find/set_number/text()').to_s
     num_entries = Nokogiri::XML.parse(response).xpath('/find/no_entries/text()').to_s
     {set_num: set_num, num_entries: num_entries}
@@ -48,7 +49,6 @@ class AlephService
   #record for the eBook.
   #@return
   def get_record(set_number, entry_num)
-    logger.debug "Looking up aleph marc xml using set_number: #{set_number}"
     @http_service.do_post(@aleph_url, params = {
         :op => "present",
         :set_no => set_number,
