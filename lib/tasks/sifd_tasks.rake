@@ -31,24 +31,7 @@ namespace :sifd do
   end
 
   desc "Import existing DOD books into valhal"
-  task :import_dod do
-    # 1. get all DOD books from PNX
-    PnxHelper.get_config
-    puts 'searching PNX'
-    responses = PnxHelper.search_pnx
-    puts "got #{responses.length} responses"
-    # 2. for each response, create queue message and send to rabbitmq
-    messages = PnxHelper.convert_to_messages(responses)
-    MQ_CONFIG = YAML.load_file("#{Rails.root}/config/mq_config.yml")[Rails.env]
-    queue_name = MqHelper.get_queue_name('digitisation', 'source')
-    puts "sending messages to queue #{queue_name}"
-    messages.each {|m| MqHelper.send_on_rabbitmq(m, queue_name)}
-
-
-  end
-
-  desc "Import using Aleph exclusively"
-  task :import_dod_aleph, :fetch_size do |t, args|
+  task :import_dod, :fetch_size do |t, args|
     args.with_defaults(fetch_size: 10)
     service = AlephService.new
     records = service.find_all_dod_posts(args[:fetch_size])
