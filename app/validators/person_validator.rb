@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 #Validator class for the Person model contains any custom Rails validation
 class PersonValidator < ActiveModel::Validator
-
+  include ValidationHelper
   #Overridden from ActiveModel::Validator
   def validate(record)
     if(has_duplicate_person(record))
@@ -14,11 +14,11 @@ class PersonValidator < ActiveModel::Validator
     solr_names = record.class.solr_names
     logger.debug "Looking for duplicate people with name = #{record.comma_separated_lastname_firstname}"
     if record.id.eql? "__DO_NOT_USE__"
-      potential_people = Person.find_with_conditions("#{solr_names[:search_result_title]}:\"#{record.comma_separated_lastname_firstname}\"")
+      potential_people = Person.find_with_conditions("#{solr_names[:search_result_title]}:\"#{escape_bad_chars(record.comma_separated_lastname_firstname)}\"")
     else
       logger.debug "self.id = #{record.id}"
       logger.debug "self.pid = #{record.pid}"
-      potential_people = Person.find_with_conditions("#{solr_names[:search_result_title]}:\"#{record.comma_separated_lastname_firstname}\" NOT id:\"#{record.id}\"")
+      potential_people = Person.find_with_conditions("#{solr_names[:search_result_title]}:\"#{escape_bad_chars(record.comma_separated_lastname_firstname)}\" NOT id:\"#{record.id}\"")
     end
     logger.info "duplicate person names count = #{potential_people.length}"
 
