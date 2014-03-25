@@ -62,7 +62,6 @@
   </xsl:template>
 
   <xsl:template match="varfield[@id='008']">
-
     <xsl:element name="marc:datafield">
       <xsl:attribute name="ind1">#</xsl:attribute>
       <xsl:attribute name="ind2">#</xsl:attribute>
@@ -207,15 +206,20 @@
       </xsl:if>
 
 
+      <xsl:if test="//varfield[@id='008'][subfield[@label='a']]">	
+	<xsl:element name="marc:subfield">
+	  <xsl:attribute name="code">c</xsl:attribute>
+	  <xsl:value-of select="../varfield[@id='008']/subfield[@label='a']"/>	
+	</xsl:element>
+      </xsl:if>
+
       <xsl:for-each select="subfield[@label='b'] |
-	                    subfield[@label='c'] |
 	                    subfield[@label='f'] |
 	                    subfield[@label='g']">
 	<xsl:element name="marc:subfield">
 	  <xsl:attribute name="code">
 	    <xsl:choose>
 	      <xsl:when test="@label='b'">b</xsl:when>
-	      <xsl:when test="@label='c'">c</xsl:when>
 	      <xsl:when test="@label='f'">a</xsl:when>
 	      <xsl:when test="@label='g'">b</xsl:when>
 	    </xsl:choose>
@@ -223,7 +227,7 @@
 	  <xsl:if test="position()&gt;1">
 	    <xsl:choose>
 	      <xsl:when test="contains('bg',@label)"><xsl:text>: </xsl:text></xsl:when>
-	      <xsl:when test="@label = 'c'">,</xsl:when>
+	      <xsl:when test="@label = 'c'"> </xsl:when>
 	      <xsl:when test="@label = 'g'"><xsl:text>; </xsl:text></xsl:when>
 	    </xsl:choose>
 	  </xsl:if><xsl:apply-templates select="."/>

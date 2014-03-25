@@ -37,6 +37,30 @@ describe DisseminationService do
     end
   end
 
+  it 'should create a valid JSON representation of a Work' do
+    json = create_message_for_dod_book(@work, {'fileUri' => @url})
+    json_hash = JSON.parse(json)
+    json_hash['MODS'].should_not be_empty
+  end
+
+  it 'should create JSON containing MODS with two authors for a MODS XML with two authors' do
+    pending "Fix for xpath or use css selector instead"
+    mods = File.open('spec/fixtures/mods_digitized_book_with_2_authors.xml').read
+    url = "http://www.kb.dk/e-mat/dod/404.pdf"
+    work = Work.create(title: "test-#{Time.now.nsec.to_s}", work_type: "test")
+    work.descMetadata.content = mods
+    work.save!
+
+    json_string = create_message_for_dod_book(work, {'fileUri' => url})
+    json = JSON.parse(json_string)
+    mods_xml = Nokogiri::XML.parse(json['MODS'])
+
+    #puts mods_xml.xpath('/')
+    #TODO fix this test
+    #expect(mods_xml.xpath('count(//namePart)')).to eq 2
+
+  end
+
   after (:all) do
     BasicFile.all.each { |file| file.delete }
     Work.all.each { |w| w.delete }
