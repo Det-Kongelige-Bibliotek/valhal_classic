@@ -8,7 +8,7 @@ require 'spec_helper'
 
     it "returns an aleph set number" do
 
-      stub_request(:post, "http://aleph-00.kb.dk/X").with(
+      stub_request(:post, "http://aleph-test-00.kb.dk/X").with(
           :body => {"base"=>"kgl01", "library"=>"kgl01", "op"=>"find",
                     "request"=>"wbh=edod"},
           :headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
@@ -42,7 +42,7 @@ require 'spec_helper'
       it "returns aleph marc xml for an aleph set number and entry number" do
 
         aleph_test_marc_xml = File.read './spec/fixtures/aleph_marc.xml'
-        stub_request(:post, "http://aleph-00.kb.dk/X").
+        stub_request(:post, "http://aleph-test-00.kb.dk/X").
             with(:body => {"format"=>"marc", "op"=>"present", "set_entry"=>"000000001", "set_no"=>"109558"},
                  :headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                               'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Ruby'}).
