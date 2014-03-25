@@ -2,7 +2,7 @@
 <mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns="http://www.loc.gov/mods/v3"
       version="3.4"
-      xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd">
+      xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
   <titleInfo>
     <title>Er Danmark i Fare?</title>
     <subTitle>: skrevet den 7. April 1848</subTitle>
@@ -11,6 +11,10 @@
     <namePart>Klee, Frederik</namePart>
   </name>
   <typeOfResource/>
+  <language>
+    <languageTerm authority="iso639-2b">dan</languageTerm>
+    <languageTerm type="text">Dansk</languageTerm>
+  </language>
   <originInfo>
     <place>
       <placeTerm type="text">Kbh</placeTerm>
