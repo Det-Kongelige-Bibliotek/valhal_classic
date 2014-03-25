@@ -1,0 +1,125 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<present>
+  <record>
+    <record_header>
+      <set_entry>000000001</set_entry>
+    </record_header>
+    <doc_number>008800181</doc_number>
+    <metadata>
+      <oai_marc>
+        <varfield id="001" i1="0" i2="0">
+          <subfield label="a">digi001955976</subfield>
+          <subfield label="f">a</subfield>
+        </varfield>
+        <varfield id="004" i1="0" i2="0">
+          <subfield label="r">n</subfield>
+          <subfield label="a">e</subfield>
+        </varfield>
+        <varfield id="008" i1="0" i2="0">
+          <subfield label="u">r</subfield>
+          <subfield label="a">1865</subfield>
+          <subfield label="b">dk</subfield>
+          <subfield label="l">dan</subfield>
+          <subfield label="t">m</subfield>
+          <subfield label="n">a</subfield>
+          <subfield label="z">2014</subfield>
+        </varfield>
+        <varfield id="009" i1="0" i2="0">
+          <subfield label="a">a</subfield>
+          <subfield label="g">xe</subfield>
+        </varfield>
+        <varfield id="088" i1="0" i2="0">
+          <subfield label="o">31,-132</subfield>
+        </varfield>
+        <varfield id="090" i1="0" i2="0">
+          <subfield label="}">130020834545</subfield>
+          <subfield label="a">0</subfield>
+          <subfield label="k">Alle har adgang</subfield>
+        </varfield>
+        <varfield id="091" i1="0" i2="0">
+          <subfield label="a">Bog</subfield>
+        </varfield>
+        <varfield id="100" i1="0" i2="0">
+          <subfield label="a">Engelhardt</subfield>
+          <subfield label="h">Conrad</subfield>
+        </varfield>
+        <varfield id="245" i1="0" i2="0">
+          <subfield label="a">Nydam Mosefund 1859-1863</subfield>
+          <subfield label="e">af Conr. Engelhardt</subfield>
+        </varfield>
+        <varfield id="260" i1="0" i2="0">
+          <subfield label="c">2014</subfield>
+        </varfield>
+        <varfield id="440" i1="0" i2="0">
+          <subfield label="a">Sønderjydske Mosefund</subfield>
+          <subfield label="v">2</subfield>
+        </varfield>
+        <varfield id="520" i1="0" i2="0">
+          <subfield label="a">Digitalisering 2014 af udgaven: Kjøbenhavn: i Commission hos G. E. C. Gad, 1865 (66 s., 15 tav., ill.)</subfield>
+        </varfield>
+        <varfield id="559" i1="0" i2="0">
+          <subfield label="a">Efter Det Kongelige Biblioteks eksemplar: 31,-132 2°</subfield>
+        </varfield>
+        <varfield id="599" i1="0" i2="0">
+          <subfield label="b">Digi201403</subfield>
+        </varfield>
+        <varfield id="URL" i1="0" i2="0">
+          <subfield label="}">130020834545</subfield>
+          <subfield label="z">Link til elektronisk udgave</subfield>
+          <subfield label="u">http://www.kb.dk/e-mat/dod/130020834545.pdf</subfield>
+        </varfield>
+        <varfield id="B01" i1="0" i2="0">
+          <subfield label="a">EDOD</subfield>
+        </varfield>
+        <varfield id="LKR" i1=" " i2=" ">
+          <subfield label="a">PAR</subfield>
+          <subfield label="b">001955976</subfield>
+          <subfield label="n">Link mellem trykt og elektronisk udgave</subfield>
+        </varfield>
+        <varfield id="CAT" i1=" " i2=" ">
+          <subfield label="a">EIMPORT</subfield>
+          <subfield label="b"></subfield>
+          <subfield label="c">20140323</subfield>
+          <subfield label="l">KGL01</subfield>
+          <subfield label="h">1130</subfield>
+        </varfield>
+        <varfield id="UID" i1=" " i2=" ">
+          <subfield label="a">digi001955976ers</subfield>
+        </varfield>
+        <fixfield id="SYS">008800181</fixfield>
+        <varfield id="K15" i1="0" i2="0">
+          <subfield label="a">Enkeltstående post</subfield>
+        </varfield>
+        <varfield id="K01" i1="0" i2="0">
+          <subfield label="a">Danmark</subfield>
+        </varfield>
+        <varfield id="K02" i1="0" i2="0">
+          <subfield label="a">Dansk</subfield>
+        </varfield>
+        <varfield id="K13" i1="0" i2="0">
+          <subfield label="a">Bog; Mono</subfield>
+        </varfield>
+        <varfield id="K17" i1="0" i2="0">
+          <subfield label="a">Uændret</subfield>
+        </varfield>
+        <varfield id="K19" i1="0" i2="0">
+          <subfield label="a">e-ressource</subfield>
+        </varfield>
+        <varfield id="URL" i1="0" i2="1">
+          <subfield label="}">130020834545</subfield>
+          <subfield label="p">0</subfield>
+          <subfield label="k">Alle har adgang</subfield>
+          <subfield label="}">130020834545</subfield>
+          <subfield label="z">Link til elektronisk udgave</subfield>
+          <subfield label="u">http://www.kb.dk/e-mat/dod/130020834545.pdf</subfield>
+        </varfield>
+        <varfield id="URL" i1="0" i2="2">
+          <subfield label="k">AdgangAlle har adgang</subfield>
+          <subfield label="z">Link til elektronisk udgave</subfield>
+          <subfield label="u">http://www.kb.dk/e-mat/dod/130020834545.pdf</subfield>
+        </varfield>
+      </oai_marc>
+    </metadata>
+  </record>
+  <session-id>IHGV6ELH7MUSHV3KD4LAHQ36IEUKU8H8X7Q9UB6D5DPC55ATNY</session-id>
+</present>

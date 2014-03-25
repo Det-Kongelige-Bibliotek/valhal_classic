@@ -68,44 +68,6 @@ describe 'DigitisationHelper' do
     end
   end
 
-  describe "#get_aleph_set_number" do
-    it "returns an aleph set number" do
-
-      stub_request(:post, "http://aleph-00.kb.dk/X").with(
-              :body => {"base"=>"kgl01", "library"=>"kgl01", "op"=>"find",
-                                                                    "request"=>"bar=130019448593"},
-              :headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-                           'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Ruby'}).
-         to_return(:status => 200, :body => "<?xml version = \"1.0\" encoding = \"UTF-8\"?>
-      <find>
-        <set_number>109558</set_number>
-        <no_records>000000001</no_records>
-        <no_entries>000000001</no_entries>
-        <session-id>BEKFTICJ6DXNK5JIRHETE88H8F6MSV7956HAHM96797VSFR27N</session-id>
-      </find>", :headers => {})
-
-
-      set_number = get_aleph_set_number('130019448593')
-      set_number.should_not be_nil
-      expect set_number.eql?('109558')
-    end
-  end
-
-  describe "#get_aleph_marc_xml" do
-    it "returns aleph marc xml for an aleph set number" do
-
-      aleph_test_marc_xml = File.read './spec/fixtures/aleph_marc.xml'
-      stub_request(:post, "http://aleph-00.kb.dk/X").
-         with(:body => {"format"=>"marc", "op"=>"present", "set_entry"=>"000000001", "set_no"=>"109558"},
-              :headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-                           'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Ruby'}).
-         to_return(:status => 200, :body => "#{aleph_test_marc_xml}", :headers => {})
-
-      aleph_marc_xml = get_aleph_marc_xml('109558')
-      aleph_marc_xml.should_not be_nil
-    end
-  end
-
   describe "#transform_aleph_marc_xml_to_mods" do
     it "returns valid MODS XML with required data populated" do
       aleph_marc_xml = File.read './spec/fixtures/aleph_marc.xml'
