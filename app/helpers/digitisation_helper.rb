@@ -20,7 +20,7 @@ module DigitisationHelper
     q = channel.queue(source, :durable => true)
     #logger.info "Listening to DOD digitisation workflow queue: #{source}"
 
-    q.subscribe(ack: true) do |delivery_info, metadata, payload|
+    q.subscribe do |delivery_info, metadata, payload|
       begin
         logger.debug "#{Time.now.to_s} DEBUG: Received the following DOD eBook message: #{payload}"
         handle_digitisation_dod_ebook(JSON.parse(payload))
@@ -47,10 +47,8 @@ module DigitisationHelper
     pdf_uri = message['fileUri']
     mods = transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri, message['id'])
 
-    logger.debug "#{Time.now.to_s} DEBUG: mods = #{mods}"
-
     logger.debug "#{Time.now.to_s} DEBUG: pdf_uri = #{pdf_uri}"
-    work = create_work_object(mods.to_s, pdf_uri)
+    work = find_or_create_work(message['id'], mods.to_s, pdf_uri)
 
     person = find_or_create_person(mods.to_s)
     unless person.nil?
@@ -58,6 +56,10 @@ module DigitisationHelper
     end
 
     work
+  end
+
+  def find_or_create_work(id, mods, pdf_uri)
+    create_work_object(mods, pdf_uri)
   end
 
 
