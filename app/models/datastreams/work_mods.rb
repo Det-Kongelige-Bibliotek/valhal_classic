@@ -33,6 +33,9 @@ module Datastreams
       t.physicalDescription do
         t.extent()
       end
+      t.recordInfo do
+        t.sysNum(:path => "recordIdentifier[@source='kb-aleph']")
+      end
 
       t.shelfLocator(:proxy => [:location, :shelfLocator])
       t.title(:proxy => [:titleInfo, :title])
@@ -44,6 +47,7 @@ module Datastreams
       t.languageText(:proxy => [:language, :languageText])
       t.subjectTopic(:proxy => [:subject, :topic])
       t.physicalExtent(:proxy => [:physicalDescription, :extent])
+      t.sysNum(:proxy => [:recordInfo, :sysNum])
     end
 
     def self.xml_template
@@ -58,7 +62,7 @@ module Datastreams
           <mods:recordOrigin/>
           <mods:recordCreationDate encoding="w3cdtf"/>
           <mods:recordChangeDate encoding="w3cdtf"/>
-          <mods:recordIdentifier/>
+          <mods:recordIdentifier source="kb-aleph"/>
           <mods:languageOfCataloging>
             <mods:languageTerm authority="iso639-2b" type="code"/>
           </mods:languageOfCataloging>

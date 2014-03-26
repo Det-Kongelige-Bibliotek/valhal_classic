@@ -11,7 +11,7 @@ class Work < ActiveFedora::Base
 
   # TODO define restrictions for these metadata fields.
   has_attributes :shelfLocator, :title, :subTitle, :typeOfResource, :publisher, :originPlace, :languageISO,
-                 :languageText, :subjectTopic, :dateIssued, :physicalExtent,
+                 :languageText, :subjectTopic, :dateIssued, :physicalExtent, :sysNum,
                  datastream: 'descMetadata', :multiple => false
   has_attributes :work_type, datastream: 'descMetadata', :at => [:genre], :multiple => false
 
@@ -25,6 +25,7 @@ class Work < ActiveFedora::Base
     m.field "title"
     m.field "sub_title", method: :subTitle
     m.field "type_of_resource", method: :typeOfResource
+    m.field "sysNum", method: :sysNum, :index_as => [:string, :indexed, :stored]
   end
 
   # Delivers the title and subtitle in a format for displaying.
