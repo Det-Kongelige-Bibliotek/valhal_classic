@@ -26,6 +26,7 @@ module DigitisationHelper
         handle_digitisation_dod_ebook(JSON.parse(payload))
       rescue => e
         logger.error "#{Time.now.to_s} ERROR: Tried to handle DOD eBook message: #{payload}\nCaught error: #{e}"
+        logger.error e.backtrace.join("\n")
       end
     end
   end
