@@ -20,7 +20,7 @@ class Work < ActiveFedora::Base
 
   has_solr_fields do |m|
     m.field "search_result_title", method: :title
-    m.field "search_result_work_type", method: :work_type
+    m.field "search_result_work_type", method: :work_type, :index_as => [:string, :indexed, :stored]
     m.field "shelf_locator", method: :shelfLocator
     m.field "title"
     m.field "sub_title", method: :subTitle
