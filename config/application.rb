@@ -5,9 +5,7 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 require 'log4r'
-require 'log4r/yamlconfigurator'
-require 'log4r/outputter/datefileoutputter'
-include Log4r
+
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -93,13 +91,23 @@ module Valhal
 
 
 
-    log4r_config = YAML.load_file(File.join(File.dirname(__FILE__),"log4r.yml"))
-    YamlConfigurator.decode_yaml( log4r_config['log4r_config'] )
-    outputter = Log4r::FileOutputter.new('log4r', :filename => "sifd.log")
-    outputter.formatter = Log4r::PatternFormatter.new(:date_pattern => "%FT%T.000Z", :pattern => "%d [%1] %m")
-    logger = Log4r::Logger[Rails.env]
+#    log4r_config = YAML.load_file(File.join(File.dirname(__FILE__),"log4r.yml"))
+ #   YamlConfigurator.decode_yaml( log4r_config['log4r_config'] )
+  #  outputter = Log4r::FileOutputter.new('log4r', :filename => "sifd.log")
+   # outputter.formatter = Log4r::PatternFormatter.new(:date_pattern => "%FT%T.000Z", :pattern => "%d [%1] %m")
+   # logger = Log4r::Logger[Rails.env]
 
-    #config.logger = Log4r::Logger.new('log4r')
-    logger.outputters = [outputter]
+
+
+  #  logfile = "log/sifd-#{Rails.env}.log"
+
+  #  outputter = Log4r::RollingFileOutputter.new('log4r', :filename => logfile, :maxtime => 60, :trunc => true)
+  #  outputter.formatter = Log4r::PatternFormatter.new(:date_pattern => "%Y-%m-%d %H:%M:%S", :pattern => "%d %l: %m ")
+
+  #  logger = Log4r::Logger.new('log4r')
+  #  logger.outputters = [outputter]
+  #  logger.level = Rails.env.production? ? Log4r::INFO : Log4r::DEBUG
+
+    config.log_formatter = ::Logger::Formatter.new
   end
 end

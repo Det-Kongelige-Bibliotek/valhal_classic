@@ -33,4 +33,9 @@ Valhal::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  config.log_level=:debug
+
+  #Disable action view logging (cleans op log-files)
+  config.action_view.logger = nil
 end
