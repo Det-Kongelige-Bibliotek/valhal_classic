@@ -66,14 +66,11 @@ module DigitisationHelper
   #@return Nokogiri::Document containing MODS XML
   def transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri, id)
     logger.debug "#{Time.now.to_s} DEBUG: Running XSLT transformation of Aleph MARC XML to MODS..."
-    doc = Nokogiri::XML.parse(aleph_marc_xml)
-    xslt1 = Nokogiri::XSLT(File.read("#{Rails.root}/xslt/oaimarc2slimmarc.xsl"))
-    tmp_doc = xslt1.transform(doc, Nokogiri::XSLT.quote_params(['pdfUri', pdf_uri]))
-    xslt2 = Nokogiri::XSLT(File.read("#{Rails.root}/xslt/marcToMODS.xsl"))
-    mods = xslt2.transform(tmp_doc)
+    tmp_doc = ConversionService.transform_aleph_to_slim_marc(aleph_marc_xml, pdf_uri)
+    mods = ConversionService.transform_marc_to_mods(tmp_doc)
 
-    recInfo = Nokogiri::XML::Node.new("recordInfo", mods)
-    identifier = Nokogiri::XML::Node.new("recordIdentifier", mods)
+    recInfo = Nokogiri::XML::Node.new('recordInfo', mods)
+    identifier = Nokogiri::XML::Node.new('recordIdentifier', mods)
     identifier.content = id
     identifier.set_attribute('source', 'kb-aleph')
     recInfo.children = identifier
