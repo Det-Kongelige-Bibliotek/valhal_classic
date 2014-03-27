@@ -29,11 +29,6 @@ describe Person do
       person.save.should be_false
     end
 
-    it "should not accept an empty firstname" do
-      person = Person.new(lastname: "the lastname")
-      person.save.should be_false
-    end
-
     it "should not accept an empty lastname" do
       person = Person.new(firstname: "the firstname")
       person.save.should be_false
@@ -82,34 +77,14 @@ describe Person do
       person.save.should be_false
     end
 
-    it "should not allow empty string for the firstname on creation" do
-      person = Person.new(lastname: "some lastname")
-      person.should_not be_valid
-      person.save.should be_false
-    end
-
     it "should not allow empty string for the lastname on creation" do
       person = Person.new(firstname: "some firstname")
       person.should_not be_valid
       person.save.should be_false
     end
 
-    it "should not allow spaces for the firstname on creation" do
-      person = Person.new(firstname: " ")
-      person.should_not be_valid
-      person.save.should be_false
-    end
-
     it "should not allow spaces for the lastname on creation" do
       person = Person.new(lastname: " ")
-      person.should_not be_valid
-      person.save.should be_false
-    end
-
-    it "should not allow empty string for the first name during update" do
-      person = Person.new(firstname: "a name", lastname: "a last name", :date_of_birth => Time.now.nsec.to_s)
-      person.save!
-      person.firstname = ""
       person.should_not be_valid
       person.save.should be_false
     end
