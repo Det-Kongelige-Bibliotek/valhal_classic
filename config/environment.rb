@@ -63,13 +63,15 @@ end
 #This function starts the listener thread which will poll RabbitMQ at regular intervals set by the polling_interval
 def start_listener_thread
   polling_interval = MQ_CONFIG['preservation']['polling_interval_in_minutes']
+  logger.debug "Starting listener treads"
   t = Thread.new do
     while true
       initialize_listeners
-      #logger.debug "Going to sleep for #{polling_interval} minutes..."
+      logger.debug "Going to sleep for #{polling_interval} minutes..."
       sleep polling_interval.minutes
     end
   end
+  logger.debug t.group.inspect
   logger.debug "num_of_threads = #{t.group.list.size}"
   #I've read here: https://www.agileplannerapp.com/blog/building-agile-planner/rails-background-jobs-in-threads
   #that each thread started in a Rails app gets its own database connection so when the thread terminates we need
@@ -86,6 +88,7 @@ if defined?(PhusionPassenger)
       start_listener_thread
     end
   end
+
 else
   if Rails.env.upcase != 'TEST'
     start_listener_thread

@@ -28,4 +28,11 @@ Valhal::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  config.log_level = :debug
+
+
+  #Disable action view logging (cleans op log-files)
+  config.action_view.logger = nil
+
 end
