@@ -4,13 +4,11 @@ require 'net/http'
 require 'uri'
 require 'logger'
 
+
 require "#{Rails.root}/app/services/aleph_service"
-require "#{Rails.root}/app/helpers/pnx_helper"
 require "#{Rails.root}/app/helpers/mq_helper"
 
-
 namespace :sifd do
-  include PnxHelper
   include MqHelper
 
   desc "Delete all ActiveFedora::Base objects from solr and fedora"
@@ -40,6 +38,26 @@ namespace :sifd do
     queue_name = MqHelper.get_queue_name('digitisation', 'source')
     messages.each {|m| MqHelper.send_on_rabbitmq(m, queue_name)}
     logger.info "sent #{messages.length} messages on #{queue_name}"
+  end
+
+  desc 'Utility task to debug import of single item, takes Aleph sysNum as arg'
+  task :debug_import, [:sysNum] => :environment do |t, args|
+    # exit if we don't get any args
+    if args[:sysNum].nil?
+      puts 'Expected aleph sysNum as argument - exiting'
+      next
+    end
+    service = AlephService.new
+    set = service.find_set("sys=#{args[:sysNum]}")
+    xml = service.get_record(set[:set_num], '1')
+    puts '============== Aleph XML =================='
+    puts xml
+    slim = ConversionService.transform_aleph_to_slim_marc(xml, 'somebullshit.pdf')
+    puts '============== Slimmed down MARC XML =================='
+    puts slim
+    mods = ConversionService.transform_marc_to_mods(slim)
+    puts '============== MODS =================='
+    puts mods
   end
 
   namespace :solr do
