@@ -26,6 +26,7 @@ module DigitisationHelper
         handle_digitisation_dod_ebook(JSON.parse(payload))
       rescue => e
         logger.error "#{Time.now.to_s} ERROR: Tried to handle DOD eBook message: #{payload}\nCaught error: #{e}"
+        logger.error e.backtrace.join("\n")
       end
     end
   end
@@ -48,20 +49,14 @@ module DigitisationHelper
     mods = transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri, message['id'])
 
     logger.debug "#{Time.now.to_s} DEBUG: pdf_uri = #{pdf_uri}"
-    work = find_or_create_work(message['id'], mods.to_s, pdf_uri)
+    work = update_or_create_work(message['id'], mods.to_s, pdf_uri)
 
     person = find_or_create_person(mods.to_s)
     unless person.nil?
       work.set_authors([person.pid], work)
     end
-
     work
   end
-
-  def find_or_create_work(id, mods, pdf_uri)
-    create_work_object(mods, pdf_uri)
-  end
-
 
   #Function for transforming Aleph DanMARC XML into MODS.  The transformation process is a 2-step process.  First an XSLT
   #script is called that transforms the DanMARC XML into normal MARC 21 XML.  Secondly another XSLT is called to
@@ -69,7 +64,7 @@ module DigitisationHelper
   #@param aleph_marc_xml - the aleph DanMARC XML in String format
   #@param pdf_uri - the URI to the location of the PDF file for this eBook in String format
   #@return Nokogiri::Document containing MODS XML
-  def transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri, barcode)
+  def transform_aleph_marc_xml_to_mods(aleph_marc_xml, pdf_uri, id)
     logger.debug "#{Time.now.to_s} DEBUG: Running XSLT transformation of Aleph MARC XML to MODS..."
     doc = Nokogiri::XML.parse(aleph_marc_xml)
     xslt1 = Nokogiri::XSLT(File.read("#{Rails.root}/xslt/oaimarc2slimmarc.xsl"))
@@ -77,10 +72,12 @@ module DigitisationHelper
     xslt2 = Nokogiri::XSLT(File.read("#{Rails.root}/xslt/marcToMODS.xsl"))
     mods = xslt2.transform(tmp_doc)
 
-    code = Nokogiri::XML::Node.new("identifier", mods)
-    code.content = barcode
-    code.set_attribute('type', 'barcode')
-    mods.css('mods location').last.add_next_sibling(code)
+    recInfo = Nokogiri::XML::Node.new("recordInfo", mods)
+    identifier = Nokogiri::XML::Node.new("recordIdentifier", mods)
+    identifier.content = id
+    identifier.set_attribute('source', 'kb-aleph')
+    recInfo.children = identifier
+    mods.css('mods location').last.add_next_sibling(recInfo)
 
     empty_uri_identifier_element = Nokogiri::XML::Node.new('identifier', mods)
     empty_uri_identifier_element.content = ''
@@ -94,8 +91,9 @@ module DigitisationHelper
   #@param mods MODS XML in String format
   #@param pdflink URI to PDF file in String format
   #@return Work object or nil
-  def create_work_object(mods,pdflink)
-    work = Work.new
+  def update_or_create_work(id, mods,pdflink)
+    work = Work.find(sysNum_ssi: id).first
+    work = Work.new if work.nil?
     work.datastreams['descMetadata'].content = mods
     work.work_type='DOD bog'
     if (!work.save)
