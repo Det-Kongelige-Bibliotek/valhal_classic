@@ -38,8 +38,8 @@ namespace :sifd do
     messages = records.collect { |r| service.convert_marc_to_message(r) }
     MQ_CONFIG = YAML.load_file("#{Rails.root}/config/mq_config.yml")[Rails.env]
     queue_name = MqHelper.get_queue_name('digitisation', 'source')
-    logger.info "sending #{messages.length} messages on #{queue_name}"
     messages.each {|m| MqHelper.send_on_rabbitmq(m, queue_name)}
+    logger.info "sent #{messages.length} messages on #{queue_name}"
   end
 
   namespace :solr do
