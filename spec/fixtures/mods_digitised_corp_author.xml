@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3" version="3.5" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+  <titleInfo>
+    <title>Beretning fra Bestyrelsen for Børnehjemmet "Godthaab"</title>
+    <subTitle/>
+  </titleInfo>
+  <name type="corporate">
+    <namePart>Børnehjemmet "Godthaab"</namePart>
+  </name>
+  <typeOfResource/>
+  <originInfo>
+    <dateIssued>1876</dateIssued>
+  </originInfo>
+  <language>
+    <languageTerm authority="iso639-2b" type="code">dan</languageTerm>
+  </language>
+  <note type="statement of responsibility" altRepGroup="00"/>
+  <location>
+    <physicalLocation>Udtaget småtryk 34:3,-299 8° (1876/77-1899); Filantropi. 8° (1900-1966/67)</physicalLocation>
+  </location>
+  <location>
+    <url displayLabel="electronic resource" usage="primary display">somebullshit.pdf</url>
+  </location>
+  <recordInfo>
+    <recordOrigin>Converted from MARCXML to MODS version 3.4 using MARC21slim2MODS3-4.xsl
+      (Revision 1.94 2014/02/21)</recordOrigin>
+  </recordInfo>
+</mods>

@@ -8,9 +8,9 @@ module PersonFinderService
   # return a
   def find_or_create_person(mods_xml)
 
-    name = parse_name(mods_xml)
-    unless name.nil?
-      hashed_name = hashify_personal_name(name)
+    name = Name.new(mods_xml)
+    unless name.text.nil?
+      hashed_name = name.to_hash
       p = find_person_by_name(hashed_name)
 
       if p.nil?
@@ -21,30 +21,37 @@ module PersonFinderService
     end
   end
 
-  #Need to handle the use case where there is no author in a book
-  #So if the CSS query returns nothing we need to stop further processing
-  def parse_name(xml)
-    xml_doc = Nokogiri::XML(xml)
-
-    node_set = xml_doc.css("name namePart")
-
-    if node_set.size > 0
-      xml_doc.css("name namePart").first.text
-    end
-  end
-
   def find_person_by_name(hashed_name)
     Person.find(hashed_name).first
   end
 
-  # Given a personal name in format
-  # 'Mühlbach, Louise' convert to hash
-  # in format {firstname: 'Louise', lastname: 'Mühlbach'}
-  def hashify_personal_name(pers_name)
-    names = pers_name.split(',')
-    { lastname: names.first.strip, firstname: names.last.strip }
+end
+
+# Helper class to create a name object with
+# attributes text and type
+class Name
+  attr_reader :text, :type
+
+  def initialize(mods)
+    xml_doc = Nokogiri::XML(mods)
+
+    node_set = xml_doc.css('name namePart')
+
+    if node_set.size > 0
+      @text = xml_doc.css('name namePart').first.text
+      @type = xml_doc.css('name').first.attr('type')
+    end
   end
 
-
-
+  # return a hash of name
+  # in the form { lastname: 'x', firstname: 'y'}
+  # corporate authors should have not have a firstname
+  def to_hash
+    if @type == 'personal'
+      names = @text.split(',')
+      { lastname: names.first.strip, firstname: names.last.strip }
+    else
+      { lastname: @text }
+    end
+  end
 end
