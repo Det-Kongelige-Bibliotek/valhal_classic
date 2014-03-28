@@ -94,7 +94,7 @@ module DigitisationHelper
     work.datastreams['descMetadata'].content = mods
     work.work_type='DOD bog'
     if (!work.save)
-      logger.error "#{Time.now.to_s} ERROR: Failed to save work"
+      logger.error "#{Time.now.to_s} ERROR: Failed to save work #{work.errors.messages.flatten.join(' ')}"
       return nil
     end
 
@@ -107,7 +107,7 @@ module DigitisationHelper
     end
 
     if (!file.save)
-      logger.error "#{Time.now.to_s} ERROR: Unable to save basicfile"
+      logger.error "#{Time.now.to_s} ERROR: Unable to save basicfile #{file.errors.messages.flatten.join(' ')}"
       work.delete
       return nil
     end
@@ -116,7 +116,7 @@ module DigitisationHelper
     rep.files << file
 
     if (!rep.save)
-      logger.error "#{Time.now.to_s} ERROR: Unable to save file representation"
+      logger.error "#{Time.now.to_s} ERROR: Unable to save file representation #{rep.errors.messages.flatten.join(' ')}"
       work.delete
       file.delete #delete the BasicFile object again
       return nil
@@ -130,7 +130,7 @@ module DigitisationHelper
     else
       rep.delete
       file.delete
-      logger.error "#{Time.now.to_s} ERROR: Saving work second time, returning nil"
+      logger.error "#{Time.now.to_s} ERROR: Could not save work second time, #{work.errors.messages.flatten.join(' ')}. Returning nil"
       return nil
     end
   end
