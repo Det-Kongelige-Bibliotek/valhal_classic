@@ -182,6 +182,10 @@ module Concerns
     rescue URI::InvalidURIError
       logger.error "Invalid URI #{url}"
       nil
+    rescue => e
+      logger.error "error in fetch_file_from_url #{url}"
+      logger.error e.backtrace.join("\n")
+      nil
     end
   end
 
