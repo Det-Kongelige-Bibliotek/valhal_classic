@@ -13,6 +13,9 @@ class HttpService
     request.set_form_data(params)
     response = Net::HTTP.start(url.host, url.port) { |http| http.request(request) }
     response.body
+  rescue => e
+    logger.error "do_post failed #{uri_string}"
+    logger.error e.backtrace.join("\n")
   end
 
 end

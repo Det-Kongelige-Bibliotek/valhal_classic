@@ -28,6 +28,9 @@ class AlephService
     sys_num = xml.css('present record metadata oai_marc varfield[id="001"]').text.strip[4..12]
     fileUri = xml.css('present record metadata oai_marc varfield[id="URL"] subfield[label="u"]').first.text.strip
     {id: sys_num, fileUri: fileUri, workflowId: 'DOD'}.to_json
+  rescue => e
+    logger.error "convert_marc_to_message failed #{marcxml}"
+    logger.error e.backtrace.join("\n")
   end
 
   #Query Aleph X service to get the set data for a given Aleph search. This is the first POST in
@@ -40,6 +43,9 @@ class AlephService
     set_num = Nokogiri::XML.parse(response).xpath('/find/set_number/text()').to_s
     num_entries = Nokogiri::XML.parse(response).xpath('/find/no_entries/text()').to_s
     {set_num: set_num, num_entries: num_entries}
+  rescue => e
+    logger.error "find_set filed #{search_string}"
+    logger.error e.backtrace.join("\n")
   end
 
 
@@ -55,6 +61,9 @@ class AlephService
         :set_entry => entry_num,
         :format => "marc"}
     )
+  rescue => e
+    logger.error "get_record failed #{search_string}"
+    logger.error e.backtrace.join("\n")
   end
 
   # Given an Aleph search string
@@ -67,5 +76,8 @@ class AlephService
         :base => 'kgl01',
         :library => 'kgl01',
         :request => search_string })
+  rescue => e
+    logger.error "search_aleph filed #{search_string}"
+    logger.error e.backtrace.join("\n")
   end
 end
