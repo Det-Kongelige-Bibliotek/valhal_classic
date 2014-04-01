@@ -14,14 +14,14 @@ module DisseminationService
   # @param options The message containing the URL for the PDF.
   # @param type The type for dissemination
   def disseminate(work, options, type)
-    message = create_message(work, options, type)
+    message = create_dissemination_message(work, options, type)
     send_message_to_bifrost_books(message)
   end
 
   private
   # Creates a message depending on the dissemination type
   # Currently only BifrostBøger supported.
-  def create_message(work, options, type)
+  def create_dissemination_message(work, options, type)
     case type
       when DISSEMINATION_TYPE_BIFROST_BOOKS
         create_message_for_dod_book(work, options)
