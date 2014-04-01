@@ -86,4 +86,5 @@ gem "bootstrap-sass"
 #logging
 gem 'log4r', '1.1.10'
 gem 'quiet_assets'
+gem 'httparty'
 
