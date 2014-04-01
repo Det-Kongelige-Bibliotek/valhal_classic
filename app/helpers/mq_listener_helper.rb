@@ -23,6 +23,12 @@ module MqListenerHelper
   # anything is invalid in the message then we just log a warning message as we don't want to interrupt the normal
   # operation of Valhal by raising an error.
   def handle_digitisation_dod_ebook(message)
+    logger.debug "MQListenerHelper: num_of_threads = #{Thread.current.group.list.size}"
+    if Thread.current.group.list.size > 1
+      Thread.current.group.list.each do |thread|
+        logger.debug thread.inspect
+      end
+    end
     logger.debug "Received following DOD eBook message: #{message}"
 
     if message['id'].blank? || message['fileUri'].blank? || message['workflowId'].nil?
@@ -30,6 +36,7 @@ module MqListenerHelper
     end
 
     work = create_dod_work(message)
+    logger.debug "Work created"
     disseminate(work, message, DisseminationService::DISSEMINATION_TYPE_BIFROST_BOOKS)
   end
 

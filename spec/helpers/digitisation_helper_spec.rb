@@ -14,6 +14,7 @@ describe 'DigitisationHelper' do
       stub_request(:get, "http://www.kb.dk/e-mat/dod/404.pdf").
           with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'www.kb.dk', 'User-Agent'=>'Ruby'}).
           to_return(:status => 404, :body => '', :headers => {})
+      @work = update_or_create_work('notanid', @mods, "http://www.kb.dk/e-mat/dod/testdod.pdf")
     end
 
     after (:each) do
@@ -23,12 +24,12 @@ describe 'DigitisationHelper' do
     end
 
     it "should create a new object with singlefile representation" do
-      work = update_or_create_work('notanid', @mods, "http://www.kb.dk/e-mat/dod/testdod.pdf")
-      work.should_not be_nil
-      work.title.should == 'Er Danmark i Fare?'
-      work.work_type.should == 'DOD bog'
-      work.single_file_reps.length.should == 1
-      rep = work.single_file_reps[0]
+      @work = update_or_create_work('notanid', @mods, "http://www.kb.dk/e-mat/dod/testdod.pdf")
+      @work.should_not be_nil
+      @work.title.should == 'Er Danmark i Fare?'
+      @work.work_type.should == 'DOD bog'
+      @work.single_file_reps.length.should == 1
+      rep = @work.single_file_reps[0]
       rep.should be_a_kind_of SingleFileRepresentation
       rep.files.length.should == 1
       file = rep.files[0]
@@ -41,7 +42,7 @@ describe 'DigitisationHelper' do
       work.should be nil
     end
 
-    it "should fail to create with  pdf Link that do not respond 200" do
+    it "should fail to create with pdf Link that do not respond 200" do
       work = update_or_create_work('notanid', @mods,"http://www.kb.dk/e-mat/dod/404.pdf")
       work.should be nil
 
@@ -49,17 +50,22 @@ describe 'DigitisationHelper' do
 
     it "should not create a duplicate work" do
       #Create first work
-      work = update_or_create_work('notanid', @mods,"http://www.kb.dk/e-mat/dod/testdod.pdf")
-      work.should_not be_nil
-      work.title.should == 'Er Danmark i Fare?'
-      work.work_type.should == 'DOD bog'
-      work.single_file_reps.length.should == 1
-      rep = work.single_file_reps[0]
+      @work = update_or_create_work('notanid', @mods,"http://www.kb.dk/e-mat/dod/testdod.pdf")
+      @work.should_not be_nil
+      @work.title.should == 'Er Danmark i Fare?'
+      @work.work_type.should == 'DOD bog'
+      @work.single_file_reps.length.should == 1
+      rep = @work.single_file_reps[0]
       rep.should be_a_kind_of SingleFileRepresentation
       rep.files.length.should == 1
       file = rep.files[0]
       file.should be_a_kind_of BasicFile
       file.datastreams['content'].should_not be nil
+    end
+
+    it 'should have a value in the shelfLocation that matches the value for <physicalLocation> in the MODS XML' do
+      @work = update_or_create_work('notanid', @mods, "http://www.kb.dk/e-mat/dod/testdod.pdf")
+      Nokogiri::XML.parse(@mods).css('mods location physicalLocation').text.should eql @work.shelfLocator
     end
   end
 

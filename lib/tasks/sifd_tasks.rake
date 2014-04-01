@@ -73,6 +73,41 @@ namespace :sifd do
     puts mods
   end
 
+  desc 'Read messages of DOD ingest queue, and ingest DOD books into Valhal'
+  task :dod_queue_listener => :environment do
+    logger.debug "starting queue listener (rake)"
+    begin
+      uri = MQ_CONFIG["mq_uri"]
+      conn = Bunny.new(uri)
+      logger.debug "Before starting Bunny connection..."
+      logger.debug "rake task sifd.dod_queue_listener: num_of_threads = #{Thread.current.group.list.size}"
+      if Thread.current.group.list.size > 1
+        Thread.current.group.list.each do |thread|
+          logger.debug thread.inspect
+        end
+      else
+        logger.debug Thread.current.inspect
+      end
+      conn.start
+      logger.debug "After starting Bunny connection..."
+      logger.debug "rake task sifd.dod_queue_listener: num_of_threads = #{Thread.current.group.list.size}"
+      if Thread.current.group.list.size > 1
+        Thread.current.group.list.each do |thread|
+          logger.debug thread.inspect
+        end
+      else
+        logger.debug Thread.current.inspect
+      end
+      ch = conn.create_channel
+      subscribe_to_dod_digitisation(ch)
+      conn.close
+    rescue Exception => e
+      logger.error " #{e.message}"
+      logger.error e.backtrace.join("\n")
+    end
+    logger.debug "The End"
+  end
+
   namespace :solr do
     desc "Reload the local jetty solr with config from solr_conf"
     task :reload do
