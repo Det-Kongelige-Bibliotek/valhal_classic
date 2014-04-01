@@ -89,8 +89,10 @@ module DigitisationHelper
   #@param pdflink URI to PDF file in String format
   #@return Work object or nil
   def update_or_create_work(id, mods,pdflink)
+    logger.debug "update or create work #{id}"
     work = Work.find(sysNum_ssi: id).first
     work = Work.new if work.nil?
+    logger.debug "Work is #{work.inspect}"
     work.datastreams['descMetadata'].content = mods
     work.work_type='DOD bog'
     if (!work.save)
@@ -99,6 +101,7 @@ module DigitisationHelper
     end
 
     # create Basicfile with pdflink as content data stream
+    logger.debug "creating basic file from #{pdflink}"
     file = BasicFile.new
     if (!file.add_file_from_url(pdflink,nil))
       logger.error "#{Time.now.to_s} ERROR: Unable to add pdf_file from #{pdflink}"
@@ -112,6 +115,7 @@ module DigitisationHelper
       return nil
     end
 
+    logger.debug "creating single file representation "
     rep = SingleFileRepresentation.new
     rep.files << file
 
@@ -125,6 +129,8 @@ module DigitisationHelper
     rep.ie = work
     work.representations << rep
 
+
+    logger.debug "saving work"
     if (work.save)
       return work
     else
