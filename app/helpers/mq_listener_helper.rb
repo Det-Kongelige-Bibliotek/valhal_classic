@@ -30,6 +30,7 @@ module MqListenerHelper
     end
 
     work = create_dod_work(message)
+    logger.debug "Work created"
     disseminate(work, message, DisseminationService::DISSEMINATION_TYPE_BIFROST_BOOKS)
   end
 
