@@ -52,6 +52,8 @@ module MqListenerHelper
         return SingleFileRepresentation.find(id)
       when 'orderedrepresentation'
         return OrderedRepresentation.find(id)
+      when 'person'
+        return Person.find(id)
       else
         raise 'Unknown element type'
     end

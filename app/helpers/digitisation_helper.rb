@@ -96,6 +96,7 @@ module DigitisationHelper
     logger.debug "Work is #{work.inspect}"
     work.datastreams['descMetadata'].content = mods
     work.work_type='DOD bog'
+    work.shelfLocator = Nokogiri::XML.parse(mods).css('mods location physicalLocation').text
     if (!work.save)
       logger.error "#{Time.now.to_s} ERROR: Failed to save work #{work.errors.messages.flatten.join(' ')}"
       return nil

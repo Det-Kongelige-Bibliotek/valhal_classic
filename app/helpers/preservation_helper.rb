@@ -64,7 +64,7 @@ module PreservationHelper
     else
       set_preservation_metadata({'preservation_state' => Constants::PRESERVATION_STATE_INITIATED.keys.first,
                                  'preservation_details' => 'The preservation button has been pushed.'}, element)
-      message = create_message(element)
+      message = create_preservation_message(element)
       send_message_to_preservation(message)
     end
   end
@@ -82,7 +82,7 @@ module PreservationHelper
   #
   # @param element The element to be preserved.
   # @return The preservation message in JSON format.
-  def create_message(element)
+  def create_preservation_message(element)
     message = Hash.new
     message['UUID'] = element.uuid
     message['Preservation_profile'] = element.preservationMetadata.preservation_profile.first
