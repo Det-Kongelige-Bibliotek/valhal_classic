@@ -49,7 +49,7 @@ module DisseminationService
     message['Dissemination_type'] = 'BifrostBøger'
     message['Type'] = work.pid
     # TODO this is a hack, since we currently cannot handle more than url.
-    message['Files'] = {'1' => options['fileUri']}
+    message['files'] = {'1' => options['fileUri']}
     message['MODS'] = work.descMetadata.content
 
     message.to_json()

@@ -7,9 +7,11 @@ require 'logger'
 
 require "#{Rails.root}/app/services/aleph_service"
 require "#{Rails.root}/app/helpers/mq_helper"
+require "#{Rails.root}/app/services/dissemination_service"
 
 namespace :sifd do
   include MqHelper
+  include DisseminationService
 
   desc "Delete all ActiveFedora::Base objects from solr and fedora"
   task :clean => :environment do
@@ -38,6 +40,17 @@ namespace :sifd do
     queue_name = MqHelper.get_queue_name('digitisation', 'source')
     messages.each {|m| MqHelper.send_on_rabbitmq(m, queue_name)}
     logger.info "sent #{messages.length} messages on #{queue_name}"
+  end
+
+  desc "Disseminate all Valhal works to Bifrost"
+  task :disseminate => :environment do
+    works = Work.all
+    puts "Sending #{works.length} objects to dissemination."
+    works.each do | work |
+      url = Nokogiri::XML(work.descMetadata.to_xml).css('url').last.content
+      disseminate(work, {'fileUri' => url}, DisseminationService::DISSEMINATION_TYPE_BIFROST_BOOKS)
+    end
+
   end
 
   desc 'Utility task to debug import of single item, takes Aleph sysNum as arg'
