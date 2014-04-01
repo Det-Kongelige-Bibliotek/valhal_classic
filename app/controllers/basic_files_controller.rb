@@ -3,6 +3,8 @@
 class BasicFilesController < ApplicationController
   include PreservationHelper # methods: update_preservation_profile_from_controller
 
+  authorize_resource
+
   # Retrieves the basic file for the show view
   def show
     @file = BasicFile.find(params[:id])

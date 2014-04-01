@@ -91,7 +91,7 @@ module PreservationHelper
 
     if element.kind_of?(BasicFile)
       message['File_UUID'] = element.file_uuid
-      message['Content_URI'] = download_basic_file_url(element)
+      message['Content_URI'] = url_for(:controller => 'view_file', :action => 'show', :pid => element.pid)
     end
 
     metadata = create_message_metadata(element)
