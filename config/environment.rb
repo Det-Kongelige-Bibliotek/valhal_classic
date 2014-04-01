@@ -85,14 +85,14 @@ if defined?(PhusionPassenger)
       logger.debug "Forked"
       # We’re in a smart spawning mode
       # Now is a good time to connect to RabbitMQ
-      start_listener_thread
+   #   start_listener_thread
     end
   end
 
 else
   if Rails.env.upcase != 'TEST'
     logger.debug "not PhussionPassenger"
-    start_listener_thread
+  #  start_listener_thread
   end
   # We're in direct spawning mode. We don't need to do anything.
 end
