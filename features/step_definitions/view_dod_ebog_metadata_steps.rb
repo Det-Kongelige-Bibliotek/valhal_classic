@@ -19,7 +19,7 @@ Given(/^I have saved eBook$/) do
   page.should have_content 'Type: DOD eBook'
 end
 
-When(/^I navigate to the landing page for the eBook$/git ) do
+When(/^I navigate to the landing page for the eBook$/) do
   visit root_path
   click_link('DOD eBook', exact: false)
   print page.html
