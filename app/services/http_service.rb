@@ -19,9 +19,16 @@ class HttpService
   #    logger.debug "#{http.inspect}"
   #    response = Net::HTTP.start(url.host, url.port) { |http|  http.request(request) }
   #    response = http.request(request)
+      logger.debug "HttpService: num_of_threads = #{Thread.current.group.list.size}"
+      if Thread.current.group.list.size > 1
+        Thread.current.group.list.each do |thread|
+          logger.debug thread.inspect
+        end
+      end
       response = HTTParty.post(uri_string, :body => params)
+      puts response.body, response.code, response.message, response.headers.inspect
       logger.debug "got response #{response.inspect}"
-    rescue  => e
+    rescue Exception  => e
       logger.error "do_post failed #{uri_string}: #{e.message}"
       logger.error e.backtrace.join("\n")
     end

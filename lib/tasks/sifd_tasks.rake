@@ -79,7 +79,25 @@ namespace :sifd do
     begin
       uri = MQ_CONFIG["mq_uri"]
       conn = Bunny.new(uri)
+      logger.debug "Before starting Bunny connection..."
+      logger.debug "rake task sifd.dod_queue_listener: num_of_threads = #{Thread.current.group.list.size}"
+      if Thread.current.group.list.size > 1
+        Thread.current.group.list.each do |thread|
+          logger.debug thread.inspect
+        end
+      else
+        logger.debug Thread.current.inspect
+      end
       conn.start
+      logger.debug "After starting Bunny connection..."
+      logger.debug "rake task sifd.dod_queue_listener: num_of_threads = #{Thread.current.group.list.size}"
+      if Thread.current.group.list.size > 1
+        Thread.current.group.list.each do |thread|
+          logger.debug thread.inspect
+        end
+      else
+        logger.debug Thread.current.inspect
+      end
       ch = conn.create_channel
       subscribe_to_dod_digitisation(ch)
       conn.close

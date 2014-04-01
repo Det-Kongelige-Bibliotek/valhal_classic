@@ -87,7 +87,7 @@ class AlephService
          :library => 'kgl01',
          :request => search_string })
     rescue => e
-     logger.error "search_aleph filed #{search_string}"
+     logger.error "search_aleph failed #{search_string}"
      logger.error e.backtrace.join("\n")
     end
   end
