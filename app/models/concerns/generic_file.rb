@@ -41,7 +41,7 @@ module Concerns
     # fetches file from external URL and adds a content datatream to the object
     # using the add_file methom
     def add_file_from_url(url, skip_file_characterisation)
-      valid_file=false;
+      valid_file=false
       file = fetch_file_from_url(url)
       if (file)
         add_file(file, skip_file_characterisation)
@@ -50,6 +50,11 @@ module Concerns
       end
     end
 
+    #Add file retrieved from file server
+    def add_file_from_server(file_name)
+      file = fetch_file_from_server(file_name)
+      file ? add_file(file, skip_file_characterisation) : false
+    end
 
     # adds a content datastream to the object and generate techMetadata for the basic_files
     # basic_files must have the following methods [size, content_type, original_filename, tempfile]
@@ -173,7 +178,7 @@ module Concerns
             file= ActionDispatch::Http::UploadedFile.new(tempfile: tmpfile)
             file.original_filename = filename
             file.content_type = resp.content_type
-            logger.debug "GET took #{Time.now - start_time}"
+            logger.debug "GET took #{Time.now - start_time} seconds"
             return file
           else
             logger.error "Could not get file from location #{url} response is #{resp.code}:#{resp.message}"
@@ -191,8 +196,4 @@ module Concerns
       nil
     end
   end
-
-
-
-
 end

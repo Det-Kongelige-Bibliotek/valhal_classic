@@ -2,7 +2,7 @@ require "#{Rails.root}/app/services/http_service"
 
 class AlephService
   def initialize
-    @aleph_url = YAML.load_file("#{Rails.root}/config/services.yml")[Rails.env]['aleph_base_url']
+    @aleph_url = YAML.load_file("#{Rails.root}/config/services.yml")[Rails.env]['aleph']['aleph_base_url']
     @http_service = HttpService.new
   end
 
