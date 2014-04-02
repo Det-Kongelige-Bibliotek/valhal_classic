@@ -33,7 +33,7 @@ module DigitisationHelper
       begin
         logger.debug "#{Time.now.to_s} DEBUG: Received the following DOD eBook message: #{payload}"
         handle_digitisation_dod_ebook(JSON.parse(payload))
-        logger.debug "Finish handeling dod EBook"
+        logger.debug "Finished handling dod EBook"
       rescue => e
         logger.error "#{Time.now.to_s} ERROR: Tried to handle DOD eBook message: #{payload}\nCaught error: #{e}"
         logger.error e.backtrace.join("\n")

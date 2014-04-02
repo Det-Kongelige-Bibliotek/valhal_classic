@@ -157,6 +157,8 @@ module Concerns
     #fetches a file from a URL
     #returns content from the url. If then url is invalid or no content is returned then the methorn returns nil
     def fetch_file_from_url(url)
+      logger.debug "Starting GET of file from #{url}"
+      start_time = Time.now
       uri = URI.parse(url)
       if (uri.kind_of?(URI::HTTP))
         resp = Net::HTTP.get_response(uri)
@@ -171,6 +173,7 @@ module Concerns
             file= ActionDispatch::Http::UploadedFile.new(tempfile: tmpfile)
             file.original_filename = filename
             file.content_type = resp.content_type
+            logger.debug "GET took #{Time.now - start_time}"
             return file
           else
             logger.error "Could not get file from location #{url} response is #{resp.code}:#{resp.message}"

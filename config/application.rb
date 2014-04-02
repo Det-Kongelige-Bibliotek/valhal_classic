@@ -89,25 +89,6 @@ module Valhal
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-
-
-#    log4r_config = YAML.load_file(File.join(File.dirname(__FILE__),"log4r.yml"))
- #   YamlConfigurator.decode_yaml( log4r_config['log4r_config'] )
-  #  outputter = Log4r::FileOutputter.new('log4r', :filename => "sifd.log")
-   # outputter.formatter = Log4r::PatternFormatter.new(:date_pattern => "%FT%T.000Z", :pattern => "%d [%1] %m")
-   # logger = Log4r::Logger[Rails.env]
-
-
-
-  #  logfile = "log/sifd-#{Rails.env}.log"
-
-  #  outputter = Log4r::RollingFileOutputter.new('log4r', :filename => logfile, :maxtime => 60, :trunc => true)
-  #  outputter.formatter = Log4r::PatternFormatter.new(:date_pattern => "%Y-%m-%d %H:%M:%S", :pattern => "%d %l: %m ")
-
-  #  logger = Log4r::Logger.new('log4r')
-  #  logger.outputters = [outputter]
-  #  logger.level = Rails.env.production? ? Log4r::INFO : Log4r::DEBUG
-
     config.log_formatter = ::Logger::Formatter.new
   end
 end

@@ -8,6 +8,8 @@ require 'logger'
 require "#{Rails.root}/app/services/aleph_service"
 require "#{Rails.root}/app/helpers/mq_helper"
 require "#{Rails.root}/app/services/dissemination_service"
+require "#{Rails.root}/app/helpers/preservation_helper"
+require "#{Rails.root}/app/helpers/mq_listener_helper"
 
 namespace :sifd do
   include MqHelper
@@ -76,36 +78,43 @@ namespace :sifd do
   desc 'Read messages of DOD ingest queue, and ingest DOD books into Valhal'
   task :dod_queue_listener => :environment do
     logger.debug "starting queue listener (rake)"
+    unread_messages = read_messages
+
+    unread_messages.each {|message| handle_digitisation_dod_ebook(JSON.parse(message))}
+    logger.debug "Before the end: num_of_threads = #{Thread.current.group.list.size}"
+    logger.debug "The End"
+  end
+
+  #Function to read messages from RabbitMQ and store them in an Array
+  #@return Array of unread messages
+  def read_messages
     begin
       uri = MQ_CONFIG["mq_uri"]
       conn = Bunny.new(uri)
-      logger.debug "Before starting Bunny connection..."
-      logger.debug "rake task sifd.dod_queue_listener: num_of_threads = #{Thread.current.group.list.size}"
-      if Thread.current.group.list.size > 1
-        Thread.current.group.list.each do |thread|
-          logger.debug thread.inspect
-        end
-      else
-        logger.debug Thread.current.inspect
-      end
       conn.start
-      logger.debug "After starting Bunny connection..."
-      logger.debug "rake task sifd.dod_queue_listener: num_of_threads = #{Thread.current.group.list.size}"
-      if Thread.current.group.list.size > 1
-        Thread.current.group.list.each do |thread|
-          logger.debug thread.inspect
-        end
-      else
-        logger.debug Thread.current.inspect
+      channel = conn.create_channel
+
+      if MQ_CONFIG["digitisation"]["source"].blank?
+        logger.warn "#{Time.now.to_s} WARN: No digitisation source queue defined -> Not listening"
+        return
       end
-      ch = conn.create_channel
-      subscribe_to_dod_digitisation(ch)
+
+      source = MQ_CONFIG["digitisation"]["source"]
+      q = channel.queue(source, :durable => true)
+
+      unread_messages = Array.new
+
+      q.subscribe do |delivery_info, metadata, payload|
+        logger.debug "#{Time.now.to_s} DEBUG: Received the following DOD eBook message: #{payload}"
+        unread_messages.push(payload)
+      end
       conn.close
+      logger.debug "Returning array containing #{unread_messages.length} unread messages"
+      unread_messages
     rescue Exception => e
       logger.error " #{e.message}"
       logger.error e.backtrace.join("\n")
     end
-    logger.debug "The End"
   end
 
   namespace :solr do
