@@ -77,12 +77,28 @@ namespace :sifd do
 
   desc 'Read messages of DOD ingest queue, and ingest DOD books into Valhal'
   task :dod_queue_listener => :environment do
+    start_time = Time.now
     logger.debug "starting queue listener (rake)"
     unread_messages = read_messages
 
-    unread_messages.each {|message| handle_digitisation_dod_ebook(JSON.parse(message))}
-    logger.debug "Before the end: num_of_threads = #{Thread.current.group.list.size}"
-    logger.debug "The End"
+    logger.debug "Reading #{unread_messages.size} DOD messages"
+    #unread_messages.each {|message| handle_digitisation_dod_ebook(JSON.parse(message))}
+    counter = 1
+
+    chunks = unread_messages.each_slice(100).to_a
+    logger.debug "Splitting into #{chunks.size} chunks of at most 100"
+
+    chunks.each do |chunk|
+      chunk.each do |message|
+        logger.debug "Processing message number #{counter}"
+        handle_digitisation_dod_ebook(JSON.parse(message))
+        counter = counter + 1
+      end
+      logger.debug "Finished chunk"
+    end
+    logger.debug "Finished all chunks"
+    logger.debug "Finished processing DOD queue"
+    logger.debug "Task took  #{Time.now - start_time} seconds"
   end
 
   #Function to read messages from RabbitMQ and store them in an Array
@@ -104,7 +120,7 @@ namespace :sifd do
 
       unread_messages = Array.new
 
-      q.subscribe do |delivery_info, metadata, payload|
+      q.subscribe(:exclusive => true) do |delivery_info, metadata, payload|
         logger.debug "#{Time.now.to_s} DEBUG: Received the following DOD eBook message: #{payload}"
         unread_messages.push(payload)
       end
