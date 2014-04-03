@@ -2,6 +2,7 @@
 require 'open3'
 require 'tempfile'
 require 'net/http'
+require 'fileutils'
 
 module Concerns
 
@@ -51,9 +52,13 @@ module Concerns
     end
 
     #Add file retrieved from file server
-    def add_file_from_server(file_name)
-      file = fetch_file_from_server(file_name)
-      file ? add_file(file, skip_file_characterisation) : false
+    def add_file_from_server(pdflink)
+      file_download_service = FileDownloadService.new
+      file = file_download_service.fetch_file_from_server(File.basename(URI.parse(pdflink).path))
+      file.original_filename = pdflink
+      file.content_type = 'application/pdf'
+      file ? add_file(file, nil) : false
+      FileUtils.remove_file(file.path)
     end
 
     # adds a content datastream to the object and generate techMetadata for the basic_files

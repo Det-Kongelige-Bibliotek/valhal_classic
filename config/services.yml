@@ -2,18 +2,20 @@ development:
   aleph:
     aleph_base_url: http://aleph-test-00.kb.dk/X
   dod_ebog_files:
-    dod_server: sifd-hydra
-    user_name: hydra
-    password: hydra
-    remote_path: /tmp/
+    dod_server: webext-03
+    user_name: valhal-reader
+    password: 87E9XrfQ
+    remote_path: /data1/e-mat/dod/
+    download_path: /tmp
 test:
   aleph:
     aleph_base_url: http://aleph-test-00.kb.dk/X
   dod_ebog_files:
-    dod_server: sifd-hydra
-    user_name: hydra
-    password: hydra
-    remote_path: /tmp/
+    dod_server: webext-03
+    user_name: valhal-reader
+    password: 87E9XrfQ
+    remote_path: /data1/e-mat/dod/
+    download_path: /tmp
 production:
   aleph:
     aleph_base_url: http://aleph-test-00.kb.dk/X
@@ -22,3 +24,4 @@ production:
     user_name: valhal-reader
     password: 87E9XrfQ
     remote_path: /data1/e-mat/dod/
+    download_path: /tmp

@@ -114,7 +114,7 @@ module DigitisationHelper
     # create Basicfile with pdflink as content data stream
     logger.debug "creating basic file from #{pdflink}"
     file = BasicFile.new
-    if (!file.add_file_from_url(pdflink, nil))
+    if (!file.add_file_from_server(pdflink))
       logger.error "#{Time.now.to_s} ERROR: Unable to add pdf_file from #{pdflink}"
       work.delete
       return nil
