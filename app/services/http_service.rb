@@ -14,7 +14,6 @@ class HttpService
       logger.debug "http start"
       response = HTTParty.post(uri_string, :body => params)
       puts response.body, response.code, response.message, response.headers.inspect
-      logger.debug "got response #{response.inspect}"
     rescue Exception  => e
       logger.error "do_post failed #{uri_string}: #{e.message}"
       logger.error e.backtrace.join("\n")
