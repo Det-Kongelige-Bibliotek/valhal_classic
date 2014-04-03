@@ -55,7 +55,7 @@ module Concerns
     def add_file_from_server(pdflink)
       file_download_service = FileDownloadService.new
       file = file_download_service.fetch_file_from_server(File.basename(URI.parse(pdflink).path))
-      file.original_filename = pdflink
+      file.original_filename = File.basename(pdflink)
       file.content_type = 'application/pdf'
       file ? add_file(file, nil) : false
       FileUtils.remove_file(file.path)
