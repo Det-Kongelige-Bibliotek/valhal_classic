@@ -91,7 +91,7 @@ namespace :sifd do
     chunks.each do |chunk|
       chunk.each do |message|
         logger.debug "Processing message number #{counter}"
-        handle_digitisation_dod_ebook(JSON.parse(message))
+        #handle_digitisation_dod_ebook(JSON.parse(message))
         counter = counter + 1
       end
       logger.debug "Finished chunk"
@@ -118,10 +118,12 @@ namespace :sifd do
       source = MQ_CONFIG["digitisation"]["source"]
       q = channel.queue(source, :durable => true)
 
+      logger.debug "q.message_count = #{q.message_count}"
+
       unread_messages = Array.new
 
-      q.subscribe(:exclusive => true) do |delivery_info, metadata, payload|
-        logger.debug "#{Time.now.to_s} DEBUG: Received the following DOD eBook message: #{payload}"
+      while q.message_count > 0 do
+        delivery_info, metadata, payload = q.pop
         unread_messages.push(payload)
       end
       conn.close
