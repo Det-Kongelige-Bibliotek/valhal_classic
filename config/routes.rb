@@ -10,7 +10,6 @@ Valhal::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
   get "view_file/show"
-  get "view_file/show_structmap"
 
   resources :basic_files do
     member do
