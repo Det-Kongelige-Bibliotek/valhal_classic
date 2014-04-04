@@ -98,7 +98,7 @@ module DigitisationHelper
   #@param mods MODS XML in String format
   #@param pdflink URI to PDF file in String format
   #@return Work object or nil
-  def update_or_create_work(id, mods,pdflink)
+  def update_or_create_work(id, mods, pdflink)
     logger.debug "update or create work #{id}"
     work = Work.find(sysNum_ssi: id).first
     work = Work.new if work.nil?
@@ -114,7 +114,7 @@ module DigitisationHelper
     # create Basicfile with pdflink as content data stream
     logger.debug "creating basic file from #{pdflink}"
     file = BasicFile.new
-    if (!file.add_file_from_url(pdflink,nil))
+    if (!file.add_file_from_server(pdflink))
       logger.error "#{Time.now.to_s} ERROR: Unable to add pdf_file from #{pdflink}"
       work.delete
       return nil

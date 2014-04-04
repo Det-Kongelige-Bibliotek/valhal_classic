@@ -2,7 +2,7 @@ require "#{Rails.root}/app/services/http_service"
 
 class AlephService
   def initialize
-    @aleph_url = YAML.load_file("#{Rails.root}/config/services.yml")[Rails.env]['aleph_base_url']
+    @aleph_url = YAML.load_file("#{Rails.root}/config/services.yml")[Rails.env]['aleph']['aleph_base_url']
     @http_service = HttpService.new
   end
 
@@ -26,7 +26,7 @@ class AlephService
   def convert_marc_to_message(marcxml)
       begin
       xml = Nokogiri::XML.parse(marcxml)
-      sys_num = xml.css('present record metadata oai_marc varfield[id="001"]').text.strip[4..12]
+      sys_num = xml.xpath('/present/record/metadata/oai_marc/varfield[@id="001"]/subfield[@label="a"]/text()').to_s.gsub!(/[a-zA-Z]/, '')
       fileUri = xml.css('present record metadata oai_marc varfield[id="URL"] subfield[label="u"]').first.text.strip
       {id: sys_num, fileUri: fileUri, workflowId: 'DOD'}.to_json
     rescue => e

@@ -24,6 +24,7 @@ require 'spec_helper'
 
       set_number = @service.find_set('wbh=edod')
       set_number.should_not be_nil
+      puts set_number.class.to_s
       expect set_number[:set_num].eql?('109558')
       expect set_number[:num_entries].eql?('5000')
     end
@@ -35,6 +36,16 @@ require 'spec_helper'
       message_hash = JSON.parse(message)
       message_hash['id'].should eql '001955976'
       message_hash['fileUri'].should eql 'http://www.kb.dk/e-mat/dod/130020834545.pdf'
+      message_hash['workflowId'].should eql 'DOD'
+    end
+
+    it 'should convert another digital record into a queue message' do
+      record = fixture('aleph_dig_record_fail.xml')
+      message = @service.convert_marc_to_message(record.read)
+      message.should be_a String
+      message_hash = JSON.parse(message)
+      message_hash['id'].should eql '002079046'
+      message_hash['fileUri'].should eql 'http://www.kb.dk/e-mat/dod/11060802747F.pdf'
       message_hash['workflowId'].should eql 'DOD'
     end
 

@@ -1,0 +1,139 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<present>
+<record>
+<record_header>
+<set_entry>000000914</set_entry>
+</record_header>
+<doc_number>008709390</doc_number>
+<metadata>
+<oai_marc>
+<varfield id="001" i1="0" i2="0">
+  <subfield label="f">a</subfield>
+  <subfield label="a">digi002079046</subfield>
+</varfield>
+<varfield id="004" i1="0" i2="0">
+<subfield label="r">n</subfield>
+<subfield label="a">e</subfield>
+</varfield>
+<varfield id="008" i1="0" i2="0">
+<subfield label="u">r</subfield>
+<subfield label="a">1821</subfield>
+<subfield label="b">dk</subfield>
+<subfield label="l">dan</subfield>
+<subfield label="t">m</subfield>
+<subfield label="n">a</subfield>
+<subfield label="z">2014</subfield>
+</varfield>
+<varfield id="009" i1="0" i2="0">
+<subfield label="a">a</subfield>
+<subfield label="g">xe</subfield>
+</varfield>
+<varfield id="088" i1="0" i2="0">
+<subfield label="o">6:2,-10</subfield>
+</varfield>
+<varfield id="090" i1="0" i2="0">
+<subfield label="}">11060802747F</subfield>
+<subfield label="a">0</subfield>
+<subfield label="k">Alle har adgang</subfield>
+</varfield>
+<varfield id="091" i1="0" i2="0">
+<subfield label="a">Bog</subfield>
+</varfield>
+<varfield id="100" i1="0" i2="0">
+<subfield label="a">Liebenberg</subfield>
+<subfield label="h">Michael Frederik</subfield>
+</varfield>
+<varfield id="245" i1="0" i2="0">
+<subfield label="a">To Prædikener om Trøst ved Venners Død</subfield>
+<subfield label="c">holdne for Slots-Menigheden</subfield>
+</varfield>
+<varfield id="260" i1="0" i2="0">
+<subfield label="c">2014</subfield>
+</varfield>
+<varfield id="520" i1="0" i2="0">
+<subfield label="a">Digitalisering 2014 af udgaven: Kiøbenhavn: Andreas Seidelin, 1821 (45 s.)</subfield>
+</varfield>
+ <varfield id="529" i1="0" i2="0">
+<subfield label="b">Bibliotheca Danica</subfield>
+<subfield label="u">http://images.kb.dk/bibliotheca_danica/bind%2010265.jpg</subfield>
+</varfield>
+<varfield id="559" i1="0" i2="0">
+<subfield label="a">Efter Det Kongelige Biblioteks eksemplar: 6:2,-10 8°</subfield>
+</varfield>
+<varfield id="599" i1="0" i2="0">
+<subfield label="b">Digi201401</subfield>
+</varfield>
+<varfield id="631" i1="0" i2="0">
+<subfield label="a">Theologi</subfield>
+<subfield label="a">Homiletik</subfield>
+</varfield>
+<varfield id="URL" i1="0" i2="0">
+<subfield label="}">11060802747F</subfield>
+<subfield label="z">Link til elektronisk udgave</subfield>
+<subfield label="u">http://www.kb.dk/e-mat/dod/11060802747F.pdf</subfield>
+</varfield>
+<varfield id="B01" i1="0" i2="0">
+<subfield label="a">EDOD</subfield>
+</varfield>
+<varfield id="LKR" i1=" " i2=" ">
+<subfield label="a">PAR</subfield>
+<subfield label="b">002079046</subfield>
+<subfield label="n">Link mellem trykt og elektronisk udgave</subfield>
+</varfield>
+<varfield id="CAT" i1=" " i2=" ">
+<subfield label="a">EIMPORT</subfield>
+<subfield label="b"></subfield>
+<subfield label="c">20140129</subfield>
+<subfield label="l">KGL01</subfield>
+<subfield label="h">1130</subfield>
+</varfield>
+<varfield id="CAT" i1=" " i2=" ">
+<subfield label="a">BATCH-UPD</subfield>
+<subfield label="b">00</subfield>
+<subfield label="c">20140220</subfield>
+<subfield label="l">KGL01</subfield>
+<subfield label="h">2102</subfield>
+</varfield>
+<varfield id="UID" i1=" " i2=" ">
+<subfield label="a">digi002079046ers</subfield>
+</varfield>
+<varfield id="999" i1="0" i2="0">
+<subfield label="a">update</subfield>
+</varfield>
+<fixfield id="SYS">008709390</fixfield>
+<varfield id="K15" i1="0" i2="0">
+<subfield label="a">Enkeltstående post</subfield>
+</varfield>
+<varfield id="K01" i1="0" i2="0">
+<subfield label="a">Danmark</subfield>
+</varfield>
+<varfield id="K02" i1="0" i2="0">
+  <subfield label="a">Dansk</subfield>
+</varfield>
+<varfield id="K13" i1="0" i2="0">
+<subfield label="a">Bog; Mono</subfield>
+</varfield>
+<varfield id="K17" i1="0" i2="0">
+<subfield label="a">Uændret</subfield>
+</varfield>
+<varfield id="K19" i1="0" i2="0">
+<subfield label="a">e-ressource</subfield>
+</varfield>
+<varfield id="URL" i1="0" i2="1">
+<subfield label="}">11060802747F</subfield>
+<subfield label="p">0</subfield>
+<subfield label="k">Alle har adgang</subfield>
+<subfield label="}">11060802747F</subfield>
+<subfield label="z">Link til elektronisk udgave</subfield>
+<subfield label="u">http://www.kb.dk/e-mat/dod/11060802747F.pdf</subfield>
+</varfield>
+<varfield id="URL" i1="0" i2="2">
+<subfield label="k">AdgangAlle har adgang</subfield>
+<subfield label="z">Link til elektronisk udgave</subfield>
+<subfield label="u">http://www.kb.dk/e-mat/dod/11060802747F.pdf</subfield>
+</varfield>
+</oai_marc>
+</metadata>
+</record>
+<session-id>Y99QSLIQPKIA9DTJL6HJS2QGPLMU8XIN36YFVSFQ1FATMUGU3T</session-id>
+</present>
