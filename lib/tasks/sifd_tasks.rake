@@ -91,7 +91,7 @@ namespace :sifd do
     chunks.each do |chunk|
       chunk.each do |message|
         logger.debug "Processing message number #{counter}"
-        #handle_digitisation_dod_ebook(JSON.parse(message))
+        handle_digitisation_dod_ebook(JSON.parse(message))
         counter = counter + 1
       end
       logger.debug "Finished chunk"
