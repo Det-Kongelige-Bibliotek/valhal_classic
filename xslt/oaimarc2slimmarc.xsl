@@ -155,7 +155,7 @@
 	</xsl:for-each>
 
 	<xsl:for-each select="subfield[@label = 'c'] | subfield[@label = 'u']">
-	  <xsl:text>: </xsl:text><xsl:apply-templates/>
+	  <xsl:text> </xsl:text><xsl:apply-templates/>
 	  <xsl:if test="following-sibling::subfield[@label = 'p']">
 	    <xsl:text>=</xsl:text><xsl:apply-templates select="following-sibling::subfield[@label = 'p']"/>
 	  </xsl:if>
