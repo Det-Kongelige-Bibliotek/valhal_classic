@@ -29,7 +29,7 @@ def initialize_listeners
     ch = conn.create_channel
 
     subscribe_to_preservation(ch)
-    subscribe_to_dod_digitisation(ch)
+    #subscribe_to_dod_digitisation(ch)
     conn.close
   rescue Bunny::TCPConnectionFailed => e
     logger.error 'Connection to RabbitMQ failed'
@@ -85,14 +85,14 @@ if defined?(PhusionPassenger)
       logger.debug "Forked"
       # We’re in a smart spawning mode
       # Now is a good time to connect to RabbitMQ
-   #   start_listener_thread
+      start_listener_thread
     end
   end
 
 else
   if Rails.env.upcase != 'TEST'
     logger.debug "not PhussionPassenger"
-  #  start_listener_thread
+    start_listener_thread
   end
   # We're in direct spawning mode. We don't need to do anything.
 end
