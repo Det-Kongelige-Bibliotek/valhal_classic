@@ -24,7 +24,7 @@ class AlephService
   # return a queue message in format
   # {id: x, fileUri: www.kb/y.pdf, workflowId: DOD}
   def convert_marc_to_message(marcxml)
-      begin
+    begin
       xml = Nokogiri::XML.parse(marcxml)
       sys_num = xml.xpath('/present/record/metadata/oai_marc/varfield[@id="001"]/subfield[@label="a"]/text()').to_s.gsub!(/[a-zA-Z]/, '')
       fileUri = xml.css('present record metadata oai_marc varfield[id="URL"] subfield[label="u"]').first.text.strip
@@ -32,7 +32,7 @@ class AlephService
     rescue => e
       logger.error "convert_marc_to_message failed #{marcxml}"
       logger.error e.backtrace.join("\n")
-      end
+    end
   end
 
   #Query Aleph X service to get the set data for a given Aleph search. This is the first POST in
