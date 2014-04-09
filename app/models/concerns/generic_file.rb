@@ -51,13 +51,14 @@ module Concerns
       end
     end
 
-    #Add file retrieved from file server
+    # Add file retrieved from file server
+    # Skips file-characterization on the retrieved files.
     def add_file_from_server(pdflink)
       file_download_service = FileDownloadService.new
       file = file_download_service.fetch_file_from_server(File.basename(URI.parse(pdflink).path))
       file.original_filename = File.basename(pdflink)
       file.content_type = 'application/pdf'
-      file ? add_file(file, nil) : false
+      file ? add_file(file, true) : false
       FileUtils.remove_file(file.path)
     end
 
@@ -68,16 +69,15 @@ module Concerns
       valid_file = check_file?(file)
       if (valid_file)
         self.add_file_datastream(file.tempfile, :label => file.original_filename, :mimeType => file.content_type, :dsid => 'content')
-        if skip_file_characterisation.eql? nil
-          # we're skipping FITS here to make import quicker
-          # self.add_fits_metadata_datastream(file)
-        end
         set_file_timestamps(file.tempfile)
         self.checksum = generate_checksum(file.tempfile)
         self.original_filename = file.original_filename
         self.mime_type = file.content_type
         self.size = file.size
         self.file_uuid = UUID.new.generate
+        unless skip_file_characterisation
+          self.add_fits_metadata_datastream(file)
+        end
       end
       valid_file
     end
@@ -90,7 +90,7 @@ module Concerns
       logger.info 'Characterizing file using FITS tool'
       begin
         logger.debug file.class.to_s
-        fits_meta_data = Hydra::FileCharacterization.characterize(file, file.original_filename, :fits)
+        fits_meta_data = Hydra::FileCharacterization.characterize(file, self.original_filename, :fits)
       rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
         logger.error tnfe.to_s
         logger.error 'Tool for extracting FITS metadata not found, check FITS_HOME environment variable is set and valid installation of fits is present'

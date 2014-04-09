@@ -241,7 +241,7 @@ describe BasicFile do
           with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'www.kb.dk', 'User-Agent'=>'Ruby'}).
           to_return(:status => 200, :body => response_body, :headers => {'Content-Type' => 'application/pdf'})
       @basic_file = BasicFile.new
-      @basic_file.add_file_from_url("http://www.kb.dk/e-mat/dod/testdod.pdf",1)
+      @basic_file.add_file_from_url("http://www.kb.dk/e-mat/dod/testdod.pdf",true)
     end
     it "should have the right size" do
       @basic_file.size.should == 178850
@@ -314,7 +314,7 @@ describe BasicFile do
 
     it "should fail to add file from invalid URL" do
       @b = BasicFile.new
-      @b.add_file_from_url("asdfkasædlk",1).should be_false
+      @b.add_file_from_url("asdfkasædlk",true).should be_false
     end
   end
 end
