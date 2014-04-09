@@ -51,13 +51,14 @@ module Concerns
       end
     end
 
-    #Add file retrieved from file server
+    # Add file retrieved from file server
+    # Skips file-characterization on the retrieved files.
     def add_file_from_server(pdflink)
       file_download_service = FileDownloadService.new
       file = file_download_service.fetch_file_from_server(File.basename(URI.parse(pdflink).path))
       file.original_filename = File.basename(pdflink)
       file.content_type = 'application/pdf'
-      file ? add_file(file, nil) : false
+      file ? add_file(file, true) : false
       FileUtils.remove_file(file.path)
     end
 
