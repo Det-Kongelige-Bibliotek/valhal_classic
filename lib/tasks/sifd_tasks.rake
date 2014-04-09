@@ -37,6 +37,7 @@ namespace :sifd do
     args.with_defaults(fetch_size: 10)
     service = AlephService.new
     records = service.find_all_dod_posts(args[:fetch_size])
+    logger.info "Aleph records.size = #{records.size}"
     messages = records.collect { |r| service.convert_marc_to_message(r) }
     MQ_CONFIG = YAML.load_file("#{Rails.root}/config/mq_config.yml")[Rails.env]
     queue_name = MqHelper.get_queue_name('digitisation', 'source')
