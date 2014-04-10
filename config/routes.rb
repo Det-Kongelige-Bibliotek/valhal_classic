@@ -38,10 +38,8 @@ Valhal::Application.routes.draw do
     end
   end
 
-  resources :works  do
+  resources :works do
     member do
-      get 'show'
-      put 'new'
       patch 'update_person'
       get 'show_person'
       patch 'update_metadata'
@@ -68,9 +66,7 @@ Valhal::Application.routes.draw do
 
   resources :books do
     member do
-      get 'show'
       put 'create_structmap'
-      put 'new'
       patch 'update_person'
       get 'show_person'
       patch 'update_metadata'
