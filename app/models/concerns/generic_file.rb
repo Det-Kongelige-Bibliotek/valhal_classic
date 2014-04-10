@@ -33,10 +33,12 @@ module Concerns
 
       has_attributes :last_modified, :created, :last_accessed, :original_filename, :mime_type, :file_uuid,
                      datastream: 'techMetadata', :multiple => false
-      has_attributes :description, datastream: 'descMetadata', :multiple => false
       # TODO have more than one checksum (both MD5 and SHA), and specify their checksum algorithm.
       has_attributes :checksum, datastream: 'techMetadata', :at => [:file_checksum], :multiple => false
       has_attributes :size, datastream: 'techMetadata', :at => [:file_size], :multiple => false
+
+      has_attributes :description, datastream: 'descMetadata', :multiple => false
+      has_metadata :name => 'fitsMetadata1', :type => ActiveFedora::OmDatastream
     end
 
     # fetches file from external URL and adds a content datatream to the object
@@ -110,9 +112,12 @@ module Concerns
           return
         end
       end
-      fits_datastream = ActiveFedora::OmDatastream.from_xml(fits_meta_data)
 
-      self.add_datastream(fits_datastream, {:prefix => 'fitsMetadata'})
+      # Ensure UTF8 encoding
+      fits_meta_data = fits_meta_data.encode(Encoding::UTF_8)
+
+      # If datastream already exists, then set it
+      self.fitsMetadata1.content = fits_meta_data
       self.save
     end
 
