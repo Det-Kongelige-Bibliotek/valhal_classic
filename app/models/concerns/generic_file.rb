@@ -110,9 +110,18 @@ module Concerns
           return
         end
       end
-      fits_datastream = ActiveFedora::OmDatastream.from_xml(fits_meta_data)
 
-      self.add_datastream(fits_datastream, {:prefix => 'fitsMetadata'})
+      # Ensure UTF8 encoding
+      fits_meta_data = fits_meta_data.encode(Encoding::UTF_8)
+
+      # If datastream already exists, then set it
+      if self.datastreams.has_key? 'fitsMetadata1'
+        self.fitsMetadata1.content = fits_meta_data
+      else
+        fits_datastream = ActiveFedora::OmDatastream.from_xml(fits_meta_data)
+        self.add_datastream(fits_datastream, {:prefix => 'fitsMetadata'})
+      end
+
       self.save
     end
 

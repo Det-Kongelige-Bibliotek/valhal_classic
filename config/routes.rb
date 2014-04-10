@@ -16,6 +16,7 @@ Valhal::Application.routes.draw do
       get 'show'
       get 'download'
       get 'preservation'
+      patch 'characterize_file'
       patch 'update_preservation_profile'
     end
   end
