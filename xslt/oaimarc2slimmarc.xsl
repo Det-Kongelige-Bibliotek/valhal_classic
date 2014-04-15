@@ -173,7 +173,7 @@
 			      subfield[@label = 't']">
 
 	  <xsl:choose>
-	    <xsl:when test="contains('efij',@label)"><xsl:text>/ </xsl:text><xsl:apply-templates select="."/></xsl:when>
+	    <xsl:when test="contains('efij',@label)"><xsl:text> </xsl:text><xsl:apply-templates select="."/></xsl:when>
 	    <xsl:otherwise><xsl:text>=</xsl:text><xsl:apply-templates select="."/></xsl:otherwise>
 	  </xsl:choose>
 	</xsl:for-each>
