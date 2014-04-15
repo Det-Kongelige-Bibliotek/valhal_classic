@@ -83,7 +83,11 @@ gem "unicode", :platforms => [:mri_18, :mri_19]
 gem "devise-guests", "~> 0.3"
 gem "bootstrap-sass"
 
-#logging
+#logging start
 gem 'log4r', '1.1.10'
 gem 'quiet_assets'
+#logging end
+
+gem 'httparty'
+gem 'net-scp', '~> 1.1.2'
 

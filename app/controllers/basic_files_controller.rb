@@ -3,9 +3,37 @@
 class BasicFilesController < ApplicationController
   include PreservationHelper # methods: update_preservation_profile_from_controller
 
+  authorize_resource
+
   # Retrieves the basic file for the show view
   def show
     @file = BasicFile.find(params[:id])
+  end
+
+  def characterize_file
+    @file = BasicFile.find(params[:id])
+    begin
+      tmpfile = Tempfile.new(@file.original_filename)
+      begin
+        tmpfile << @file.content
+        tmpfile.flush
+
+        @file.add_fits_metadata_datastream(tmpfile)
+      ensure
+        tmpfile.close
+        tmpfile.unlink   # deletes the temp file
+      end
+
+      redirect_to @file, notice: 'File characterization performed.'
+    rescue => error
+      error_msg = "Could not perform characterization: #{error.inspect}"
+      error.backtrace.each do |l|
+        error_msg += "\n#{l}"
+      end
+      logger.error error_msg
+      @file.errors[:characterization] << error.inspect.to_s
+      render action: 'show'
+    end
   end
 
   # Updates the preservation profile metadata.

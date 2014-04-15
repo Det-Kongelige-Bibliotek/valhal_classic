@@ -16,14 +16,24 @@ module DigitisationHelper
       return
     end
 
+    logger.debug "DigitisationHelper.subscribe_to_dod_digitisation: num_of_threads = #{Thread.current.group.list.size}"
+    if Thread.current.group.list.size > 1
+      Thread.current.group.list.each do |thread|
+        logger.debug thread.inspect
+      end
+    end
+
     source = MQ_CONFIG["digitisation"]["source"]
     q = channel.queue(source, :durable => true)
+    logger.debug "Before Q subscribe DigitisationHelper.subscribe_to_dod_digitisation: num_of_threads = #{Thread.current.group.list.size}"
     #logger.info "Listening to DOD digitisation workflow queue: #{source}"
 
     q.subscribe do |delivery_info, metadata, payload|
+      logger.debug "After Q subscribe DigitisationHelper.subscribe_to_dod_digitisation: num_of_threads = #{Thread.current.group.list.size}"
       begin
         logger.debug "#{Time.now.to_s} DEBUG: Received the following DOD eBook message: #{payload}"
         handle_digitisation_dod_ebook(JSON.parse(payload))
+        logger.debug "Finished handling dod EBook"
       rescue => e
         logger.error "#{Time.now.to_s} ERROR: Tried to handle DOD eBook message: #{payload}\nCaught error: #{e}"
         logger.error e.backtrace.join("\n")
@@ -88,13 +98,14 @@ module DigitisationHelper
   #@param mods MODS XML in String format
   #@param pdflink URI to PDF file in String format
   #@return Work object or nil
-  def update_or_create_work(id, mods,pdflink)
+  def update_or_create_work(id, mods, pdflink)
     logger.debug "update or create work #{id}"
     work = Work.find(sysNum_ssi: id).first
     work = Work.new if work.nil?
     logger.debug "Work is #{work.inspect}"
     work.datastreams['descMetadata'].content = mods
     work.work_type='DOD bog'
+    work.shelfLocator = Nokogiri::XML.parse(mods).css('mods location physicalLocation').text
     if (!work.save)
       logger.error "#{Time.now.to_s} ERROR: Failed to save work #{work.errors.messages.flatten.join(' ')}"
       return nil
@@ -103,7 +114,7 @@ module DigitisationHelper
     # create Basicfile with pdflink as content data stream
     logger.debug "creating basic file from #{pdflink}"
     file = BasicFile.new
-    if (!file.add_file_from_url(pdflink,nil))
+    if (!file.add_file_from_server(pdflink))
       logger.error "#{Time.now.to_s} ERROR: Unable to add pdf_file from #{pdflink}"
       work.delete
       return nil

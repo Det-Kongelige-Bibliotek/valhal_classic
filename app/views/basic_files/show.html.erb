@@ -1,23 +1,28 @@
 <script src="google-code-prettify/run_prettify.js"></script>
-<h3>File info:</h3>
-<pre>
-<%= @file.inspect%>
-</pre>
-<br/>
-<hr/>
-<h4>Datastreams:</h4>
-<% @file.datastreams.each do |key, content| %>
-    <% if Constants::NON_RETRIEVABLE_DATASTREAM_NAMES.include?(key)
-         next
-       end
-    %>
-    <dt><strong><%= key %></strong></dt>
-    <dd>
+<%= form_for @file, :html=>{:multipart=>true}, url: {action: 'characterize_file'} do |f| %>
+    <%= f.error_messages :header_message => 'Error when editing preservation settings', :class => 'alert alert-error',
+                         :header_tag => :h3 %>
+    <h3>File info:</h3>
+    <pre>
+      <%= @file.inspect%>
+    </pre>
+    <br/>
+    <hr/>
+    <h4>Datastreams:</h4>
+    <% @file.datastreams.each do |key, content| %>
+        <% if Constants::NON_RETRIEVABLE_DATASTREAM_NAMES.include?(key)
+             next
+           end
+        %>
+        <dt><strong><%= key %></strong></dt>
+        <dd>
       <pre class="prettyprint">
         <%= content.respond_to?(:to_xml) ? content.to_xml : content.content %>
       </pre>
-    </dd>
-    <br/>
+        </dd>
+        <br/>
+    <% end %>
+    <%= f.submit 'Perform FITS characterization', :class => 'btn btn-primary' %>
 <% end %>
 <br/>
 <%= render 'footer' %>

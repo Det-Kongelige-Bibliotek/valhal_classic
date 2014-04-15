@@ -22,10 +22,10 @@
         <% @book.authors.each do |person| %>
             <div class="row">
                 <div class="span2">
-                    <strong>Subtitle</strong>
+                    <strong>Author</strong>
                 </div>
                 <div class="span8">
-                    <%= @book.subTitle %>
+                  <%= link_to person.name, person_path(person) %>
                 </div>
             </div>
         <% end %>

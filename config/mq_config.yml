@@ -23,13 +23,13 @@ test:
       polling_interval_in_minutes: 1
 
 production:
-  mq_uri: "amqp://localhost:5672"
+  mq_uri: "amqp://sifd-staging-03:5672"
   preservation:
     destination: "preservation-prod-queue"
     response: "preservation-response-prod-queue"
     polling_interval_in_minutes: 1
   dissemination:
-    bifrost_books: "dissemination-bifrost-books-prod-queue"
+    bifrost_books: "bifrost-ingest-prod-queue"
   digitisation:
       source: "digitisation-prod-queue"
       polling_interval_in_minutes: 1

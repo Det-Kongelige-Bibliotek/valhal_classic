@@ -10,13 +10,13 @@ Valhal::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
   get "view_file/show"
-  get "view_file/show_structmap"
 
   resources :basic_files do
     member do
       get 'show'
       get 'download'
       get 'preservation'
+      patch 'characterize_file'
       patch 'update_preservation_profile'
     end
   end
@@ -38,10 +38,8 @@ Valhal::Application.routes.draw do
     end
   end
 
-  resources :works  do
+  resources :works do
     member do
-      get 'show'
-      put 'new'
       patch 'update_person'
       get 'show_person'
       patch 'update_metadata'
@@ -68,9 +66,7 @@ Valhal::Application.routes.draw do
 
   resources :books do
     member do
-      get 'show'
       put 'create_structmap'
-      put 'new'
       patch 'update_person'
       get 'show_person'
       patch 'update_metadata'

@@ -5,7 +5,7 @@ Given(/^I am signed in with provider "(.*?)"$/) do |provider|
   visit new_user_session_path
   fill_in 'username', :with => 'username'
   fill_in 'password', :with => 'password'
-  click_button 'Login'
+  click_button 'login'
   page.should have_content 'Logged in as Test User!'
 end
 
@@ -13,7 +13,7 @@ Given(/^I have created a new work with a PDF file associated with it$/) do
   click_link 'New Work'
   fill_in 'Work type', :with => 'PDF'
   fill_in 'Title', :with => "Test PDF-#{DateTime.now}"
-  click_button 'Create and continue'
+  click_on 'Next'
   click_on 'Next'
   click_on 'Next'
   attach_file 'fileupload', './spec/fixtures/Instant_Apache_Solr.pdf'
@@ -24,7 +24,7 @@ Given(/^skipped file characterisation$/) do
 end
 
 Given(/^I have saved it$/) do
-  click_on 'Update'
+  click_on 'Done'
   page.should have_content 'Type: PDF'
 end
 

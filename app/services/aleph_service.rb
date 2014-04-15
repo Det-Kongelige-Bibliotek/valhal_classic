@@ -2,7 +2,7 @@ require "#{Rails.root}/app/services/http_service"
 
 class AlephService
   def initialize
-    @aleph_url = YAML.load_file("#{Rails.root}/config/services.yml")[Rails.env]['aleph_base_url']
+    @aleph_url = YAML.load_file("#{Rails.root}/config/services.yml")[Rails.env]['aleph']['aleph_base_url']
     @http_service = HttpService.new
   end
 
@@ -24,13 +24,15 @@ class AlephService
   # return a queue message in format
   # {id: x, fileUri: www.kb/y.pdf, workflowId: DOD}
   def convert_marc_to_message(marcxml)
-    xml = Nokogiri::XML.parse(marcxml)
-    sys_num = xml.css('present record metadata oai_marc varfield[id="001"]').text.strip[4..12]
-    fileUri = xml.css('present record metadata oai_marc varfield[id="URL"] subfield[label="u"]').first.text.strip
-    {id: sys_num, fileUri: fileUri, workflowId: 'DOD'}.to_json
-  rescue => e
-    logger.error "convert_marc_to_message failed #{marcxml}"
-    logger.error e.backtrace.join("\n")
+    begin
+      xml = Nokogiri::XML.parse(marcxml)
+      sys_num = xml.xpath('/present/record/metadata/oai_marc/varfield[@id="001"]/subfield[@label="a"]/text()').to_s.gsub!(/[a-zA-Z]/, '')
+      fileUri = xml.css('present record metadata oai_marc varfield[id="URL"] subfield[label="u"]').first.text.strip
+      {id: sys_num, fileUri: fileUri, workflowId: 'DOD'}.to_json
+    rescue => e
+      logger.error "convert_marc_to_message failed #{marcxml}"
+      logger.error e.backtrace.join("\n")
+    end
   end
 
   #Query Aleph X service to get the set data for a given Aleph search. This is the first POST in
@@ -38,14 +40,17 @@ class AlephService
   #@param search_string e.g. "wbh=edod"
   #@return {aleph_set_number, num_entries} Hash
   def find_set(search_string)
-    response = search_aleph(search_string)
-    logger.debug "aleph response is #{response}"
-    set_num = Nokogiri::XML.parse(response).xpath('/find/set_number/text()').to_s
-    num_entries = Nokogiri::XML.parse(response).xpath('/find/no_entries/text()').to_s
-    {set_num: set_num, num_entries: num_entries}
-  rescue => e
-    logger.error "find_set filed #{search_string}"
-    logger.error e.backtrace.join("\n")
+    begin
+      response = search_aleph(search_string)
+      logger.debug "aleph response is #{response}"
+      set_num = Nokogiri::XML.parse(response).xpath('/find/set_number/text()').to_s
+      num_entries = Nokogiri::XML.parse(response).xpath('/find/no_entries/text()').to_s
+      logger.debug "set_num #{set_num} num_entries #{num_entries}"
+      {set_num: set_num, num_entries: num_entries}
+    rescue => e
+      logger.error "find_set filed #{search_string}"
+      logger.error e.backtrace.join("\n")
+    end
   end
 
 
@@ -55,15 +60,18 @@ class AlephService
   #record for the eBook.
   #@return
   def get_record(set_number, entry_num)
-    @http_service.do_post(@aleph_url, params = {
-        :op => "present",
-        :set_no => set_number,
-        :set_entry => entry_num,
-        :format => "marc"}
-    )
-  rescue => e
-    logger.error "get_record failed #{search_string}"
-    logger.error e.backtrace.join("\n")
+    begin
+      logger.debug "getting record entry_num #{entry_num} set_number #{set_number}"
+      @http_service.do_post(@aleph_url, params = {
+          :op => "present",
+          :set_no => set_number,
+          :set_entry => entry_num,
+          :format => "marc"}
+      )
+    rescue => e
+      logger.error "get_record failed #{search_string}"
+      logger.error e.backtrace.join("\n")
+    end
   end
 
   # Given an Aleph search string
@@ -71,13 +79,16 @@ class AlephService
   # corresponding result set.
   # @param search_string String e.g. "wbh=edod"
   def search_aleph(search_string)
-    @http_service.do_post(@aleph_url, params = {
-        :op => 'find',
-        :base => 'kgl01',
-        :library => 'kgl01',
-        :request => search_string })
-  rescue => e
-    logger.error "search_aleph filed #{search_string}"
-    logger.error e.backtrace.join("\n")
+    begin
+      logger.debug "Searching Aleph"
+      @http_service.do_post(@aleph_url, params = {
+          :op => 'find',
+         :base => 'kgl01',
+         :library => 'kgl01',
+         :request => search_string })
+    rescue => e
+     logger.error "search_aleph failed #{search_string}"
+     logger.error e.backtrace.join("\n")
+    end
   end
 end

@@ -8,6 +8,8 @@ require 'logger'
 require "#{Rails.root}/app/services/aleph_service"
 require "#{Rails.root}/app/helpers/mq_helper"
 require "#{Rails.root}/app/services/dissemination_service"
+require "#{Rails.root}/app/helpers/preservation_helper"
+require "#{Rails.root}/app/helpers/mq_listener_helper"
 
 namespace :sifd do
   include MqHelper
@@ -35,6 +37,7 @@ namespace :sifd do
     args.with_defaults(fetch_size: 10)
     service = AlephService.new
     records = service.find_all_dod_posts(args[:fetch_size])
+    logger.info "Aleph records.size = #{records.size}"
     messages = records.collect { |r| service.convert_marc_to_message(r) }
     MQ_CONFIG = YAML.load_file("#{Rails.root}/config/mq_config.yml")[Rails.env]
     queue_name = MqHelper.get_queue_name('digitisation', 'source')
@@ -71,6 +74,66 @@ namespace :sifd do
     mods = ConversionService.transform_marc_to_mods(slim)
     puts '============== MODS =================='
     puts mods
+  end
+
+  desc 'Read messages of DOD ingest queue, and ingest DOD books into Valhal'
+  task :dod_queue_listener => :environment do
+    start_time = Time.now
+    logger.debug "starting queue listener (rake)"
+    unread_messages = read_messages
+
+    logger.debug "Reading #{unread_messages.size} DOD messages"
+    #unread_messages.each {|message| handle_digitisation_dod_ebook(JSON.parse(message))}
+    counter = 1
+
+    chunks = unread_messages.each_slice(100).to_a
+    logger.debug "Splitting into #{chunks.size} chunks of at most 100"
+
+    chunks.each do |chunk|
+      chunk.each do |message|
+        logger.debug "Processing message number #{counter}"
+        handle_digitisation_dod_ebook(JSON.parse(message))
+        counter = counter + 1
+      end
+      logger.debug "Finished chunk"
+    end
+    logger.debug "Finished all chunks"
+    logger.debug "Finished processing DOD queue"
+    logger.debug "Task took  #{Time.now - start_time} seconds"
+  end
+
+  #Function to read messages from RabbitMQ and store them in an Array
+  #@return Array of unread messages
+  def read_messages
+    begin
+      uri = MQ_CONFIG["mq_uri"]
+      conn = Bunny.new(uri)
+      conn.start
+      channel = conn.create_channel
+
+      if MQ_CONFIG["digitisation"]["source"].blank?
+        logger.warn "#{Time.now.to_s} WARN: No digitisation source queue defined -> Not listening"
+        return
+      end
+
+      source = MQ_CONFIG["digitisation"]["source"]
+      q = channel.queue(source, :durable => true)
+
+      logger.debug "q.message_count = #{q.message_count}"
+
+      unread_messages = Array.new
+
+      while q.message_count > 0 do
+        delivery_info, metadata, payload = q.pop
+        unread_messages.push(payload)
+      end
+      conn.close
+      logger.debug "Returning array containing #{unread_messages.length} unread messages"
+      unread_messages
+    rescue Exception => e
+      logger.error " #{e.message}"
+      logger.error e.backtrace.join("\n")
+    end
   end
 
   namespace :solr do

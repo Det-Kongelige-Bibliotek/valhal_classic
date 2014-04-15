@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'net/http'
+require 'httparty'
 
 class HttpService
 
@@ -7,15 +8,16 @@ class HttpService
 
     logger.debug "Base URl = #{uri_string}"
     logger.debug "Params = #{params.to_s}"
-
-    url = URI.parse(uri_string)
-    request = Net::HTTP::Post.new(url.path)
-    request.set_form_data(params)
-    response = Net::HTTP.start(url.host, url.port) { |http| http.request(request) }
+    response = false
+    begin
+      url = URI.parse(uri_string)
+      logger.debug "http start"
+      response = HTTParty.post(uri_string, :body => params)
+      puts response.body, response.code, response.message, response.headers.inspect
+    rescue Exception  => e
+      logger.error "do_post failed #{uri_string}: #{e.message}"
+      logger.error e.backtrace.join("\n")
+    end
     response.body
-  rescue => e
-    logger.error "do_post failed #{uri_string}"
-    logger.error e.backtrace.join("\n")
   end
-
 end
