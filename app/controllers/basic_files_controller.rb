@@ -15,16 +15,18 @@ class BasicFilesController < ApplicationController
     begin
       tmpfile = Tempfile.new(@file.original_filename)
       begin
-        tmpfile << @file.content
+        tmpfile << @file.content.content.force_encoding("UTF-8")
         tmpfile.flush
-
-        @file.add_fits_metadata_datastream(tmpfile)
-      ensure
         tmpfile.close
+
+        f = File.open(tmpfile.path)
+        @file.add_fits_metadata_datastream(f)
+        f.close
+      ensure
         tmpfile.unlink   # deletes the temp file
       end
 
-      redirect_to @file, notice: 'File characterization performed.'
+    redirect_to @file, notice: 'File characterization performed.'
     rescue => error
       error_msg = "Could not perform characterization: #{error.inspect}"
       error.backtrace.each do |l|

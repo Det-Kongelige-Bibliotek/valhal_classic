@@ -91,7 +91,7 @@ module Concerns
     def add_fits_metadata_datastream(file)
       logger.info 'Characterizing file using FITS tool'
       begin
-        logger.debug file.class.to_s
+        #logger.debug file.class.to_s
         fits_meta_data = Hydra::FileCharacterization.characterize(file, self.original_filename, :fits)
       rescue Hydra::FileCharacterization::ToolNotFoundError => tnfe
         logger.error tnfe.to_s

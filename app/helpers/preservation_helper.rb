@@ -201,7 +201,7 @@ module PreservationHelper
   # should be inherit.
   # @param element The element to have stuff inherited.
   def inherit_preservation(params, element)
-    if(element.preservation_inheritance? && params['preservation']['preservation_inheritance'] == Constants::PRESERVATION_INHERITANCE_TRUE)
+    if element.preservation_inheritance? && params['preservation']['preservation_inheritance'] == Constants::PRESERVATION_INHERITANCE_TRUE
       element.preservation_inheritable_objects.each do |pib|
         update_preservation_profile_from_controller(params, pib)
       end
