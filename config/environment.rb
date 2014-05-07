@@ -29,7 +29,7 @@ def initialize_listeners
     ch = conn.create_channel
 
     subscribe_to_preservation(ch)
-    subscribe_to_dod_digitisation(ch)
+    #subscribe_to_dod_digitisation(ch)
     conn.close
   rescue Bunny::TCPConnectionFailed => e
     logger.error 'Connection to RabbitMQ failed'

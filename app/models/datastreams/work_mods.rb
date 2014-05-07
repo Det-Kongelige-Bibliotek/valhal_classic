@@ -2,7 +2,6 @@
 module Datastreams
   # TODO Needs class description.
   # TODO Check with User/Data-team whether we use ISO639-2b or RFC4646.
-  # TODO Should mods:genre type be 'KB Samling' as defined by BNH in a document approved at NBO/ADM meetings.
   class WorkMods < ActiveFedora::OmDatastream
     set_terminology do |t|
       t.root(:path=>'mods', :xmlns=>"http://www.loc.gov/mods/v3")
