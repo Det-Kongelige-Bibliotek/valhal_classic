@@ -1,18 +1,29 @@
 # -*- encoding : utf-8 -*-
 module Datastreams
+
   # Datastream for the descriptive metadata for a Work.
   class WorkDescMetadata < ActiveFedora::OmDatastream
+    ALTERNATIVE_TITLE_TYPES = ['alternative', 'abbreviated', 'translated', 'uniform']
 
     set_terminology do |t|
       t.root(:path=>'fields')
       t.title()
       t.subTitle()
+      t.workType()
 
       t.genre()
       t.identifier()
+      t.language()
+      t.shelfLocator()
+      t.physicalDescriptionForm()
+      t.physicalDescriptionNote()
+      t.languageOfCataloging()
       t.topic()
-      t.note()
 
+      t.note do
+        t.value()
+        t.displayLabel()
+      end
 
       t.alternativeTitle do
         t.title()
@@ -31,10 +42,18 @@ module Datastreams
       }
     end
 
+    define_template :note do |xml, val|
+      xml.alternativeTitle() {
+        xml.value {xml.text(val['value'])}
+        xml.displayLabel {xml.text(val['displayLabel'])}
+      }
+    end
+
     # @param val Must be a Hash containing at least 'title'.
     def insert_alternative_title(val)
       raise ArgumentError.new 'Can only create the alternative title from a Hash map' unless val.is_a? Hash
       raise ArgumentError.new 'Requires a \'title\' field in the Hash map to create the alternative title element' if val['title'].blank?
+      raise ArgumentError.new "Requires a 'type' with the values #{ALTERNATIVE_TITLE_TYPES}" unless val['type'] && ALTERNATIVE_TITLE_TYPES.include?(val['type'])
       sibling = find_by_terms(:alternativeTitle).last
       node = sibling ? add_next_sibling_node(sibling, :alternativeTitle, val) :
           add_child_node(ng_xml.root, :alternativeTitle, val)
@@ -63,23 +82,56 @@ module Datastreams
       alternative_titles
     end
 
+    # @param val Must be a Hash containing at least 'value'
+    def insert_note(val)
+      raise ArgumentError.new 'Can only create the alternative title from a Hash map' unless val.is_a? Hash
+      raise ArgumentError.new 'Requires a \'value\' field in the Hash map to create the alternative title element' if val['value'].blank?
+      sibling = find_by_terms(:note).last
+      node = sibling ? add_next_sibling_node(sibling, :note, val) :
+          add_child_node(ng_xml.root, :note, val)
+      content_will_change!
+      return node
+    end
+
+    def remove_note
+      nodes = find_by_terms(:note)
+      if (nodes.size>0)
+        nodes.each { |n| n.remove }
+        content_will_change!
+      end
+    end
+
+    def get_note
+      alternative_titles = []
+      nodes = find_by_terms(:note)
+      nodes.each do |n|
+        at = Hash.new
+        n.children.each do |c|
+          at[c.name] = c.text unless c.name == 'text'
+        end
+        alternative_titles << at
+      end
+      alternative_titles
+    end
+
     def self.xml_template
       Nokogiri::XML.parse '
         <fields>
-          <title></title>
-          <subTitle></subTitle>
+          <title />
+          <subTitle />
+          <workType />
 
-          <genre></genre>
-          <identifier></identifier>
-          <topic></topic>
-          <note></note>
+          <genre />
+          <identifier />
+          <language />
+          <shelfLocator />
+          <note />
+          <physicalDescriptionForm />
+          <physicalDescriptionNote />
+          <languageOfCataloging />
+          <topic />
 
-          <alternativeTitle>
-            <title/>
-            <subTitle/>
-            <lang/>
-            <type/>
-          </alternativeTitle>
+          <alternativeTitle />
         </fields>'
     end
   end
