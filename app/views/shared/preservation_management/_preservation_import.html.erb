@@ -1,0 +1,14 @@
+<!--
+ Must be included through rendering of multipart fields.
+ The given preservation metadata must be passed on as @preservationMetadata, and the element with the preservation metadata must be given as @object.
+ The 'fields for' builder must be delivered as a the 'f' parameter.
+-->
+<div class="preservation_import_current_state">
+  <h3>Current import state <%= @object.class %>:</h3>
+  <dt><strong>Import initiated:</strong></dt>
+  <dd><%= @object.preservationMetadata.preservation_import_init_date.blank? ? 'N/A' : @object.preservationMetadata.preservation_import_init_date %></dd>
+  <dt><strong>Current import state:</strong></dt>
+  <dd><%= @object.preservationMetadata.preservation_import_state.blank? ? Constants::IMPORT_NOT_INITIATED.keys.first : @object.preservationMetadata.preservation_import_state.keys.first %></dd>
+  <dt><strong>Last import update:</strong></dt>
+  <dd><%= @object.preservationMetadata.preservation_import_modified_date.blank? ? 'N/A' : @object.preservationMetadata.preservation_import_modified_date %></dd>
+</div>

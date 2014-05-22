@@ -12,6 +12,7 @@ module Concerns
       has_metadata :name => 'preservationMetadata', :type => Datastreams::PreservationDatastream
       has_attributes :preservation_profile, :preservation_state, :preservation_details, :preservation_modify_date,
                   :preservation_comment, :warc_id, :preservation_bitsafety, :preservation_confidentiality,
+                  :preservation_import_init_date, :preservation_import_state, :preservation_import_modified_date,
                   datastream: 'preservationMetadata', :multiple => false
 
       before_validation(:on => :create) do

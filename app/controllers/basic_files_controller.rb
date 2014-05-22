@@ -55,6 +55,24 @@ class BasicFilesController < ApplicationController
     end
   end
 
+  # Initiates the import of the preservation copy.
+  def import_from_preservation
+    @file = BasicFile.find(params[:id])
+    begin
+      #notice = update_preservation_profile_from_controller(params, @file)
+      #redirect_to @file, notice: notice
+      raise 'TARTARUS HERE WE COME!!!'
+    rescue => error
+      error_msg = "Could not initiate import from preservation: #{error.inspect}"
+      error.backtrace.each do |l|
+        error_msg += "\n#{l}"
+      end
+      logger.error error_msg
+      @file.errors[:preservation] << error.inspect.to_s
+      render action: 'preservation'
+    end
+  end
+
   # Retrieves the basic file for the preservation view
   def preservation
     @file = BasicFile.find(params[:id])

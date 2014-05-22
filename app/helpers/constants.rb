@@ -2,6 +2,8 @@
 class Constants
   # The name on the button for performing the preservation
   PERFORM_PRESERVATION_BUTTON = 'Perform preservation'
+  # The name on the button for performing the preservation
+  IMPORT_FROM_PRESERVATION_BUTTON = 'Import from preservation'
 
   # The message type for a preservation request.
   MQ_MESSAGE_TYPE_PRESERVATION_REQUEST = 'PreservationRequest'
@@ -105,4 +107,13 @@ class Constants
   ].each {|h| PRESERVATION_STATES.merge!(h)}
 
   PRESERVATION_STATE_INVALID = {'error' => true, 'color' => 'yellow', 'text' => 'The current preservation state is invalid.'}
+
+
+  #############################
+  # States for import from preservation
+  #############################
+
+  # The state, when the import has not been initiated.
+  IMPORT_NOT_INITIATED = {'IMPORT_NOT_INITIATED' => {}}
+
 end

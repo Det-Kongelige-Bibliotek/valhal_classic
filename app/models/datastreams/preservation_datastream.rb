@@ -20,6 +20,13 @@ module Datastreams
                                :path => 'preservation_bitsafety', :label => 'Preservation BitSafety')
       t.preservation_confidentiality(:type => :string, :index_as => [:stored_searchable, :displayable, :sortable],
                                :path => 'preservation_confidentiality', :label => 'Preservation Confidentiality')
+
+      t.preservation_import_init_date(:type => :date, :index_as => [:displayable, :sortable],
+                               :path => 'preservation_import_init_date', :label => 'Date for initiation of import from preservation')
+      t.preservation_import_state(:type => :string, :index_as => [:displayable, :sortable],
+                                      :path => 'preservation_import_state', :label => 'State for import from preservation')
+      t.preservation_import_modified_date(:type => :date, :index_as => [:displayable, :sortable],
+                                      :path => 'preservation_import_modified_date', :label => 'Date for latest state for import from preservation')
     end
 
     def self.xml_template
