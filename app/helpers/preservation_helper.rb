@@ -52,6 +52,12 @@ module PreservationHelper
     element.preservationMetadata.preservation_modify_date = DateTime.now.strftime("%FT%T.%L%:z")
   end
 
+  # Initiates the import of the basic files from their preservation copy.
+  def initiate_import_from_preservation(element)
+    validate_import_criteria(element)
+
+  end
+
   private
   # Initiates the preservation. If the profile is set to long-term preservation, then a message is created and sent.
   # @param element The element to perform the preservation upon.
@@ -206,5 +212,16 @@ module PreservationHelper
         update_preservation_profile_from_controller(params, pib)
       end
     end
+  end
+
+  def validate_import_criteria(element)
+    if element.warc_id.blank?
+      raise ArgumentError.new('Cannot retrieve preservation copy, when no WARC-ID containing this copy can be found')
+    end
+    if Constants::IMPORT_STATES_FOR_PROGRESS.contains(element.preservation_import_state)
+
+      raise ArgumentError.new
+    end
+
   end
 end

@@ -115,5 +115,18 @@ class Constants
 
   # The state, when the import has not been initiated.
   IMPORT_NOT_INITIATED = {'IMPORT_NOT_INITIATED' => {}}
+  # The state, when the import has been initiated.
+  IMPORT_INITIATED = {'IMPORT_INITIATED' => {}}
+  # The state, when Yggdrasil is handling the import request.
+  IMPORT_PROGRESS = {'IMPORT_PROGRESS' => {}}
+  # The state, when the import has failed.
+  IMPORT_FAILURE = {'IMPORT_FAILURE' => {}}
+  # The state, when the import has finished.
+  IMPORT_FINISHED = {'IMPORT_HAS_FINISHED' => {}}
 
+  # The complete hash of valid progress states, and their values.
+  IMPORT_STATES_FOR_PROGRESS = Hash.new
+  [IMPORT_INITIATED, IMPORT_PROGRESS].each {|h| IMPORT_STATES_FOR_PROGRESS.merge!(h)}
+
+  IMPORT_TIMEOUT = DateTime.day
 end
