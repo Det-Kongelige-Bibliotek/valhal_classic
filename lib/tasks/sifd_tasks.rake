@@ -32,6 +32,9 @@ namespace :sifd do
     add_file_characterization_to_all_basic_files
   end
 
+  #Before running this import you must run this search in Aleph to find out the correct number of eDoDs in Aleph
+  #http://aleph-00.kb.dk/X?op=find&base=kgl01&library=kgl01&request=wbh=edod
+  #TODO this renders the fetch_size argument redundant, should be removed
   desc "Import existing DOD books into valhal"
   task :import_dod, :fetch_size do |t, args|
     args.with_defaults(fetch_size: 10)
