@@ -27,6 +27,70 @@
     :is_concerned_by: hasDescription
     # A representation is representing either a book or a work.
     :is_representation_of: isSubsetOf
+
+    ##################################
+    # Relations for authority metadata
+    ##################################
+    # Topic relationship from work/instance perspective
+    :has_topic: hasTopic
+    # Topic relationship from metadata perspective
+    :is_topic_of: isTopicOf
+    # Geographic relationship from work/instance perspective
+    :has_geographic: hasGeographic
+    # Geographic relationship from metadata perspective
+    :is_geographic_of: isGeographicOf
+    # Created relationship from work/instance perspective
+    :has_created: hasCreated
+    # Created relationship from metadata perspective
+    :is_created_of: isCreatedOf
+    # Origin relationship from work/instance perspective
+    :has_origin: hasOrigin
+    # Origin relationship from metadata perspective
+    :is_origin_of: isOriginOf
+
+
+    ### AGENTS ONLY ###
+    # Addressee relationship from work/instance perspective
+    :has_addressee: hasAddressee
+    # Addressee relationship from metadata perspective
+    :is_addressee_of: isAddresseeOf
+    # Author relationship from work/instance perspective
+    :has_author: hasAuthor
+    # Author relationship from metadata perspective
+    :is_author_of: isAuthorOf
+    # Contributor relationship from work/instance perspective
+    :has_contributor: hasContributor
+    # Contributor relationship from metadata perspective
+    :is_Contributor_of: isContributorOf
+    # Patron relationship from work/instance perspective
+    :has_patron: hasPatron
+    # Patron relationship from metadata perspective
+    :is_patron_of: isPatronOf
+    # Performer relationship from work/instance perspective
+    :has_performer: hasPerformer
+    # Performer relationship from metadata perspective
+    :is_performer_of: isPerformerOf
+    # Photographer relationship from work/instance perspective
+    :has_photographer: hasPhotographer
+    # Photographer relationship from metadata perspective
+    :is_photographer_of: isPhotographerOf
+    # Printer relationship from work/instance perspective
+    :has_printer: hasPrinter
+    # Printer relationship from metadata perspective
+    :is_printer_of: isPrinterOf
+    # Publisher relationship from work/instance perspective
+    :has_publisher: hasPublisher
+    # Publisher relationship from metadata perspective
+    :is_publisher_of: isPublisherOf
+    # Scribe relationship from work/instance perspective
+    :has_scribe: hasScribe
+    # Scribe relationship from metadata perspective
+    :is_scribe_of: isScribeOf
+    # Translator relationship from work/instance perspective
+    :has_translator: hasTranslator
+    # Translator relationship from metadata perspective
+    :is_translator_of: isTranslatorOf
+
   info:fedora/fedora-system:def/relations-external#:
     :conforms_to: conformsTo
     :has_annotation: hasAnnotation

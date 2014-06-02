@@ -14,6 +14,14 @@ class Entity < ActiveFedora::Base
                  :languageOfCataloging, :language,
                  datastream: 'descMetadata', :multiple => true
 
+  # Can be a topic for many works
+  has_and_belongs_to_many :topic, :class_name => 'ActiveFedora::Base', :property=>:topic
+  # Can be a topic for many works
+  has_and_belongs_to_many :geographic, :class_name => 'ActiveFedora::Base', :property=>:geographic
+  # Can be a topic for many works
+  has_and_belongs_to_many :created, :class_name => 'ActiveFedora::Base', :property=>:created
+
+
   # Retrieves the alternative titles.
   # @param *arg The arguments
   # @return The alternative titles.
