@@ -61,7 +61,15 @@
     # Contributor relationship from work/instance perspective
     :has_contributor: hasContributor
     # Contributor relationship from metadata perspective
-    :is_Contributor_of: isContributorOf
+    :is_contributor_of: isContributorOf
+    # Creator relationship from work/instance perspective
+    :has_creator: hasCreator
+    # Creator relationship from metadata perspective
+    :is_creator_of: isCreatorOf
+    # Owner relationship from work/instance perspective
+    :has_owner: hasOwner
+    # Owner relationship from metadata perspective
+    :is_owner_of: isOwnerOf
     # Patron relationship from work/instance perspective
     :has_patron: hasPatron
     # Patron relationship from metadata perspective

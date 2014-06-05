@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Entity < ActiveFedora::Base
-  include Concerns::Manifest
   include Solr::Indexable
+  include Concerns::WorkRelations
 
   has_metadata :name => 'descMetadata', :type => Datastreams::WorkDescMetadata
 
@@ -13,14 +13,6 @@ class Entity < ActiveFedora::Base
   has_attributes :genre, :identifier, :topic, :physicalDescriptionForm, :physicalDescriptionNote,
                  :languageOfCataloging, :language,
                  datastream: 'descMetadata', :multiple => true
-
-  # Can be a topic for many works
-  has_and_belongs_to_many :topic, :class_name => 'ActiveFedora::Base', :property=>:topic
-  # Can be a topic for many works
-  has_and_belongs_to_many :geographic, :class_name => 'ActiveFedora::Base', :property=>:geographic
-  # Can be a topic for many works
-  has_and_belongs_to_many :created, :class_name => 'ActiveFedora::Base', :property=>:created
-
 
   # Retrieves the alternative titles.
   # @param *arg The arguments
