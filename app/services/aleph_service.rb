@@ -69,7 +69,7 @@ class AlephService
           :format => "marc"}
       )
     rescue => e
-      logger.error "get_record failed #{search_string}"
+      logger.error "get_record failed for entry_num #{entry_num} set_number #{set_number}"
       logger.error e.backtrace.join("\n")
     end
   end

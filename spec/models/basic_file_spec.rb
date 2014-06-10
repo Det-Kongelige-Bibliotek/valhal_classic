@@ -90,7 +90,7 @@ describe BasicFile do
     before do
       @basic_file = BasicFile.new
       @uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'image/png', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
-      @basic_file.add_file(@uploaded_file, 1)
+      @basic_file.add_file(@uploaded_file, false)
     end
 
     it "should have shorthand for adding a basic_files" do
@@ -161,6 +161,7 @@ describe BasicFile do
 
     it 'should have a fitsMetadataDatastream with valid content regarding the file metadata' do
       @basic_file.datastreams['fitsMetadata1'].content.should_not be_nil
+      #puts @basic_file.datastreams['fitsMetadata1'].content
       expect(@basic_file.datastreams['fitsMetadata1'].content).to include('<fits')
     end
 =begin
