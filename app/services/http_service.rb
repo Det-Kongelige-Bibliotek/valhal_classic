@@ -18,6 +18,6 @@ class HttpService
       logger.error "do_post failed #{uri_string}: #{e.message}"
       logger.error e.backtrace.join("\n")
     end
-    response.body
+    response ? response.body : response;
   end
 end
