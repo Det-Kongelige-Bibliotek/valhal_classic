@@ -6,7 +6,7 @@ module Concerns
 
     included do
       #####################################################
-      ## Relations to authority metadata units for the non-agent-specific relations
+      ## Relations to authority metadata units for the non-agent-specific relations (e.g. for place, concept, event, etc.)
       #####################################################
 
       # Topic relationships to AuthorityMetadata
