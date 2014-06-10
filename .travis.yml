@@ -19,6 +19,7 @@ install:
 before_script:
   - bundle exec rake db:migrate db:seed db:test:prepare
   - bundle exec rake jetty:start
+  - sleep 5
 after_script:
   - bundle exec rake jetty:stop
 gemfile:
