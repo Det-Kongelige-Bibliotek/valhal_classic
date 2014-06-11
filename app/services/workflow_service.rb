@@ -12,7 +12,11 @@ module WorkflowService
   def handle_workflow_message(message)
     begin
       w = Work.find(message['PID'])
-      continue_workflow(w) if get_current_step(w)
+      if get_current_step(w)
+        continue_workflow(w)
+      else
+        logger.info "Finished the workflow for work #{message}"
+      end
     rescue => e
       logger.error "Could not handle workflow message #{message} due to error #{e.message}"
       logger.error e.backtrace.join("\n")
@@ -55,9 +59,11 @@ module WorkflowService
   # @param step The step to perform on the work.
   def perform_step(work, step)
     # TODO Workflow steps implemented here
-    logger.warn "Not implemented handling of step #{step} for #{work} "
+    logger.warn "Silly workflow implemented. Creates just a new step, until it has 10 steps. Should perform step: #{step}"
 
-    work.step
+    if(work.step.length < 10)
+      work.step = work.step << {'name' => "Step #{work.step.length + 1}", 'state' => WORKFLOW_STATE_NOT_STARTED}
+    end
   end
 
   #
