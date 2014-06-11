@@ -51,6 +51,8 @@ Valhal::Application.routes.draw do
       patch 'update_preservation_profile'
       get 'dissemination'
       patch 'send_to_dissemination'
+      get 'workflow'
+      patch 'perform_workflow'
     end
   end
 

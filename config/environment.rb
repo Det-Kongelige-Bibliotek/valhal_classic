@@ -19,6 +19,7 @@ end
 
 include MqListenerHelper
 include DigitisationHelper
+include WorkflowService
 
 # Connect to the RabbitMQ broker, and initialize the listeners
 def initialize_listeners
@@ -28,8 +29,10 @@ def initialize_listeners
     conn.start
     ch = conn.create_channel
 
-    subscribe_to_preservation(ch)
-    subscribe_to_dod_digitisation(ch)
+    # TODO turn the other listeners on later.
+    #subscribe_to_preservation(ch)
+    #subscribe_to_dod_digitisation(ch)
+    subscribe_to_workflow(ch)
     conn.close
   rescue Bunny::TCPConnectionFailed => e
     logger.error 'Connection to RabbitMQ failed'
@@ -56,6 +59,29 @@ def subscribe_to_preservation(channel)
       handle_preservation_response(JSON.parse(payload))
     rescue => e
       logger.error "Try to handle preservation response message: #{payload}\nCaught error: #{e}"
+    end
+  end
+end
+
+# Subscribing to the preservation response queue
+# This is ignored, if the configuration is not set.
+#@param channel The channel to the message broker.
+def subscribe_to_workflow(channel)
+  if MQ_CONFIG['workflow']['destination'].blank?
+    logger.warn 'No preservation response queue defined -> Not listening'
+    return
+  end
+
+  destination = MQ_CONFIG['workflow']['destination']
+  q = channel.queue(destination, :durable => true)
+  logger.info "Listening to workflow queue: #{destination}"
+
+  q.subscribe do |delivery_info, metadata, payload|
+    begin
+      logger.debug "Received the following workflow message: #{payload}"
+      handle_workflow_message(JSON.parse(payload))
+    rescue => e
+      logger.error "Trying to handle workflow message: #{payload}\nCaught error: #{e}"
     end
   end
 end

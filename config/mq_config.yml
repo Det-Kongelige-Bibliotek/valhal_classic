@@ -9,6 +9,8 @@ development:
   digitisation:
     source: "digitisation-dev-queue"
     polling_interval_in_minutes: 1
+  workflow:
+    destination: "workflow-dev-queue"
 
 test:
   mq_uri: "amqp://localhost:5672"
@@ -21,6 +23,8 @@ test:
   digitisation:
       source: "digitisation-test-queue"
       polling_interval_in_minutes: 1
+  workflow:
+    destination: "workflow-test-queue"
 
 production:
   mq_uri: "amqp://sifd-staging-03:5672"
@@ -33,3 +37,5 @@ production:
   digitisation:
       source: "digitisation-prod-queue"
       polling_interval_in_minutes: 1
+  workflow:
+    destination: "workflow-prod-queue"

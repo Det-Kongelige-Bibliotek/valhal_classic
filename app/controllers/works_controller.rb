@@ -3,6 +3,7 @@ class WorksController < ApplicationController
   include ManifestationsHelper # methods: add_single_file_rep, set_authors, set_concerned_people
   include PreservationHelper # methods: update_preservation_profile_from_controller
   include DisseminationService # methods: ??
+  include WorkflowService # methods: continue_workflow
 
   authorize_resource
 
@@ -39,6 +40,10 @@ class WorksController < ApplicationController
   end
 
   def dissemination
+    @work = Work.find(params[:id])
+  end
+
+  def workflow
     @work = Work.find(params[:id])
   end
 
@@ -142,6 +147,23 @@ class WorksController < ApplicationController
     rescue => e
       @work.errors[:dissemination] << "Error while trying to disseminate #{e.inspect}"
       render action: 'dissemination'
+    end
+  end
+
+  # Updates the dissemination and performs the
+  def perform_workflow
+    @work = Work.find(params[:id])
+
+    begin
+      puts "DOOM IS ALL AROUND US"
+      logger.info "Trying to continue the workflow for #{@work.inspect}: \n#{@work.workflowDatastream.content}"
+      continue_workflow(@work)
+      redirect_to workflow_work_path @work
+    rescue => e
+      logger.error "Issue performing the workflow: #{e.inspect}"
+      logger.error e.backtrace.join("\n")
+      @work.errors[:workflow] << "Error while trying to managing the workflow #{e.inspect}"
+      render action: 'workflow'
     end
   end
 

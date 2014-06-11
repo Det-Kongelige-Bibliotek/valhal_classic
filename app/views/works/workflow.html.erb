@@ -1,0 +1,9 @@
+<%- model_class = Work -%>
+<div class="page-header">
+  <h1><%=t 'helpers.titles.workflow', :default => [:'helpers.titles.workflow', 'Workflow for %{model}'], :model => model_class.model_name.human %></h1>
+</div>
+
+<%- @object = @work-%>
+<%= render 'shared/workflow_management/workflow' %>
+
+<%= render 'footer' %>

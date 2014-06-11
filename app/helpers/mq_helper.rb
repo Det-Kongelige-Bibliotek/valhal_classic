@@ -17,13 +17,25 @@ module MqHelper
 
   # Sends a dissemination message for BifrostBooks on the MQ.
   #
-  # @param message The message content to be sent on the preservation destination.
+  # @param message The message content to be sent on the dissemination destination.
   def send_message_to_bifrost_books(message)
     destination = MQ_CONFIG['dissemination']['bifrost_books']
 
     send_on_rabbitmq(message, destination, {
         'content_type' => 'application/json',
         'type' => Constants::MQ_MESSAGE_TYPE_PRESERVATION_REQUEST
+    })
+  end
+
+  # Puts a Workflow message on the MQ.
+  #
+  # @param message The message content to be sent on the workflow queue.
+  def send_message_for_workflow(message)
+    destination = MQ_CONFIG['workflow']['destination']
+
+    send_on_rabbitmq(message, destination, {
+        'content_type' => 'application/json',
+        'type' => Constants::MQ_MESSAGE_TYPE_WORKFLOW
     })
   end
 

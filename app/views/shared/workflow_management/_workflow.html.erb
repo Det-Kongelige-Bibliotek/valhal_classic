@@ -1,0 +1,27 @@
+<%= form_for @object, :html=>{:multipart=>true}, url: {action: 'perform_workflow'} do |f| %>
+    <%= f.error_messages :header_message => 'Error when editing preservation settings', :class => 'alert alert-error',
+                         :header_tag => :h3 %>
+    <div class="workflow">
+      <h3>Workflow management for <%= @object.class %>:</h3>
+      <dt><strong>Workflow name:</strong></dt>
+      <dd><%= @object.workflow_name.blank? ? 'N/A' : @object.workflow_name %></dd>
+      <dt><strong>Workflow error:</strong></dt>
+      <dd><%= @object.workflow_error.blank? ? 'N/A' : @object.workflow_error %></dd>
+      <dt><strong>Latest update:</strong></dt>
+      <dd><%= @object.workflow_last_update.blank? ? 'N/A' : @object.workflow_last_update %></dd>
+      <% @object.step.each do |s| %>
+          <dt><strong>Step:</strong></dt>
+          <dd><%= "Name: #{s['name']}" %></dd>
+          <dd><%= "State: #{s['state']}" %></dd>
+          <dd><%= "Functions: #{s['functions']}" unless s['functions'].blank? %></dd>
+      <% end %>
+    </div>
+    <br/>
+    <%= f.submit 'Continue Workflow', :class => 'btn btn-primary' %>
+<% end %>
+
+<br/>
+
+<hr/>
+<%= @object.workflowDatastream.content %>
+<hr/>
