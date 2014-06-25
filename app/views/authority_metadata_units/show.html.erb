@@ -1,0 +1,31 @@
+<%= render 'header' %>
+
+<div class="row">
+  <div class="span10">
+    <h3><%= @amu.type%></h3>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span2">
+    <strong>Value</strong>
+  </div>
+  <div class="span8">
+    <%= @amu.value%>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span2">
+    <strong>References</strong>
+  </div>
+  <% @amu.reference.each do |ref| %>
+      <div class="span8">
+        <%= ref %>
+      </div>
+  <% end %>
+</div>
+
+
+
+

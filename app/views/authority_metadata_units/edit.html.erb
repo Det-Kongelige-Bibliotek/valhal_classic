@@ -1,0 +1,39 @@
+<%= render 'header' %>
+
+<%= form_for @amu, :html=>{:multipart=>true, :class=>'form-horizontal'} do |f| %>
+    <%= f.error_messages :header_message => "Edit AuthorityMetadataUnit error", :class => "alert alert-error", :header_tag => :h3 %>
+    <%= fields_for :amu do |f| %>
+        <div class="control-group">
+          <%= f.label :type, "Type", :class=>'control-label' %>
+          <div class="controls">
+            <%= f.text_field :type, :placeholder => "#{@amu.type}", :class=>'input-block-level' %>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <%= f.label :value, "Value", :class=>'control-label' %>
+          <div class="controls">
+            <%= f.text_field :value, :placeholder => "#{@amu.value}", :class=>'input-block-level' %>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <%= f.label :reference, "Reference", :class=>'control-label' %>
+          <%= fields_for :reference do |builder| %>
+              <% @amu.reference.each do |ref| %>
+                  <% unless ref.blank? %>
+                    <div class="controls">
+                      <%= builder.text_field "#{ref}", :value => "#{ref}", :class=>'input-block-level' %>
+                    </div>
+                  <% end %>
+              <% end %>
+              <div class="controls">
+                <%= builder.text_field :new_reference, :placeholder => "New Reference", :class=>'input-block-level' %>
+              </div>
+          <% end %>
+
+        </div>
+    <% end %>
+    <br/>
+    <%= f.submit "Update" %>
+<% end %>

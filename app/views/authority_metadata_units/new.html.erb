@@ -1,0 +1,57 @@
+<div class="page-header">
+  <h1 class="text-left">New Authority Metadata Unit</h1>
+</div>
+
+<div class="row hidden-phone ">
+    <div class="span3">
+       <span class="lead ">
+         Step 1
+       </span>
+    </div>
+</div>
+
+<div class="progress progress-success hidden-phone">
+    <div class="bar" style="width: 100%;"></div>
+</div>
+
+<p class="lead visible-phone">Step 1 / 1</p>
+
+<%= form_for @amu, :html=>{:multipart=>true, :class=>'form-horizontal'} do |f| %>
+    <div class="row">
+        <div class="span9">
+            <div class="control-group">
+                <div class="controls">
+                  <%= f.error_messages :header_message => "New book error", :class => "alert alert-error", :header_tag => :h4 %>
+                </div>
+            </div>
+            <%= fields_for :amu do |f| %>
+              <div class="control-group">
+                <%= f.label :type, "Type", :class=>'control-label' %>
+                <div class="controls">
+                  <%= f.text_field :type, :placeholder => "Type", :class=>'input-block-level' %>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <%= f.label :value, "Value", :class=>'control-label' %>
+                <div class="controls">
+                  <%= f.text_field :value, :placeholder => "Value", :class=>'input-block-level' %>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <%= f.label :reference, "Reference", :class=>'control-label' %>
+                <div class="controls">
+                  <%= f.text_field :reference, :value => nil, :class=>'input-block-level' %>
+                </div>
+              </div>
+            <% end %>
+            <div class="control-group">
+                <div class="controls pull-right">
+                    <%= f.submit "finish", :class=>'btn btn-large btn-success' %>
+                </div>
+            </div>
+        </div>
+    </div>
+<% end %>
+

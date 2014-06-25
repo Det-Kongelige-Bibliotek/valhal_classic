@@ -46,6 +46,8 @@ module Concerns
       has_and_belongs_to_many :isScribeOf, :class_name => 'ActiveFedora::Base', :property=>:is_scribe_of, :inverse_of => :has_scribe
       # Translator relationship from work/instance perspective
       has_and_belongs_to_many :isTranslatorOf, :class_name => 'ActiveFedora::Base', :property=>:is_translator_of, :inverse_of => :has_translator
+      # Digitizer relationship from work/instance perspective
+      has_and_belongs_to_many :isDigitizerOf, :class_name => 'ActiveFedora::Base', :property=>:is_digitizer_of, :inverse_of => :has_digitizer
     end
 
     # @return All the relations defined in this module.
@@ -67,6 +69,7 @@ module Concerns
       res['isPublisherOf'] = self.isPublisherOf
       res['isScribeOf'] = self.isScribeOf
       res['isTranslatorOf'] = self.isTranslatorOf
+      res['isDigitizerOf'] = self.isDigitizerOf
       res
     end
 

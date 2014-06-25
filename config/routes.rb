@@ -79,4 +79,7 @@ Valhal::Application.routes.draw do
       patch 'update_preservation_profile'
     end
   end
+
+  resources :authority_metadata_units do
+  end
 end

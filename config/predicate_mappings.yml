@@ -98,6 +98,10 @@
     :has_translator: hasTranslator
     # Translator relationship from metadata perspective
     :is_translator_of: isTranslatorOf
+    # Digitizer relationship from work/instance perspective
+    :has_digitizer: hasDigitizer
+    # Digitizer relationship from metadata perspective
+    :is_digitizer_of: isDigitizerOf
 
   info:fedora/fedora-system:def/relations-external#:
     :conforms_to: conformsTo
