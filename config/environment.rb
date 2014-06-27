@@ -17,6 +17,8 @@ if Rails.env.upcase == 'TEST' && !ENV['MQ_URI'].blank?
   puts "Setting test MQ settings from environment variables: #{MQ_CONFIG.inspect}"
 end
 
+VALHAL_CONFIG = YAML.load_file("#{Rails.root}/config/valhal.yml")[Rails.env]
+
 include MqListenerHelper
 include DigitisationHelper
 
@@ -79,21 +81,23 @@ def start_listener_thread
   ActiveRecord::Base.connection.close
 end
 
-if defined?(PhusionPassenger)
-  PhusionPassenger.on_event(:starting_worker_process) do |forked|
-    if forked
-      logger.debug "Forked"
-      # We’re in a smart spawning mode
-      # Now is a good time to connect to RabbitMQ
+if VALHAL_CONFIG['dod_workflow_listener_switch'].eql? 'on'
+  if defined?(PhusionPassenger)
+    PhusionPassenger.on_event(:starting_worker_process) do |forked|
+      if forked
+        logger.debug "Forked"
+        # We’re in a smart spawning mode
+        # Now is a good time to connect to RabbitMQ
+        start_listener_thread
+      end
+    end
+
+  else
+    if Rails.env.upcase != 'TEST'
+      logger.debug "not PhusionPassenger"
       start_listener_thread
     end
+    # We're in direct spawning mode. We don't need to do anything.
   end
-
-else
-  if Rails.env.upcase != 'TEST'
-    logger.debug "not PhussionPassenger"
-    start_listener_thread
-  end
-  # We're in direct spawning mode. We don't need to do anything.
 end
 
