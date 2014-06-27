@@ -1,0 +1,66 @@
+# For authority metadata units. Configures which relations each type can have
+authority_metadata_unit:
+  concept:
+    isTopicOf
+  event:
+    isTopicOf
+  physicalThing:
+    isTopicOf
+  place:
+    isTopicOf
+    isOriginOf
+  agent/person:
+    isAddresseeOf
+    isAuthorOf
+    isContributorOf
+    isCreatorOf
+    isOwnerOf
+    isPatronOf
+    isPerformerOf
+    isPhotographerOf
+    isPrinterOf
+    isPublisherOf
+    isScribeOf
+    isTranslatorOf
+    isDigitizerOf
+    isTopicOf
+  agent/organization:
+    isAddresseeOf
+    isAuthorOf
+    isContributorOf
+    isCreatorOf
+    isOwnerOf
+    isPatronOf
+    isPerformerOf
+    isPhotographerOf
+    isPrinterOf
+    isPublisherOf
+    isScribeOf
+    isTranslatorOf
+    isDigitizerOf
+    isTopicOf
+
+# For Work and Instance, just which relations each can have.
+work:
+  hasTopic
+  hasOrigin
+  hasAddressee
+  hasAuthor
+  hasContributor
+  hasCreator
+  hasOwner
+  hasPatron
+  hasPerformer
+  hasPhotographer
+  hasTranslator
+instance:
+  hasTopic
+  hasOrigin
+  hasContributor
+  hasOwner
+  hasPatron
+  hasPrinter
+  hasPublisher
+  hasScribe
+  hasDigitizer
+

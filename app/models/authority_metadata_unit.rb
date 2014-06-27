@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class AuthorityMetadataUnit < ActiveFedora::Base
+
   #include Solr::Indexable
   include Concerns::AMURelations
 
@@ -11,6 +12,8 @@ class AuthorityMetadataUnit < ActiveFedora::Base
 
   # List of multiple key-value pairs
   has_attributes :reference, datastream: 'descMetadata', :multiple => true
+
+  validates_with AMUValidator
 
   # The fields for the SOLR index.
 #  has_solr_fields do |m|

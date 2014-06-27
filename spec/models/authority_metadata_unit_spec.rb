@@ -10,17 +10,17 @@ describe AuthorityMetadataUnit do
 
   describe "#create" do
     it 'should be possible to create a AMU with values in all field' do
-      amu = AuthorityMetadataUnit.create!(:type=>'Type', :value=>'Value', :reference=>'Reference')
+      amu = AuthorityMetadataUnit.create!(:type=>AMU_TYPES.first, :value=>'Value', :reference=>'Reference')
       amu.should_not be_nil
-      amu.type.should == 'Type'
+      amu.type.should == AMU_TYPES.first
       amu.value.should == 'Value'
       amu.reference.should == ['Reference']
     end
 
-    it 'should be possible to create a AMU with no values in any field' do
-      amu = AuthorityMetadataUnit.create!(:type=>nil, :value=>nil, :reference=>nil)
+    it 'should be possible to create a AMU with no value or reference' do
+      amu = AuthorityMetadataUnit.create!(:type=>AMU_TYPES.first, :value=>nil, :reference=>nil)
       amu.should_not be_nil
-      amu.type.should be_nil
+      amu.type.should_not be_nil
       amu.value.should be_nil
       amu.reference.should be_empty
     end
@@ -28,7 +28,7 @@ describe AuthorityMetadataUnit do
 
   describe "#delete" do
     before :each do
-      @amu = AuthorityMetadataUnit.create!
+      @amu = AuthorityMetadataUnit.create!(:type=>AMU_TYPES.first)
     end
 
     it 'should be possible to delete an AMU' do
@@ -39,17 +39,18 @@ describe AuthorityMetadataUnit do
 
   describe "#update" do
     it 'should be possible to change the type field' do
-      amu = AuthorityMetadataUnit.create!
-      amu.type.should be_nil
+      amu = AuthorityMetadataUnit.create!(:type=>AMU_TYPES.first)
+      amu.type.should == AMU_TYPES.first
 
-      amu.type = 'Type'
+      amu.type = AMU_TYPES.last
       amu.save!
       amu.reload
-      amu.type.should == 'Type'
+      amu.type.should_not == AMU_TYPES.first
+      amu.type.should == AMU_TYPES.last
     end
 
     it 'should be possible to change the value field' do
-      amu = AuthorityMetadataUnit.create!
+      amu = AuthorityMetadataUnit.create!(:type=>AMU_TYPES.first)
       amu.value.should be_nil
 
       amu.value = 'Value'
@@ -59,7 +60,7 @@ describe AuthorityMetadataUnit do
     end
 
     it 'should be possible to add a reference' do
-      amu = AuthorityMetadataUnit.create!
+      amu = AuthorityMetadataUnit.create!(:type=>AMU_TYPES.first)
       amu.reference.should be_empty
 
       amu.reference = 'Reference'
@@ -69,7 +70,7 @@ describe AuthorityMetadataUnit do
     end
 
     it 'should be possible to add a reference' do
-      amu = AuthorityMetadataUnit.create(:reference=>'Reference')
+      amu = AuthorityMetadataUnit.create(:reference=>'Reference', :type=>AMU_TYPES.first)
       amu.reference.should_not be_empty
       amu.reference.should == ['Reference']
 
