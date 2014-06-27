@@ -1,0 +1,361 @@
+﻿<mods:mods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org.1999/xlink" version="3.5" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd" xmlns:mods="http://www.loc.gov/mods/v3">
+  <!-- Internal field: workType. -->
+  <mods:genre type="work_type">Valhal type of work</mods:genre>
+  
+  <!-- Internal field: genre -->
+  <mods:genre>One genre.</mods:genre>
+  <mods:genre>Another genre.</mods:genre>
+
+  <!-- Internal object: identifier -->
+  <mods:identifier>An identifier without a displayLabel</mods:identifier>
+  <mods:identifier displayLabel="uri">An identifier with a displayLabel</mods:identifier>
+  <mods:identifier displayLabel="sysnum">An identifier with a displayLabel</mods:identifier>
+  <mods:identifier displayLabel="I like to be displayed">Another identifier with an displayLabel</mods:identifier>
+
+  <!-- Internal object: language. Vocabular on authority - may be empty. -->  
+  <mods:language>
+    <mods:languageTerm authorityURI="iso639-2b">den</mods:languageTerm>
+    <mods:languageTerm authorityURI="rfc4646">he-LATN-IL-1947</mods:languageTerm>
+    <mods:languageTerm>I an a language in an unknown format</mods:languageTerm>
+  </mods:language>
+  
+  <!-- Intern field: shelfLocator -->
+  <mods:location>
+    <mods:shelfLocator>The location on the shelf</mods:shelfLocator>
+  </mods:location>
+
+  <!-- Agent with relation="Author"-->
+  <mods:name type="personal">
+    <mods:namePart>The name of an author without an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/aut.html">Author</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+  <mods:name type="corporate" authorityURI="http://authority.org/person01">
+    <mods:namePart>The name of an author institution with an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/aut.html">Author</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+
+  <!-- Agent with relation="Contributor"-->
+  <mods:name type="corporate">
+    <mods:namePart>The name of a contributing institution/organization without an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/ctb.html">Contributor</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+  <mods:name type="personal" authorityURI="http://authority.org/person01">
+    <mods:namePart>The name of a contributor with an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/ctb.html">Contributor</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+
+  <!-- Agent with relation="Creator"-->
+  <mods:name type="corporate">
+    <mods:namePart>The name of a creating institution/organization without an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/cre.html">Creator</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+  <mods:name type="personal" authorityURI="http://authority.org/person01">
+    <mods:namePart>The name of a creator with an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/cre.html">Creator</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+
+  <!-- Agent with relation="Owner"-->
+  <mods:name type="corporate">
+    <mods:namePart>The name of an owner institution/organization without an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/own.html">Owner</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+  <mods:name type="personal" authorityURI="http://authority.org/person01">
+    <mods:namePart>The name of an owner with an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/own.html">Owner</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+
+  <!-- Agent with relation="Patron"-->
+  <mods:name type="corporate">
+    <mods:namePart>The name of a patron institution/organization without an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/pat.html">Patron</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+  <mods:name type="personal" authorityURI="http://authority.org/person01">
+    <mods:namePart>The name of a patron with an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/pat.html">Patron</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+
+  <!-- Agent with relation="Publisher"-->
+  <mods:name type="corporate">
+    <mods:namePart>The name of a publishing institution/organization without an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/pbl.html">Publisher</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+  <mods:name type="personal" authorityURI="http://authority.org/person01">
+    <mods:namePart>The name of a publisher with an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/pbl.html">Publisher</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+
+  <!-- Agent with relation="Photographer"-->
+  <mods:name type="corporate">
+    <mods:namePart>The name of a photographing institution/organization without an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/pht.html">Photographer</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+  <mods:name type="personal" authorityURI="http://authority.org/person01">
+    <mods:namePart>The name of a photographer with an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/pht.html">Photographer</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+
+  <!-- Agent with relation="Performer"-->
+  <mods:name type="corporate">
+    <mods:namePart>The name of a performing institution/organization without an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/prf.html">Performer</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+  <mods:name type="personal" authorityURI="http://authority.org/person01">
+    <mods:namePart>The name of a performer with an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/prf.html">Performer</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+
+  <!-- Agent with relation="Printer"-->
+  <mods:name type="corporate">
+    <mods:namePart>The name of a printing institution/organization without an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/prt.html">Printer</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+  <mods:name type="personal" authorityURI="http://authority.org/person01">
+    <mods:namePart>The name of a printer with an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/prt.html">Printer</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+
+  <!-- Agent with relation="Addressee"-->
+  <mods:name type="corporate" authorityURI="http://authority.org/person01">
+    <mods:namePart>The name of a receiving/addressed institution/organization with an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/rcp.html">Addressee</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+  <mods:name type="personal">
+    <mods:namePart>The name of an addressee without an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/rcp.html">Addressee</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+
+  <!-- Agent with relation="Scribe"-->
+  <mods:name type="corporate" authorityURI="http://authority.org/person01">
+    <mods:namePart>The name of a scribing institution/organization with an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/scr.html">Scribe</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+  <mods:name type="personal">
+    <mods:namePart>The name of a scribe without an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/scr.html">Scribe</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+
+  <!-- Agent with relation="Translator"-->
+  <mods:name type="corporate">
+    <mods:namePart>The name of a translating institution/organization without an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/trl.html">Translator</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+  <mods:name type="personal" authorityURI="http://authority.org/person01">
+    <mods:namePart>The name of a translator with an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/trl.html">Translator</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+
+  <!-- Agent with relation="Digitizer" (which is does not have an authority definition) -->
+  <mods:name type="corporate">
+    <mods:namePart>The name of a contributing institution/organization without an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm>Contributor</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+  <mods:name type="personal" authorityURI="http://authority.org/person01">
+    <mods:namePart>The name of a contributor with an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm>Contributor</mods:roleTerm>
+    </mods:role>
+  </mods:name>
+
+  <!-- Intern object: note -->
+  <mods:note>A note without a displayLabel</mods:note>
+  <mods:note displayLabel="displayLabel">A note with a displayLabel</mods:note>
+  <mods:note displayLabel="Some reason why this is important...">Another note with a displayLabel</mods:note>
+
+  <!-- Internal fields: dateCreated, dateIssued and dateOther in EDTF. Exampled with one uncertain date, one interval with an approximated date and a precise date, and a precise timestamp.-->
+  <mods:originInfo>
+    <mods:dateCreated keyDate="yes" encoding="edtf">2011?</mods:dateCreated>
+    <mods:dateIssued keyDate="yes" encoding="edtf">2012-11~/2014-12-31</mods:dateIssued>
+    <mods:dateOther encoding="edtf">2014-01-01T10:10:10+01:00</mods:dateOther>
+  </mods:originInfo>
+
+  <!-- Place with relation="Origin" -->
+  <mods:originInfo>
+    <mods:place>
+      <mods:placeTerm>A place without an authority</mods:placeTerm>
+      <mods:placeTerm authorityURI="http://authority.org/place01">Some place with an authority</mods:placeTerm>
+    </mods:place>
+  </mods:originInfo>
+
+  <!-- Agent with relation=>"Publisher" - ignores agent type and reference... -->
+  <mods:originInfo>
+    <mods:publisher>Some publisher without any authority</mods:publisher>
+    <mods:publisher>Some publisher with an authority - which cannot be used</mods:publisher>
+  </mods:originInfo>
+
+  <!-- Internal field: physicalDescriptionForm. -->
+  <mods:physicalDescription>
+    <mods:form>Beskrivelse af den fysiske udforming på værket eller instansen</mods:form>
+    <mods:form>Endnu en beskrivelse af den fysiske form.</mods:form>
+  </mods:physicalDescription>
+
+  <!-- Internal field: physicalDescriptionNote. -->
+  <mods:physicalDescription>
+    <mods:note>Note omkring den fysiske beskrivelse.</mods:note>
+    <mods:note>Endnu en note omkring den fysiske beskrivelse.</mods:note>
+  </mods:physicalDescription>
+
+  <!-- Internal field: languageOfCataloging -->
+  <mods:recordInfo>
+    <mods:languageOfCataloging>
+      <mods:languageTerm authorityURI="iso639-2b" type="code">dan</mods:languageTerm>
+    </mods:languageOfCataloging>
+  </mods:recordInfo>
+
+  <!-- Internal field: recordOriginInfo-->
+  <mods:recordInfo>
+    <mods:recordOrigin>One origin of the record.</mods:recordOrigin>
+    <mods:recordOrigin>Another origin of the record.</mods:recordOrigin>
+    <mods:recordOrigin>A third origin of the record.</mods:recordOrigin>
+  </mods:recordInfo>
+
+  <!-- The internal field: 'cartographicsScale' -->
+  <mods:subject>
+    <mods:cartographics>
+      <mods:scale>1:many</mods:scale>
+    </mods:cartographics>
+  </mods:subject>
+
+  <!-- The internal field: 'cartographicsCoordinates' -->
+  <mods:subject>
+    <mods:cartographics>
+      <mods:coordinates>XXX south, XXX east - XXX north, XXX west (or what ever format such coordinates are written in)</mods:coordinates>
+    </mods:cartographics>
+  </mods:subject>
+
+  <!-- Place with relation="Topic". -->
+  <mods:subject>
+    <mods:geographic>Place with relation="topic", but without an authority.</mods:geographic>
+    <mods:geographic authorityURI="http://authority.org/place01">Place with relation="topic", with an authority.</mods:geographic>
+  </mods:subject>
+
+  <!-- Agents with relation="topic". -->
+  <mods:subject>
+    <mods:name type="personal">
+      <mods:namePart>Some random person without an authority</mods:namePart>
+    </mods:name>
+    <mods:name type="corporate">
+      <mods:namePart>Some corporation/organization without an authority</mods:namePart>
+    </mods:name>
+    <mods:name authorityURI="http://authority.org/person01" type="personal">
+      <mods:namePart>A famous person with an authority</mods:namePart>
+    </mods:name>
+    <mods:name authorityURI="http://authority.org/corporation01" type="corporate">
+      <mods:namePart>A famous corporation with an authority</mods:namePart>
+    </mods:name>
+  </mods:subject>
+
+  <!-- Concept with relation="topic". 'displayLabel' refering to whether and which type of authority metadata. -->
+  <mods:subject displayLabel="Concept">
+    <mods:topic>Some internal concept (metadata authority unit)</mods:topic>
+    <mods:topic authorityURI="http://authority.org/concept01">Some external concept (metadata authority unit)</mods:topic>
+  </mods:subject>
+
+  <!-- Event with relation="topic". 'displayLabel' refering to whether and which type of authority metadata. -->
+  <mods:subject displayLabel="Event">
+    <mods:topic>Some internal event (metadata authority unit)</mods:topic>
+    <mods:topic authorityURI="http://authority.org/event01">Some external event (metadata authority unit)</mods:topic>
+  </mods:subject>
+
+  <!-- PhysicalThing with relation="topic". 'displayLabel' refering to whether and which type of authority metadata. -->
+  <mods:subject displayLabel="PhysicalThing">
+    <mods:topic>Some internal physical thing (metadata authority unit)</mods:topic>
+    <mods:topic authorityURI="http://authority.org/physicalthing01">Some external physical thing (metadata authority unit)</mods:topic>
+  </mods:subject>
+
+  <!-- Internal topic field. 'displayLabel' refering to whether and which type of authority metadata. Not an authority metadata unit in this case.  -->
+  <mods:subject>
+    <mods:topic>One internal topic.</mods:topic>
+    <mods:topic>Another internal topic. </mods:topic>
+  </mods:subject>
+
+  <!-- No vocabular. Internal fields: 'title' and 'subTitle'. -->
+  <mods:titleInfo>
+    <mods:title>The main title</mods:title>
+    <mods:subTitle>The main subTitle</mods:subTitle>
+  </mods:titleInfo>
+
+  <!-- AlternativeTitle object with type="alternative" -->
+  <mods:titleInfo type="alternative">
+    <mods:title>An alternative title</mods:title>
+    <mods:subTitle>An alternative subTitle</mods:subTitle>
+  </mods:titleInfo>
+
+  <!-- AlternativeTitle object with type="translated" into language 'da'-->
+  <mods:titleInfo type="translated" lang="da">
+    <mods:title>En alternativ titel</mods:title>
+    <mods:subTitle>en alternativ undertitel</mods:subTitle>
+  </mods:titleInfo>
+
+  <!-- AlternativeTitle object with type="uniform" -->
+  <mods:titleInfo type="uniform">
+    <mods:title>An uniform title</mods:title>
+    <mods:subTitle>An uniform subTitle</mods:subTitle>
+  </mods:titleInfo>
+
+  <!-- AlternativeTitle object with type="abbreviated" -->
+  <mods:titleInfo type="abbreviated">
+    <mods:title>abb. tit.</mods:title>
+    <mods:subTitle>abb. s. tit.</mods:subTitle>
+  </mods:titleInfo>
+
+  <!-- AlternativeTitle object with type="other" with a displayLabel -->
+  <mods:titleInfo otherType="other" displayLabel="I am a displayLabel">
+    <mods:title>Another title</mods:title>
+    <mods:subTitle>Another subTitle</mods:subTitle>
+  </mods:titleInfo>
+
+  <!-- Vocabular on typeOfResource value. Though not on the displayLabel. -->
+  <mods:typeOfResource displayLabel="Ikke noget vokabular her">text</mods:typeOfResource>
+</mods:mods>
+
+
