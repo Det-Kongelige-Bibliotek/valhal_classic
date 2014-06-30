@@ -67,7 +67,7 @@ module Concerns
         !self.ie.nil?
       end
 
-      # Extracts the relations, which are valid for work.
+      # Extracts the relations, which are valid for instance (which is going to replace representation).
       def get_relations
         res = Hash.new
         relations = METADATA_RELATIONS_CONFIG['instance']
