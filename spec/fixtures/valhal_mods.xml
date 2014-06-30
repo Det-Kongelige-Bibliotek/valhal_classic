@@ -31,7 +31,7 @@
       <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/aut.html">Author</mods:roleTerm>
     </mods:role>
   </mods:name>
-  <mods:name type="corporate" authorityURI="http://authority.org/person01">
+  <mods:name type="corporate" authorityURI="http://authority.org/corporation01">
     <mods:namePart>The name of an author institution with an authority</mods:namePart>
     <mods:role>
       <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/aut.html">Author</mods:roleTerm>
@@ -151,7 +151,7 @@
   </mods:name>
 
   <!-- Agent with relation="Addressee"-->
-  <mods:name type="corporate" authorityURI="http://authority.org/person01">
+  <mods:name type="corporate" authorityURI="http://authority.org/corporation01">
     <mods:namePart>The name of a receiving/addressed institution/organization with an authority</mods:namePart>
     <mods:role>
       <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/rcp.html">Addressee</mods:roleTerm>
@@ -165,7 +165,7 @@
   </mods:name>
 
   <!-- Agent with relation="Scribe"-->
-  <mods:name type="corporate" authorityURI="http://authority.org/person01">
+  <mods:name type="corporate" authorityURI="http://authority.org/corporation01">
     <mods:namePart>The name of a scribing institution/organization with an authority</mods:namePart>
     <mods:role>
       <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/scr.html">Scribe</mods:roleTerm>
