@@ -11,19 +11,19 @@ module Datastreams
       t.subTitle()
       t.workType()
 
-      t.carthographicsScale()
-      t.carthographicsCoordinates()
+      t.cartographicsScale()
+      t.cartographicsCoordinates()
       t.dateCreated()
       t.dateIssued()
       t.dateOther()
       t.genre()
       t.languageOfCataloging()
-      t.physicalDescriptionForm()
-      t.physicalDescriptionNote()
       t.recordOriginInfo()
       t.shelfLocator()
       t.tableOfContents()
       t.topic()
+      t.typeOfResource()
+      t.typeOfResourceLabel()
 
       t.alternativeTitle do
         t.title()
