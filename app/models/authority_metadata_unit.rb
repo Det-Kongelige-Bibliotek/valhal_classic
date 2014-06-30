@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+# Uses the configurations METADATA_RELATIONS_CONFIG and AMU_TYPES
 class AuthorityMetadataUnit < ActiveFedora::Base
 
   #include Solr::Indexable
@@ -14,6 +15,18 @@ class AuthorityMetadataUnit < ActiveFedora::Base
   has_attributes :reference, datastream: 'descMetadata', :multiple => true
 
   validates_with AMUValidator
+
+  # Extracts the relations, which are valid for this
+  def get_relations
+    res = Hash.new
+    relations = METADATA_RELATIONS_CONFIG['authority_metadata_unit'][type]
+    get_all_relations.each do |k,v|
+      if relations.include?(k) && v.empty? == false
+        res[k] = v
+      end
+    end
+    res
+  end
 
   # The fields for the SOLR index.
 #  has_solr_fields do |m|

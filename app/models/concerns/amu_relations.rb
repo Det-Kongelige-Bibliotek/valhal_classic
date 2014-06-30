@@ -11,8 +11,6 @@ module Concerns
 
       # Topic relationships to AuthorityMetadata
       has_and_belongs_to_many :isTopicOf, :class_name => 'ActiveFedora::Base', :property=>:is_topic_of, :inverse_of => :has_topic
-      # Geographic relationships to AuthorityMetadata
-      has_and_belongs_to_many :isGeographicOf, :class_name => 'ActiveFedora::Base', :property=>:is_geographic_of, :inverse_of => :has_geographic
       # Created relationships to AuthorityMetadata
       has_and_belongs_to_many :isCreatedOf, :class_name => 'ActiveFedora::Base', :property=>:is_created_of, :inverse_of => :has_created
       # Origin relationships to AuthorityMetadata
@@ -50,11 +48,10 @@ module Concerns
       has_and_belongs_to_many :isDigitizerOf, :class_name => 'ActiveFedora::Base', :property=>:is_digitizer_of, :inverse_of => :has_digitizer
     end
 
-    # @return All the relations defined in this module.
-    def getRelations
+    # @return All the relations defined in this module. Includes the ones without any content.
+    def get_all_relations
       res = Hash.new
       res['isTopicOf'] = self.isTopicOf
-      res['isGeographicOf'] = self.isGeographicOf
       res['isCreatedOf'] = self.isCreatedOf
       res['isOriginOf'] = self.isOriginOf
       res['isAddresseeOf'] = self.isAddresseeOf

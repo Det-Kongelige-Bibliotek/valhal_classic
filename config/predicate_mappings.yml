@@ -39,7 +39,10 @@
     :has_origin: hasOrigin
     # Origin relationship from metadata perspective
     :is_origin_of: isOriginOf
-
+    # Created relationship from work/instance perspective
+    :has_created: hasCreated
+    # Created relationship from metadata perspective
+    :is_created_of: isCreatedOf
 
     ### AGENTS ONLY ###
     # Addressee relationship from work/instance perspective

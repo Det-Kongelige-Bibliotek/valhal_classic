@@ -26,6 +26,24 @@
   <% end %>
 </div>
 
-
-
+<div class="row">
+  <% @amu.get_relations.each do |k, v| %>
+      <div class="span2">
+        <strong><%= k %></strong>
+      </div>
+      <% v.each do |relation| %>
+        <div class="span8">
+          <%= link_to (relation) do%>
+            <% if relation.is_a?(Work) %>
+              <i class="icon-chevron-up"></i>
+              <%= relation.get_title_for_display %>
+            <% else %>
+              <i class="icon-chevron-down"></i>
+              <%= relation.get_title_for_display %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+  <% end %>
+</div>
 
