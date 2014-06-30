@@ -1,0 +1,12 @@
+development:
+  admin_pids: ["spec-admin-pid"]
+  dod_workflow_listener_switch: "off"
+
+test:
+  admin_pids: ["spec-admin-pid"]
+  dod_workflow_listener_switch: "off"
+
+production:
+  admin_pids: ["spec-admin-pid"]
+  dod_workflow_listener_switch: "off"
+
