@@ -5,6 +5,7 @@ module Concerns
 
     included do
       include IntellectualEntity
+      include WorkInstanceRelations
       # Descriptive metadata for the label
       has_metadata :name => 'provenanceMetadata', :type => ActiveFedora::SimpleDatastream do |m|
         m.field 'label', :string
@@ -64,6 +65,18 @@ module Concerns
       # @return Whether any intellectual entity for this representation has been defined.
       def has_ie?
         !self.ie.nil?
+      end
+
+      # Extracts the relations, which are valid for work.
+      def get_relations
+        res = Hash.new
+        relations = METADATA_RELATIONS_CONFIG['instance']
+        get_all_relations.each do |k,v|
+          if relations.include?(k) && v.empty? == false
+            res[k] = v
+          end
+        end
+        res
       end
 
       private

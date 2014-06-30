@@ -1,7 +1,9 @@
 # -*- encoding : utf-8 -*-
 module Concerns
-  # Handles all relationships between a Work and authority-metadata-units, from the Works perspective.
-  module WorkRelations
+  # Handles all relationships between authority-metadata-units and Work/Instance, from the perspective of the Work/Instance.
+  # These are all the relations possible for both Work and Instance, though some of these are only possible for Work,
+  # and some are only possible for Instance, whereas others are possible for both.
+  module WorkInstanceRelations
     extend ActiveSupport::Concern
 
     included do
@@ -46,7 +48,6 @@ module Concerns
       has_and_belongs_to_many :hasTranslator, :class_name => 'ActiveFedora::Base', :property=>:has_translator, :inverse_of => :is_translator_of
       # Digitizer relationship from work/instance perspective
       has_and_belongs_to_many :hasDigitizer, :class_name => 'ActiveFedora::Base', :property=>:has_translator, :inverse_of => :is_digitizer_of
-
     end
 
     # @return All the relations defined in this module.
@@ -70,6 +71,5 @@ module Concerns
       res['hasDigitizer'] = self.hasDigitizer
       res
     end
-
   end
 end
