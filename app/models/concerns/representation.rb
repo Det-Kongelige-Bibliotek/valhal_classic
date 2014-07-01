@@ -6,6 +6,7 @@ module Concerns
     included do
       include IntellectualEntity
       include WorkInstanceRelations
+=begin
       # Descriptive metadata for the label
       has_metadata :name => 'provenanceMetadata', :type => ActiveFedora::SimpleDatastream do |m|
         m.field 'label', :string
@@ -19,6 +20,7 @@ module Concerns
       before_validation(:on => :create) do
         self.label = self.class.name.to_s if self.label.blank?
       end
+=end
 
       # relationships that all representations must have
       # belongs_to ie(short for IntellectualEntity), can be a Book, Person and so on
@@ -84,7 +86,7 @@ module Concerns
 
     # @return The name of the representation (default the label)
     def representation_name
-      label
+      uuid
     end
 
     # @return whether its preservation can be inherited. For the representations, this is true (since it has the files).
