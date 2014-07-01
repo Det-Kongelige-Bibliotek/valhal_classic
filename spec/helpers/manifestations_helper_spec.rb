@@ -23,8 +23,7 @@ describe ManifestationsHelper do
 
     it 'should be possible with a TEI basic_files with metadata' do
       version = 'p5'
-      label = 'Tei p5 test label'
-      add_single_tei_rep({:tei_version => version}, @tei_file, {:label => label}, @manifestation).should be_true
+      add_single_tei_rep({:tei_version => version}, @tei_file, {}, @manifestation).should be_true
 
       @manifestation.single_file_reps.length.should == 1
       @manifestation.single_file_reps.first.kind_of?(SingleFileRepresentation).should be_true
@@ -32,7 +31,6 @@ describe ManifestationsHelper do
       @manifestation.single_file_reps.first.files.first.kind_of?(TeiFile).should be_true
       @manifestation.single_file_reps.first.files.first.original_filename.should == @tei_file.original_filename
 
-      @manifestation.single_file_reps.first.label.should == label
       @manifestation.single_file_reps.first.files.first.tei_version.should == version
     end
 
