@@ -6,6 +6,7 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
+      include Concerns::IntellectualEntity
       # A work can have many representations
       has_many :representations, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of, :inverse_of => :has_representation
     end
