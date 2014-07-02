@@ -6,21 +6,6 @@ module Concerns
     included do
       include IntellectualEntity
       include WorkInstanceRelations
-=begin
-      # Descriptive metadata for the label
-      has_metadata :name => 'provenanceMetadata', :type => ActiveFedora::SimpleDatastream do |m|
-        m.field 'label', :string
-        m.field 'uuid', :string
-      end
-
-      # Define the label as an accessionable part of the descriptive metadata.
-      has_attributes :label, datastream: 'provenanceMetadata', :multiple => false
-
-      # Automatical creation of a the label if it has not been defined.
-      before_validation(:on => :create) do
-        self.label = self.class.name.to_s if self.label.blank?
-      end
-=end
 
       # relationships that all representations must have
       # belongs_to ie(short for IntellectualEntity), can be a Book, Person and so on

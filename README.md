@@ -27,7 +27,7 @@ RabbitMQ. Note that RabbitMQ depends on Erlang.
 ImageMagick-devel (on RHEL6 run ’yum install ImageMagick-devel’ with repo ’rhel-x86_64-server-optional-6’)
 (on Ubuntu run ’apt-get install libmagickwand-dev’).
 
-File Information Tool Set (FITS), http://code.google.com/p/fits/downloads/list.
+File Information Tool Set (FITS), http://projects.iq.harvard.edu/fits/downloads.
 Set environment variable FITS_HOME to the fully qualified file name of the FITS script.
 We have tested with FITS 0.6.2
 
@@ -42,12 +42,6 @@ Run
 In the config directory, create an application.local.yml file based on the application.local.template.yml file.
 
 Run RabbitMQ on default port - 5672 (on RHEL6 there might be a Qpid daemon running on port 5672 already)
-
-$ source $HOME/.rvm/scripts/rvm
-
-$ rvm install ruby-1.9.3
-
-$ rvm use 1.9.3
 
 $ bundle install
 
