@@ -40,7 +40,7 @@ describe "transformation" do
 
   end
 
-  describe "Work" do
+  describe "Work and Instance to MODS" do
     before :all do
       @place = AuthorityMetadataUnit.create(:type=>'place', :value => 'TEST place', :reference => 'http://authority.org/place')
       @concept = AuthorityMetadataUnit.create(:type=>'concept', :value => 'TEST concept', :reference => 'http://authority.org/concept')
@@ -57,7 +57,7 @@ describe "transformation" do
       @work.descMetadata.topic = 'Topic'
       @work.descMetadata.cartographicsScale = 'CartographicsScale'
       @work.descMetadata.cartographicsCoordinates = 'CartographicsCoordinates'
-      @work.descMetadata.typeOfResource = 'TypeOfResource'
+      @work.descMetadata.typeOfResource = 'text' #'TypeOfResource'
       @work.descMetadata.typeOfResourceLabel = 'TypeOfResourceLabel'
       @work.descMetadata.dateCreated = 'DateCreated'
       @work.descMetadata.dateOther = 'DateOther'
@@ -132,11 +132,29 @@ describe "transformation" do
     end
 
     it 'should be possible to extract the metadata' do
-      puts TransformationService.transform_to_mods(@work)
+      mods = TransformationService.transform_to_mods(@work)
+      xsd = Nokogiri::XML::Schema(File.read("#{Rails.root}/spec/fixtures/mods-3-5.xsd"))
+      output = xsd.validate(mods)
+
+      #puts mods
+      output.each do |error|
+        puts error
+      end
+
+      output.should be_empty
     end
 
     it 'should be possible to extract the metadata' do
-      puts TransformationService.transform_to_mods(@instance)
+      mods = TransformationService.transform_to_mods(@instance)
+      xsd = Nokogiri::XML::Schema(File.read("#{Rails.root}/spec/fixtures/mods-3-5.xsd"))
+      output = xsd.validate(mods)
+
+      #puts mods
+      output.each do |error|
+        puts error
+      end
+
+      output.should be_empty
     end
   end
 

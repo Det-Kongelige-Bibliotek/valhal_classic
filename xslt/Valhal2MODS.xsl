@@ -42,16 +42,20 @@
       </xsl:for-each>
 
       <!-- Adding language with attribute authority from language objects -->
-      <xsl:for-each select="fields/language">
+      <xsl:if test="fields/language">
         <xsl:element name="mods:language">
-          <xsl:if test="authority">
-            <xsl:attribute name="authorityURI">
-              <xsl:value-of select="authority" />
-            </xsl:attribute>
-          </xsl:if>
-          <xsl:value-of select="value" />
+          <xsl:for-each select="fields/language">
+            <xsl:element name="mods:languageTerm">
+              <xsl:if test="authority">
+                <xsl:attribute name="authorityURI">
+                  <xsl:value-of select="authority" />
+                </xsl:attribute>
+              </xsl:if>
+              <xsl:value-of select="value" />
+            </xsl:element>
+          </xsl:for-each>
         </xsl:element>
-      </xsl:for-each>
+      </xsl:if>
 
       <!-- Adding shelfLocator from field 'shelfLocator' -->
       <xsl:for-each select="fields/shelfLocator">
@@ -578,7 +582,9 @@
         <xsl:element name="mods:recordInfo">
           <xsl:for-each select="fields/languageOfCataloging">
             <xsl:element name="mods:languageOfCataloging">
-              <xsl:value-of select="." />
+              <xsl:element name="mods:languageTerm">
+                <xsl:value-of select="." />
+              </xsl:element>
             </xsl:element>
           </xsl:for-each>
         </xsl:element>
@@ -588,7 +594,7 @@
       <xsl:if test="fields/recordOriginInfo">
         <xsl:element name="mods:recordInfo">
           <xsl:for-each select="fields/recordOriginInfo">
-            <xsl:element name="mods:originInfo">
+            <xsl:element name="mods:recordOrigin">
               <xsl:value-of select="." />
             </xsl:element>
           </xsl:for-each>
@@ -624,7 +630,7 @@
       <!-- Adding subject for place with relation topic -->
       <xsl:if test="hasTopic/type='place'">
         <xsl:element name="mods:subject">
-          <xsl:attribute name="type">
+          <xsl:attribute name="displayLabel">
             <xsl:value-of select="'place'" />
           </xsl:attribute>
           <xsl:for-each select="hasTopic[type='place']">
@@ -648,12 +654,12 @@
               <xsl:attribute name="type">
                 <xsl:value-of select="'personal'" />
               </xsl:attribute>
-              <xsl:element name="mods:nameTerm">
-                <xsl:if test="reference">
-                  <xsl:attribute name="authorityURI">
-                    <xsl:value-of select="reference" />
-                  </xsl:attribute>
-                </xsl:if>
+              <xsl:if test="reference">
+                <xsl:attribute name="authorityURI">
+                  <xsl:value-of select="reference" />
+                </xsl:attribute>
+              </xsl:if>
+              <xsl:element name="mods:namePart">
                 <xsl:value-of select="value" />
               </xsl:element>
             </xsl:element>
@@ -680,7 +686,7 @@
       <!-- Adding subject for concept with relation topic -->
       <xsl:if test="hasTopic/type='concept'">
         <xsl:element name="mods:subject">
-          <xsl:attribute name="type">
+          <xsl:attribute name="displayLabel">
             <xsl:value-of select="'concept'" />
           </xsl:attribute>
           <xsl:for-each select="hasTopic[type='concept']">
@@ -699,7 +705,7 @@
       <!-- Adding subject for event with relation topic -->
       <xsl:if test="hasTopic/type='event'">
         <xsl:element name="mods:subject">
-          <xsl:attribute name="type">
+          <xsl:attribute name="displayLabel">
             <xsl:value-of select="'event'" />
           </xsl:attribute>
           <xsl:for-each select="hasTopic[type='event']">
@@ -718,7 +724,7 @@
       <!-- Adding subject for physicalThing with relation topic -->
       <xsl:if test="hasTopic/type='physicalThing'">
         <xsl:element name="mods:subject">
-          <xsl:attribute name="type">
+          <xsl:attribute name="displayLabel">
             <xsl:value-of select="'physicalThing'" />
           </xsl:attribute>
           <xsl:for-each select="hasTopic[type='physicalThing']">
