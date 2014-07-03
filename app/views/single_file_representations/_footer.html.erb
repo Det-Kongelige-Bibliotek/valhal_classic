@@ -1,4 +1,5 @@
 <%= link_to 'Show', @single_file_representation %> |
+<%= link_to 'Edit metadata', edit_single_file_representation_path(@single_file_representation) %> |
 <%= link_to 'Preservation settings', preservation_single_file_representation_path(@single_file_representation) %> |
 <% if @single_file_representation.ie.kind_of?(Work) %>
     <%= link_to "Work: #{@single_file_representation.ie.get_title_for_display}", work_path(@single_file_representation.ie) %>
