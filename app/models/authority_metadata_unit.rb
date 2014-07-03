@@ -1,9 +1,8 @@
 # -*- encoding : utf-8 -*-
 # Uses the configurations METADATA_RELATIONS_CONFIG and AMU_TYPES
 class AuthorityMetadataUnit < ActiveFedora::Base
-
-  #include Solr::Indexable
   include Concerns::AMURelations
+  include Solr::Indexable
 
   has_metadata :name => 'descMetadata', :type => Datastreams::AuthorityDescMetadata
 
@@ -29,10 +28,10 @@ class AuthorityMetadataUnit < ActiveFedora::Base
   end
 
   # The fields for the SOLR index.
-#  has_solr_fields do |m|
+  has_solr_fields do |m|
     # Fields from DescMetadata
-#    m.field 'authority_type', method: descMetadata.type, :index_as => [:string, :indexed, :stored]
-#    m.field 'authority_value', method: :value, :index_as => [:string, :indexed, :stored]
-#    m.field 'authority_reference', method: :reference, :index_as => [:string, :indexed, :stored]
-#  end
+    m.field 'amu_type', method: :type, :index_as => [:string, :indexed, :stored]
+    m.field 'amu_value', method: :value, :index_as => [:string, :indexed, :stored]
+    m.field 'amu_reference', method: :reference, :index_as => [:string, :indexed, :stored]
+  end
 end
