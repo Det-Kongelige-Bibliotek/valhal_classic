@@ -1,7 +1,9 @@
 # -*- encoding : utf-8 -*-
 module Concerns
-  # Handles all relationships between a Work and authority-metadata-units, from the Works perspective.
-  module WorkRelations
+  # Handles all relationships between authority-metadata-units and Work/Instance, from the perspective of the Work/Instance.
+  # These are all the relations possible for both Work and Instance, though some of these are only possible for Work,
+  # and some are only possible for Instance, whereas others are possible for both.
+  module WorkInstanceRelations
     extend ActiveSupport::Concern
 
     included do
@@ -9,13 +11,11 @@ module Concerns
       ## Relations to authority metadata units for the non-agent-specific relations
       #####################################################
 
-      # Topic relationships to AuthorityMetadata
+      # Topic relationships from work/instance perspective
       has_and_belongs_to_many :hasTopic, :class_name => 'ActiveFedora::Base', :property=>:has_topic, :inverse_of => :is_topic_of
-      # Geographic relationships to AuthorityMetadata
-      has_and_belongs_to_many :hasGeographic, :class_name => 'ActiveFedora::Base', :property=>:has_geographic, :inverse_of => :is_geographic_of
-      # Created relationships to AuthorityMetadata
+      # Created relationships from work/instance perspective
       has_and_belongs_to_many :hasCreated, :class_name => 'ActiveFedora::Base', :property=>:has_created, :inverse_of => :is_created_of
-      # Origin relationships to AuthorityMetadata
+      # Origin relationships from work/instance perspective
       has_and_belongs_to_many :hasOrigin, :class_name => 'ActiveFedora::Base', :property=>:has_origin, :inverse_of => :is_origin_of
 
       #####################################################
@@ -47,15 +47,13 @@ module Concerns
       # Translator relationship from work/instance perspective
       has_and_belongs_to_many :hasTranslator, :class_name => 'ActiveFedora::Base', :property=>:has_translator, :inverse_of => :is_translator_of
       # Digitizer relationship from work/instance perspective
-      has_and_belongs_to_many :hasDigitizer, :class_name => 'ActiveFedora::Base', :property=>:has_translator, :inverse_of => :is_digitizer_of
-
+      has_and_belongs_to_many :hasDigitizer, :class_name => 'ActiveFedora::Base', :property=>:has_digitizer, :inverse_of => :is_digitizer_of
     end
 
     # @return All the relations defined in this module.
-    def getRelations
+    def get_all_relations
       res = Hash.new
       res['hasTopic'] = self.hasTopic
-      res['hasGeographic'] = self.hasGeographic
       res['hasCreated'] = self.hasCreated
       res['hasOrigin'] = self.hasOrigin
       res['hasAddressee'] = self.hasAddressee
@@ -73,6 +71,5 @@ module Concerns
       res['hasDigitizer'] = self.hasDigitizer
       res
     end
-
   end
 end

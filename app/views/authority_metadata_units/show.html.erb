@@ -21,11 +21,29 @@
   </div>
   <% @amu.reference.each do |ref| %>
       <div class="span8">
-        <%= ref %>
+        <a href=<%= ref %> > <%= ref %> </a>
       </div>
   <% end %>
 </div>
 
-
-
+<% @amu.get_relations.each do |k, v| %>
+<div class="row">
+      <div class="span2">
+        <strong><%= k %></strong>
+      </div>
+      <% v.each do |relation| %>
+        <div class="span8">
+          <%= link_to (relation) do%>
+            <% if relation.is_a?(Work) %>
+              <i class="icon-home"></i>
+              <%= relation.get_title_for_display %>
+            <% else %>
+              <i class="icon-heart"></i>
+              <%= relation.label %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+</div>
+<% end %>
 

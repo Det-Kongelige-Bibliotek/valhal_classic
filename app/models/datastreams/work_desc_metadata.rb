@@ -3,7 +3,7 @@ module Datastreams
 
   # Datastream for the descriptive metadata for a Work.
   class WorkDescMetadata < ActiveFedora::OmDatastream
-    ALTERNATIVE_TITLE_TYPES = ['alternative', 'abbreviated', 'translated', 'uniform']
+    ALTERNATIVE_TITLE_TYPES = ['alternative', 'abbreviated', 'translated', 'uniform', 'other']
 
     set_terminology do |t|
       t.root(:path=>'fields')
@@ -11,19 +11,17 @@ module Datastreams
       t.subTitle()
       t.workType()
 
-      t.carthographicsScale()
-      t.carthographicsCoordinates()
+      t.cartographicsScale()
+      t.cartographicsCoordinates()
       t.dateCreated()
-      t.dateIssued()
       t.dateOther()
       t.genre()
       t.languageOfCataloging()
-      t.physicalDescriptionForm()
-      t.physicalDescriptionNote()
       t.recordOriginInfo()
-      t.shelfLocator()
       t.tableOfContents()
       t.topic()
+      t.typeOfResource()
+      t.typeOfResourceLabel()
 
       t.alternativeTitle do
         t.title()
@@ -186,7 +184,7 @@ module Datastreams
       language = sibling ? add_next_sibling_node(sibling, :language, val) :
           add_child_node(ng_xml.root, :language, val)
       content_will_change!
-      return node
+      return language
     end
 
     def remove_language

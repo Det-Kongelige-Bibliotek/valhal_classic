@@ -7,7 +7,6 @@ module Concerns
 
     included do
       include Concerns::IntellectualEntity
-
       # A work can have many representations
       has_many :representations, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of, :inverse_of => :has_representation
     end
@@ -61,18 +60,6 @@ module Concerns
         res += "<name>#{rep.representation_name}</name>"
         res += "<uuid>#{rep.uuid}</uuid>"
         res += '</representation>'
-      end
-      authors.each do |p|
-        res += '<author>'
-        res += "<name>#{p.comma_separated_lastname_firstname}</name>"
-        res += "<uuid>#{p.uuid}</uuid>"
-        res += '</author>'
-      end
-      people_concerned.each do |p|
-        res += '<related_person>'
-        res += "<name>#{p.comma_separated_lastname_firstname}</name>"
-        res += "<uuid>#{p.uuid}</uuid>"
-        res += '</related_person>'
       end
       res
     end

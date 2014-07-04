@@ -29,6 +29,10 @@ rescue => error
   CONFIG = {:ldap => {:user => 'sifd-ldap-read', :password => ''}, :test=>{:user=>'sifdtest', :password=>''}}
 end
 
+# Load metadata relations configuration
+METADATA_RELATIONS_CONFIG = YAML.load(File.read(File.expand_path('../metadata_relations_config.yml', __FILE__)))
+AMU_TYPES = METADATA_RELATIONS_CONFIG['authority_metadata_unit'].keys
+
 module Valhal
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

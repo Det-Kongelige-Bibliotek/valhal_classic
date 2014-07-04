@@ -3,7 +3,6 @@ module Datastreams
 
   # Datastream for the descriptive metadata for an Instance.
   class InstanceDescMetadata < ActiveFedora::OmDatastream
-    ALTERNATIVE_TITLE_TYPES = ['alternative', 'abbreviated', 'translated', 'uniform']
 
     set_terminology do |t|
       t.root(:path=>'fields')
@@ -14,7 +13,6 @@ module Datastreams
       t.dateCreated()
       t.dateIssued()
       t.dateOther()
-      t.carthographicsCoordinates()
       t.recordOriginInfo()
       t.tableOfContents()
 

@@ -1,27 +1,42 @@
 require 'spec_helper'
 
-describe 'PersonFinderService' do
+describe 'AMUFinderService' do
 
-  before(:each) do
-    @service = PersonFinderService
+  before(:all) do
+    @service = AMUFinderService
     @xml = File.read("#{Rails.root}/spec/fixtures/mods_digitized_book.xml")
-    Person.new(lastname: 'Klee', firstname: 'Frederik').save
+    @amu = AuthorityMetadataUnit.create(:type=>'agent/person', :value=>'Klee, Frederik')
+  end
+
+  after(:all) do
+    AuthorityMetadataUnit.all.each do |amu|
+      amu.destroy
+    end
   end
 
   it 'should return a person object' do
-    p = @service.find_or_create_person(@xml)
-    p.should be_a(Person)
-    p.name.should eql 'Frederik Klee'
+    agents = @service.find_agents_with_relation_from_mods(@xml)
+    agents.should be_a(Hash)
+    agents.should_not be_empty
+    agents.size.should == 1
+    amu = agents.keys.first
+    amu.should be_a(AuthorityMetadataUnit)
+    amu.type.should == @amu.type
+    amu.value.should == @amu.value
+    amu.pid.should == @amu.pid
+    rel = agents.values.first
+    rel.should be_a(String)
+    rel.should == 'Author'
   end
 
   it 'should return nil if there was no person data in the MODS XML' do
-    p = @service.find_or_create_person(File.read("#{Rails.root}/spec/fixtures/mods_digitized_book_without_author.xml"))
-    p.should be_nil
+    p = @service.find_agents_with_relation_from_mods(File.read("#{Rails.root}/spec/fixtures/mods_digitized_book_without_author.xml"))
+    p.should be_empty
   end
-
 
 end
 
+=begin
 describe 'Name class' do
 
   it 'should create a corporate name object' do
@@ -43,3 +58,4 @@ describe 'Name class' do
   end
 
 end
+=end

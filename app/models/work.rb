@@ -4,6 +4,7 @@ class Work < ActiveFedora::Base
   include Concerns::Manifestation::Author
   include Concerns::Manifestation::Concerning
   include Concerns::Preservation
+  include Concerns::WorkInstanceRelations
   include Solr::Indexable
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
@@ -40,6 +41,18 @@ class Work < ActiveFedora::Base
     else
       return title + ", " + subTitle
     end
+  end
+
+  # Extracts the relations, which are valid for work.
+  def get_relations
+    res = Hash.new
+    relations = METADATA_RELATIONS_CONFIG['work']
+    get_all_relations.each do |k,v|
+      if relations.include?(k) && v.empty? == false
+        res[k] = v
+      end
+    end
+    res
   end
 
   after_save :add_ie_to_reps

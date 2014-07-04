@@ -6,7 +6,7 @@ module DigitisationHelper
 
   SERVICES_CONFIG = YAML.load_file("#{Rails.root}/config/services.yml")[Rails.env]
   include ManifestationsHelper
-  include PersonFinderService
+  include AMUFinderService
 
   #Subscribe to the DOD Digitisation Workflow queue
   #@param channel The channel to the message broker.
@@ -61,7 +61,7 @@ module DigitisationHelper
     logger.debug "#{Time.now.to_s} DEBUG: pdf_uri = #{pdf_uri}"
     work = update_or_create_work(message['id'], mods.to_s, pdf_uri)
 
-    person = find_or_create_person(mods.to_s)
+    person = find_or_create_agent_person(mods.to_s)
     unless person.nil?
       work.set_authors([person.pid], work)
     end

@@ -35,19 +35,14 @@
     :has_topic: hasTopic
     # Topic relationship from metadata perspective
     :is_topic_of: isTopicOf
-    # Geographic relationship from work/instance perspective
-    :has_geographic: hasGeographic
-    # Geographic relationship from metadata perspective
-    :is_geographic_of: isGeographicOf
-    # Created relationship from work/instance perspective
-    :has_created: hasCreated
-    # Created relationship from metadata perspective
-    :is_created_of: isCreatedOf
     # Origin relationship from work/instance perspective
     :has_origin: hasOrigin
     # Origin relationship from metadata perspective
     :is_origin_of: isOriginOf
-
+    # Created relationship from work/instance perspective
+    :has_created: hasCreated
+    # Created relationship from metadata perspective
+    :is_created_of: isCreatedOf
 
     ### AGENTS ONLY ###
     # Addressee relationship from work/instance perspective
