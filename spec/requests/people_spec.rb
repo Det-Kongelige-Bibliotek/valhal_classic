@@ -20,15 +20,6 @@ describe "Person" do
       page.should have_content("FNP LNP")
     end
 
-    it "Person exist in book" do
-      pending 'Failing unit-test'
-      visit "http://localhost:3000/people/new?locale=en"   #new_person_url
-      fill_in "person_firstname", :with => "FNP"
-      fill_in "person_lastname", :with => "LNP"
-      click_button "Create"
-      visit "http://localhost:3000/books/new?locale=en"       #new_book_url
-      page.should have_content("LNP, FNP")
-    end
 
     it "Person exist in work" do
       pending 'Failing unit-test'

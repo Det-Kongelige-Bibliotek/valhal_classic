@@ -34,6 +34,9 @@
 <%= form_for @work, :html=>{:multipart=>true, :class=>'form-horizontal'}, :url => {:action=> "update_file"} do|f| %>
     <div class="row">
       <div class="span9">
+        <%= fields_for :multiple_files, :html=>{:multipart=>true} do |builder| %>
+            <%= render 'multiple_file_upload', :f => builder %>
+        <% end %>
         <%= fields_for :single_file, :html=>{:multipart=>true} do |builder| %>
             <%= render 'single_file_upload', :f => builder %>
         <% end %>

@@ -10,19 +10,6 @@
 
 <hr/>
 <div>
-  <p><b>Books authored</b></p>
-  <% if @person.is_author_of_book? %>
-      <ul>
-        <% @person.authored_books.each do |book| %>
-            <li><%= link_to book.get_title_for_display, book_path(book) %></li>
-        <% end %>
-      </ul>
-  <% else %>
-      <p>No books authored by this person.</p>
-  <% end %>
-</div>
-<hr/>
-<div>
   <p><b>Works authored</b></p>
   <% if @person.is_author_of_work? %>
       <ul>
@@ -32,19 +19,6 @@
       </ul>
   <% else %>
       <p>No works authored by this person.</p>
-  <% end %>
-</div>
-<hr/>
-<div>
-  <p><b>Biographies / books concerning this person</b></p>
-  <% if @person.is_concerned_by_book? %>
-      <ul>
-        <% @person.concerning_books.each do |book| %>
-            <li><%= link_to book.get_title_for_display, book_path(book) %></li>
-        <% end %>
-      </ul>
-  <% else %>
-      <p>No books are concerning this person.</p>
   <% end %>
 </div>
 <hr/>

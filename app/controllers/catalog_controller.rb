@@ -37,18 +37,12 @@ class CatalogController < ApplicationController
 
     # solr field configuration for search results/index views
     person_solr_names = Person.solr_names
-    book_solr_names = Book.solr_names
     work_solr_names = Work.solr_names
     config.index.show_link = person_solr_names[:search_result_title]
     config.index.record_display_type = 'format'
 
     config.show.html_title = person_solr_names[:person_name]
     config.show.heading = person_solr_names[:person_name]
-    # solr field configuration for document/show views
-    config.show.html_title = book_solr_names[:title]
-    config.show.heading = book_solr_names[:title]
-    config.show.display_type = 'format'
-
     # solr field configuration for document/show views
     config.show.html_title = work_solr_names[:search_result_title]
     config.show.heading = work_solr_names[:search_result_title]
@@ -97,12 +91,10 @@ class CatalogController < ApplicationController
     config.add_index_field 'original_filename_t', :label => 'Name:'
     #config.add_index_field 'title_t', :label => 'Titel:'
     #config.add_index_field 'person_name_t', :label => 'Person Name:'
-    config.add_index_field book_solr_names[:search_results_book_authors], :label => 'Author(s):'
     config.add_index_field work_solr_names[:search_result_work_type] , :label => "Type of work:"
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
-    config.add_show_field book_solr_names[:title], :label => 'Title:'
     config.add_show_field person_solr_names[:person_name], :label => 'Person Name:'
     #config.add_show_field 'description_t', :label => 'Description:'
 

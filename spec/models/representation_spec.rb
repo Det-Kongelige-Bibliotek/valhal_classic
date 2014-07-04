@@ -70,15 +70,6 @@ describe Representation do
       rep.has_ie?.should be_false
     end
 
-    it 'should have an intellectual entity, when given one' do
-      rep = Representation.create!
-      book = Book.create(title: "title #{Time.now.nsec.to_s}")
-      book.representations << rep
-      book.save!
-      rep.reload
-      rep.has_ie?.should be_true
-    end
-
   end
 
   after (:all) do

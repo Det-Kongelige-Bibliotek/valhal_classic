@@ -10,17 +10,6 @@ module Concerns
         has_and_belongs_to_many :concerning_manifestations, :class_name => 'ActiveFedora::Base', :property => :is_concerned_by, :inverse_of => :concerning
       end
 
-      # extract the manifestations of the type book.
-      def concerning_books
-        res = []
-        concerning_manifestations.each do |man|
-          if man.kind_of? Book
-            res << man
-          end
-        end
-        res
-      end
-
       # extract the manifestations of the type work.
       def concerning_works
         res = []
@@ -30,11 +19,6 @@ module Concerns
           end
         end
         res
-      end
-
-      # Determines whether any book concerns this person.
-      def is_concerned_by_book?
-        concerning_books.any?
       end
 
       # Determines whether any work concerns this person.
