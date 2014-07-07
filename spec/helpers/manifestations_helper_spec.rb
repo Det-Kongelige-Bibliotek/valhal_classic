@@ -94,7 +94,7 @@ describe WorkHelper do
     end
 
     it 'should be possible with a single tiff basic_files' do
-      add_ordered_file_rep([@tiff1], {}, @manifestation).should be_true
+      add_ordered_file_rep([@tiff1], {}, nil, @manifestation).should be_true
 
       @manifestation.ordered_reps.length.should == 1
       @manifestation.ordered_reps.first.kind_of?(OrderedRepresentation).should be_true
@@ -104,7 +104,7 @@ describe WorkHelper do
     end
 
     it 'should be possible with several tiff basic_files' do
-      add_ordered_file_rep([@tiff1, @tiff2], {}, @manifestation).should be_true
+      add_ordered_file_rep([@tiff1, @tiff2], {}, nil, @manifestation).should be_true
 
       @manifestation.ordered_reps.length.should == 1
       @manifestation.ordered_reps.first.kind_of?(OrderedRepresentation).should be_true
@@ -116,7 +116,7 @@ describe WorkHelper do
     end
 
     it 'should not be possible with an binary basic_files' do
-      add_ordered_file_rep([@other_file], {}, @manifestation).should be_false
+      add_ordered_file_rep([@other_file], {}, nil, @manifestation).should be_false
 
       @manifestation.ordered_reps.length.should == 0
     end
