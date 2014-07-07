@@ -24,21 +24,23 @@
     <mods:shelfLocator>The location on the shelf</mods:shelfLocator>
   </mods:location>
 
-  <!-- Agent with relation="Author"-->
+  <!-- Agent with relation="Author"
+      (can be either agent/person or agent/organization, and either with or without and authority) -->
+  <mods:name type="corporate" authorityURI="http://authority.org/corporation01">
+    <mods:namePart>The name of an author institution with an authority</mods:namePart>
+    <mods:role>
+      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/aut.html">Author</mods:roleTerm>
+    </mods:role>
+  </mods:name>
   <mods:name type="personal">
     <mods:namePart>The name of an author without an authority</mods:namePart>
     <mods:role>
       <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/aut.html">Author</mods:roleTerm>
     </mods:role>
   </mods:name>
-  <mods:name type="corporate" authorityURI="http://authority.org/person01">
-    <mods:namePart>The name of an author institution with an authority</mods:namePart>
-    <mods:role>
-      <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/aut.html">Author</mods:roleTerm>
-    </mods:role>
-  </mods:name>
 
-  <!-- Agent with relation="Contributor"-->
+  <!-- Agent with relation="Contributor"
+      (can be either agent/person or agent/organization, and either with or without and authority) -->
   <mods:name type="corporate">
     <mods:namePart>The name of a contributing institution/organization without an authority</mods:namePart>
     <mods:role>
@@ -52,7 +54,8 @@
     </mods:role>
   </mods:name>
 
-  <!-- Agent with relation="Creator"-->
+  <!-- Agent with relation="Creator"
+      (can be either agent/person or agent/organization, and either with or without and authority) -->
   <mods:name type="corporate">
     <mods:namePart>The name of a creating institution/organization without an authority</mods:namePart>
     <mods:role>
@@ -66,7 +69,8 @@
     </mods:role>
   </mods:name>
 
-  <!-- Agent with relation="Owner"-->
+  <!-- Agent with relation="Owner"
+      (can be either agent/person or agent/organization, and either with or without and authority) -->
   <mods:name type="corporate">
     <mods:namePart>The name of an owner institution/organization without an authority</mods:namePart>
     <mods:role>
@@ -80,7 +84,8 @@
     </mods:role>
   </mods:name>
 
-  <!-- Agent with relation="Patron"-->
+  <!-- Agent with relation="Patron"
+      (can be either agent/person or agent/organization, and either with or without and authority) -->
   <mods:name type="corporate">
     <mods:namePart>The name of a patron institution/organization without an authority</mods:namePart>
     <mods:role>
@@ -94,7 +99,8 @@
     </mods:role>
   </mods:name>
 
-  <!-- Agent with relation="Publisher"-->
+  <!-- Agent with relation="Publisher"
+      (can be either agent/person or agent/organization, and either with or without and authority) -->
   <mods:name type="corporate">
     <mods:namePart>The name of a publishing institution/organization without an authority</mods:namePart>
     <mods:role>
@@ -108,7 +114,8 @@
     </mods:role>
   </mods:name>
 
-  <!-- Agent with relation="Photographer"-->
+  <!-- Agent with relation="Photographer"
+      (can be either agent/person or agent/organization, and either with or without and authority) -->
   <mods:name type="corporate">
     <mods:namePart>The name of a photographing institution/organization without an authority</mods:namePart>
     <mods:role>
@@ -122,7 +129,8 @@
     </mods:role>
   </mods:name>
 
-  <!-- Agent with relation="Performer"-->
+  <!-- Agent with relation="Performer"
+      (can be either agent/person or agent/organization, and either with or without and authority) -->
   <mods:name type="corporate">
     <mods:namePart>The name of a performing institution/organization without an authority</mods:namePart>
     <mods:role>
@@ -136,7 +144,8 @@
     </mods:role>
   </mods:name>
 
-  <!-- Agent with relation="Printer"-->
+  <!-- Agent with relation="Printer"
+      (can be either agent/person or agent/organization, and either with or without and authority) -->
   <mods:name type="corporate">
     <mods:namePart>The name of a printing institution/organization without an authority</mods:namePart>
     <mods:role>
@@ -150,8 +159,9 @@
     </mods:role>
   </mods:name>
 
-  <!-- Agent with relation="Addressee"-->
-  <mods:name type="corporate" authorityURI="http://authority.org/person01">
+  <!-- Agent with relation="Addressee"
+      (can be either agent/person or agent/organization, and either with or without and authority) -->
+  <mods:name type="corporate" authorityURI="http://authority.org/corporation01">
     <mods:namePart>The name of a receiving/addressed institution/organization with an authority</mods:namePart>
     <mods:role>
       <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/rcp.html">Addressee</mods:roleTerm>
@@ -164,8 +174,9 @@
     </mods:role>
   </mods:name>
 
-  <!-- Agent with relation="Scribe"-->
-  <mods:name type="corporate" authorityURI="http://authority.org/person01">
+  <!-- Agent with relation="Scribe"
+      (can be either agent/person or agent/organization, and either with or without and authority) -->
+  <mods:name type="corporate" authorityURI="http://authority.org/corporation01">
     <mods:namePart>The name of a scribing institution/organization with an authority</mods:namePart>
     <mods:role>
       <mods:roleTerm authorityURI="http://id.loc.gov/vocabulary/relators/scr.html">Scribe</mods:roleTerm>
@@ -178,7 +189,8 @@
     </mods:role>
   </mods:name>
 
-  <!-- Agent with relation="Translator"-->
+  <!-- Agent with relation="Translator"
+      (can be either agent/person or agent/organization, and either with or without and authority) -->
   <mods:name type="corporate">
     <mods:namePart>The name of a translating institution/organization without an authority</mods:namePart>
     <mods:role>
@@ -192,7 +204,8 @@
     </mods:role>
   </mods:name>
 
-  <!-- Agent with relation="Digitizer" (which is does not have an authority definition) -->
+  <!-- Agent with relation="Digitizer" (which is does not have an authority definition in MARC relators)
+      (can be either agent/person or agent/organization, and either with or without and authority) -->
   <mods:name type="corporate">
     <mods:namePart>The name of a contributing institution/organization without an authority</mods:namePart>
     <mods:role>
