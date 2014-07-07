@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class WorksController < ApplicationController
-  include ManifestationsHelper # methods: add_single_file_rep, set_authors, set_concerned_people
+  include WorkHelper # methods: add_single_file_rep, set_authors, set_concerned_people
   include PreservationHelper # methods: update_preservation_profile_from_controller
   include DisseminationService # methods: ??
 

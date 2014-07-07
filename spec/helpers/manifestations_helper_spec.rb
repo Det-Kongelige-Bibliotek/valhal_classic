@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe ManifestationsHelper do
+describe WorkHelper do
 
   describe '#add_single_tei_rep' do
     before(:each) do

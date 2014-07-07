@@ -5,7 +5,7 @@
 module DigitisationHelper
 
   SERVICES_CONFIG = YAML.load_file("#{Rails.root}/config/services.yml")[Rails.env]
-  include ManifestationsHelper
+  include WorkHelper
   include AMUFinderService
 
   #Subscribe to the DOD Digitisation Workflow queue

@@ -1,16 +1,16 @@
 # -*- encoding : utf-8 -*-
 
-# The helper methods for all manifestations.
-# Provides methods for generating representations and relationships generic for the manifestations.
-module ManifestationsHelper
+# The helper methods for all works.
+# Provides methods for generating representations and relationships generic for the works.
+module WorkHelper
   include UtilityHelper
-  # Creates and adds a SingleFileRepresentation with a TEI basic_files to the manifestation
+  # Creates and adds a SingleFileRepresentation with a TEI basic_files to the work
   # @param tei_metadata The metadata for the TEI file.
   # @param file The uploaded TEI file for the SingleFileRepresentation
   # @param rep_metadata The metadata for the SingleFileRepresentation
-  # @param manifestation The manifestation to contain the SingleFileRepresentation
+  # @param work The work to contain the SingleFileRepresentation
   # @return false if operation was unsuccessful
-  def add_single_tei_rep(tei_metadata, file, rep_metadata, manifestation)
+  def add_single_tei_rep(tei_metadata, file, rep_metadata, work)
     tei_file = TeiFile.new(tei_metadata)
     if tei_file.add_file(file, nil)
       tei_file.save!
@@ -18,15 +18,15 @@ module ManifestationsHelper
       return false
     end
 
-    create_as_single_file_rep(tei_file, rep_metadata, manifestation)
+    create_as_single_file_rep(tei_file, rep_metadata, work)
   end
 
-  # Creates and adds a SingleFileRepresentation with a basic basic_files to the manifestation
+  # Creates and adds a SingleFileRepresentation with a basic basic_files to the work
   # @param file The uploaded file for the SingleFileRepresentation
   # @param metadata The metadata for the SingleFileRepresentation
   # @param skip_fits boolean value determining whether to skip file characterisation or not
-  # @param manifestation The manifestation to contain the SingleFileRepresentation
-  def add_single_file_rep(file, metadata, skip_fits, manifestation)
+  # @param work The work to contain the SingleFileRepresentation
+  def add_single_file_rep(file, metadata, skip_fits, work)
     rep_file = BasicFile.new
     if rep_file.add_file(file, skip_fits)
       rep_file.save!
@@ -34,17 +34,17 @@ module ManifestationsHelper
       return false
     end
 
-    create_as_single_file_rep(rep_file, metadata, manifestation)
+    create_as_single_file_rep(rep_file, metadata, work)
   end
 
-  # Creates and adds a OrderedRepresentation with TIFF image basic_files to the manifestation
+  # Creates and adds a OrderedRepresentation with basic_files to the work
   # The StructMap for the OrderedRepresentation will be based on the order of the TIFF basic_files.
   # @param files The uploaded TIFF Image files for the OrderedRepresentation
   # @param metadata The metadata for the OrderedRepresentation
   # @param skip_fits boolean value determining whether to skip file characterisation or not
-  # @param manifestation The manifestation to contain the OrderedRepresentation
+  # @param work The work to contain the OrderedRepresentation
   # @return false if operation was unsuccessful
-  def add_ordered_file_rep(files, metadata, skip_fits, manifestation)
+  def add_ordered_file_rep(files, metadata, skip_fits, work)
     basic_files = []
 
     files.each do |f|
@@ -57,15 +57,15 @@ module ManifestationsHelper
       basic_files << bf
     end
 
-    create_as_order_rep(basic_files, metadata, manifestation)
+    create_as_order_rep(basic_files, metadata, work)
   end
 
-  # Creates and adds a OrderedRepresentation with basic basic_files to the manifestation
+  # Creates and adds a OrderedRepresentation with basic basic_files to the work
   # The StructMap for the OrderedRepresentation will be based on the order of the basic_files.
   # @param files The uploaded files for the OrderedRepresentation
   # @param metadata The metadata for the OrderedRepresentation
-  # @param manifestation The manifestation to contain the OrderedRepresentation
-  def add_order_rep(files, metadata, manifestation)
+  # @param work The work to contain the OrderedRepresentation
+  def add_order_rep(files, metadata, work)
     basic_files = []
 
     files.each do |f|
@@ -76,44 +76,44 @@ module ManifestationsHelper
       basic_files << file
     end
 
-    create_as_order_rep(basic_files, metadata, manifestation)
+    create_as_order_rep(basic_files, metadata, work)
 
   end
 
-  # Creates the author relationship between the manifestation and people behind the ids.
-  # @param ids The ids for the people who are author of the manifestation
-  # @param manifestation The manifestation which is authored by the people behind the ids.
-  def set_authors(ids, manifestation)
-    if ids.blank? or manifestation.blank? or contentless_array?(ids)
+  # Creates the author relationship between the work and people behind the ids.
+  # @param ids The ids for the people who are author of the work
+  # @param work The work which is authored by the people behind the ids.
+  def set_authors(ids, work)
+    if ids.blank? or work.blank? or contentless_array?(ids)
       return false
     end
 
-    manifestation.clear_authors
+    work.clear_authors
     ids.each do |author_pid|
       if author_pid && !author_pid.empty?
-        author = Person.find(author_pid)
-        manifestation.authors << author
+        author = AuthorityMetadataUnit.find(author_pid)
+        work.hasAuthor << author
       end
     end
-    manifestation.save!
+    work.save!
   end
 
-  # Creates the concerned relationship between the manifestation and people behind the ids.
-  # @param ids The ids for the people who are concerned about the manifestation
-  # @param manifestation The manifestation which concerns the people behind the ids.
-  def set_concerned_people(ids, manifestation)
-    if ids.blank? or manifestation.blank? or contentless_array?(ids)
+  # Creates the concerned relationship between the work and people behind the ids.
+  # @param ids The ids for the people who are concerned about the work
+  # @param work The work which concerns the people behind the ids.
+  def set_concerned_people(ids, work)
+    if ids.blank? or work.blank? or contentless_array?(ids)
       return false
     end
 
-    manifestation.clear_concerned_people
+    work.clear_concerned_people
     ids.each do |person_pid|
       if person_pid && !person_pid.empty?
-        person = Person.find(person_pid)
-        manifestation.people_concerned << person
+        person = AuthorityMetadataUnit.find(person_pid)
+        work.hasTopic << person
       end
     end
-    manifestation.save!
+    work.save!
   end
 
   # Creates the structmap for a representation based on the file_name order of the basic_files.
@@ -134,39 +134,39 @@ module ManifestationsHelper
   end
 
   private
-  # Creates a SingleFileRepresentation with the given basic_files and adds it to the manifestation
+  # Creates a SingleFileRepresentation with the given basic_files and adds it to the work
   # @param file The file for the SingleFileRepresentation
   # @param metadata The metadata for the SingleFileRepresentation
-  # @param manifestation The manifestation to contain the SingleFileRepresentation
-  def create_as_single_file_rep(file, metadata, manifestation)
+  # @param work The work to contain the SingleFileRepresentation
+  def create_as_single_file_rep(file, metadata, work)
     rep = SingleFileRepresentation.new(metadata)
     rep.files << file
     rep.save!
 
-    add_representation(rep, manifestation)
+    add_representation(rep, work)
   end
 
-  # Creates a OrderedRepresentation with the given basic_files and adds it to the manifestation
+  # Creates a OrderedRepresentation with the given basic_files and adds it to the work
   # The StructMap for the OrderedRepresentation will be generated based on the order of the basic_files.
   # @param files The ordered array of files for the ordered representation
   # @param metadata The metadata for the OrderedRepresentation
-  # @param manifestation The manifestation to contain the OrderedRepresentation
-  def create_as_order_rep(files, metadata, manifestation)
+  # @param work The work to contain the OrderedRepresentation
+  def create_as_order_rep(files, metadata, work)
     rep = OrderedRepresentation.new(metadata)
     rep.files << files
     generate_structmap(files, rep)
     rep.save!
 
-    add_representation(rep, manifestation)
+    add_representation(rep, work)
   end
 
-  # Adds a representation to a manifestation
-  # @param representation The representation to be added to the manifestation
-  # @param manifestation The manifestation to have the representation added.
-  def add_representation(representation, manifestation)
-    representation.ie = manifestation
-    manifestation.representations << representation
-    return representation.save && manifestation.save
+  # Adds a representation to a work
+  # @param representation The representation to be added to the work
+  # @param work The work to have the representation added.
+  def add_representation(representation, work)
+    representation.ie = work
+    work.representations << representation
+    return representation.save && work.save
   end
 
   # Generates a StructMap based on a ordered array of basic_files.
