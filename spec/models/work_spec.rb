@@ -4,8 +4,6 @@ require 'spec_helper'
 describe Work do
   subject { Work.new(title: 'test' + Time.now.nsec.to_s) }
 
-  it_behaves_like 'a manifestation with authors'
-  it_behaves_like 'a manifestation with concerns'
   it_behaves_like 'a preservable element'
 
   describe '#title' do
