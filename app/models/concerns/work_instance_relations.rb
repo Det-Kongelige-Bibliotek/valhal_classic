@@ -11,7 +11,7 @@ module Concerns
       ## Relations to authority metadata units for the non-agent-specific relations
       #####################################################
 
-      # Topic relationships from work/instance perspective
+      # Topic relationships from work/instance perspective  (includes the Agent->topic relation)
       has_and_belongs_to_many :hasTopic, :class_name => 'ActiveFedora::Base', :property=>:has_topic, :inverse_of => :is_topic_of
       # Created relationships from work/instance perspective
       has_and_belongs_to_many :hasCreated, :class_name => 'ActiveFedora::Base', :property=>:has_created, :inverse_of => :is_created_of

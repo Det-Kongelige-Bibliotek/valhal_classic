@@ -57,7 +57,7 @@ module MqListenerHelper
       when 'orderedrepresentation'
         return OrderedRepresentation.find(id)
       when 'person'
-        return Person.find(id)
+        return AuthorityMetadataUnit.find(id)
       else
         raise 'Unknown element type'
     end

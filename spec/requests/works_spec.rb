@@ -36,7 +36,7 @@ describe "Works" do
   end
 
   after(:each) do
-    Person.all.each { |person| person.delete }
+    AuthorityMetadataUnit.all.each { |amu| amu.delete }
     Work.all.each { |work| work.delete }
   end
 end

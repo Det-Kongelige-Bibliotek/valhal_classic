@@ -56,16 +56,6 @@ Valhal::Application.routes.draw do
     end
   end
 
-  resources :people do
-    member do
-      get 'show_image'
-      get 'image_url'
-      put 'add_manifest'
-      get 'preservation'
-      patch 'update_preservation_profile'
-    end
-  end
-
   resources :authority_metadata_units do
   end
 end
