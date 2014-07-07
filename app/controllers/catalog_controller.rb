@@ -36,13 +36,9 @@ class CatalogController < ApplicationController
     }
 
     # solr field configuration for search results/index views
-    person_solr_names = Person.solr_names
     work_solr_names = Work.solr_names
-    config.index.show_link = person_solr_names[:search_result_title]
     config.index.record_display_type = 'format'
 
-    config.show.html_title = person_solr_names[:person_name]
-    config.show.heading = person_solr_names[:person_name]
     # solr field configuration for document/show views
     config.show.html_title = work_solr_names[:search_result_title]
     config.show.heading = work_solr_names[:search_result_title]
@@ -73,7 +69,6 @@ class CatalogController < ApplicationController
     # :show may be set to false if you don't want the facet to be drawn in the 
     # facet bar
 
-    config.add_facet_field person_solr_names[:person_name], :label => 'Author', :sort => 'index'
     config.add_facet_field work_solr_names[:search_result_work_type], :label => 'Work Types', :sort => 'index'
 
 
@@ -95,7 +90,6 @@ class CatalogController < ApplicationController
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
-    config.add_show_field person_solr_names[:person_name], :label => 'Person Name:'
     #config.add_show_field 'description_t', :label => 'Description:'
 
     # "fielded" search configuration. Used by pulldown among other places.
