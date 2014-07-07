@@ -67,7 +67,7 @@ module Concerns
     # adds a content datastream to the object and generate techMetadata for the basic_files
     # basic_files must have the following methods [size, content_type, original_filename, tempfile]
     # return true if successful, else false
-    def add_file(file, skip_file_characterisation)
+    def add_file(file, skip_fits)
       valid_file = check_file?(file)
       if (valid_file)
         self.add_file_datastream(file.tempfile, :label => file.original_filename, :mimeType => file.content_type, :dsid => 'content')
@@ -77,7 +77,7 @@ module Concerns
         self.mime_type = file.content_type
         self.size = file.size
         self.file_uuid = UUID.new.generate
-        unless skip_file_characterisation
+        if (skip_fits.nil?) || (skip_fits.eql? 'false')
           self.add_fits_metadata_datastream(file)
         end
       end

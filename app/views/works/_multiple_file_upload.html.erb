@@ -1,0 +1,13 @@
+<div class="control-group">
+  <%= f.label :basic_files, 'Multiple file representations for the work', :class=>'control-label'  %>
+  <div class="controls">
+        <span class="btn btn-file">
+            <span class="js_button_text">Upload files</span>
+          <%= f.file_field :basic_files, :multiple => true, :id => 'fileupload' %>
+        </span>
+    <a class="btn btn-danger" href="#" id="file_clear" title="Clear file"><i class="icon-trash icon-white"></i></a>
+    <%= fields_for :rep do |builder| %>
+        <%= builder.text_field :label, :placeholder => 'Label' %>
+    <% end %>
+  </div>
+</div>

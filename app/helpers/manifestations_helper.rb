@@ -24,11 +24,11 @@ module ManifestationsHelper
   # Creates and adds a SingleFileRepresentation with a basic basic_files to the manifestation
   # @param file The uploaded file for the SingleFileRepresentation
   # @param metadata The metadata for the SingleFileRepresentation
-  # @param skip_file_characterisation boolean value determining whether to skip file characterisation or not
+  # @param skip_fits boolean value determining whether to skip file characterisation or not
   # @param manifestation The manifestation to contain the SingleFileRepresentation
-  def add_single_file_rep(file, metadata, skip_file_characterisation, manifestation)
+  def add_single_file_rep(file, metadata, skip_fits, manifestation)
     rep_file = BasicFile.new
-    if rep_file.add_file(file, skip_file_characterisation)
+    if rep_file.add_file(file, skip_fits)
       rep_file.save!
     else
       return false
@@ -41,22 +41,23 @@ module ManifestationsHelper
   # The StructMap for the OrderedRepresentation will be based on the order of the TIFF basic_files.
   # @param files The uploaded TIFF Image files for the OrderedRepresentation
   # @param metadata The metadata for the OrderedRepresentation
+  # @param skip_fits boolean value determining whether to skip file characterisation or not
   # @param manifestation The manifestation to contain the OrderedRepresentation
   # @return false if operation was unsuccessful
-  def add_tiff_order_rep(files, metadata, manifestation)
-    tiff_files = []
+  def add_ordered_file_rep(files, metadata, skip_fits, manifestation)
+    basic_files = []
 
     files.each do |f|
-      tf = TiffFile.new
-      unless tf.add_file(f, nil)
+      bf = BasicFile.new
+      unless bf.add_file(f, skip_fits)
         return false
       end
-      tf.save!
+      bf.save!
 
-      tiff_files << tf
+      basic_files << bf
     end
 
-    create_as_order_rep(tiff_files, metadata, manifestation)
+    create_as_order_rep(basic_files, metadata, manifestation)
   end
 
   # Creates and adds a OrderedRepresentation with basic basic_files to the manifestation

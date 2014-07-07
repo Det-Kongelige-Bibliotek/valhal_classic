@@ -81,6 +81,23 @@ class WorksController < ApplicationController
   def update_file
     @work = Work.find(params[:id])
     handle_arguments
+
+    if !params[:multiple_files].blank? && !params[:multiple_files][:basic_files].blank?
+      logger.debug 'Allowing user to order files...'
+      render action: 'sort_multiple_files'
+    else
+      redirect_to @work, notice: 'Work was successfully created.'
+    end
+  end
+
+  def create_structmap
+    @work = Work.find(params[:id])
+    logger.debug 'Creating structmap...'
+    if params[:structmap_file_order].blank?
+      logger.warn 'Cannot generate structmap, when no file_order is given.'
+    else
+      create_structmap_for_representation(params[:structmap_file_order], @work.ordered_reps.last)
+    end
     redirect_to @work, notice: 'Work was successfully created.'
   end
 
@@ -145,18 +162,32 @@ class WorksController < ApplicationController
     end
   end
 
+  def finish_work_with_structmap
+    @work = Work.find(params[:id])
+    create_structmap_for_representation(params['structmap_file_order'], @work.ordered_reps.last)
+    redirect_to @work, notice: 'work was successfully created.'
+  end
+
   private
   # Handles the parameter arguments
   # If any single basic_files is given, then a SingeFileRepresentation is made from it.
+  # If any multiple basic_files is given, then a OrderedRepresentation is made from it.
   #
   def handle_arguments
     if !params[:single_file].blank? && !params[:single_file][:basic_files].blank?
       logger.debug 'Creating a representation'
       add_single_file_rep(params[:single_file][:basic_files], params[:rep], params[:skip_file_characterisation], @work)
     end
+
     # add the authors to the work
     if !params[:person].blank? && !params[:person][:id].blank?
       set_authors(params[:person][:id], @work)
+    end
+
+    #Create ordered representation
+    if !params[:multiple_files].blank? && !params[:multiple_files][:basic_files].blank?
+      logger.debug 'Creating an ordered representation'
+      add_ordered_file_rep(params[:multiple_files][:basic_files], params[:rep], params[:skip_file_characterisation_multiple], @work)
     end
 
     # add the described persons to the work

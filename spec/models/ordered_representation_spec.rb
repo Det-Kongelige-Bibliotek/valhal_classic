@@ -25,55 +25,6 @@ describe OrderedRepresentation do
     subject.techMetadata.should_not be_nil
   end
 
-  describe '#ie' do
-    context 'with a book' do
-
-      let(:default_ie) do
-        Book.create(title: 'test book')
-      end
-
-      it 'should be able to have a association with a book' do
-        association_with_ie subject, default_ie
-      end
-
-      it 'should be able to saved with a association with a book' do
-        save_ie_association subject, default_ie
-
-      end
-
-      it 'should be able to retrieve a book from a saved Representation' do
-        ie_from_saved_rep subject, default_ie
-      end
-
-      it 'should be able to get values from a book via representation' do
-        values_from_ie_via_rep subject, default_ie, :title
-      end
-
-      context 'with a person' do
-        let(:default_ie) do
-          Person.all.each { |p| p.delete }
-          Person.create(firstname: 'the firstname', lastname: 'the lastname', :date_of_birth => Time.now.nsec.to_s)
-        end
-
-        it 'should be able to have a association with a person' do
-          association_with_ie subject, default_ie
-        end
-
-        it 'should be able to saved with a association with a person' do
-          save_ie_association subject, default_ie
-        end
-
-        it 'should be able to retrieve a person from a saved Representation' do
-          ie_from_saved_rep subject, default_ie
-        end
-
-        it 'should be able to get values from a person via representation' do
-          values_from_ie_via_rep subject, default_ie, :firstname
-        end
-      end
-    end
-  end
-
   describe '#basic_files' do
     context 'with multiple BasicFiles' do
       let(:default_files) do

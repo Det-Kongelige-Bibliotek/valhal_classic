@@ -48,8 +48,6 @@ module MqListenerHelper
   # @return The element with the given id and the given model.
   def find_element(id, model)
     case model.downcase
-      when 'book'
-        return Book.find(id)
       when 'work'
         return Work.find(id)
       when 'basicfile'

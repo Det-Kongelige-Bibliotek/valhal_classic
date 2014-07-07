@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-#Validator class for the Book model contains any custom Rails validation
+#Validator class for the Work model contains any custom Rails validation
 class WorkValidator < ActiveModel::Validator
   include ValidationHelper
   #Overridden from ActiveModel::Validator

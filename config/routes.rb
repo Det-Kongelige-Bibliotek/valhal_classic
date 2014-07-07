@@ -40,6 +40,8 @@ Valhal::Application.routes.draw do
 
   resources :works do
     member do
+      put 'create_structmap'
+      put 'finish_work_with_structmap'
       patch 'update_person'
       get 'show_person'
       patch 'update_metadata'
@@ -59,22 +61,6 @@ Valhal::Application.routes.draw do
       get 'show_image'
       get 'image_url'
       put 'add_manifest'
-      get 'preservation'
-      patch 'update_preservation_profile'
-    end
-  end
-
-  resources :books do
-    member do
-      put 'create_structmap'
-      patch 'update_person'
-      get 'show_person'
-      patch 'update_metadata'
-      get 'show_metadata'
-      patch 'update_file'
-      get 'show_file'
-      patch 'save_edit'
-      put 'finish_book_with_structmap'
       get 'preservation'
       patch 'update_preservation_profile'
     end
