@@ -6,7 +6,7 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
-      include Concerns::InstanceRelations
+      include Concerns::WorkInstanceRelations
       has_metadata :name => 'descMetadata', :type => Datastreams::InstanceDescMetadata
 
       # List of non-multiple key-value pairs
