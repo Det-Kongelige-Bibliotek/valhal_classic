@@ -30,8 +30,8 @@ class AuthorityMetadataUnit < ActiveFedora::Base
   # The fields for the SOLR index.
   has_solr_fields do |m|
     # Fields from DescMetadata
-    m.field 'amu_type', method: :type, :index_as => [:string, :indexed, :stored]
-    m.field 'amu_value', method: :value, :index_as => [:string, :indexed, :stored]
-    m.field 'amu_reference', method: :reference, :index_as => [:string, :indexed, :stored]
+    m.field 'amu_type', method: :type, :index_as => [:string, :stored, :indexed]
+    m.field 'amu_value', method: :value, :index_as => [:string, :stored, :indexed]
+    m.field 'amu_reference', method: :reference, :index_as => [:string, :stored, :indexed, :multivalued]
   end
 end

@@ -19,11 +19,11 @@
   <div class="span2">
     <strong>References</strong>
   </div>
-  <% @amu.reference.each do |ref| %>
-      <div class="span8">
-        <a href=<%= ref %> > <%= ref %> </a>
-      </div>
-  <% end %>
+  <div class="span8">
+    <% @amu.reference.each do |ref| %>
+      <a href=<%= ref %> > <%= ref %> </a> <br/>
+    <% end %>
+  </div>
 </div>
 
 <% @amu.get_relations.each do |k, v| %>
