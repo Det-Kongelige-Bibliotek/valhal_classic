@@ -23,8 +23,8 @@ describe SingleFileRepresentation do
   describe "#ie" do
       context "with a person" do
         let(:default_ie) do
-          Person.all.each { |p| p.delete }
-          Person.create(firstname: "the firstname", lastname: "the lastname", :date_of_birth => Time.now.nsec.to_s)
+          AuthorityMetadataUnit.all.each { |amu| amu.delete }
+          AuthorityMetadataUnit.create(value: 'the agent name', type: 'agent/person')
         end
 
         it 'should be able to have a association with a person' do

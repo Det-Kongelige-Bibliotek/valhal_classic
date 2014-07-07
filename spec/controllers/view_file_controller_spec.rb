@@ -11,11 +11,21 @@ describe ViewFileController do
     response.header['Content-Type'].should == file.mime_type
   end
 
-  it 'should not be possible to download a non-BasicFile' do
-    person = Person.create!(:firstname => 'firstname', :lastname => 'lastname', :date_of_birth => Time.now.nsec.to_s)
+  describe 'routing non-BasicFile' do
+    it 'should not be possible to download AuthorityMetadataUnit' do
+      amu = AuthorityMetadataUnit.create!(:type => 'agent/person', :value => 'agent name')
 
-    get :show, :pid => person.pid
-    response.status.should == 302
-    response.should redirect_to :root
+      get :show, :pid => amu.pid
+      response.status.should == 302
+      response.should redirect_to :root
+    end
+
+    it 'should not be possible to download AuthorityMetadataUnit' do
+      work = Work.create!(:work_type => 'NOT A FILE', :title => 'name of work')
+
+      get :show, :pid => work.pid
+      response.status.should == 302
+      response.should redirect_to :root
+    end
   end
 end

@@ -156,6 +156,7 @@ describe WorkHelper do
     end
   end
 
+=begin
   describe '#set_authors' do
     before(:each) do
       @manifestation = Work.create(:title => 'Work')
@@ -287,6 +288,7 @@ describe WorkHelper do
       p3.concerning_manifestations.length.should == 0
     end
   end
+=end
 
   describe '#create_structmap' do
     before(:each) do
