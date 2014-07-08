@@ -30,7 +30,7 @@ end
 
 
 When(/^I navigate to the basic file datastreams for that work$/) do
-  click_link('SingleFileRepresentation', exact: false)
+  click_link('SingleFileInstance', exact: false)
   click_link 'Instant_Apache_Solr.pdf'
 end
 

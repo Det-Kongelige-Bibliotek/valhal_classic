@@ -22,7 +22,7 @@ Valhal::Application.routes.draw do
   end
 
   #Standard resource mapping
-  resources :single_file_representations do
+  resources :single_file_instances do
     member do
       get 'preservation'
       patch 'update_preservation_profile'

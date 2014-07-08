@@ -15,7 +15,7 @@ describe WorkHelper do
       add_single_tei_rep({}, @tei_file, {}, @manifestation).should be_true
 
       @manifestation.single_file_reps.length.should == 1
-      @manifestation.single_file_reps.first.kind_of?(SingleFileRepresentation).should be_true
+      @manifestation.single_file_reps.first.kind_of?(SingleFileInstance).should be_true
       @manifestation.single_file_reps.first.files.length.should == 1
       @manifestation.single_file_reps.first.files.first.kind_of?(TeiFile).should be_true
       @manifestation.single_file_reps.first.files.first.original_filename.should == @tei_file.original_filename
@@ -26,7 +26,7 @@ describe WorkHelper do
       add_single_tei_rep({:tei_version => version}, @tei_file, {}, @manifestation).should be_true
 
       @manifestation.single_file_reps.length.should == 1
-      @manifestation.single_file_reps.first.kind_of?(SingleFileRepresentation).should be_true
+      @manifestation.single_file_reps.first.kind_of?(SingleFileInstance).should be_true
       @manifestation.single_file_reps.first.files.length.should == 1
       @manifestation.single_file_reps.first.files.first.kind_of?(TeiFile).should be_true
       @manifestation.single_file_reps.first.files.first.original_filename.should == @tei_file.original_filename
@@ -39,7 +39,7 @@ describe WorkHelper do
       add_single_tei_rep({}, @other_xml_file, {}, @manifestation).should be_true
 
       @manifestation.single_file_reps.length.should == 1
-      @manifestation.single_file_reps.first.kind_of?(SingleFileRepresentation).should be_true
+      @manifestation.single_file_reps.first.kind_of?(SingleFileInstance).should be_true
       @manifestation.single_file_reps.first.files.length.should == 1
       @manifestation.single_file_reps.first.files.first.kind_of?(TeiFile).should be_true
       @manifestation.single_file_reps.first.files.first.original_filename.should == @other_xml_file.original_filename
@@ -63,7 +63,7 @@ describe WorkHelper do
       add_single_file_rep(@tei_file, {}, nil, @manifestation).should be_true
 
       @manifestation.single_file_reps.length.should == 1
-      @manifestation.single_file_reps.first.kind_of?(SingleFileRepresentation).should be_true
+      @manifestation.single_file_reps.first.kind_of?(SingleFileInstance).should be_true
       @manifestation.single_file_reps.first.files.length.should == 1
       @manifestation.single_file_reps.first.files.first.kind_of?(BasicFile).should be_true
       @manifestation.single_file_reps.first.files.first.original_filename.should == @tei_file.original_filename
@@ -73,7 +73,7 @@ describe WorkHelper do
       add_single_file_rep(@octet_file, {}, nil, @manifestation).should be_true
 
       @manifestation.single_file_reps.length.should == 1
-      @manifestation.single_file_reps.first.kind_of?(SingleFileRepresentation).should be_true
+      @manifestation.single_file_reps.first.kind_of?(SingleFileInstance).should be_true
       @manifestation.single_file_reps.first.files.length.should == 1
       @manifestation.single_file_reps.first.files.first.kind_of?(BasicFile).should be_true
       @manifestation.single_file_reps.first.files.first.original_filename.should == @octet_file.original_filename

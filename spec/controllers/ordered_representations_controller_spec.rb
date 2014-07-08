@@ -286,7 +286,7 @@ describe OrderedRepresentationsController do
       bf.preservation_profile.should == profile
       bf.preservation_comment.should == comment
 
-      rep = SingleFileRepresentation.find(@rep.pid)
+      rep = SingleFileInstance.find(@rep.pid)
       rep.preservation_state.should_not be_blank
       rep.preservation_details.should_not be_blank
       rep.preservation_modify_date.should_not be_blank

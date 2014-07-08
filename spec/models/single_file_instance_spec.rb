@@ -2,10 +2,10 @@
 require 'spec_helper'
 require 'support/representation_spec_helper'
 
-describe SingleFileRepresentation do
+describe SingleFileInstance do
   include RepresentationSpecHelper
 
-  subject { SingleFileRepresentation.new }
+  subject { SingleFileInstance.new }
   it_behaves_like 'a preservable element'
 
   it "should have a datastream named descMetadata " do
@@ -87,7 +87,7 @@ describe SingleFileRepresentation do
       basic_file = BasicFile.new
       uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
       basic_file.add_file(uploaded_file, nil)
-      rep = SingleFileRepresentation.create!
+      rep = SingleFileInstance.create!
 
       rep.files << basic_file
 

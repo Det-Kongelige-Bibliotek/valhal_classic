@@ -2,10 +2,10 @@
 require 'spec_helper'
 
 describe 'Work relationships' do
-  describe '#single_file_representation' do
+  describe '#single_file_instance' do
     before :each do
       @work = Work.create(:title => 'The title' + Time.now.nsec.to_s)
-      @rep = SingleFileRepresentation.create
+      @rep = SingleFileInstance.create
     end
 
     it 'should be possible to define a ordered relation from work, which can be viewed both ways' do
@@ -17,7 +17,7 @@ describe 'Work relationships' do
     end
 
     it 'should be possible to have two representations defined from work' do
-      rep2 = SingleFileRepresentation.create
+      rep2 = SingleFileInstance.create
       @work.representations << @rep << rep2
       @work.save!
 
@@ -30,7 +30,7 @@ describe 'Work relationships' do
       @rep.ie = @work
       @rep.save!
       @rep.reload
-      rep2 = SingleFileRepresentation.create
+      rep2 = SingleFileInstance.create
       rep2.ie = @work
       rep2.save!
       rep2.reload
