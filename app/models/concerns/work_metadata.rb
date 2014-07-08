@@ -10,7 +10,7 @@ module Concerns
       has_metadata :name => 'descMetadata', :type => Datastreams::WorkDescMetadata
 
       # List of non-multiple key-value pairs
-      has_attributes :title, :subTitle, :workType, :carthographicsScale, :carthographicsCoordinates, :dateCreated,
+      has_attributes :title, :subTitle, :workType, :cartographicsScale, :cartographicsCoordinates, :dateCreated,
                      :tableOfContents, :typeOfResource, :typeOfResourceLabel,
                      datastream: 'descMetadata', :multiple => false
 

@@ -6,8 +6,8 @@ class Entity < ActiveFedora::Base
   has_metadata :name => 'descMetadata', :type => Datastreams::WorkDescMetadata
 
   # List of non-multiple key-value pairs
-  has_attributes :title, :subTitle, :workType, :dateCreated, :carthographicsScale,
-                 :carthographicsCoordinates, :recordOriginInfo, :tableOfContents,
+  has_attributes :title, :subTitle, :workType, :dateCreated, :cartographicsScale,
+                 :cartographicsCoordinates, :recordOriginInfo, :tableOfContents,
                  datastream: 'descMetadata', :multiple => false
 
   # List of multiple key-value pairs

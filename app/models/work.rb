@@ -4,30 +4,22 @@ class Work < ActiveFedora::Base
   include Concerns::Manifestation::Author
   include Concerns::Manifestation::Concerning
   include Concerns::Preservation
-  include Concerns::WorkInstanceRelations
+  include Concerns::WorkMetadata
   include Solr::Indexable
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
-  has_metadata :name => 'descMetadata', :type=>Datastreams::WorkMods
-
-  # TODO define restrictions for these metadata fields.
-  has_attributes :shelfLocator, :title, :subTitle, :typeOfResource, :publisher, :originPlace, :languageISO,
-                 :languageText, :subjectTopic, :dateIssued, :physicalExtent, :sysNum,
-                 datastream: 'descMetadata', :multiple => false
-  has_attributes :work_type, datastream: 'descMetadata', :at => [:genre], :multiple => false
 
   validates :title, :presence => true
   validates_with WorkValidator
 
   has_solr_fields do |m|
-    m.field "search_result_work_type", method: :work_type, :index_as => [:string, :indexed, :stored]
-    m.field "shelf_locator", method: :shelfLocator
-    m.field "title"
+    m.field "search_result_work_type", method: :workType, :index_as => [:string, :indexed, :stored]
+    m.field "title", method: :title
     m.field "sub_title", method: :subTitle
     m.field "type_of_resource", method: :typeOfResource
     m.field "sysNum", method: :sysNum, :index_as => [:string, :indexed, :stored]
     m.field "search_result_title", method: :get_title_for_display
-    m.field "work_type", method: :work_type
+    m.field "work_type", method: :workType
     m.field 'preservation_profile', method: :preservation_profile
     m.field 'preservation_state', method: :preservation_state
     m.field 'preservation_details', method: :preservation_details

@@ -3,7 +3,7 @@
   <div class="controls">
   <%= collection_select(:person_concerned,
                         :id,
-                        Person.all,
+                        AuthorityMetadataUnit.all,
                         :id,
                         :comma_separated_lastname_firstname,
                         options = { :prompt => '(Select people)', :include_blank => false },
