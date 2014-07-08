@@ -19,6 +19,7 @@ class TransformationService
   # @param mods The MODS record to create the Work and Instance from.
   # @return The Work created from the MODS.
   def self.create_from_mods(mods)
+    # TODO
 
   end
 

@@ -50,7 +50,7 @@ namespace :valhal_migrate do
   # @return The new Work.
   def migrate_book(b)
     #puts b.datastreams['descMetadata'].content
-    #w = TransformationService.create_from_mods(b.datastreams['descMetadata'].content)
+    w = TransformationService.create_from_mods(b.datastreams['descMetadata'].content)
     puts b.datastreams['RELS-EXT'].content
   end
 end
