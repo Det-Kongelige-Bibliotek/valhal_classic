@@ -69,17 +69,10 @@
   <%- end %>
 </div>
 <div class="control-group">
-  <%= f.label :recordOriginInfo, 'Record Origin Info(s)', :class=>'control-label' %>
-  <% @work.recordOriginInfo.each do |recordOriginInfo| %>
-      <div class="controls">
-        <%= text_area_tag "work[recordOriginInfo][]", recordOriginInfo, class: 'input-block-level' %>
-      </div>
-  <% end %>
-  <%- if @work.recordOriginInfo.empty? %>
-      <div class="controls">
-        <%= text_area_tag "work[recordOriginInfo][]", nil, class: 'input-block-level' %>
-      </div>
-  <%- end %>
+  <%= f.label :recordOriginInfo, 'Record Origin Info', :class=>'control-label' %>
+  <div class="controls">
+    <%= f.text_area :recordOriginInfo, :placeholder => 'Record origin info', :class=>'input-block-level' %>
+  </div>
 </div>
 <div class="control-group">
   <%= f.label :cartographicsScale, 'Cartographics Scale', :class=>'control-label' %>

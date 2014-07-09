@@ -18,11 +18,7 @@
 
   <tr><td><b>Type of resource</b></td><td><%= @work.typeOfResource %></td></tr>
   <tr><td><b>Type of resource label</b></td><td><%= @work.typeOfResourceLabel %></td></tr>
-  <tr><td><b>Place of Origin</b></td>
-    <% @work.recordOriginInfo.each do |r| %>
-        <td><%= r %></td>
-    <% end %>
-  </tr>
+  <tr><td><b>Record Origin Info</b></td><td><%= @work.recordOriginInfo %></td></tr>
   <tr><td><b>Cataloging Language(s)</b></td>
     <% @work.languageOfCataloging.each do |l| %>
         <td><%= l %></td>
