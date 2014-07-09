@@ -160,7 +160,7 @@ class WorksController < ApplicationController
   private
   # Handles the parameter arguments
   # If single basic_files is given, then a SingeFileRepresentation is made from it.
-  # If multiple basic_files is given, then a OrderedRepresentation is made from it.
+  # If multiple basic_files is given, then a OrderedInstance is made from it.
   #
   def handle_arguments
     if !params[:single_file].blank? && !params[:single_file][:basic_files].blank?

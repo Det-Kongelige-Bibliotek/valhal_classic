@@ -1,14 +1,14 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe OrderedRepresentationsController do
+describe OrderedInstancesController do
   #Login a test user with admin rights
   before(:each) do
     login_admin
   end
 
   # This should return the minimal set of attributes required to create a valid
-  # OrderedRepresentation. As you add validations to OrderedRepresentation, be sure to
+  # OrderedInstance. As you add validations to OrderedInstance, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
     { }
@@ -16,66 +16,66 @@ describe OrderedRepresentationsController do
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
-  # OrderedRepresentationsController. Be sure to keep this updated too.
+  # OrderedInstancesController. Be sure to keep this updated too.
   def valid_session
     {}
   end
 
   describe 'GET show' do
-    it 'assigns the requested ordered_representation as @ordered_representation' do
-      ordered_representation = OrderedRepresentation.create! valid_attributes
+    it 'assigns the requested ordered_instance as @ordered_instance' do
+      ordered_representation = OrderedInstance.create! valid_attributes
       get :show, {:id => ordered_representation.to_param}, valid_session
-      assigns(:ordered_representation).should eq(ordered_representation)
+      assigns(:ordered_instance).should eq(ordered_representation)
     end
   end
 
   describe 'GET edit' do
-    it 'assigns the requested ordered_representation as @ordered_representation' do
-      ordered_representation = OrderedRepresentation.create! valid_attributes
+    it 'assigns the requested ordered_instance as @ordered_instance' do
+      ordered_representation = OrderedInstance.create! valid_attributes
       get :edit, {:id => ordered_representation.to_param}, valid_session
-      assigns(:ordered_representation).should eq(ordered_representation)
+      assigns(:ordered_instance).should eq(ordered_representation)
     end
   end
 
   describe 'PUT update' do
     describe 'with valid params' do
-      it 'updates the requested ordered_representation' do
-        ordered_representation = OrderedRepresentation.create! valid_attributes
-        # Assuming there are no other ordered_representations in the database, this
-        # specifies that the OrderedRepresentation created on the previous line
+      it 'updates the requested ordered_instance' do
+        ordered_representation = OrderedInstance.create! valid_attributes
+        # Assuming there are no other ordered_instances in the database, this
+        # specifies that the OrderedInstance created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        OrderedRepresentation.any_instance.should_receive(:update_attributes).with({ 'these' => 'params' })
-        put :update, {:id => ordered_representation.to_param, :ordered_representation => { 'these' => 'params' }}, valid_session
+        OrderedInstance.any_instance.should_receive(:update_attributes).with({ 'these' => 'params' })
+        put :update, {:id => ordered_representation.to_param, :ordered_instance => { 'these' => 'params' }}, valid_session
       end
 
-      it 'assigns the requested ordered_representation as @ordered_representation' do
-        ordered_representation = OrderedRepresentation.create! valid_attributes
-        put :update, {:id => ordered_representation.to_param, :ordered_representation => valid_attributes}, valid_session
-        assigns(:ordered_representation).should eq(ordered_representation)
+      it 'assigns the requested ordered_instance as @ordered_instance' do
+        ordered_representation = OrderedInstance.create! valid_attributes
+        put :update, {:id => ordered_representation.to_param, :ordered_instance => valid_attributes}, valid_session
+        assigns(:ordered_instance).should eq(ordered_representation)
       end
 
-      it 'redirects to the ordered_representation' do
-        ordered_representation = OrderedRepresentation.create! valid_attributes
-        put :update, {:id => ordered_representation.to_param, :ordered_representation => valid_attributes}, valid_session
+      it 'redirects to the ordered_instance' do
+        ordered_representation = OrderedInstance.create! valid_attributes
+        put :update, {:id => ordered_representation.to_param, :ordered_instance => valid_attributes}, valid_session
         response.should redirect_to(ordered_representation)
       end
     end
 
     describe 'with invalid params' do
-      it 'assigns the ordered_representation as @ordered_representation' do
-        ordered_representation = OrderedRepresentation.create! valid_attributes
+      it 'assigns the ordered_instance as @ordered_instance' do
+        ordered_representation = OrderedInstance.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        OrderedRepresentation.any_instance.stub(:save).and_return(false)
-        put :update, {:id => ordered_representation.to_param, :ordered_representation => {  }}, valid_session
-        assigns(:ordered_representation).should eq(ordered_representation)
+        OrderedInstance.any_instance.stub(:save).and_return(false)
+        put :update, {:id => ordered_representation.to_param, :ordered_instance => {  }}, valid_session
+        assigns(:ordered_instance).should eq(ordered_representation)
       end
 
       it 're-renders the \'edit\' template' do
-        ordered_representation = OrderedRepresentation.create! valid_attributes
+        ordered_representation = OrderedInstance.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        OrderedRepresentation.any_instance.stub(:save).and_return(false)
-        put :update, {:id => ordered_representation.to_param, :ordered_representation => {  }}, valid_session
+        OrderedInstance.any_instance.stub(:save).and_return(false)
+        put :update, {:id => ordered_representation.to_param, :ordered_instance => {  }}, valid_session
         response.should render_template('edit')
       end
     end
@@ -83,7 +83,7 @@ describe OrderedRepresentationsController do
 
   describe 'GET thumbnail_url' do
     it 'should return the thumbnail image' do
-      rep = OrderedRepresentation.create!
+      rep = OrderedInstance.create!
       @tiff1 = ActionDispatch::Http::UploadedFile.new(filename: 'first.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
       tiff_file = TiffFile.create!
       tiff_file.add_file(@tiff1, '1')
@@ -93,14 +93,14 @@ describe OrderedRepresentationsController do
     end
 
     it 'should return 404 when no pid' do
-      rep = OrderedRepresentation.create!
+      rep = OrderedInstance.create!
 
       get :thumbnail_url, {:pid => nil, :id => rep.pid}
       response.response_code.should == 404
     end
 
     it 'should return 404 when no pid' do
-      rep = OrderedRepresentation.create!
+      rep = OrderedInstance.create!
       rep.save!
 
       get :thumbnail_url, {:pid => rep.pid, :id => rep.pid}
@@ -111,7 +111,7 @@ describe OrderedRepresentationsController do
   describe 'GET download_all' do
     it 'should respond with a empty zip basic_files' do
       pending "Failing... "
-      rep = OrderedRepresentation.create!
+      rep = OrderedInstance.create!
 
       get :download_all, {:id => rep.pid}
       response.response_code.should == 200
@@ -123,7 +123,7 @@ describe OrderedRepresentationsController do
 
     it 'should deliver a zip basic_files of smaller size than the basic_files within' do
       pending "Failing... "
-      rep = OrderedRepresentation.create!
+      rep = OrderedInstance.create!
       @tiff1 = ActionDispatch::Http::UploadedFile.new(filename: 'first.tiff', type: 'image/tiff', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
       tiff_file = TiffFile.create!
       tiff_file.add_file(@tiff1, '1')
@@ -141,10 +141,10 @@ describe OrderedRepresentationsController do
 
   describe 'Update preservation profile metadata' do
     before(:each) do
-      @rep = OrderedRepresentation.create!
+      @rep = OrderedInstance.create!
     end
     it 'should have a default preservation settings' do
-      rep = OrderedRepresentation.find(@rep.pid)
+      rep = OrderedInstance.find(@rep.pid)
       rep.preservation_profile.should_not be_blank
       rep.preservation_state.should_not be_blank
       rep.preservation_details.should_not be_blank
@@ -159,7 +159,7 @@ describe OrderedRepresentationsController do
       put :update_preservation_profile, {:id => @rep.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
       response.should redirect_to(@rep)
 
-      rep = OrderedRepresentation.find(@rep.pid)
+      rep = OrderedInstance.find(@rep.pid)
       rep.preservation_state.should_not be_blank
       rep.preservation_details.should_not be_blank
       rep.preservation_modify_date.should_not be_blank
@@ -174,7 +174,7 @@ describe OrderedRepresentationsController do
       put :update_preservation_profile, {:id => @rep.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
       response.should_not redirect_to(@rep)
 
-      rep = OrderedRepresentation.find(@rep.pid)
+      rep = OrderedInstance.find(@rep.pid)
       rep.preservation_state.should_not be_blank
       rep.preservation_details.should_not be_blank
       rep.preservation_modify_date.should_not be_blank
@@ -185,13 +185,13 @@ describe OrderedRepresentationsController do
     it 'should update the preservation date' do
       profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment"
-      rep = OrderedRepresentation.find(@rep.pid)
+      rep = OrderedInstance.find(@rep.pid)
       d = rep.preservation_modify_date
 
       put :update_preservation_profile, {:id => @rep.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
       response.should redirect_to(@rep)
 
-      rep = OrderedRepresentation.find(@rep.pid)
+      rep = OrderedInstance.find(@rep.pid)
       rep.preservation_modify_date.should_not == d
     end
 
@@ -202,13 +202,13 @@ describe OrderedRepresentationsController do
       @rep.preservation_comment = comment
       @rep.save
 
-      rep = OrderedRepresentation.find(@rep.pid)
+      rep = OrderedInstance.find(@rep.pid)
       d = rep.preservation_modify_date
 
       put :update_preservation_profile, {:id => @rep.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
       response.should redirect_to(@rep)
 
-      rep = OrderedRepresentation.find(@rep.pid)
+      rep = OrderedInstance.find(@rep.pid)
       rep.preservation_modify_date.should == d
     end
 
@@ -245,7 +245,7 @@ describe OrderedRepresentationsController do
         end
       end
 
-      rep = OrderedRepresentation.find(@rep.pid)
+      rep = OrderedInstance.find(@rep.pid)
       rep.preservation_state.should == Constants::PRESERVATION_STATE_INITIATED.keys.first
       rep.preservation_comment.should == comment
       sleep 1.second
@@ -262,7 +262,7 @@ describe OrderedRepresentationsController do
                                                            :preservation_comment => comment }}
       response.should redirect_to(@rep)
 
-      rep = OrderedRepresentation.find(@rep.pid)
+      rep = OrderedInstance.find(@rep.pid)
       rep.preservation_state.should == Constants::PRESERVATION_STATE_NOT_LONGTERM.keys.first
       rep.preservation_comment.should == comment
     end
@@ -296,16 +296,16 @@ describe OrderedRepresentationsController do
   end
 
   describe 'GET preservation' do
-    it 'should assign \'@rep\' to the ordered_representation' do
-      @rep = OrderedRepresentation.create!
+    it 'should assign \'@rep\' to the ordered_instance' do
+      @rep = OrderedInstance.create!
       get :preservation, {:id => @rep.pid}
-      assigns(:ordered_representation).should eq(@rep)
+      assigns(:ordered_instance).should eq(@rep)
     end
   end
 
   after(:all) do
     BasicFile.all.each { |bf| bf.delete }
     TiffFile.all.each { |tf| tf.delete }
-    OrderedRepresentation.all.each { |rep| rep.delete }
+    OrderedInstance.all.each { |rep| rep.delete }
   end
 end

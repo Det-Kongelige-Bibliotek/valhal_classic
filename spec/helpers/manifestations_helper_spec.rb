@@ -97,7 +97,7 @@ describe WorkHelper do
       add_ordered_file_rep([@tiff1], {}, nil, @manifestation).should be_true
 
       @manifestation.ordered_reps.length.should == 1
-      @manifestation.ordered_reps.first.kind_of?(OrderedRepresentation).should be_true
+      @manifestation.ordered_reps.first.kind_of?(OrderedInstance).should be_true
       @manifestation.ordered_reps.first.files.length.should == 1
       @manifestation.ordered_reps.first.files.first.kind_of?(TiffFile).should be_true
       @manifestation.ordered_reps.first.files.first.original_filename.should == @tiff1.original_filename
@@ -107,7 +107,7 @@ describe WorkHelper do
       add_ordered_file_rep([@tiff1, @tiff2], {}, nil, @manifestation).should be_true
 
       @manifestation.ordered_reps.length.should == 1
-      @manifestation.ordered_reps.first.kind_of?(OrderedRepresentation).should be_true
+      @manifestation.ordered_reps.first.kind_of?(OrderedInstance).should be_true
       @manifestation.ordered_reps.first.files.length.should == 2
       @manifestation.ordered_reps.first.files.first.kind_of?(TiffFile).should be_true
       @manifestation.ordered_reps.first.files.first.original_filename.should == @tiff1.original_filename
@@ -140,7 +140,7 @@ describe WorkHelper do
       add_order_rep([@tiff, @other_file], {}, @manifestation).should be_true
 
       @manifestation.ordered_reps.length.should == 1
-      @manifestation.ordered_reps.first.kind_of?(OrderedRepresentation).should be_true
+      @manifestation.ordered_reps.first.kind_of?(OrderedInstance).should be_true
       @manifestation.ordered_reps.first.files.length.should == 2
       @manifestation.ordered_reps.first.files.first.kind_of?(BasicFile).should be_true
       @manifestation.ordered_reps.first.files.first.original_filename.should == @tiff.original_filename
@@ -314,7 +314,7 @@ describe WorkHelper do
       add_order_rep([@file1, @file2], {}, @manifestation)
       structmap = @manifestation.representations.last.techMetadata.ng_xml.to_s
 
-      rep = OrderedRepresentation.find(@manifestation.representations.last.pid)
+      rep = OrderedInstance.find(@manifestation.representations.last.pid)
       rep.techMetadata.should_not be_nil
       # TODO this is very odd. The UTF-8 encoding is on when it is created, but not when it has been reloaded...
       rep.techMetadata.ng_xml.encoding = 'UTF-8'

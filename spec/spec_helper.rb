@@ -88,7 +88,7 @@ RSpec.configure do |config|
   end
 
   def create_tiff_representation(num_of_tiffs)
-    tiff_representation = OrderedRepresentation.new
+    tiff_representation = OrderedInstance.new
 
     (1..num_of_tiffs).each { |i|
       tiff_representation.files << create_basic_file_for_tif_with_filename("arre1fm00#{i}.tif")

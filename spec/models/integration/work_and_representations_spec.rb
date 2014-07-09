@@ -45,10 +45,10 @@ describe 'Work relationships' do
     end
   end
 
-  describe '#ordered_representations' do
+  describe '#ordered_instances' do
     before :each do
       @work = Work.create(:title => "The title")
-      @rep = OrderedRepresentation.create
+      @rep = OrderedInstance.create
     end
 
     it 'should be possible to define a relation from work, which can be viewed both ways' do
@@ -60,7 +60,7 @@ describe 'Work relationships' do
     end
 
     it 'should be possible to have two representations defined from work' do
-      rep2 = OrderedRepresentation.create
+      rep2 = OrderedInstance.create
       @work.representations << @rep << rep2
       @work.save!
 

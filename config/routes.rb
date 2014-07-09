@@ -29,7 +29,7 @@ Valhal::Application.routes.draw do
     end
   end
 
-  resources :ordered_representations do
+  resources :ordered_instances do
     member do
       get 'thumbnail_url'
       get 'download_all'

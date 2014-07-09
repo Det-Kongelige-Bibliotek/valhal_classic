@@ -20,7 +20,7 @@ module Concerns
     def ordered_reps
       res = []
       representations.each do |rep|
-        if rep.kind_of? OrderedRepresentation
+        if rep.kind_of? OrderedInstance
           res << rep
         end
       end

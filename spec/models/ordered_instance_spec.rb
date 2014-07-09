@@ -2,10 +2,10 @@
 require 'spec_helper'
 require 'support/representation_spec_helper'
 
-describe OrderedRepresentation do
+describe OrderedInstance do
   include RepresentationSpecHelper
 
-  subject { OrderedRepresentation.new }
+  subject { OrderedInstance.new }
   it_behaves_like 'a preservable element'
 
 

@@ -55,7 +55,7 @@ module MqListenerHelper
       when 'singlefilerepresentation'
         return SingleFileInstance.find(id)
       when 'orderedrepresentation'
-        return OrderedRepresentation.find(id)
+        return OrderedInstance.find(id)
       when 'person'
         return AuthorityMetadataUnit.find(id)
       else
