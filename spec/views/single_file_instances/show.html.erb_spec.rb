@@ -20,7 +20,7 @@ describe "single_file_instances/show" do
     end
 
     it 'should display the type of basic_files' do
-      visit single_file_representation_path(@single_file_instance)
+      visit single_file_instance_path(@single_file_instance)
 
       page.should have_content(@file.file_type)
     end
