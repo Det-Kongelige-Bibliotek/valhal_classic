@@ -1,28 +1,28 @@
 # -*- encoding : utf-8 -*-
 #require 'zip/zip'
 
-class OrderedRepresentationsController < ApplicationController
+class OrderedInstancesController < ApplicationController
   include PreservationHelper # methods: update_preservation_profile_from_controller
 
   authorize_resource
 
   def show
-    @ordered_representation = OrderedRepresentation.find(params[:id])
+    @ordered_instance = OrderedInstance.find(params[:id])
   end
 
   def edit
-    @ordered_representation = OrderedRepresentation.find(params[:id])
+    @ordered_instance = OrderedInstance.find(params[:id])
   end
 
   def preservation
-    @ordered_representation = OrderedRepresentation.find(params[:id])
+    @ordered_instance = OrderedInstance.find(params[:id])
   end
 
   def update
-    @ordered_representation = OrderedRepresentation.find(params[:id])
+    @ordered_instance = OrderedInstance.find(params[:id])
 
-    if @ordered_representation.update_attributes(params[:ordered_representation])
-      redirect_to @ordered_representation, notice: 'Ordered representation was successfully updated.'
+    if @ordered_instance.update_attributes(params[:ordered_instance])
+      redirect_to @ordered_instance, notice: 'Ordered representation was successfully updated.'
     else
       render action: 'edit'
     end
@@ -53,11 +53,11 @@ class OrderedRepresentationsController < ApplicationController
   # Method for downloading all the basic_files.
   def download_all
     begin
-      @ordered_representation = OrderedRepresentation.find(params[:id])
-      file_name = "#{@ordered_representation.representation_name}-#{@ordered_representation.pid}.zip"
+      @ordered_instance = OrderedInstance.find(params[:id])
+      file_name = "#{@ordered_instance.representation_name}-#{@ordered_instance.pid}.zip"
       t = Tempfile.new("temp-zip-#{params[:id]}-#{Time.now}")
       Zip::ZipOutputStream.open(t.path) do |z|
-        @ordered_representation.files.each do |f|
+        @ordered_instance.files.each do |f|
           #add basic_files to zip basic_files
           z.put_next_entry(f.original_filename)
           z.write f.content.content
@@ -79,17 +79,17 @@ class OrderedRepresentationsController < ApplicationController
 
   # Updates the preservation profile metadata.
   def update_preservation_profile
-    @ordered_representation = OrderedRepresentation.find(params[:id])
+    @ordered_instance = OrderedInstance.find(params[:id])
     begin
-      notice = update_preservation_profile_from_controller(params, @ordered_representation)
-      redirect_to @ordered_representation, notice: notice
+      notice = update_preservation_profile_from_controller(params, @ordered_instance)
+      redirect_to @ordered_instance, notice: notice
     rescue => error
       error_msg = "Could not update preservation profile: #{error.inspect}"
       error.backtrace.each do |l|
         error_msg += "\n#{l}"
       end
       logger.error error_msg
-      @ordered_representation.errors[:preservation] << error.inspect.to_s
+      @ordered_instance.errors[:preservation] << error.inspect.to_s
       render action: 'preservation'
     end
   end

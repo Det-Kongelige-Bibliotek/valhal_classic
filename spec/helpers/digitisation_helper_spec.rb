@@ -21,7 +21,7 @@ describe 'DigitisationHelper' do
     after (:each) do
       BasicFile.all.each { |file| file.delete }
       Work.all.each { |w| w.delete }
-      SingleFileRepresentation.all.each { |rep| rep.delete}
+      SingleFileInstance.all.each { |rep| rep.delete}
     end
 
     it "should create a new object with singlefile representation" do
@@ -31,7 +31,7 @@ describe 'DigitisationHelper' do
       @work.work_type.should == 'DOD bog'
       @work.single_file_reps.length.should == 1
       rep = @work.single_file_reps[0]
-      rep.should be_a_kind_of SingleFileRepresentation
+      rep.should be_a_kind_of SingleFileInstance
       rep.files.length.should == 1
       file = rep.files[0]
       file.should be_a_kind_of BasicFile
@@ -57,7 +57,7 @@ describe 'DigitisationHelper' do
       @work.work_type.should == 'DOD bog'
       @work.single_file_reps.length.should == 1
       rep = @work.single_file_reps[0]
-      rep.should be_a_kind_of SingleFileRepresentation
+      rep.should be_a_kind_of SingleFileInstance
       rep.files.length.should == 1
       file = rep.files[0]
       file.should be_a_kind_of BasicFile

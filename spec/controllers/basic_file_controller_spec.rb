@@ -185,7 +185,7 @@ describe BasicFilesController do
     end
 
     it 'should not send inheritable settings upwards' do
-      rep = SingleFileRepresentation.new
+      rep = SingleFileInstance.new
       rep.files << @file
       rep.save!
       @file.save!
@@ -203,7 +203,7 @@ describe BasicFilesController do
       b.preservation_profile.should == profile
       b.preservation_comment.should == comment
 
-      rep = SingleFileRepresentation.find(rep.pid)
+      rep = SingleFileInstance.find(rep.pid)
       rep.preservation_state.should_not be_blank
       rep.preservation_details.should_not be_blank
       rep.preservation_modify_date.should_not be_blank

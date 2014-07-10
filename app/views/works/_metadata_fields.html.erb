@@ -1,49 +1,95 @@
 <div class="control-group">
-    <%= f.label :shelfLocator, 'Shelf Locator', :class=>'control-label' %>
-    <div class="controls">
-        <%= f.text_field :shelfLocator, :placeholder => 'Shelf Locator', :class=>'input-block-level' %>
-    </div>
-</div>
-<div class="control-group">
     <%= f.label :typeOfResource, 'Type of resource', :class=>'control-label' %>
     <div class="controls">
         <%= f.text_field :typeOfResource, :placeholder => 'Type of resource', :class=>'input-block-level' %>
     </div>
 </div>
 <div class="control-group">
-    <%= f.label :publisher, 'Publisher', :class=>'control-label' %>
+  <%= f.label :typeOfResourceLabel, 'Type of resource label', :class=>'control-label' %>
+  <div class="controls">
+    <%= f.text_field :typeOfResourceLabel, :placeholder => 'Type of resource label', :class=>'input-block-level' %>
+  </div>
+</div>
+<div class="control-group">
+  <%= f.label :topic, 'Topic(s)', :class=>'control-label' %>
+      <% @work.topic.each do |topic| %>
+          <div class="controls">
+            <%= text_field_tag "work[topic][]", topic, class: 'input-block-level' %>
+          </div>
+      <% end %>
+      <%- if @work.topic.empty? %>
+          <div class="controls">
+            <%= text_field_tag "work[topic][]", nil, class: 'input-block-level' %>
+          </div>
+      <%- end %>
+</div>
+<div class="control-group">
+    <%= f.label :dateCreated, 'Date created', :class=>'control-label' %>
     <div class="controls">
-        <%= f.text_field :publisher, :placeholder => 'Publisher', :class=>'input-block-level' %>
+        <%= f.date_field :dateCreated, :placeholder => 'Date created', :class=>'input-block-level' %>
     </div>
 </div>
 <div class="control-group">
-    <%= f.label :originPlace, 'Place of origin', :class=>'control-label' %>
-    <div class="controls">
-        <%= f.text_field :originPlace, :placeholder => 'Place of origin', :class=>'input-block-level' %>
-    </div>
+  <%= f.label :dateOther, 'Date(s) (other)', :class=>'control-label' %>
+  <% @work.dateOther.each do |dateOther| %>
+      <div class="controls">
+        <%= text_field_tag "work[dateOther][]", dateOther, class: 'input-block-level' %>
+      </div>
+  <% end %>
+  <%- if @work.dateOther.empty? %>
+      <div class="controls">
+        <%= text_field_tag "work[dateOther][]", nil, class: 'input-block-level' %>
+      </div>
+  <%- end %>
 </div>
 <div class="control-group">
-    <%= f.label :languageISO, 'Language (both ISO and in text)', :class=>'control-label' %>
-    <div class="controls">
-        <%= f.text_field :languageISO, :placeholder => 'da', :class=>'input-block-level' %>
-        <%= f.text_field :languageText, :placeholder => 'Danish', :class=>'input-block-level' %>
-    </div>
+  <%= f.label :genre, 'Genre(s)', :class=>'control-label' %>
+  <% @work.genre.each do |genre| %>
+      <div class="controls">
+        <%= text_field_tag "work[genre][]", genre, class: 'input-block-level' %>
+      </div>
+  <% end %>
+  <%- if @work.genre.empty? %>
+      <div class="controls">
+        <%= text_field_tag "work[genre][]", nil, class: 'input-block-level' %>
+      </div>
+  <%- end %>
 </div>
 <div class="control-group">
-    <%= f.label :subjectTopic, 'Topic', :class=>'control-label' %>
-    <div class="controls">
-        <%= f.text_field :subjectTopic, :placeholder => 'Topic', :class=>'input-block-level' %>
-    </div>
+  <%= f.label :languageOfCataloging, 'Cataloging language(s)', :class=>'control-label' %>
+  <% @work.languageOfCataloging.each do |languageOfCataloging| %>
+      <div class="controls">
+        <%= text_field_tag "work[languageOfCataloging][]", languageOfCataloging, class: 'input-block-level' %>
+      </div>
+  <% end %>
+  <%- if @work.languageOfCataloging.empty? %>
+      <div class="controls">
+        <%= text_field_tag "work[languageOfCataloging][]", nil, class: 'input-block-level' %>
+      </div>
+  <%- end %>
 </div>
 <div class="control-group">
-    <%= f.label :dateIssued, 'Date issued', :class=>'control-label' %>
-    <div class="controls">
-        <%= f.text_field :dateIssued, :placeholder => 'Date', :class=>'input-block-level' %>
-    </div>
+  <%= f.label :recordOriginInfo, 'Record Origin Info', :class=>'control-label' %>
+  <div class="controls">
+    <%= f.text_area :recordOriginInfo, :placeholder => 'Record origin info', :class=>'input-block-level' %>
+  </div>
 </div>
 <div class="control-group">
-    <%= f.label :physicalExtent, 'Physical extent', :class=>'control-label' %>
-    <div class="controls">
-        <%= f.text_field :physicalExtent, :placeholder => 'physicalExtent', :class=>'input-block-level' %>
-    </div>
+  <%= f.label :cartographicsScale, 'Cartographics Scale', :class=>'control-label' %>
+  <div class="controls">
+    <%= f.text_field :cartographicsScale, :placeholder => 'Cartographics Scale', :class=>'input-block-level' %>
+  </div>
 </div>
+<div class="control-group">
+  <%= f.label :cartographicsCoordinates, 'Cartographics Co-ordinates', :class=>'control-label' %>
+  <div class="controls">
+    <%= f.text_field :cartographicsCoordinates, :placeholder => 'Cartographics Co-ordinates', :class=>'input-block-level' %>
+  </div>
+</div>
+<div class="control-group">
+  <%= f.label :tableOfContents, 'Table of Contents', :class=>'control-label' %>
+  <div class="controls">
+    <%= f.text_field :tableOfContents, :placeholder => 'Enter chapters separated by hyphens...', :class=>'input-block-level' %>
+  </div>
+</div>
+

@@ -4,11 +4,11 @@
 # Provides methods for generating representations and relationships generic for the works.
 module WorkHelper
   include UtilityHelper
-  # Creates and adds a SingleFileRepresentation with a TEI basic_files to the work
+  # Creates and adds a SingleFileInstance with a TEI basic_files to the work
   # @param tei_metadata The metadata for the TEI file.
-  # @param file The uploaded TEI file for the SingleFileRepresentation
-  # @param rep_metadata The metadata for the SingleFileRepresentation
-  # @param work The work to contain the SingleFileRepresentation
+  # @param file The uploaded TEI file for the SingleFileInstance
+  # @param rep_metadata The metadata for the SingleFileInstance
+  # @param work The work to contain the SingleFileInstance
   # @return false if operation was unsuccessful
   def add_single_tei_rep(tei_metadata, file, rep_metadata, work)
     tei_file = TeiFile.new(tei_metadata)
@@ -21,11 +21,11 @@ module WorkHelper
     create_as_single_file_rep(tei_file, rep_metadata, work)
   end
 
-  # Creates and adds a SingleFileRepresentation with a basic basic_files to the work
-  # @param file The uploaded file for the SingleFileRepresentation
-  # @param metadata The metadata for the SingleFileRepresentation
+  # Creates and adds a SingleFileInstance with a basic basic_files to the work
+  # @param file The uploaded file for the SingleFileInstance
+  # @param metadata The metadata for the SingleFileInstance
   # @param skip_fits boolean value determining whether to skip file characterisation or not
-  # @param work The work to contain the SingleFileRepresentation
+  # @param work The work to contain the SingleFileInstance
   def add_single_file_rep(file, metadata, skip_fits, work)
     rep_file = BasicFile.new
     if rep_file.add_file(file, skip_fits)
@@ -37,12 +37,12 @@ module WorkHelper
     create_as_single_file_rep(rep_file, metadata, work)
   end
 
-  # Creates and adds a OrderedRepresentation with basic_files to the work
-  # The StructMap for the OrderedRepresentation will be based on the order of the TIFF basic_files.
-  # @param files The uploaded TIFF Image files for the OrderedRepresentation
-  # @param metadata The metadata for the OrderedRepresentation
+  # Creates and adds a OrderedInstance with basic_files to the work
+  # The StructMap for the OrderedInstance will be based on the order of the TIFF basic_files.
+  # @param files The uploaded TIFF Image files for the OrderedInstance
+  # @param metadata The metadata for the OrderedInstance
   # @param skip_fits boolean value determining whether to skip file characterisation or not
-  # @param work The work to contain the OrderedRepresentation
+  # @param work The work to contain the OrderedInstance
   # @return false if operation was unsuccessful
   def add_ordered_file_rep(files, metadata, skip_fits, work)
     basic_files = []
@@ -60,11 +60,11 @@ module WorkHelper
     create_as_order_rep(basic_files, metadata, work)
   end
 
-  # Creates and adds a OrderedRepresentation with basic basic_files to the work
-  # The StructMap for the OrderedRepresentation will be based on the order of the basic_files.
-  # @param files The uploaded files for the OrderedRepresentation
-  # @param metadata The metadata for the OrderedRepresentation
-  # @param work The work to contain the OrderedRepresentation
+  # Creates and adds a OrderedInstance with basic basic_files to the work
+  # The StructMap for the OrderedInstance will be based on the order of the basic_files.
+  # @param files The uploaded files for the OrderedInstance
+  # @param metadata The metadata for the OrderedInstance
+  # @param work The work to contain the OrderedInstance
   def add_order_rep(files, metadata, work)
     basic_files = []
 
@@ -134,25 +134,25 @@ module WorkHelper
   end
 
   private
-  # Creates a SingleFileRepresentation with the given basic_files and adds it to the work
-  # @param file The file for the SingleFileRepresentation
-  # @param metadata The metadata for the SingleFileRepresentation
-  # @param work The work to contain the SingleFileRepresentation
+  # Creates a SingleFileInstance with the given basic_files and adds it to the work
+  # @param file The file for the SingleFileInstance
+  # @param metadata The metadata for the SingleFileInstance
+  # @param work The work to contain the SingleFileInstance
   def create_as_single_file_rep(file, metadata, work)
-    rep = SingleFileRepresentation.new(metadata)
+    rep = SingleFileInstance.new(metadata)
     rep.files << file
     rep.save!
 
     add_representation(rep, work)
   end
 
-  # Creates a OrderedRepresentation with the given basic_files and adds it to the work
-  # The StructMap for the OrderedRepresentation will be generated based on the order of the basic_files.
+  # Creates a OrderedInstance with the given basic_files and adds it to the work
+  # The StructMap for the OrderedInstance will be generated based on the order of the basic_files.
   # @param files The ordered array of files for the ordered representation
-  # @param metadata The metadata for the OrderedRepresentation
-  # @param work The work to contain the OrderedRepresentation
+  # @param metadata The metadata for the OrderedInstance
+  # @param work The work to contain the OrderedInstance
   def create_as_order_rep(files, metadata, work)
-    rep = OrderedRepresentation.new(metadata)
+    rep = OrderedInstance.new(metadata)
     rep.files << files
     generate_structmap(files, rep)
     rep.save!

@@ -2,14 +2,13 @@
 require 'spec_helper'
 require 'support/representation_spec_helper'
 
-describe OrderedRepresentation do
+describe SingleFileInstance do
   include RepresentationSpecHelper
 
-  subject { OrderedRepresentation.new }
+  subject { SingleFileInstance.new }
   it_behaves_like 'a preservable element'
 
-
-  it 'should have a datastream named descMetadata ' do
+  it "should have a datastream named descMetadata " do
     subject.descMetadata.should_not be_nil
   end
 
@@ -21,12 +20,33 @@ describe OrderedRepresentation do
     subject.provenanceMetadata.should_not be_nil
   end
 
-  it 'should have a datastream names techMetadata' do
-    subject.techMetadata.should_not be_nil
+  describe "#ie" do
+      context "with a person" do
+        let(:default_ie) do
+          AuthorityMetadataUnit.all.each { |amu| amu.delete }
+          AuthorityMetadataUnit.create(value: 'the agent name', type: 'agent/person')
+        end
+
+        it 'should be able to have a association with a person' do
+          association_with_ie subject, default_ie
+        end
+
+        it 'should be able to saved with a association with a person' do
+          save_ie_association subject, default_ie
+        end
+
+        it 'should be able to retrieve a person from a saved Representation' do
+          ie_from_saved_rep subject, default_ie
+        end
+
+        it 'should be able to get values from a person via representation' do
+          values_from_ie_via_rep subject, default_ie, :firstname
+        end
+      end
   end
 
-  describe '#basic_files' do
-    context 'with multiple BasicFiles' do
+  describe "#basic_files" do
+    context "with multiple BasicFiles" do
       let(:default_files) do
         array = []
         (1..3).each do
@@ -59,6 +79,19 @@ describe OrderedRepresentation do
         def_rep = subject.class.find(pid)
         def_rep.files.should == basic_files
       end
+    end
+  end
+
+  describe 'with a single basic_files' do
+    it 'should have a representation name containing the basic_files content type' do
+      basic_file = BasicFile.new
+      uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
+      basic_file.add_file(uploaded_file, nil)
+      rep = SingleFileInstance.create!
+
+      rep.files << basic_file
+
+      rep.representation_name.include?(basic_file.file_type).should be_true
     end
   end
 end

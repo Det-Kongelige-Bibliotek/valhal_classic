@@ -127,7 +127,7 @@ module DigitisationHelper
     end
 
     logger.debug "creating single file representation "
-    rep = SingleFileRepresentation.new
+    rep = SingleFileInstance.new
     rep.files << file
 
     if (!rep.save)

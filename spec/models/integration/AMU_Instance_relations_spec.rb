@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe "Relations between AuthorityMetadataUnits and Works" do
   before :each do
-    @i = SingleFileRepresentation.create!
+    @i = SingleFileInstance.create!
     @a = AuthorityMetadataUnit.create!(:type => AMU_TYPES.last)
   end
 

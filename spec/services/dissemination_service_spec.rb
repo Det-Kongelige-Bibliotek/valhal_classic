@@ -64,7 +64,7 @@ describe DisseminationService do
   after (:all) do
     BasicFile.all.each { |file| file.delete }
     Work.all.each { |w| w.delete }
-    SingleFileRepresentation.all.each { |rep| rep.delete}
+    SingleFileInstance.all.each { |rep| rep.delete}
   end
 
 end

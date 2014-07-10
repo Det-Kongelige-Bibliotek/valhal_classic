@@ -1,11 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <table border='0'>
-  <tr><td style='font-weight: bold;'>Representation name: </td><td><%= @ordered_representation.representation_name %></td></tr>
-  <tr><td>Number of files: </td><td><%= @ordered_representation.files.length.to_s %></td></tr>
+  <tr><td style='font-weight: bold;'>Instance name: </td><td><%= @ordered_instance.representation_name %></td></tr>
+  <tr><td>Number of files: </td><td><%= @ordered_instance.files.length.to_s %></td></tr>
 </table>
 
-<p><span style="font-weight: bold;"><%= link_to 'Download All', download_all_ordered_representation_path(@ordered_representation) %></span> </p>
+<p><span style="font-weight: bold;"><%= link_to 'Download All', download_all_ordered_instance_path(@ordered_instance) %></span> </p>
 
 
 <br/>
@@ -14,7 +14,7 @@
 
 <hr/>
 
-<%- @ordered_representation.files.each do |file| %>
+<%- @ordered_instance.files.each do |file| %>
     <% # TODO fix the following %>
     <span style='font-weight: bold;'>File Name:</span> <%= file.nil? ? 'No basic_files' : (link_to file.original_filename, basic_file_path(file)) %>
     <br/>
@@ -32,7 +32,7 @@
     <% if file.nil? %>
         <p>"N/A"</p>
     <% else %>
-        <%= file.kind_of?(TiffFile) ? (link_to image_tag(url_for(thumbnail_url_ordered_representation_path :pid => file.pid), :style => "border: 1px solid black;"),
+        <%= file.kind_of?(TiffFile) ? (link_to image_tag(url_for(thumbnail_url_ordered_instance_path :pid => file.pid), :style => "border: 1px solid black;"),
                                                download_basic_file_path(file))
             : (link_to 'Download', download_basic_file_path(file)) %>
     <% end %>

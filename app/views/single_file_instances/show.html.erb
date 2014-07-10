@@ -1,8 +1,8 @@
 <p id='notice'><%= notice %></p>
 
 <table border='0'>
-  <tr><td style='font-weight: bold;'>Representation name: </td><td><%= @single_file_representation.representation_name %></td></tr>
-  <tr><td>Number of files: </td><td><%= @single_file_representation.files.length.to_s %></td></tr>
+  <tr><td style='font-weight: bold;'>Representation name: </td><td><%= @single_file_instance.representation_name %></td></tr>
+  <tr><td>Number of files: </td><td><%= @single_file_instance.files.length.to_s %></td></tr>
 </table>
 
 <br/>
@@ -11,7 +11,7 @@
 
 <hr/>
 
-<%- @single_file_representation.files.each do |file| %>
+<%- @single_file_instance.files.each do |file| %>
     <% # TODO fix the following %>
     <span style='font-weight: bold;'>File Name:</span> <%= file.nil? ? 'No basic_files' : (link_to file.original_filename, basic_file_path(file)) %>
     <br/>

@@ -1,4 +1,4 @@
-<h3>Type: <%= @work.work_type.blank? ? 'Undefined' : @work.work_type.to_s %></h3>
+<h3>Type: <%= @work.workType.blank? ? 'Undefined' : @work.workType.to_s %></h3>
 <h3><%= @work.title %></h3>
 <table border="0">
   <tr><td><b>Subtitle</b></td><td><%= @work.subTitle %></td></tr>
@@ -16,15 +16,33 @@
       <% end %>
   <% end %>
 
-  <tr><td><b>Shelf Locator</b></td><td><%= @work.shelfLocator %></td></tr>
-  <tr><td><b>Type Of Resource</b></td><td><%= @work.typeOfResource %></td></tr>
-  <tr><td><b>Publisher</b></td><td><%= @work.publisher %></td></tr>
-  <tr><td><b>Place of Origin</b></td><td><%= @work.originPlace %></td></tr>
-  <tr><td><b>ISO Language</b></td><td><%= @work.languageISO %></td></tr>
-  <tr><td><b>Language</b></td><td><%= @work.languageText %></td></tr>
-  <tr><td><b>Topic</b></td><td><%= @work.subjectTopic %></td></tr>
-  <tr><td><b>Date issued</b></td><td><%= @work.dateIssued %></td></tr>
-  <tr><td><b>Physical extent</b></td><td><%= @work.physicalExtent %></td></tr>
+  <tr><td><b>Type of resource</b></td><td><%= @work.typeOfResource %></td></tr>
+  <tr><td><b>Type of resource label</b></td><td><%= @work.typeOfResourceLabel %></td></tr>
+  <tr><td><b>Record Origin Info</b></td><td><%= @work.recordOriginInfo %></td></tr>
+  <tr><td><b>Cataloging Language(s)</b></td>
+    <% @work.languageOfCataloging.each do |l| %>
+        <td><%= l %></td>
+    <% end %>
+  </tr>
+  <tr><td><b>Topic(s)</b></td>
+    <% @work.topic.each do |t| %>
+        <td><%= t %></td>
+    <% end %>
+  </tr>
+  <tr><td><b>Genre(s)</b></td>
+    <% @work.genre.each do |g| %>
+        <td><%= g %></td>
+    <% end %>
+  </tr>
+  <tr><td><b>Date created</b></td><td><%= @work.dateCreated %></td></tr>
+  <tr><td><b>Other Date(s)</b></td>
+    <% @work.dateOther.each do |d| %>
+        <td><%= d %></td>
+    <% end %>
+  </tr>
+  <tr><td><b>Cartographics Scale</b></td><td><%= @work.cartographicsScale %></td></tr>
+  <tr><td><b>Cartographics Co-ordinates</b></td><td><%= @work.cartographicsCoordinates %></td></tr>
+  <tr><td><b>Table of Contents</b></td><td><%= @work.cartographicsCoordinates %></td></tr>
   <tr><td><b>UUID</b></td><td><%= @work.uuid %></td></tr>
 </table>
 

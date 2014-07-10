@@ -20,7 +20,7 @@ module Concerns
     def ordered_reps
       res = []
       representations.each do |rep|
-        if rep.kind_of? OrderedRepresentation
+        if rep.kind_of? OrderedInstance
           res << rep
         end
       end
@@ -32,7 +32,7 @@ module Concerns
     def single_file_reps
       res = []
       representations.each do |rep|
-        if rep.kind_of? SingleFileRepresentation
+        if rep.kind_of? SingleFileInstance
           res << rep
         end
       end

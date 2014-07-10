@@ -109,12 +109,12 @@ describe WorksController do
     end
 
     describe 'with a single basic_files parameter' do
-      it 'should use create a SingleFileRepresentation with the basic_files' do
+      it 'should use create a SingleFileInstance with the basic_files' do
         pending 'Failing unit-test'
         post :create, {:work => valid_attributes, :single_file => {'basic_files' => ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml")) }}, valid_session
         response.should redirect_to(Work.all.last)
         Work.all.last.representations.length.should == 1
-        Work.all.last.representations.last.kind_of?(SingleFileRepresentation).should be_true
+        Work.all.last.representations.last.kind_of?(SingleFileInstance).should be_true
         Work.all.last.representations.last.files.length.should == 1
         Work.all.last.representations.last.files.last.kind_of?(BasicFile).should be_true
       end
@@ -323,7 +323,7 @@ describe WorksController do
 
     it 'should send inheritable settings to representations and their files' do
       file = create_basic_file(nil)
-      rep = SingleFileRepresentation.new
+      rep = SingleFileInstance.new
       rep.files << file
       rep.ie = @work
       @work.representations << rep
@@ -344,7 +344,7 @@ describe WorksController do
       bf.preservation_profile.should == profile
       bf.preservation_comment.should == comment
 
-      rep = SingleFileRepresentation.find(rep.pid)
+      rep = SingleFileInstance.find(rep.pid)
       rep.preservation_state.should_not be_blank
       rep.preservation_details.should_not be_blank
       rep.preservation_modify_date.should_not be_blank

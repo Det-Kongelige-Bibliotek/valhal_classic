@@ -10,12 +10,12 @@ module Concerns
       has_metadata :name => 'descMetadata', :type => Datastreams::WorkDescMetadata
 
       # List of non-multiple key-value pairs
-      has_attributes :title, :subTitle, :workType, :carthographicsScale, :carthographicsCoordinates, :dateCreated,
-                     :tableOfContents, :typeOfResource, :typeOfResourceLabel,
+      has_attributes :title, :subTitle, :workType, :cartographicsScale, :cartographicsCoordinates, :dateCreated,
+                     :tableOfContents, :typeOfResource, :typeOfResourceLabel, :recordOriginInfo,
                      datastream: 'descMetadata', :multiple => false
 
       # List of multiple key-value pairs
-      has_attributes :dateOther, :genre, :languageOfCataloging, :topic, :recordOriginInfo,
+      has_attributes :dateOther, :genre, :languageOfCataloging, :topic,
                      datastream: 'descMetadata', :multiple => true
 
       # Retrieves the alternative titles.

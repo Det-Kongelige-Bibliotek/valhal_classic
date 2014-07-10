@@ -16,7 +16,7 @@ module Concerns
       # adds the representation to the basic_files container after a save so we dont have to manage all that saving before adding
       # example
       # Before:
-      # rep = SingleFileRepresentation.new(params[:rep])
+      # rep = SingleFileInstance.new(params[:rep])
       # rep.save!
       # rep_file = BasicFile.new
       # rep_file.add_file(params[:basic_files][:basic_files])
@@ -28,7 +28,7 @@ module Concerns
       # rep.save!
       #
       # After:
-      # rep = SingleFileRepresentation.new(params[:rep])
+      # rep = SingleFileInstance.new(params[:rep])
       #
       # rep_file = BasicFile.new
       # rep_file.add_file(params[:basic_files][:basic_files])
