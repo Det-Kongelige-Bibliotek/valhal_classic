@@ -1,16 +1,16 @@
 # -*- encoding : utf-8 -*-
 
-# Representation with only a single basic_files.
+# Instance with only a single basic_files.
 # No underlying structure to keep track of order/relationship between basic_files.
 class SingleFileInstance < ActiveFedora::Base
-  include Concerns::Representation
+  include Concerns::Instance
   include Concerns::Preservation
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name => 'descMetadata', :type => ActiveFedora::SimpleDatastream
 
   # Overrides the default one by adding the basic_files type in parenthesis.
-  def representation_name
+  def instance_name
     if files.size == 0 || files.last.file_type.blank?
       super
     else

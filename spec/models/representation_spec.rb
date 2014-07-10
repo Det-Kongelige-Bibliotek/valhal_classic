@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 class Representation < ActiveFedora::Base
-  include Concerns::Representation
+  include Concerns::Instance
 
 end
 

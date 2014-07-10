@@ -19,7 +19,7 @@
     :concerning: isDescriptionOf
     # A book or a work can have a person as author
     :has_author: hasMember
-    # A book or a work can have representations
+    # A book or a work can have instances
     :has_representation: hasSubset
     # A person can be the author of a book and/or a work
     :is_author_of: isMemberOf

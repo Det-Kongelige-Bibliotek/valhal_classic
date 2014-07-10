@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 
 # The helper methods for all works.
-# Provides methods for generating representations and relationships generic for the works.
+# Provides methods for generating instances and relationships generic for the works.
 module WorkHelper
   include UtilityHelper
   # Creates and adds a SingleFileInstance with a TEI basic_files to the work
@@ -165,7 +165,7 @@ module WorkHelper
   # @param work The work to have the representation added.
   def add_representation(representation, work)
     representation.ie = work
-    work.representations << representation
+    work.instances << representation
     return representation.save && work.save
   end
 

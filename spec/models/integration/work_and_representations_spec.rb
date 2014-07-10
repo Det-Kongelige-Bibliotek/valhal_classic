@@ -9,24 +9,24 @@ describe 'Work relationships' do
     end
 
     it 'should be possible to define a ordered relation from work, which can be viewed both ways' do
-      @work.representations << @rep
+      @work.instances << @rep
       @work.save!
 
-      @work.representations.should == [@rep]
+      @work.instances.should == [@rep]
       @rep.ie.should == @work
     end
 
-    it 'should be possible to have two representations defined from work' do
+    it 'should be possible to have two instances defined from work' do
       rep2 = SingleFileInstance.create
-      @work.representations << @rep << rep2
+      @work.instances << @rep << rep2
       @work.save!
 
-      @work.representations.should == [@rep, rep2]
+      @work.instances.should == [@rep, rep2]
       @rep.ie.should == @work
       rep2.ie.should == @work
     end
 
-    it 'should be possible to have two representations defined from the representations' do
+    it 'should be possible to have two instances defined from the instances' do
       @rep.ie = @work
       @rep.save!
       @rep.reload
@@ -40,7 +40,7 @@ describe 'Work relationships' do
 
       @rep.ie.should == @work
       rep2.ie.should == @work
-      #@work.representations.should == [@rep, rep2]
+      #@work.instances.should == [@rep, rep2]
 
     end
   end
@@ -52,19 +52,19 @@ describe 'Work relationships' do
     end
 
     it 'should be possible to define a relation from work, which can be viewed both ways' do
-      @work.representations << @rep
+      @work.instances << @rep
       @work.save!
 
-      @work.representations.should == [@rep]
+      @work.instances.should == [@rep]
       @rep.ie.should == @work
     end
 
-    it 'should be possible to have two representations defined from work' do
+    it 'should be possible to have two instances defined from work' do
       rep2 = OrderedInstance.create
-      @work.representations << @rep << rep2
+      @work.instances << @rep << rep2
       @work.save!
 
-      @work.representations.should == [@rep, rep2]
+      @work.instances.should == [@rep, rep2]
       @rep.ie.should == @work
       rep2.ie.should == @work
     end

@@ -47,19 +47,19 @@
 </table>
 
 <hr/>
-<% #Handle the tei representations. %>
+<% #Handle the tei instances. %>
 <% if @work.has_rep? %>
-    <p><b>Representations:</b></p>
+    <p><b>Instances:</b></p>
     <ul>
       <% @work.single_file_reps.each do |t| %>
-          <li><%= link_to t.representation_name + ' (' + t.pid + ')', single_file_representation_path(t) %></li>
+          <li><%= link_to t.instance_name + ' (' + t.pid + ')', single_file_instance_path(t) %></li>
       <% end %>
       <% @work.ordered_reps.each do |t| %>
-          <li><%= link_to t.representation_name + ' (' + t.pid + ')', ordered_representation_path(t) %></li>
+          <li><%= link_to t.instance_name + ' (' + t.pid + ')', ordered_instance_path(t) %></li>
       <% end %>
     </ul>
 <% else %>
-    <p>No representations for this work.</p>
+    <p>No instances for this work.</p>
 <% end %>
 <hr/>
 

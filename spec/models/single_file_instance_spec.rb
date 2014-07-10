@@ -35,7 +35,7 @@ describe SingleFileInstance do
           save_ie_association subject, default_ie
         end
 
-        it 'should be able to retrieve a person from a saved Representation' do
+        it 'should be able to retrieve a person from a saved Instance' do
           ie_from_saved_rep subject, default_ie
         end
 
@@ -91,7 +91,7 @@ describe SingleFileInstance do
 
       rep.files << basic_file
 
-      rep.representation_name.include?(basic_file.file_type).should be_true
+      rep.instance_name.include?(basic_file.file_type).should be_true
     end
   end
 end

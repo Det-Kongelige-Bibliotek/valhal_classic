@@ -138,7 +138,7 @@ module DigitisationHelper
     end
 
     rep.ie = work
-    work.representations << rep
+    work.instances << rep
 
 
     logger.debug "saving work"

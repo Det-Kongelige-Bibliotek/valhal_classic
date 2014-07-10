@@ -54,7 +54,7 @@ class OrderedInstancesController < ApplicationController
   def download_all
     begin
       @ordered_instance = OrderedInstance.find(params[:id])
-      file_name = "#{@ordered_instance.representation_name}-#{@ordered_instance.pid}.zip"
+      file_name = "#{@ordered_instance.instance_name}-#{@ordered_instance.pid}.zip"
       t = Tempfile.new("temp-zip-#{params[:id]}-#{Time.now}")
       Zip::ZipOutputStream.open(t.path) do |z|
         @ordered_instance.files.each do |f|
