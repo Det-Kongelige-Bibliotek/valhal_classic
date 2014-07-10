@@ -14,6 +14,16 @@ class TransformationService
     valhal2mods.transform(doc)
   end
 
+  # Creates Valhal elements Work and Instance from a MODS record.
+  # Will also create the needed authority metadata units.
+  # @param mods The MODS record to create the Work and Instance from.
+  # @return The Work created from the MODS.
+  def self.create_from_mods(mods)
+    # TODO
+
+    puts mods
+  end
+
   private
   # Extract the descriptive metadata for the element in a simple XML structure.
   #
