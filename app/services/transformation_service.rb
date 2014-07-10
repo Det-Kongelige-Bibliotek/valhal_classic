@@ -21,6 +21,7 @@ class TransformationService
   def self.create_from_mods(mods)
     # TODO
 
+    puts mods
   end
 
   private
