@@ -83,16 +83,16 @@ module WorkHelper
   # Creates the author relationship between the work and people behind the ids.
   # @param ids The ids for the people who are author of the work
   # @param work The work which is authored by the people behind the ids.
-  def set_authors(ids, work)
+  def set_agents(ids, work)
     if ids.blank? or work.blank? or contentless_array?(ids)
       return false
     end
 
-    work.clear_authors
-    ids.each do |author_pid|
-      if author_pid && !author_pid.empty?
-        author = AuthorityMetadataUnit.find(author_pid)
-        work.hasAuthor << author
+    work.clear_agents
+    ids.each do |agent_pid|
+      if agent_pid && !agent_pid.empty?
+        agent = AuthorityMetadataUnit.find(agent_pid)
+        work.hasAgent << agent
       end
     end
     work.save!
@@ -101,16 +101,16 @@ module WorkHelper
   # Creates the concerned relationship between the work and people behind the ids.
   # @param ids The ids for the people who are concerned about the work
   # @param work The work which concerns the people behind the ids.
-  def set_concerned_people(ids, work)
+  def set_concerned_agents(ids, work)
     if ids.blank? or work.blank? or contentless_array?(ids)
       return false
     end
 
-    work.clear_concerned_people
-    ids.each do |person_pid|
-      if person_pid && !person_pid.empty?
-        person = AuthorityMetadataUnit.find(person_pid)
-        work.hasTopic << person
+    work.clear_topics
+    ids.each do |agent_pid|
+      if agent_pid && !agent_pid.empty?
+        agent = AuthorityMetadataUnit.find(agent_pid)
+        work.hasTopic << agent
       end
     end
     work.save!

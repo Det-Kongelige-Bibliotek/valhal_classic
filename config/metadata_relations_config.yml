@@ -12,6 +12,7 @@ authority_metadata_unit:
   agent/person:
     isAddresseeOf
     isAuthorOf
+    isAgentOf
     isContributorOf
     isCreatorOf
     isOwnerOf
@@ -27,6 +28,7 @@ authority_metadata_unit:
   agent/organization:
     isAddresseeOf
     isAuthorOf
+    isAgentOf
     isContributorOf
     isCreatorOf
     isOwnerOf
@@ -45,7 +47,7 @@ work:
   hasTopic
   hasOrigin
   hasAddressee
-  hasAuthor
+  hasAgent
   hasContributor
   hasCreator
   hasOwner

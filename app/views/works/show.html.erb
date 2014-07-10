@@ -2,18 +2,21 @@
 <h3><%= @work.title %></h3>
 <table border="0">
   <tr><td><b>Subtitle</b></td><td><%= @work.subTitle %></td></tr>
-  <% if @work.has_author? %>
-    <% @work.authors.each do |person| %>
-          <tr><td><b>Author</b></td><td><%= link_to person.name, person_path(person) %></td></tr>
-    <% end %>
-  <% else %>
-     <tr><td><b>Author</b></td><td><p>No author defined for this work.</p></td></tr>
-  <% end %>
 
-  <% if @work.has_concerned_person? %>
-      <% @work.people_concerned.each do |person| %>
-          <tr><td><b>Concerning</b></td><td><%= link_to person.name, person_path(person) %></td></tr>
-      <% end %>
+  <% unless @work.get_relations.empty? %>
+    <% @work.get_relations.each do |relation| %>
+          <tr>
+            <td><b><%=relation[0].gsub('has', '') %></b></td>
+            <td>
+            <% unless relation[1].empty? %>
+                <% for i in 0...relation[1].length %>
+                    <%= link_to relation[1][i].value, authority_metadata_units_path(relation[1][i]) %>
+                      <% if relation[1][i] != relation[1].last %>|<% end %>
+                <% end %>
+            <% end %>
+            </td>
+          </tr>
+    <% end %>
   <% end %>
 
   <tr><td><b>Type of resource</b></td><td><%= @work.typeOfResource %></td></tr>
@@ -42,7 +45,7 @@
   </tr>
   <tr><td><b>Cartographics Scale</b></td><td><%= @work.cartographicsScale %></td></tr>
   <tr><td><b>Cartographics Co-ordinates</b></td><td><%= @work.cartographicsCoordinates %></td></tr>
-  <tr><td><b>Table of Contents</b></td><td><%= @work.cartographicsCoordinates %></td></tr>
+  <tr><td><b>Table of Contents</b></td><td><%= @work.tableOfContents %></td></tr>
   <tr><td><b>UUID</b></td><td><%= @work.uuid %></td></tr>
 </table>
 

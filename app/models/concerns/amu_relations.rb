@@ -24,6 +24,8 @@ module Concerns
       has_and_belongs_to_many :isAddresseeOf, :class_name => 'ActiveFedora::Base', :property=>:is_addressee_of, :inverse_of => :has_addressee
       # Author relationship from AuthorityMetadata perspective
       has_and_belongs_to_many :isAuthorOf, :class_name => 'ActiveFedora::Base', :property=>:is_author_of, :inverse_of => :has_author
+      # Agent relationship from AuthorityMetadata perspective
+      has_and_belongs_to_many :isAgentOf, :class_name => 'ActiveFedora::Base', :property=>:is_agent_of, :inverse_of => :has_agent
       # Contributor relationship from AuthorityMetadata perspective
       has_and_belongs_to_many :isContributorOf, :class_name => 'ActiveFedora::Base', :property=>:is_contributor_of, :inverse_of => :has_contributor
       # Creator relationship from AuthorityMetadata perspective
@@ -56,6 +58,7 @@ module Concerns
       res['isOriginOf'] = self.isOriginOf
       res['isAddresseeOf'] = self.isAddresseeOf
       res['isAuthorOf'] = self.isAuthorOf
+      res['isAgentOf'] = self.isAgentOf
       res['isContributorOf'] = self.isContributorOf
       res['isCreatorOf'] = self.isCreatorOf
       res['isOwnerOf'] = self.isOwnerOf

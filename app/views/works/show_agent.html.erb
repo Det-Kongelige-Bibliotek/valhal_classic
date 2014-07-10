@@ -31,7 +31,7 @@
 
 <p class="lead visible-phone">Step 2 / 4</p>
 
-<%= form_for @work, :html=>{:multipart=>true, :class=>'form-horizontal'}, :url => {:action=> "update_person"} do |f| %>
+<%= form_for @work, :html=>{:multipart=>true, :class=>'form-horizontal'}, :url => {:action=> "update_agent"} do |f| %>
     <div class="row">
       <div class="span9">
         <div class="control-group">
@@ -40,10 +40,10 @@
           </div>
         </div>
         <%= fields_for :author, :html=>{:multipart=>true} do |builder| %>
-            <%= render 'add_author', :f => builder %>
+            <%= render 'add_agent', :f => builder %>
         <% end %>
         <%= fields_for :person_described, :html=>{:multipart=>true} do |builder| %>
-            <%= render 'add_concerned_person', :f => builder %>
+            <%= render 'add_concerned_agent', :f => builder %>
         <% end %>
         <div class="control-group action">
           <div class="controls">

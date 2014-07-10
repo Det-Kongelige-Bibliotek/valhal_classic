@@ -42,8 +42,8 @@ Valhal::Application.routes.draw do
     member do
       put 'create_structmap'
       put 'finish_work_with_structmap'
-      patch 'update_person'
-      get 'show_person'
+      patch 'update_agent'
+      get 'show_agent'
       patch 'update_metadata'
       get 'show_metadata'
       patch 'update_file'
