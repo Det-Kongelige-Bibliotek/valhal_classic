@@ -6,10 +6,10 @@ module AMUFinderService
   # Finds or creates a AuthorityMetadataUnit with type agent/person.
   # @param name The value of the agent/person
   # @return The agent/person with the given name.
-  def find_or_create_agent_person(name)
+  def find_or_create_agent_person(name, ref)
     search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{name}\"").first
     if search.nil?
-      AuthorityMetadataUnit.create(:type=>'agent/person', :value => name)
+      AuthorityMetadataUnit.create(:type=>'agent/person', :value => name, :reference => ref)
     else
       AuthorityMetadataUnit.find(search['id'])
     end
@@ -18,13 +18,28 @@ module AMUFinderService
   # Finds or creates a AuthorityMetadataUnit with type agent/organization.
   # @param name The value of the agent/organization
   # @return The agent/organization with the given name.
-  def find_or_create_agent_organization(name)
+  def find_or_create_agent_organization(name, ref)
     search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{name}\"").first
     if search.nil?
-      AuthorityMetadataUnit.create(:type=>'agent/organization', :value => name)
+      AuthorityMetadataUnit.create(:type=>'agent/organization', :value => name, :reference => ref)
     else
       AuthorityMetadataUnit.find(search['id'])
     end
+  end
+
+  # Method for finding an agent which can be either a agent/person or agent/organization.
+  # If no such agent is found, then it is created as a person.
+  # @param name The name of the agent.
+  # @return Either the existing agent (either agent/organization or agent/person), or the newly created agent/person,
+  def find_agent_or_create_agent_person(name, ref)
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{name}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{name}\"").first if search.nil?
+    if search.nil?
+      AuthorityMetadataUnit.create(:type=>'agent/person', :value => name, :reference => ref)
+    else
+      AuthorityMetadataUnit.find(search['id'])
+    end
+
   end
 
   # Extract the agents and their relations from a MODS record,
@@ -41,8 +56,10 @@ module AMUFinderService
     if xml_doc.namespaces.keys.include? ('xmlns:mods')
       namespace = 'mods|'
     end
-    res = extract_agents_from_mods_name_with_namespace(xml_doc, namespace)
-    res.merge(extract_agents_from_mods_subject_with_namespace(xml_doc, namespace))
+    res = Hash.new
+    res.merge! extract_agents_from_mods_name_with_namespace(xml_doc, namespace)
+    res.merge! extract_agents_from_mods_subject_with_namespace(xml_doc, namespace)
+    res.merge! extract_agents_from_mods_publisher_with_namespace(xml_doc, namespace)
   end
 
   private
@@ -58,9 +75,9 @@ module AMUFinderService
       name = combine_elements(n.css("#{namespace}namePart"))
       # Handle different if it is a corporate -> organization.
       if n.attr('type') == 'corporate'
-        agent = find_or_create_agent_organization(name)
+        agent = find_or_create_agent_organization(name, n.attr('authorityURI'))
       else
-        agent = find_or_create_agent_person(name)
+        agent = find_or_create_agent_person(name, n.attr('authorityURI'))
       end
       res[agent] = add_to_array(res[agent], n.css("#{namespace}role #{namespace}roleTerm"))
     end
@@ -78,11 +95,25 @@ module AMUFinderService
       name = combine_elements(n.css("#{namespace}namePart"))
       # Handle different if it is a corporate -> organization.
       if n.attr('type') == 'corporate'
-        agent = find_or_create_agent_organization(name)
+        agent = find_or_create_agent_organization(name, n.attr('authorityURI'))
       else
-        agent = find_or_create_agent_person(name)
+        agent = find_or_create_agent_person(name, n.attr('authorityURI'))
       end
       res[agent] = add_to_array(res[agent], 'Topic')
+    end
+    res
+  end
+  # Extracts the agents from a MODS document at the path 'mods/originInfo/publisher'.
+  # They have the publisher relations.
+  # @param xml_doc The MODS document to extract the agents from.
+  # @param namespace The namespace to use for searching through the document.
+  # @return The agents at the path 'mods/originInfo/publisher'
+  def extract_agents_from_mods_publisher_with_namespace(xml_doc, namespace)
+    res = Hash.new
+    # extract from 'subject/name' (without namespace prefix) with relation 'Topic' (ignores role)
+    xml_doc.css("//#{namespace}mods/#{namespace}originInfo/#{namespace}publisher").each do |n|
+      agent = find_agent_or_create_agent_person(n.text, nil)
+      res[agent] = add_to_array(res[agent], 'Publisher')
     end
     res
   end

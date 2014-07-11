@@ -13,8 +13,8 @@ module AuthorityMetadataUnitHelper
   # @return false if operation was unsuccessful
   # @param agent/person The agent/person to have the portrait added.
   def add_portrait(file, representation_metadata, portrait_metadata, agent_person)
-    if portrait_metadata[:work_type].blank?
-      portrait_metadata[:work_type] = 'PersonPortrait'
+    if portrait_metadata[:workType].blank?
+      portrait_metadata[:workType] = 'PersonPortrait'
     end
     if portrait_metadata[:title].blank?
       portrait_metadata[:title] = 'Portrait of ' + agent_person.name
@@ -37,8 +37,8 @@ module AuthorityMetadataUnitHelper
   # @param agent_person The agent/person to have the portrait added.
   # @return false if operation was unsuccessful
   def add_person_description(tei_metadata, file, representation_metadata, agent_person_description_metadata, agent_person)
-    if agent_person_description_metadata[:work_type].blank?
-      agent_person_description_metadata[:work_type] = 'PersonDescription'
+    if agent_person_description_metadata[:workType].blank?
+      agent_person_description_metadata[:workType] = 'PersonDescription'
     end
     if agent_person_description_metadata[:title].blank?
       agent_person_description_metadata[:title] = 'Person description of ' + agent_person.name
