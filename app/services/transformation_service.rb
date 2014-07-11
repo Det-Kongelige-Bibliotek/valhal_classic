@@ -42,6 +42,11 @@ class TransformationService
     i.save
     w.save
 
+    # add AMUs
+    agents_relations = AMUFinderService.find_agents_with_relation_from_mods(mods)
+    add_AMUs_to_work_and_instance(w, i, agents_relations)
+
+
     return w, i
   end
 
@@ -93,7 +98,7 @@ class TransformationService
 
   # Extracts the MODS fields which is used in Valhal, as a Hash map.
   # @param mods The MODS record to extract the Valhal fields from.
-  # @return A hash containing the Valhal fields from the MODS record.
+  # @return Three hashes containing the Valhal fields for work, instance, and the metadata objects (which are put on work).
   def self.extract_mods_fields_as_hashes(mods)
     mods_namespace_for_css = XmlHelper.extract_namespace_prefix(mods, 'http://www.loc.gov/mods/v3')
     mods_namespace_for_css += '|' unless mods_namespace_for_css.blank?
@@ -153,6 +158,10 @@ class TransformationService
       # single field cartographicsCoordinates
       n.css("#{mods_namespace_for_css}subject/#{mods_namespace_for_css}cartographics/#{mods_namespace_for_css}coordinates").each do |m|
         fields_for_work['cartographicsCoordinates'] = m.text
+      end
+      # single field tableOfContents
+      n.css("#{mods_namespace_for_css}tableOfContents").each do |m|
+        fields_for_work['tableOfContents'] = m.text
       end
       # multitple fields topic (any subject/topic, where the subject does not have a 'displayLabel' for authorityMetadata)
       n.css("#{mods_namespace_for_css}subject").each do |m|
@@ -223,5 +232,55 @@ class TransformationService
     end
 
     return fields_for_work, fields_for_instance, metadata_objects
+  end
+
+  def self.add_AMUs_to_work_and_instance(work, instance, relations)
+    relations.each do |k, v|
+      v.each do |relation|
+        if relation == 'Author' || relation.downcase.start_with?('aut')
+          work.hasAuthor << k
+        end
+        if relation == 'Contributor' || relation.downcase.start_with?('con')
+          work.hasContributor << k
+        end
+        if relation == 'Creator' || relation.downcase.start_with?('cre')
+          work.hasCreator << k
+        end
+        if relation == 'Owner' || relation.downcase.start_with?('own')
+          work.hasOwner << k
+        end
+        if relation == 'Patron' || relation.downcase.start_with?('pat')
+          work.hasPatron << k
+        end
+        if relation == 'Publisher' || relation.downcase.start_with?('pub')
+          instance.hasPublisher << k
+        end
+        if relation == 'Photographer' || relation.downcase.start_with?('pho')
+          work.hasPhotographer << k
+        end
+        if relation == 'Performer' || relation.downcase.start_with?('per')
+          work.hasPerformer << k
+        end
+        if relation == 'Printer' || relation.downcase.start_with?('pri')
+          instance.hasPrinter << k
+        end
+        if relation == 'Addressee' || relation.downcase.start_with?('add')
+          work.hasAddressee << k
+        end
+        if relation == 'Scribe' || relation.downcase.start_with?('scr')
+          instance.hasScribe << k
+        end
+        if relation == 'Translator' || relation.downcase.start_with?('tra')
+          work.hasTranslator << k
+        end
+        if relation == 'Topic'
+          work.hasTopic << k
+        end
+        if relation == 'Digitizer' || relation.downcase.start_with?('dig')
+          instance.hasDigitizer << k
+        end
+
+      end
+    end
   end
 end

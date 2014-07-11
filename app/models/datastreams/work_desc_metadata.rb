@@ -197,8 +197,8 @@ module Datastreams
 
     def get_language
       languages = []
-      languages = find_by_terms(:language)
-      languages.each do |n|
+      nodes = find_by_terms(:language)
+      nodes.each do |n|
         at = Hash.new
         n.children.each do |c|
           at[c.name] = c.text unless c.name == 'text'
