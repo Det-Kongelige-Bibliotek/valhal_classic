@@ -125,7 +125,7 @@ describe WorksController do
         @work = Work.create(valid_attributes)
       end
       it 'should redirect to \'new\' when duplicate work' do
-        post :create, {:work => {:title => @work.title, :workType => @work.work_type, :subTitle => @work.subTitle}}, valid_session
+        post :create, {:work => {:title => @work.title, :workType => @work.workType, :subTitle => @work.subTitle}}, valid_session
         response.should render_template('new')
       end
     end

@@ -35,10 +35,10 @@ describe Work do
       type = 'The worktype'
       w = Work.new(:title => 'title', :workType => type)
       w.save.should be_true
-      w.work_type.should == type
+      w.workType.should == type
     end
 
-    it 'should be possible to create a work without a work_type' do
+    it 'should be possible to create a work without a workType' do
       w = Work.new(:title => 'title')
       w.save.should be_true
     end
@@ -47,10 +47,10 @@ describe Work do
       type = 'The new worktype'
       w = Work.new(:title => 'title', :workType => 'Some worktype')
       w.save!
-      w.work_type.should_not be_nil
-      w.work_type = type
+      w.workType.should_not be_nil
+      w.workType = type
       w.save!
-      w.work_type.should == type
+      w.workType.should == type
     end
   end
 
@@ -58,7 +58,7 @@ describe Work do
     before(:each) do
       @attributes_hash = {
           title: 'Some test title' + Time.now.nsec.to_s,
-          work_type: 'The test type of work',
+          workType: 'The test type of work',
           uuid: 'urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66',
           typeOfResource: 'text',
           shelfLocator: 'Pligtaflevering',
@@ -78,7 +78,7 @@ describe Work do
       w.save.should be_true
 
       w.title.should == @attributes_hash[:title]
-      w.work_type.should == @attributes_hash[:workType]
+      w.workType.should == @attributes_hash[:workType]
       w.uuid.should == @attributes_hash[:uuid]
       w.typeOfResource.should == @attributes_hash[:typeOfResource]
       w.shelfLocator.should == @attributes_hash[:shelfLocator]
@@ -97,7 +97,7 @@ describe Work do
       w.save!
 
       w.title.should_not be_blank
-      w.work_type.should be_blank
+      w.workType.should be_blank
       w.uuid.should_not be_blank
       w.typeOfResource.should be_blank
       w.shelfLocator.should be_blank
@@ -113,7 +113,7 @@ describe Work do
       w.update_attributes(@attributes_hash)
 
       w.title.should == @attributes_hash[:title]
-      w.work_type.should == @attributes_hash[:workType]
+      w.workType.should == @attributes_hash[:workType]
       w.uuid.should == @attributes_hash[:uuid]
       w.typeOfResource.should == @attributes_hash[:typeOfResource]
       w.shelfLocator.should == @attributes_hash[:shelfLocator]

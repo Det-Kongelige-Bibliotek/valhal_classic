@@ -6,7 +6,7 @@ describe DisseminationService do
   before (:all) do
     mods = File.open('spec/fixtures/mods_digitized_book.xml').read
     @url = "http://www.kb.dk/e-mat/dod/404.pdf"
-    @work = Work.create(title: "test-#{Time.now.nsec.to_s}", work_type: "test")
+    @work = Work.create(title: "test-#{Time.now.nsec.to_s}", workType: "test")
     @work.descMetadata.content = mods
     @work.save!
   end
@@ -47,7 +47,7 @@ describe DisseminationService do
     pending "Fix for xpath or use css selector instead"
     mods = File.open('spec/fixtures/mods_digitized_book_with_2_authors.xml').read
     url = "http://www.kb.dk/e-mat/dod/404.pdf"
-    work = Work.create(title: "test-#{Time.now.nsec.to_s}", work_type: "test")
+    work = Work.create(title: "test-#{Time.now.nsec.to_s}", workType: "test")
     work.descMetadata.content = mods
     work.save!
 
