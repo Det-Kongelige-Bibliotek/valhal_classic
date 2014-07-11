@@ -12,16 +12,16 @@ module Concerns
     end
 
     # @return Whether any instances for the manifest exists.
-    def has_ins?
+    def has_rep?
       return instances.any?
     end
 
     # @return all ordered instances.
-    def ordered_instances
+    def ordered_reps
       res = []
-      instances.each do |ins|
-        if ins.kind_of? OrderedInstance
-          res << ins
+      instances.each do |rep|
+        if rep.kind_of? OrderedInstance
+          res << rep
         end
       end
 
@@ -29,11 +29,11 @@ module Concerns
     end
 
     # @return all single file instances
-    def single_file_instances
+    def single_file_reps
       res = []
-      instances.each do |ins|
-        if ins.kind_of? SingleFileInstance
-          res << ins
+      instances.each do |rep|
+        if rep.kind_of? SingleFileInstance
+          res << rep
         end
       end
 
@@ -48,17 +48,17 @@ module Concerns
 
     # @return the list of objects, which can inherit the preservation settings (only one level)
     def preservation_inheritable_objects
-      instances
+      :instances
     end
 
     # Retrieves a formatted relation to the people and the instances of the manifest.
     # @return The specific metadata for the manifest.
     def get_specific_metadata_for_preservation
       res = ''
-      instances.each do |ins|
+      instances.each do |rep|
         res += '<representation>'
-        res += "<name>#{ins.instance_name}</name>"
-        res += "<uuid>#{ins.uuid}</uuid>"
+        res += "<name>#{rep.instance_name}</name>"
+        res += "<uuid>#{rep.uuid}</uuid>"
         res += '</representation>'
       end
       res
@@ -66,18 +66,18 @@ module Concerns
 
     private
     # adds the manifest as intellectual entity for the instances.
-    def add_ie_to_ins
-      add_ie_to_ins instances
+    def add_ie_to_reps
+      add_ie_to_rep :instances
     end
 
     # go through the given instance array and add itself as intellectual entity for the given instance for each of them.
-    # @param ins_array The array of instances to add the intellectual entity for.
-    def add_ie_to_ins(ins_array)
-      if ins_array
-        ins_array.each do |ins|
-          if ins.ie.nil?
-            ins.ie = self
-            ins.save
+    # @param rep_array The array of instances to add the intellectual entity for.
+    def add_ie_to_rep(rep_array)
+      if rep_array
+        rep_array.each do |rep|
+          if rep.ie.nil?
+            rep.ie = self
+            rep.save
           end
         end
       end

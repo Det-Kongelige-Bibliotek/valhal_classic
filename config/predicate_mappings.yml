@@ -15,15 +15,11 @@
 #
 :predicate_mapping:
   http://www.kb.dk/:
-    # A book or a work can concern a person
+    # A book or a work can concern an agent
     :concerning: isDescriptionOf
-    # A book or a work can have a person as author
-    :has_author: hasMember
-    # A book or a work can have instances
+    # A work can have representations
     :has_representation: hasSubset
-    # A person can be the author of a book and/or a work
-    :is_author_of: isMemberOf
-    # A person can be concerned by a book or a work
+    # An agent can be concerned by a work
     :is_concerned_by: hasDescription
     # A representation is representing either a book or a work.
     :is_representation_of: isSubsetOf
@@ -49,10 +45,10 @@
     :has_addressee: hasAddressee
     # Addressee relationship from metadata perspective
     :is_addressee_of: isAddresseeOf
-    # Author relationship from work/instance perspective
-    :has_author: hasAuthor
-    # Author relationship from metadata perspective
-    :is_author_of: isAuthorOf
+    # Agent relationship from work/instance perspective
+    :has_agent: hasAgent
+    # Agent relationship from metadata perspective
+    :is_agent_of: isAgentOf
     # Contributor relationship from work/instance perspective
     :has_contributor: hasContributor
     # Contributor relationship from metadata perspective
@@ -113,6 +109,7 @@
     :has_part: hasPart
     :has_subset: hasSubset
     :has_topic: hasTopic
+    :has_agent: hasAgent
     :is_annotation_of: isAnnotationOf
     :is_constituent_of: isConstituentOf
     :is_dependent_of: isDependentOf
@@ -124,6 +121,7 @@
     :is_part_of: isPartOf
     :is_subset_of: isSubsetOf
     :is_topic_of: isTopicOf
+    :is_agent_of: isAgentOf
   info:fedora/fedora-system:def/model#:
     :is_contractor_of: isContractorOf
     :is_deployment_of: isDeploymentOf

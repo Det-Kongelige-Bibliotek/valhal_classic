@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Work < ActiveFedora::Base
   include Concerns::Manifest
-  include Concerns::Manifestation::Author
+  include Concerns::Manifestation::Agent
   include Concerns::Manifestation::Concerning
   include Concerns::Preservation
   include Concerns::WorkMetadata
@@ -35,31 +35,19 @@ class Work < ActiveFedora::Base
     end
   end
 
-  # Extracts the relations, which are valid for work.
-  def get_relations
-    res = Hash.new
-    relations = METADATA_RELATIONS_CONFIG['work']
-    get_all_relations.each do |k,v|
-      if relations.include?(k) && v.empty? == false
-        res[k] = v
-      end
-    end
-    res
-  end
-
-  after_save :add_ie_to_instances
+  after_save :add_ie_to_reps
   private
-  def add_ie_to_instances
-    add_ie_to_instances instances
+  def add_ie_to_reps
+    add_ie_to_rep :instances
   end
 
-  def add_ie_to_instances(ins_array)
-    ins_array.each do |ins|
-      if ins.ie.nil?
-        ins.ie = self
-        ins.save
+  def add_ie_to_rep(rep_array)
+    rep_array.each do |rep|
+      if rep.ie.nil?
+        rep.ie = self
+        rep.save
       end
-    end unless ins_array.nil?
+    end unless rep_array.nil?
   end
 
 end

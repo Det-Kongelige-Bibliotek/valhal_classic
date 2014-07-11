@@ -18,6 +18,18 @@ module Concerns
                      :recordOriginInfo, :languageOfCataloging, :dateOther,
                      datastream: 'descMetadata', :multiple => true
 
+      # Extracts the relations, which are valid for instance (which is going to replace instance).
+      def get_relations
+        res = Hash.new
+        relations = METADATA_RELATIONS_CONFIG['instance']
+        get_all_relations.each do |k,v|
+          if relations.include?(k) && v.empty? == false
+            res[k] = v
+          end
+        end
+        res
+      end
+
       # Retrieves the identifier elements.
       # @param *arg Any argument will be ignored.
       # @return The identifier elements.

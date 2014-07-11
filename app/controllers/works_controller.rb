@@ -14,7 +14,7 @@ class WorksController < ApplicationController
     @work = Work.find(params[:id])
   end
 
-  def show_person
+  def show_agent
     @work = Work.find(params[:id])
   end
 
@@ -53,19 +53,19 @@ class WorksController < ApplicationController
     end
 
     if @work.save
-      redirect_to  show_person_work_path @work
+      redirect_to show_agent_work_path @work
     else
       render action: 'new'
     end
   end
 
-  def update_person
+  def update_agent
     @work = Work.find(params[:id])
     handle_arguments
     if @work.save
       redirect_to show_metadata_work_path @work
     else
-      render action "update_person"
+      render action "update_agent"
     end
   end
 
@@ -168,9 +168,9 @@ class WorksController < ApplicationController
       add_single_file_ins(params[:single_file][:basic_files], params[:ins], params[:skip_file_characterisation], @work)
     end
 
-    # add the authors to the work
-    if !params[:person].blank? && !params[:person][:id].blank?
-      set_authors(params[:person][:id], @work)
+    # add the agents to the work
+    if !params[:agent].blank? && !params[:agent][:id].blank?
+      set_agents(params[:agent][:id], @work)
     end
 
     #Create ordered instance
@@ -180,8 +180,8 @@ class WorksController < ApplicationController
     end
 
     # add the described persons to the work
-    if !params[:person_concerned].blank? && !params[:person_concerned][:id].blank?
-      set_concerned_people(params[:person_concerned][:id], @work)
+    if !params[:agent_concerned].blank? && !params[:agent_concerned][:id].blank?
+      set_concerned_agents(params[:agent_concerned][:id], @work)
     end
   end
 
