@@ -37,12 +37,12 @@ module AMUFinderService
     xml_doc = Nokogiri::XML(mods)
 
     namespace = ''
-    # TODO should find the key with value: 'http://www.loc.gov/mods/v3' instead... though without the namespace-prefix
+    # TODO should probably find the key with value: 'http://www.loc.gov/mods/v3' instead... though without the namespace-prefix
     if xml_doc.namespaces.keys.include? ('xmlns:mods')
       namespace = 'mods|'
     end
     res = extract_agents_from_mods_name_with_namespace(xml_doc, namespace)
-    res.merge(extract_agents_from_mods_subject_name_with_namespace(xml_doc, namespace))
+    res.merge(extract_agents_from_mods_subject_with_namespace(xml_doc, namespace))
   end
 
   private
@@ -71,7 +71,7 @@ module AMUFinderService
   # @param xml_doc The MODS document to extract the agents from.
   # @param namespace The namespace to use for searching through the document.
   # @return The agents at the path 'mods/subject/name'
-  def extract_agents_from_mods_subject_name_with_namespace(xml_doc, namespace)
+  def extract_agents_from_mods_subject_with_namespace(xml_doc, namespace)
     res = Hash.new
     # extract from 'subject/name' (without namespace prefix) with relation 'Topic' (ignores role)
     xml_doc.css("//#{namespace}mods/#{namespace}subject/#{namespace}name").each do |n|
