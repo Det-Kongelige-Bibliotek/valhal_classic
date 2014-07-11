@@ -21,19 +21,19 @@ describe 'DigitisationHelper' do
     after (:each) do
       BasicFile.all.each { |file| file.delete }
       Work.all.each { |w| w.delete }
-      SingleFileInstance.all.each { |rep| rep.delete}
+      SingleFileInstance.all.each { |ins| ins.delete}
     end
 
-    it "should create a new object with singlefile representation" do
+    it "should create a new object with singlefile instance" do
       @work = update_or_create_work('notanid', @mods, "http://www.kb.dk/e-mat/dod/testdod.pdf")
       @work.should_not be_nil
       @work.title.should == 'Er Danmark i Fare?'
       @work.workType.should == 'DOD bog'
-      @work.single_file_reps.length.should == 1
-      rep = @work.single_file_reps[0]
-      rep.should be_a_kind_of SingleFileInstance
-      rep.files.length.should == 1
-      file = rep.files[0]
+      @work.single_file_instances.length.should == 1
+      ins = @work.single_file_instances[0]
+      ins.should be_a_kind_of SingleFileInstance
+      ins.files.length.should == 1
+      file = ins.files[0]
       file.should be_a_kind_of BasicFile
       file.datastreams['content'].should_not be nil
     end
@@ -55,11 +55,11 @@ describe 'DigitisationHelper' do
       @work.should_not be_nil
       @work.title.should == 'Er Danmark i Fare?'
       @work.workType.should == 'DOD bog'
-      @work.single_file_reps.length.should == 1
-      rep = @work.single_file_reps[0]
-      rep.should be_a_kind_of SingleFileInstance
-      rep.files.length.should == 1
-      file = rep.files[0]
+      @work.single_file_instances.length.should == 1
+      ins = @work.single_file_instances[0]
+      ins.should be_a_kind_of SingleFileInstance
+      ins.files.length.should == 1
+      file = ins.files[0]
       file.should be_a_kind_of BasicFile
       file.datastreams['content'].should_not be nil
     end
