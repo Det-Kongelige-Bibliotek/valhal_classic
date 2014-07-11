@@ -161,7 +161,8 @@ describe "transformation" do
   describe "#transform_from_mods" do
     it 'should create a work and an instance from the Valhal-mods' do
       mods = Nokogiri::XML::Document.parse(File.read("#{Rails.root}/spec/fixtures/valhal_mods.xml"))
-      w = TransformationService.create_from_mods(mods)
+      w = TransformationService.create_from_mods(mods, [])
+
       puts w.inspect
     end
   end

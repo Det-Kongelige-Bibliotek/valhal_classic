@@ -19,8 +19,10 @@ class TransformationService
   # Creates Valhal elements Work and Instance from a MODS record.
   # Will also create the needed authority metadata units.
   # @param mods The MODS record to create the Work and Instance from.
+  # @param files The files which should be used for creating the instance. If more than 1 file, then a OrderedInstance
+  # is created, otherwise a SingleFileInstance
   # @return The Work created from the MODS.
-  def self.create_from_mods(mods)
+  def self.create_from_mods(mods, files)
     fields_for_work, fields_for_instance, metadata_objects = extract_mods_fields_as_hashes(mods)
     #puts "\nFIELDS FOR WORK\n"
     #fields_for_work.each do |k,v|
@@ -40,12 +42,18 @@ class TransformationService
     w.identifier = metadata_objects['identifier']
     w.language = metadata_objects['language']
     w.note = metadata_objects['note']
-    #i = SingleFileInstance.create(fields_for_instance)
-    #
+
+    if files.length > 1
+      i = OrderedInstance.create(fields_for_instance)
+    else
+      i = SingleFileInstance.create(fields_for_instance)
+    end
+    puts
+
     #i.ie = w
     #i.save
 
-    w
+    return w, i
   end
 
   private

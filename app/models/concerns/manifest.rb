@@ -48,7 +48,7 @@ module Concerns
 
     # @return the list of objects, which can inherit the preservation settings (only one level)
     def preservation_inheritable_objects
-      instances
+      :instances
     end
 
     # Retrieves a formatted relation to the people and the instances of the manifest.
@@ -67,7 +67,7 @@ module Concerns
     private
     # adds the manifest as intellectual entity for the instances.
     def add_ie_to_reps
-      add_ie_to_rep instances
+      add_ie_to_rep :instances
     end
 
     # go through the given instance array and add itself as intellectual entity for the given instance for each of them.

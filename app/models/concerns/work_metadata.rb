@@ -18,6 +18,19 @@ module Concerns
       has_attributes :dateOther, :genre, :languageOfCataloging, :topic,
                      datastream: 'descMetadata', :multiple => true
 
+
+      # Extracts the relations, which are valid for work.
+      def get_relations
+        res = Hash.new
+        relations = METADATA_RELATIONS_CONFIG['work']
+        get_all_relations.each do |k,v|
+          if relations.include?(k) && v.empty? == false
+            res[k] = v
+          end
+        end
+        res
+      end
+
       # Retrieves the alternative titles.
       # @param *arg Any argument will be ignored.
       # @return The alternative titles.
