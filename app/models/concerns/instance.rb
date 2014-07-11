@@ -5,7 +5,7 @@ module Concerns
 
     included do
       include IntellectualEntity
-      include WorkInstanceRelations
+      include Concerns::InstanceMetadata
 
       # relationships that all instances must have
       # belongs_to ie(short for IntellectualEntity), can be a Book, Person and so on
@@ -52,18 +52,6 @@ module Concerns
       # @return Whether any intellectual entity for this instance has been defined.
       def has_ie?
         !self.ie.nil?
-      end
-
-      # Extracts the relations, which are valid for instance (which is going to replace instance).
-      def get_relations
-        res = Hash.new
-        relations = METADATA_RELATIONS_CONFIG['instance']
-        get_all_relations.each do |k,v|
-          if relations.include?(k) && v.empty? == false
-            res[k] = v
-          end
-        end
-        res
       end
 
       private

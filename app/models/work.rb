@@ -35,18 +35,6 @@ class Work < ActiveFedora::Base
     end
   end
 
-  # Extracts the relations, which are valid for work.
-  def get_relations
-    res = Hash.new
-    relations = METADATA_RELATIONS_CONFIG['work']
-    get_all_relations.each do |k,v|
-      if relations.include?(k) && v.empty? == false
-        res[k] = v
-      end
-    end
-    res
-  end
-
   after_save :add_ie_to_reps
   private
   def add_ie_to_reps

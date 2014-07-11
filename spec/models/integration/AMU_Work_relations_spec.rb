@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe "Relations between AuthorityMetadataUnits and Works" do
   before :each do
-    @w = Work.create!(:title => 'Test title', :work_type => 'Test type')
+    @w = Work.create!(:title => 'Test title', :workType => 'Test type')
     @a = AuthorityMetadataUnit.create!(:type => AMU_TYPES.last)
   end
 

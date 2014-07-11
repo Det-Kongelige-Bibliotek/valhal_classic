@@ -7,7 +7,6 @@ class SingleFileInstance < ActiveFedora::Base
   include Concerns::Preservation
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
-  has_metadata :name => 'descMetadata', :type => ActiveFedora::SimpleDatastream
 
   # Overrides the default one by adding the basic_files type in parenthesis.
   def instance_name

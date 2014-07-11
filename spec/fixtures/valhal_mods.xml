@@ -242,7 +242,7 @@
   <!-- Agent with relation=>"Publisher" - ignores agent type and reference... -->
   <mods:originInfo>
     <mods:publisher>Some publisher without any authority</mods:publisher>
-    <mods:publisher>Some publisher with an authority - which cannot be used</mods:publisher>
+    <mods:publisher>Some publisher with an authority - though the authority cannot be displayed</mods:publisher>
   </mods:originInfo>
 
   <!-- Internal field: physicalDescriptionForm. -->
@@ -267,8 +267,6 @@
   <!-- Internal field: recordOriginInfo-->
   <mods:recordInfo>
     <mods:recordOrigin>One origin of the record.</mods:recordOrigin>
-    <mods:recordOrigin>Another origin of the record.</mods:recordOrigin>
-    <mods:recordOrigin>A third origin of the record.</mods:recordOrigin>
   </mods:recordInfo>
 
   <!-- The internal field: 'cartographicsScale' -->

@@ -6,7 +6,7 @@ describe 'works/show' do
   before(:each) do
 
     #Set up a dod_book_mock Work object to test with the view
-    dod_book_mock = mock_model('Work', :work_type => 'DOD eBook', :shelfLocator => '37,-376 8°', :title => 'Test title',
+    dod_book_mock = mock_model('Work', :workType => 'DOD eBook', :shelfLocator => '37,-376 8°', :title => 'Test title',
                   :subTitle => 'test subtitle', :has_author? => false, :has_concerned_person? => false,
                   :typeOfResource => 'DOD eBook', :publisher => 'test publisher', :originPlace => 'København',
                   :languageISO => 'da', :languageText => 'da', :subjectTopic => '', :dateIssued=> '',
