@@ -24,18 +24,6 @@ class TransformationService
   # @return The Work created from the MODS.
   def self.create_from_mods(mods, files)
     fields_for_work, fields_for_instance, metadata_objects = extract_mods_fields_as_hashes(mods)
-    #puts "\nFIELDS FOR WORK\n"
-    #fields_for_work.each do |k,v|
-    #  puts "#{k} => #{v}"
-    #end
-    #puts "\nFIELDS FOR INSTANCE\n"
-    #fields_for_instance.each do |k,v|
-    #  puts "#{k} => #{v}"
-    #end
-    #puts "\nMETADATA OBJECTS\n"
-    #metadata_objects.each do |k,v|
-    #  puts "#{k} => #{v}"
-    #end
 
     w = Work.create(fields_for_work)
     w.alternativeTitle = metadata_objects['alternativeTitle']
@@ -48,10 +36,11 @@ class TransformationService
     else
       i = SingleFileInstance.create(fields_for_instance)
     end
-    puts
 
-    #i.ie = w
-    #i.save
+    i.ie = w
+    w.instances << i
+    i.save
+    w.save
 
     return w, i
   end

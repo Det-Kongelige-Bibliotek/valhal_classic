@@ -21,7 +21,7 @@ describe ViewFileController do
     end
 
     it 'should not be possible to download AuthorityMetadataUnit' do
-      work = Work.create!(:work_type => 'NOT A FILE', :title => 'name of work')
+      work = Work.create!(:workType => 'NOT A FILE', :title => 'name of work')
 
       get :show, :pid => work.pid
       response.status.should == 302
