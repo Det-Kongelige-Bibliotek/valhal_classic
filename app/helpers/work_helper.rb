@@ -18,7 +18,7 @@ module WorkHelper
       return false
     end
 
-    create_as_single_file_inc(tei_file, ins_metadata, work)
+    create_as_single_file_ins(tei_file, ins_metadata, work)
   end
 
   # Creates and adds a SingleFileInstance with a basic basic_files to the work
@@ -34,7 +34,7 @@ module WorkHelper
       return false
     end
 
-    create_as_single_file_inc(ins_file, metadata, work)
+    create_as_single_file_ins(ins_file, metadata, work)
   end
 
   # Creates and adds a OrderedInstance with basic_files to the work
@@ -138,7 +138,7 @@ module WorkHelper
   # @param file The file for the SingleFileInstance
   # @param metadata The metadata for the SingleFileInstance
   # @param work The work to contain the SingleFileInstance
-  def create_as_single_file_inc(file, metadata, work)
+  def create_as_single_file_ins(file, metadata, work)
     ins = SingleFileInstance.new(metadata)
     ins.files << file
     ins.save!

@@ -36,11 +36,11 @@ describe SingleFileInstance do
         end
 
         it 'should be able to retrieve a person from a saved Instance' do
-          ie_from_saved_inc subject, default_ie
+          ie_from_saved_ins subject, default_ie
         end
 
         it 'should be able to get values from a person via instance' do
-          values_from_ie_via_inc subject, default_ie, :firstname
+          values_from_ie_via_ins subject, default_ie, :firstname
         end
       end
   end
@@ -76,8 +76,8 @@ describe SingleFileInstance do
         subject.files << basic_files
         subject.save
         pid = subject.pid
-        def_inc = subject.class.find(pid)
-        def_inc.files.should == basic_files
+        def_ins = subject.class.find(pid)
+        def_ins.files.should == basic_files
       end
     end
   end
