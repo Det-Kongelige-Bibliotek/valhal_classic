@@ -124,7 +124,7 @@ describe WorkHelper do
     it 'should validate the structmap' do
       add_order_rep([@tiff1, @tiff2], {}, @manifestation).should be_true
 
-      structmap = @manifestation.representations.last.techMetadata.ng_xml.to_s
+      structmap = @manifestation.instances.last.techMetadata.ng_xml.to_s
       structmap.index(@tiff1.original_filename).should be < structmap.index(@tiff2.original_filename)
     end
   end
@@ -151,7 +151,7 @@ describe WorkHelper do
     it 'should validate the structmap' do
       add_order_rep([@tiff, @other_file], {}, @manifestation).should be_true
 
-      structmap = @manifestation.representations.last.techMetadata.ng_xml.to_s
+      structmap = @manifestation.instances.last.techMetadata.ng_xml.to_s
       structmap.index(@tiff.original_filename).should be < structmap.index(@other_file.original_filename)
     end
   end
@@ -300,21 +300,21 @@ describe WorkHelper do
     it 'should create structmap and be able to restructure it afterwards' do
       add_order_rep([@file1, @file2], {}, @manifestation)
 
-      xml_before_ordering = @manifestation.representations.last.techMetadata.ng_xml.to_s
+      xml_before_ordering = @manifestation.instances.last.techMetadata.ng_xml.to_s
       xml_before_ordering.index(@file1.original_filename).should be < xml_before_ordering.index(@file2.original_filename)
 
       order = @file2.original_filename.to_s + ',' + @file1.original_filename.to_s
-      create_structmap_for_representation(order, @manifestation.representations.last)
+      create_structmap_for_representation(order, @manifestation.instances.last)
 
-      xml_after_ordering = @manifestation.representations.last.techMetadata.ng_xml.to_s
+      xml_after_ordering = @manifestation.instances.last.techMetadata.ng_xml.to_s
       xml_after_ordering.index(@file1.original_filename).should be > xml_after_ordering.index(@file2.original_filename)
     end
 
     it 'should be the same after reload' do
       add_order_rep([@file1, @file2], {}, @manifestation)
-      structmap = @manifestation.representations.last.techMetadata.ng_xml.to_s
+      structmap = @manifestation.instances.last.techMetadata.ng_xml.to_s
 
-      rep = OrderedInstance.find(@manifestation.representations.last.pid)
+      rep = OrderedInstance.find(@manifestation.instances.last.pid)
       rep.techMetadata.should_not be_nil
       # TODO this is very odd. The UTF-8 encoding is on when it is created, but not when it has been reloaded...
       rep.techMetadata.ng_xml.encoding = 'UTF-8'

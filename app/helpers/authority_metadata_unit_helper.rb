@@ -25,7 +25,7 @@ module AuthorityMetadataUnitHelper
       return false
     end
 
-    set_concerned_people([agent_person.pid], portrait)
+    set_concerned_agents([agent_person.pid], portrait)
   end
 
   # Creates and adds a agent/person description for the agent/person.
@@ -49,6 +49,6 @@ module AuthorityMetadataUnitHelper
       return false
     end
 
-    set_concerned_people([agent_person.pid], portrait)
+    set_concerned_agents([agent_person.pid], portrait)
   end
 end

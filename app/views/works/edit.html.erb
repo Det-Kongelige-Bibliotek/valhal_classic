@@ -6,11 +6,11 @@
     <% end %>
     <br/>
     <%= fields_for :author, :html=>{:multipart=>true} do |builder| %>
-        <%= render 'add_author', :f => builder %>
+        <%= render 'add_agent', :f => builder %>
     <% end %>
     <br/>
     <%= fields_for :person_described, :html=>{:multipart=>true} do |builder| %>
-        <%= render 'add_concerned_person', :f => builder %>
+        <%= render 'add_concerned_agent', :f => builder %>
     <% end %>
     <br/>
     <%= fields_for :work do |builder| %>

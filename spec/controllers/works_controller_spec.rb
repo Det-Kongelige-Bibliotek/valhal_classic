@@ -113,10 +113,10 @@ describe WorksController do
         pending 'Failing unit-test'
         post :create, {:work => valid_attributes, :single_file => {'basic_files' => ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml")) }}, valid_session
         response.should redirect_to(Work.all.last)
-        Work.all.last.representations.length.should == 1
-        Work.all.last.representations.last.kind_of?(SingleFileInstance).should be_true
-        Work.all.last.representations.last.files.length.should == 1
-        Work.all.last.representations.last.files.last.kind_of?(BasicFile).should be_true
+        Work.all.last.instances.length.should == 1
+        Work.all.last.instances.last.kind_of?(SingleFileInstance).should be_true
+        Work.all.last.instances.last.files.length.should == 1
+        Work.all.last.instances.last.files.last.kind_of?(BasicFile).should be_true
       end
     end
 
@@ -321,12 +321,12 @@ describe WorksController do
       work.preservation_comment.should == comment
     end
 
-    it 'should send inheritable settings to representations and their files' do
+    it 'should send inheritable settings to instances and their files' do
       file = create_basic_file(nil)
       rep = SingleFileInstance.new
       rep.files << file
       rep.ie = @work
-      @work.representations << rep
+      @work.instances << rep
       rep.save!
       file.save!
       @work.save!

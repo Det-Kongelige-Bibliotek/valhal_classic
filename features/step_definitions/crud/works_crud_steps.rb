@@ -37,12 +37,12 @@ end
 
 Given(/^I edit the work with some new metadata$/) do
   click_link 'Edit metadata'
-  fill_in 'Publisher', :with => 'Manning'
+  fill_in 'Genre(s)', :with => 'true crime'
   click_on 'Next'
 end
 
 Then(/^I should see the work successfully updated$/) do
-  page.should have_content 'Manning'
+  page.should have_content 'true crime'
 end
 
 Given(/^I browse all works$/) do

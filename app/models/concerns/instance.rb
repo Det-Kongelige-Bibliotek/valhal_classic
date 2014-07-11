@@ -1,19 +1,19 @@
 # -*- encoding : utf-8 -*-
 module Concerns
-  module Representation
+  module Instance
     extend ActiveSupport::Concern
 
     included do
       include IntellectualEntity
       include WorkInstanceRelations
 
-      # relationships that all representations must have
+      # relationships that all instances must have
       # belongs_to ie(short for IntellectualEntity), can be a Book, Person and so on
       # has_many basic_files, can be BasicFile, TiffFile and so on
       has_many :files, :class_name => 'ActiveFedora::Base', :property => :is_part_of, :inverse_of => :has_part
       belongs_to :ie, :class_name => 'ActiveFedora::Base', :property => :has_representation, :inverse_of => :is_representation_of
 
-      # adds the representation to the basic_files container after a save so we dont have to manage all that saving before adding
+      # adds the instance to the basic_files container after a save so we dont have to manage all that saving before adding
       # example
       # Before:
       # rep = SingleFileInstance.new(params[:rep])
@@ -34,7 +34,7 @@ module Concerns
       # rep_file.add_file(params[:basic_files][:basic_files])
       # rep.basic_files << rep_file
       #
-      # @work.representations << rep
+      # @work.instances << rep
       # @work.save
       after_save :add_representation_to_files
 
@@ -49,12 +49,12 @@ module Concerns
         end
       end
 
-      # @return Whether any intellectual entity for this representation has been defined.
+      # @return Whether any intellectual entity for this instance has been defined.
       def has_ie?
         !self.ie.nil?
       end
 
-      # Extracts the relations, which are valid for instance (which is going to replace representation).
+      # Extracts the relations, which are valid for instance (which is going to replace instance).
       def get_relations
         res = Hash.new
         relations = METADATA_RELATIONS_CONFIG['instance']
@@ -69,12 +69,12 @@ module Concerns
       private
     end
 
-    # @return The name of the representation (default the label)
-    def representation_name
+    # @return The name of the instance (default the label)
+    def instance_name
       uuid
     end
 
-    # @return whether its preservation can be inherited. For the representations, this is true (since it has the files).
+    # @return whether its preservation can be inherited. For the instances, this is true (since it has the files).
     def preservation_inheritance?
       return true
     end

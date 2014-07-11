@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class OrderedInstance < ActiveFedora::Base
   include ActiveModel::Validations
-  include Concerns::Representation
+  include Concerns::Instance
   include Concerns::Preservation
 
   has_metadata :name => 'descMetadata',   :type => ActiveFedora::SimpleDatastream

@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Work < ActiveFedora::Base
   include Concerns::Manifest
-  include Concerns::Manifestation::Author
+  include Concerns::Manifestation::Agent
   include Concerns::Manifestation::Concerning
   include Concerns::Preservation
   include Concerns::WorkMetadata
@@ -50,7 +50,7 @@ class Work < ActiveFedora::Base
   after_save :add_ie_to_reps
   private
   def add_ie_to_reps
-    add_ie_to_rep representations
+    add_ie_to_rep instances
   end
 
   def add_ie_to_rep(rep_array)

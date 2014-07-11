@@ -1,25 +1,25 @@
 # -*- encoding : utf-8 -*-
 module Concerns
-  # The common manifest for containing representations
-  # provides both the representation relationships and relevant methods.
+  # The common manifest for containing instances
+  # provides both the instance relationships and relevant methods.
   module Manifest
     extend ActiveSupport::Concern
 
     included do
       include Concerns::IntellectualEntity
-      # A work can have many representations
-      has_many :representations, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of, :inverse_of => :has_representation
+      # A work can have many instances
+      has_many :instances, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of, :inverse_of => :has_representation
     end
 
-    # @return Whether any representations for the manifest exists.
+    # @return Whether any instances for the manifest exists.
     def has_rep?
-      return representations.any?
+      return instances.any?
     end
 
-    # @return all ordered representations.
+    # @return all ordered instances.
     def ordered_reps
       res = []
-      representations.each do |rep|
+      instances.each do |rep|
         if rep.kind_of? OrderedInstance
           res << rep
         end
@@ -28,10 +28,10 @@ module Concerns
       res
     end
 
-    # @return all single file representations
+    # @return all single file instances
     def single_file_reps
       res = []
-      representations.each do |rep|
+      instances.each do |rep|
         if rep.kind_of? SingleFileInstance
           res << rep
         end
@@ -41,23 +41,23 @@ module Concerns
     end
 
     # @return whether its preservation can be inherited.
-    # For the manifests, this is true (since it has the representations).
+    # For the manifests, this is true (since it has the instances).
     def preservation_inheritance?
       return true
     end
 
     # @return the list of objects, which can inherit the preservation settings (only one level)
     def preservation_inheritable_objects
-      representations
+      instances
     end
 
-    # Retrieves a formatted relation to the people and the representations of the manifest.
+    # Retrieves a formatted relation to the people and the instances of the manifest.
     # @return The specific metadata for the manifest.
     def get_specific_metadata_for_preservation
       res = ''
-      representations.each do |rep|
+      instances.each do |rep|
         res += '<representation>'
-        res += "<name>#{rep.representation_name}</name>"
+        res += "<name>#{rep.instance_name}</name>"
         res += "<uuid>#{rep.uuid}</uuid>"
         res += '</representation>'
       end
@@ -65,13 +65,13 @@ module Concerns
     end
 
     private
-    # adds the manifest as intellectual entity for the representations.
+    # adds the manifest as intellectual entity for the instances.
     def add_ie_to_reps
-      add_ie_to_rep representations
+      add_ie_to_rep instances
     end
 
-    # go through the given representation array and add itself as intellectual entity for the given representation for each of them.
-    # @param rep_array The array of representations to add the intellectual entity for.
+    # go through the given instance array and add itself as intellectual entity for the given instance for each of them.
+    # @param rep_array The array of instances to add the intellectual entity for.
     def add_ie_to_rep(rep_array)
       if rep_array
         rep_array.each do |rep|
