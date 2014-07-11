@@ -128,8 +128,6 @@ describe "transformation" do
 
         @instance.work = @work
         @instance.save!
-
-
       end
 
       it 'should be possible to extract the metadata' do
@@ -159,17 +157,107 @@ describe "transformation" do
   end
 
   describe "#transform_from_mods" do
-    it 'should create a work with an instance from the Valhal-mods' do
+    before :all do
       mods = Nokogiri::XML::Document.parse(File.read("#{Rails.root}/spec/fixtures/valhal_mods.xml"))
-      w, i = TransformationService.create_from_mods(mods, [])
-
-      w.should be_a(Work)
-      i.should be_a(SingleFileInstance)
-
-      i.ie.should == w
-      w.instances.should == [i]
+      @w, @i = TransformationService.create_from_mods(mods, [])
     end
 
+    it 'should create a work with an instance from the Valhal-mods' do
+      @w.should be_a(Work)
+      @i.should be_a(SingleFileInstance)
 
+      @i.ie.should == @w
+      @w.instances.should == [@i]
+    end
+
+    it 'should place metadata on work and instance' do
+      @w.title.should_not be_blank
+      @w.subTitle.should_not be_blank
+      @w.workType.should_not be_blank
+      @w.cartographicsScale.should_not be_blank
+      @w.cartographicsCoordinates.should_not be_blank
+      @w.dateCreated.should_not be_blank
+      @w.tableOfContents.should_not be_blank
+      @w.typeOfResource.should_not be_blank
+      @w.typeOfResourceLabel.should_not be_blank
+      @w.recordOriginInfo.should_not be_blank
+      @w.dateOther.should_not be_empty
+      @w.genre.should_not be_empty
+      @w.languageOfCataloging.should_not be_empty
+      @w.topic.should_not be_empty
+      @i.shelfLocator.should_not be_blank
+      @i.dateCreated.should be_blank # is placed on work instead
+      @i.dateIssued.should_not be_blank
+      @i.tableOfContents.should be_blank # is placed on work instead
+      @i.physicalDescriptionForm.should_not be_empty
+      @i.physicalDescriptionNote.should_not be_empty
+      @i.recordOriginInfo.should be_empty # is placed on work instead
+      @i.languageOfCataloging.should be_empty # is placed on work instead
+      @i.dateOther.should be_empty # is placed on work instead
+
+      @w.alternativeTitle.should_not be_empty
+      @w.language.should_not be_empty
+      @w.identifier.should_not be_empty
+      @w.note.should_not be_empty
+      @i.identifier.should be_empty
+      @i.note.should be_empty
+    end
+
+    it 'should place addressee on work only' do
+      @w.get_relations.keys.should include 'hasAddressee'
+      @i.get_relations.keys.should_not include 'hasAddressee'
+    end
+    it 'should place author on work only' do
+      @w.get_relations.keys.should include 'hasAuthor'
+      @i.get_relations.keys.should_not include 'hasAuthor'
+    end
+    it 'should place contributor on work only' do
+      @w.get_relations.keys.should include 'hasContributor'
+      @i.get_relations.keys.should_not include 'hasContributor'
+    end
+    it 'should place creator on work only' do
+      @w.get_relations.keys.should include 'hasCreator'
+      @i.get_relations.keys.should_not include 'hasCreator'
+    end
+    it 'should place owner on work only' do
+      @w.get_relations.keys.should include 'hasOwner'
+      @i.get_relations.keys.should_not include 'hasOwner'
+    end
+    it 'should place patron on work only' do
+      @w.get_relations.keys.should include 'hasPatron'
+      @i.get_relations.keys.should_not include 'hasPatron'
+    end
+    it 'should place performer on work only' do
+      @w.get_relations.keys.should include 'hasPerformer'
+      @i.get_relations.keys.should_not include 'hasPerformer'
+    end
+    it 'should place photographer on work only' do
+      @w.get_relations.keys.should include 'hasPhotographer'
+      @i.get_relations.keys.should_not include 'hasPhotographer'
+    end
+    it 'should place printer on instance only' do
+      @w.get_relations.keys.should_not include 'hasPrinter'
+      @i.get_relations.keys.should include 'hasPrinter'
+    end
+    it 'should place publisher on instance only' do
+      @w.get_relations.keys.should_not include 'hasPublisher'
+      @i.get_relations.keys.should include 'hasPublisher'
+    end
+    it 'should place scribe on instance only' do
+      @w.get_relations.keys.should_not include 'hasScribe'
+      @i.get_relations.keys.should include 'hasScribe'
+    end
+    it 'should place translator on work only' do
+      @w.get_relations.keys.should include 'hasTranslator'
+      @i.get_relations.keys.should_not include 'hasTranslator'
+    end
+    it 'should place digitizer on instance only' do
+      @w.get_relations.keys.should_not include 'hasDigitizer'
+      @i.get_relations.keys.should include 'hasDigitizer'
+    end
+    it 'should place topic on work only' do
+      @w.get_relations.keys.should include 'hasTopic'
+      @i.get_relations.keys.should_not include 'hasTopic'
+    end
   end
 end

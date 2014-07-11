@@ -207,15 +207,15 @@
   <!-- Agent with relation="Digitizer" (which is does not have an authority definition in MARC relators)
       (can be either agent/person or agent/organization, and either with or without and authority) -->
   <mods:name type="corporate">
-    <mods:namePart>The name of a contributing institution/organization without an authority</mods:namePart>
+    <mods:namePart>The name of a digitizing institution/organization without an authority</mods:namePart>
     <mods:role>
-      <mods:roleTerm>Contributor</mods:roleTerm>
+      <mods:roleTerm>Digitizer</mods:roleTerm>
     </mods:role>
   </mods:name>
   <mods:name type="personal" authorityURI="http://authority.org/person01">
-    <mods:namePart>The name of a contributor with an authority</mods:namePart>
+    <mods:namePart>The name of a digitizing with an authority</mods:namePart>
     <mods:role>
-      <mods:roleTerm>Contributor</mods:roleTerm>
+      <mods:roleTerm>Digitizer</mods:roleTerm>
     </mods:role>
   </mods:name>
 
@@ -328,6 +328,9 @@
     <mods:topic>One internal topic.</mods:topic>
     <mods:topic>Another internal topic. </mods:topic>
   </mods:subject>
+
+  <!-- Internal tableOfContents field -->
+  <mods:tableOfContents>A random table of contents</mods:tableOfContents>
 
   <!-- No vocabular. Internal fields: 'title' and 'subTitle'. -->
   <mods:titleInfo>
