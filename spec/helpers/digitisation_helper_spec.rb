@@ -28,7 +28,7 @@ describe 'DigitisationHelper' do
       @work = update_or_create_work('notanid', @mods, "http://www.kb.dk/e-mat/dod/testdod.pdf")
       @work.should_not be_nil
       @work.title.should == 'Er Danmark i Fare?'
-      @work.work_type.should == 'DOD bog'
+      @work.workType.should == 'DOD bog'
       @work.single_file_instances.length.should == 1
       rep = @work.single_file_instances[0]
       rep.should be_a_kind_of SingleFileInstance
@@ -55,8 +55,8 @@ describe 'DigitisationHelper' do
       @work.should_not be_nil
       @work.title.should == 'Er Danmark i Fare?'
       @work.work_type.should == 'DOD bog'
-      @work.single_file_instances.length.should == 1
-      rep = @work.single_file_instances[0]
+      @work.single_file_reps.length.should == 1
+      rep = @work.single_file_reps[0]
       rep.should be_a_kind_of SingleFileInstance
       rep.files.length.should == 1
       file = rep.files[0]
