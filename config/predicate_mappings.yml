@@ -49,6 +49,10 @@
     :has_agent: hasAgent
     # Agent relationship from metadata perspective
     :is_agent_of: isAgentOf
+    # Author relationship from work/instance perspective
+    :has_author: hasAuthor
+    # Author relationship from metadata perspective
+    :is_author_of: isAuthorOf
     # Contributor relationship from work/instance perspective
     :has_contributor: hasContributor
     # Contributor relationship from metadata perspective
@@ -110,6 +114,8 @@
     :has_subset: hasSubset
     :has_topic: hasTopic
     :has_agent: hasAgent
+    :has_author: hasAuthor
+    :is_author_of: isAuthorOf
     :is_annotation_of: isAnnotationOf
     :is_constituent_of: isConstituentOf
     :is_dependent_of: isDependentOf
