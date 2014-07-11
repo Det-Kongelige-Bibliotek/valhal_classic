@@ -49,7 +49,11 @@ module AMUFinderService
   # @param mods The MODS to extract the agent from.
   # @return A hash between the agents and their relation.
   def find_agents_with_relation_from_mods(mods)
-    xml_doc = Nokogiri::XML(mods)
+    if(mods.is_a?(String))
+      xml_doc = Nokogiri::XML(mods)
+    else
+      xml_doc = mods
+    end
 
     namespace = ''
     # TODO should probably find the key with value: 'http://www.loc.gov/mods/v3' instead... though without the namespace-prefix

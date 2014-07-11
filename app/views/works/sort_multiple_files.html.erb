@@ -1,6 +1,6 @@
 <%= form_for @work, :html=>{:multipart=>true}, :url => {:action=> "finish_work_with_structmap"}  do|f| %>
     <div class="all-center">
-      <h1>Sort Files</h1>
+      <h1 class="text-left">Sort Multiple File Instance</h1>
 
       <ul id="structmap_file_list" class="sortable grid">
         <%- params[:multiple_files][:basic_files].each do |file| %>

@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe WorkHelper do
 
-  describe '#add_single_tei_ins' do
+  describe '#add_single_tei_rep' do
     before(:each) do
       @manifestation = Work.create(:title => 'Work')
       @tei_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
@@ -12,7 +12,7 @@ describe WorkHelper do
     end
 
     it 'should be possible with a TEI basic_files' do
-      add_single_tei_ins({}, @tei_file, {}, @manifestation).should be_true
+      add_single_tei_rep({}, @tei_file, {}, @manifestation).should be_true
 
       @manifestation.single_file_instances.length.should == 1
       @manifestation.single_file_instances.first.kind_of?(SingleFileInstance).should be_true
@@ -23,7 +23,7 @@ describe WorkHelper do
 
     it 'should be possible with a TEI basic_files with metadata' do
       version = 'p5'
-      add_single_tei_ins({:tei_version => version}, @tei_file, {}, @manifestation).should be_true
+      add_single_tei_rep({:tei_version => version}, @tei_file, {}, @manifestation).should be_true
 
       @manifestation.single_file_instances.length.should == 1
       @manifestation.single_file_instances.first.kind_of?(SingleFileInstance).should be_true
@@ -36,7 +36,7 @@ describe WorkHelper do
 
     # TODO this is probably not the intended behavior (non-tei xml basic_files accepted as tei basic_files.)
     it 'should be possible with a XML basic_files' do
-      add_single_tei_ins({}, @other_xml_file, {}, @manifestation).should be_true
+      add_single_tei_rep({}, @other_xml_file, {}, @manifestation).should be_true
 
       @manifestation.single_file_instances.length.should == 1
       @manifestation.single_file_instances.first.kind_of?(SingleFileInstance).should be_true
@@ -46,13 +46,13 @@ describe WorkHelper do
     end
 
     it 'should not be possible with a non-xml basic_files' do
-      add_single_tei_ins({}, @non_xml_file, {}, @manifestation).should be_false
+      add_single_tei_rep({}, @non_xml_file, {}, @manifestation).should be_false
 
       @manifestation.single_file_instances.length.should == 0
     end
   end
 
-  describe '#add_single_file_ins' do
+  describe '#add_single_file_rep' do
     before(:each) do
       @manifestation = Work.create(:title => 'Work')
       @tei_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
@@ -60,7 +60,7 @@ describe WorkHelper do
     end
 
     it 'should be possible with a TEI basic_files' do
-      add_single_file_ins(@tei_file, {}, nil, @manifestation).should be_true
+      add_single_file_rep(@tei_file, {}, nil, @manifestation).should be_true
 
       @manifestation.single_file_instances.length.should == 1
       @manifestation.single_file_instances.first.kind_of?(SingleFileInstance).should be_true
@@ -70,7 +70,7 @@ describe WorkHelper do
     end
 
     it 'should be possible with an binary basic_files' do
-      add_single_file_ins(@octet_file, {}, nil, @manifestation).should be_true
+      add_single_file_rep(@octet_file, {}, nil, @manifestation).should be_true
 
       @manifestation.single_file_instances.length.should == 1
       @manifestation.single_file_instances.first.kind_of?(SingleFileInstance).should be_true
@@ -80,12 +80,12 @@ describe WorkHelper do
     end
 
     it 'should not allow non-basic_files to be added' do
-      add_single_file_ins('TEI basic_files', {}, nil, @manifestation).should be_false
+      add_single_file_rep('TEI basic_files', {}, nil, @manifestation).should be_false
       @manifestation.single_file_instances.length.should == 0
     end
   end
 
-  describe '#add_tiff_order_ins' do
+  describe '#add_tiff_order_rep' do
     before(:each) do
       @manifestation = Work.create(:title => 'Work')
       @tiff1 = ActionDispatch::Http::UploadedFile.new(filename: 'arre1fm001.xml', type: 'image/tif', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
@@ -94,7 +94,7 @@ describe WorkHelper do
     end
 
     it 'should be possible with a single tiff basic_files' do
-      add_ordered_file_ins([@tiff1], {}, nil, @manifestation).should be_true
+      add_ordered_file_rep([@tiff1], {}, nil, @manifestation).should be_true
 
       @manifestation.ordered_instances.length.should == 1
       @manifestation.ordered_instances.first.kind_of?(OrderedInstance).should be_true
@@ -104,7 +104,7 @@ describe WorkHelper do
     end
 
     it 'should be possible with several tiff basic_files' do
-      add_ordered_file_ins([@tiff1, @tiff2], {}, nil, @manifestation).should be_true
+      add_ordered_file_rep([@tiff1, @tiff2], {}, nil, @manifestation).should be_true
 
       @manifestation.ordered_instances.length.should == 1
       @manifestation.ordered_instances.first.kind_of?(OrderedInstance).should be_true
@@ -116,20 +116,20 @@ describe WorkHelper do
     end
 
     it 'should not be possible with an binary basic_files' do
-      add_ordered_file_ins([@other_file], {}, nil, @manifestation).should be_false
+      add_ordered_file_rep([@other_file], {}, nil, @manifestation).should be_false
 
       @manifestation.ordered_instances.length.should == 0
     end
 
     it 'should validate the structmap' do
-      add_order_ins([@tiff1, @tiff2], {}, @manifestation).should be_true
+      add_order_rep([@tiff1, @tiff2], {}, @manifestation).should be_true
 
       structmap = @manifestation.instances.last.techMetadata.ng_xml.to_s
       structmap.index(@tiff1.original_filename).should be < structmap.index(@tiff2.original_filename)
     end
   end
 
-  describe '#add_order_ins' do
+  describe '#add_order_rep' do
     before(:each) do
       @manifestation = Work.create(:title => 'Work')
       @tiff = ActionDispatch::Http::UploadedFile.new(filename: 'arre1fm001.xml', type: 'image/tif', tempfile: File.new("#{Rails.root}/spec/fixtures/arre1fm001.tif"))
@@ -137,7 +137,7 @@ describe WorkHelper do
     end
 
     it 'should be possible with two different kind of basic_files' do
-      add_order_ins([@tiff, @other_file], {}, @manifestation).should be_true
+      add_order_rep([@tiff, @other_file], {}, @manifestation).should be_true
 
       @manifestation.ordered_instances.length.should == 1
       @manifestation.ordered_instances.first.kind_of?(OrderedInstance).should be_true
@@ -149,7 +149,7 @@ describe WorkHelper do
     end
 
     it 'should validate the structmap' do
-      add_order_ins([@tiff, @other_file], {}, @manifestation).should be_true
+      add_order_rep([@tiff, @other_file], {}, @manifestation).should be_true
 
       structmap = @manifestation.instances.last.techMetadata.ng_xml.to_s
       structmap.index(@tiff.original_filename).should be < structmap.index(@other_file.original_filename)
@@ -298,27 +298,27 @@ describe WorkHelper do
     end
 
     it 'should create structmap and be able to restructure it afterwards' do
-      add_order_ins([@file1, @file2], {}, @manifestation)
+      add_order_rep([@file1, @file2], {}, @manifestation)
 
       xml_before_ordering = @manifestation.instances.last.techMetadata.ng_xml.to_s
       xml_before_ordering.index(@file1.original_filename).should be < xml_before_ordering.index(@file2.original_filename)
 
       order = @file2.original_filename.to_s + ',' + @file1.original_filename.to_s
-      create_structmap_for_instance(order, @manifestation.instances.last)
+      create_structmap_for_representation(order, @manifestation.instances.last)
 
       xml_after_ordering = @manifestation.instances.last.techMetadata.ng_xml.to_s
       xml_after_ordering.index(@file1.original_filename).should be > xml_after_ordering.index(@file2.original_filename)
     end
 
     it 'should be the same after reload' do
-      add_order_ins([@file1, @file2], {}, @manifestation)
+      add_order_rep([@file1, @file2], {}, @manifestation)
       structmap = @manifestation.instances.last.techMetadata.ng_xml.to_s
 
-      ins = OrderedInstance.find(@manifestation.instances.last.pid)
-      ins.techMetadata.should_not be_nil
+      rep = OrderedInstance.find(@manifestation.instances.last.pid)
+      rep.techMetadata.should_not be_nil
       # TODO this is very odd. The UTF-8 encoding is on when it is created, but not when it has been reloaded...
-      ins.techMetadata.ng_xml.encoding = 'UTF-8'
-      structmap.should == ins.techMetadata.ng_xml.to_s
+      rep.techMetadata.ng_xml.encoding = 'UTF-8'
+      structmap.should == rep.techMetadata.ng_xml.to_s
     end
   end
 end
