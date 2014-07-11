@@ -153,7 +153,7 @@ class WorksController < ApplicationController
 
   def finish_work_with_structmap
     @work = Work.find(params[:id])
-    create_structmap_for_representation(params[:structmap_file_order], @work.ordered_reps.last)
+    create_structmap_for_representation(params[:structmap_file_order], @work.ordered_instances.last)
     redirect_to @work, notice: 'Work was successfully created.'
   end
 

@@ -14,41 +14,41 @@ describe WorkHelper do
     it 'should be possible with a TEI basic_files' do
       add_single_tei_rep({}, @tei_file, {}, @manifestation).should be_true
 
-      @manifestation.single_file_reps.length.should == 1
-      @manifestation.single_file_reps.first.kind_of?(SingleFileInstance).should be_true
-      @manifestation.single_file_reps.first.files.length.should == 1
-      @manifestation.single_file_reps.first.files.first.kind_of?(TeiFile).should be_true
-      @manifestation.single_file_reps.first.files.first.original_filename.should == @tei_file.original_filename
+      @manifestation.single_file_instances.length.should == 1
+      @manifestation.single_file_instances.first.kind_of?(SingleFileInstance).should be_true
+      @manifestation.single_file_instances.first.files.length.should == 1
+      @manifestation.single_file_instances.first.files.first.kind_of?(TeiFile).should be_true
+      @manifestation.single_file_instances.first.files.first.original_filename.should == @tei_file.original_filename
     end
 
     it 'should be possible with a TEI basic_files with metadata' do
       version = 'p5'
       add_single_tei_rep({:tei_version => version}, @tei_file, {}, @manifestation).should be_true
 
-      @manifestation.single_file_reps.length.should == 1
-      @manifestation.single_file_reps.first.kind_of?(SingleFileInstance).should be_true
-      @manifestation.single_file_reps.first.files.length.should == 1
-      @manifestation.single_file_reps.first.files.first.kind_of?(TeiFile).should be_true
-      @manifestation.single_file_reps.first.files.first.original_filename.should == @tei_file.original_filename
+      @manifestation.single_file_instances.length.should == 1
+      @manifestation.single_file_instances.first.kind_of?(SingleFileInstance).should be_true
+      @manifestation.single_file_instances.first.files.length.should == 1
+      @manifestation.single_file_instances.first.files.first.kind_of?(TeiFile).should be_true
+      @manifestation.single_file_instances.first.files.first.original_filename.should == @tei_file.original_filename
 
-      @manifestation.single_file_reps.first.files.first.tei_version.should == version
+      @manifestation.single_file_instances.first.files.first.tei_version.should == version
     end
 
     # TODO this is probably not the intended behavior (non-tei xml basic_files accepted as tei basic_files.)
     it 'should be possible with a XML basic_files' do
       add_single_tei_rep({}, @other_xml_file, {}, @manifestation).should be_true
 
-      @manifestation.single_file_reps.length.should == 1
-      @manifestation.single_file_reps.first.kind_of?(SingleFileInstance).should be_true
-      @manifestation.single_file_reps.first.files.length.should == 1
-      @manifestation.single_file_reps.first.files.first.kind_of?(TeiFile).should be_true
-      @manifestation.single_file_reps.first.files.first.original_filename.should == @other_xml_file.original_filename
+      @manifestation.single_file_instances.length.should == 1
+      @manifestation.single_file_instances.first.kind_of?(SingleFileInstance).should be_true
+      @manifestation.single_file_instances.first.files.length.should == 1
+      @manifestation.single_file_instances.first.files.first.kind_of?(TeiFile).should be_true
+      @manifestation.single_file_instances.first.files.first.original_filename.should == @other_xml_file.original_filename
     end
 
     it 'should not be possible with a non-xml basic_files' do
       add_single_tei_rep({}, @non_xml_file, {}, @manifestation).should be_false
 
-      @manifestation.single_file_reps.length.should == 0
+      @manifestation.single_file_instances.length.should == 0
     end
   end
 
@@ -62,26 +62,26 @@ describe WorkHelper do
     it 'should be possible with a TEI basic_files' do
       add_single_file_rep(@tei_file, {}, nil, @manifestation).should be_true
 
-      @manifestation.single_file_reps.length.should == 1
-      @manifestation.single_file_reps.first.kind_of?(SingleFileInstance).should be_true
-      @manifestation.single_file_reps.first.files.length.should == 1
-      @manifestation.single_file_reps.first.files.first.kind_of?(BasicFile).should be_true
-      @manifestation.single_file_reps.first.files.first.original_filename.should == @tei_file.original_filename
+      @manifestation.single_file_instances.length.should == 1
+      @manifestation.single_file_instances.first.kind_of?(SingleFileInstance).should be_true
+      @manifestation.single_file_instances.first.files.length.should == 1
+      @manifestation.single_file_instances.first.files.first.kind_of?(BasicFile).should be_true
+      @manifestation.single_file_instances.first.files.first.original_filename.should == @tei_file.original_filename
     end
 
     it 'should be possible with an binary basic_files' do
       add_single_file_rep(@octet_file, {}, nil, @manifestation).should be_true
 
-      @manifestation.single_file_reps.length.should == 1
-      @manifestation.single_file_reps.first.kind_of?(SingleFileInstance).should be_true
-      @manifestation.single_file_reps.first.files.length.should == 1
-      @manifestation.single_file_reps.first.files.first.kind_of?(BasicFile).should be_true
-      @manifestation.single_file_reps.first.files.first.original_filename.should == @octet_file.original_filename
+      @manifestation.single_file_instances.length.should == 1
+      @manifestation.single_file_instances.first.kind_of?(SingleFileInstance).should be_true
+      @manifestation.single_file_instances.first.files.length.should == 1
+      @manifestation.single_file_instances.first.files.first.kind_of?(BasicFile).should be_true
+      @manifestation.single_file_instances.first.files.first.original_filename.should == @octet_file.original_filename
     end
 
     it 'should not allow non-basic_files to be added' do
       add_single_file_rep('TEI basic_files', {}, nil, @manifestation).should be_false
-      @manifestation.single_file_reps.length.should == 0
+      @manifestation.single_file_instances.length.should == 0
     end
   end
 
@@ -96,29 +96,29 @@ describe WorkHelper do
     it 'should be possible with a single tiff basic_files' do
       add_ordered_file_rep([@tiff1], {}, nil, @manifestation).should be_true
 
-      @manifestation.ordered_reps.length.should == 1
-      @manifestation.ordered_reps.first.kind_of?(OrderedInstance).should be_true
-      @manifestation.ordered_reps.first.files.length.should == 1
-      @manifestation.ordered_reps.first.files.first.kind_of?(TiffFile).should be_true
-      @manifestation.ordered_reps.first.files.first.original_filename.should == @tiff1.original_filename
+      @manifestation.ordered_instances.length.should == 1
+      @manifestation.ordered_instances.first.kind_of?(OrderedInstance).should be_true
+      @manifestation.ordered_instances.first.files.length.should == 1
+      @manifestation.ordered_instances.first.files.first.kind_of?(TiffFile).should be_true
+      @manifestation.ordered_instances.first.files.first.original_filename.should == @tiff1.original_filename
     end
 
     it 'should be possible with several tiff basic_files' do
       add_ordered_file_rep([@tiff1, @tiff2], {}, nil, @manifestation).should be_true
 
-      @manifestation.ordered_reps.length.should == 1
-      @manifestation.ordered_reps.first.kind_of?(OrderedInstance).should be_true
-      @manifestation.ordered_reps.first.files.length.should == 2
-      @manifestation.ordered_reps.first.files.first.kind_of?(TiffFile).should be_true
-      @manifestation.ordered_reps.first.files.first.original_filename.should == @tiff1.original_filename
-      @manifestation.ordered_reps.first.files.last.kind_of?(TiffFile).should be_true
-      @manifestation.ordered_reps.first.files.last.original_filename.should == @tiff2.original_filename
+      @manifestation.ordered_instances.length.should == 1
+      @manifestation.ordered_instances.first.kind_of?(OrderedInstance).should be_true
+      @manifestation.ordered_instances.first.files.length.should == 2
+      @manifestation.ordered_instances.first.files.first.kind_of?(TiffFile).should be_true
+      @manifestation.ordered_instances.first.files.first.original_filename.should == @tiff1.original_filename
+      @manifestation.ordered_instances.first.files.last.kind_of?(TiffFile).should be_true
+      @manifestation.ordered_instances.first.files.last.original_filename.should == @tiff2.original_filename
     end
 
     it 'should not be possible with an binary basic_files' do
       add_ordered_file_rep([@other_file], {}, nil, @manifestation).should be_false
 
-      @manifestation.ordered_reps.length.should == 0
+      @manifestation.ordered_instances.length.should == 0
     end
 
     it 'should validate the structmap' do
@@ -139,13 +139,13 @@ describe WorkHelper do
     it 'should be possible with two different kind of basic_files' do
       add_order_rep([@tiff, @other_file], {}, @manifestation).should be_true
 
-      @manifestation.ordered_reps.length.should == 1
-      @manifestation.ordered_reps.first.kind_of?(OrderedInstance).should be_true
-      @manifestation.ordered_reps.first.files.length.should == 2
-      @manifestation.ordered_reps.first.files.first.kind_of?(BasicFile).should be_true
-      @manifestation.ordered_reps.first.files.first.original_filename.should == @tiff.original_filename
-      @manifestation.ordered_reps.first.files.last.kind_of?(BasicFile).should be_true
-      @manifestation.ordered_reps.first.files.last.original_filename.should == @other_file.original_filename
+      @manifestation.ordered_instances.length.should == 1
+      @manifestation.ordered_instances.first.kind_of?(OrderedInstance).should be_true
+      @manifestation.ordered_instances.first.files.length.should == 2
+      @manifestation.ordered_instances.first.files.first.kind_of?(BasicFile).should be_true
+      @manifestation.ordered_instances.first.files.first.original_filename.should == @tiff.original_filename
+      @manifestation.ordered_instances.first.files.last.kind_of?(BasicFile).should be_true
+      @manifestation.ordered_instances.first.files.last.original_filename.should == @other_file.original_filename
     end
 
     it 'should validate the structmap' do

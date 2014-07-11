@@ -17,7 +17,7 @@ module Concerns
     end
 
     # @return all ordered instances.
-    def ordered_reps
+    def ordered_instances
       res = []
       instances.each do |rep|
         if rep.kind_of? OrderedInstance
@@ -29,7 +29,7 @@ module Concerns
     end
 
     # @return all single file instances
-    def single_file_reps
+    def single_file_instances
       res = []
       instances.each do |rep|
         if rep.kind_of? SingleFileInstance
