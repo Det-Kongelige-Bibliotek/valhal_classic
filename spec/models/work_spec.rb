@@ -33,7 +33,7 @@ describe Work do
   describe '#worktype' do
     it 'should be created with a worktype' do
       type = 'The worktype'
-      w = Work.new(:title => 'title', :work_type => type)
+      w = Work.new(:title => 'title', :workType => type)
       w.save.should be_true
       w.work_type.should == type
     end
@@ -45,7 +45,7 @@ describe Work do
 
     it 'should be created with a worktype' do
       type = 'The new worktype'
-      w = Work.new(:title => 'title', :work_type => 'Some worktype')
+      w = Work.new(:title => 'title', :workType => 'Some worktype')
       w.save!
       w.work_type.should_not be_nil
       w.work_type = type
@@ -78,7 +78,7 @@ describe Work do
       w.save.should be_true
 
       w.title.should == @attributes_hash[:title]
-      w.work_type.should == @attributes_hash[:work_type]
+      w.work_type.should == @attributes_hash[:workType]
       w.uuid.should == @attributes_hash[:uuid]
       w.typeOfResource.should == @attributes_hash[:typeOfResource]
       w.shelfLocator.should == @attributes_hash[:shelfLocator]
@@ -113,7 +113,7 @@ describe Work do
       w.update_attributes(@attributes_hash)
 
       w.title.should == @attributes_hash[:title]
-      w.work_type.should == @attributes_hash[:work_type]
+      w.work_type.should == @attributes_hash[:workType]
       w.uuid.should == @attributes_hash[:uuid]
       w.typeOfResource.should == @attributes_hash[:typeOfResource]
       w.shelfLocator.should == @attributes_hash[:shelfLocator]
@@ -159,9 +159,9 @@ describe Work do
       pending "No such validation yet!"
       title = 'identical work'
       workType = 'identical work'
-      Work.create(:title => title, :work_type => workType).should be_true
+      Work.create(:title => title, :workType => workType).should be_true
 
-      identicalWork = Work.new(:title => title, :work_type => workType)
+      identicalWork = Work.new(:title => title, :workType => workType)
       identicalWork.save.should be_false
     end
   end
