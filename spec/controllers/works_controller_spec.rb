@@ -323,11 +323,11 @@ describe WorksController do
 
     it 'should send inheritable settings to instances and their files' do
       file = create_basic_file(nil)
-      rep = SingleFileInstance.new
-      rep.files << file
-      rep.ie = @work
-      @work.instances << rep
-      rep.save!
+      ins = SingleFileInstance.new
+      ins.files << file
+      ins.ie = @work
+      @work.instances << ins
+      ins.save!
       file.save!
       @work.save!
 
@@ -344,12 +344,12 @@ describe WorksController do
       bf.preservation_profile.should == profile
       bf.preservation_comment.should == comment
 
-      rep = SingleFileInstance.find(rep.pid)
-      rep.preservation_state.should_not be_blank
-      rep.preservation_details.should_not be_blank
-      rep.preservation_modify_date.should_not be_blank
-      rep.preservation_profile.should == profile
-      rep.preservation_comment.should == comment
+      ins = SingleFileInstance.find(ins.pid)
+      ins.preservation_state.should_not be_blank
+      ins.preservation_details.should_not be_blank
+      ins.preservation_modify_date.should_not be_blank
+      ins.preservation_profile.should == profile
+      ins.preservation_comment.should == comment
 
       w = Work.find(@work.pid)
       w.preservation_state.should_not be_blank

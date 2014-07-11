@@ -7,10 +7,10 @@ module WorkHelper
   # Creates and adds a SingleFileInstance with a TEI basic_files to the work
   # @param tei_metadata The metadata for the TEI file.
   # @param file The uploaded TEI file for the SingleFileInstance
-  # @param rep_metadata The metadata for the SingleFileInstance
+  # @param ins_metadata The metadata for the SingleFileInstance
   # @param work The work to contain the SingleFileInstance
   # @return false if operation was unsuccessful
-  def add_single_tei_rep(tei_metadata, file, rep_metadata, work)
+  def add_single_tei_ins(tei_metadata, file, ins_metadata, work)
     tei_file = TeiFile.new(tei_metadata)
     if tei_file.add_file(file, nil)
       tei_file.save!
@@ -18,7 +18,7 @@ module WorkHelper
       return false
     end
 
-    create_as_single_file_rep(tei_file, rep_metadata, work)
+    create_as_single_file_inc(tei_file, ins_metadata, work)
   end
 
   # Creates and adds a SingleFileInstance with a basic basic_files to the work
@@ -26,15 +26,15 @@ module WorkHelper
   # @param metadata The metadata for the SingleFileInstance
   # @param skip_fits boolean value determining whether to skip file characterisation or not
   # @param work The work to contain the SingleFileInstance
-  def add_single_file_rep(file, metadata, skip_fits, work)
-    rep_file = BasicFile.new
-    if rep_file.add_file(file, skip_fits)
-      rep_file.save!
+  def add_single_file_ins(file, metadata, skip_fits, work)
+    ins_file = BasicFile.new
+    if ins_file.add_file(file, skip_fits)
+      ins_file.save!
     else
       return false
     end
 
-    create_as_single_file_rep(rep_file, metadata, work)
+    create_as_single_file_inc(ins_file, metadata, work)
   end
 
   # Creates and adds a OrderedInstance with basic_files to the work
@@ -44,7 +44,7 @@ module WorkHelper
   # @param skip_fits boolean value determining whether to skip file characterisation or not
   # @param work The work to contain the OrderedInstance
   # @return false if operation was unsuccessful
-  def add_ordered_file_rep(files, metadata, skip_fits, work)
+  def add_ordered_file_ins(files, metadata, skip_fits, work)
     basic_files = []
 
     files.each do |f|
@@ -57,7 +57,7 @@ module WorkHelper
       basic_files << bf
     end
 
-    create_as_order_rep(basic_files, metadata, work)
+    create_as_order_ins(basic_files, metadata, work)
   end
 
   # Creates and adds a OrderedInstance with basic basic_files to the work
@@ -65,7 +65,7 @@ module WorkHelper
   # @param files The uploaded files for the OrderedInstance
   # @param metadata The metadata for the OrderedInstance
   # @param work The work to contain the OrderedInstance
-  def add_order_rep(files, metadata, work)
+  def add_order_ins(files, metadata, work)
     basic_files = []
 
     files.each do |f|
@@ -76,7 +76,7 @@ module WorkHelper
       basic_files << file
     end
 
-    create_as_order_rep(basic_files, metadata, work)
+    create_as_order_ins(basic_files, metadata, work)
 
   end
 
@@ -116,13 +116,13 @@ module WorkHelper
     work.save!
   end
 
-  # Creates the structmap for a representation based on the file_name order of the basic_files.
+  # Creates the structmap for a instance based on the file_name order of the basic_files.
   # @param file_order_string The ordered list of filenames.
-  # @param representation The representation containing the files.
-  def create_structmap_for_representation(file_order_string, representation)
+  # @param instance The instance containing the files.
+  def create_structmap_for_instance(file_order_string, instance)
     file_order = []
     file_order_string.split(',').each do |f|
-      representation.files.each do |file|
+      instance.files.each do |file|
         if file.original_filename == f
           file_order << file
           break
@@ -130,7 +130,7 @@ module WorkHelper
       end
     end
 
-    generate_structmap(file_order, representation)
+    generate_structmap(file_order, instance)
   end
 
   private
@@ -138,45 +138,45 @@ module WorkHelper
   # @param file The file for the SingleFileInstance
   # @param metadata The metadata for the SingleFileInstance
   # @param work The work to contain the SingleFileInstance
-  def create_as_single_file_rep(file, metadata, work)
-    rep = SingleFileInstance.new(metadata)
-    rep.files << file
-    rep.save!
+  def create_as_single_file_inc(file, metadata, work)
+    ins = SingleFileInstance.new(metadata)
+    ins.files << file
+    ins.save!
 
-    add_representation(rep, work)
+    add_instance(ins, work)
   end
 
   # Creates a OrderedInstance with the given basic_files and adds it to the work
   # The StructMap for the OrderedInstance will be generated based on the order of the basic_files.
-  # @param files The ordered array of files for the ordered representation
+  # @param files The ordered array of files for the ordered instance
   # @param metadata The metadata for the OrderedInstance
   # @param work The work to contain the OrderedInstance
-  def create_as_order_rep(files, metadata, work)
-    rep = OrderedInstance.new(metadata)
-    rep.files << files
-    generate_structmap(files, rep)
-    rep.save!
+  def create_as_order_ins(files, metadata, work)
+    ins = OrderedInstance.new(metadata)
+    ins.files << files
+    generate_structmap(files, ins)
+    ins.save!
 
-    add_representation(rep, work)
+    add_instance(ins, work)
   end
 
-  # Adds a representation to a work
-  # @param representation The representation to be added to the work
-  # @param work The work to have the representation added.
-  def add_representation(representation, work)
-    representation.ie = work
-    work.instances << representation
-    return representation.save && work.save
+  # Adds a instance to a work
+  # @param instance The instance to be added to the work
+  # @param work The work to have the instance added.
+  def add_instance(instance, work)
+    instance.ie = work
+    work.instances << instance
+    return instance.save && work.save
   end
 
   # Generates a StructMap based on a ordered array of basic_files.
   # @param file_order The ordered array of files.
-  # @param representation The ordered representation with the structmap
-  def generate_structmap(file_order, representation)
+  # @param instance The ordered instance with the structmap
+  def generate_structmap(file_order, instance)
     logger.debug 'Generating structmap xml basic_files...'
     logger.debug "structmap_file_order = #{file_order.to_s}"
 
-    ng_doc = representation.techMetadata.ng_xml
+    ng_doc = instance.techMetadata.ng_xml
 
     mets_element = ng_doc.at_css 'mets'
     # recreate the structMap element (thus removing all 'div' elements)
@@ -198,8 +198,8 @@ module WorkHelper
       count = count + 1
     end
 
-    representation.techMetadata.ng_xml = ng_doc
-    representation.techMetadata.ng_xml.encoding = 'UTF-8'
-    representation.save!
+    instance.techMetadata.ng_xml = ng_doc
+    instance.techMetadata.ng_xml.encoding = 'UTF-8'
+    instance.save!
   end
 end

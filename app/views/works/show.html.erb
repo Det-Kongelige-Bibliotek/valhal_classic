@@ -48,13 +48,13 @@
 
 <hr/>
 <% #Handle the tei instances. %>
-<% if @work.has_rep? %>
+<% if @work.has_ins? %>
     <p><b>Instances:</b></p>
     <ul>
-      <% @work.single_file_reps.each do |t| %>
+      <% @work.single_file_instances.each do |t| %>
           <li><%= link_to t.instance_name + ' (' + t.pid + ')', single_file_instance_path(t) %></li>
       <% end %>
-      <% @work.ordered_reps.each do |t| %>
+      <% @work.ordered_instances.each do |t| %>
           <li><%= link_to t.instance_name + ' (' + t.pid + ')', ordered_instance_path(t) %></li>
       <% end %>
     </ul>

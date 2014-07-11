@@ -1,7 +1,7 @@
 <p id='notice'><%= notice %></p>
 
 <table border='0'>
-  <tr><td style='font-weight: bold;'>Representation name: </td><td><%= @single_file_instance.instance_name %></td></tr>
+  <tr><td style='font-weight: bold;'>Instance name: </td><td><%= @single_file_instance.instance_name %></td></tr>
   <tr><td>Number of files: </td><td><%= @single_file_instance.files.length.to_s %></td></tr>
 </table>
 
@@ -28,7 +28,7 @@
     <% if file.nil? %>
         <p>"N/A"</p>
     <% else %>
-        <%= file.kind_of?(TiffFile) ? (link_to image_tag(url_for(thumbnail_url_ordered_representation_path :pid => file.pid), :style => "border: 1px solid black;"),
+        <%= file.kind_of?(TiffFile) ? (link_to image_tag(url_for(thumbnail_url_ordered_instance_path :pid => file.pid), :style => "border: 1px solid black;"),
                                                download_basic_file_path(file))
             : (link_to 'Download', download_basic_file_path(file)) %>
     <% end %>

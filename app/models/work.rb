@@ -47,19 +47,19 @@ class Work < ActiveFedora::Base
     res
   end
 
-  after_save :add_ie_to_reps
+  after_save :add_ie_to_instances
   private
-  def add_ie_to_reps
-    add_ie_to_rep instances
+  def add_ie_to_instances
+    add_ie_to_instances instances
   end
 
-  def add_ie_to_rep(rep_array)
-    rep_array.each do |rep|
-      if rep.ie.nil?
-        rep.ie = self
-        rep.save
+  def add_ie_to_instances(ins_array)
+    ins_array.each do |ins|
+      if ins.ie.nil?
+        ins.ie = self
+        ins.save
       end
-    end unless rep_array.nil?
+    end unless ins_array.nil?
   end
 
 end

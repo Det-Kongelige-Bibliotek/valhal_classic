@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class WorksController < ApplicationController
-  include WorkHelper # methods: add_single_file_rep, set_authors, set_concerned_people
+  include WorkHelper # methods: add_single_file_ins, set_authors, set_concerned_people
   include PreservationHelper # methods: update_preservation_profile_from_controller
   include DisseminationService # methods: ??
 
@@ -153,19 +153,19 @@ class WorksController < ApplicationController
 
   def finish_work_with_structmap
     @work = Work.find(params[:id])
-    create_structmap_for_representation(params[:structmap_file_order], @work.ordered_reps.last)
+    create_structmap_for_instance(params[:structmap_file_order], @work.ordered_instances.last)
     redirect_to @work, notice: 'Work was successfully created.'
   end
 
   private
   # Handles the parameter arguments
-  # If single basic_files is given, then a SingeFileRepresentation is made from it.
+  # If single basic_files is given, then a SingeFileinstance is made from it.
   # If multiple basic_files is given, then a OrderedInstance is made from it.
   #
   def handle_arguments
     if !params[:single_file].blank? && !params[:single_file][:basic_files].blank?
-      logger.debug 'Creating a representation'
-      add_single_file_rep(params[:single_file][:basic_files], params[:rep], params[:skip_file_characterisation], @work)
+      logger.debug 'Creating a instance'
+      add_single_file_ins(params[:single_file][:basic_files], params[:ins], params[:skip_file_characterisation], @work)
     end
 
     # add the authors to the work
@@ -173,10 +173,10 @@ class WorksController < ApplicationController
       set_authors(params[:person][:id], @work)
     end
 
-    #Create ordered representation
+    #Create ordered instance
     if !params[:multiple_files].blank? && !params[:multiple_files][:basic_files].blank?
-      logger.debug 'Creating an ordered representation'
-      add_ordered_file_rep(params[:multiple_files][:basic_files], params[:rep], params[:skip_file_characterisation], @work)
+      logger.debug 'Creating an ordered instance'
+      add_ordered_file_ins(params[:multiple_files][:basic_files], params[:ins], params[:skip_file_characterisation], @work)
     end
 
     # add the described persons to the work

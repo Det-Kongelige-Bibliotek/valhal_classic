@@ -1,9 +1,9 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'support/representation_spec_helper'
+require 'support/instance_spec_helper'
 
 describe OrderedInstance do
-  include RepresentationSpecHelper
+  include InstanceSpecHelper
 
   subject { OrderedInstance.new }
   it_behaves_like 'a preservable element'
@@ -51,13 +51,13 @@ describe OrderedInstance do
         subject.save.should be_true
       end
 
-      it 'should be able to retrieve BasicFiles from a saved representation' do
+      it 'should be able to retrieve BasicFiles from a saved instance' do
         basic_files = default_files
         subject.files << basic_files
         subject.save
         pid = subject.pid
-        def_rep = subject.class.find(pid)
-        def_rep.files.should == basic_files
+        def_ins = subject.class.find(pid)
+        def_ins.files.should == basic_files
       end
     end
   end

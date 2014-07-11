@@ -40,59 +40,59 @@ describe SingleFileInstancesController do
 
   describe "GET show" do
     it "assigns the requested single_file_instance as @single_file_instance" do
-      single_file_representation = SingleFileInstance.create! valid_attributes
-      get :show, {:id => single_file_representation.to_param}, valid_session
-      assigns(:single_file_instance).should eq(single_file_representation)
+      single_file_instance = SingleFileInstance.create! valid_attributes
+      get :show, {:id => single_file_instance.to_param}, valid_session
+      assigns(:single_file_instance).should eq(single_file_instance)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested single_file_instance as @single_file_instance" do
-      single_file_representation = SingleFileInstance.create! valid_attributes
-      get :edit, {:id => single_file_representation.to_param}, valid_session
-      assigns(:single_file_instance).should eq(single_file_representation)
+      single_file_instance = SingleFileInstance.create! valid_attributes
+      get :edit, {:id => single_file_instance.to_param}, valid_session
+      assigns(:single_file_instance).should eq(single_file_instance)
     end
   end
 
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested single_file_instance" do
-        single_file_representation = SingleFileInstance.create! valid_attributes
+        single_file_instance = SingleFileInstance.create! valid_attributes
         # Assuming there are no other single_file_instances in the database, this
         # specifies that the SingleFileInstance created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         SingleFileInstance.any_instance.should_receive(:update_attributes).with({ "these" => "params" })
-        put :update, {:id => single_file_representation.to_param, :single_file_instance => { "these" => "params" }}, valid_session
+        put :update, {:id => single_file_instance.to_param, :single_file_instance => { "these" => "params" }}, valid_session
       end
 
       it "assigns the requested single_file_instance as @single_file_instance" do
-        single_file_representation = SingleFileInstance.create! valid_attributes
-        put :update, {:id => single_file_representation.to_param, :single_file_instance => valid_attributes}, valid_session
-        assigns(:single_file_instance).should eq(single_file_representation)
+        single_file_instance = SingleFileInstance.create! valid_attributes
+        put :update, {:id => single_file_instance.to_param, :single_file_instance => valid_attributes}, valid_session
+        assigns(:single_file_instance).should eq(single_file_instance)
       end
 
       it "redirects to the single_file_instance" do
-        single_file_representation = SingleFileInstance.create! valid_attributes
-        put :update, {:id => single_file_representation.to_param, :single_file_instance => valid_attributes}, valid_session
-        response.should redirect_to(single_file_representation)
+        single_file_instance = SingleFileInstance.create! valid_attributes
+        put :update, {:id => single_file_instance.to_param, :single_file_instance => valid_attributes}, valid_session
+        response.should redirect_to(single_file_instance)
       end
     end
 
     describe "with invalid params" do
       it "assigns the single_file_instance as @single_file_instance" do
-        single_file_representation = SingleFileInstance.create! valid_attributes
+        single_file_instance = SingleFileInstance.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         SingleFileInstance.any_instance.stub(:save).and_return(false)
-        put :update, {:id => single_file_representation.to_param, :single_file_instance => {  }}, valid_session
-        assigns(:single_file_instance).should eq(single_file_representation)
+        put :update, {:id => single_file_instance.to_param, :single_file_instance => {  }}, valid_session
+        assigns(:single_file_instance).should eq(single_file_instance)
       end
 
       it "re-renders the 'edit' template" do
-        single_file_representation = SingleFileInstance.create! valid_attributes
+        single_file_instance = SingleFileInstance.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         SingleFileInstance.any_instance.stub(:save).and_return(false)
-        put :update, {:id => single_file_representation.to_param, :single_file_instance => {  }}, valid_session
+        put :update, {:id => single_file_instance.to_param, :single_file_instance => {  }}, valid_session
         response.should render_template("edit")
       end
     end
@@ -100,75 +100,75 @@ describe SingleFileInstancesController do
 
   describe 'Update preservation profile metadata' do
     before(:each) do
-      @rep = SingleFileInstance.create!
+      @ins = SingleFileInstance.create!
     end
     it 'should have a default preservation settings' do
-      rep = SingleFileInstance.find(@rep.pid)
-      rep.preservation_profile.should_not be_blank
-      rep.preservation_state.should_not be_blank
-      rep.preservation_details.should_not be_blank
-      rep.preservation_modify_date.should_not be_blank
-      rep.preservation_comment.should be_blank
+      ins = SingleFileInstance.find(@ins.pid)
+      ins.preservation_profile.should_not be_blank
+      ins.preservation_state.should_not be_blank
+      ins.preservation_details.should_not be_blank
+      ins.preservation_modify_date.should_not be_blank
+      ins.preservation_comment.should be_blank
     end
 
-    it 'should be updated and redirect to the single basic_files representation' do
+    it 'should be updated and redirect to the single basic_files instance' do
       profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment"
 
-      put :update_preservation_profile, {:id => @rep.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
-      response.should redirect_to(@rep)
+      put :update_preservation_profile, {:id => @ins.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@ins)
 
-      rep = SingleFileInstance.find(@rep.pid)
-      rep.preservation_state.should_not be_blank
-      rep.preservation_details.should_not be_blank
-      rep.preservation_modify_date.should_not be_blank
-      rep.preservation_profile.should == profile
-      rep.preservation_comment.should == comment
+      ins = SingleFileInstance.find(@ins.pid)
+      ins.preservation_state.should_not be_blank
+      ins.preservation_details.should_not be_blank
+      ins.preservation_modify_date.should_not be_blank
+      ins.preservation_profile.should == profile
+      ins.preservation_comment.should == comment
     end
 
     it 'should not update or redirect, when the profile is wrong.' do
       profile = "wrong profile #{Time.now.to_s}"
       comment = "This is the preservation comment"
 
-      put :update_preservation_profile, {:id => @rep.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
-      response.should_not redirect_to(@rep)
+      put :update_preservation_profile, {:id => @ins.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should_not redirect_to(@ins)
 
-      rep = SingleFileInstance.find(@rep.pid)
-      rep.preservation_state.should_not be_blank
-      rep.preservation_details.should_not be_blank
-      rep.preservation_modify_date.should_not be_blank
-      rep.preservation_profile.should_not == profile
-      rep.preservation_comment.should_not == comment
+      ins = SingleFileInstance.find(@ins.pid)
+      ins.preservation_state.should_not be_blank
+      ins.preservation_details.should_not be_blank
+      ins.preservation_modify_date.should_not be_blank
+      ins.preservation_profile.should_not == profile
+      ins.preservation_comment.should_not == comment
     end
 
     it 'should update the preservation date' do
       profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment"
-      rep = SingleFileInstance.find(@rep.pid)
-      d = rep.preservation_modify_date
+      ins = SingleFileInstance.find(@ins.pid)
+      d = ins.preservation_modify_date
 
-      put :update_preservation_profile, {:id => @rep.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
-      response.should redirect_to(@rep)
+      put :update_preservation_profile, {:id => @ins.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@ins)
 
-      rep = SingleFileInstance.find(@rep.pid)
-      rep.preservation_modify_date.should_not == d
+      ins = SingleFileInstance.find(@ins.pid)
+      ins.preservation_modify_date.should_not == d
     end
 
     it 'should not update the preservation date, when the same profile and comment is given.' do
       profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment"
-      @rep.preservation_profile = profile
-      @rep.preservation_comment = comment
-      @rep.save
+      @ins.preservation_profile = profile
+      @ins.preservation_comment = comment
+      @ins.save
 
-      rep = SingleFileInstance.find(@rep.pid)
-      d = rep.preservation_modify_date
+      ins = SingleFileInstance.find(@ins.pid)
+      d = ins.preservation_modify_date
 
-      put :update_preservation_profile, {:id => @rep.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
-      response.should redirect_to(@rep)
+      put :update_preservation_profile, {:id => @ins.pid, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@ins)
 
-      rep = SingleFileInstance.find(@rep.pid)
-      rep.preservation_modify_date.should == d
+      ins = SingleFileInstance.find(@ins.pid)
+      ins.preservation_modify_date.should == d
     end
 
     it 'should send a message, when performing preservation and the profile has Yggdrasil set to true' do
@@ -184,12 +184,12 @@ describe SingleFileInstancesController do
       ch = conn.create_channel
       q = ch.queue(destination, :durable => true)
 
-      put :update_preservation_profile, {:id => @rep.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
-      response.should redirect_to(@rep)
+      put :update_preservation_profile, {:id => @ins.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON, :preservation => {:preservation_profile => profile, :preservation_comment => comment }}
+      response.should redirect_to(@ins)
 
       q.subscribe do |delivery_info, metadata, payload|
         metadata[:type].should == Constants::MQ_MESSAGE_TYPE_PRESERVATION_REQUEST
-        payload.should include @rep.pid
+        payload.should include @ins.pid
         json = JSON.parse(payload)
         json.keys.should include ('UUID')
         json.keys.should include ('Preservation_profile')
@@ -199,14 +199,14 @@ describe SingleFileInstancesController do
         json.keys.should include ('Model')
         json.keys.should include ('metadata')
         json['metadata'].keys.each do |k|
-          @rep.datastreams.keys.should include k
+          @ins.datastreams.keys.should include k
           Constants::NON_RETRIEVABLE_DATASTREAM_NAMES.should_not include k
         end
       end
 
-      rep = SingleFileInstance.find(@rep.pid)
-      rep.preservation_state.should == Constants::PRESERVATION_STATE_INITIATED.keys.first
-      rep.preservation_comment.should == comment
+      ins = SingleFileInstance.find(@ins.pid)
+      ins.preservation_state.should == Constants::PRESERVATION_STATE_INITIATED.keys.first
+      ins.preservation_comment.should == comment
       sleep 1.second
       conn.close
     end
@@ -216,26 +216,26 @@ describe SingleFileInstancesController do
       PRESERVATION_CONFIG['preservation_profile'][profile]['yggdrasil'].should == 'false'
       comment = 'This is the preservation comment'
 
-      put :update_preservation_profile, {:id => @rep.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON,
+      put :update_preservation_profile, {:id => @ins.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON,
                                          :preservation => {:preservation_profile => profile,
                                                            :preservation_comment => comment }}
-      response.should redirect_to(@rep)
+      response.should redirect_to(@ins)
 
-      rep = SingleFileInstance.find(@rep.pid)
-      rep.preservation_state.should == Constants::PRESERVATION_STATE_NOT_LONGTERM.keys.first
-      rep.preservation_comment.should == comment
+      ins = SingleFileInstance.find(@ins.pid)
+      ins.preservation_state.should == Constants::PRESERVATION_STATE_NOT_LONGTERM.keys.first
+      ins.preservation_comment.should == comment
     end
 
     it 'should send inheritable settings to the files' do
       file = create_basic_file(nil)
-      @rep.files << file
-      @rep.save!
+      @ins.files << file
+      @ins.save!
       file.save!
 
       profile = PRESERVATION_CONFIG["preservation_profile"].keys.last
       comment = "This is the preservation comment-#{Time.now.to_s}"
 
-      put :update_preservation_profile, {:id => @rep.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON, :preservation =>
+      put :update_preservation_profile, {:id => @ins.pid, :commit => Constants::PERFORM_PRESERVATION_BUTTON, :preservation =>
           {:preservation_profile => profile, :preservation_comment => comment, :preservation_inheritance => '1'}}
 
       bf = BasicFile.find(file.pid)
@@ -245,26 +245,26 @@ describe SingleFileInstancesController do
       bf.preservation_profile.should == profile
       bf.preservation_comment.should == comment
 
-      rep = SingleFileInstance.find(@rep.pid)
-      rep.preservation_state.should_not be_blank
-      rep.preservation_details.should_not be_blank
-      rep.preservation_modify_date.should_not be_blank
-      rep.preservation_profile.should == profile
-      rep.preservation_comment.should == comment
+      ins = SingleFileInstance.find(@ins.pid)
+      ins.preservation_state.should_not be_blank
+      ins.preservation_details.should_not be_blank
+      ins.preservation_modify_date.should_not be_blank
+      ins.preservation_profile.should == profile
+      ins.preservation_comment.should == comment
     end
   end
 
   describe 'GET preservation' do
-    it 'should assign \'@rep\' to the single_file_instance' do
-      @rep = SingleFileInstance.create!
-      get :preservation, {:id => @rep.pid}
-      assigns(:single_file_instance).should eq(@rep)
+    it 'should assign \'@ins\' to the single_file_instance' do
+      @ins = SingleFileInstance.create!
+      get :preservation, {:id => @ins.pid}
+      assigns(:single_file_instance).should eq(@ins)
     end
   end
 
   after(:all) do
     BasicFile.all.each { |bf| bf.delete }
     TiffFile.all.each { |tf| tf.delete }
-    SingleFileInstance.all.each { |rep| rep.delete }
+    SingleFileInstance.all.each { |ins| ins.delete }
   end
 end

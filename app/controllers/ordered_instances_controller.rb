@@ -22,7 +22,7 @@ class OrderedInstancesController < ApplicationController
     @ordered_instance = OrderedInstance.find(params[:id])
 
     if @ordered_instance.update_attributes(params[:ordered_instance])
-      redirect_to @ordered_instance, notice: 'Ordered representation was successfully updated.'
+      redirect_to @ordered_instance, notice: 'Ordered instance was successfully updated.'
     else
       render action: 'edit'
     end

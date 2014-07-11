@@ -12,16 +12,16 @@ module Concerns
     end
 
     # @return Whether any instances for the manifest exists.
-    def has_rep?
+    def has_ins?
       return instances.any?
     end
 
     # @return all ordered instances.
-    def ordered_reps
+    def ordered_instances
       res = []
-      instances.each do |rep|
-        if rep.kind_of? OrderedInstance
-          res << rep
+      instances.each do |ins|
+        if ins.kind_of? OrderedInstance
+          res << ins
         end
       end
 
@@ -29,11 +29,11 @@ module Concerns
     end
 
     # @return all single file instances
-    def single_file_reps
+    def single_file_instances
       res = []
-      instances.each do |rep|
-        if rep.kind_of? SingleFileInstance
-          res << rep
+      instances.each do |ins|
+        if ins.kind_of? SingleFileInstance
+          res << ins
         end
       end
 
@@ -55,10 +55,10 @@ module Concerns
     # @return The specific metadata for the manifest.
     def get_specific_metadata_for_preservation
       res = ''
-      instances.each do |rep|
+      instances.each do |ins|
         res += '<representation>'
-        res += "<name>#{rep.instance_name}</name>"
-        res += "<uuid>#{rep.uuid}</uuid>"
+        res += "<name>#{ins.instance_name}</name>"
+        res += "<uuid>#{ins.uuid}</uuid>"
         res += '</representation>'
       end
       res
@@ -66,18 +66,18 @@ module Concerns
 
     private
     # adds the manifest as intellectual entity for the instances.
-    def add_ie_to_reps
-      add_ie_to_rep instances
+    def add_ie_to_ins
+      add_ie_to_ins instances
     end
 
     # go through the given instance array and add itself as intellectual entity for the given instance for each of them.
-    # @param rep_array The array of instances to add the intellectual entity for.
-    def add_ie_to_rep(rep_array)
-      if rep_array
-        rep_array.each do |rep|
-          if rep.ie.nil?
-            rep.ie = self
-            rep.save
+    # @param ins_array The array of instances to add the intellectual entity for.
+    def add_ie_to_ins(ins_array)
+      if ins_array
+        ins_array.each do |ins|
+          if ins.ie.nil?
+            ins.ie = self
+            ins.save
           end
         end
       end
