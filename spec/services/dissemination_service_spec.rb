@@ -37,7 +37,7 @@ describe DisseminationService do
     end
   end
 
-  it 'should create a valid JSON representation of a Work' do
+  it 'should create a valid JSON instance of a Work' do
     json = create_message_for_dod_book(@work, {'fileUri' => @url})
     json_hash = JSON.parse(json)
     json_hash['MODS'].should_not be_empty
@@ -64,7 +64,7 @@ describe DisseminationService do
   after (:all) do
     BasicFile.all.each { |file| file.delete }
     Work.all.each { |w| w.delete }
-    SingleFileInstance.all.each { |rep| rep.delete}
+    SingleFileInstance.all.each { |ins| ins.delete}
   end
 
 end

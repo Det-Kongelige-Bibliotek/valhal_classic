@@ -7,12 +7,6 @@ namespace :valhal_migrate do
         bf.save!
       end
     end
-    TeiFile.all.each do |tf|
-      if tf.file_uuid.blank?
-        tf.file_uuid = UUID.new.generate
-        tf.save!
-      end
-    end
     TiffFile.all.each do |tf|
       if tf.file_uuid.blank?
         tf.file_uuid = UUID.new.generate

@@ -87,14 +87,14 @@ RSpec.configure do |config|
     basic_file
   end
 
-  def create_tiff_representation(num_of_tiffs)
-    tiff_representation = OrderedInstance.new
+  def create_tiff_instance(num_of_tiffs)
+    tiff_instance = OrderedInstance.new
 
     (1..num_of_tiffs).each { |i|
-      tiff_representation.files << create_basic_file_for_tif_with_filename("arre1fm00#{i}.tif")
+      tiff_instance.files << create_basic_file_for_tif_with_filename("arre1fm00#{i}.tif")
     }
-    tiff_representation.save!
-    tiff_representation
+    tiff_instance.save!
+    tiff_instance
   end
 
   def login_admin

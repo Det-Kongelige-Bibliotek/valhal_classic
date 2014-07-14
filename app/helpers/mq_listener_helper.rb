@@ -52,9 +52,9 @@ module MqListenerHelper
         return Work.find(id)
       when 'basicfile'
         return BasicFile.find(id)
-      when 'singlefilerepresentation'
+      when 'singlefileinstance'
         return SingleFileInstance.find(id)
-      when 'orderedrepresentation'
+      when 'orderedinstance'
         return OrderedInstance.find(id)
       when 'person'
         return AuthorityMetadataUnit.find(id)

@@ -16,29 +16,29 @@ module Concerns
       # adds the instance to the basic_files container after a save so we dont have to manage all that saving before adding
       # example
       # Before:
-      # rep = SingleFileInstance.new(params[:rep])
-      # rep.save!
-      # rep_file = BasicFile.new
-      # rep_file.add_file(params[:basic_files][:basic_files])
-      # rep_file.container = rep
-      # rep_file.save!
-      # rep.basic_files << rep_file
+      # ins = SingleFileInstance.new(params[:ins])
+      # ins.save!
+      # ins_file = BasicFile.new
+      # ins_file.add_file(params[:basic_files][:basic_files])
+      # ins_file.container = ins
+      # ins_file.save!
+      # ins.basic_files << ins_file
       #
-      # rep.work = @work
-      # rep.save!
+      # ins.work = @work
+      # ins.save!
       #
       # After:
-      # rep = SingleFileInstance.new(params[:rep])
+      # ins = SingleFileInstance.new(params[:ins])
       #
-      # rep_file = BasicFile.new
-      # rep_file.add_file(params[:basic_files][:basic_files])
-      # rep.basic_files << rep_file
+      # ins_file = BasicFile.new
+      # ins_file.add_file(params[:basic_files][:basic_files])
+      # ins.basic_files << ins_file
       #
-      # @work.instances << rep
+      # @work.instances << ins
       # @work.save
-      after_save :add_representation_to_files
+      after_save :add_instance_to_files
 
-      def add_representation_to_files
+      def add_instance_to_files
         if self.files
           self.files.each do |file|
             if file.container.nil?

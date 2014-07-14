@@ -50,17 +50,21 @@
 </table>
 
 <hr/>
-<% #Handle the tei instances. %>
-<% if @work.has_rep? %>
-    <p><b>Instances:</b></p>
-    <ul>
-      <% @work.single_file_reps.each do |t| %>
+<% #Handle the instances. %>
+<% if @work.has_ins? %>
+    <p><h4>Instances</h4></p>
+      <h5>Single File Instances</h5>
+      <ol>
+      <% @work.single_file_instances.each do |t| %>
           <li><%= link_to t.instance_name + ' (' + t.pid + ')', single_file_instance_path(t) %></li>
       <% end %>
-      <% @work.ordered_reps.each do |t| %>
+      </ol>
+      <h5>Ordered Instances</h5>
+      <ol>
+      <% @work.ordered_instances.each do |t| %>
           <li><%= link_to t.instance_name + ' (' + t.pid + ')', ordered_instance_path(t) %></li>
       <% end %>
-    </ul>
+      </ol>
 <% else %>
     <p>No instances for this work.</p>
 <% end %>

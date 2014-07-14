@@ -10,7 +10,7 @@ describe 'works/show' do
                   :subTitle => 'test subtitle', :has_author? => false, :has_concerned_person? => false,
                   :typeOfResource => 'DOD eBook', :publisher => 'test publisher', :originPlace => 'København',
                   :languageISO => 'da', :languageText => 'da', :subjectTopic => '', :dateIssued=> '',
-                  :physicalExtent => '', :uuid => '', :has_rep? => false)
+                  :physicalExtent => '', :uuid => '', :has_ins? => false)
 
     assign(:work, dod_book_mock)
 

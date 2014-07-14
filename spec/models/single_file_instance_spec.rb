@@ -1,9 +1,9 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'support/representation_spec_helper'
+require 'support/instance_spec_helper'
 
 describe SingleFileInstance do
-  include RepresentationSpecHelper
+  include InstanceSpecHelper
 
   subject { SingleFileInstance.new }
   it_behaves_like 'a preservable element'
@@ -36,11 +36,11 @@ describe SingleFileInstance do
         end
 
         it 'should be able to retrieve a person from a saved Instance' do
-          ie_from_saved_rep subject, default_ie
+          ie_from_saved_ins subject, default_ie
         end
 
-        it 'should be able to get values from a person via representation' do
-          values_from_ie_via_rep subject, default_ie, :firstname
+        it 'should be able to get values from a person via instance' do
+          values_from_ie_via_ins subject, default_ie, :firstname
         end
       end
   end
@@ -71,27 +71,27 @@ describe SingleFileInstance do
         subject.save.should be_true
       end
 
-      it 'should be able to retrieve BasicFiles from a saved representation' do
+      it 'should be able to retrieve BasicFiles from a saved instance' do
         basic_files = default_files
         subject.files << basic_files
         subject.save
         pid = subject.pid
-        def_rep = subject.class.find(pid)
-        def_rep.files.should == basic_files
+        def_ins = subject.class.find(pid)
+        def_ins.files.should == basic_files
       end
     end
   end
 
   describe 'with a single basic_files' do
-    it 'should have a representation name containing the basic_files content type' do
+    it 'should have a instance name containing the basic_files content type' do
       basic_file = BasicFile.new
       uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
       basic_file.add_file(uploaded_file, nil)
-      rep = SingleFileInstance.create!
+      inc = SingleFileInstance.create!
 
-      rep.files << basic_file
+      inc.files << basic_file
 
-      rep.instance_name.include?(basic_file.file_type).should be_true
+      inc.instance_name.include?(basic_file.file_type).should be_true
     end
   end
 end

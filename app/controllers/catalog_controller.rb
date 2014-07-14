@@ -25,7 +25,7 @@ class CatalogController < ApplicationController
   end
 
   def unwanted_models
-    [BasicFile, TiffFile, TeiFile, OrderedInstance, SingleFileInstance]
+    [BasicFile, TiffFile, OrderedInstance, SingleFileInstance]
   end
 
   configure_blacklight do |config|

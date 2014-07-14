@@ -22,11 +22,6 @@ ActiveRecord::Schema.define(version: 20140710114909) do
     t.string   "user_type"
   end
 
-  create_table "person_tei_representations", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "searches", force: true do |t|
     t.text     "query_params"
     t.integer  "user_id"

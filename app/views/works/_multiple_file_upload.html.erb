@@ -1,3 +1,4 @@
+<h3 class="text-left">Add Multi File Instance...</h3>
 <div class="control-group">
   <%= f.label :basic_files, 'Multiple file instances for the work', :class=>'control-label'  %>
   <div class="controls">
@@ -6,7 +7,7 @@
           <%= f.file_field :basic_files, :multiple => true, :id => 'fileupload' %>
         </span>
     <a class="btn btn-danger" href="#" id="file_clear" title="Clear file"><i class="icon-trash icon-white"></i></a>
-    <%= fields_for :rep do |builder| %>
+    <%= fields_for :ins do |builder| %>
         <%= builder.text_field :label, :placeholder => 'Label' %>
     <% end %>
   </div>

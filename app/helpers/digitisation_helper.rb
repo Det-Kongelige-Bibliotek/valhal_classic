@@ -126,26 +126,26 @@ module DigitisationHelper
       return nil
     end
 
-    logger.debug "creating single file representation "
-    rep = SingleFileInstance.new
-    rep.files << file
+    logger.debug "creating single file instance "
+    ins = SingleFileInstance.new
+    ins.files << file
 
-    if (!rep.save)
-      logger.error "#{Time.now.to_s} ERROR: Unable to save file representation #{rep.errors.messages.flatten.join(' ')}"
+    if (!ins.save)
+      logger.error "#{Time.now.to_s} ERROR: Unable to save file instance #{ins.errors.messages.flatten.join(' ')}"
       work.delete
       file.delete #delete the BasicFile object again
       return nil
     end
 
-    rep.ie = work
-    work.instances << rep
+    ins.ie = work
+    work.instances << ins
 
 
     logger.debug "saving work"
     if (work.save)
       return work
     else
-      rep.delete
+      ins.delete
       file.delete
       logger.error "#{Time.now.to_s} ERROR: Could not save work second time, #{work.errors.messages.flatten.join(' ')}. Returning nil"
       return nil

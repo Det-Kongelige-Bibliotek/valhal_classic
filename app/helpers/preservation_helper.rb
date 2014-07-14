@@ -123,7 +123,7 @@ module PreservationHelper
     res += '</metadata>'
   end
 
-  # Updates the preservation state and details for a given element (e.g. a basic_files, a representation, a work, etc.)
+  # Updates the preservation state and details for a given element (e.g. a basic_files, a instance, a work, etc.)
   # The preservation state is expected to be among the Constants::PRESERVATION_STATES, a warning will be issued if not.
   # @param metadata The hash with metadata to be updated.
   # @param element The element to has its preservation state updated.
@@ -163,7 +163,7 @@ module PreservationHelper
     element.save
   end
 
-  # Updates the preservation profile for a given element (e.g. a basic_files, a representation, a work, etc.)
+  # Updates the preservation profile for a given element (e.g. a basic_files, a instance, a work, etc.)
   # @param profile The name of the profile to update with.
   # @param comment The comment attached to the preservation
   # @param element The element to have its preservation profile changed.
