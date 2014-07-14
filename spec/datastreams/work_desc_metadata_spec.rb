@@ -145,6 +145,59 @@ describe Datastreams::WorkDescMetadata do
       wdt.reload
       wdt.descMetadata.recordOriginInfo.should == ['TEST']
     end
+
+    it 'should be possible to edit the identifier objects' do
+      wdt = WorkDescTester.create
+      wdt.descMetadata.get_identifier.should be_empty
+      wdt.descMetadata.insert_identifier({'value' =>'Identifier value'})
+      wdt.descMetadata.insert_identifier({'value' => 'Another identifier with displayLabel', 'displayLabel' => 'DisplayLabel of identifier'})
+      wdt.save!
+      wdt.reload
+      wdt.descMetadata.get_identifier.should_not be_empty
+      wdt.descMetadata.get_identifier.size.should == 2
+      wdt.descMetadata.remove_identifier
+      wdt.descMetadata.get_identifier.should be_empty
+    end
+
+    it 'should be possible to edit the note objects' do
+      wdt = WorkDescTester.create
+      wdt.descMetadata.get_note.should be_empty
+      wdt.descMetadata.insert_note({'value' =>'Note value'})
+      wdt.descMetadata.insert_note({'value' => 'Another note with displayLabel', 'displayLabel' => 'DisplayLabel of note'})
+      wdt.save!
+      wdt.reload
+      wdt.descMetadata.get_note.should_not be_empty
+      wdt.descMetadata.get_note.size.should == 2
+      wdt.descMetadata.remove_note
+      wdt.descMetadata.get_note.should be_empty
+    end
+
+    it 'should be possible to edit the language objects' do
+      wdt = WorkDescTester.create
+      wdt.descMetadata.get_language.should be_empty
+      wdt.descMetadata.insert_language({'value' =>'Language value'})
+      wdt.descMetadata.insert_language({'value' => 'A language with authority', 'authority' => 'DisplayLabel of language'})
+      wdt.save!
+      wdt.reload
+      wdt.descMetadata.get_language.should_not be_empty
+      wdt.descMetadata.get_language.size.should == 2
+      wdt.descMetadata.remove_language
+      wdt.descMetadata.get_language.should be_empty
+    end
+
+    it 'should be possible to edit the alternativeTitle objects' do
+      wdt = WorkDescTester.create
+      wdt.descMetadata.get_alternative_title.should be_empty
+      wdt.descMetadata.insert_alternative_title({'title' =>'Note value', 'type' => 'alternative'})
+      wdt.descMetadata.insert_alternative_title({'title' => 'Another note with displayLabel', 'subTitle' => 'DisplayLabel of note', 'type' => 'other', 'lang' => 'language of the alternative title', 'displayLabel' => 'Display label'})
+      wdt.save!
+      wdt.reload
+      wdt.descMetadata.get_alternative_title.should_not be_empty
+      wdt.descMetadata.get_alternative_title.size.should == 2
+      wdt.descMetadata.remove_alternative_title
+      wdt.descMetadata.get_alternative_title.should be_empty
+    end
+
   end
 
 end

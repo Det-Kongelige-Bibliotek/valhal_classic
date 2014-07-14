@@ -9,8 +9,7 @@ describe Datastreams::InstanceDescMetadata do
     end
   end
 
-
-  it 'should contain fields for the internal Work metadata' do
+  it 'should contain fields for the internal Instance metadata' do
     idt = InstanceDescTester.create
     idt.descMetadata.shelfLocator.should be_empty
     idt.descMetadata.physicalDescriptionForm.should be_empty
@@ -104,6 +103,33 @@ describe Datastreams::InstanceDescMetadata do
       idt.reload
       idt.descMetadata.tableOfContents.should == ['TEST']
     end
+
+    it 'should be possible to edit the identifier objects' do
+      idt = InstanceDescTester.create
+      idt.descMetadata.get_identifier.should be_empty
+      idt.descMetadata.insert_identifier({'value' =>'Identifier value'})
+      idt.descMetadata.insert_identifier({'value' => 'Another identifier with displayLabel', 'displayLabel' => 'DisplayLabel of identifier'})
+      idt.save!
+      idt.reload
+      idt.descMetadata.get_identifier.should_not be_empty
+      idt.descMetadata.get_identifier.size.should == 2
+      idt.descMetadata.remove_identifier
+      idt.descMetadata.get_identifier.should be_empty
+    end
+
+    it 'should be possible to edit the note objects' do
+      idt = InstanceDescTester.create
+      idt.descMetadata.get_note.should be_empty
+      idt.descMetadata.insert_note({'value' =>'Note value'})
+      idt.descMetadata.insert_note({'value' => 'Another note with displayLabel', 'displayLabel' => 'DisplayLabel of note'})
+      idt.save!
+      idt.reload
+      idt.descMetadata.get_note.should_not be_empty
+      idt.descMetadata.get_note.size.should == 2
+      idt.descMetadata.remove_note
+      idt.descMetadata.get_note.should be_empty
+    end
+
   end
 
 end
