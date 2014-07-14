@@ -3,70 +3,11 @@ require 'spec_helper'
 
 describe WorkHelper do
 
-  describe '#add_single_tei_ins' do
-    before(:each) do
-      @manifestation = Work.create(:title => 'Work')
-      @tei_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
-      @other_xml_file = ActionDispatch::Http::UploadedFile.new(filename: 'samlede_skrifter_bd_1_arrebo_mods_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/samlede_skrifter_bd_1_arrebo_mods_sample.xml"))
-      @non_xml_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'image/png', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
-    end
-
-    it 'should be possible with a TEI basic_files' do
-      add_single_tei_ins({}, @tei_file, {}, @manifestation).should be_true
-
-      @manifestation.single_file_instances.length.should == 1
-      @manifestation.single_file_instances.first.kind_of?(SingleFileInstance).should be_true
-      @manifestation.single_file_instances.first.files.length.should == 1
-      @manifestation.single_file_instances.first.files.first.kind_of?(TeiFile).should be_true
-      @manifestation.single_file_instances.first.files.first.original_filename.should == @tei_file.original_filename
-    end
-
-    it 'should be possible with a TEI basic_files with metadata' do
-      version = 'p5'
-      add_single_tei_ins({:tei_version => version}, @tei_file, {}, @manifestation).should be_true
-
-      @manifestation.single_file_instances.length.should == 1
-      @manifestation.single_file_instances.first.kind_of?(SingleFileInstance).should be_true
-      @manifestation.single_file_instances.first.files.length.should == 1
-      @manifestation.single_file_instances.first.files.first.kind_of?(TeiFile).should be_true
-      @manifestation.single_file_instances.first.files.first.original_filename.should == @tei_file.original_filename
-
-      @manifestation.single_file_instances.first.files.first.tei_version.should == version
-    end
-
-    # TODO this is probably not the intended behavior (non-tei xml basic_files accepted as tei basic_files.)
-    it 'should be possible with a XML basic_files' do
-      add_single_tei_ins({}, @other_xml_file, {}, @manifestation).should be_true
-
-      @manifestation.single_file_instances.length.should == 1
-      @manifestation.single_file_instances.first.kind_of?(SingleFileInstance).should be_true
-      @manifestation.single_file_instances.first.files.length.should == 1
-      @manifestation.single_file_instances.first.files.first.kind_of?(TeiFile).should be_true
-      @manifestation.single_file_instances.first.files.first.original_filename.should == @other_xml_file.original_filename
-    end
-
-    it 'should not be possible with a non-xml basic_files' do
-      add_single_tei_ins({}, @non_xml_file, {}, @manifestation).should be_false
-
-      @manifestation.single_file_instances.length.should == 0
-    end
-  end
-
   describe '#add_single_file_ins' do
     before(:each) do
       @manifestation = Work.create(:title => 'Work')
       @tei_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
       @octet_file = ActionDispatch::Http::UploadedFile.new(filename: 'rails.png', type: 'octet-stream', tempfile: File.new("#{Rails.root}/spec/fixtures/rails.png"))
-    end
-
-    it 'should be possible with a TEI basic_files' do
-      add_single_file_ins(@tei_file, {}, nil, @manifestation).should be_true
-
-      @manifestation.single_file_instances.length.should == 1
-      @manifestation.single_file_instances.first.kind_of?(SingleFileInstance).should be_true
-      @manifestation.single_file_instances.first.files.length.should == 1
-      @manifestation.single_file_instances.first.files.first.kind_of?(BasicFile).should be_true
-      @manifestation.single_file_instances.first.files.first.original_filename.should == @tei_file.original_filename
     end
 
     it 'should be possible with an binary basic_files' do

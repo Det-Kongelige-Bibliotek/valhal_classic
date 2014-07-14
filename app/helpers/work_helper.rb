@@ -4,22 +4,6 @@
 # Provides methods for generating instances and relationships generic for the works.
 module WorkHelper
   include UtilityHelper
-  # Creates and adds a SingleFileInstance with a TEI basic_files to the work
-  # @param tei_metadata The metadata for the TEI file.
-  # @param file The uploaded TEI file for the SingleFileInstance
-  # @param ins_metadata The metadata for the SingleFileInstance
-  # @param work The work to contain the SingleFileInstance
-  # @return false if operation was unsuccessful
-  def add_single_tei_ins(tei_metadata, file, ins_metadata, work)
-    tei_file = TeiFile.new(tei_metadata)
-    if tei_file.add_file(file, nil)
-      tei_file.save!
-    else
-      return false
-    end
-
-    create_as_single_file_ins(tei_file, ins_metadata, work)
-  end
 
   # Creates and adds a SingleFileInstance with a basic basic_files to the work
   # @param file The uploaded file for the SingleFileInstance
