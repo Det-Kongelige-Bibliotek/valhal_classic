@@ -52,9 +52,37 @@ describe 'AMUFinderService' do
       p.values.should include ['Translator']
       p.values.should include ['Contributor']
       p.values.should include ['Topic']
-      #p.each do |k,v|
-      #  puts "#{k.inspect} => #{v}"
-      #end
+    end
+  end
+
+  describe '#find_other_AMUs_with_relation_from_mods' do
+    it 'should return the origin place' do
+      @xml = File.read("#{Rails.root}/spec/fixtures/mods_digitized_book.xml")
+      @amu = AuthorityMetadataUnit.create(:type=>'place', :value=>'Kbh')
+      amus = @service.find_other_AMUs_with_relation_from_mods(@xml)
+      amus.should be_a(Hash)
+      amus.should_not be_empty
+      amus.size.should == 1
+      amu = amus.keys.first
+      amu.should be_a(AuthorityMetadataUnit)
+      amu.type.should == @amu.type
+      amu.value.should == @amu.value
+      amu.pid.should == @amu.pid
+      rel = amus.values.first
+      rel.should be_a(Array)
+      rel.should == ['Origin']
+    end
+
+    it 'should return nil if there was AMUs in the MODS XML' do
+      p = @service.find_other_AMUs_with_relation_from_mods(File.read("#{Rails.root}/spec/fixtures/mods_digitised_corp_author.xml"))
+      p.should be_empty
+    end
+
+    it 'should return a long list for the Valhal-mods.xml' do
+      p = @service.find_other_AMUs_with_relation_from_mods(File.read("#{Rails.root}/spec/fixtures/valhal_mods.xml"))
+      p.should_not be_empty
+      p.values.should include ['Topic']
+      p.values.should include ['Origin']
     end
   end
 
@@ -122,5 +150,87 @@ describe 'AMUFinderService' do
     end
   end
 
+  describe '#find_or_create_concept' do
+    it 'should create new concept' do
+      count = AuthorityMetadataUnit.count
+      @service.find_or_create_concept('This is a new concept', nil)
+      AuthorityMetadataUnit.count.should == count + 1
+    end
+    it 'should return a known organization' do
+      agent = AuthorityMetadataUnit.create(:type => 'concept', :value => 'Test concept AMU')
+      sleep 1
+      p = @service.find_or_create_concept(agent.value, nil)
+      p.should == agent
+      p.pid.should == agent.pid
+    end
+    it 'should not return another type of AMU' do
+      agent = AuthorityMetadataUnit.create(:type => 'agent/person', :value => 'Test AMU')
+      p = @service.find_or_create_concept(agent.value, nil)
+      p.should_not == agent
+      p.pid.should_not == agent.pid
+    end
+  end
 
+  describe '#find_or_create_event' do
+    it 'should create new event' do
+      count = AuthorityMetadataUnit.count
+      @service.find_or_create_event('This is a new event', nil)
+      AuthorityMetadataUnit.count.should == count + 1
+    end
+    it 'should return a known organization' do
+      agent = AuthorityMetadataUnit.create(:type => 'event', :value => 'Test event AMU')
+      sleep 1
+      p = @service.find_or_create_event(agent.value, nil)
+      p.should == agent
+      p.pid.should == agent.pid
+    end
+    it 'should not return another type of AMU' do
+      agent = AuthorityMetadataUnit.create(:type => 'agent/person', :value => 'Test AMU')
+      p = @service.find_or_create_event(agent.value, nil)
+      p.should_not == agent
+      p.pid.should_not == agent.pid
+    end
+  end
+
+  describe '#find_or_create_physical_thing' do
+    it 'should create new physicalThing' do
+      count = AuthorityMetadataUnit.count
+      @service.find_or_create_physical_thing('This is a new physicalThing', nil)
+      AuthorityMetadataUnit.count.should == count + 1
+    end
+    it 'should return a known organization' do
+      agent = AuthorityMetadataUnit.create(:type => 'physicalThing', :value => 'Test physicalThing AMU')
+      sleep 1
+      p = @service.find_or_create_physical_thing(agent.value, nil)
+      p.should == agent
+      p.pid.should == agent.pid
+    end
+    it 'should not return another type of AMU' do
+      agent = AuthorityMetadataUnit.create(:type => 'agent/person', :value => 'Test AMU')
+      p = @service.find_or_create_physical_thing(agent.value, nil)
+      p.should_not == agent
+      p.pid.should_not == agent.pid
+    end
+  end
+
+  describe '#find_or_create_place' do
+    it 'should create new place' do
+      count = AuthorityMetadataUnit.count
+      @service.find_or_create_place('This is a new place', nil)
+      AuthorityMetadataUnit.count.should == count + 1
+    end
+    it 'should return a known organization' do
+      agent = AuthorityMetadataUnit.create(:type => 'place', :value => 'Test place AMU')
+      sleep 1
+      p = @service.find_or_create_place(agent.value, nil)
+      p.should == agent
+      p.pid.should == agent.pid
+    end
+    it 'should not return another type of AMU' do
+      agent = AuthorityMetadataUnit.create(:type => 'agent/person', :value => 'Test AMU')
+      p = @service.find_or_create_place(agent.value, nil)
+      p.should_not == agent
+      p.pid.should_not == agent.pid
+    end
+  end
 end

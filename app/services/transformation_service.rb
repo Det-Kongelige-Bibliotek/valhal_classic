@@ -165,7 +165,7 @@ class TransformationService
       end
       # multitple fields topic (any subject/topic, where the subject does not have a 'displayLabel' for authorityMetadata)
       n.css("#{mods_namespace_for_css}subject").each do |m|
-        unless (m.attributes.keys.include?('displayLabel') && (m.attributes['displayLabel'].value == 'Concept' || m.attributes['displayLabel'].value == 'Event' || m.attributes['displayLabel'].value == 'PhysicalThing'))
+        unless (m.attributes.keys.include?('displayLabel') && (m.attributes['displayLabel'].value.downcase == 'concept' || m.attributes['displayLabel'].value.downcase == 'event' || m.attributes['displayLabel'].value.downcase == 'physicalThing'))
           m.css("/#{mods_namespace_for_css}topic").each do |l|
             fields_for_work['topic'].nil? ? fields_for_work['topic'] = [l.text] : fields_for_work['topic'] << l.text
           end
@@ -273,13 +273,15 @@ class TransformationService
         if relation == 'Translator' || relation.downcase.start_with?('tra')
           work.hasTranslator << k
         end
-        if relation == 'Topic'
-          work.hasTopic << k
-        end
         if relation == 'Digitizer' || relation.downcase.start_with?('dig')
           instance.hasDigitizer << k
         end
-
+        if relation == 'Topic'
+          work.hasTopic << k
+        end
+        if relation == 'Origin'
+          work.hasOrigin << k
+        end
       end
     end
   end
