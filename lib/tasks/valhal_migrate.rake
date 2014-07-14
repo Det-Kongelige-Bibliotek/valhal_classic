@@ -43,8 +43,13 @@ namespace :valhal_migrate do
   # @param b The book to migrate.
   # @return The new Work.
   def migrate_book(b)
-    #puts b.datastreams['descMetadata'].content
-    w = TransformationService.create_from_mods(b.datastreams['descMetadata'].content)
     puts b.datastreams['RELS-EXT'].content
+
+    #puts b.datastreams['descMetadata'].content
+    #w = TransformationService.create_from_mods(b.datastreams['descMetadata'].content)
+  end
+
+  def find_files(ids)
+
   end
 end
