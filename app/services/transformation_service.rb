@@ -59,11 +59,11 @@ class TransformationService
   def self.extract_metadata(element)
     res = "<metadata>\n"
     res += element.descMetadata.content
-    # TODO change from test-class into real class.
-    #if element.is_a?(Instance) && !element.work.nil?
-    if element.is_a?(InstanceTestClass) && !element.work.nil?
+    if element.is_a?(SingleFileInstance) || element.is_a?(OrderedInstance) || element.is_a?(InstanceTestClass)
+     unless !element.work.nil?
       res += element.work.descMetadata.content
       res += self.extract_relations_in_xml(element.work)
+     end
     end
     res += self.extract_relations_in_xml(element)
     res += "</metadata>\n"
