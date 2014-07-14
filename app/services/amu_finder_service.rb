@@ -201,7 +201,7 @@ module AMUFinderService
   end
   # Extracts the AMUs from a MODS document at the path 'mods/subject/topic'.
   # They have the Topic relations.
-  # Uses the mods/subject@displayLabel to distinguish between types of AMU.
+  # Uses the mods/subject@displayLabel to distinguish between types of AMU (not case sensitive).
   # @param xml_doc The MODS document to extract the AMUs from.
   # @param namespace The namespace to use for searching through the document.
   # @return The agents at the path 'mods/subject/topic'
@@ -209,17 +209,17 @@ module AMUFinderService
     res = Hash.new
     # extract from 'subject' and check the type.
     xml_doc.css("//#{namespace}mods/#{namespace}subject").each do |n|
-      if n.attr('displayLabel') == 'concept'
+      if n.attr('displayLabel') && n.attr('displayLabel').downcase == 'concept'
         n.css("#{namespace}topic").each do |topic|
           agent = find_or_create_concept(topic.text, topic.attr('authorityURI'))
           res[agent] = add_to_array(res[agent], 'Topic')
         end
-      elsif n.attr('displayLabel') == 'event'
+      elsif n.attr('displayLabel') && n.attr('displayLabel').downcase == 'event'
         n.css("#{namespace}topic").each do |topic|
           agent = find_or_create_event(topic.text, topic.attr('authorityURI'))
           res[agent] = add_to_array(res[agent], 'Topic')
         end
-      elsif n.attr('displayLabel') == 'physicalThing'
+      elsif n.attr('displayLabel') && n.attr('displayLabel').downcase == 'physicalthing'
         n.css("#{namespace}topic").each do |topic|
           agent = find_or_create_physical_thing(topic.text, topic.attr('authorityURI'))
           res[agent] = add_to_array(res[agent], 'Topic')

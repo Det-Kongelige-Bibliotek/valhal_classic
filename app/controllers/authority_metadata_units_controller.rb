@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 # Controller for dealing with AuthorityMetadataUnit objects from Fedora for create, read, update or display to the front-end
 class AuthorityMetadataUnitsController < ApplicationController
+  authorize_resource
 
   def index
     @amus = AuthorityMetadataUnit.all

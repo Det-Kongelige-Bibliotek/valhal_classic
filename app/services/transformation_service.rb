@@ -37,15 +37,15 @@ class TransformationService
       i = SingleFileInstance.create(fields_for_instance)
     end
 
+    # add AMUs
+    add_AMUs_to_work_and_instance(w, i, AMUFinderService.find_agents_with_relation_from_mods(mods))
+    add_AMUs_to_work_and_instance(w, i, AMUFinderService.find_other_AMUs_with_relation_from_mods(mods))
+
+    # Add relation between Instance and Work.
     i.ie = w
     w.instances << i
     i.save
     w.save
-
-    # add AMUs
-    agents_relations = AMUFinderService.find_agents_with_relation_from_mods(mods)
-    add_AMUs_to_work_and_instance(w, i, agents_relations)
-
 
     return w, i
   end
@@ -239,48 +239,36 @@ class TransformationService
       v.each do |relation|
         if relation == 'Author' || relation.downcase.start_with?('aut')
           work.hasAuthor << k
-        end
-        if relation == 'Contributor' || relation.downcase.start_with?('con')
+        elsif relation == 'Contributor' || relation.downcase.start_with?('con')
           work.hasContributor << k
-        end
-        if relation == 'Creator' || relation.downcase.start_with?('cre')
+        elsif relation == 'Creator' || relation.downcase.start_with?('cre')
           work.hasCreator << k
-        end
-        if relation == 'Owner' || relation.downcase.start_with?('own')
+        elsif relation == 'Owner' || relation.downcase.start_with?('own')
           work.hasOwner << k
-        end
-        if relation == 'Patron' || relation.downcase.start_with?('pat')
+        elsif relation == 'Patron' || relation.downcase.start_with?('pat')
           work.hasPatron << k
-        end
-        if relation == 'Publisher' || relation.downcase.start_with?('pub')
+        elsif relation == 'Publisher' || relation.downcase.start_with?('pub')
           instance.hasPublisher << k
-        end
-        if relation == 'Photographer' || relation.downcase.start_with?('pho')
+        elsif relation == 'Photographer' || relation.downcase.start_with?('pho')
           work.hasPhotographer << k
-        end
-        if relation == 'Performer' || relation.downcase.start_with?('per')
+        elsif relation == 'Performer' || relation.downcase.start_with?('per')
           work.hasPerformer << k
-        end
-        if relation == 'Printer' || relation.downcase.start_with?('pri')
+        elsif relation == 'Printer' || relation.downcase.start_with?('pri')
           instance.hasPrinter << k
-        end
-        if relation == 'Addressee' || relation.downcase.start_with?('add')
+        elsif relation == 'Addressee' || relation.downcase.start_with?('add')
           work.hasAddressee << k
-        end
-        if relation == 'Scribe' || relation.downcase.start_with?('scr')
+        elsif relation == 'Scribe' || relation.downcase.start_with?('scr')
           instance.hasScribe << k
-        end
-        if relation == 'Translator' || relation.downcase.start_with?('tra')
+        elsif relation == 'Translator' || relation.downcase.start_with?('tra')
           work.hasTranslator << k
-        end
-        if relation == 'Digitizer' || relation.downcase.start_with?('dig')
+        elsif relation == 'Digitizer' || relation.downcase.start_with?('dig')
           instance.hasDigitizer << k
-        end
-        if relation == 'Topic'
+        elsif relation == 'Topic'
           work.hasTopic << k
-        end
-        if relation == 'Origin'
+        elsif relation == 'Origin'
           work.hasOrigin << k
+        elsif
+          logger.error "Cannot handle relation: #{relation} with  #{k}"
         end
       end
     end
