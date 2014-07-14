@@ -26,6 +26,7 @@ Valhal::Application.routes.draw do
     member do
       get 'preservation'
       patch 'update_preservation_profile'
+      get 'show_mods'
     end
   end
 
@@ -35,6 +36,7 @@ Valhal::Application.routes.draw do
       get 'download_all'
       get 'preservation'
       patch 'update_preservation_profile'
+      get 'show_mods'
     end
   end
 
@@ -53,6 +55,7 @@ Valhal::Application.routes.draw do
       patch 'update_preservation_profile'
       get 'dissemination'
       patch 'send_to_dissemination'
+      get 'show_mods'
     end
   end
 

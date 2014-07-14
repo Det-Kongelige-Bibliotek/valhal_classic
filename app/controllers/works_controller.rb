@@ -157,6 +157,21 @@ class WorksController < ApplicationController
     redirect_to @work, notice: 'Work was successfully created.'
   end
 
+  def show_mods
+    @work = Work.find(params[:id])
+    begin
+      send_data TransformationService.transform_to_mods(@work), {:filename => "#{@work.uuid}-mods.xml", :type => 'text/xml'}
+    rescue ActiveFedora::ObjectNotFoundError => obj_not_found
+      flash[:error] = 'The file you requested could not be found in Fedora! Please contact your system administrator'
+      logger.error obj_not_found.to_s
+      redirect_to @work
+    rescue StandardError => standard_error
+      flash[:error] = 'An error has occurred. Please contact your system administrator'
+      logger.error standard_error.to_s
+      redirect_to :root
+    end
+  end
+
   private
   # Handles the parameter arguments
   # If single basic_files is given, then a SingeFileInstance is made from it.

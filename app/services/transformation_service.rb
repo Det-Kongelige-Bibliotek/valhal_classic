@@ -59,9 +59,9 @@ class TransformationService
   def self.extract_metadata(element)
     res = "<metadata>\n"
     res += element.descMetadata.content
-    if element.is_a?(SingleFileInstance) || element.is_a?(OrderedInstance) || element.is_a?(InstanceTestClass)
-     unless !element.work.nil?
-      res += element.work.descMetadata.content
+    if element.is_a?(SingleFileInstance) || element.is_a?(OrderedInstance)
+     unless !element.ie.nil?
+      res += element.ie.descMetadata.content
       res += self.extract_relations_in_xml(element.work)
      end
     end
