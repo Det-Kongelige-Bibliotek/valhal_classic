@@ -36,6 +36,7 @@ class TransformationService
     else
       i = SingleFileInstance.create(fields_for_instance)
     end
+    i.files << files
 
     # add AMUs
     add_AMUs_to_work_and_instance(w, i, AMUFinderService.find_agents_with_relation_from_mods(mods))

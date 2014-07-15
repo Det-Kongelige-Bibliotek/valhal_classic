@@ -38,8 +38,13 @@ namespace :valhal_migrate do
       elsif b.datastreams['RELS-EXT'].content.include?('info:fedora/afmodel:TeiFile')
         # Needs also to be converted
         tei_files << b.pid
-        files << b.pid
       end
+    end
+
+    # TODO convert TEI files:
+    tei_files.each do |f|
+      convert_tei_file(f)
+      files << f
     end
 
     rep_files = extract_rep_relations_to_files(reps, files)
@@ -149,6 +154,15 @@ namespace :valhal_migrate do
       files << BasicFile.find(f)
     end
     files
+  end
+
+  # Converts a TEI file into a Basic file.
+  # Just change the model in the RELS-EXT.
+  def convert_tei_file(id)
+    f = BasicFile.find(id)
+
+    f.datastreams['RELS-EXT'].content = f.datastreams['RELS-EXT'].content.gsub('info:fedora/afmodel:TeiFile', 'info:fedora/afmodel:BasicFile')
+    f.save
   end
 
   # Creates a copy of an instance, with same metadata - both internal metadata and AMU relations.
