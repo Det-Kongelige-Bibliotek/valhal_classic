@@ -2,44 +2,6 @@ require 'spec_helper'
 
 describe "transformation" do
   describe "#transform_to_mods" do
-    before :all do
-      class WorkTestClass < ActiveFedora::Base
-        include Concerns::WorkInstanceRelations
-        has_metadata :name => 'descMetadata', :type => Datastreams::WorkDescMetadata
-        has_many :instances, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of, :inverse_of => :has_representation
-
-        # Extracts the relations, which are valid for work.
-        def get_relations
-          res = Hash.new
-          relations = METADATA_RELATIONS_CONFIG['work']
-          get_all_relations.each do |k,v|
-            if relations.include?(k) && v.empty? == false
-              res[k] = v
-            end
-          end
-          res
-        end
-      end
-
-      class InstanceTestClass < ActiveFedora::Base
-        include Concerns::WorkInstanceRelations
-        has_metadata :name => 'descMetadata', :type => Datastreams::InstanceDescMetadata
-        belongs_to :work, :class_name => 'ActiveFedora::Base', :property => :has_representation, :inverse_of => :is_representation_of
-
-        # Extracts the relations, which are valid for work.
-        def get_relations
-          res = Hash.new
-          relations = METADATA_RELATIONS_CONFIG['instance']
-          get_all_relations.each do |k,v|
-            if relations.include?(k) && v.empty? == false
-              res[k] = v
-            end
-          end
-          res
-        end
-      end
-
-    end
 
     describe "Work and Instance to MODS" do
       before :all do
@@ -49,7 +11,7 @@ describe "transformation" do
         @physicalThing = AuthorityMetadataUnit.create(:type=>'physicalThing', :value => 'TEST physicalThing', :reference => 'http://authority.org/physicalThing')
         @agent = AuthorityMetadataUnit.create(:type=>'agent/person', :value => 'TEST person', :reference => 'http://authority.org/person')
 
-        @work = WorkTestClass.create
+        @work = Work.create
         @work.descMetadata.title = 'Title'
         @work.descMetadata.subTitle = 'SubTitle'
         @work.descMetadata.workType = 'WorkType'
@@ -93,7 +55,7 @@ describe "transformation" do
         @work.hasDigitizer << @agent
         @work.save!
 
-        @instance = InstanceTestClass.create
+        @instance = SingleFileInstance.create
 
         @instance.descMetadata.shelfLocator = 'ShelfLocator'
         @instance.descMetadata.physicalDescriptionForm = 'physicalDescriptionForm'
@@ -126,8 +88,9 @@ describe "transformation" do
         @instance.hasTranslator << @agent
         @instance.hasDigitizer << @agent
 
-        @instance.work = @work
+        @instance.ie = @work
         @instance.save!
+        @work.save!
       end
 
       it 'should be possible to extract the metadata' do
@@ -147,6 +110,7 @@ describe "transformation" do
         xsd = Nokogiri::XML::Schema(File.read("#{Rails.root}/spec/fixtures/mods-3-5.xsd"))
         output = xsd.validate(mods)
 
+        puts mods
         output.each do |error|
           puts error
         end

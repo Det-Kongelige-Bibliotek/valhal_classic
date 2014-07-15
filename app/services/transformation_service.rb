@@ -60,13 +60,16 @@ class TransformationService
   # @param The element to extract the metadata from.
   # @return The metadata in the simple XML format, ready to be transformed.
   def self.extract_metadata(element)
+    logger.info "Extracting metadata for #{element.class}:#{element.pid}"
     res = "<metadata>\n"
     res += element.descMetadata.content
     if element.is_a?(SingleFileInstance) || element.is_a?(OrderedInstance)
-     unless !element.ie.nil?
-      res += element.ie.descMetadata.content
-      res += self.extract_relations_in_xml(element.work)
-     end
+      w = element.ie
+      logger.info "Adding metadata from #{w.class}:#{w.pid}"
+      unless w.nil?
+        res += w.datastreams['descMetadata'].content
+        res += self.extract_relations_in_xml(w)
+      end
     end
     res += self.extract_relations_in_xml(element)
     res += "</metadata>\n"
