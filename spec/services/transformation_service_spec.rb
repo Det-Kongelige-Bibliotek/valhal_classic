@@ -110,7 +110,6 @@ describe "transformation" do
         xsd = Nokogiri::XML::Schema(File.read("#{Rails.root}/spec/fixtures/mods-3-5.xsd"))
         output = xsd.validate(mods)
 
-        puts mods
         output.each do |error|
           puts error
         end
