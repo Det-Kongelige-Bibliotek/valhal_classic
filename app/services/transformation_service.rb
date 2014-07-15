@@ -26,15 +26,18 @@ class TransformationService
     fields_for_work, fields_for_instance, metadata_objects = extract_mods_fields_as_hashes(mods)
 
     w = Work.create(fields_for_work)
-    w.alternativeTitle = metadata_objects['alternativeTitle']
-    w.identifier = metadata_objects['identifier']
-    w.language = metadata_objects['language']
-    w.note = metadata_objects['note']
+    w.alternativeTitle = metadata_objects['alternativeTitle'] unless metadata_objects['alternativeTitle'].nil?
+    w.identifier = metadata_objects['identifier'] unless metadata_objects['identifier'].nil?
+    w.language = metadata_objects['language'] unless metadata_objects['language'].nil?
+    w.note = metadata_objects['note'] unless metadata_objects['note'].nil?
 
     if files.length > 1
       i = OrderedInstance.create(fields_for_instance)
     else
       i = SingleFileInstance.create(fields_for_instance)
+    end
+    files.each do |f|
+      i.files << BasicFile.find(f)
     end
 
     # add AMUs
