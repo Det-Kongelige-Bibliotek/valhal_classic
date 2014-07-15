@@ -138,8 +138,11 @@ class TransformationService
       n.css("#{mods_namespace_for_css}originInfo/#{mods_namespace_for_css}dateOther").each do |m|
         fields_for_work['dateOther'].nil? ? fields_for_work['dateOther'] = [m.text] : fields_for_work['dateOther'] << m.text
       end
-      # instance multiple fields physicalDescription.form
+      # instance multiple fields physicalDescription.form - both from physicalDescription.form and physicalDescription.extent (according to transformation)
       n.css("#{mods_namespace_for_css}physicalDescription/#{mods_namespace_for_css}form").each do |m|
+        fields_for_instance['physicalDescriptionForm'].nil? ? fields_for_instance['physicalDescriptionForm'] = [m.text] : fields_for_instance['physicalDescriptionForm'] << m.text
+      end
+      n.css("#{mods_namespace_for_css}physicalDescription/#{mods_namespace_for_css}extent").each do |m|
         fields_for_instance['physicalDescriptionForm'].nil? ? fields_for_instance['physicalDescriptionForm'] = [m.text] : fields_for_instance['physicalDescriptionForm'] << m.text
       end
       # instance multiple fields physicalDescription.note
