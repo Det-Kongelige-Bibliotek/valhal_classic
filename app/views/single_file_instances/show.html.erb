@@ -2,7 +2,36 @@
 
 <table border='0'>
   <tr><td style='font-weight: bold;'>Instance name: </td><td><%= @single_file_instance.instance_name %></td></tr>
-  <tr><td>Number of files: </td><td><%= @single_file_instance.files.length.to_s %></td></tr>
+  <tr><td><b>Number of files: </b></td><td><%= @single_file_instance.files.length.to_s %></td></tr>
+  <tr><td><b>Physical representation shelf locator</b></td><td><%= @single_file_instance.shelfLocator %></td></tr>
+  <tr><td><b>Date created</b></td><td><%= @single_file_instance.dateCreated %></td></tr>
+  <tr><td><b>Date issued</b></td><td><%= @single_file_instance.dateIssued %></td></tr>
+  <tr><td><b>Table of Contents</b></td><td><%= @single_file_instance.tableOfContents %></td></tr>
+  <tr><td><b>Physical Description Form(s)</b></td>
+    <% @single_file_instance.physicalDescriptionNote.each do |d| %>
+        <td><%= d %></td>
+    <% end %>
+  </tr>
+  <tr><td><b>Physical Description Note(s)</b></td>
+    <% @single_file_instance.physicalDescriptionNote.each do |d| %>
+        <td><%= d %></td>
+    <% end %>
+  </tr>
+  <tr><td><b>Record Origin Info(s)</b></td>
+    <% @single_file_instance.recordOriginInfo.each do |d| %>
+        <td><%= d %></td>
+    <% end %>
+  </tr>
+  <tr><td><b>Cataloging language(s)</b></td>
+    <% @single_file_instance.languageOfCataloging.each do |d| %>
+        <td><%= d %></td>
+    <% end %>
+  </tr>
+  <tr><td><b>Other Date(s)</b></td>
+    <% @single_file_instance.dateOther.each do |d| %>
+        <td><%= d %></td>
+    <% end %>
+  </tr>
 </table>
 
 <br/>
