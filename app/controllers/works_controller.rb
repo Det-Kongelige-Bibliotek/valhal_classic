@@ -30,6 +30,10 @@ class WorksController < ApplicationController
     @work = Work.new
   end
 
+  def new_from_mods
+    @work = Work.new
+  end
+
   def edit
     @work = Work.find(params[:id])
   end
@@ -56,6 +60,44 @@ class WorksController < ApplicationController
       redirect_to show_agent_work_path @work
     else
       render action: 'new'
+    end
+  end
+
+  def create_from_mods
+    @work = Work.new
+    begin
+      mods = params[:work][:mods_file]
+      mods_file = Nokogiri::XML::Document.parse(File.read(mods.tempfile))
+
+      basic_files = []
+
+      params[:work][:basic_files].each do |f|
+        bf = BasicFile.new
+        unless bf.add_file(f, params[:work][:skip_fits])
+          return false
+        end
+        bf.save!
+
+        basic_files << bf
+      end
+
+      logger.debug "Creating from MODS: #{mods}"
+      logger.debug "Creating with files: #{basic_files}"
+
+      @work, instance = TransformationService.create_from_mods(mods_file, basic_files)
+      logger.info "Created work: #{@work.inspect}"
+      logger.info "Created instance: #{instance}"
+      redirect_to @work
+    rescue => error
+      error_msg = error.to_s
+      error.backtrace.each do |l|
+        error_msg += "\n#{l}"
+      end
+      logger.error error_msg
+
+      @work.errors[:error] = error_msg
+      @work.errors[:params] = params.inspect
+      render action: 'new_from_mods'
     end
   end
 

@@ -1,0 +1,62 @@
+<div class="page-header">
+  <h1 class="text-left">New work from MODS</h1>
+</div>
+
+<div class="row hidden-phone ">
+  <div class="span3">
+       <span class="lead ">
+         Step 1
+       </span>
+  </div>
+</div>
+
+<div class="progress progress-success hidden-phone">
+  <div class="bar" style="width: 100%;"></div>
+</div>
+
+<p class="lead visible-phone">Step 1 / 1</p>
+
+<%= form_for @work, :html=>{:multipart=>true, :class=>'form-horizontal'}, :url => {:action=> "create_from_mods"} do |f| %>
+    <div class="row">
+      <div class="span9">
+        <div class="control-group">
+          <div class="controls">
+            <%= f.error_messages :header_message => 'Error when creating from MODS', :class => 'alert alert-error', :header_tag => :h4 %>
+          </div>
+        </div>
+        <%= f.label :mods_file, 'MODS record for the work/instance', :class=>'control-label'  %>
+        <div class="controls">
+        <span class="btn btn-file">
+            <span class="js_button_text">Upload file</span>
+          <%= f.file_field :mods_file, :multiple => false, :id => 'fileupload' %>
+        </span>
+          <a class="btn btn-danger" href="#" id="file_clear" title="Clear file"><i class="icon-trash icon-white"></i></a>
+        </div>
+        <br/>
+        <%= f.label :basic_files, 'Files for the instance', :class=>'control-label'  %>
+        <div class="controls">
+        <span class="btn btn-file">
+            <span class="js_button_text">Upload files</span>
+          <%= f.file_field :basic_files, :multiple => true, :id => 'fileupload' %>
+        </span>
+          <a class="btn btn-danger" href="#" id="file_clear" title="Clear file"><i class="icon-trash icon-white"></i></a>
+        </div>
+        <br/>
+        <div class="control-group">
+          <%= f.label :skip_fits, 'Skip file characterisation?', :class=>'control-label' %>
+          <div class="controls">
+            <%= check_box_tag 'skip_fits', 'true', true %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-group action">
+      <div class="controls">
+        <%= f.submit 'Finish', :class=>'btn btn-success btn-large pull-right' %>
+      </div>
+    </div>
+    </div>
+    </div>
+<% end %>
+

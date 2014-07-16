@@ -40,6 +40,8 @@ Valhal::Application.routes.draw do
     end
   end
 
+  get "works/new_from_mods"
+  post "works/create_from_mods"
   resources :works do
     member do
       put 'create_structmap'
@@ -58,6 +60,7 @@ Valhal::Application.routes.draw do
       get 'show_mods'
     end
   end
+
 
   resources :authority_metadata_units do
   end
