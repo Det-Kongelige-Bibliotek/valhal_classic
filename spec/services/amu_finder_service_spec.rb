@@ -13,10 +13,10 @@ describe 'AMUFinderService' do
   end
 
   describe '#find_agents_with_relation_from_mods' do
-    it 'should return a person object' do
+    it 'should return a agent/person object' do
       @xml = File.read("#{Rails.root}/spec/fixtures/mods_digitized_book.xml")
       @amu = AuthorityMetadataUnit.create(:type=>'agent/person', :value=>'Klee, Frederik')
-      agents = @service.find_agents_with_relation_from_mods(@xml)
+      agents = @service.find_amus_with_relation_from_mods(@xml)
       agents.should be_a(Hash)
       agents.should_not be_empty
       agents.size.should == 1
@@ -30,13 +30,13 @@ describe 'AMUFinderService' do
       rel.should == ['Author']
     end
 
-    it 'should return nil if there was no person data in the MODS XML' do
-      p = @service.find_agents_with_relation_from_mods(File.read("#{Rails.root}/spec/fixtures/mods_digitized_book_without_author.xml"))
+    it 'should return nil if there was no agent data in the MODS XML' do
+      p = @service.find_amus_with_relation_from_mods(File.read("#{Rails.root}/spec/fixtures/mods_digitized_book_without_author.xml"))
       p.should be_empty
     end
 
     it 'should return a long list for the Valhal-mods.xml' do
-      p = @service.find_agents_with_relation_from_mods(File.read("#{Rails.root}/spec/fixtures/valhal_mods.xml"))
+      p = @service.find_amus_with_relation_from_mods(File.read("#{Rails.root}/spec/fixtures/valhal_mods.xml"))
       p.should_not be_empty
       p.values.should include ['Author']
       p.values.should include ['Contributor']

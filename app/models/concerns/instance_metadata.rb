@@ -18,7 +18,7 @@ module Concerns
                      :recordOriginInfo, :languageOfCataloging, :dateOther,
                      datastream: 'descMetadata', :multiple => true
 
-      # Extracts the relations, which are valid for instance (which is going to replace instance).
+      # Extracts the relations, which are valid for instance.
       def get_relations
         res = Hash.new
         relations = METADATA_RELATIONS_CONFIG['instance']

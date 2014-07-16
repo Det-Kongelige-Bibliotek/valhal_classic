@@ -33,14 +33,15 @@ class TransformationService
 
     if files.length > 1
       i = OrderedInstance.create(fields_for_instance)
+      i.files << files
+      WorkHelper.generate_structmap(files, i)
     else
       i = SingleFileInstance.create(fields_for_instance)
+      i.files << files
     end
-    i.files << files
 
     # add AMUs
-    add_AMUs_to_work_and_instance(w, i, AMUFinderService.find_agents_with_relation_from_mods(mods))
-    add_AMUs_to_work_and_instance(w, i, AMUFinderService.find_other_AMUs_with_relation_from_mods(mods))
+    add_AMUs_to_work_and_instance(w, i, AMUFinderService.find_amus_with_relation_from_mods(mods))
 
     # Add relation between Instance and Work.
     i.ie = w
