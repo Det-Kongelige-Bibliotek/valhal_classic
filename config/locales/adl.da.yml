@@ -5,3 +5,5 @@ da:
         welcome: "Velkommen til SIFD!"
         new_person: "Ny Person"
         new_work: "Nyt Værk"
+        new_work_from_mods: "Nyt Værk på basis af MODS"
+        new_authority_metadata_unit: "Ny Autoritativ Metadata Enhed"

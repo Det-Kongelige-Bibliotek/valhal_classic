@@ -21,7 +21,7 @@ class TransformationService
   # @param mods The MODS record to create the Work and Instance from.
   # @param files The files which should be used for creating the instance. If more than 1 file, then a OrderedInstance
   # is created, otherwise a SingleFileInstance
-  # @return The Work created from the MODS.
+  # @return Both the Work and the Instances created from the MODS.
   def self.create_from_mods(mods, files)
     fields_for_work, fields_for_instance, metadata_objects = extract_mods_fields_as_hashes(mods)
 

@@ -9,7 +9,7 @@ module AMUFinderService
   # @param name The value of the agent/person
   # @param ref The optional reference, if the agent has to be created.
   # @return The agent/person with the given name.
-  def find_or_create_agent_person(name, ref)
+  def self.find_or_create_agent_person(name, ref)
     search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'agent/person', :value => name, :reference => ref)
@@ -22,7 +22,7 @@ module AMUFinderService
   # @param name The value of the agent/organization
   # @param ref The optional reference, if the agent has to be created.
   # @return The agent/organization with the given name.
-  def find_or_create_agent_organization(name, ref)
+  def self.find_or_create_agent_organization(name, ref)
     search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'agent/organization', :value => name, :reference => ref)
@@ -36,7 +36,7 @@ module AMUFinderService
   # @param name The name of the agent.
   # @param ref The optional reference, if the agent has to be created.
   # @return Either the existing agent (either agent/organization or agent/person), or the newly created agent/person,
-  def find_agent_or_create_agent_person(name, ref)
+  def self.find_agent_or_create_agent_person(name, ref)
     search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first
     search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first if search.nil?
     if search.nil?
@@ -50,7 +50,7 @@ module AMUFinderService
   # @param name The name of the concept.
   # @param ref The optional reference, if the concept has to be created.
   # @return Either the existing concept or the newly created one.
-  def find_or_create_concept(name, ref)
+  def self.find_or_create_concept(name, ref)
     search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"concept\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'concept', :value => name, :reference => ref)
@@ -63,7 +63,7 @@ module AMUFinderService
   # @param name The name of the event.
   # @param ref The optional reference, if the event has to be created.
   # @return Either the existing event or the newly created one.
-  def find_or_create_event(name, ref)
+  def self.find_or_create_event(name, ref)
     search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"event\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'event', :value => name, :reference => ref)
@@ -76,7 +76,7 @@ module AMUFinderService
   # @param name The name of the physicalThing.
   # @param ref The optional reference, if the physicalThing has to be created.
   # @return Either the existing physicalThing or the newly created one.
-  def find_or_create_physical_thing(name, ref)
+  def self.find_or_create_physical_thing(name, ref)
     search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"physicalThing\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'physicalThing', :value => name, :reference => ref)
@@ -89,7 +89,7 @@ module AMUFinderService
   # @param name The name of the place.
   # @param ref The optional reference, if the place has to be created.
   # @return Either the existing place or the newly created one.
-  def find_or_create_place(name, ref)
+  def self.find_or_create_place(name, ref)
     search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"place\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'place', :value => name, :reference => ref)
@@ -104,7 +104,7 @@ module AMUFinderService
   # Extracts agents from the MODS paths: mods/name, mods/subject/name, and mods/originInfo/publisher.
   # @param mods The MODS to extract the agent from.
   # @return A hash between the agents and their relation.
-  def find_agents_with_relation_from_mods(mods)
+  def self.find_agents_with_relation_from_mods(mods)
     if(mods.is_a?(String))
       xml_doc = Nokogiri::XML(mods)
     else
@@ -126,7 +126,7 @@ module AMUFinderService
   # This involves finding events, concepts, physicalThing, and places.
   # @param mods The MODS record to extract the AMUs from.
   # @return a Hash between the agents and their relations.
-  def find_other_AMUs_with_relation_from_mods(mods)
+  def self.find_other_AMUs_with_relation_from_mods(mods)
     if(mods.is_a?(String))
       xml_doc = Nokogiri::XML(mods)
     else
@@ -150,7 +150,7 @@ module AMUFinderService
   # @param xml_doc The MODS document to extract the agents from.
   # @param namespace The namespace to use for searching through the document.
   # @return The agents at the path 'mods/name'
-  def extract_agents_from_mods_name_with_namespace(xml_doc, namespace)
+  def self.extract_agents_from_mods_name_with_namespace(xml_doc, namespace)
     res = Hash.new
     # extract from 'name' (without namespace prefix) with relation from role (or 'Unknown' if not set)
     xml_doc.css("//#{namespace}mods/#{namespace}name").each do |n|
@@ -170,7 +170,7 @@ module AMUFinderService
   # @param xml_doc The MODS document to extract the agents from.
   # @param namespace The namespace to use for searching through the document.
   # @return The agents at the path 'mods/subject/name'
-  def extract_agents_from_mods_subject_with_namespace(xml_doc, namespace)
+  def self.extract_agents_from_mods_subject_with_namespace(xml_doc, namespace)
     res = Hash.new
     # extract from 'subject/name' (without namespace prefix) with relation 'Topic' (ignores role)
     xml_doc.css("//#{namespace}mods/#{namespace}subject/#{namespace}name").each do |n|
@@ -190,7 +190,7 @@ module AMUFinderService
   # @param xml_doc The MODS document to extract the agents from.
   # @param namespace The namespace to use for searching through the document.
   # @return The agents at the path 'mods/originInfo/publisher'
-  def extract_agents_from_mods_publisher_with_namespace(xml_doc, namespace)
+  def self.extract_agents_from_mods_publisher_with_namespace(xml_doc, namespace)
     res = Hash.new
     # extract from 'subject/name' (without namespace prefix) with relation 'Topic' (ignores role)
     xml_doc.css("//#{namespace}mods/#{namespace}originInfo/#{namespace}publisher").each do |n|
@@ -205,7 +205,7 @@ module AMUFinderService
   # @param xml_doc The MODS document to extract the AMUs from.
   # @param namespace The namespace to use for searching through the document.
   # @return The agents at the path 'mods/subject/topic'
-  def extract_amus_from_mods_subject_with_namespace(xml_doc, namespace)
+  def self.extract_amus_from_mods_subject_with_namespace(xml_doc, namespace)
     res = Hash.new
     # extract from 'subject' and check the type.
     xml_doc.css("//#{namespace}mods/#{namespace}subject").each do |n|
@@ -233,7 +233,7 @@ module AMUFinderService
   # @param xml_doc The MODS document to extract the places from.
   # @param namespace The namespace to use for searching through the document.
   # @return The agents at the path 'mods/subject/geographic'
-  def extract_place_from_mods_geographic_with_namespace(xml_doc, namespace)
+  def self.extract_place_from_mods_geographic_with_namespace(xml_doc, namespace)
     res = Hash.new
     # extract from 'subject' and check the type.
     xml_doc.css("//#{namespace}mods/#{namespace}subject/#{namespace}geographic").each do |n|
@@ -247,7 +247,7 @@ module AMUFinderService
   # @param xml_doc The MODS document to extract the places from.
   # @param namespace The namespace to use for searching through the document.
   # @return The agents at the path 'mods/originInfo/place'
-  def extract_place_from_mods_origin_place_with_namespace(xml_doc, namespace)
+  def self.extract_place_from_mods_origin_place_with_namespace(xml_doc, namespace)
     res = Hash.new
     # extract from 'subject' and check the type.
     xml_doc.css("//#{namespace}mods/#{namespace}originInfo/#{namespace}place/#{namespace}placeTerm").each do |n|
@@ -263,7 +263,7 @@ module AMUFinderService
   # @param array The array to add the value to.
   # @param value The value to add to the array (String, XML TEXT element or nil)
   # @return The array with the new value. If the array is nil, then it is created.
-  def add_to_array(array, value)
+  def self.add_to_array(array, value)
     if value.nil? || value.empty?
       value = 'Unknown'
     elsif value.is_a? String
@@ -283,7 +283,7 @@ module AMUFinderService
   # Space separates the different elements, and removes any trailing whitespaces.
   # @param elements The elements to extract.
   # @return The combined text elements.
-  def combine_elements(elements)
+  def self.combine_elements(elements)
     res = ''
     elements.reverse.each do |e|
       res += "#{e.text} "

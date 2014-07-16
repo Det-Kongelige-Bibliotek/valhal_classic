@@ -26,6 +26,13 @@
           </li>
           <li class="divider-vertical"></li>
           <li>
+            <%= link_to 'works/new_from_mods', :action => 'works/new_from_mods', :class => "" do %>
+                <i class="icon-th-list"></i>
+                <span class="hidden-phone"><%= t 'valhal.views.homepage.new_work_from_mods' %></span>
+            <%- end %>
+          </li>
+          <li class="divider-vertical"></li>
+          <li>
             <%= link_to new_authority_metadata_unit_path, :action => new_authority_metadata_unit_path, :class => "" do %>
                 <i class="icon-user"></i>
                 <span class="hidden-phone"><%= t 'valhal.views.homepage.new_authority_metadata_unit' %></span>
