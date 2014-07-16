@@ -20,7 +20,7 @@ class SingleFileInstancesController < ApplicationController
     @single_file_instance = SingleFileInstance.find(params[:id])
 
     if @single_file_instance.update_attributes(params[:single_file_instance])
-      redirect_to @single_file_instance, notice: 'Single basic_files instance was successfully updated.'
+      redirect_to @single_file_instance, notice: 'Single file instance was successfully updated.'
     else
       render action: "edit"
     end
