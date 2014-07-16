@@ -82,10 +82,45 @@ module WorkHelper
     work.save!
   end
 
+  def add_agents(agent_relations, work)
+    agent_relations_array = JSON.parse(agent_relations)
+
+    agent_relations_array.each do |agent_relation_hash|
+        agent_relation_hash.each do |agent_relation|
+          agent = AuthorityMetadataUnit.find(agent_relation[1]['agentID'])
+          if agent_relation[1]['relationshipType'].eql? 'hasTopic'
+            work.hasTopic << agent
+          elsif agent_relation[1]['relationshipType'].eql? 'hasOrigin'
+            work.hasOrigin << agent
+          elsif agent_relation[1]['relationshipType'].eql? 'hasAddressee'
+            work.hasAddressee << agent
+          elsif agent_relation[1]['relationshipType'].eql? 'hasAuthor'
+            work.hasAuthor << agent
+          elsif agent_relation[1]['relationshipType'].eql? 'hasContributor'
+            work.hasContributor << agent
+          elsif agent_relation[1]['relationshipType'].eql? 'hasCreator'
+            work.hasCreator << agent
+          elsif agent_relation[1]['relationshipType'].eql? 'hasOwner'
+            work.hasOwner << agent
+          elsif agent_relation[1]['relationshipType'].eql? 'hasPatron'
+            work.hasPatron << agent
+          elsif agent_relation[1]['relationshipType'].eql? 'hasPerformer'
+            work.hasPerformer << agent
+          elsif agent_relation[1]['relationshipType'].eql? 'hasPhotographer'
+            work.hasPhotographer << agent
+          elsif agent_relation[1]['relationshipType'].eql? 'hasTranslator'
+            work.hasTranslator << agent
+          end
+        end
+    end
+
+    #iterate over hash, getting each relation type and calling the corresponding method name on the work
+  end
+
   # Creates the concerned relationship between the work and people behind the ids.
   # @param ids The ids for the people who are concerned about the work
   # @param work The work which concerns the people behind the ids.
-  def set_concerned_agents(ids, work)
+  def set_topic_agents(ids, work)
     if ids.blank? or work.blank? or contentless_array?(ids)
       return false
     end

@@ -5,12 +5,8 @@
         <%= render 'title_fields', :f => builder %>
     <% end %>
     <br/>
-    <%= fields_for :author, :html=>{:multipart=>true} do |builder| %>
-        <%= render 'add_agent', :f => builder %>
-    <% end %>
-    <br/>
-    <%= fields_for :person_described, :html=>{:multipart=>true} do |builder| %>
-        <%= render 'add_concerned_agent', :f => builder %>
+    <%= fields_for :work  do |builder| %>
+        <%= render 'edit_agent', :f => builder %>
     <% end %>
     <br/>
     <%= fields_for :work do |builder| %>

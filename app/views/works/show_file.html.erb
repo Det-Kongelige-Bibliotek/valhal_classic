@@ -40,6 +40,12 @@
         <%= fields_for :single_file, :html=>{:multipart=>true} do |builder| %>
             <%= render 'single_file_upload', :f => builder %>
         <% end %>
+        <div class="control-group">
+          <%= f.label :basic_files, 'Skip file characterisation?', :class=>'control-label' %>
+          <div class="controls">
+            <%= check_box_tag 'skip_file_characterisation', 'true', true %>
+          </div>
+        </div>
         <div class="control-group action">
           <div class="controls">
             <%= link_to_function 'Back', 'history.back()', :class=>'btn btn-large pull-left' %>

@@ -9,12 +9,12 @@
   </div>
   <div class="controls">
     <%= collection_select(:agent,
-                        :id,
-                        AuthorityMetadataUnit.all,
-                        :id,
-                        :value,
-                        options = { :include_blank => false },
-                        { :multiple => false, :class=>'input-block-level' }) %>
+                          :id,
+                          AuthorityMetadataUnit.all,
+                          :id,
+                          :value,
+                          options = { :include_blank => false },
+                          { :multiple => false, :class=>'input-block-level' }) %>
   </div><br/>
   <div class="controls">
     <%= button_tag(type: 'button', onclick: 'addAgent($("#agent_relationship option:selected").text(),
@@ -34,10 +34,21 @@
       </tr>
       </thead>
       <tbody id="agent_relations_tbody">
-      <tr>
-        <td>None</td>
-        <td>None</td>
-      </tr>
+          <% if @work.get_relations.empty? %>
+              <tr><td>None</td><td>None</td></tr>
+          <% end %>
+          <% @work.get_relations.each do |relation| %>
+              <tr>
+                <td><%=relation[0] %></td>
+                <td>
+                  <% unless relation[1].empty? %>
+                      <% for i in 0...relation[1].length %>
+                          <%= relation[1][i].value %>
+                      <% end %>
+                  <% end %>
+                </td>
+              </tr>
+          <% end %>
       </tbody>
     </table>
   </div><br>
