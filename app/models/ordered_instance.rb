@@ -4,7 +4,6 @@ class OrderedInstance < ActiveFedora::Base
   include Concerns::Instance
   include Concerns::Preservation
 
-  has_metadata :name => 'descMetadata',   :type => ActiveFedora::SimpleDatastream
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name => 'techMetadata',   :type => Datastreams::MetsStructMap
 

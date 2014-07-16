@@ -26,26 +26,27 @@ class TransformationService
     fields_for_work, fields_for_instance, metadata_objects = extract_mods_fields_as_hashes(mods)
 
     w = Work.create(fields_for_work)
-    w.alternativeTitle = metadata_objects['alternativeTitle']
-    w.identifier = metadata_objects['identifier']
-    w.language = metadata_objects['language']
-    w.note = metadata_objects['note']
+    w.alternativeTitle = metadata_objects['alternativeTitle'] unless metadata_objects['alternativeTitle'].nil?
+    w.identifier = metadata_objects['identifier'] unless metadata_objects['identifier'].nil?
+    w.language = metadata_objects['language'] unless metadata_objects['language'].nil?
+    w.note = metadata_objects['note'] unless metadata_objects['note'].nil?
 
     if files.length > 1
       i = OrderedInstance.create(fields_for_instance)
     else
       i = SingleFileInstance.create(fields_for_instance)
     end
+    i.files << files
 
+    # add AMUs
+    add_AMUs_to_work_and_instance(w, i, AMUFinderService.find_agents_with_relation_from_mods(mods))
+    add_AMUs_to_work_and_instance(w, i, AMUFinderService.find_other_AMUs_with_relation_from_mods(mods))
+
+    # Add relation between Instance and Work.
     i.ie = w
     w.instances << i
     i.save
     w.save
-
-    # add AMUs
-    agents_relations = AMUFinderService.find_agents_with_relation_from_mods(mods)
-    add_AMUs_to_work_and_instance(w, i, agents_relations)
-
 
     return w, i
   end
@@ -57,13 +58,16 @@ class TransformationService
   # @param The element to extract the metadata from.
   # @return The metadata in the simple XML format, ready to be transformed.
   def self.extract_metadata(element)
+    logger.info "Extracting metadata for #{element.class}:#{element.pid}"
     res = "<metadata>\n"
     res += element.descMetadata.content
-    # TODO change from test-class into real class.
-    #if element.is_a?(Instance) && !element.work.nil?
-    if element.is_a?(InstanceTestClass) && !element.work.nil?
-      res += element.work.descMetadata.content
-      res += self.extract_relations_in_xml(element.work)
+    if element.is_a?(SingleFileInstance) || element.is_a?(OrderedInstance)
+      w = element.ie
+      logger.info "Adding metadata from #{w.class}:#{w.pid}"
+      unless w.nil?
+        res += w.datastreams['descMetadata'].content
+        res += self.extract_relations_in_xml(w)
+      end
     end
     res += self.extract_relations_in_xml(element)
     res += "</metadata>\n"
@@ -135,8 +139,11 @@ class TransformationService
       n.css("#{mods_namespace_for_css}originInfo/#{mods_namespace_for_css}dateOther").each do |m|
         fields_for_work['dateOther'].nil? ? fields_for_work['dateOther'] = [m.text] : fields_for_work['dateOther'] << m.text
       end
-      # instance multiple fields physicalDescription.form
+      # instance multiple fields physicalDescription.form - both from physicalDescription.form and physicalDescription.extent (according to transformation)
       n.css("#{mods_namespace_for_css}physicalDescription/#{mods_namespace_for_css}form").each do |m|
+        fields_for_instance['physicalDescriptionForm'].nil? ? fields_for_instance['physicalDescriptionForm'] = [m.text] : fields_for_instance['physicalDescriptionForm'] << m.text
+      end
+      n.css("#{mods_namespace_for_css}physicalDescription/#{mods_namespace_for_css}extent").each do |m|
         fields_for_instance['physicalDescriptionForm'].nil? ? fields_for_instance['physicalDescriptionForm'] = [m.text] : fields_for_instance['physicalDescriptionForm'] << m.text
       end
       # instance multiple fields physicalDescription.note
@@ -165,7 +172,7 @@ class TransformationService
       end
       # multitple fields topic (any subject/topic, where the subject does not have a 'displayLabel' for authorityMetadata)
       n.css("#{mods_namespace_for_css}subject").each do |m|
-        unless (m.attributes.keys.include?('displayLabel') && (m.attributes['displayLabel'].value == 'Concept' || m.attributes['displayLabel'].value == 'Event' || m.attributes['displayLabel'].value == 'PhysicalThing'))
+        unless (m.attributes.keys.include?('displayLabel') && (m.attributes['displayLabel'].value.downcase == 'concept' || m.attributes['displayLabel'].value.downcase == 'event' || m.attributes['displayLabel'].value.downcase == 'physicalThing'))
           m.css("/#{mods_namespace_for_css}topic").each do |l|
             fields_for_work['topic'].nil? ? fields_for_work['topic'] = [l.text] : fields_for_work['topic'] << l.text
           end
@@ -239,47 +246,37 @@ class TransformationService
       v.each do |relation|
         if relation == 'Author' || relation.downcase.start_with?('aut')
           work.hasAuthor << k
-        end
-        if relation == 'Contributor' || relation.downcase.start_with?('con')
+        elsif relation == 'Contributor' || relation.downcase.start_with?('con')
           work.hasContributor << k
-        end
-        if relation == 'Creator' || relation.downcase.start_with?('cre')
+        elsif relation == 'Creator' || relation.downcase.start_with?('cre')
           work.hasCreator << k
-        end
-        if relation == 'Owner' || relation.downcase.start_with?('own')
+        elsif relation == 'Owner' || relation.downcase.start_with?('own')
           work.hasOwner << k
-        end
-        if relation == 'Patron' || relation.downcase.start_with?('pat')
+        elsif relation == 'Patron' || relation.downcase.start_with?('pat')
           work.hasPatron << k
-        end
-        if relation == 'Publisher' || relation.downcase.start_with?('pub')
+        elsif relation == 'Publisher' || relation.downcase.start_with?('pub')
           instance.hasPublisher << k
-        end
-        if relation == 'Photographer' || relation.downcase.start_with?('pho')
+        elsif relation == 'Photographer' || relation.downcase.start_with?('pho')
           work.hasPhotographer << k
-        end
-        if relation == 'Performer' || relation.downcase.start_with?('per')
+        elsif relation == 'Performer' || relation.downcase.start_with?('per')
           work.hasPerformer << k
-        end
-        if relation == 'Printer' || relation.downcase.start_with?('pri')
+        elsif relation == 'Printer' || relation.downcase.start_with?('pri')
           instance.hasPrinter << k
-        end
-        if relation == 'Addressee' || relation.downcase.start_with?('add')
+        elsif relation == 'Addressee' || relation.downcase.start_with?('add')
           work.hasAddressee << k
-        end
-        if relation == 'Scribe' || relation.downcase.start_with?('scr')
+        elsif relation == 'Scribe' || relation.downcase.start_with?('scr')
           instance.hasScribe << k
-        end
-        if relation == 'Translator' || relation.downcase.start_with?('tra')
+        elsif relation == 'Translator' || relation.downcase.start_with?('tra')
           work.hasTranslator << k
-        end
-        if relation == 'Topic'
-          work.hasTopic << k
-        end
-        if relation == 'Digitizer' || relation.downcase.start_with?('dig')
+        elsif relation == 'Digitizer' || relation.downcase.start_with?('dig')
           instance.hasDigitizer << k
+        elsif relation == 'Topic'
+          work.hasTopic << k
+        elsif relation == 'Origin'
+          work.hasOrigin << k
+        elsif
+          logger.error "Cannot handle relation: #{relation} with  #{k}"
         end
-
       end
     end
   end

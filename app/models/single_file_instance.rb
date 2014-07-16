@@ -13,7 +13,7 @@ class SingleFileInstance < ActiveFedora::Base
     if files.size == 0 || files.last.file_type.blank?
       super
     else
-      "#{super} (#{files.last.file_type})"
+      "#{super} (#{files.last.pid})"
     end
   end
 

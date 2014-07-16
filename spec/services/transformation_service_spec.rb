@@ -2,44 +2,6 @@ require 'spec_helper'
 
 describe "transformation" do
   describe "#transform_to_mods" do
-    before :all do
-      class WorkTestClass < ActiveFedora::Base
-        include Concerns::WorkInstanceRelations
-        has_metadata :name => 'descMetadata', :type => Datastreams::WorkDescMetadata
-        has_many :instances, :class_name => 'ActiveFedora::Base', :property=>:is_representation_of, :inverse_of => :has_representation
-
-        # Extracts the relations, which are valid for work.
-        def get_relations
-          res = Hash.new
-          relations = METADATA_RELATIONS_CONFIG['work']
-          get_all_relations.each do |k,v|
-            if relations.include?(k) && v.empty? == false
-              res[k] = v
-            end
-          end
-          res
-        end
-      end
-
-      class InstanceTestClass < ActiveFedora::Base
-        include Concerns::WorkInstanceRelations
-        has_metadata :name => 'descMetadata', :type => Datastreams::InstanceDescMetadata
-        belongs_to :work, :class_name => 'ActiveFedora::Base', :property => :has_representation, :inverse_of => :is_representation_of
-
-        # Extracts the relations, which are valid for work.
-        def get_relations
-          res = Hash.new
-          relations = METADATA_RELATIONS_CONFIG['instance']
-          get_all_relations.each do |k,v|
-            if relations.include?(k) && v.empty? == false
-              res[k] = v
-            end
-          end
-          res
-        end
-      end
-
-    end
 
     describe "Work and Instance to MODS" do
       before :all do
@@ -49,7 +11,7 @@ describe "transformation" do
         @physicalThing = AuthorityMetadataUnit.create(:type=>'physicalThing', :value => 'TEST physicalThing', :reference => 'http://authority.org/physicalThing')
         @agent = AuthorityMetadataUnit.create(:type=>'agent/person', :value => 'TEST person', :reference => 'http://authority.org/person')
 
-        @work = WorkTestClass.create
+        @work = Work.create
         @work.descMetadata.title = 'Title'
         @work.descMetadata.subTitle = 'SubTitle'
         @work.descMetadata.workType = 'WorkType'
@@ -93,7 +55,7 @@ describe "transformation" do
         @work.hasDigitizer << @agent
         @work.save!
 
-        @instance = InstanceTestClass.create
+        @instance = SingleFileInstance.create
 
         @instance.descMetadata.shelfLocator = 'ShelfLocator'
         @instance.descMetadata.physicalDescriptionForm = 'physicalDescriptionForm'
@@ -126,8 +88,9 @@ describe "transformation" do
         @instance.hasTranslator << @agent
         @instance.hasDigitizer << @agent
 
-        @instance.work = @work
+        @instance.ie = @work
         @instance.save!
+        @work.save!
       end
 
       it 'should be possible to extract the metadata' do
@@ -207,57 +170,189 @@ describe "transformation" do
       @w.get_relations.keys.should include 'hasAddressee'
       @i.get_relations.keys.should_not include 'hasAddressee'
     end
+    it 'should only have agent/person and agent/corporation as addressee' do
+      agents = @w.get_relations['hasAddressee']
+      agents.should_not be_empty
+      agents.each do |agent|
+        agent.type.should start_with 'agent'
+      end
+    end
+
     it 'should place author on work only' do
       @w.get_relations.keys.should include 'hasAuthor'
       @i.get_relations.keys.should_not include 'hasAuthor'
     end
+    it 'should only have agent/person and agent/corporation as author' do
+      agents = @w.get_relations['hasAuthor']
+      agents.should_not be_empty
+      agents.each do |agent|
+        agent.type.should start_with 'agent'
+      end
+    end
+
     it 'should place contributor on work only' do
       @w.get_relations.keys.should include 'hasContributor'
       @i.get_relations.keys.should_not include 'hasContributor'
     end
+    it 'should only have agent/person and agent/corporation as contributor' do
+      agents = @w.get_relations['hasContributor']
+      agents.should_not be_empty
+      agents.each do |agent|
+        agent.type.should start_with 'agent'
+      end
+    end
+
     it 'should place creator on work only' do
       @w.get_relations.keys.should include 'hasCreator'
       @i.get_relations.keys.should_not include 'hasCreator'
     end
+    it 'should only have agent/person and agent/corporation as creator' do
+      agents = @w.get_relations['hasCreator']
+      agents.should_not be_empty
+      agents.each do |agent|
+        agent.type.should start_with 'agent'
+      end
+    end
+
     it 'should place owner on work only' do
       @w.get_relations.keys.should include 'hasOwner'
       @i.get_relations.keys.should_not include 'hasOwner'
     end
+    it 'should only have agent/person and agent/corporation as owner' do
+      agents = @w.get_relations['hasOwner']
+      agents.should_not be_empty
+      agents.each do |agent|
+        agent.type.should start_with 'agent'
+      end
+    end
+
     it 'should place patron on work only' do
       @w.get_relations.keys.should include 'hasPatron'
       @i.get_relations.keys.should_not include 'hasPatron'
     end
+    it 'should only have agent/person and agent/corporation as patron' do
+      agents = @w.get_relations['hasPatron']
+      agents.should_not be_empty
+      agents.each do |agent|
+        agent.type.should start_with 'agent'
+      end
+    end
+
     it 'should place performer on work only' do
       @w.get_relations.keys.should include 'hasPerformer'
       @i.get_relations.keys.should_not include 'hasPerformer'
     end
+    it 'should only have agent/person and agent/corporation as performer' do
+      agents = @w.get_relations['hasPerformer']
+      agents.should_not be_empty
+      agents.each do |agent|
+        agent.type.should start_with 'agent'
+      end
+    end
+
     it 'should place photographer on work only' do
       @w.get_relations.keys.should include 'hasPhotographer'
       @i.get_relations.keys.should_not include 'hasPhotographer'
     end
+    it 'should only have agent/person and agent/corporation as photographer' do
+      agents = @w.get_relations['hasPhotographer']
+      agents.should_not be_empty
+      agents.each do |agent|
+        agent.type.should start_with 'agent'
+      end
+    end
+
     it 'should place printer on instance only' do
       @w.get_relations.keys.should_not include 'hasPrinter'
       @i.get_relations.keys.should include 'hasPrinter'
     end
+    it 'should only have agent/person and agent/corporation as printer' do
+      agents = @i.get_relations['hasPrinter']
+      agents.should_not be_empty
+      agents.each do |agent|
+        agent.type.should start_with 'agent'
+      end
+    end
+
     it 'should place publisher on instance only' do
       @w.get_relations.keys.should_not include 'hasPublisher'
       @i.get_relations.keys.should include 'hasPublisher'
     end
+    it 'should only have agent/person and agent/corporation as publisher' do
+      agents = @i.get_relations['hasPublisher']
+      agents.should_not be_empty
+      agents.each do |agent|
+        agent.type.should start_with 'agent'
+      end
+    end
+
     it 'should place scribe on instance only' do
       @w.get_relations.keys.should_not include 'hasScribe'
       @i.get_relations.keys.should include 'hasScribe'
     end
+    it 'should only have agent/person and agent/corporation as scribe' do
+      agents = @i.get_relations['hasScribe']
+      agents.should_not be_empty
+      agents.each do |agent|
+        agent.type.should start_with 'agent'
+      end
+    end
+
     it 'should place translator on work only' do
       @w.get_relations.keys.should include 'hasTranslator'
       @i.get_relations.keys.should_not include 'hasTranslator'
     end
+    it 'should only have agent/person and agent/corporation as translator' do
+      agents = @w.get_relations['hasTranslator']
+      agents.should_not be_empty
+      agents.each do |agent|
+        agent.type.should start_with 'agent'
+      end
+    end
+
     it 'should place digitizer on instance only' do
       @w.get_relations.keys.should_not include 'hasDigitizer'
       @i.get_relations.keys.should include 'hasDigitizer'
     end
+    it 'should only have agent/person and agent/corporation as digitizer' do
+      agents = @i.get_relations['hasDigitizer']
+      agents.should_not be_empty
+      agents.each do |agent|
+        agent.type.should start_with 'agent'
+      end
+    end
+
     it 'should place topic on work only' do
       @w.get_relations.keys.should include 'hasTopic'
       @i.get_relations.keys.should_not include 'hasTopic'
     end
+    it 'should all types of amus as topic' do
+      amus = @w.get_relations['hasTopic']
+      amus.should_not be_empty
+      types = []
+
+      amus.each do |amu|
+        types << amu.type
+      end
+      types.should include 'agent/person'
+      types.should include 'agent/organization'
+      types.should include 'place'
+      types.should include 'concept'
+      types.should include 'event'
+      types.should include 'physicalThing'
+    end
+
+    it 'should place origin on work only' do
+      @w.get_relations.keys.should include 'hasOrigin'
+      @i.get_relations.keys.should_not include 'hasOrigin'
+    end
+    it 'should only have place as origin' do
+      amus = @w.get_relations['hasOrigin']
+      amus.should_not be_empty
+      amus.each do |amu|
+        amu.type.should start_with 'place'
+      end
+    end
+
   end
 end

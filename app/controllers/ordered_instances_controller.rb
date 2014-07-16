@@ -93,4 +93,19 @@ class OrderedInstancesController < ApplicationController
       render action: 'preservation'
     end
   end
+
+  def show_mods
+    @ordered_instance = OrderedInstance.find(params[:id])
+    begin
+      send_data TransformationService.transform_to_mods(@ordered_instance), {:filename => "#{@ordered_instance.uuid}-mods.xml", :type => 'text/xml'}
+    rescue ActiveFedora::ObjectNotFoundError => obj_not_found
+      flash[:error] = 'The file you requested could not be found in Fedora! Please contact your system administrator'
+      logger.error obj_not_found.to_s
+      redirect_to @ordered_instance
+    rescue StandardError => standard_error
+      flash[:error] = 'An error has occurred. Please contact your system administrator'
+      logger.error standard_error.to_s
+      redirect_to :root
+    end
+  end
 end
