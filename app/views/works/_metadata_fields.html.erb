@@ -30,7 +30,7 @@
     </div>
 </div>
 <div class="control-group">
-  <%= f.label :dateOther, 'Date(s) (other)', :class=>'control-label' %>
+  <%= f.label :dateOther, 'Other Date(s)', :class=>'control-label' %>
   <% @work.dateOther.each do |dateOther| %>
       <div class="controls">
         <%= text_field_tag "work[dateOther][]", dateOther, class: 'input-block-level' %>

@@ -134,6 +134,8 @@ class WorksController < ApplicationController
 
   def save_edit
     @work = Work.find(params[:id])
+    handle_arguments
+    params[:work].delete :agents
     if @work.update_attributes(params[:work])
       handle_arguments
       redirect_to show_file_work_path @work
@@ -225,9 +227,9 @@ class WorksController < ApplicationController
       add_single_file_ins(params[:single_file][:basic_files], params[:ins], params[:skip_file_characterisation], @work)
     end
 
-    # add the agents to the work
-    if !params[:agent].blank? && !params[:agent][:id].blank?
-      set_agents(params[:agent][:id], @work)
+    # add the agents and their relationships to the work
+    if !params[:work].blank? && !params[:work][:agents].blank?
+      add_agents(params[:work][:agents], @work)
     end
 
     #Create ordered instance
@@ -236,10 +238,6 @@ class WorksController < ApplicationController
       add_ordered_file_ins(params[:multiple_files][:basic_files], params[:ins], params[:skip_file_characterisation], @work)
     end
 
-    # add the described persons to the work
-    if !params[:agent_concerned].blank? && !params[:agent_concerned][:id].blank?
-      set_concerned_agents(params[:agent_concerned][:id], @work)
-    end
   end
 
   def invalid_arguments?(params)
