@@ -39,12 +39,12 @@
       <%= f.label :physicalDescriptionForm, 'Physical Description Form(s)', :class=>'control-label' %>
       <% @single_file_instance.physicalDescriptionForm.each do |physicalDescriptionForm| %>
           <div class="controls">
-            <%= text_field_tag "single_file_ins[physicalDescriptionForm][]", physicalDescriptionForm, class: 'input-block-level' %>
+            <%= text_field_tag "single_file_instance[physicalDescriptionForm][]", physicalDescriptionForm, class: 'input-block-level' %>
           </div>
       <% end %>
       <%- if @single_file_instance.physicalDescriptionForm.empty? %>
           <div class="controls">
-            <%= text_field_tag "single_file_ins[physicalDescriptionForm][]", nil, class: 'input-block-level' %>
+            <%= text_field_tag "single_file_instance[physicalDescriptionForm][]", nil, class: 'input-block-level' %>
           </div>
       <%- end %>
     </div>
@@ -52,12 +52,12 @@
       <%= f.label :physicalDescriptionNote, 'Physical Description Note(s)', :class=>'control-label' %>
       <% @single_file_instance.physicalDescriptionNote.each do |physicalDescriptionNote| %>
           <div class="controls">
-            <%= text_field_tag "single_file_ins[physicalDescriptionNote][]", physicalDescriptionNote, class: 'input-block-level' %>
+            <%= text_field_tag "single_file_instance[physicalDescriptionNote][]", physicalDescriptionNote, class: 'input-block-level' %>
           </div>
       <% end %>
       <%- if @single_file_instance.physicalDescriptionNote.empty? %>
           <div class="controls">
-            <%= text_field_tag "single_file_ins[physicalDescriptionNote][]", nil, class: 'input-block-level' %>
+            <%= text_field_tag "single_file_instance[physicalDescriptionNote][]", nil, class: 'input-block-level' %>
           </div>
       <%- end %>
     </div>
@@ -65,12 +65,12 @@
       <%= f.label :recordOriginInfo, 'Record Origin Info(s)', :class=>'control-label' %>
       <% @single_file_instance.recordOriginInfo.each do |recordOriginInfo| %>
           <div class="controls">
-            <%= text_field_tag "single_file_ins[recordOriginInfo][]", recordOriginInfo, class: 'input-block-level' %>
+            <%= text_field_tag "single_file_instance[recordOriginInfo][]", recordOriginInfo, class: 'input-block-level' %>
           </div>
       <% end %>
       <%- if @single_file_instance.recordOriginInfo.empty? %>
           <div class="controls">
-            <%= text_field_tag "single_file_ins[recordOriginInfo][]", nil, class: 'input-block-level' %>
+            <%= text_field_tag "single_file_instance[recordOriginInfo][]", nil, class: 'input-block-level' %>
           </div>
       <%- end %>
     </div>

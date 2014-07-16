@@ -1,7 +1,7 @@
 <%= form_for(@ordered_instance) do |f| %>
     <% if @ordered_instance.errors.any? %>
         <div id="error_explanation">
-          <h2><%= pluralize(@ordered_instance.errors.count, "error") %> prohibited this single_file_instance from being saved:</h2>
+          <h2><%= pluralize(@ordered_instance.errors.count, "error") %> prohibited this ordered_instancetance from being saved:</h2>
 
           <ul>
             <% @ordered_instance.errors.full_messages.each do |msg| %>
@@ -11,6 +11,96 @@
         </div>
     <% end %>
 
+    <div class="control-group">
+      <%= f.label :shelfLocator, 'Physical representation shelf locator', :class=>'control-label' %>
+      <div class="controls">
+        <%= f.text_field :shelfLocator, :placeholder => 'Shelf locator', :class=>'input-block-level' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :dateCreated, 'Date created', :class=>'control-label' %>
+      <div class="controls">
+        <%= f.date_field :dateCreated, :placeholder => 'Date created', :class=>'input-block-level' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :dateIssued, 'Date issued', :class=>'control-label' %>
+      <div class="controls">
+        <%= f.date_field :dateIssued, :placeholder => 'Date issued', :class=>'input-block-level' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :tableOfContents, 'Table of Contents', :class=>'control-label' %>
+      <div class="controls">
+        <%= f.text_field :tableOfContents, :placeholder => 'Enter chapters separated by hyphens...', :class=>'input-block-level' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :physicalDescriptionForm, 'Physical Description Form(s)', :class=>'control-label' %>
+      <% @ordered_instance.physicalDescriptionForm.each do |physicalDescriptionForm| %>
+          <div class="controls">
+            <%= text_field_tag "ordered_instance[physicalDescriptionForm][]", physicalDescriptionForm, class: 'input-block-level' %>
+          </div>
+      <% end %>
+      <%- if @ordered_instance.physicalDescriptionForm.empty? %>
+          <div class="controls">
+            <%= text_field_tag "ordered_instance[physicalDescriptionForm][]", nil, class: 'input-block-level' %>
+          </div>
+      <%- end %>
+    </div>
+    <div class="control-group">
+      <%= f.label :physicalDescriptionNote, 'Physical Description Note(s)', :class=>'control-label' %>
+      <% @ordered_instance.physicalDescriptionNote.each do |physicalDescriptionNote| %>
+          <div class="controls">
+            <%= text_field_tag "ordered_instance[physicalDescriptionNote][]", physicalDescriptionNote, class: 'input-block-level' %>
+          </div>
+      <% end %>
+      <%- if @ordered_instance.physicalDescriptionNote.empty? %>
+          <div class="controls">
+            <%= text_field_tag "ordered_instance[physicalDescriptionNote][]", nil, class: 'input-block-level' %>
+          </div>
+      <%- end %>
+    </div>
+    <div class="control-group">
+      <%= f.label :recordOriginInfo, 'Record Origin Info(s)', :class=>'control-label' %>
+      <% @ordered_instance.recordOriginInfo.each do |recordOriginInfo| %>
+          <div class="controls">
+            <%= text_field_tag "ordered_instance[recordOriginInfo][]", recordOriginInfo, class: 'input-block-level' %>
+          </div>
+      <% end %>
+      <%- if @ordered_instance.recordOriginInfo.empty? %>
+          <div class="controls">
+            <%= text_field_tag "ordered_instance[recordOriginInfo][]", nil, class: 'input-block-level' %>
+          </div>
+      <%- end %>
+    </div>
+    <div class="control-group">
+      <%= f.label :languageOfCataloging, 'Cataloging language(s)', :class=>'control-label' %>
+      <% @ordered_instance.languageOfCataloging.each do |languageOfCataloging| %>
+          <div class="controls">
+            <%= text_field_tag "ordered_instance[languageOfCataloging][]", languageOfCataloging, class: 'input-block-level' %>
+          </div>
+      <% end %>
+      <%- if @ordered_instance.languageOfCataloging.empty? %>
+          <div class="controls">
+            <%= text_field_tag "ordered_instance[languageOfCataloging][]", nil, class: 'input-block-level' %>
+          </div>
+      <%- end %>
+    </div>
+    <div class="control-group">
+      <%= f.label :dateOther, 'Other Date(s)', :class=>'control-label' %>
+      <% @ordered_instance.dateOther.each do |dateOther| %>
+          <div class="controls">
+            <%= text_field_tag "ordered_instance[dateOther][]", dateOther, class: 'input-block-level' %>
+          </div>
+      <% end %>
+      <%- if @ordered_instance.dateOther.empty? %>
+          <div class="controls">
+            <%= text_field_tag "ordered_instance[dateOther][]", nil, class: 'input-block-level' %>
+          </div>
+      <%- end %>
+    </div>
+    
     <div class="actions">
       <%= f.submit %>
     </div>
