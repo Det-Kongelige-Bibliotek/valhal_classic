@@ -144,13 +144,15 @@ module AMUFinderService
     # extract from 'name' (without namespace prefix) with relation from role (or 'Unknown' if not set)
     xml_doc.css("//#{namespace}mods/#{namespace}name").each do |n|
       name = combine_elements(n.css("#{namespace}namePart"))
-      # Handle different if it is a corporate -> organization.
-      if n.attr('type') == 'corporate'
-        agent = find_or_create_agent_organization(name, n.attr('authorityURI'))
-      else
-        agent = find_or_create_agent_person(name, n.attr('authorityURI'))
+      unless name.blank?
+        # Handle different if it is a corporate -> organization.
+        if n.attr('type') == 'corporate'
+          agent = find_or_create_agent_organization(name, n.attr('authorityURI'))
+        else
+          agent = find_or_create_agent_person(name, n.attr('authorityURI'))
+        end
+        res[agent] = add_to_array(res[agent], n.css("#{namespace}role #{namespace}roleTerm"))
       end
-      res[agent] = add_to_array(res[agent], n.css("#{namespace}role #{namespace}roleTerm"))
     end
     res
   end
@@ -164,13 +166,15 @@ module AMUFinderService
     # extract from 'subject/name' (without namespace prefix) with relation 'Topic' (ignores role)
     xml_doc.css("//#{namespace}mods/#{namespace}subject/#{namespace}name").each do |n|
       name = combine_elements(n.css("#{namespace}namePart"))
-      # Handle different if it is a corporate -> organization.
-      if n.attr('type') == 'corporate'
-        agent = find_or_create_agent_organization(name, n.attr('authorityURI'))
-      else
-        agent = find_or_create_agent_person(name, n.attr('authorityURI'))
+      unless name.blank?
+        # Handle different if it is a corporate -> organization.
+        if n.attr('type') == 'corporate'
+          agent = find_or_create_agent_organization(name, n.attr('authorityURI'))
+        else
+          agent = find_or_create_agent_person(name, n.attr('authorityURI'))
+        end
+        res[agent] = add_to_array(res[agent], 'Topic')
       end
-      res[agent] = add_to_array(res[agent], 'Topic')
     end
     res
   end
@@ -200,18 +204,24 @@ module AMUFinderService
     xml_doc.css("//#{namespace}mods/#{namespace}subject").each do |n|
       if n.attr('displayLabel') && n.attr('displayLabel').downcase == 'concept'
         n.css("#{namespace}topic").each do |topic|
-          agent = find_or_create_concept(topic.text, topic.attr('authorityURI'))
-          res[agent] = add_to_array(res[agent], 'Topic')
+          unless topic.text.blank?
+            agent = find_or_create_concept(topic.text, topic.attr('authorityURI'))
+            res[agent] = add_to_array(res[agent], 'Topic')
+          end
         end
       elsif n.attr('displayLabel') && n.attr('displayLabel').downcase == 'event'
         n.css("#{namespace}topic").each do |topic|
-          agent = find_or_create_event(topic.text, topic.attr('authorityURI'))
-          res[agent] = add_to_array(res[agent], 'Topic')
+          unless topic.text.blank?
+            agent = find_or_create_event(topic.text, topic.attr('authorityURI'))
+            res[agent] = add_to_array(res[agent], 'Topic')
+          end
         end
       elsif n.attr('displayLabel') && n.attr('displayLabel').downcase == 'physicalthing'
         n.css("#{namespace}topic").each do |topic|
-          agent = find_or_create_physical_thing(topic.text, topic.attr('authorityURI'))
-          res[agent] = add_to_array(res[agent], 'Topic')
+          unless topic.text.blank?
+            agent = find_or_create_physical_thing(topic.text, topic.attr('authorityURI'))
+            res[agent] = add_to_array(res[agent], 'Topic')
+          end
         end
       end
     end
@@ -226,8 +236,10 @@ module AMUFinderService
     res = Hash.new
     # extract from 'subject' and check the type.
     xml_doc.css("//#{namespace}mods/#{namespace}subject/#{namespace}geographic").each do |n|
-      agent = find_or_create_place(n.text, n.attr('authorityURI'))
-      res[agent] = add_to_array(res[agent], 'Topic')
+      unless n.text.blank?
+        agent = find_or_create_place(n.text, n.attr('authorityURI'))
+        res[agent] = add_to_array(res[agent], 'Topic')
+      end
     end
     res
   end
@@ -240,8 +252,10 @@ module AMUFinderService
     res = Hash.new
     # extract from 'subject' and check the type.
     xml_doc.css("//#{namespace}mods/#{namespace}originInfo/#{namespace}place/#{namespace}placeTerm").each do |n|
-      agent = find_or_create_place(n.text, n.attr('authorityURI'))
-      res[agent] = add_to_array(res[agent], 'Origin')
+      unless n.text.blank?
+        agent = find_or_create_place(n.text, n.attr('authorityURI'))
+        res[agent] = add_to_array(res[agent], 'Origin')
+      end
     end
     res
   end
