@@ -65,9 +65,8 @@ module WorkHelper
   end
 
   def add_agents(agent_relations, work)
-    agent_relations_array = JSON.parse(agent_relations)
 
-    agent_relations_array.each do |agent_relation_hash|
+    agent_relations.each do |agent_relation_hash|
         agent_relation_hash.each do |agent_relation|
           agent = AuthorityMetadataUnit.find(agent_relation[1]['agentID'])
           if agent_relation[1]['relationshipType'].eql? 'hasTopic'
