@@ -4,13 +4,15 @@
 # Also has method for extracting metadata units from MODS records.
 module AMUFinderService
   include StringHelper
+  include XmlHelper
 
   # Finds or creates a AuthorityMetadataUnit with type agent/person.
+  # If several agent/person exists with the same name, then it only takes the first.
   # @param name The value of the agent/person
   # @param ref The optional reference, if the agent has to be created.
-  # @return The agent/person with the given name.
+  # @return The first found agent/person with the given name, or a newly created agent/person with the given name.
   def self.find_or_create_agent_person(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'agent/person', :value => name, :reference => ref)
     else
@@ -19,11 +21,12 @@ module AMUFinderService
   end
 
   # Finds or creates a AuthorityMetadataUnit with type agent/organization.
+  # If several agent/organization exists with the same name, then it only takes the first.
   # @param name The value of the agent/organization
   # @param ref The optional reference, if the agent has to be created.
-  # @return The agent/organization with the given name.
+  # @return The first found agent/organization with the given name, or a newly created agent/organization with the given name.
   def self.find_or_create_agent_organization(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'agent/organization', :value => name, :reference => ref)
     else
@@ -33,12 +36,14 @@ module AMUFinderService
 
   # Method for finding an agent which can be either a agent/person or agent/organization.
   # If no such agent is found, then it is created as a person.
+  # If both agent/person and agent/organization exists with the same name, then it takes the first agent/person.
+  # If no agent/person, but several agent/organization is found, then it takes the first agent/organization.
   # @param name The name of the agent.
   # @param ref The optional reference, if the agent has to be created.
-  # @return Either the existing agent (either agent/organization or agent/person), or the newly created agent/person,
+  # @return Either the first found existing agent (either agent/person or agent/organization), or the newly created agent/person,
   def self.find_agent_or_create_agent_person(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first if search.nil?
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first if search.nil?
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'agent/person', :value => name, :reference => ref)
     else
@@ -47,11 +52,12 @@ module AMUFinderService
   end
 
   # Finds or creates an AuthorityMetadataUnit of the type concept with the given name.
+  # If several concepts with the same name is found, then it takes the first one.
   # @param name The name of the concept.
   # @param ref The optional reference, if the concept has to be created.
   # @return Either the existing concept or the newly created one.
   def self.find_or_create_concept(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"concept\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"concept\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'concept', :value => name, :reference => ref)
     else
@@ -60,11 +66,12 @@ module AMUFinderService
   end
 
   # Finds or creates an AuthorityMetadataUnit of the type event with the given name.
+  # If several events with the same name is found, then it takes the first one.
   # @param name The name of the event.
   # @param ref The optional reference, if the event has to be created.
   # @return Either the existing event or the newly created one.
   def self.find_or_create_event(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"event\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"event\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'event', :value => name, :reference => ref)
     else
@@ -73,11 +80,12 @@ module AMUFinderService
   end
 
   # Finds or creates an AuthorityMetadataUnit of the type physicalThing with the given name.
+  # If several physicalThings with the same name is found, then it takes the first one.
   # @param name The name of the physicalThing.
   # @param ref The optional reference, if the physicalThing has to be created.
   # @return Either the existing physicalThing or the newly created one.
   def self.find_or_create_physical_thing(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"physicalThing\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"physicalThing\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'physicalThing', :value => name, :reference => ref)
     else
@@ -86,11 +94,12 @@ module AMUFinderService
   end
 
   # Finds or creates an AuthorityMetadataUnit of the type place with the given name.
+  # If several places with the same name is found, then it takes the first one.
   # @param name The name of the place.
   # @param ref The optional reference, if the place has to be created.
   # @return Either the existing place or the newly created one.
   def self.find_or_create_place(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"place\" && amu_value_ssi:\"#{escape_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"place\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'place', :value => name, :reference => ref)
     else
@@ -104,41 +113,21 @@ module AMUFinderService
   # Extracts agents from the MODS paths: mods/name, mods/subject/name, and mods/originInfo/publisher.
   # @param mods The MODS to extract the agent from.
   # @return A hash between the agents and their relation.
-  def self.find_agents_with_relation_from_mods(mods)
+  def self.find_amus_with_relation_from_mods(mods)
     if(mods.is_a?(String))
       xml_doc = Nokogiri::XML(mods)
     else
       xml_doc = mods
     end
 
-    # TODO use XML-Utils to find namespace-prefix for: 'http://www.loc.gov/mods/v3'
-    namespace = ''
-    if xml_doc.namespaces.keys.include? ('xmlns:mods')
-      namespace = 'mods|'
+    namespace = XmlHelper.extract_namespace_prefix(xml_doc, 'http://www.loc.gov/mods/v3')
+    unless namespace.blank?
+      namespace += '|'
     end
     res = Hash.new
     res.merge! extract_agents_from_mods_name_with_namespace(xml_doc, namespace)
     res.merge! extract_agents_from_mods_subject_with_namespace(xml_doc, namespace)
     res.merge! extract_agents_from_mods_publisher_with_namespace(xml_doc, namespace)
-  end
-
-  # Finds the non-agent AuthorityMetadataUnits and their relations from a MODS record.
-  # This involves finding events, concepts, physicalThing, and places.
-  # @param mods The MODS record to extract the AMUs from.
-  # @return a Hash between the agents and their relations.
-  def self.find_other_AMUs_with_relation_from_mods(mods)
-    if(mods.is_a?(String))
-      xml_doc = Nokogiri::XML(mods)
-    else
-      xml_doc = mods
-    end
-
-    # TODO use XML-Utils to find namespace-prefix for: 'http://www.loc.gov/mods/v3'
-    namespace = ''
-    if xml_doc.namespaces.keys.include? ('xmlns:mods')
-      namespace = 'mods|'
-    end
-    res = Hash.new
     res.merge! extract_amus_from_mods_subject_with_namespace(xml_doc, namespace)
     res.merge! extract_place_from_mods_geographic_with_namespace(xml_doc, namespace)
     res.merge! extract_place_from_mods_origin_place_with_namespace(xml_doc, namespace)

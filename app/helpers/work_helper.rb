@@ -64,24 +64,6 @@ module WorkHelper
 
   end
 
-  # Creates the author relationship between the work and people behind the ids.
-  # @param ids The ids for the people who are author of the work
-  # @param work The work which is authored by the people behind the ids.
-  def set_agents(ids, work)
-    if ids.blank? or work.blank? or contentless_array?(ids)
-      return false
-    end
-
-    work.clear_agents
-    ids.each do |agent_pid|
-      if agent_pid && !agent_pid.empty?
-        agent = AuthorityMetadataUnit.find(agent_pid)
-        work.hasAgent << agent
-      end
-    end
-    work.save!
-  end
-
   def add_agents(agent_relations, work)
     agent_relations_array = JSON.parse(agent_relations)
 
@@ -113,24 +95,6 @@ module WorkHelper
           end
         end
     end
-  end
-
-  # Creates the concerned relationship between the work and people behind the ids.
-  # @param ids The ids for the people who are concerned about the work
-  # @param work The work which concerns the people behind the ids.
-  def set_topic_agents(ids, work)
-    if ids.blank? or work.blank? or contentless_array?(ids)
-      return false
-    end
-
-    work.clear_topics
-    ids.each do |agent_pid|
-      if agent_pid && !agent_pid.empty?
-        agent = AuthorityMetadataUnit.find(agent_pid)
-        work.hasTopic << agent
-      end
-    end
-    work.save!
   end
 
   # Creates the structmap for a instance based on the file_name order of the basic_files.
@@ -189,7 +153,7 @@ module WorkHelper
   # Generates a StructMap based on a ordered array of basic_files.
   # @param file_order The ordered array of files.
   # @param instance The ordered instance with the structmap
-  def generate_structmap(file_order, instance)
+  def self.generate_structmap(file_order, instance)
     logger.debug 'Generating structmap xml basic_files...'
     logger.debug "structmap_file_order = #{file_order.to_s}"
 
