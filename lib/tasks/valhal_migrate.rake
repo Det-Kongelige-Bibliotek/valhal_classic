@@ -19,12 +19,14 @@ namespace :valhal_migrate do
   task :conceptual_model => :environment do
 
     book_and_works = []
+    books = []
     files = []
     tei_files = []
     reps = []
     ActiveFedora::Base.all.each do |b|
       if b.datastreams['RELS-EXT'].content.include?('info:fedora/afmodel:Book')
         book_and_works << b.pid
+        books << b.pid
       elsif b.datastreams['RELS-EXT'].content.include?('info:fedora/afmodel:Work')
         book_and_works << b.pid
       elsif b.datastreams['RELS-EXT'].content.include?('info:fedora/afmodel:SingleFileRepresentation')
@@ -53,6 +55,12 @@ namespace :valhal_migrate do
     migration = Hash.new
     book_and_works.each do |b|
       migration[b] = migrate_book_or_work(b, book_work_relations[b])
+    end
+
+    books.each do |book|
+      work = migration[book]
+      work.workType = 'Book'
+      work.save
     end
     puts migration
   end
