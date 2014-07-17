@@ -20,7 +20,7 @@ class SingleFileInstancesController < ApplicationController
   def update
     @single_file_instance = SingleFileInstance.find(params[:id])
 
-    add_agents(params[:instance_agents], @single_file_instance)
+    add_agents(params[:instance_agents], @single_file_instance) unless params[:instance_agents].blank?
 
     if @single_file_instance.update_attributes(params[:single_file_instance])
       redirect_to @single_file_instance, notice: 'Single file instance was successfully updated.'

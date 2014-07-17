@@ -124,12 +124,12 @@ module AMUFinderService
       namespace += '|'
     end
     res = Hash.new
-    res.merge! extract_agents_from_mods_name_with_namespace(xml_doc, namespace)
-    res.merge! extract_agents_from_mods_subject_with_namespace(xml_doc, namespace)
-    res.merge! extract_agents_from_mods_publisher_with_namespace(xml_doc, namespace)
-    res.merge! extract_amus_from_mods_subject_with_namespace(xml_doc, namespace)
-    res.merge! extract_place_from_mods_geographic_with_namespace(xml_doc, namespace)
-    res.merge! extract_place_from_mods_origin_place_with_namespace(xml_doc, namespace)
+    res.merge! self.extract_agents_from_mods_name_with_namespace(xml_doc, namespace)
+    res.merge! self.extract_agents_from_mods_subject_with_namespace(xml_doc, namespace)
+    res.merge! self.extract_agents_from_mods_publisher_with_namespace(xml_doc, namespace)
+    res.merge! self.extract_amus_from_mods_subject_with_namespace(xml_doc, namespace)
+    res.merge! self.extract_place_from_mods_geographic_with_namespace(xml_doc, namespace)
+    res.merge! self.extract_place_from_mods_origin_place_with_namespace(xml_doc, namespace)
   end
 
   private

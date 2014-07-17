@@ -110,7 +110,7 @@ module WorkHelper
       end
     end
 
-    generate_structmap(file_order, instance)
+    WorkHelper.generate_structmap(file_order, instance)
   end
 
   private
@@ -134,7 +134,7 @@ module WorkHelper
   def create_as_order_ins(files, metadata, work)
     ins = OrderedInstance.new(metadata)
     ins.files << files
-    generate_structmap(files, ins)
+    WorkHelper.generate_structmap(files, ins)
     ins.save!
 
     add_instance(ins, work)

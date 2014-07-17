@@ -6,6 +6,6 @@ module StringHelper
   # @param s The string to escape the special characters from.
   # @return The string without the special characters.
   def self.remove_special_characters(s)
-    s.gsub(/[^0-9A-Za-zæøåÆØÅ ,.-\/_]/, '')
+    s.gsub(/[^0-9A-Za-zæøåÆØÅ ,.-\/_]/, '') unless s.blank?
   end
 end
