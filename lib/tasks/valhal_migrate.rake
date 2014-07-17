@@ -23,6 +23,7 @@ namespace :valhal_migrate do
     files = []
     tei_files = []
     reps = []
+    people = []
     ActiveFedora::Base.all.each do |b|
       if b.datastreams['RELS-EXT'].content.include?('info:fedora/afmodel:Book')
         book_and_works << b.pid
@@ -40,6 +41,8 @@ namespace :valhal_migrate do
       elsif b.datastreams['RELS-EXT'].content.include?('info:fedora/afmodel:TeiFile')
         # Needs also to be converted
         tei_files << b.pid
+      elsif b.datastreams['RELS-EXT'].content.include?('info:fedora/afmodel:Person')
+        people << b.pid
       end
     end
 
@@ -133,6 +136,30 @@ namespace :valhal_migrate do
       end
     end
     work
+  end
+
+  # Migrate the old Person into the new AMU Agent/Person.
+  # Including relations, representation, and the relations from the representations to the files.
+  # @param p The Person or work to migrate.
+  # @param relations The relations for Person.
+  # @return The new Agent/Person.
+  def migrate_people(p, relations)
+    return if relations.nil?
+
+    base = ActiveFedora::Base.find(p, :cast=>false)
+
+    pxml = Nokogiri::XML.parse(base.datastreams['descMetadata'].content)
+
+    files = relations.empty? ? [] : extract_files(relations.first.values.first)
+
+    person, instance = TransformationService.create_from_pxml(pxml, files)
+
+    if relations.size > 1
+      for i in 1 .. relations.size - 1
+        add_copy_of_instance(person, instance, relations[i].values)
+      end
+    end
+    person
   end
 
   # Add a new instance to the work
