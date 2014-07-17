@@ -113,7 +113,7 @@ module AMUFinderService
   # @param mods The MODS to extract the agent from.
   # @return A hash between the agents and their relation.
   def self.find_amus_with_relation_from_mods(mods)
-    if(mods.is_a?(String))
+    if mods.is_a? String
       xml_doc = Nokogiri::XML(mods)
     else
       xml_doc = mods

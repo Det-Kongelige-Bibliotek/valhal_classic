@@ -70,7 +70,7 @@ class OrderedInstancesController < ApplicationController
       send_file t.path, :type => 'application/zip', :disposition => 'attachment', :filename => file_name
       t.close
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
-      flash[:error] = 'The basic_files you requested could not be found in Fedora! Please contact your system administrator'
+      flash[:error] = 'The basic_files you requested could not be found in Valhal! Please contact your system administrator'
       logger.error obj_not_found.to_s
       redirect_to :back
     rescue StandardError => standard_error

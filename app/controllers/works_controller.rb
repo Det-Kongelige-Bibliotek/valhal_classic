@@ -206,7 +206,7 @@ class WorksController < ApplicationController
     begin
       send_data TransformationService.transform_to_mods(@work), {:filename => "#{@work.uuid}-mods.xml", :type => 'text/xml'}
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
-      flash[:error] = 'The file you requested could not be found in Fedora! Please contact your system administrator'
+      flash[:error] = 'The file you requested could not be found in Valhal! Please contact your system administrator'
       logger.error obj_not_found.to_s
       redirect_to @work
     rescue StandardError => standard_error
