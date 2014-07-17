@@ -113,8 +113,6 @@ module WorkHelper
           end
         end
     end
-
-    #iterate over hash, getting each relation type and calling the corresponding method name on the work
   end
 
   # Creates the concerned relationship between the work and people behind the ids.

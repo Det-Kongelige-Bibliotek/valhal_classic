@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class SingleFileInstancesController < ApplicationController
   include PreservationHelper # methods: update_preservation_profile_from_controller
+  include InstanceHelper
 
   authorize_resource
 
@@ -18,6 +19,8 @@ class SingleFileInstancesController < ApplicationController
 
   def update
     @single_file_instance = SingleFileInstance.find(params[:id])
+
+    add_agents(params[:instance_agents], @single_file_instance)
 
     if @single_file_instance.update_attributes(params[:single_file_instance])
       redirect_to @single_file_instance, notice: 'Single file instance was successfully updated.'
