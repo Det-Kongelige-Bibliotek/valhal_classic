@@ -10,7 +10,7 @@
             <td>
             <% unless relation[1].empty? %>
                 <% for i in 0...relation[1].length %>
-                    <%= link_to relation[1][i].value, authority_metadata_units_path(relation[1][i]) %>
+                    <%= link_to relation[1][i].value, authority_metadata_unit_path(relation[1][i]) %>
                       <% if relation[1][i] != relation[1].last %>|<% end %>
                 <% end %>
             <% end %>
