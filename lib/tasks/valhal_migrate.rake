@@ -23,6 +23,7 @@ namespace :valhal_migrate do
     files = []
     tei_files = []
     reps = []
+    people = []
     ActiveFedora::Base.all.each do |b|
       if b.datastreams['RELS-EXT'].content.include?('info:fedora/afmodel:Book')
         book_and_works << b.pid
@@ -38,12 +39,20 @@ namespace :valhal_migrate do
       elsif b.datastreams['RELS-EXT'].content.include?('info:fedora/afmodel:TiffFile')
         files << b.pid
       elsif b.datastreams['RELS-EXT'].content.include?('info:fedora/afmodel:TeiFile')
-        # Needs also to be converted
+        # Needs to be converted before usage
         tei_files << b.pid
+      elsif b.datastreams['RELS-EXT'].content.include?('info:fedora/afmodel:Person')
+        people << b.pid
       end
     end
 
-    # TODO convert TEI files:
+    people_relations = extract_people_relations(people)
+
+    migrated_people = Hash.new
+    people.each do |p|
+      migrated_people[p] = migrate_people(p)
+    end
+
     tei_files.each do |f|
       convert_tei_file(f)
       files << f
@@ -52,17 +61,21 @@ namespace :valhal_migrate do
     rep_files = extract_rep_relations_to_files(reps, files)
     book_work_relations = extract_work_book_relations_to_reps(book_and_works, rep_files)
 
-    migration = Hash.new
+    migrated_works = Hash.new
     book_and_works.each do |b|
-      migration[b] = migrate_book_or_work(b, book_work_relations[b])
+      migrated_works[b] = migrate_book_or_work(b, book_work_relations[b])
     end
 
     books.each do |book|
-      work = migration[book]
+      work = migrated_works[book]
       work.workType = 'Book' unless work.nil?
       work.save unless work.nil?
     end
-    puts migration
+
+    insert_relations(migrated_works, migrated_people, people_relations)
+
+    puts migrated_works
+    puts migrated_people
   end
 
   # Extracts a hash containing the relation between works/books and representations (with their relations to files).
@@ -111,6 +124,35 @@ namespace :valhal_migrate do
     res
   end
 
+  # Extracts the relations for person.
+  # Creates a hash between the person-ID and a Hash between relation-type and a list of works/books.
+  # @param people The people to extract the relations from.
+  # @return A hash between each person and its relations to books/works.
+  def extract_people_relations(people)
+    res = Hash.new
+    people.each do |f|
+      base = ActiveFedora::Base.find(f, :cast => false)
+      match_concerns_relations = base.datastreams['RELS-EXT'].content.scan(/(:hasDescription[^>]*><)/)
+
+      concerns = []
+      match_concerns_relations.each do |c|
+        relation = c.first
+        concerns << relation[42, relation.size-45]
+      end
+
+      match_author_relations = base.datastreams['RELS-EXT'].content.scan(/(:isMemberOf[^>]*><)/)
+
+      author = []
+      match_author_relations.each do |c|
+        relation = c.first
+        author << relation[38, relation.size-41]
+      end
+
+      res[f] = {'Author' => author, 'Concerns' => concerns}
+    end
+    res
+  end
+
   # Migrate the old Book into the new Work.
   # Including relations, representation, and the relations from the representations to the files.
   # @param bw The book or work to migrate.
@@ -133,6 +175,39 @@ namespace :valhal_migrate do
       end
     end
     work
+  end
+
+  # Migrate the old Person into the new AMU Agent/Person.
+  # Transforms from four fields: 'firstname', 'lastname', 'date_of_birth' and 'date_of_death'
+  # into: 'lastname', 'firstname' ('date_of_birth' - 'date_of_death')
+  # TODO needs to figure out what to do, when firstname, lastname, date of birth and/or date of death is missing.
+  # @param p The Person or work to migrate.
+  # @return The new Agent/Person.
+  def migrate_people(p)
+    base = ActiveFedora::Base.find(p, :cast=>false)
+
+    pxml = Nokogiri::XML.parse(base.datastreams['descMetadata'].content)
+    firstname = pxml.css("//fields/firstname").text
+    lastname = pxml.css("//fields/lastname").text
+    date_of_birth = pxml.css("//fields/date_of_birth").text
+    date_of_death = pxml.css("//fields/date_of_death").text
+
+    name = "#{lastname}, #{firstname} (#{date_of_birth} - #{date_of_death})"
+
+    AMUFinderService.find_or_create_agent_person(name, [])
+  end
+
+  def insert_relations(migrated_works, migrated_people, relations)
+    relations.each do |p, rel|
+      rel['Author'].each do |a|
+        migrated_works[a].hasAuthor << migrated_people[p]
+        migrated_works[a].save
+      end
+      rel['Concerns'].each do |a|
+        migrated_works[a].hasTopic << migrated_people[p]
+        migrated_works[a].save
+      end
+    end
   end
 
   # Add a new instance to the work
