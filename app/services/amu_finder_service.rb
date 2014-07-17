@@ -3,8 +3,7 @@
 # Finds the different AuthorityMetadataUnits.
 # Also has method for extracting metadata units from MODS records.
 module AMUFinderService
-  include StringHelper
-  include XmlHelper
+
 
   # Finds or creates a AuthorityMetadataUnit with type agent/person.
   # If several agent/person exists with the same name, then it only takes the first.
@@ -12,7 +11,7 @@ module AMUFinderService
   # @param ref The optional reference, if the agent has to be created.
   # @return The first found agent/person with the given name, or a newly created agent/person with the given name.
   def self.find_or_create_agent_person(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'agent/person', :value => name, :reference => ref)
     else
@@ -26,7 +25,7 @@ module AMUFinderService
   # @param ref The optional reference, if the agent has to be created.
   # @return The first found agent/organization with the given name, or a newly created agent/organization with the given name.
   def self.find_or_create_agent_organization(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'agent/organization', :value => name, :reference => ref)
     else
@@ -42,8 +41,8 @@ module AMUFinderService
   # @param ref The optional reference, if the agent has to be created.
   # @return Either the first found existing agent (either agent/person or agent/organization), or the newly created agent/person,
   def self.find_agent_or_create_agent_person(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first if search.nil?
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first if search.nil?
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'agent/person', :value => name, :reference => ref)
     else
@@ -57,7 +56,7 @@ module AMUFinderService
   # @param ref The optional reference, if the concept has to be created.
   # @return Either the existing concept or the newly created one.
   def self.find_or_create_concept(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"concept\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"concept\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'concept', :value => name, :reference => ref)
     else
@@ -71,7 +70,7 @@ module AMUFinderService
   # @param ref The optional reference, if the event has to be created.
   # @return Either the existing event or the newly created one.
   def self.find_or_create_event(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"event\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"event\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'event', :value => name, :reference => ref)
     else
@@ -85,7 +84,7 @@ module AMUFinderService
   # @param ref The optional reference, if the physicalThing has to be created.
   # @return Either the existing physicalThing or the newly created one.
   def self.find_or_create_physical_thing(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"physicalThing\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"physicalThing\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'physicalThing', :value => name, :reference => ref)
     else
@@ -99,7 +98,7 @@ module AMUFinderService
   # @param ref The optional reference, if the place has to be created.
   # @return Either the existing place or the newly created one.
   def self.find_or_create_place(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"place\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"place\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'place', :value => name, :reference => ref)
     else
