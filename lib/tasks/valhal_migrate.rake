@@ -59,8 +59,8 @@ namespace :valhal_migrate do
 
     books.each do |book|
       work = migration[book]
-      work.workType = 'Book'
-      work.save
+      work.workType = 'Book' unless work.nil?
+      work.save unless work.nil?
     end
     puts migration
   end
