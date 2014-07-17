@@ -46,6 +46,10 @@ namespace :valhal_migrate do
       end
     end
 
+    people_relations = extract_people_relations(people)
+    puts people_relations
+    return
+
     # TODO convert TEI files:
     tei_files.each do |f|
       convert_tei_file(f)
@@ -55,17 +59,17 @@ namespace :valhal_migrate do
     rep_files = extract_rep_relations_to_files(reps, files)
     book_work_relations = extract_work_book_relations_to_reps(book_and_works, rep_files)
 
-    migration = Hash.new
+    migrated_works = Hash.new
     book_and_works.each do |b|
-      migration[b] = migrate_book_or_work(b, book_work_relations[b])
+      migrated_works[b] = migrate_book_or_work(b, book_work_relations[b])
     end
 
     books.each do |book|
-      work = migration[book]
+      work = migrated_works[book]
       work.workType = 'Book' unless work.nil?
       work.save unless work.nil?
     end
-    puts migration
+    puts migrated_works
   end
 
   # Extracts a hash containing the relation between works/books and representations (with their relations to files).
@@ -110,6 +114,17 @@ namespace :valhal_migrate do
           res[rep_id].nil? ? res[rep_id] = [f] : res[rep_id] << f
         end
       end
+    end
+    res
+  end
+
+  def extract_people_relations(people)
+    res = Hash.new
+    people.each do |f|
+      puts f
+      base = ActiveFedora::Base.find(f, :cast => false)
+      puts base.datastreams['RELS-EXT'].content
+      puts base.datastreams['descMetadata'].content
     end
     res
   end
