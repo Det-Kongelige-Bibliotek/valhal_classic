@@ -3,6 +3,7 @@
 
 class OrderedInstancesController < ApplicationController
   include PreservationHelper # methods: update_preservation_profile_from_controller
+  include InstanceHelper
 
   authorize_resource
 
@@ -20,6 +21,8 @@ class OrderedInstancesController < ApplicationController
 
   def update
     @ordered_instance = OrderedInstance.find(params[:id])
+
+    add_agents(params[:instance_agents], @ordered_instance)
 
     if @ordered_instance.update_attributes(params[:ordered_instance])
       redirect_to @ordered_instance, notice: 'Ordered instance was successfully updated.'

@@ -95,8 +95,6 @@ module WorkHelper
           end
         end
     end
-
-    #iterate over hash, getting each relation type and calling the corresponding method name on the work
   end
 
   # Creates the structmap for a instance based on the file_name order of the basic_files.

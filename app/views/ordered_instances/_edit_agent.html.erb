@@ -1,6 +1,6 @@
 <%= javascript_include_tag params[:controller] %>
 <div class="control-group">
-  <%= f.label :agent, 'This work...', :class=>'control-label' %>
+  <label class="controls">This single file instance...</label>
   <div class="controls">
     <select id="agent_relationship" name="agent_relationship" class="control-group">
       <% METADATA_RELATIONS_CONFIG['work'].split(' ').each do |relation|  %>
@@ -10,12 +10,12 @@
   </div>
   <div class="controls">
     <%= collection_select(:agent,
-                        :id,
-                        AuthorityMetadataUnit.all,
-                        :id,
-                        :value,
-                        options = { :include_blank => false },
-                        { :multiple => false, :class=>'input-block-level' }) %>
+                          :id,
+                          AuthorityMetadataUnit.all,
+                          :id,
+                          :value,
+                          options = { :include_blank => false },
+                          { :multiple => false, :class=>'input-block-level' }) %>
   </div><br/>
   <div class="controls">
     <%= button_tag(type: 'button', onclick: 'addAgent($("#agent_relationship option:selected").text(),
@@ -24,7 +24,7 @@
     end
     %>
   </div>
-  <%= f.hidden_field :agents %>
+  <%= hidden_field_tag 'instance_agents' %>
   <br><br>
   <div id="work_agents" class="control-group">
     <table border="1" id="agent_relations" class="table">
@@ -35,10 +35,21 @@
       </tr>
       </thead>
       <tbody id="agent_relations_tbody">
-      <tr>
-        <td>None</td>
-        <td>None</td>
-      </tr>
+          <% if @ordered_instance.get_relations.empty? %>
+              <tr><td>None</td><td>None</td></tr>
+          <% end %>
+          <% @ordered_instance.get_relations.each do |relation| %>
+              <tr>
+                <td><%=relation[0] %></td>
+                <td>
+                  <% unless relation[1].empty? %>
+                      <% for i in 0...relation[1].length %>
+                          <%= relation[1][i].value %>
+                      <% end %>
+                  <% end %>
+                </td>
+              </tr>
+          <% end %>
       </tbody>
     </table>
   </div><br>
