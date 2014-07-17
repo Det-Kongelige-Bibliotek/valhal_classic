@@ -168,6 +168,7 @@ namespace :valhal_migrate do
     files = relations.empty? ? [] : extract_files(relations.first.values.first)
 
     work, instance = TransformationService.create_from_mods(mods, files)
+    work.datastreams['preservationMetadata'].content = base.datastreams['preservationMetadata'].content
 
     if relations.size > 1
       for i in 1 .. relations.size - 1
