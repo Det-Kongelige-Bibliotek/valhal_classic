@@ -3,8 +3,7 @@
 # Finds the different AuthorityMetadataUnits.
 # Also has method for extracting metadata units from MODS records.
 module AMUFinderService
-  include StringHelper
-  include XmlHelper
+
 
   # Finds or creates a AuthorityMetadataUnit with type agent/person.
   # If several agent/person exists with the same name, then it only takes the first.
@@ -12,7 +11,7 @@ module AMUFinderService
   # @param ref The optional reference, if the agent has to be created.
   # @return The first found agent/person with the given name, or a newly created agent/person with the given name.
   def self.find_or_create_agent_person(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'agent/person', :value => name, :reference => ref)
     else
@@ -26,7 +25,7 @@ module AMUFinderService
   # @param ref The optional reference, if the agent has to be created.
   # @return The first found agent/organization with the given name, or a newly created agent/organization with the given name.
   def self.find_or_create_agent_organization(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'agent/organization', :value => name, :reference => ref)
     else
@@ -42,8 +41,8 @@ module AMUFinderService
   # @param ref The optional reference, if the agent has to be created.
   # @return Either the first found existing agent (either agent/person or agent/organization), or the newly created agent/person,
   def self.find_agent_or_create_agent_person(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first if search.nil?
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/organization\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first if search.nil?
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'agent/person', :value => name, :reference => ref)
     else
@@ -57,7 +56,7 @@ module AMUFinderService
   # @param ref The optional reference, if the concept has to be created.
   # @return Either the existing concept or the newly created one.
   def self.find_or_create_concept(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"concept\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"concept\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'concept', :value => name, :reference => ref)
     else
@@ -71,7 +70,7 @@ module AMUFinderService
   # @param ref The optional reference, if the event has to be created.
   # @return Either the existing event or the newly created one.
   def self.find_or_create_event(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"event\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"event\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'event', :value => name, :reference => ref)
     else
@@ -85,7 +84,7 @@ module AMUFinderService
   # @param ref The optional reference, if the physicalThing has to be created.
   # @return Either the existing physicalThing or the newly created one.
   def self.find_or_create_physical_thing(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"physicalThing\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"physicalThing\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'physicalThing', :value => name, :reference => ref)
     else
@@ -99,7 +98,7 @@ module AMUFinderService
   # @param ref The optional reference, if the place has to be created.
   # @return Either the existing place or the newly created one.
   def self.find_or_create_place(name, ref)
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"place\" && amu_value_ssi:\"#{remove_special_characters(name)}\"").first
+    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"place\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
     if search.nil?
       AuthorityMetadataUnit.create(:type=>'place', :value => name, :reference => ref)
     else
@@ -114,7 +113,7 @@ module AMUFinderService
   # @param mods The MODS to extract the agent from.
   # @return A hash between the agents and their relation.
   def self.find_amus_with_relation_from_mods(mods)
-    if(mods.is_a?(String))
+    if mods.is_a? String
       xml_doc = Nokogiri::XML(mods)
     else
       xml_doc = mods
@@ -125,12 +124,12 @@ module AMUFinderService
       namespace += '|'
     end
     res = Hash.new
-    res.merge! extract_agents_from_mods_name_with_namespace(xml_doc, namespace)
-    res.merge! extract_agents_from_mods_subject_with_namespace(xml_doc, namespace)
-    res.merge! extract_agents_from_mods_publisher_with_namespace(xml_doc, namespace)
-    res.merge! extract_amus_from_mods_subject_with_namespace(xml_doc, namespace)
-    res.merge! extract_place_from_mods_geographic_with_namespace(xml_doc, namespace)
-    res.merge! extract_place_from_mods_origin_place_with_namespace(xml_doc, namespace)
+    res.merge! self.extract_agents_from_mods_name_with_namespace(xml_doc, namespace)
+    res.merge! self.extract_agents_from_mods_subject_with_namespace(xml_doc, namespace)
+    res.merge! self.extract_agents_from_mods_publisher_with_namespace(xml_doc, namespace)
+    res.merge! self.extract_amus_from_mods_subject_with_namespace(xml_doc, namespace)
+    res.merge! self.extract_place_from_mods_geographic_with_namespace(xml_doc, namespace)
+    res.merge! self.extract_place_from_mods_origin_place_with_namespace(xml_doc, namespace)
   end
 
   private
@@ -144,13 +143,15 @@ module AMUFinderService
     # extract from 'name' (without namespace prefix) with relation from role (or 'Unknown' if not set)
     xml_doc.css("//#{namespace}mods/#{namespace}name").each do |n|
       name = combine_elements(n.css("#{namespace}namePart"))
-      # Handle different if it is a corporate -> organization.
-      if n.attr('type') == 'corporate'
-        agent = find_or_create_agent_organization(name, n.attr('authorityURI'))
-      else
-        agent = find_or_create_agent_person(name, n.attr('authorityURI'))
+      unless name.blank?
+        # Handle different if it is a corporate -> organization.
+        if n.attr('type') == 'corporate'
+          agent = find_or_create_agent_organization(name, n.attr('authorityURI'))
+        else
+          agent = find_or_create_agent_person(name, n.attr('authorityURI'))
+        end
+        res[agent] = add_to_array(res[agent], n.css("#{namespace}role #{namespace}roleTerm"))
       end
-      res[agent] = add_to_array(res[agent], n.css("#{namespace}role #{namespace}roleTerm"))
     end
     res
   end
@@ -164,13 +165,15 @@ module AMUFinderService
     # extract from 'subject/name' (without namespace prefix) with relation 'Topic' (ignores role)
     xml_doc.css("//#{namespace}mods/#{namespace}subject/#{namespace}name").each do |n|
       name = combine_elements(n.css("#{namespace}namePart"))
-      # Handle different if it is a corporate -> organization.
-      if n.attr('type') == 'corporate'
-        agent = find_or_create_agent_organization(name, n.attr('authorityURI'))
-      else
-        agent = find_or_create_agent_person(name, n.attr('authorityURI'))
+      unless name.blank?
+        # Handle different if it is a corporate -> organization.
+        if n.attr('type') == 'corporate'
+          agent = find_or_create_agent_organization(name, n.attr('authorityURI'))
+        else
+          agent = find_or_create_agent_person(name, n.attr('authorityURI'))
+        end
+        res[agent] = add_to_array(res[agent], 'Topic')
       end
-      res[agent] = add_to_array(res[agent], 'Topic')
     end
     res
   end
@@ -200,18 +203,24 @@ module AMUFinderService
     xml_doc.css("//#{namespace}mods/#{namespace}subject").each do |n|
       if n.attr('displayLabel') && n.attr('displayLabel').downcase == 'concept'
         n.css("#{namespace}topic").each do |topic|
-          agent = find_or_create_concept(topic.text, topic.attr('authorityURI'))
-          res[agent] = add_to_array(res[agent], 'Topic')
+          unless topic.text.blank?
+            agent = find_or_create_concept(topic.text, topic.attr('authorityURI'))
+            res[agent] = add_to_array(res[agent], 'Topic')
+          end
         end
       elsif n.attr('displayLabel') && n.attr('displayLabel').downcase == 'event'
         n.css("#{namespace}topic").each do |topic|
-          agent = find_or_create_event(topic.text, topic.attr('authorityURI'))
-          res[agent] = add_to_array(res[agent], 'Topic')
+          unless topic.text.blank?
+            agent = find_or_create_event(topic.text, topic.attr('authorityURI'))
+            res[agent] = add_to_array(res[agent], 'Topic')
+          end
         end
       elsif n.attr('displayLabel') && n.attr('displayLabel').downcase == 'physicalthing'
         n.css("#{namespace}topic").each do |topic|
-          agent = find_or_create_physical_thing(topic.text, topic.attr('authorityURI'))
-          res[agent] = add_to_array(res[agent], 'Topic')
+          unless topic.text.blank?
+            agent = find_or_create_physical_thing(topic.text, topic.attr('authorityURI'))
+            res[agent] = add_to_array(res[agent], 'Topic')
+          end
         end
       end
     end
@@ -226,8 +235,10 @@ module AMUFinderService
     res = Hash.new
     # extract from 'subject' and check the type.
     xml_doc.css("//#{namespace}mods/#{namespace}subject/#{namespace}geographic").each do |n|
-      agent = find_or_create_place(n.text, n.attr('authorityURI'))
-      res[agent] = add_to_array(res[agent], 'Topic')
+      unless n.text.blank?
+        agent = find_or_create_place(n.text, n.attr('authorityURI'))
+        res[agent] = add_to_array(res[agent], 'Topic')
+      end
     end
     res
   end
@@ -240,8 +251,10 @@ module AMUFinderService
     res = Hash.new
     # extract from 'subject' and check the type.
     xml_doc.css("//#{namespace}mods/#{namespace}originInfo/#{namespace}place/#{namespace}placeTerm").each do |n|
-      agent = find_or_create_place(n.text, n.attr('authorityURI'))
-      res[agent] = add_to_array(res[agent], 'Origin')
+      unless n.text.blank?
+        agent = find_or_create_place(n.text, n.attr('authorityURI'))
+        res[agent] = add_to_array(res[agent], 'Origin')
+      end
     end
     res
   end

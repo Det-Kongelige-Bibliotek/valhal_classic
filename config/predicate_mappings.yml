@@ -45,10 +45,6 @@
     :has_addressee: hasAddressee
     # Addressee relationship from metadata perspective
     :is_addressee_of: isAddresseeOf
-    # Agent relationship from work/instance perspective
-    :has_agent: hasAgent
-    # Agent relationship from metadata perspective
-    :is_agent_of: isAgentOf
     # Author relationship from work/instance perspective
     :has_author: hasAuthor
     # Author relationship from metadata perspective

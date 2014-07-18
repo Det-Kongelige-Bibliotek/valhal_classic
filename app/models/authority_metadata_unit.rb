@@ -27,11 +27,16 @@ class AuthorityMetadataUnit < ActiveFedora::Base
     res
   end
 
+  def get_value_without_special_characters
+    StringHelper.remove_special_characters(value)
+  end
+
   # The fields for the SOLR index.
   has_solr_fields do |m|
     # Fields from DescMetadata
+    m.field 'search_results_amu_value', method: :value, :index_as => [:string, :stored, :indexed]
     m.field 'amu_type', method: :type, :index_as => [:string, :stored, :indexed]
-    m.field 'amu_value', method: :value, :index_as => [:string, :stored, :indexed]
+    m.field 'amu_value', method: :get_value_without_special_characters, :index_as => [:string, :stored, :indexed]
     m.field 'amu_reference', method: :reference, :index_as => [:string, :stored, :indexed, :multivalued]
   end
 end

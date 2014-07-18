@@ -22,7 +22,7 @@ class OrderedInstancesController < ApplicationController
   def update
     @ordered_instance = OrderedInstance.find(params[:id])
 
-    add_agents(JSON.parse(params[:instance_agents]), @ordered_instance) unless params[:instance_agents].eql? ''
+    add_agents(params[:instance_agents], @ordered_instance) unless params[:instance_agents].blank?
 
     if @ordered_instance.update_attributes(params[:ordered_instance])
       redirect_to @ordered_instance, notice: 'Ordered instance was successfully updated.'
