@@ -15,12 +15,8 @@
 #
 :predicate_mapping:
   http://www.kb.dk/:
-    # A book or a work can concern an agent
-    :concerning: isDescriptionOf
     # A work can have representations
     :has_representation: hasSubset
-    # An agent can be concerned by a work
-    :is_concerned_by: hasDescription
     # A representation is representing either a book or a work.
     :is_representation_of: isSubsetOf
 

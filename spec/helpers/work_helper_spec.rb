@@ -56,12 +56,6 @@ describe WorkHelper do
       @manifestation.ordered_instances.first.files.last.original_filename.should == @tiff2.original_filename
     end
 
-    #it 'should not be possible with an binary basic_files' do
-    #  add_ordered_file_ins([@other_file], {}, nil, @manifestation).should be_false
-    #
-    #  @manifestation.ordered_instances.length.should == 0
-    #end
-
     it 'should validate the structmap' do
       add_order_ins([@tiff1, @tiff2], {}, @manifestation).should be_true
 

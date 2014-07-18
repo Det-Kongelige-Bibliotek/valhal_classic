@@ -53,13 +53,11 @@ describe 'AMUFinderService' do
       p.values.should include ['Contributor']
       p.values.should include ['Topic']
     end
-  end
 
-  describe '#find_other_AMUs_with_relation_from_mods' do
     it 'should return the origin place' do
-      @xml = File.read("#{Rails.root}/spec/fixtures/mods_digitized_book.xml")
+      @xml = File.read("#{Rails.root}/spec/fixtures/mods_with_place_origin_only.xml")
       @amu = AuthorityMetadataUnit.create(:type=>'place', :value=>'Kbh')
-      amus = @service.find_other_AMUs_with_relation_from_mods(@xml)
+      amus = @service.find_amus_with_relation_from_mods(@xml)
       amus.should be_a(Hash)
       amus.should_not be_empty
       amus.size.should == 1
@@ -73,13 +71,8 @@ describe 'AMUFinderService' do
       rel.should == ['Origin']
     end
 
-    it 'should return nil if there was AMUs in the MODS XML' do
-      p = @service.find_other_AMUs_with_relation_from_mods(File.read("#{Rails.root}/spec/fixtures/mods_digitised_corp_author.xml"))
-      p.should be_empty
-    end
-
     it 'should return a long list for the Valhal-mods.xml' do
-      p = @service.find_other_AMUs_with_relation_from_mods(File.read("#{Rails.root}/spec/fixtures/valhal_mods.xml"))
+      p = @service.find_amus_with_relation_from_mods(File.read("#{Rails.root}/spec/fixtures/valhal_mods.xml"))
       p.should_not be_empty
       p.values.should include ['Topic']
       p.values.should include ['Origin']
