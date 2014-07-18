@@ -51,7 +51,7 @@ class SingleFileInstancesController < ApplicationController
     begin
       send_data TransformationService.transform_to_mods(@single_file_instance), {:filename => "#{@single_file_instance.uuid}-mods.xml", :type => 'text/xml'}
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
-      flash[:error] = 'The file you requested could not be found in Valhal! Please contact your system administrator'
+      flash[:error] = 'The file you requested could not be found in Fedora! Please contact your system administrator'
       logger.error obj_not_found.to_s
       redirect_to @single_file_instance
     rescue StandardError => standard_error

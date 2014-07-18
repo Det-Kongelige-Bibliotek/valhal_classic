@@ -64,6 +64,10 @@ module WorkHelper
 
   end
 
+  # Iterate over the agent relations finding the referenced AMU and adding the required relationship to the work for
+  # that AMU.
+  # @param [Hash] agent_relations
+  # @param [Work] work
   def add_agents(agent_relations, work)
 
     agent_relations.each do |agent_relation_hash|

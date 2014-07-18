@@ -193,6 +193,11 @@ namespace :valhal_migrate do
     date_of_birth = pxml.css("//fields/date_of_birth").text
     date_of_death = pxml.css("//fields/date_of_death").text
 
+    dv = 'Ukendt'
+    if lastname.blank?
+      lastname = dv
+    end
+
     name = "#{lastname}, #{firstname} (#{date_of_birth} - #{date_of_death})"
 
     AMUFinderService.find_or_create_agent_person(name, [])
