@@ -91,6 +91,84 @@ describe WorkHelper do
     end
   end
 
+  describe '#add_agent' do
+    include WorkHelper
+    before(:each) do
+      @work = Work.create(:workType => 'TESTING STUFF', :title => 'Test title')
+      @amu = AuthorityMetadataUnit.create(:type => 'agent/person', :value => 'InstanceHelper test amu')
+    end
+    it 'should not do anything, when the list is empty' do
+      add_agents([], @work)
+      @work.get_relations.should be_empty
+    end
+
+    it 'should be possible to add topic' do
+      add_agents([[[{}, {'agentID' => @amu.pid, 'relationshipType' => 'hasTopic'}]]], @work)
+      @work.get_relations.should_not be_empty
+      @work.get_relations['hasTopic'].should_not be_empty
+    end
+
+    it 'should be possible to add origin' do
+      add_agents([[[{}, {'agentID' => @amu.pid, 'relationshipType' => 'hasOrigin'}]]], @work)
+      @work.get_relations.should_not be_empty
+      @work.get_relations['hasOrigin'].should_not be_empty
+    end
+
+    it 'should be possible to add addressee' do
+      add_agents([[[{}, {'agentID' => @amu.pid, 'relationshipType' => 'hasAddressee'}]]], @work)
+      @work.get_relations.should_not be_empty
+      @work.get_relations['hasAddressee'].should_not be_empty
+    end
+
+    it 'should be possible to add author' do
+      add_agents([[[{}, {'agentID' => @amu.pid, 'relationshipType' => 'hasAuthor'}]]], @work)
+      @work.get_relations.should_not be_empty
+      @work.get_relations['hasAuthor'].should_not be_empty
+    end
+
+    it 'should be possible to add contributor' do
+      add_agents([[[{}, {'agentID' => @amu.pid, 'relationshipType' => 'hasContributor'}]]], @work)
+      @work.get_relations.should_not be_empty
+      @work.get_relations['hasContributor'].should_not be_empty
+    end
+
+    it 'should be possible to add creator' do
+      add_agents([[[{}, {'agentID' => @amu.pid, 'relationshipType' => 'hasCreator'}]]], @work)
+      @work.get_relations.should_not be_empty
+      @work.get_relations['hasCreator'].should_not be_empty
+    end
+
+    it 'should be possible to add owner' do
+      add_agents([[[{}, {'agentID' => @amu.pid, 'relationshipType' => 'hasOwner'}]]], @work)
+      @work.get_relations.should_not be_empty
+      @work.get_relations['hasOwner'].should_not be_empty
+    end
+
+    it 'should be possible to add printer' do
+      add_agents([[[{}, {'agentID' => @amu.pid, 'relationshipType' => 'hasPatron'}]]], @work)
+      @work.get_relations.should_not be_empty
+      @work.get_relations['hasPatron'].should_not be_empty
+    end
+
+    it 'should be possible to add performer' do
+      add_agents([[[{}, {'agentID' => @amu.pid, 'relationshipType' => 'hasPerformer'}]]], @work)
+      @work.get_relations.should_not be_empty
+      @work.get_relations['hasPerformer'].should_not be_empty
+    end
+
+    it 'should be possible to add photographer' do
+      add_agents([[[{}, {'agentID' => @amu.pid, 'relationshipType' => 'hasPhotographer'}]]], @work)
+      @work.get_relations.should_not be_empty
+      @work.get_relations['hasPhotographer'].should_not be_empty
+    end
+
+    it 'should be possible to add translator' do
+      add_agents([[[{}, {'agentID' => @amu.pid, 'relationshipType' => 'hasTranslator'}]]], @work)
+      @work.get_relations.should_not be_empty
+      @work.get_relations['hasTranslator'].should_not be_empty
+    end
+  end
+
 =begin
   describe '#set_authors' do
     before(:each) do
