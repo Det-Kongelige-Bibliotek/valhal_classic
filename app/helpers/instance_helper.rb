@@ -1,9 +1,12 @@
 module InstanceHelper
-  
-  def add_agents(agent_relations, instance)
-    agent_relations_array = JSON.parse(agent_relations)
 
-    agent_relations_array.each do |agent_relation_hash|
+  # Iterate over the agent relations finding the referenced AMU and adding the required relationship to the instance for
+  # that AMU.
+  # @param [Hash] agent_relations
+  # @param [Work] work
+  def add_agents(agent_relations, instance)
+
+    agent_relations.each do |agent_relation_hash|
       agent_relation_hash.each do |agent_relation|
         agent = AuthorityMetadataUnit.find(agent_relation[1]['agentID'])
         if agent_relation[1]['relationshipType'].eql? 'hasTopic'
