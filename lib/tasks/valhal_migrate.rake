@@ -206,12 +206,16 @@ namespace :valhal_migrate do
   def insert_relations(migrated_works, migrated_people, relations)
     relations.each do |p, rel|
       rel['Author'].each do |a|
-        migrated_works[a].hasAuthor << migrated_people[p]
-        migrated_works[a].save
+        unless migrated_works[a].nil? || migrated_people[p].nil?
+          migrated_works[a].hasAuthor << migrated_people[p]
+          migrated_works[a].save
+        end
       end
       rel['Concerns'].each do |a|
-        migrated_works[a].hasTopic << migrated_people[p]
-        migrated_works[a].save
+        unless migrated_works[a].nil? || migrated_people[p].nil?
+          migrated_works[a].hasTopic << migrated_people[p] unless migrated_works[a].nil?
+          migrated_works[a].save unless migrated_works[a].nil?
+        end
       end
     end
   end
