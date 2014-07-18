@@ -56,7 +56,6 @@ module Concerns
       res['isOriginOf'] = self.isOriginOf
       res['isAddresseeOf'] = self.isAddresseeOf
       res['isAuthorOf'] = self.isAuthorOf
-      res['isAgentOf'] = self.isAgentOf
       res['isContributorOf'] = self.isContributorOf
       res['isCreatorOf'] = self.isCreatorOf
       res['isOwnerOf'] = self.isOwnerOf
