@@ -12,9 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap
 //
 // require rails.validations DEPRECATED: Do Not Use
 //
 // Required by Blacklight
 //= require blacklight/blacklight
-// require_tree .
+//= require batch_edit
+//= require hydra/batch_select
+//= require catalog

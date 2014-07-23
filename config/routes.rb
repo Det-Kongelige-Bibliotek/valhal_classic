@@ -4,6 +4,7 @@ Valhal::Application.routes.draw do
 
   Blacklight.add_routes(self)
   HydraHead.add_routes(self)
+  Hydra::BatchEdit.add_routes(self)
 
   devise_for :users, controllers: {omniauth_callbacks: "omniauth_callbacks"}
 

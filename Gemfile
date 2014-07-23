@@ -11,6 +11,7 @@ gem 'hydra-file_characterization'
 gem 'systemu'
 gem 'protected_attributes'
 
+gem 'hydra-batch-edit'
 gem 'jquery-rails'
 #gem 'client_side_validations' -- Deprecated Do Not User anymore
 gem 'uuid', '>= 2.3.6'

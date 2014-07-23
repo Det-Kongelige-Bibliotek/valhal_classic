@@ -2,7 +2,6 @@
     <%- if @response.empty? %>
         <%= render "zero_results" %>
     <% else %>
-
         <div class="row">
           <div id="sidebar" class="span3">
             <%= render 'search_sidebar' %>
@@ -22,6 +21,7 @@
             <%- if render_grouped_response? %>
                 <%= render_grouped_document_index %>
             <%- else %>
+                <%= batch_edit_continue %>
                 <%= render_document_index %>
             <%- end %>
 
@@ -36,7 +36,6 @@
     <div id="content" class="container">
       <%# if there are no input/search related params, display the "home" partial -%>
       <%= render 'home' %>
-      <%#= link_to 'People', people_path , :class=>'btn' %>
       <%= link_to 'Works', works_path, :class=>'btn' %>
       <%= link_to 'AuthorityMetadataUnits', authority_metadata_units_path, :class=>'btn' %>
     </div>

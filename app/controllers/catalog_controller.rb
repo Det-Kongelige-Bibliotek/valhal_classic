@@ -2,6 +2,7 @@
 require 'blacklight/catalog'
 
 class CatalogController < ApplicationController
+  helper BatchEditHelper
   #You don't need login to view catalog
   skip_authorization_check
 
