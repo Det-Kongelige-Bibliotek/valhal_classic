@@ -20,6 +20,8 @@ gem 'dynamic_form'
 gem 'rubyzip'
 #gem 'wicked' test comment
 
+gem 'resque'
+
 # Preservation
 gem 'bunny', '~> 1.1.0'
 gem 'amq-protocol', '>= 1.9.2'
