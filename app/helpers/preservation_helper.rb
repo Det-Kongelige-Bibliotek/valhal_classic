@@ -109,6 +109,11 @@ module PreservationHelper
       if Constants::NON_RETRIEVABLE_DATASTREAM_NAMES.include?(key)
         next
       end
+      # Do not retrieve the descMetadata directly, instead transform it to MODS before adding it.
+      if key == 'descMetadata' && !element.kind_of?(BasicFile)
+        res += TransformationService.transform_to_mods(element).root.to_s unless element.kind_of?(BasicFile)
+        next
+      end
       res += "<#{key}>"
       if content.content.to_s.start_with?('<?xml') #hack to remove XML document header from any XML content
         res += Nokogiri::XML.parse(content.content).root.to_s
@@ -120,7 +125,7 @@ module PreservationHelper
     if element.respond_to? 'get_specific_metadata_for_preservation'
       res += element.get_specific_metadata_for_preservation
     end
-    res += '</metadata>'
+    res + '</metadata>'
   end
 
   # Updates the preservation state and details for a given element (e.g. a basic_files, a instance, a work, etc.)
