@@ -670,12 +670,12 @@
               <xsl:attribute name="type">
                 <xsl:value-of select="'corporate'" />
               </xsl:attribute>
-              <xsl:element name="mods:nameTerm">
-                <xsl:if test="reference">
-                  <xsl:attribute name="authorityURI">
-                    <xsl:value-of select="reference" />
-                  </xsl:attribute>
-                </xsl:if>
+              <xsl:if test="reference">
+                <xsl:attribute name="authorityURI">
+                  <xsl:value-of select="reference" />
+                </xsl:attribute>
+              </xsl:if>
+              <xsl:element name="mods:namePart">
                 <xsl:value-of select="value" />
               </xsl:element>
             </xsl:element>
