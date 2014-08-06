@@ -81,5 +81,22 @@ describe AuthorityMetadataUnit do
     end
   end
 
+  describe '#get_relations' do
+    it 'should initially be empty' do
+      amu = AuthorityMetadataUnit.create!(:type=>AMU_TYPES.first)
+      amu.get_relations.should be_empty
+    end
+    it 'should be possible to extract all the relations' do
+      amu = AuthorityMetadataUnit.create!(:type=>AMU_TYPES.first)
+      i = SingleFileInstance.create!
+      amu.isTopicOf << i
+      amu.save!
+      i.save!
+      amu.reload
+      amu.get_relations.should_not be_empty
+      amu.get_relations.keys.should include ('isTopicOf')
+      amu.get_relations.values.should include ([i])
+    end
+  end
 
 end

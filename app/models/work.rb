@@ -1,8 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Work < ActiveFedora::Base
   include Concerns::Manifest
-  include Concerns::Manifestation::Agent
-  include Concerns::Manifestation::Concerning
   include Concerns::Preservation
   include Concerns::WorkMetadata
   include Solr::Indexable

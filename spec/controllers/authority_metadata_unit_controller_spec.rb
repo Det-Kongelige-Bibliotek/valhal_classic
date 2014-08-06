@@ -55,6 +55,14 @@ describe AuthorityMetadataUnitsController do
       response.should redirect_to(AuthorityMetadataUnit.all.last)
       AuthorityMetadataUnit.all.size.should == count+1
     end
+
+    it 'should create the AMU and redirect to \'#show\'' do
+      count = AuthorityMetadataUnit.all.size
+      post :create, {:amu => {:type=>'INVALID TYPE', :value => 'Value'}}
+      response.status.should == 200
+      assigns(:amu).should be_a_new(AuthorityMetadataUnit)
+      AuthorityMetadataUnit.all.size.should == count
+    end
   end
 
   describe "#update" do
@@ -86,6 +94,19 @@ describe AuthorityMetadataUnitsController do
       authority_metadata_unit.reference.include?('http://reference.org').should be_false
       authority_metadata_unit.reference.include?('http://test.org').should be_true
       authority_metadata_unit.reference.include?('http://another_reference.org').should be_true
+    end
+
+    it 'should not be possible to update with invalid values' do
+      original_type = AMU_TYPES.first
+      original_value = 'Original AMU value'
+      authority_metadata_unit = AuthorityMetadataUnit.create(:type=>original_type, :value => original_value, :reference=>'http://reference.org')
+      patch :update, {:id => authority_metadata_unit.pid, :amu => {:value => 'Another Value', :type=>'INVALID TYPE'}, :reference => {}}
+      response.status.should == 200
+      authority_metadata_unit.reload
+      authority_metadata_unit.type.should_not == 'INVALID TYPE'
+      authority_metadata_unit.type.should == original_type
+      authority_metadata_unit.value.should_not == 'Another Value'
+      authority_metadata_unit.value.should == original_value
     end
   end
 

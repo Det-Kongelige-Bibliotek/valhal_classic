@@ -100,7 +100,15 @@ class OrderedInstancesController < ApplicationController
   def show_mods
     @ordered_instance = OrderedInstance.find(params[:id])
     begin
-      send_data TransformationService.transform_to_mods(@ordered_instance), {:filename => "#{@ordered_instance.uuid}-mods.xml", :type => 'text/xml'}
+      mods = TransformationService.transform_to_mods(@ordered_instance)
+      errors = TransformationService.validate_mods(mods)
+      if errors.empty?
+        logger.info "Sending valid MODS record for Work: {ID: #{@ordered_instance.id}, UUID: #{@ordered_instance.uuid}}"
+        send_data mods, {:filename => "#{@ordered_instance.uuid}-mods.xml", :type => 'text/xml'}
+      else
+        logger.warn "Issue when transforming to MODS for Work: {ID: #{@ordered_instance.id}, UUID: #{@ordered_instance.uuid}}:\n #{errors}"
+        redirect_to @ordered_instance, notice: "Could not transform into valid MODS (version 3.5): #{errors}"
+      end
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
       flash[:error] = 'The file you requested could not be found in Fedora! Please contact your system administrator'
       logger.error obj_not_found.to_s

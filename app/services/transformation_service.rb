@@ -16,6 +16,21 @@ class TransformationService
     valhal2mods.transform(doc)
   end
 
+  # Validates a MODS record against the MODS schema definition.
+  # @param mods The MODS record to validate.
+  # @return The list of errors. Empty if no errors.
+  def self.validate_mods(mods)
+    xsd = Nokogiri::XML::Schema(File.read("#{Rails.root}/xslt/mods-3-5.xsd"))
+    output = xsd.validate(mods)
+
+    error = []
+    output.each do |e|
+      error << e
+    end
+
+    error
+  end
+
   # Creates Valhal elements Work and Instance from a MODS record.
   # Will also create the needed authority metadata units.
   # @param mods The MODS record to create the Work and Instance from.

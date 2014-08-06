@@ -57,19 +57,21 @@ describe Work do
   describe '#attributes' do
     before(:each) do
       @attributes_hash = {
-          title: 'Some test title' + Time.now.nsec.to_s,
-          workType: 'The test type of work',
           uuid: 'urn:uuid:53246d30-34b4-11e2-81c1-0800200c9a66',
-          typeOfResource: 'text',
-          shelfLocator: 'Pligtaflevering',
+          title: 'Some test title' + Time.now.nsec.to_s,
           subTitle: 'Bd. 1',
-          publisher: 'Det Danske Sprog og Litteraturselskab',
-          originPlace: 'Copenhagen',
-          dateIssued: '2002-10-02T10:00:00-05:00',
-          languageISO: 'dan',
-          languageText: 'DANSK',
-          subjectTopic: 'N8217.H68',
-          physicalExtent: '510'
+          workType: 'The test type of work',
+          cartographicsScale: 'cartographicsScale',
+          cartographicsCoordinates: 'cartographicsCoordinates',
+          dateCreated: '2002-10-02T10:00:00-05:00',
+          tableOfContents: 'tableOfContents',
+          typeOfResource: 'text',
+          typeOfResourceLabel: 'typeOfResourceLabel',
+          recordOriginInfo: 'recordOriginInfo',
+          dateOther: '2002-10-02T10:00:00-05:00',
+          genre: 'any genre',
+          languageOfCataloging: 'da',
+          topic: 'N8217.H68'
       }
     end
 
@@ -77,54 +79,59 @@ describe Work do
       w = Work.new(@attributes_hash)
       w.save.should be_true
 
+      w.uuid.should == @attributes_hash[:uuid]
+      w.subTitle.should == @attributes_hash[:subTitle]
       w.title.should == @attributes_hash[:title]
       w.workType.should == @attributes_hash[:workType]
-      w.uuid.should == @attributes_hash[:uuid]
+      w.cartographicsScale.should == @attributes_hash[:cartographicsScale]
+      w.cartographicsCoordinates.should == @attributes_hash[:cartographicsCoordinates]
+      w.tableOfContents.should == @attributes_hash[:tableOfContents]
       w.typeOfResource.should == @attributes_hash[:typeOfResource]
-      w.shelfLocator.should == @attributes_hash[:shelfLocator]
-      w.subTitle.should == @attributes_hash[:subTitle]
-      w.publisher.should == @attributes_hash[:publisher]
-      w.originPlace.should == @attributes_hash[:originPlace]
-      w.dateIssued.should == @attributes_hash[:dateIssued]
-      w.languageISO.should == @attributes_hash[:languageISO]
-      w.languageText.should == @attributes_hash[:languageText]
-      w.subjectTopic.should == @attributes_hash[:subjectTopic]
-      w.physicalExtent.should == @attributes_hash[:physicalExtent]
+      w.typeOfResourceLabel.should == @attributes_hash[:typeOfResourceLabel]
+      w.recordOriginInfo.should == @attributes_hash[:recordOriginInfo]
+      w.recordOriginInfo.should == @attributes_hash[:recordOriginInfo]
+      w.dateOther.should == @attributes_hash[:dateOther]
+      w.genre.should == @attributes_hash[:genre]
+      w.languageOfCataloging.should == @attributes_hash[:languageOfCataloging]
+      w.topic.should == @attributes_hash[:topic]
     end
 
     it 'should be possible to update with the attributes' do
       w = Work.new(:title => 'Random title' + Time.now.nsec.to_s)
       w.save!
 
-      w.title.should_not be_blank
-      w.workType.should be_blank
       w.uuid.should_not be_blank
-      w.typeOfResource.should be_blank
-      w.shelfLocator.should be_blank
+      w.title.should_not be_blank
       w.subTitle.should be_blank
-      w.publisher.should be_blank
-      w.originPlace.should be_blank
-      w.dateIssued.should be_blank
-      w.languageISO.should be_blank
-      w.languageText.should be_blank
-      w.subjectTopic.should be_blank
-      w.physicalExtent.should be_blank
+      w.workType.should be_blank
+      w.typeOfResource.should be_blank
+      w.typeOfResourceLabel.should be_blank
+      w.cartographicsScale.should be_blank
+      w.cartographicsCoordinates.should be_blank
+      w.tableOfContents.should be_blank
+      w.recordOriginInfo.should be_blank
+      w.dateOther.should be_blank
+      w.genre.should be_blank
+      w.languageOfCataloging.should be_blank
+      w.topic.should be_blank
 
       w.update_attributes(@attributes_hash)
 
+      w.uuid.should == @attributes_hash[:uuid]
+      w.subTitle.should == @attributes_hash[:subTitle]
       w.title.should == @attributes_hash[:title]
       w.workType.should == @attributes_hash[:workType]
-      w.uuid.should == @attributes_hash[:uuid]
+      w.cartographicsScale.should == @attributes_hash[:cartographicsScale]
+      w.cartographicsCoordinates.should == @attributes_hash[:cartographicsCoordinates]
+      w.tableOfContents.should == @attributes_hash[:tableOfContents]
       w.typeOfResource.should == @attributes_hash[:typeOfResource]
-      w.shelfLocator.should == @attributes_hash[:shelfLocator]
-      w.subTitle.should == @attributes_hash[:subTitle]
-      w.publisher.should == @attributes_hash[:publisher]
-      w.originPlace.should == @attributes_hash[:originPlace]
-      w.dateIssued.should == @attributes_hash[:dateIssued]
-      w.languageISO.should == @attributes_hash[:languageISO]
-      w.languageText.should == @attributes_hash[:languageText]
-      w.subjectTopic.should == @attributes_hash[:subjectTopic]
-      w.physicalExtent.should == @attributes_hash[:physicalExtent]
+      w.typeOfResourceLabel.should == @attributes_hash[:typeOfResourceLabel]
+      w.recordOriginInfo.should == @attributes_hash[:recordOriginInfo]
+      w.recordOriginInfo.should == @attributes_hash[:recordOriginInfo]
+      w.dateOther.should == @attributes_hash[:dateOther]
+      w.genre.should == @attributes_hash[:genre]
+      w.languageOfCataloging.should == @attributes_hash[:languageOfCataloging]
+      w.topic.should == @attributes_hash[:topic]
     end
   end
 

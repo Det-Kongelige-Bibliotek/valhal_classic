@@ -49,7 +49,15 @@ class SingleFileInstancesController < ApplicationController
   def show_mods
     @single_file_instance = SingleFileInstance.find(params[:id])
     begin
-      send_data TransformationService.transform_to_mods(@single_file_instance), {:filename => "#{@single_file_instance.uuid}-mods.xml", :type => 'text/xml'}
+      mods = TransformationService.transform_to_mods(@single_file_instance)
+      errors = TransformationService.validate_mods(mods)
+      if errors.empty?
+        logger.info "Sending valid MODS record for Work: {ID: #{@single_file_instance.id}, UUID: #{@single_file_instance.uuid}}"
+        send_data mods, {:filename => "#{@single_file_instance.uuid}-mods.xml", :type => 'text/xml'}
+      else
+        logger.warn "Issue when transforming to MODS for Work: {ID: #{@single_file_instance.id}, UUID: #{@single_file_instance.uuid}}:\n #{errors}"
+        redirect_to @single_file_instance, notice: "Could not transform into valid MODS (version 3.5): #{errors}"
+      end
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
       flash[:error] = 'The file you requested could not be found in Fedora! Please contact your system administrator'
       logger.error obj_not_found.to_s

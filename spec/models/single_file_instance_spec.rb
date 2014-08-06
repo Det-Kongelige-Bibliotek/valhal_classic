@@ -7,6 +7,7 @@ describe SingleFileInstance do
 
   subject { SingleFileInstance.new }
   it_behaves_like 'a preservable element'
+  it_behaves_like 'an instance'
 
   it "should have a datastream named descMetadata " do
     subject.descMetadata.should_not be_nil
@@ -40,7 +41,8 @@ describe SingleFileInstance do
         end
 
         it 'should be able to get values from a person via instance' do
-          values_from_ie_via_ins subject, default_ie, :firstname
+          values_from_ie_via_ins subject, default_ie, :type
+          values_from_ie_via_ins subject, default_ie, :value
         end
       end
   end

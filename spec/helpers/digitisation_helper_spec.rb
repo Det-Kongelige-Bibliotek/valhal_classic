@@ -83,7 +83,7 @@ describe 'DigitisationHelper' do
       mods.css('mods recordInfo recordIdentifier').text.should eql '130019448593'
       mods.css('mods language').text.should eql 'dan'
 
-      mods_schema = Nokogiri::XML::Schema(File.read('./spec/fixtures/mods-3-5.xsd'))
+      mods_schema = Nokogiri::XML::Schema(File.read('./xslt/mods-3-5.xsd'))
       expect(mods_schema.validate(mods)).to be_empty
     end
   end

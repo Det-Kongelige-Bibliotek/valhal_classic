@@ -12,6 +12,9 @@ describe 'Work relationships' do
       @work.instances << @ins
       @work.save!
 
+      @work.reload
+      @work.has_ins?.should be_true
+
       @work.instances.should == [@ins]
       @ins.ie.should == @work
     end
@@ -55,6 +58,9 @@ describe 'Work relationships' do
       @work.instances << @ins
       @work.save!
 
+      @work.reload
+      @work.has_ins?.should be_true
+
       @work.instances.should == [@ins]
       @ins.ie.should == @work
     end
@@ -69,4 +75,5 @@ describe 'Work relationships' do
       ins2.ie.should == @work
     end
   end
+
 end

@@ -95,8 +95,7 @@ describe "transformation" do
 
       it 'should be possible to extract the metadata' do
         mods = TransformationService.transform_to_mods(@work)
-        xsd = Nokogiri::XML::Schema(File.read("#{Rails.root}/spec/fixtures/mods-3-5.xsd"))
-        output = xsd.validate(mods)
+        output = TransformationService.validate_mods(mods)
 
         output.each do |error|
           puts error
@@ -107,8 +106,7 @@ describe "transformation" do
 
       it 'should be possible to extract the metadata' do
         mods = TransformationService.transform_to_mods(@instance)
-        xsd = Nokogiri::XML::Schema(File.read("#{Rails.root}/spec/fixtures/mods-3-5.xsd"))
-        output = xsd.validate(mods)
+        output = TransformationService.validate_mods(mods)
 
         output.each do |error|
           puts error

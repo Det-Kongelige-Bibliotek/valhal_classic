@@ -6,8 +6,7 @@ describe DisseminationService do
   before (:all) do
     mods = File.open('spec/fixtures/mods_digitized_book.xml').read
     @url = "http://www.kb.dk/e-mat/dod/404.pdf"
-    @work = Work.create(title: "test-#{Time.now.nsec.to_s}", workType: "test")
-    @work.descMetadata.content = mods
+    @work = TransformationService.create_from_mods(Nokogiri::XML.parse(mods), [])
     @work.save!
   end
 
