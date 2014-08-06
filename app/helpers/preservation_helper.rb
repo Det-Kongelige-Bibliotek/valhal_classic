@@ -111,7 +111,7 @@ module PreservationHelper
       end
       # Do not retrieve the descMetadata directly, instead transform it to MODS before adding it.
       if key == 'descMetadata' && !element.kind_of?(BasicFile)
-        res += TransformationService.transform_to_mods(element).root.to_s unless element.kind_of?(BasicFile)
+        res += TransformationService.transform_to_mods(element).root.to_s
         next
       end
       res += "<#{key}>"
