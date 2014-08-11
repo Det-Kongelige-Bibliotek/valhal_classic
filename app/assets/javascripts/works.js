@@ -63,7 +63,7 @@ function addAgent(relationshipType, agentName, agentObjectID) {
     agentNameCell.innerHTML = agentName;
 
     var agentRelations;
-    if (JSON.parse(document.getElementById("work_agents").value).length == 0) {
+    if (document.getElementById("work_agents").value.length == 0) {
         agentRelations =  [ {agent_relation: { relationshipType: relationshipType, agentID: agentObjectID }}];
         document.getElementById("work_agents").value = JSON.stringify(agentRelations);
     } else {
