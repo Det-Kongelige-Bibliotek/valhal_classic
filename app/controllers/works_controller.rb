@@ -236,8 +236,8 @@ class WorksController < ApplicationController
     end
 
     # add the agents and their relationships to the work
-    if !params[:work].blank? && !params[:work][:agents].blank?
-      add_agents(JSON.parse(params[:work][:agents]), @work)
+    if !params[:work_agents].blank?
+      add_agents(JSON.parse(params[:work_agents]), @work)
     end
 
     #Create ordered instance

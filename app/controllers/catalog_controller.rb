@@ -37,6 +37,7 @@ class CatalogController < ApplicationController
 
     # solr field configuration for search results/index views
     work_solr_names = Work.solr_names
+    config.index.show_link = work_solr_names[:search_result_title]
     config.index.record_display_type = 'format'
 
     # solr field configuration for document/show views
