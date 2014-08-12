@@ -4,6 +4,7 @@ require 'spec_helper'
 describe TiffFile do
   subject { BasicFile.new }
   it_behaves_like 'a preservable element'
+  it_behaves_like 'an element with administrative metadata'
 
   context "with a tiff basic_files" do
     before do
