@@ -91,3 +91,5 @@ gem 'quiet_assets'
 gem 'httparty'
 gem 'net-scp', '~> 1.1.2'
 
+gem 'resque'
+gem 'resque-scheduler'
