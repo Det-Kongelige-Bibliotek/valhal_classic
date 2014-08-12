@@ -1,0 +1,8 @@
+look_for_new_letters:
+  every:
+    - "10s"
+    - :first_in: '5s'
+  queue: brev_ingest
+  class: "NewLettersJob"
+  description: "Searches file system for new scanned books containing letters"
+
