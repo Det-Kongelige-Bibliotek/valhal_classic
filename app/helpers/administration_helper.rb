@@ -8,7 +8,6 @@ module AdministrationHelper
   # @param element The element to have its administrative metadata updated.
   def update_administrative_metadata_from_controller(params, element)
     logger.info "Update administrative metadata for #{element.class} - #{element.id}"
-    logger.warn "Params: #{params}\n element: #{element.class} - #{element.id}"
     element.update_attributes(params[:administration])
     cascading_administrative_metadata(params, element)
   end
@@ -20,8 +19,6 @@ module AdministrationHelper
   # @param element The element to have stuff cascading.
   def cascading_administrative_metadata(params, element)
     if element.can_perform_cascading? && params['cascading']['cascading'] == Constants::CASCADING_EFFECT_TRUE
-      logger.warn "Attempting to check the cascading effect for #{element.class}"
-      logger.warn "Can perform cascading effect on #{element.cascading_elements}"
       element.cascading_elements.each do |ce|
         update_administrative_metadata_from_controller(params, ce)
       end
