@@ -3,6 +3,7 @@ class Work < ActiveFedora::Base
   include Concerns::Manifest
   include Concerns::Preservation
   include Concerns::WorkMetadata
+  include Concerns::AdminMetadata
   include Solr::Indexable
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata

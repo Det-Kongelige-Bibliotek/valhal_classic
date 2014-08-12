@@ -5,6 +5,7 @@ module Concerns
 
     included do
       include IntellectualEntity
+      include Concerns::AdminMetadata
       include Concerns::InstanceMetadata
 
       # relationships that all instances must have

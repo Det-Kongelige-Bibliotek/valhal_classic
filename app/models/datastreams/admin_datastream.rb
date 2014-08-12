@@ -26,5 +26,8 @@ module Datastreams
       t.availability(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
                          :path=>'availability', :label=>'Availability')
     end
+    def self.xml_template
+      Nokogiri::XML.parse('<fields/>')
+    end
   end
 end

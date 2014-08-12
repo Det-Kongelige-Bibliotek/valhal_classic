@@ -18,6 +18,7 @@ module Concerns
 
     included do
       include Concerns::IntellectualEntity
+      include Concerns::AdminMetadata
       include Concerns::Preservation
       # a ActiveFedora::SimpleDatastream for the techMetadata
       has_metadata :name => 'techMetadata', :type => ActiveFedora::SimpleDatastream do |m|
