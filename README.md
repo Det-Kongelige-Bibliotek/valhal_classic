@@ -3,7 +3,7 @@
 Valhal
 ===
 
-Valhal - SIFD management
+Valhal - SIFD management - brev ingest branch.
 
 
 GIT checkout of repository
