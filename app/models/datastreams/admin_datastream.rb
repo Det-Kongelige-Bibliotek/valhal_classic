@@ -13,16 +13,16 @@ module Datastreams
       t.embargo(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
                  :path=>'embargo', :label=>'Embargo')
       t.embargo_date(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
-                :path=>'embargo', :label=>'Embargo Date')
+                :path=>'embargo_date', :label=>'Embargo Date')
       t.embargo_condition(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
-                :path=>'embargo', :label=>'Embargo Condition')
+                :path=>'embargo_condition', :label=>'Embargo Condition')
       t.access_condition(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
-                :path=>'embargo', :label=>'Access Condition')
+                :path=>'access_condition', :label=>'Access Condition')
 
       t.copyright(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
-                         :path=>'embargo', :label=>'Copyright')
+                         :path=>'copyright', :label=>'Copyright')
       t.material_type(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
-                         :path=>'embargo', :label=>'Material type')
+                         :path=>'material_type', :label=>'Material type')
       t.availability(:type => :string, :index_as=>[:stored_searchable, :displayable, :sortable],
                          :path=>'availability', :label=>'Availability')
     end

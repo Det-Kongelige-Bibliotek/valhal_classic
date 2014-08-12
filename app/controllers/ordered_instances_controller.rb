@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 #require 'zip/zip'
-
 class OrderedInstancesController < ApplicationController
+  include AdministrationHelper # methods: update_administrative_metadata_from_controller
   include PreservationHelper # methods: update_preservation_profile_from_controller
   include InstanceHelper
 
@@ -16,6 +16,11 @@ class OrderedInstancesController < ApplicationController
   end
 
   def preservation
+    @ordered_instance = OrderedInstance.find(params[:id])
+  end
+
+  # Retrieves the ordered instance for the administration view
+  def administration
     @ordered_instance = OrderedInstance.find(params[:id])
   end
 
@@ -77,6 +82,23 @@ class OrderedInstancesController < ApplicationController
       flash[:error] = 'An error has occurred. Please contact your system administrator'
       logger.error standard_error.to_s
       redirect_to :back
+    end
+  end
+
+  # Updates the administration metadata for the ordered instance.
+  def update_administration
+    @ordered_instance = OrderedInstance.find(params[:id])
+    begin
+      update_administrative_metadata_from_controller(params, @ordered_instance)
+      redirect_to @ordered_instance, notice: 'Updated the administrative metadata'
+    rescue => error
+      error_msg = "Could not update administrative metadata: #{error.inspect}"
+      error.backtrace.each do |l|
+        error_msg += "\n#{l}"
+      end
+      logger.error error_msg
+      @ordered_instance.errors[:administrative_metadata] << error.inspect.to_s
+      render action: 'administration'
     end
   end
 

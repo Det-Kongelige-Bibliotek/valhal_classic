@@ -15,6 +15,8 @@ Valhal::Application.routes.draw do
     member do
       get 'show'
       get 'download'
+      get 'administration'
+      patch 'update_administration'
       get 'preservation'
       patch 'characterize_file'
       patch 'update_preservation_profile'
@@ -24,6 +26,8 @@ Valhal::Application.routes.draw do
   #Standard resource mapping
   resources :single_file_instances do
     member do
+      get 'administration'
+      patch 'update_administration'
       get 'preservation'
       patch 'update_preservation_profile'
       get 'show_mods'
@@ -34,6 +38,8 @@ Valhal::Application.routes.draw do
     member do
       get 'thumbnail_url'
       get 'download_all'
+      get 'administration'
+      patch 'update_administration'
       get 'preservation'
       patch 'update_preservation_profile'
       get 'show_mods'
@@ -53,6 +59,8 @@ Valhal::Application.routes.draw do
       patch 'update_file'
       get 'show_file'
       patch 'save_edit'
+      get 'administration'
+      patch 'update_administration'
       get 'preservation'
       patch 'update_preservation_profile'
       get 'dissemination'

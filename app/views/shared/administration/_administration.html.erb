@@ -1,0 +1,46 @@
+<%= form_for @object, :html=>{:multipart=>true}, url: {action: 'update_administration'} do |f| %>
+    <%= f.error_messages :header_message => 'Error when editing administration metadata', :class => 'alert alert-error',
+                         :header_tag => :h3 %>
+    <%- @adminMetadata = @object.adminMetadata -%>
+    <%= fields_for :administration do |builder| %>
+        <%= builder.label :collection, "Collection" %>
+        <%= builder.text_field :collection, :class => 'text_field', :value => @adminMetadata.collection.first %>
+
+        <%= builder.label :activity, "Activity" %>
+        <%= builder.text_field :activity, :class => 'text_field', :value => @adminMetadata.activity.first %>
+
+        <%= builder.label :embargo, "Embargo" %>
+        <%= builder.text_field :embargo, :class => 'text_field', :value => @adminMetadata.embargo.first %>
+
+        <%= builder.label :embargo_date, "Embargo Date" %>
+        <%= builder.text_field :embargo_date, :class => 'text_field', :value => @adminMetadata.embargo_date.first %>
+
+        <%= builder.label :embargo_condition, "Embargo Condition" %>
+        <%= builder.text_field :embargo_condition, :class => 'text_field', :value => @adminMetadata.embargo_condition.first %>
+
+        <%= builder.label :access_condition, "Access Condition" %>
+        <%= builder.text_field :access_condition, :class => 'text_field', :value => @adminMetadata.access_condition.first %>
+
+        <%= builder.label :copyright, "Copyright" %>
+        <%= builder.text_field :copyright, :class => 'text_field', :value => @adminMetadata.copyright.first %>
+
+        <%= builder.label :material_type, "Material Type" %>
+        <%= builder.text_field :material_type, :class => 'text_field', :value => @adminMetadata.material_type.first %>
+
+        <%= builder.label :availability, "Availability" %>
+        <%= builder.text_field :availability, :class => 'text_field', :value => @adminMetadata.availability.first %>
+
+    <% end %>
+    <%= fields_for :cascading do |builder| %>
+        <% # Do not make this possible for all elements (e.g. BasicFile and Person), since it is no possible to cascade from them %>
+        <% if @object.can_perform_cascading? %>
+            <div class="set_cascading">
+              <%= builder.label :cascading, 'Cascading effect' %>
+              <%= builder.check_box :cascading %>
+            </div>
+        <% end %>
+    <% end %>
+    <br/>
+    <%= f.submit 'Update administrative metadata', :class => 'btn btn-primary' %>
+<% end %>
+<br/>

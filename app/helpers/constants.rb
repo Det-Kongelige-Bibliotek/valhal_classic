@@ -16,8 +16,8 @@ class Constants
   # rightsMetadata = The Hydra rights metadata format (Not preservable).
   NON_RETRIEVABLE_DATASTREAM_NAMES = ['DC', 'RELS-EXT', 'content', 'rightsMetadata', 'thumbnail'];
 
-  # The value for the inheritance checkbox for the preservation view, when it is turned on and set to true.
-  PRESERVATION_INHERITANCE_TRUE = '1'
+  # The value for the cascading checkbox for the preservation and administration view, when it is turned on and set to true.
+  CASCADING_EFFECT_TRUE = '1'
 
   #######################
   # PRESERVATION_STATES

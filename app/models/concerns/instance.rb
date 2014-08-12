@@ -63,14 +63,15 @@ module Concerns
       uuid
     end
 
-    # @return whether its preservation can be inherited. For the instances, this is true (since it has the files).
-    def preservation_inheritance?
+    # @return whether any operations can be cascading (e.g. updating administrative or preservation metadata)
+    # For the instances, this is true (since it has the files).
+    def can_perform_cascading?
       return true
     end
 
     # Returns all the files as BasicFile objects.
-    # @return the object, which can inherit the preservation settings.
-    def preservation_inheritable_objects
+    # @return the objects, which cascading operations can be performed upon (e.g. updating administrative or preservation metadata)
+    def cascading_elements
       res = []
       self.files.each do |f|
         res << BasicFile.find(f.pid)
