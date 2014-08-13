@@ -11,8 +11,8 @@ module PreservationHelper
   # @param params The parameters from the controller.
   # @param element The element to have its preservation settings updated.
   def update_preservation_profile_from_controller(params, element)
-    logger.info "Update preservation profile #{element}"
-    inherit_preservation(params, element)
+    logger.info "Update preservation profile for #{element.class} - #{element.id}"
+    cascade_preservation(params, element)
     set_preservation_profile(params[:preservation][:preservation_profile], params[:preservation][:preservation_comment],
                              element)
     if(params[:commit] && params[:commit] == Constants::PERFORM_PRESERVATION_BUTTON)
@@ -111,7 +111,7 @@ module PreservationHelper
       end
       # Do not retrieve the descMetadata directly, instead transform it to MODS before adding it.
       if key == 'descMetadata' && !element.kind_of?(BasicFile)
-        res += TransformationService.transform_to_mods(element).root.to_s unless element.kind_of?(BasicFile)
+        res += TransformationService.transform_to_mods(element).root.to_s
         next
       end
       res += "<#{key}>"
@@ -201,13 +201,13 @@ module PreservationHelper
     end
   end
 
-  # Check whether it should be inherited, and also perform the inheritance.
+  # Check whether it should be cascading, and also perform the cascading.
   # @param params The parameter from the controller. Contains the parameter for whether the preservation
-  # should be inherit.
-  # @param element The element to have stuff inherited.
-  def inherit_preservation(params, element)
-    if element.preservation_inheritance? && params['preservation']['preservation_inheritance'] == Constants::PRESERVATION_INHERITANCE_TRUE
-      element.preservation_inheritable_objects.each do |pib|
+  # should be cascaded.
+  # @param element The element to have stuff cascaded.
+  def cascade_preservation(params, element)
+    if element.can_perform_cascading? && params['preservation']['cascade_preservation'] == Constants::CASCADING_EFFECT_TRUE
+      element.cascading_elements.each do |pib|
         update_preservation_profile_from_controller(params, pib)
       end
     end

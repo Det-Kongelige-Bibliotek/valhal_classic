@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class SingleFileInstancesController < ApplicationController
+  include AdministrationHelper # methods: update_administrative_metadata_from_controller
   include PreservationHelper # methods: update_preservation_profile_from_controller
   include InstanceHelper
 
@@ -10,6 +11,11 @@ class SingleFileInstancesController < ApplicationController
   end
 
   def edit
+    @single_file_instance = SingleFileInstance.find(params[:id])
+  end
+
+  # Retrieves the single file instance for the administration view
+  def administration
     @single_file_instance = SingleFileInstance.find(params[:id])
   end
 
@@ -26,6 +32,23 @@ class SingleFileInstancesController < ApplicationController
       redirect_to @single_file_instance, notice: 'Single file instance was successfully updated.'
     else
       render action: "edit"
+    end
+  end
+
+  # Updates the administration metadata for the single file instance.
+  def update_administration
+    @single_file_instance = SingleFileInstance.find(params[:id])
+    begin
+      update_administrative_metadata_from_controller(params, @single_file_instance)
+      redirect_to @single_file_instance, notice: 'Updated the administrative metadata'
+    rescue => error
+      error_msg = "Could not update administrative metadata: #{error.inspect}"
+      error.backtrace.each do |l|
+        error_msg += "\n#{l}"
+      end
+      logger.error error_msg
+      @single_file_instance.errors[:administrative_metadata] << error.inspect.to_s
+      render action: 'administration'
     end
   end
 

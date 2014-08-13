@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class WorksController < ApplicationController
   include WorkHelper # methods: add_single_file_ins, set_authors, set_concerned_people
+  include AdministrationHelper # methods: update_administrative_metadata_from_controller
   include PreservationHelper # methods: update_preservation_profile_from_controller
   include DisseminationService # methods: ??
 
@@ -43,6 +44,11 @@ class WorksController < ApplicationController
   end
 
   def dissemination
+    @work = Work.find(params[:id])
+  end
+
+  # Retrieves the work for the administration view
+  def administration
     @work = Work.find(params[:id])
   end
 
@@ -192,6 +198,23 @@ class WorksController < ApplicationController
     rescue => e
       @work.errors[:dissemination] << "Error while trying to disseminate #{e.inspect}"
       render action: 'dissemination'
+    end
+  end
+
+  # Updates the administration metadata for the work.
+   def update_administration
+    @work = Work.find(params[:id])
+    begin
+      update_administrative_metadata_from_controller(params, @work)
+      redirect_to @work, notice: 'Updated the administrative metadata'
+    rescue => error
+      error_msg = "Could not update administrative metadata: #{error.inspect}"
+      error.backtrace.each do |l|
+        error_msg += "\n#{l}"
+      end
+      logger.error error_msg
+      @work.errors[:administrative_metadata] << error.inspect.to_s
+      render action: 'administration'
     end
   end
 

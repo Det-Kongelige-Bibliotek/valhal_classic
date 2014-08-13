@@ -74,11 +74,11 @@
   <%= f.text_field :preservation_comment, :class => 'text_field', :value => @preservationMetadata.preservation_comment.first %>
 </div>
 
-<% # Do not make this possible for all elements (e.g. BasicFile and Person), since it is no possible to inherit from them %>
-<% if @object.preservation_inheritance? %>
-  <div class="set_inheritance">
-    <%= f.label :preservation_inheritance, 'Inherit preservation' %>
-    <%= f.check_box :preservation_inheritance %>
+<% # Do not make this possible for all elements (e.g. BasicFile and Person), since it is no possible to cascade from them %>
+<% if @object.can_perform_cascading? %>
+    <div class="set_cascading">
+    <%= f.label :cascade_preservation, 'Cascade preservation' %>
+    <%= f.check_box :cascade_preservation%>
   </div>
 <% end %>
 

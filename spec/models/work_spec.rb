@@ -2,9 +2,10 @@
 require 'spec_helper'
 
 describe Work do
-  subject { Work.new(title: 'test' + Time.now.nsec.to_s) }
+  subject { Work.new(title: 'test' + Time.now.nsec.to_s, workType: 'TestType') }
 
   it_behaves_like 'a preservable element'
+  it_behaves_like 'an element with administrative metadata'
 
   describe '#title' do
     it 'should be created with a title' do
@@ -90,10 +91,10 @@ describe Work do
       w.typeOfResourceLabel.should == @attributes_hash[:typeOfResourceLabel]
       w.recordOriginInfo.should == @attributes_hash[:recordOriginInfo]
       w.recordOriginInfo.should == @attributes_hash[:recordOriginInfo]
-      w.dateOther.should == @attributes_hash[:dateOther]
-      w.genre.should == @attributes_hash[:genre]
-      w.languageOfCataloging.should == @attributes_hash[:languageOfCataloging]
-      w.topic.should == @attributes_hash[:topic]
+      w.dateOther.should == [@attributes_hash[:dateOther]]
+      w.genre.should == [@attributes_hash[:genre]]
+      w.languageOfCataloging.should == [@attributes_hash[:languageOfCataloging]]
+      w.topic.should == [@attributes_hash[:topic]]
     end
 
     it 'should be possible to update with the attributes' do
@@ -128,10 +129,10 @@ describe Work do
       w.typeOfResourceLabel.should == @attributes_hash[:typeOfResourceLabel]
       w.recordOriginInfo.should == @attributes_hash[:recordOriginInfo]
       w.recordOriginInfo.should == @attributes_hash[:recordOriginInfo]
-      w.dateOther.should == @attributes_hash[:dateOther]
-      w.genre.should == @attributes_hash[:genre]
-      w.languageOfCataloging.should == @attributes_hash[:languageOfCataloging]
-      w.topic.should == @attributes_hash[:topic]
+      w.dateOther.should == [@attributes_hash[:dateOther]]
+      w.genre.should == [@attributes_hash[:genre]]
+      w.languageOfCataloging.should == [@attributes_hash[:languageOfCataloging]]
+      w.topic.should == [@attributes_hash[:topic]]
     end
   end
 

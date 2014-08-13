@@ -18,6 +18,7 @@ module Concerns
 
     included do
       include Concerns::IntellectualEntity
+      include Concerns::AdminMetadata
       include Concerns::Preservation
       # a ActiveFedora::SimpleDatastream for the techMetadata
       has_metadata :name => 'techMetadata', :type => ActiveFedora::SimpleDatastream do |m|
@@ -134,8 +135,9 @@ module Concerns
       false
     end
 
-    # @return whether its preservation can be inherited. For the files, this is false.
-    def preservation_inheritance?
+    # @return whether any operations can be cascading (e.g. updating administrative or preservation metadata)
+    # For the files, this is false.
+    def can_perform_cascading?
       false
     end
 

@@ -7,5 +7,5 @@ class OrderedInstance < ActiveFedora::Base
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name => 'techMetadata',   :type => Datastreams::MetsStructMap
 
-  has_attributes :div, :order, :fptr, :file_id, datasteam: 'techMetadata', :multiple => false
+  has_attributes :div, :order, :fptr, :file_id, datastream: 'techMetadata', :multiple => false
 end

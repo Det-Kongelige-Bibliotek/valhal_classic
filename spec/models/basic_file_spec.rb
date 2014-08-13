@@ -4,7 +4,8 @@ require 'spec_helper'
 describe BasicFile do
 
   subject { BasicFile.new }
-  #it_behaves_like 'a preservable element'
+  it_behaves_like 'a preservable element'
+  it_behaves_like 'an element with administrative metadata'
 
   context "with a xml basic_files" do
     before do

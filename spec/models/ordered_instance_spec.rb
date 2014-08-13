@@ -7,6 +7,7 @@ describe OrderedInstance do
 
   subject { OrderedInstance.new }
   it_behaves_like 'a preservable element'
+  it_behaves_like 'an element with administrative metadata'
   it_behaves_like 'an instance'
 
   it 'should have a datastream named descMetadata ' do
