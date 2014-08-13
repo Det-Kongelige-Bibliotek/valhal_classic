@@ -12,6 +12,7 @@ class Work < ActiveFedora::Base
 
   has_solr_fields do |m|
     m.field "search_result_work_type", method: :workType, :index_as => [:string, :indexed, :stored]
+    m.field "search_result_title", method: :workType, :index_as => [:string, :indexed, :stored]
     m.field "title", method: :title
     m.field "sub_title", method: :subTitle
     m.field "type_of_resource", method: :typeOfResource
