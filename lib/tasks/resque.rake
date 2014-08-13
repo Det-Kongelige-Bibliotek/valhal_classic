@@ -27,5 +27,28 @@ namespace :resque do
     # project, it's usually easier to just include you job classes here.
     # So, something like this:
     #require 'jobs'
+
+
+    Resque.logger = Logger.new(File.join(Rails.root, 'log', 'resque.log'))
+
+    # Set up logging
+#    Resque.before_fork = Proc.new {
+#      ActiveRecord::Base.establish_connection
+
+      # Open the new separate log file
+#      logfile = File.open(File.join(Rails.root, 'log', 'resque.log'), 'a')
+
+      # Activate file synchronization
+#      logfile.sync = true
+
+      # Create a new buffered logger
+#      Resque.logger = ActiveSupport::BufferedLogger.new(logfile)
+#      Resque.logger.level = Logger::DEBUG
+#      Resque.logger.info "Resque Logger Initialized!"
+#    }
+
   end
+
+
+
 end
