@@ -126,6 +126,7 @@ class OrderedInstancesController < ApplicationController
       errors = TransformationService.validate_mods(mods)
       if errors.empty?
         logger.info "Sending valid MODS record for Work: {ID: #{@ordered_instance.id}, UUID: #{@ordered_instance.uuid}}"
+        # TODO: Figure out whether the official mime-type for MODS really is 'application/xml+mods' instead.
         send_data mods, {:filename => "#{@ordered_instance.uuid}-mods.xml", :type => 'text/xml'}
       else
         logger.warn "Issue when transforming to MODS for Work: {ID: #{@ordered_instance.id}, UUID: #{@ordered_instance.uuid}}:\n #{errors}"
