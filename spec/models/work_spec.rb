@@ -30,6 +30,16 @@ describe Work do
     end
   end
 
+  describe '#identifier' do
+    it 'should be possible to search by an identifier' do
+      w = Work.new(title: 'title', identifier: [{'displayLabel' => 'sysnum', 'value' => 'alephsys'}])
+      w.save
+      f = Work.find(sysnum_si: 'alephsys').first
+      f.title.should eql 'title'
+    end
+
+  end
+
   describe '#worktype' do
     it 'should be created with a worktype' do
       type = 'The worktype'

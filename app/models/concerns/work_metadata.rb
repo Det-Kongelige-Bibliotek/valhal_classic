@@ -57,6 +57,8 @@ module Concerns
 
       # Set the identifier elements.
       # Removes all current identifier elements, and inserts the given arguments.
+      # Note that identifiers will only be indexed when a displayLabel will be given
+      # See Work.to_solr for details
       # @param vals An array of Hash elements with data for the identifiers.
       def identifier=(vals)
         self.descMetadata.remove_identifier
