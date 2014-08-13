@@ -231,6 +231,7 @@ class WorksController < ApplicationController
       errors = TransformationService.validate_mods(mods)
       if errors.empty?
         logger.info "Sending valid MODS record for Work: {ID: #{@work.id}, UUID: #{@work.uuid}}"
+        # TODO: Figure out whether the official mime-type for MODS really is 'application/xml+mods' instead.
         send_data mods, {:filename => "#{@work.uuid}-mods.xml", :type => 'text/xml'}
       else
         logger.warn "Issue when transforming to MODS for Work: {ID: #{@work.id}, UUID: #{@work.uuid}}:\n #{errors}"
