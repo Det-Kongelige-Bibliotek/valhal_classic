@@ -93,3 +93,4 @@ gem 'net-scp', '~> 1.1.2'
 
 gem 'resque'
 gem 'resque-scheduler'
+gem 'redis'
