@@ -7,7 +7,6 @@ class Work < ActiveFedora::Base
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
 
-  validates :title, :presence => true
   validates_with WorkValidator
 
   has_solr_fields do |m|
