@@ -37,8 +37,13 @@ class CatalogController < ApplicationController
 
     # solr field configuration for search results/index views
     work_solr_names = Work.solr_names
-    config.index.show_link = work_solr_names[:search_result_title]
+    amu_solr_names = AuthorityMetadataUnit.solr_names
+
+    config.index.show_link = 'search_result_title_tsi'
     config.index.record_display_type = 'format'
+
+    #config.index.show_link = work_solr_names[:search_result_title]
+    #config.index.record_display_type = 'format'
 
     # solr field configuration for document/show views
     config.show.html_title = work_solr_names[:search_result_title]
@@ -48,6 +53,11 @@ class CatalogController < ApplicationController
     # solr field configuration for document/show views
     config.show.html_title = work_solr_names[:search_result_work_type]
     config.show.heading = work_solr_names[:search_result_work_type]
+    config.show.display_type = 'format'
+
+    # solr field configuration for document/show views
+    config.show.html_title = amu_solr_names[:search_result_amu_value]
+    config.show.heading = amu_solr_names[:search_result_amu_value]
     config.show.display_type = 'format'
 
     # solr fields that will be treated as facets by the blacklight application
@@ -88,6 +98,7 @@ class CatalogController < ApplicationController
     #config.add_index_field 'title_t', :label => 'Titel:'
     #config.add_index_field 'person_name_t', :label => 'Person Name:'
     config.add_index_field work_solr_names[:search_result_work_type] , :label => "Type of work:"
+    config.add_index_field amu_solr_names[:amu_type], :label => "Type of AMU:"
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display

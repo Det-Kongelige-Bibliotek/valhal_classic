@@ -7,7 +7,7 @@ module Datastreams
     set_terminology do |t|
       t.root(:path=>'fields')
       t.type()
-      t.value()
+      t.value(index_as: :stored_searchable)
       t.reference()
     end
 
