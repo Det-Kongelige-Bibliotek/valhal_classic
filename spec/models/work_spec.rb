@@ -30,6 +30,16 @@ describe Work do
     end
   end
 
+  describe '#identifier' do
+    it 'should be possible to search by an identifier' do
+      w = Work.new(title: 'title', identifier: [{'displayLabel' => 'sysnum', 'value' => 'alephsys'}])
+      w.save
+      f = Work.find(sysnum_si: 'alephsys').first
+      f.title.should eql 'title'
+    end
+
+  end
+
   describe '#worktype' do
     it 'should be created with a worktype' do
       type = 'The worktype'
@@ -170,6 +180,16 @@ describe Work do
 
       identicalWork = Work.new(:title => title, :workType => workType)
       identicalWork.save.should be_false
+    end
+
+    it 'should not be possible to create two works with the same identifier' do
+      w = Work.new(title: 'title')
+      w.identifier= [{'displayLabel' => 'sysnum', 'value' => '1234'}]
+      w.save
+
+      w2 = Work.new(title: 'title, 2nd ed.')
+      w2.identifier= [{'displayLabel' => 'sysnum', 'value' => '1234'}]
+      w2.save.should be_false
     end
   end
 

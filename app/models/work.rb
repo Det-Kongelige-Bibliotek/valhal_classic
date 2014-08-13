@@ -7,7 +7,6 @@ class Work < ActiveFedora::Base
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
 
-  validates :title, :presence => true
   validates_with WorkValidator
 
   has_solr_fields do |m|
@@ -15,7 +14,6 @@ class Work < ActiveFedora::Base
     m.field "title", method: :title
     m.field "sub_title", method: :subTitle
     m.field "type_of_resource", method: :typeOfResource
-    m.field "sysNum", method: :sysNum, :index_as => [:string, :indexed, :stored]
     m.field "search_result_title", method: :get_title_for_display
     m.field "work_type", method: :workType
     m.field 'preservation_profile', method: :preservation_profile
@@ -33,6 +31,19 @@ class Work < ActiveFedora::Base
     end
   end
 
+  # For each identifier, create a solr search field with name
+  # based on that identifier's displayLabel and value of that identifier's value
+  # e.g. {displayLabel: 'aleph', value: '1234'} should create a field
+  # {"aleph_si"=>"1234", "aleph_ssm"=>["1234"]}
+  def to_solr(solr_doc = {})
+    super
+    identifier.each do |id|
+      if id['displayLabel'] && !id['displayLabel'].empty?
+        Solrizer.insert_field(solr_doc, id['displayLabel'], id['value'], :sortable, :displayable)
+      end
+    end
+    solr_doc
+  end
   after_save :add_to_instances
 
 end
