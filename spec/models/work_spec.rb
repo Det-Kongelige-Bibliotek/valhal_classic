@@ -181,6 +181,16 @@ describe Work do
       identicalWork = Work.new(:title => title, :workType => workType)
       identicalWork.save.should be_false
     end
+
+    it 'should not be possible to create two works with the same identifier' do
+      w = Work.new(title: 'title')
+      w.identifier= [{'displayLabel' => 'sysnum', 'value' => '1234'}]
+      w.save
+
+      w2 = Work.new(title: 'title, 2nd ed.')
+      w2.identifier= [{'displayLabel' => 'sysnum', 'value' => '1234'}]
+      w2.save.should be_false
+    end
   end
 
   after(:all) do

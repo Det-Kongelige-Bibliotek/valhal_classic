@@ -4,8 +4,8 @@ class WorkValidator < ActiveModel::Validator
   include ValidationHelper
   #Overridden from ActiveModel::Validator
   def validate(record)
-    if duplicate_work?(record)
-      record.errors[:work] << 'Cannot be duplicated. Another work with same work-type, title and subTitle exists.'
+    if duplicate_work?(record) || identifier_in_use?(record)
+      record.errors[:work] << @error_message
     end
   end
 
@@ -26,10 +26,31 @@ class WorkValidator < ActiveModel::Validator
       #logger.info "Comparing '" + record.to_s + "' with person '" + person.to_s
       if (work["search_result_work_type_tsi"] == record.workType)
         logger.error 'duplicate work found: ' + work.to_s
+        @error_message = 'Cannot be duplicated. Another work with same work-type, title and subTitle exists.'
         return true
       end
     end
     return false
+  end
+
+  # Ensure the same identifier is not already in use
+  # e.g. there should not be more than one work
+  # with the same Aleph sysnum
+  def identifier_in_use?(record)
+    if record.identifier
+      record.identifier.each do |id|
+        if id['displayLabel']
+          existing = Work.find(id['displayLabel'] + '_si' => id['value'])
+          existing.each do |ex|
+            if ex.pid != record.pid
+              @error_message = "A record with #{id['displayLabel']} #{id['value']} already exists!"
+              return true
+            end
+          end
+        end
+      end
+    end
+    false
   end
 
 end
