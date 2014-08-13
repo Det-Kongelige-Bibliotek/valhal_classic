@@ -11,6 +11,8 @@ class WorkValidator < ActiveModel::Validator
 
   private
   def duplicate_work?(record)
+    # this validation should be ignored until further notice
+    return false
     solr_names = record.class.solr_names
     logger.debug ':workType = ' + record.workType.to_s + ', :title = ' + record.title.to_s + ', :subTitle = ' + record.subTitle.to_s + ', :pid = ' + record.pid.to_s
     if record.id.eql? "__DO_NOT_USE__"
