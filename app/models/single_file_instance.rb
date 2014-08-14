@@ -5,6 +5,7 @@
 class SingleFileInstance < ActiveFedora::Base
   include Concerns::Instance
   include Concerns::Preservation
+  include Solr::Indexable
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
 
@@ -28,5 +29,15 @@ class SingleFileInstance < ActiveFedora::Base
       res += '</file>'
     end
     res
+  end
+
+  # The fields for the SOLR index.
+  has_solr_fields do |m|
+    # Fields from DescMetadata
+    m.field 'search_result_title', method: :get_work_title
+  end
+
+  def get_work_title
+    self.ie.title
   end
 end

@@ -5,6 +5,10 @@
       <% #Override the main title container view in Blacklight so that the hyperlink for the Book or Person links to the landing page for it  %>
       <% if document['active_fedora_model_ssi'].eql? 'AuthorityMetadataUnit' %>
         <a href="<%= "/authority_metadata_units/#{document.id.to_s}" %>"><%=document[document_show_link_field] %></a>
+      <% elsif document['active_fedora_model_ssi'].eql? 'SingleFileInstance' %>
+        <a href="<%= "/single_file_instances/#{document.id.to_s}" %>"><%=document[document_show_link_field] %></a>
+      <% elsif document['active_fedora_model_ssi'].eql? 'OrderedInstance' %>
+          <a href="<%= "/ordered_instances/#{document.id.to_s}" %>"><%=document[document_show_link_field] %></a>
       <% else %>
         <a href="<%= "/#{document["active_fedora_model_ssi"].pluralize.to_s.downcase}/#{document.id.to_s}" %>"><%=document[document_show_link_field] %></a>
       <% end %>
