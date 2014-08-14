@@ -76,6 +76,15 @@ namespace :valhal_migrate do
 
     puts migrated_works
     puts migrated_people
+
+    legacy = []
+    legacy = book_and_works + reps + people
+
+    legacy.each do |l|
+      lbase = ActiveFedora::Base.find(l, :cast=>false)
+      lbase.delete
+    end
+
   end
 
   # Extracts a hash containing the relation between works/books and representations (with their relations to files).
