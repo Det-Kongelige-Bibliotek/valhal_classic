@@ -15,6 +15,7 @@ module Datastreams
       t.dateOther()
       t.recordOriginInfo()
       t.tableOfContents()
+      t.contentType
 
       t.identifier do
         t.value()
