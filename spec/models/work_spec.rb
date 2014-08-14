@@ -164,7 +164,7 @@ describe Work do
 
   describe ' validation' do
     it 'should not be possible to create two identical works' do
-      pending "No such validation yet!"
+      pending "The advanced logic for locating identical works have not yet been implemented. See US843."
       title = 'identical work'
       workType = 'identical work'
       Work.create(:title => title, :workType => workType).should be_true
