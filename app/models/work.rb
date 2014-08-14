@@ -21,6 +21,25 @@ class Work < ActiveFedora::Base
     m.field 'preservation_details', method: :preservation_details
   end
 
+  def initialize(*args)
+    super(*args)
+    add_accessors
+  end
+
+  # create accessor methods for identifiers
+  # e.g. given an identifier
+  # { 'displayLabel' => 'sysnum', 'value' => '1234' }
+  # create a method sysnum that returns '1234'
+  def add_accessors
+    if defined? identifier
+      identifier.each do |id|
+        if id['displayLabel'] && !id['displayLabel'].empty?
+          self.class.send(:define_method, id['displayLabel']) { return id['value'] }
+        end
+      end
+    end
+  end
+
   # Delivers the title and subtitle in a format for displaying.
   # Should only include the subtitle, if it has been defined.
   def get_title_for_display

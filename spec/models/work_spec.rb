@@ -193,6 +193,14 @@ describe Work do
     end
   end
 
+  describe 'identifier=' do
+    it 'should create an accessor method for an identifier given' do
+      w = Work.new(title: 'title')
+      w.identifier= [{'displayLabel' => 'sysnum', 'value' => '1234'}]
+      w.sysnum.should eql '1234'
+    end
+  end
+
   after(:all) do
     Work.all.each {|w| w.delete }
   end

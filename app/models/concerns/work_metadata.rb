@@ -65,6 +65,7 @@ module Concerns
         vals.each do |v|
           self.descMetadata.insert_identifier(v) unless v['value'].blank?
         end
+        self.add_accessors
       end
 
       # Retrieves the language elements.
