@@ -1,5 +1,10 @@
+require "resque"
+
 class LetterVolumeIngest
-  def self.perform(xml_path, pdf_path)
+
+  @queue = :letter_volume_ingest
+
+  def self.perform(xml_path, pdf_path, jpgpath)
     sysnum = self.parse_sysnum(xml_path)
     unless pdf_path.include?(sysnum)
       raise 'File names do not match!'
