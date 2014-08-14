@@ -37,7 +37,7 @@ class SingleFileInstance < ActiveFedora::Base
     m.field 'search_result_title', method: :get_work_title
   end
 
-  #Get the title of the work this ordered instance belongs to
+  #Get the title of the work this single file instance belongs to
   #return String title of the work
   def get_work_title
     if self.ie.nil?
