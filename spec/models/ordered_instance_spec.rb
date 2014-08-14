@@ -25,6 +25,17 @@ describe OrderedInstance do
     subject.techMetadata.should_not be_nil
   end
 
+  it 'returns the mimetype of the first file it contains' do
+    basic_file = BasicFile.new
+    uploaded_file = ActionDispatch::Http::UploadedFile.new(
+        filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml")
+    )
+    basic_file.add_file(uploaded_file, nil)
+    basic_file.save
+    subject.files << basic_file
+    subject.first_file_type.should eql 'text/xml'
+  end
+
   describe '#basic_files' do
     context 'with multiple BasicFiles' do
       let(:default_files) do
