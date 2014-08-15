@@ -211,7 +211,7 @@ describe Work do
       s.contentType = 'PDF'
 
       w.instances << o << s << x
-      expected = {JPG: o, PDF: s}
+      expected = {jpgs: o, pdfs: s}
       w.ordered_instance_types.should eql expected
     end
 

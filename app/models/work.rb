@@ -52,11 +52,11 @@ class Work < ActiveFedora::Base
 
   # Return a hash of all ordered instances
   # that have a contentType attr in the form
-  # { PDF: OrderedInstance, JPG: OrderedInstance }
+  # { pdfs: OrderedInstance, jpgs: OrderedInstance }
   def ordered_instance_types
     type_hash = {}
     ordered_instances.each do |i|
-      type_hash.store(i.contentType.to_sym, i) unless i.contentType.nil?
+      type_hash.store(i.contentType.pluralize.downcase.to_sym, i) unless i.contentType.nil?
     end
     type_hash
   end
