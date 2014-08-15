@@ -13,7 +13,7 @@ module Concerns
 
     # @return Whether any instances for the manifest exists.
     def has_ins?
-      return instances.any?
+      instances.any?
     end
 
     # @return all ordered instances.
@@ -43,7 +43,7 @@ module Concerns
     # @return whether any operations can be cascading (e.g. updating administrative or preservation metadata)
     # For the manifests, this is true (since it has the instances).
     def can_perform_cascading?
-      return true
+      true
     end
 
     # Returns all the instances of the manifest.

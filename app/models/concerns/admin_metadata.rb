@@ -8,9 +8,13 @@ module Concerns
       has_metadata :name => 'adminMetadata', :type => Datastreams::AdminDatastream
 
       # List of non-multiple key-value pairs
-      has_attributes :collection, :activity, :embargo, :embargo_date, :embargo_condition, :access_condition,
+      has_attributes :activity, :embargo, :embargo_date, :embargo_condition, :access_condition,
                      :copyright, :material_type, :availability,
                      datastream: 'adminMetadata', :multiple => false
+
+      # List of multiple key-value pairs
+      has_attributes :collection, datastream: 'adminMetadata', :multiple => false
+
     end
   end
 end
