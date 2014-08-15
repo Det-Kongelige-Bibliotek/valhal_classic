@@ -50,6 +50,17 @@ class Work < ActiveFedora::Base
     end
   end
 
+  # Return a hash of all ordered instances
+  # that have a contentType attr in the form
+  # { PDF: OrderedInstance, JPG: OrderedInstance }
+  def ordered_instance_types
+    type_hash = {}
+    ordered_instances.each do |i|
+      type_hash.store(i.contentType.to_sym, i) unless i.contentType.nil?
+    end
+    type_hash
+  end
+
   # For each identifier, create a solr search field with name
   # based on that identifier's displayLabel and value of that identifier's value
   # e.g. {displayLabel: 'aleph', value: '1234'} should create a field

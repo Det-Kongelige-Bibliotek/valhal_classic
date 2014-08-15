@@ -201,6 +201,23 @@ describe Work do
     end
   end
 
+  describe 'ordered_instance_types' do
+    it 'should return a hash of ordered instances with their types as keys' do
+      w = Work.new(title: 'title')
+      o = OrderedInstance.new
+      s = OrderedInstance.new
+      x = OrderedInstance.new
+      o.contentType = 'JPG'
+      s.contentType = 'PDF'
+
+      w.instances << o << s << x
+      expected = {JPG: o, PDF: s}
+      w.ordered_instance_types.should eql expected
+    end
+
+
+  end
+
   after(:all) do
     Work.all.each {|w| w.delete }
   end
