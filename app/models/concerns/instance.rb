@@ -66,7 +66,7 @@ module Concerns
     # @return whether any operations can be cascading (e.g. updating administrative or preservation metadata)
     # For the instances, this is true (since it has the files).
     def can_perform_cascading?
-      return true
+      true
     end
 
     # Returns all the files as BasicFile objects.

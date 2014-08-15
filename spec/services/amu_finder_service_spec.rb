@@ -80,19 +80,19 @@ describe 'AMUFinderService' do
   end
 
   describe '#find_or_create_agent_person' do
-    it 'should create new person' do
+    it 'should create new agent/person' do
       count = AuthorityMetadataUnit.count
       @service.find_or_create_agent_person('This is a new AMU', nil)
       AuthorityMetadataUnit.count.should == count + 1
     end
-    it 'should return a known person' do
+    it 'should return a known agent/person' do
       agent = AuthorityMetadataUnit.create(:type => 'agent/person', :value => 'Test person AMU')
       sleep 1
       p = @service.find_or_create_agent_person(agent.value, nil)
       p.should == agent
       p.pid.should == agent.pid
     end
-    it 'should not return an organization when requesting a person' do
+    it 'should not return an organization when requesting a agent/person' do
       agent = AuthorityMetadataUnit.create(:type => 'agent/organization', :value => 'Test non-person AMU')
       p = @service.find_or_create_agent_person(agent.value, nil)
       p.should_not == agent
@@ -122,7 +122,7 @@ describe 'AMUFinderService' do
   end
 
   describe '#find_agent_or_create_agent_person' do
-    it 'should create new person when no agent' do
+    it 'should create new agent/person when no agent' do
       count = AuthorityMetadataUnit.count
       @service.find_agent_or_create_agent_person('find_agent_or_create_agent_person must not already exist', nil)
       AuthorityMetadataUnit.count.should == count + 1
