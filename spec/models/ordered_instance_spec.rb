@@ -64,6 +64,12 @@ describe OrderedInstance do
         def_ins = subject.class.find(pid)
         def_ins.files.should == basic_files
       end
+
+      it 'should be possible to insert and retrieve a file at a specific index' do
+        basic_files = default_files
+        subject.files.insert(2, basic_files[2])
+        subject.files[2].should eql basic_files[2]
+      end
     end
   end
 end
