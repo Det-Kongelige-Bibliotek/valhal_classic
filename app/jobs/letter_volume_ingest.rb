@@ -1,19 +1,27 @@
-require "resque"
-
 class LetterVolumeIngest
 
   @queue = :letter_volume_ingest
+  
+  def self.perform(xml_path, pdf_path, jpg_path)
+    pdf_file = LetterVolumeFile(pdf_path)
+    xml_file = LetterVolumeFile(xml_path)
 
-  def self.perform(xml_path, pdf_path, jpgpath)
-    sysnum = self.parse_sysnum(xml_path)
-    unless pdf_path.include?(sysnum)
+    unless pdf_file.sysnum == xml_file.sysnum
       raise 'File names do not match!'
     end
     # Check to see if book exists
-    work = Work.find('sysnum_si' => sysnum).first || Work.create(identifier: [{'sysnum' => sysnum}])
-    work
-    # Find or create work
+    work = self.find_or_create_work(pdf_file.sysnum)
+
+    # Check to see if book has an ordered instance
+    content_types = work.ordered_instance_types
+    pdfs = content_types[:pdfs] || OrderedInstance.new
+    xmls = content_types[:teis] || OrderedInstance.new
     # Add representation to work
+    gen_pdf = GenericFile.new
+    gen_pdf.add_file(pdf_file, true)
+    #pdfs.files.insert(pdf_file.index, pdf_file)
+    #xmls.files.insert(xml_file.index, xml_file)
+
     # Queue Letter splitter job
 
   end
@@ -26,4 +34,81 @@ class LetterVolumeIngest
       raise "invalid filename given: #{file_name}"
     end
   end
+
+  def self.find_or_create_work(sysnum)
+    existing = Work.find('sysnum_si' => sysnum)
+    if existing.size > 0
+      w = existing.first
+    else
+      w = Work.new
+      w.identifier=([{'displayLabel' => 'sysnum', 'value' => sysnum }])
+    end
+    w
+  end
+end
+
+# Helper class to give some useful
+# functionality for handling file imports
+# for BreveProjektet. It has no relation to Work
+# or any other such Data Model classes, it
+# is pure BreveProjekt business logic.
+# Do not subclass or use in other contexts!!!
+#
+# Note the methods :tempfile, :size, :content_type
+# and :original_filename are added to allow the
+# object to masquerade as an uploaded file
+# Valhal code assumes all new files are
+# HTTP uploads - how intelligent!
+class LetterVolumeFile
+  def initialize(path_string)
+    @file_name = Pathname.new(path_string).basename.to_s
+    @file = File.new(path_string)
+
+    raise "invalid filename given: #{file_name}" unless @file_name.include?('_')
+  end
+
+  def sysnum
+    @file_name.split('_').first
+  end
+
+  # if filename ends with underscore X number,
+  # then this is a multivolume file
+  def multivolume?
+    @file_name.split('_').last[0].downcase == 'x'
+  end
+
+  # convert the last part of the filename to
+  # an integer e.g. '0098372_X01.pdf'=> 1
+  def number
+    @file_name.split('_').last[1..-1].to_i
+  end
+
+  def index
+    number - 1
+  end
+
+  def tempfile
+    @file
+  end
+
+  def size
+    @file.size
+  end
+
+  def content_type
+    ext =  File.extname(@file_name)
+    case ext
+      when 'pdf'
+        'application/pdf'
+      when 'xml'
+        'text/xml'
+      else
+        nil
+    end
+  end
+
+  def original_filename
+    @file_name
+  end
+
 end
