@@ -3,8 +3,8 @@ class LetterVolumeIngest
   @queue = :letter_volume_ingest
   
   def self.perform(xml_path, pdf_path, jpg_path)
-    pdf_file = LetterVolumeFile(pdf_path)
-    xml_file = LetterVolumeFile(xml_path)
+    pdf_file = LetterVolumeFile.new(pdf_path)
+    xml_file = LetterVolumeFile.new(xml_path)
 
     unless pdf_file.sysnum == xml_file.sysnum
       raise 'File names do not match!'
@@ -17,11 +17,19 @@ class LetterVolumeIngest
     pdfs = content_types[:pdfs] || OrderedInstance.new
     xmls = content_types[:teis] || OrderedInstance.new
     # Add representation to work
-    gen_pdf = GenericFile.new
-    gen_pdf.add_file(pdf_file, true)
-    #pdfs.files.insert(pdf_file.index, pdf_file)
-    #xmls.files.insert(xml_file.index, xml_file)
+    bf_pdf = BasicFile.new
+    bf_xml = BasicFile.new
+    pdf_added = bf_pdf.add_file(File.new(pdf_path), true)
+    pdfs.files.insert(pdf_file.index, bf_pdf)
 
+    xml_added = bf_xml.add_file(File.new(xml_path), true)
+    xmls.files.insert(xml_file.index, bf_xml)
+    work.ordered_instances << pdfs << xmls
+    work_saved = work.save
+
+    unless pdf_added && xml_added && work_saved
+      raise 'Could not save to Fedora!'
+    end
     # Queue Letter splitter job
 
   end
@@ -53,12 +61,6 @@ end
 # or any other such Data Model classes, it
 # is pure BreveProjekt business logic.
 # Do not subclass or use in other contexts!!!
-#
-# Note the methods :tempfile, :size, :content_type
-# and :original_filename are added to allow the
-# object to masquerade as an uploaded file
-# Valhal code assumes all new files are
-# HTTP uploads - how intelligent!
 class LetterVolumeFile
   def initialize(path_string)
     @file_name = Pathname.new(path_string).basename.to_s
@@ -85,30 +87,6 @@ class LetterVolumeFile
 
   def index
     number - 1
-  end
-
-  def tempfile
-    @file
-  end
-
-  def size
-    @file.size
-  end
-
-  def content_type
-    ext =  File.extname(@file_name)
-    case ext
-      when 'pdf'
-        'application/pdf'
-      when 'xml'
-        'text/xml'
-      else
-        nil
-    end
-  end
-
-  def original_filename
-    @file_name
   end
 
 end
