@@ -64,24 +64,51 @@ module Concerns
       FileUtils.remove_file(file.path)
     end
 
-    # adds a content datastream to the object and generate techMetadata for the basic_files
-    # basic_files must have the following methods [size, content_type, original_filename, tempfile]
-    # return true if successful, else false
+    # Adds a content datastream to the object and generate techMetadata for the basic_files
+    # basic_files may either be File or UploadedFile objects.
+    #
+    # @param file (ActionDispatch::Http:UploadedFile | File)
+    # @param skip_fits boolean
     def add_file(file, skip_fits)
-      valid_file = check_file?(file)
-      if (valid_file)
-        self.add_file_datastream(file.tempfile, :label => file.original_filename, :mimeType => file.content_type, :dsid => 'content')
-        set_file_timestamps(file.tempfile)
-        self.checksum = generate_checksum(file.tempfile)
-        self.original_filename = file.original_filename
-        self.mime_type = file.content_type
-        self.size = file.size
-        self.file_uuid = UUID.new.generate
-        if (skip_fits.nil?) || (skip_fits.eql? 'false')
-          self.add_fits_metadata_datastream(file)
-        end
+      if file.class == ActionDispatch::Http::UploadedFile
+        file_object = file.tempfile
+        file_name = file.original_filename
+        mime_type = file.content_type
+      elsif file.class == File
+        file_object = file
+        file_name = Pathname.new(file.path).basename.to_s
+        mime_type = mime_type_from_ext(file_name)
+      else
+        return false
       end
-      valid_file
+
+      self.add_file_datastream(file_object, label:  file_name, mimeType: mime_type, dsid: 'content')
+      set_file_timestamps(file_object)
+      self.checksum = generate_checksum(file_object)
+      self.original_filename = file_name
+      self.mime_type = mime_type
+      self.size = file.size
+      self.file_uuid = UUID.new.generate
+      unless skip_fits
+        self.add_fits_metadata_datastream(file)
+      end
+      true
+    end
+
+    def mime_type_from_ext(file_name)
+      ext =  File.extname(file_name)
+      case ext
+        when '.pdf'
+          'application/pdf'
+        when '.xml'
+          'text/xml'
+        when '.tif', '.tiff'
+          'image/tiff'
+        when '.jpg', '.jpeg'
+          'image/jpeg'
+        else
+          raise "no mimetype found for extension #{ext}!"
+      end
     end
 
     #function for extracting FITS metadata from the file data associated with this GenericFile
