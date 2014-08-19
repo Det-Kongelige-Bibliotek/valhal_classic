@@ -209,10 +209,27 @@ describe Work do
       x = OrderedInstance.new
       o.contentType = 'JPG'
       s.contentType = 'PDF'
-
+      # x has no contentType and therefore should not return
+      # in the ordered_instance_types method
       w.instances << o << s << x
       expected = {jpgs: o, pdfs: s}
       w.ordered_instance_types.should eql expected
+    end
+
+    it 'should return ordered instances from a saved work' do
+      w = Work.new
+      o = OrderedInstance.new
+      o.contentType = 'JPG'
+      w.add_instance(o)
+      # o.ie = w
+      # w.save
+      # w.instances << o
+      # w.save
+      pid = w.pid
+      w = nil
+      w = Work.find(pid)
+
+      w.ordered_instances.should include o
     end
 
 

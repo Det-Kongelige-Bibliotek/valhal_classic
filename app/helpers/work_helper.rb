@@ -145,6 +145,8 @@ module WorkHelper
   end
 
   # Adds a instance to a work
+  # TODO: this functionality has been moved to the Work model
+  # update callers to use that method instead.
   # @param instance The instance to be added to the work
   # @param work The work to have the instance added.
   def add_instance(instance, work)
