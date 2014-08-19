@@ -16,7 +16,7 @@ module Concerns
       # Origin relationships from AuthorityMetadata perspective
       has_and_belongs_to_many :isOriginOf, :class_name => 'ActiveFedora::Base', :property=>:is_origin_of, :inverse_of => :has_origin
       # Destination relationships from AuthorityMetadata perspective
-      has_and_belongs_to_many :isDestinationOf, :class_name => 'ActiveFedora::Base', :property=>:is_origin_of, :inverse_of => :has_destination
+      has_and_belongs_to_many :isDestinationOf, :class_name => 'ActiveFedora::Base', :property=>:is_destination_of, :inverse_of => :has_destination
 
       #####################################################
       ## Relations to agent authority metadata units.
