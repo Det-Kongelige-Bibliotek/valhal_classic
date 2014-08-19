@@ -31,6 +31,10 @@
     :has_origin: hasOrigin
     # Origin relationship from metadata perspective
     :is_origin_of: isOriginOf
+    # Destination relationship from work/instance perspective
+    :has_destination: hasDestination
+    # Destination relationship from metadata perspective
+    :is_destination_of: isDestinationOf
     # Created relationship from work/instance perspective
     :has_created: hasCreated
     # Created relationship from metadata perspective
