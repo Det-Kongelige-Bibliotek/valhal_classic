@@ -1,5 +1,5 @@
 <%= form_for @object, :html=>{:multipart=>true}, url: {action: 'update_administration'} do |f| %>
-    <%= f.error_messages :header_message => 'Error when editing administration metadata', :class => 'alert alert-error',
+    <%= f.error_messages :header_message => 'Error when editing administration metadata', :class => 'alert alert-error', :remote => true,
                          :header_tag => :h3 %>
     <%- @adminMetadata = @object.adminMetadata -%>
     <%= fields_for :administration do |builder| %>
@@ -24,8 +24,15 @@
         <%= builder.label :copyright, "Copyright" %>
         <%= builder.text_field :copyright, :class => 'text_field', :value => @adminMetadata.copyright.first %>
 
-        <%= builder.label :material_type, "Material Type" %>
-        <%= builder.text_field :material_type, :class => 'text_field', :value => @adminMetadata.material_type.first %>
+        <label for="administration_material_group">Material Group</label>
+        <%= select_tag 'material_group', options_for_select(get_material_type_groups), :onchange => 'enableMaterialTypes()', :include_blank => true  %>
+
+        <!--div id="material_type_div" style="display: none;"-->
+          <%= builder.label :material_type, "Material Type" %>
+          <%= builder.select 'material_type', options_for_select([@adminMetadata.material_type.first]), :value => @adminMetadata.material_type.first%>
+        <!--/div-->
+
+        <%#= builder.text_field :material_type, :class => 'text_field', :value => @adminMetadata.material_type.first %>
 
         <%= builder.label :availability, "Availability" %>
         <%= builder.text_field :availability, :class => 'text_field', :value => @adminMetadata.availability.first %>

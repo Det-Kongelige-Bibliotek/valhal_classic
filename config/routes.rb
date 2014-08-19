@@ -66,6 +66,7 @@ Valhal::Application.routes.draw do
       get 'dissemination'
       patch 'send_to_dissemination'
       get 'show_mods'
+      get 'get_admin_material_types'
     end
   end
 

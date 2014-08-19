@@ -248,6 +248,14 @@ class WorksController < ApplicationController
     end
   end
 
+  #Ajax GET request to return appropriate material types for the chosen material group
+  def get_admin_material_types
+    material_types = get_material_types
+    respond_to do |format|
+      format.json { render json: material_types}
+    end
+  end
+
   private
   # Handles the parameter arguments
   # If single basic_files is given, then a SingeFileInstance is made from it.

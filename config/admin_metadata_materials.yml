@@ -1,0 +1,62 @@
+development:
+  material_groups:
+    - Print
+    - Manuscripts
+    - Maps
+    - Sheet Music
+    - Music Manuscript
+    - Sound Recording
+    - Images
+    - Video
+    - Computer Games
+  material_types:
+    print:
+      - Books
+      - Journals
+      - Letters
+      - Pamphlets
+      - Newspapers
+      - Plays
+    manuscripts:
+      - Codex Form
+      - Letter Fragments
+    maps:
+      - Map
+      - Atlas
+      - Globes
+    sheet_music:
+      - Nodes
+      - Node Manuscript
+    images:
+      - Watercolours
+      - Digital Recording
+      - Graphic
+      - Photography
+      - Photo Engraving
+      - Negative
+      - Postcard
+      - Drawing
+      - Print
+      - Silhouette
+test:
+  material_groups:
+      - Print
+      - Manuscripts
+      - Maps
+      - Sheet Music
+      - Music Manuscript
+      - Sound Recording
+      - Images
+      - Video
+      - Computer Games
+production:
+  material_groups:
+      - Print
+      - Manuscripts
+      - Maps
+      - Sheet Music
+      - Music Manuscript
+      - Sound Recording
+      - Images
+      - Video
+      - Computer Games

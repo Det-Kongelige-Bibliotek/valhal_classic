@@ -73,3 +73,34 @@ function addAgent(relationshipType, agentName, agentObjectID) {
         document.getElementById("work_agents").value = JSON.stringify(agentRelations);
     }
 }
+
+function enableMaterialTypes() {
+    //var div =$("#material_type_div");
+
+    $.ajax({url:"/works/valhal:138/get_admin_material_types", format: 'json', success: function(result) {
+        console.log(result);
+
+        var selected_material_group = $('#material_group').val().toLowerCase();
+
+        $('#administration_material_type').find('option').remove();
+
+        if (result[selected_material_group] == undefined) {
+            $('#administration_material_type')
+                .append($("<option></option>")
+                    .attr("value", selected_material_group)
+                    .text($('#material_group').val()));
+        } else {
+            $.each(result[selected_material_group], function(key, value) {
+                $('#administration_material_type')
+                    .append($("<option></option>")
+                        .attr("value", value)
+                        .text(value));
+            });
+        }
+    }});
+
+    /*
+    if (div.css('display') == 'none') {
+        div.show();
+    }*/
+}
