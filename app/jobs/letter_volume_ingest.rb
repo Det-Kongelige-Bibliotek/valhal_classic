@@ -13,34 +13,42 @@ class LetterVolumeIngest
     work = self.find_or_create_work(pdf_file.sysnum)
 
     # Check to see if book has an ordered instance
+
     content_types = work.ordered_instance_types
-    pdfs = content_types[:pdfs] || OrderedInstance.new
-    xmls = content_types[:teis] || OrderedInstance.new
+    pdfs = content_types[:pdfs] || OrderedInstance.new(contentType: 'pdf')
+    xmls = content_types[:teis] || OrderedInstance.new(contentType: 'tei')
+    jpgs = content_types[:jpgs] || OrderedInstance.new(contentType: 'jpg')
     # Add representation to work
     bf_pdf = BasicFile.new
     bf_xml = BasicFile.new
-    pdf_added = bf_pdf.add_file(File.new(pdf_path), true)
-    pdfs.files.insert(pdf_file.index, bf_pdf)
 
-    xml_added = bf_xml.add_file(File.new(xml_path), true)
-    xmls.files.insert(xml_file.index, bf_xml)
-    work.ordered_instances << pdfs << xmls
-    work_saved = work.save
+    bf_pdf.add_file(File.new(pdf_path), true)
+    pdfs.files << bf_pdf
+    pdfs.save
 
-    unless pdf_added && xml_added && work_saved
+    bf_xml.add_file(File.new(xml_path), true)
+    xmls.files << bf_xml
+    xmls.save
+
+    pdfs_saved = work.add_instance(pdfs)
+    xmls_saved = work.add_instance(xmls)
+
+    unless pdfs_saved && xmls_saved
       raise 'Could not save to Fedora!'
     end
     # Queue Letter splitter job
 
   end
 
-  def self.parse_sysnum(path_string)
-    file_name = Pathname.new(path_string).basename.to_s
-    if file_name.include?('_')
-      file_name.split('_').first
-    else
-      raise "invalid filename given: #{file_name}"
+  def self.fetch_jpgs(path_string)
+    jpgs = []
+    dir = Pathname.new(path_string)
+    dir.each_entry do |entry_path|
+      if entry_path.basename.to_s[-4..-1] == '.jpg'
+        jpgs << entry_path
+      end
     end
+    jpgs
   end
 
   def self.find_or_create_work(sysnum)

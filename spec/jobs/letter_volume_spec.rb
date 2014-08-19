@@ -8,8 +8,11 @@ describe LetterVolumeIngest do
 
   describe 'Perform' do
 
-    before :each do
+    before :all do
       @fixtures_path = Rails.root.join('spec', 'fixtures', 'brev')
+      LetterVolumeIngest.perform(@fixtures_path.join('001003574_000.xml').to_s,
+                                 @fixtures_path.join('001003574_000.pdf').to_s, '')
+      @work = Work.find(sysnum_si: '001003574').first
     end
 
     it 'should throw an Exception if supplied with a mismatching sysnum' do
@@ -20,17 +23,23 @@ describe LetterVolumeIngest do
     end
 
     it 'should create a work for the volume when no volume exists' do
-      LetterVolumeIngest.perform(@fixtures_path.join('001003574_000.xml').to_s,
-                                 @fixtures_path.join('001003574_000.pdf').to_s, '')
       Work.all.size.should be > 0
+    end
+
+    it 'should create ordered instances for pdfs, jpgs and xml files' do
+      @work.ordered_instance_types.should include :pdfs
+      @work.ordered_instance_types.should include :teis
+      #@work.ordered_instance_types.should include :jpgs
     end
 
   end
 
-  describe 'parse_sysnum' do
-    it 'should parse the sysnum from a string containing a file path' do
-      sysnum = LetterVolumeIngest.parse_sysnum('001003574_000.pdf')
-      sysnum.should eql '001003574'
+  describe 'fetch_jpgs' do
+    it 'should return an array of jpgs' do
+      fixtures_path = Rails.root.join('spec', 'fixtures', 'brev')
+      jpgs = LetterVolumeIngest.fetch_jpgs(fixtures_path.join('001003574_000'))
+      jpgs.should be_an Array
+      jpgs.length.should eql 4
     end
   end
 
