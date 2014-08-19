@@ -9,6 +9,7 @@ authority_metadata_unit:
   place:
     isTopicOf
     isOriginOf
+    isDestinationOf
   agent/person:
     isAddresseeOf
     isAuthorOf
@@ -46,6 +47,7 @@ authority_metadata_unit:
 work:
   hasTopic
   hasOrigin
+  hasDestination
   hasAddressee
   hasAuthor
   hasContributor

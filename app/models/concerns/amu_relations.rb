@@ -15,6 +15,8 @@ module Concerns
       has_and_belongs_to_many :isCreatedOf, :class_name => 'ActiveFedora::Base', :property=>:is_created_of, :inverse_of => :has_created
       # Origin relationships from AuthorityMetadata perspective
       has_and_belongs_to_many :isOriginOf, :class_name => 'ActiveFedora::Base', :property=>:is_origin_of, :inverse_of => :has_origin
+      # Destination relationships from AuthorityMetadata perspective
+      has_and_belongs_to_many :isDestinationOf, :class_name => 'ActiveFedora::Base', :property=>:is_origin_of, :inverse_of => :has_destination
 
       #####################################################
       ## Relations to agent authority metadata units.
@@ -54,6 +56,7 @@ module Concerns
       res['isTopicOf'] = self.isTopicOf
       res['isCreatedOf'] = self.isCreatedOf
       res['isOriginOf'] = self.isOriginOf
+      res['isDestinationOf'] = self.isDestinationOf
       res['isAddresseeOf'] = self.isAddresseeOf
       res['isAuthorOf'] = self.isAuthorOf
       res['isContributorOf'] = self.isContributorOf
