@@ -76,4 +76,17 @@ class Work < ActiveFedora::Base
   end
   after_save :add_to_instances
 
+  # Adds a instance to a work
+  # Use this method instead of directly
+  # accessing work.instances as the details
+  # and order are quite tricky and can lead
+  # to confusing errors.
+  # @param instance The instance to be added to the work
+  def add_instance(instance)
+    self.save unless self.pid
+    instance.ie = self
+    self.instances << instance
+    instance.save && self.save
+  end
+
 end
