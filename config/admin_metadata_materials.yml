@@ -18,8 +18,8 @@ development:
       - Newspapers
       - Plays
     manuscripts:
-      - Codex Form
-      - Letter Fragments
+      - Codex
+      - Letter/Fragments
     maps:
       - Map
       - Atlas
