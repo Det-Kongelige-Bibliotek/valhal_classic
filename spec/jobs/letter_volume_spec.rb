@@ -15,19 +15,16 @@ describe LetterVolumeIngest do
     it 'should throw an Exception if supplied with a mismatching sysnum' do
       expect {
         LetterVolumeIngest.perform(@fixtures_path.join('001003574_000.xml').to_s,
-                                   @fixtures_path.join('001003572_000.pdf').to_s)
+                                   @fixtures_path.join('001003572_000.pdf').to_s, '')
       }.to raise_error
     end
 
     it 'should create a work for the volume when no volume exists' do
       LetterVolumeIngest.perform(@fixtures_path.join('001003574_000.xml').to_s,
-                                 @fixtures_path.join('001003574_000.pdf').to_s)
+                                 @fixtures_path.join('001003574_000.pdf').to_s, '')
       Work.all.size.should be > 0
     end
 
-    it 'should create an instance for the volume' do
-      pending 'implement me!'
-    end
   end
 
   describe 'parse_sysnum' do
@@ -61,50 +58,30 @@ describe LetterVolumeFile do
   end
 
   it 'should parse a sysnum from a file path' do
-    file = LetterVolumeFile.new(@path.join('001003574_000.pdf'))
+    file = LetterVolumeFile.new(@path.join('001003574_000.xml'))
     file.sysnum.should eql '001003574'
   end
 
-  it 'should throw an error if given a path with an underscore' do
+  it 'should throw an error if given a path without an underscore' do
     expect {
-      LetterVolumeFile.new(@path.join('001003574000.pdf'))
+      LetterVolumeFile.new(@path.join('001003574000.xml'))
     }.to raise_error
   end
 
   it 'should indicated whether the file is multivolume or not' do
-    file = LetterVolumeFile.new(@path.join('001003574_000.pdf'))
+    file = LetterVolumeFile.new(@path.join('001003574_000.xml'))
     file.multivolume?.should be_false
-    file2 = LetterVolumeFile.new(@path.join('001003574_X01.pdf'))
+    file2 = LetterVolumeFile.new(@path.join('000773452_X01.xml'))
     file2.multivolume?.should be_true
   end
 
-  it 'should give the position of the file in the work' do
-    file = LetterVolumeFile.new(@path.join('0098372_X01.pdf'))
-    file.number.should eql 1
-    file2 = LetterVolumeFile.new(@path.join('0098372_X13.pdf'))
-    file2.number.should eql 13
-  end
-
-  it 'should give an index that can be used in array insertion' do
-    file = LetterVolumeFile.new(@path.join('0098372_X01.pdf'))
+  it 'should give an index for ordering the file in an array' do
+    file = LetterVolumeFile.new(@path.join('000773452_X01.xml'))
     file.index.should eql 0
   end
 
-  it 'should give a content type' do
-    pdf = LetterVolumeFile.new(@path.join('0098372_X01.pdf'))
-    pdf.content_type.should eql 'application/pdf'
-    xml = LetterVolumeFile.new(@path.join('0098372_X01.xml'))
-    xml.content_type.should eql 'text/xml'
-  end
-
-  it 'should return a File object' do
-    xml = LetterVolumeFile.new(@path.join('001003574_000.xml'))
-    xml.tempfile.should be_a File
-  end
-
-  it 'should be addable to a GenericFile' do
-    xml = LetterVolumeFile.new(@path.join('001003574_000.xml'))
-    bas = BasicFile.new
-    bas.add_file(xml, true).should be_true
+  it 'should give the position of the file in the work' do
+    file = LetterVolumeFile.new(@path.join('001003574_000.pdf'))
+    file.number.should eql 0
   end
 end
