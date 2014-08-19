@@ -17,7 +17,7 @@ module Concerns
       has_and_belongs_to_many :hasCreated, :class_name => 'ActiveFedora::Base', :property=>:has_created, :inverse_of => :is_created_of
       # Origin relationships from work/instance perspective
       has_and_belongs_to_many :hasOrigin, :class_name => 'ActiveFedora::Base', :property=>:has_origin, :inverse_of => :is_origin_of
-      # Origin relationships from work/instance perspective
+      # Destination relationships from work/instance perspective
       has_and_belongs_to_many :hasDestination, :class_name => 'ActiveFedora::Base', :property=>:has_destination, :inverse_of => :is_destination_of
 
       #####################################################
