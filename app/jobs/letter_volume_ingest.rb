@@ -13,12 +13,17 @@ class LetterVolumeIngest
     work = self.find_or_create_work(pdf_file.sysnum)
 
     # Check to see if book has an ordered instance
-
+    # corresponding to the necessary contentTypes
+    # if not, create new ones
     content_types = work.ordered_instance_types
     pdfs = content_types[:pdfs] || OrderedInstance.new(contentType: 'pdf')
     xmls = content_types[:teis] || OrderedInstance.new(contentType: 'tei')
     jpgs = content_types[:jpgs] || OrderedInstance.new(contentType: 'jpg')
-    # Add representation to work
+
+    # Add files to Basic Files
+    # add these to instances
+    # and add instances to the Work
+
     bf_pdf = BasicFile.new
     bf_xml = BasicFile.new
 
@@ -33,7 +38,16 @@ class LetterVolumeIngest
     pdfs_saved = work.add_instance(pdfs)
     xmls_saved = work.add_instance(xmls)
 
-    unless pdfs_saved && xmls_saved
+    jpgs_array = self.fetch_jpgs(jpg_path)
+    jpgs_array.each do |jpg|
+      bf_jpg = BasicFile.new
+      bf_jpg.add_file(File.new(jpg), true)
+      jpgs.files << bf_jpg
+    end
+    jpgs.save
+    jpgs_saved = work.add_instance(jpgs)
+
+    unless pdfs_saved && xmls_saved && jpgs_saved
       raise 'Could not save to Fedora!'
     end
     # Queue Letter splitter job
@@ -43,9 +57,9 @@ class LetterVolumeIngest
   def self.fetch_jpgs(path_string)
     jpgs = []
     dir = Pathname.new(path_string)
-    dir.each_entry do |entry_path|
+    dir.each_child do |entry_path|
       if entry_path.basename.to_s[-4..-1] == '.jpg'
-        jpgs << entry_path
+        jpgs << entry_path.to_s
       end
     end
     jpgs

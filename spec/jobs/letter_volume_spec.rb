@@ -4,6 +4,8 @@ describe LetterVolumeIngest do
 
   after(:all) do
     Work.all.each {|w| w.delete }
+    OrderedInstance.all.each {|w| w.delete }
+    BasicFile.all.each {|w| w.delete }
   end
 
   describe 'Perform' do
@@ -11,7 +13,8 @@ describe LetterVolumeIngest do
     before :all do
       @fixtures_path = Rails.root.join('spec', 'fixtures', 'brev')
       LetterVolumeIngest.perform(@fixtures_path.join('001003574_000.xml').to_s,
-                                 @fixtures_path.join('001003574_000.pdf').to_s, '')
+                                 @fixtures_path.join('001003574_000.pdf').to_s,
+                                 @fixtures_path.join('001003574_000').to_s)
       @work = Work.find(sysnum_si: '001003574').first
     end
 
@@ -27,9 +30,12 @@ describe LetterVolumeIngest do
     end
 
     it 'should create ordered instances for pdfs, jpgs and xml files' do
+      Work.find(sysnum_si: '001003574').size.should eql 1
       @work.ordered_instance_types.should include :pdfs
       @work.ordered_instance_types.should include :teis
-      #@work.ordered_instance_types.should include :jpgs
+      @work.ordered_instance_types.should include :jpgs
+      jpgs = @work.ordered_instance_types[:jpgs]
+      jpgs.files.length.should eql 4
     end
 
   end
@@ -40,6 +46,7 @@ describe LetterVolumeIngest do
       jpgs = LetterVolumeIngest.fetch_jpgs(fixtures_path.join('001003574_000'))
       jpgs.should be_an Array
       jpgs.length.should eql 4
+      jpgs.first.should be_a String
     end
   end
 
