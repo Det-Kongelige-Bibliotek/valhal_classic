@@ -25,7 +25,7 @@
         <%= builder.text_field :copyright, :class => 'text_field', :value => @adminMetadata.copyright.first %>
 
         <label for="administration_material_group">Material Group</label>
-        <%= select_tag 'material_group', options_for_select(get_material_type_groups), :onchange => 'enableMaterialTypes("' + @work.id + '")', :include_blank => true  %>
+        <%= select_tag 'material_group', options_for_select(get_material_type_groups), :onchange => 'enableMaterialTypes("' + @object.id + '")', :include_blank => true  %>
 
         <!--div id="material_type_div" style="display: none;"-->
           <%= builder.label :material_type, "Material Type" %>
