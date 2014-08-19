@@ -17,7 +17,7 @@ class LetterVolumeIngest
     # if not, create new ones
     content_types = work.ordered_instance_types
     pdfs = content_types[:pdfs] || OrderedInstance.new(contentType: 'pdf')
-    xmls = content_types[:teis] || OrderedInstance.new(contentType: 'tei')
+    xmls = content_types[:docxes] || OrderedInstance.new(contentType: 'docx')
     jpgs = content_types[:jpgs] || OrderedInstance.new(contentType: 'jpg')
 
     # Add files to Basic Files
