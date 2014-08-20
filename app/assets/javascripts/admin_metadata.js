@@ -7,8 +7,6 @@ function enableMaterialTypes(object_id) {
     //var div =$("#material_type_div");
 
     $.ajax({url:"/works/" + object_id +"/get_admin_material_types", format: 'json', success: function(result) {
-        console.log(result);
-
         var selected_material_group = $('#material_group').val().toLowerCase();
 
         $('#administration_material_type').find('option').remove();
