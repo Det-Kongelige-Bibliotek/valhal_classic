@@ -9,7 +9,7 @@ require "resque"
 
 class NewVolumesJob
 
-  PROCCESED_FILES = "letters:ingest:processed_files"
+  PROCESSED_FILES  = "letters:ingest:processed_files"
 
   @queue = :new_letter_volumes
 
@@ -34,9 +34,10 @@ class NewVolumesJob
 
     Dir.glob("#{path}/output/xml/*.xml").each do |fname|
       basename = File.basename(fname,'.xml')
+      Resque.logger.debug "got file #{fname}"
       Resque.logger.debug "got file #{basename}"
 
-      if (redis.hget(PROCCESED_FILES,basename).blank?)
+      if (redis.hget(PROCESSED_FILES ,basename).blank?)
         Resque.logger.info "Processing new file #{basename} "
         pdfpath = "#{path}/output/pdf/#{basename}.pdf"
         Resque.logger.debug "looking for pdf-file #{pdfpath}"
@@ -49,10 +50,10 @@ class NewVolumesJob
 
           begin
             Resque.enqueue(LetterVolumeIngest,fname,pdfpath,jpgpath)
+            redis.hset(PROCESSED_FILES ,basename,"proccessed")
           rescue
             raise "Unable to enque file #{fname} for ingest: #{e.message}"
           end
-          redis.hset(PROCCESED_FILES,basename,"proccessed")
         end
       end
     end
