@@ -7,6 +7,8 @@ module Concerns
 
     included do
       include Concerns::WorkInstanceRelations
+      include Concerns::WorkWorkRelations
+
       has_metadata :name => 'descMetadata', :type => Datastreams::WorkDescMetadata
 
       # List of non-multiple key-value pairs
@@ -89,7 +91,14 @@ module Concerns
       # @param *arg The arguments
       # @return The note elements.
       def note(*arg)
-        self.descMetadata.get_note
+        self.descMetadata.get_noteit "should be possible to define the next work in sequence" do
+      @work1.next_in_sequence = @work2;
+      @work1.save
+      @work1.reload
+
+      @work1.next_in_sequence.should == @work2
+      @work2.previous_in_sequence.shold == @work1
+    end
       end
 
       # Set the note elements.
