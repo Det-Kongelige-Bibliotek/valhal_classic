@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+require 'RMagick'
 
 class TiffFile < ActiveFedora::Base
   include Concerns::GenericFile
@@ -13,8 +14,17 @@ class TiffFile < ActiveFedora::Base
     valid = super(file, skip_file_characterisation)
     if(valid)
       self.save!
+      self.create_thumbnail(file)
     end
     valid
   end
 
+  def create_thumbnail(file)
+    thumb = Magick::Image.read(file.tempfile.path)[0]
+    thumb.format = "PNG"
+    thumb.resize_to_fill!(100)
+
+    self.add_file_datastream(thumb.to_blob, :label => file.original_filename.to_s + "_thumbnail.png", :mimeType => "image/png", :dsid => 'thumbnail')
+    self.save!
+  end
 end
