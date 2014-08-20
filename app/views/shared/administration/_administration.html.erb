@@ -32,8 +32,6 @@
           <%= builder.select 'material_type', options_for_select([@adminMetadata.material_type.first]), :value => @adminMetadata.material_type.first%>
         <!--/div-->
 
-        <%#= builder.text_field :material_type, :class => 'text_field', :value => @adminMetadata.material_type.first %>
-
         <%= builder.label :availability, "Availability" %>
         <%= builder.text_field :availability, :class => 'text_field', :value => @adminMetadata.availability.first %>
 
