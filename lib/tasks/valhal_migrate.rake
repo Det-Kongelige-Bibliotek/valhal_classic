@@ -100,10 +100,12 @@ namespace :valhal_migrate do
       rep = ActiveFedora::Base.find(k, :cast=>false)
       search_start = rep.datastreams['RELS-EXT'].content.index(':hasSubset')
       search_end = rep.datastreams['RELS-EXT'].content.index('hasSubset>')
-      bw_id = rep.datastreams['RELS-EXT'].content[search_start + 37, (search_end - search_start) - 45]
-      if book_and_works.include?(bw_id)
-        res[bw_id] = [] if res[bw_id].nil?
-        res[bw_id] << {k => v}
+      unless search_start.nil? || search_end.nil?
+        bw_id = rep.datastreams['RELS-EXT'].content[search_start + 37, (search_end - search_start) - 45]
+        if book_and_works.include?(bw_id)
+          res[bw_id] = [] if res[bw_id].nil?
+          res[bw_id] << {k => v}
+        end
       end
     end
     res
