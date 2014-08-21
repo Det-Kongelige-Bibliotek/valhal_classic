@@ -99,8 +99,10 @@
     ########################################################
 
     :next_in_sequence: nextInSequence
-
     :previous_in_sequence: previousInSequence
+    # Relationship between a work and its constituent works
+    :is_part_of: isPartOf
+    :has_parts: hasParts
 
 
   info:fedora/fedora-system:def/relations-external#:
