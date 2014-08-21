@@ -20,6 +20,26 @@ module Concerns
         part.is_part_of = self
         self.save
       end
+
+      # Add relationship to a previous
+      # work and set the previous work's
+      # next work to the current work
+      # @param Work
+      def add_previous(work)
+        self.save unless self.pid
+        work.save unless work.pid
+        self.previousInSequence = work
+        work.nextInSequence << self
+      end
+
+      # reverse of add_previous
+      # @param Work
+      def add_next(work)
+        self.save unless self.pid
+        work.save unless work.pid
+        work.previousInSequence = self
+        self.nextInSequence << work
+      end
     end
 
   end
