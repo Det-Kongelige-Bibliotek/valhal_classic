@@ -28,6 +28,7 @@ test:
       confidentiality: 'Minimum confidentiality (public accessible through the Internet)'
       yggdrasil: 'true'
 
+# For now unused profiles are commented out.
 production:
   preservation_profile:
     storage:
@@ -40,26 +41,26 @@ production:
       bit_safety: 'bitSafetyVeryHigh'
       confidentiality: 'confidentialityMedium'
       yggdrasil: 'true'
-    B:
-      name: 'B: Pligtafleveret digitalt født materiale, som også er i Netarkivet'
-      bit_safety: 'bitSafetyLow'
-      confidentiality: 'confidentialityMin'
-      yggdrasil: 'true'
-    C:
-      name: 'C: Mediekonverterede pligtafleverede samlinger'
-      bit_safety: 'bitSafetyVeryHigh'
-      confidentiality: 'confidentialityMedium'
-      yggdrasil: 'true'
-    D:
-      name: 'D: Født digitalt samlings- materiale som ikke er fortroligt'
-      bit_safety: 'bitSafetyVeryHigh'
-      confidentiality: 'confidentialityMedium'
-      yggdrasil: 'true'
-    E:
-      name: 'E: Født digitalt samlings materiale som er fortroligt'
-      bit_safety: 'bitSafetyVeryHigh'
-      confidentiality: 'confidentialityMedium'
-      yggdrasil: 'true'
+#    B:
+#      name: 'B: Pligtafleveret digitalt født materiale, som også er i Netarkivet'
+#      bit_safety: 'bitSafetyLow'
+#      confidentiality: 'confidentialityMin'
+#      yggdrasil: 'true'
+#    C:
+#      name: 'C: Mediekonverterede pligtafleverede samlinger'
+#      bit_safety: 'bitSafetyVeryHigh'
+#      confidentiality: 'confidentialityMedium'
+#      yggdrasil: 'true'
+#    D:
+#      name: 'D: Født digitalt samlings- materiale som ikke er fortroligt'
+#      bit_safety: 'bitSafetyVeryHigh'
+#      confidentiality: 'confidentialityMedium'
+#      yggdrasil: 'true'
+#    E:
+#      name: 'E: Født digitalt samlings materiale som er fortroligt'
+#      bit_safety: 'bitSafetyVeryHigh'
+#      confidentiality: 'confidentialityMedium'
+#      yggdrasil: 'true'
     F:
       name: 'F: Substitutions-digitaliseret samlings-materiale (som ikke er fortroligt)'
       bit_safety: 'bitSafetyVeryHigh'
@@ -80,23 +81,23 @@ production:
       bit_safety: 'bitSafetyVeryHigh'
       confidentiality: 'confidentialityMedium'
       yggdrasil: 'true'
-    J:
-      name: 'J: Formidlings digitaliseringsprojekter'
-      bit_safety: 'bitSafetyLow'
-      confidentiality: 'confidentialityMin'
-      yggdrasil: 'true'
+#    J:
+#      name: 'J: Formidlings digitaliseringsprojekter'
+#      bit_safety: 'bitSafetyLow'
+#      confidentiality: 'confidentialityMin'
+#      yggdrasil: 'true'
     K:
       name: 'K: Digitaliseringsprojekter hvor originaler haves (Simonsens breve, ADL, foto, BC54)'
       bit_safety: 'bitSafetyMedium'
       confidentiality: 'confidentialityMedium'
       yggdrasil: 'true'
-    L:
-      name: 'L: Hemmelige samlinger'
-      bit_safety: 'bitSafetyMedium'
-      confidentiality: 'confidentialityVeryHigh'
-      yggdrasil: 'true'
-    M:
-      name: 'M: Top hemmelige samlinger'
-      bit_safety: 'bitSafetyMedium'
-      confidentiality: 'confidentialityVeryHigh'
-      yggdrasil: 'true'
+#    L:
+#      name: 'L: Hemmelige samlinger'
+#      bit_safety: 'bitSafetyMedium'
+#      confidentiality: 'confidentialityVeryHigh'
+#      yggdrasil: 'true'
+#    M:
+#      name: 'M: Top hemmelige samlinger'
+#      bit_safety: 'bitSafetyMedium'
+#      confidentiality: 'confidentialityVeryHigh'
+#      yggdrasil: 'true'
