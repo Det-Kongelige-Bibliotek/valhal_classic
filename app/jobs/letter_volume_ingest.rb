@@ -70,7 +70,7 @@ class LetterVolumeIngest
       w = existing.first
       Resque.logger.debug "existing work found with PID #{w.pid}"
     else
-      w = Work.new
+      w = Work.new(workType: 'Book')
       w.identifier=([{'displayLabel' => 'sysnum', 'value' => sysnum }])
       w.save
       Resque.logger.debug "no matching work found - work created with PID #{w.pid}"
