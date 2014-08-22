@@ -30,12 +30,15 @@ describe LetterVolumeIngest do
     end
 
     it 'should create ordered instances for pdfs, jpgs and xml files' do
-      Work.find(sysnum_si: '001003574').size.should eql 1
       @work.ordered_instance_types.should include :pdfs
-      @work.ordered_instance_types.should include :teis
+      @work.ordered_instance_types.should include :docxes
       @work.ordered_instance_types.should include :jpgs
       jpgs = @work.ordered_instance_types[:jpgs]
       jpgs.files.length.should eql 4
+    end
+
+    it 'should have a work type Book' do
+      @work.workType.should eql 'Book'
     end
 
   end

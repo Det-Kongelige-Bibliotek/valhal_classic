@@ -17,7 +17,7 @@ class LetterVolumeIngest
     # if not, create new ones
     content_types = work.ordered_instance_types
     pdfs = content_types[:pdfs] || OrderedInstance.new(contentType: 'pdf')
-    xmls = content_types[:teis] || OrderedInstance.new(contentType: 'tei')
+    xmls = content_types[:docxes] || OrderedInstance.new(contentType: 'docx')
     jpgs = content_types[:jpgs] || OrderedInstance.new(contentType: 'jpg')
 
     # Add files to Basic Files
@@ -50,8 +50,7 @@ class LetterVolumeIngest
     unless pdfs_saved && xmls_saved && jpgs_saved
       raise 'Could not save to Fedora!'
     end
-    # Queue Letter splitter job
-
+    Resque.logger.info "Work #{work.pid} saved with filetypes #{work.ordered_instance_types.keys.to_s}"
   end
 
   def self.fetch_jpgs(path_string)
@@ -69,9 +68,12 @@ class LetterVolumeIngest
     existing = Work.find('sysnum_si' => sysnum)
     if existing.size > 0
       w = existing.first
+      Resque.logger.debug "existing work found with PID #{w.pid}"
     else
-      w = Work.new
+      w = Work.new(workType: 'Book')
       w.identifier=([{'displayLabel' => 'sysnum', 'value' => sysnum }])
+      w.save
+      Resque.logger.debug "no matching work found - work created with PID #{w.pid}"
     end
     w
   end

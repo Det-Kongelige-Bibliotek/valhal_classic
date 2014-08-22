@@ -101,6 +101,12 @@ RSpec.configure do |config|
     @admin = FactoryGirl.create(:admin)
     controller.stub(:current_user).and_return(@admin)
   end
+
+  def delete_all_objects
+    Work.all.each {|w| w.delete }
+    OrderedInstance.all.each {|w| w.delete }
+    BasicFile.all.each {|w| w.delete }
+  end
 end
 
 
