@@ -19,11 +19,15 @@ class LetterVolumeSplitter
 
     prev_letter = nil
     divs.each do |div|
-    # create a new letter work with the metadata
-    # letter is part of work
-    # say previous one.next = this one
-    # this one.previous = last one
-    # last_one = this.one
+      # create a new letter work with the metadata
+      data = self.parse_data(div)
+      letter = Work.new(workType: 'Letter')
+      letter.note = [data[:note]] if data[:note]
+      letter.dateCreated = data[:date] if data[:date]
+      letter.identifier= [{'displayLabel' => 'teiRef', 'value' => data[:id]}] if data[:id]
+      master_work.add_part(letter)
+      letter.add_previous(prev_letter) unless prev_letter.nil?
+      prev_letter = letter
     end
 
 
@@ -79,7 +83,7 @@ class LetterData
   end
 
   def date
-    @div.css('date').first.text
+    @div.css('date').first.text if @div.css('date').length > 0
   end
 
   def body
@@ -87,19 +91,22 @@ class LetterData
   end
 
   def note
-    @div.css('note').first.text
+    if @div.css('note').length > 0
+      val = @div.css('note').first.text
+      {displayLabel: 'noteFromText', value: val}
+    end
   end
 
   def sender_name
-    @div.css('persName[type="sender"]').first.text
+    @div.css('persName[type="sender"]').first.text if @div.css('persName[type="sender"]').length > 0
   end
 
   def recipient_name
-    @div.css('address name').first.text
+    @div.css('address name').first.text if @div.css('address name').length > 0
   end
 
   def sender_address
-    @div.css('placeName[type="sender"]').first.text
+    @div.css('placeName[type="sender"]').first.text if @div.css('placeName[type="sender"]').length > 0
   end
 
   # If we have duplicate date or recipient fields we
