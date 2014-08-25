@@ -13,30 +13,63 @@ class LetterVolumeSplitter
     raise "Work with pid #{work_pid} not found!" unless master_work
     raise "BasicFile with pid #{xml_pid} not found!" unless xml
 
-    # Get BasicFile content as file,
-    transformed = self.transform(xml.content.content)
-    divs = transformed.css('text body div')
+    tei = self.transform(xml.content.content)
+    self.parse_letters(tei, master_work)
+  end
 
+  # Given a tei xml doc, create a work
+  # for each letter with a relation to
+  # a given master work
+  # @param Nokogiri::XML::Element
+  # @param Work master_work
+  def self.parse_letters(tei, master_work)
+    divs = tei.css('text body div')
+
+    # Create Works for each letter with relations
+    # to the previous letter and the master work
     prev_letter = nil
     divs.each do |div|
-      # create a new letter work with the metadata
-      data = self.parse_data(div)
-      letter = Work.new(workType: 'Letter')
-      letter.note = [data[:note]] if data[:note]
-      letter.dateCreated = data[:date] if data[:date]
-      letter.identifier= [{'displayLabel' => 'teiRef', 'value' => data[:id]}] if data[:id]
-      master_work.add_part(letter)
-      letter.add_previous(prev_letter) unless prev_letter.nil?
-      prev_letter = letter
+      prev_letter = self.create_letter(div, prev_letter, master_work)
     end
+  end
 
-
+  # Given an xml element representing a
+  # TEI div - create a letter work with
+  # a relation to the previous work and the
+  # master work
+  # @param Nokogiri::XML::Element
+  # @param Work prev_letter
+  # @param Work master_work
+  # @return Work (the new letter)
+  def self.create_letter(xml, prev_letter, master_work)
+    data = self.parse_data(xml)
+    letter = Work.new(workType: 'Letter')
+    letter.note = [data[:note]] if data[:note]
+    letter.dateCreated = data[:date] if data[:date]
+    letter.identifier= [{'displayLabel' => 'teiRef', 'value' => data[:id]}] if data[:id]
+    if data[:sender_name]
+      author = AuthorityMetadataUnit.create(type: 'agent/person', value: data[:sender_name])
+      letter.hasAuthor << author
+    end
+    if data[:recipient_name]
+      recipient = AuthorityMetadataUnit.create(type: 'agent/person', value: data[:recipient_name])
+      letter.hasAddressee << recipient
+    end
+    if data[:sender_address]
+      sender_address = AMUFinderService.find_or_create_place(data[:sender_address], '')
+      letter.hasOrigin << sender_address
+    end
+    master_work.add_part(letter)
+    letter.add_previous(prev_letter) unless prev_letter.nil?
+    letter.save
+    letter
   end
 
   # Given a File object representing
   # a TEI XML, perform an XSLT
   # transform on it.
   # @param File
+  # @return Nokogiri::XML::Document
   def self.transform(file)
     doc = Nokogiri::XML(file)
     xslt = File.read(Rails.root.join('xslt', 'docx2tei.xsl').to_s)

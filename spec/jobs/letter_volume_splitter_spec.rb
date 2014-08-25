@@ -1,5 +1,11 @@
 require 'spec_helper'
 
+# Note that most test functionality has been moved
+# into parse_letters below - this is because the perform method
+# takes a docxml file which we don't know how to split up.
+# Instead we take a smaller tei file and test the parsing methods
+# using that. For this reason, the perform test is set to pending.
+
 describe 'perform' do
 
   before {
@@ -18,9 +24,10 @@ describe 'perform' do
     @work.add_instance(o)
 
     LetterVolumeSplitter.perform(@work.pid, bf.pid)
+
   end
 
-  after(:all) do
+  after :all do
     delete_all_objects
   end
 
@@ -28,15 +35,47 @@ describe 'perform' do
     expect { LetterVolumeSplitter.perform('reallynotapid', '')}.to raise_error
   end
 
+end
+describe 'parse letters' do
+
+  before :all do
+    doc = Nokogiri::XML(File.open(Rails.root.join('spec', 'fixtures', 'brev', 'small-tei.xml')))
+    @work = Work.create(title: 'some stupid fucking test work')
+    LetterVolumeSplitter.parse_letters(doc, @work)
+    @letters = Work.find(search_result_work_type_ssi: 'Letter')
+    @letter = Work.find(teiRef_si: 'divid136080').first
+  end
+
+  after :all do
+    delete_all_objects
+  end
+
   it 'should create a letter work for each div within the tei file' do
-    letters = Work.find(search_result_work_type_ssi: 'Letter')
-    letters.size.should eql 45
-    l = letters[12]
+    @letters.size.should eql 2
+    l = @letters[1]
     l.is_part_of.should == @work
     prev = l.previousInSequence
     prev.nextInSequence.should == [l]
   end
 
+  it 'should create an authority metadata unit for the author' do
+    @letters[1].hasAuthor.should_not be_empty
+    @letters[1].hasAuthor.first.should be_an AuthorityMetadataUnit
+    @letters[1].hasAuthor.first.type.should eql 'agent/person'
+  end
+
+  it 'should create an authority metadata unit for the recipient' do
+    @letter.should_not be_nil
+    @letter.hasAddressee.first.should be_an AuthorityMetadataUnit
+    @letter.hasAddressee.first.value.should eql 'CHR. RICHARD'
+  end
+
+  it 'should create an authority metadata unit for the sender address' do
+    origin = @letter.hasOrigin.first
+    origin.should be_an AuthorityMetadataUnit
+    origin.type.should eql 'place'
+    origin.value.should eql 'København'
+  end
 end
 
 describe 'parse_metadata' do
