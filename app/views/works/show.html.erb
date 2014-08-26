@@ -12,11 +12,31 @@
                 <% for i in 0...relation[1].length %>
                     <%= link_to relation[1][i].value, authority_metadata_unit_path(relation[1][i]) %>
                       <% if relation[1][i] != relation[1].last %>|<% end %>
+                  <% end %>
                 <% end %>
-            <% end %>
             </td>
           </tr>
     <% end %>
+  <% end %>
+
+  <%# Shows work work relations, including multi-work relations such as hasParts %>
+  <% @work.get_work_relations.each do |label, value| %>
+     <% if displayable?(value) %>
+     <tr>
+       <td><b><%= t label %></b></td>
+       <% if value.class == Array %>
+        <% value.each do |val| %>
+          <td style="display:block">
+            <%= link_to(val.get_title_for_display, work_path(val)) %>
+          </td>
+        <% end %>
+        <% else value %>
+          <td>
+            <%= link_to(value.get_title_for_display, work_path(value)) %>
+          </td>
+        <% end %>
+     </tr>
+     <% end %>
   <% end %>
 
   <tr><td><b>Type of resource</b></td><td><%= @work.typeOfResource %></td></tr>

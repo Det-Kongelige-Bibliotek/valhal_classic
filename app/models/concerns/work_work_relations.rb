@@ -42,5 +42,14 @@ module Concerns
       end
     end
 
+
+    def get_work_relations
+      rels = {}
+      rels[:nextInSequence] = self.nextInSequence.first
+      rels[:previousInSequence] = self.previousInSequence
+      rels[:hasParts] = self.parts
+      rels[:isPartOf] = self.is_part_of
+      rels
+    end
   end
 end
