@@ -29,9 +29,10 @@ module Concerns
         m.field "created", :string
         m.field "last_accessed", :string
         m.field "file_uuid", :string
+        m.field "editable", :string
       end
 
-      has_attributes :last_modified, :created, :last_accessed, :original_filename, :mime_type, :file_uuid,
+      has_attributes :last_modified, :created, :last_accessed, :original_filename, :mime_type, :file_uuid, :editable,
                      datastream: 'techMetadata', :multiple => false
       # TODO have more than one checksum (both MD5 and SHA), and specify their checksum algorithm.
       has_attributes :checksum, datastream: 'techMetadata', :at => [:file_checksum], :multiple => false
@@ -63,6 +64,23 @@ module Concerns
       file ? add_file(file, true) : false
       FileUtils.remove_file(file.path)
     end
+
+    #
+    # Update Content
+    #
+    def update_content(content)
+       self.datastreams["content"].content = content
+       tmpfile = Tempfile.new(self.original_filename)
+       tmpfile.write content
+       tmpfile.flush
+       set_file_timestamps(tmpfile)
+       self.checksum = generate_checksum(tmpfile)
+       self.size = tmpfile.size
+       self.save
+       ensure
+          tmpfile.unlink   # deletes the temp file
+    end
+
 
     # Adds a content datastream to the object and generate techMetadata for the basic_files
     # basic_files may either be File or UploadedFile objects.

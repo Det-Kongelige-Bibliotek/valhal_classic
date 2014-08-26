@@ -15,6 +15,8 @@ Valhal::Application.routes.draw do
     member do
       get 'show'
       get 'download'
+      get 'edit'
+      patch 'update'
       get 'preservation'
       patch 'characterize_file'
       patch 'update_preservation_profile'

@@ -10,6 +10,16 @@ class BasicFilesController < ApplicationController
     @file = BasicFile.find(params[:id])
   end
 
+  def update
+    @file = BasicFile.find(params[:id])
+    @file.update_content(params[:content])
+    render action: 'show'
+  end
+
+  def edit
+    @file = BasicFile.find(params[:id])
+  end
+
   def characterize_file
     @file = BasicFile.find(params[:id])
     begin

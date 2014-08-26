@@ -26,6 +26,21 @@ describe BasicFilesController do
     login_admin
   end
 
+describe 'Update Content' do
+    before :all do
+      @file = BasicFile.new
+      @file.add_file(File.new('/home/nkh/myxmlbook.xml'), true)
+    end
+    
+    it 'should update the content' do
+      @file.update_content('This is the new content')
+      @file.reload
+      @file.datastreams["content"].content.should == 'This is the new content'    
+    end
+  end
+
+
+
   describe 'GET show' do
     it 'assigns the requested file as @file' do
       file = create_basic_file(nil)
