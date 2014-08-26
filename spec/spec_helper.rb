@@ -106,6 +106,7 @@ RSpec.configure do |config|
     Work.all.each {|w| w.delete }
     OrderedInstance.all.each {|w| w.delete }
     BasicFile.all.each {|w| w.delete }
+    AuthorityMetadataUnit.all.each {|w| w.delete}
   end
 end
 
