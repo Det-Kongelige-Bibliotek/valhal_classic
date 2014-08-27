@@ -43,10 +43,12 @@ class Work < ActiveFedora::Base
   # Delivers the title and subtitle in a format for displaying.
   # Should only include the subtitle, if it has been defined.
   def get_title_for_display
-    if subTitle == nil || subTitle.empty?
-      return title
+    if title.empty? && workType == 'Letter'
+      letter_display_title
+    elsif subTitle == nil || subTitle.empty?
+      title
     else
-      return title + ", " + subTitle
+      title + ", " + subTitle
     end
   end
 
@@ -87,6 +89,12 @@ class Work < ActiveFedora::Base
     instance.ie = self
     self.instances << instance
     instance.save && self.save
+  end
+
+  # Create a suitable translateable display title for letter works
+  def letter_display_title
+    I18n.t(:letter_title, author: self.hasAuthor.first.value,
+           addressee: self.hasAddressee.first.value, date: self.dateCreated)
   end
 
 end
