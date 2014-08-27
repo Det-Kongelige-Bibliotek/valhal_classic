@@ -71,7 +71,7 @@
 
     <!-- Here we transform the raw tei -->
     <xsl:choose>
-      <xsl:when test="1">
+      <xsl:when test="0">
 	<xsl:apply-templates  select="exsl:node-set($rtei)/*"/>
       </xsl:when>
       <xsl:otherwise>
@@ -212,7 +212,9 @@
 
   <xsl:template match="t:p">
     <xsl:if test="t:pb">
-      <xsl:element name="pb"/>
+      <xsl:element name="pb">
+	<xsl:copy-of select="@*"/>
+      </xsl:element>
     </xsl:if>
     <p>
       <xsl:apply-templates select="t:milestone"/> 
@@ -290,7 +292,11 @@
 
   <xsl:template mode="raw" match="w:r">
     <xsl:if test="w:lastRenderedPageBreak">
-      <pb/>
+      <xsl:element name="pb">
+	<xsl:attribute name="n">
+	  <xsl:value-of select="count(preceding::w:r[w:lastRenderedPageBreak])"/>
+	</xsl:attribute>
+      </xsl:element>
     </xsl:if>
     <xsl:call-template name="make_milestones"/>
     <span>

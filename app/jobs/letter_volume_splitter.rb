@@ -43,7 +43,8 @@ class LetterVolumeSplitter
   # @return Work (the new letter)
   def self.create_letter(xml, prev_letter, master_work)
     data = self.parse_data(xml)
-    letter = Work.new(workType: 'Letter')
+    letter = Work.new
+    letter.workType = 'Letter'
     letter.note = [data[:note]] if data[:note]
     letter.dateCreated = data[:date] if data[:date]
     letter.identifier= [{'displayLabel' => 'teiRef', 'value' => data[:id]}] if data[:id]

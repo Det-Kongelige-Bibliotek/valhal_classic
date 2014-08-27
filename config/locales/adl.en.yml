@@ -9,4 +9,5 @@ en:
         new_authority_metadata_unit: "New AuthorityMetadataUnit"
       general:
         confirmation: "Are you sure?"
-
+  hasParts: Has parts
+  letter_title: "Letter from %{author} to %{addressee}, %{date}"
