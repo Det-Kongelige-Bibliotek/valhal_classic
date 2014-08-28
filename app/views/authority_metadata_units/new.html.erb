@@ -39,6 +39,36 @@
                 [lastname], [firstname] ([date of birth] - [date of death]), title
               </p>
 
+              <div class="control-group person-fields hidden">
+                <%= f.label :givenName, "Given name", :class=>'control-label' %>
+                <div class="controls">
+                  <%= f.text_field :givenName, :placeholder => "Given name", :class=>'input-block-level' %>
+                </div>
+              </div>
+
+              <div class="control-group person-fields hidden">
+                <%= f.label :surname, "Surname", :class=>'control-label' %>
+                <div class="controls">
+                  <%= f.text_field :surname, :placeholder => "Surname", :class=>'input-block-level' %>
+                </div>
+              </div>
+
+
+              <div class="control-group person-fields hidden">
+                <%= f.label :dateOfBirth, "Date of birth", :class=>'control-label' %>
+                <div class="controls">
+                  <%= f.text_field :dateOfBirth, :placeholder => "Date of birth", :class=>'input-block-level' %>
+                </div>
+              </div>
+
+              <div class="control-group person-fields hidden">
+                <%= f.label :dateOfDeath, "Date of death", :class=>'control-label' %>
+                <div class="controls">
+                  <%= f.text_field :dateOfDeath, :placeholder => "Date of death", :class=>'input-block-level' %>
+                </div>
+              </div>
+
+
               <div class="control-group">
                 <%= f.label :value, "Value", :class=>'control-label' %>
                 <div class="controls">

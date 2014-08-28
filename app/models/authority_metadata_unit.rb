@@ -31,6 +31,16 @@ class AuthorityMetadataUnit < ActiveFedora::Base
     StringHelper.remove_special_characters(value)
   end
 
+  def display_value
+    if value.empty? && type == 'agent/person'
+      display = "#{surname}, #{givenName} #{dateOfBirth}"
+      display += " - #{dateOfDeath}" unless dateOfDeath.empty?
+    else
+      display = value
+    end
+    display
+  end
+
   # The fields for the SOLR index.
   has_solr_fields do |m|
     # Fields from DescMetadata
@@ -38,5 +48,19 @@ class AuthorityMetadataUnit < ActiveFedora::Base
     m.field 'amu_type', method: :type, :index_as => [:string, :stored, :indexed]
     m.field 'amu_value', method: :get_value_without_special_characters, :index_as => [:string, :stored, :indexed]
     m.field 'amu_reference', method: :reference, :index_as => [:string, :stored, :indexed, :multivalued]
+  end
+
+  def all_attributes
+    attr = {}
+    attr[:type] = type
+    if type == 'agent/person'
+      attr[:givenName] = givenName
+      attr[:surname] = surname
+      attr[:dateOfBirth] = dateOfBirth
+      attr[:dateOfDeath] = dateOfDeath
+    else
+      attr[:value] = value
+    end
+    attr
   end
 end
