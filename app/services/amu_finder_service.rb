@@ -20,12 +20,18 @@ module AMUFinderService
   end
 
   def self.find_or_create_person(givenName = "", surname = "", dob = "", dod = "")
-    search = AuthorityMetadataUnit.find_with_conditions("amu_type_ssi:\"agent/person\" && amu_value_ssi:\"#{StringHelper.remove_special_characters(name)}\"").first
-    if search.nil?
-      AuthorityMetadataUnit.create(type: 'agent/person', givenName: givenName, reference: ref)
-    else
-      AuthorityMetadataUnit.find(search['id'])
+    terms = {}
+    terms[:givenName_tesim] = givenName unless givenName.empty?
+    terms[:surname_tesim] = surname unless surname.empty?
+    terms[:dateOfBirth_tesim] = dob unless dob.empty?
+    terms[:dateOfDeath_tesim] = dod unless dod.empty?
+    if terms.size > 0
+      matching_person = AuthorityMetadataUnit.find(terms).first
+      return matching_person unless matching_person.nil?
     end
+    AuthorityMetadataUnit.create(
+          type: 'agent/person', givenName: givenName, surname: surname, dateOfBirth: dob, dateOfDeath: dod
+    )
   end
 
   # Finds or creates a AuthorityMetadataUnit with type agent/organization.
