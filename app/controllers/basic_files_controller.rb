@@ -5,23 +5,22 @@ class BasicFilesController < ApplicationController
 
   authorize_resource
 
+  before_action :set_basic_files, only: [:show, :update, :edit, :characterize_file, :update_preservation_profile, :preservation, :download]
+
+
   # Retrieves the basic file for the show view
   def show
-    @file = BasicFile.find(params[:id])
   end
 
   def update
-    @file = BasicFile.find(params[:id])
     @file.update_content(params[:content])
     render action: 'show'
   end
 
   def edit
-    @file = BasicFile.find(params[:id])
   end
 
   def characterize_file
-    @file = BasicFile.find(params[:id])
     begin
       tmpfile = Tempfile.new(@file.original_filename)
       begin
@@ -50,7 +49,6 @@ class BasicFilesController < ApplicationController
 
   # Updates the preservation profile metadata.
   def update_preservation_profile
-    @file = BasicFile.find(params[:id])
     begin
       notice = update_preservation_profile_from_controller(params, @file)
       redirect_to @file, notice: notice
@@ -67,7 +65,6 @@ class BasicFilesController < ApplicationController
 
   # Retrieves the basic file for the preservation view
   def preservation
-    @file = BasicFile.find(params[:id])
   end
 
   # Retrieve the content file for a given BasicFile.
@@ -75,7 +72,6 @@ class BasicFilesController < ApplicationController
   # If something goes wrong service-side, then a 500 is returned.
   def download
     begin
-      @file = BasicFile.find(params[:id])
       send_data @file.content.content, {:filename => @file.original_filename, :type => @file.mime_type}
     rescue ActiveFedora::ObjectNotFoundError => obj_not_found
       flash[:error] = 'The basic_files you requested could not be found in Fedora! Please contact your system administrator'
@@ -86,5 +82,9 @@ class BasicFilesController < ApplicationController
       logger.error standard_error.to_s
       render text: standard_error.to_s, status: 500
     end
+  end
+
+  def set_basic_files
+    @file = BasicFile.find(params[:id])
   end
 end
