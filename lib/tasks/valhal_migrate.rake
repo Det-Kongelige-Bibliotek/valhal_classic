@@ -24,6 +24,7 @@ namespace :valhal_migrate do
     tei_files = []
     reps = []
     people = []
+    failed = {}
     ActiveFedora::Base.all.each do |b|
       if b.datastreams['RELS-EXT'].content.include?('info:fedora/afmodel:Book')
         book_and_works << b.pid
@@ -49,8 +50,15 @@ namespace :valhal_migrate do
     people_relations = extract_people_relations(people)
 
     migrated_people = Hash.new
+    failed[:people] = []
     people.each do |p|
-      migrated_people[p] = migrate_people(p)
+      begin
+        migrated_people[p] = migrate_people(p)
+      rescue => e
+        failed[:people] << p
+        logger.error "could not migrate person #{p}"
+        logger.error e
+      end
     end
 
     tei_files.each do |f|
@@ -62,8 +70,15 @@ namespace :valhal_migrate do
     book_work_relations = extract_work_book_relations_to_reps(book_and_works, rep_files)
 
     migrated_works = Hash.new
+    failed[:works]
     book_and_works.each do |b|
-      migrated_works[b] = migrate_book_or_work(b, book_work_relations[b])
+      begin
+        migrated_works[b] = migrate_book_or_work(b, book_work_relations[b])
+      rescue => e
+        failed[:works] << b
+        logger.error "could not migrate book or work #{b}"
+        logger.error e
+      end
     end
 
     books.each do |book|
@@ -79,12 +94,18 @@ namespace :valhal_migrate do
 
     legacy = []
     legacy = book_and_works + reps + people
-
+    failed[:deletes] = []
     legacy.each do |l|
-      lbase = ActiveFedora::Base.find(l, :cast=>false)
-      lbase.delete
+      begin
+        lbase = ActiveFedora::Base.find(l, :cast=>false)
+        lbase.delete
+      rescue => e
+        failed[:deletes] << l
+        logger.error "could not migrate legacy work #{l}"
+      end
     end
 
+    File.new('failed.txt', 'wb').write(failed.to_s)
   end
 
   # Extracts a hash containing the relation between works/books and representations (with their relations to files).
@@ -204,14 +225,9 @@ namespace :valhal_migrate do
     date_of_birth = pxml.css("//fields/date_of_birth").text
     date_of_death = pxml.css("//fields/date_of_death").text
 
-    dv = 'Ukendt'
-    if lastname.blank?
-      lastname = dv
-    end
+    lastname = 'Ukendt' if lastname.blank?
 
-    name = "#{lastname}, #{firstname} (#{date_of_birth} - #{date_of_death})"
-
-    AMUFinderService.find_or_create_agent_person(name, [])
+    AMUFinderService.find_or_create_person(firstname, lastname, date_of_birth, date_of_death)
   end
 
   def insert_relations(migrated_works, migrated_people, relations)
