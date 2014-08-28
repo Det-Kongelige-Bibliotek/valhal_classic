@@ -1,23 +1,38 @@
 namespace :valhal_migrate do
+  logger = ActiveSupport::TaggedLogging.new(Logger.new("./log/#{ENV['RAILS_ENV']}.log"))
   desc "Add file_uuid to all BasicFile objects"
   task :file_uuid => :environment do
+    logger.tagged('MIGRATE_FILE_UUID') { logger.debug 'Starting addition of file_uuid to BasicFile objects...'}
     BasicFile.all.each do |bf|
       if bf.file_uuid.blank?
-        bf.file_uuid = UUID.new.generate
-        bf.save!
+        begin
+          bf.file_uuid = UUID.new.generate
+          bf.save!
+        rescue Exception => e
+          logger.tagged('MIGRATE_FILE_UUID') { logger.error e }
+          break
+        end
       end
     end
     TiffFile.all.each do |tf|
       if tf.file_uuid.blank?
-        tf.file_uuid = UUID.new.generate
-        tf.save!
+        begin
+          tf.file_uuid = UUID.new.generate
+          tf.save!
+        rescue Exception => e
+          logger.tagged('MIGRATE_FILE_UUID') { logger.error e }
+          break
+        end
       end
     end
+    logger.tagged('MIGRATE_FILE_UUID') { logger.debug 'Finished addition of file_uuid to BasicFile objects'}
   end
 
   desc 'Move from current model to the new conceptual model.'
   task :conceptual_model => :environment do
 
+    logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.debug 'Starting migration to new data model...'}
+    
     book_and_works = []
     books = []
     files = []
@@ -56,8 +71,8 @@ namespace :valhal_migrate do
         migrated_people[p] = migrate_people(p)
       rescue => e
         failed[:people] << p
-        logger.error "could not migrate person #{p}"
-        logger.error e
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error "could not migrate person #{p}" }
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error e }
       end
     end
 
@@ -76,8 +91,8 @@ namespace :valhal_migrate do
         migrated_works[b] = migrate_book_or_work(b, book_work_relations[b])
       rescue => e
         failed[:works] << b
-        logger.error "could not migrate book or work #{b}"
-        logger.error e
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error "could not migrate book or work #{b}" }
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error e }
       end
     end
 
@@ -101,11 +116,12 @@ namespace :valhal_migrate do
         lbase.delete
       rescue => e
         failed[:deletes] << l
-        logger.error "could not migrate legacy work #{l}"
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error "could not migrate legacy work #{l}" }
       end
     end
 
     File.new('failed.txt', 'wb').write(failed.to_s)
+    logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.debug 'Finished migration to new data model.'}
   end
 
   # Extracts a hash containing the relation between works/books and representations (with their relations to files).
