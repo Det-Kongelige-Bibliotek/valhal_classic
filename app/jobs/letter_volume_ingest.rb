@@ -1,4 +1,5 @@
 class LetterVolumeIngest
+  include WorkHelper
 
   @queue = :letter_volume_ingest
   
@@ -31,9 +32,13 @@ class LetterVolumeIngest
     pdfs.files << bf_pdf
     pdfs.save
 
+    create_structmap(pdfs)
+
     bf_xml.add_file(File.new(xml_path), true)
     xmls.files << bf_xml
     xmls.save
+
+    create_structmap(xmls)
 
     pdfs_saved = work.add_instance(pdfs)
     xmls_saved = work.add_instance(xmls)
@@ -45,6 +50,8 @@ class LetterVolumeIngest
       jpgs.files << bf_jpg
     end
     jpgs.save
+
+    create_structmap(jpgs)
     jpgs_saved = work.add_instance(jpgs)
 
     unless pdfs_saved && xmls_saved && jpgs_saved
@@ -76,6 +83,14 @@ class LetterVolumeIngest
       Resque.logger.debug "no matching work found - work created with PID #{w.pid}"
     end
     w
+  end
+
+  def self.create_structmap(instance)
+    filenames = []
+    instance.files.each do |f|
+      filenames << f.original_filename
+    end
+    WorkHelper.create_structmap_for_instance(filenames.sort().join(','),instance)
   end
 end
 

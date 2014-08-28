@@ -43,6 +43,24 @@ describe LetterVolumeIngest do
 
   end
 
+  describe 'multiple volumes' do
+    it 'shuld have two works with same sysnum' do
+      @fixtures_path = Rails.root.join('spec', 'fixtures', 'brev')
+      LetterVolumeIngest.perform(@fixtures_path.join('000773452_X02.xml').to_s,
+                                 @fixtures_path.join('000773452_X02.pdf').to_s,
+                                 @fixtures_path.join('000773452_X02').to_s)
+      LetterVolumeIngest.perform(@fixtures_path.join('000773452_X01.xml').to_s,
+                                 @fixtures_path.join('000773452_X01.pdf').to_s,
+                                 @fixtures_path.join('000773452_X01').to_s)
+      works = Work.find(sysnum_si: '000773452')
+      works.size.should == 1;
+
+      work = works.first
+      work.ordered_instances == 3
+
+    end
+  end
+
   describe 'fetch_jpgs' do
     it 'should return an array of jpgs' do
       fixtures_path = Rails.root.join('spec', 'fixtures', 'brev')
