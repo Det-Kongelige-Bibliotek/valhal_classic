@@ -10,4 +10,12 @@ en:
       general:
         confirmation: "Are you sure?"
   hasParts: Has parts
+  nextInSequence: Next in sequence
+  isPartOf: Is part of
   letter_title: "Letter from %{author} to %{addressee}, %{date}"
+  works:
+    edit:
+      work_name: "Work Name"
+      relationship_type: "Relationship Type"
+    work_relations:
+      edit: "Edit"

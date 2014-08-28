@@ -21,6 +21,9 @@ $(document).ready(function() {
     tiffFileClearBn.on("click", function() {
         return file_tiff_file.replaceWith(file_tiff_file.val("").clone(true));
     });
+    $('[data-function="create-dropdown"]').click(createDropdown);
+
+    /*
     $(function() {});
     $(".sortable").sortable();
     $(".handles").sortable({
@@ -35,7 +38,22 @@ $(document).ready(function() {
             }).get();
         return $("#structmap_file_order").val(test_val);
     });
+
+    */
+
+
 });
+
+
+function createDropdown(){
+    var targetId = $(this).attr('data-target');
+    var target = $('[data-id="' + targetId + '"]');
+    var form = '<select>' + $('#work-dropdown').html() + '</select>';
+    target.html(form);
+    console.log(form);
+
+    return false;
+}
 
 /**
  * Provides functionality for adding new agents and their relationship to a work or instance in a table
