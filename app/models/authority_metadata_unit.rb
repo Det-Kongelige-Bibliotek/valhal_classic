@@ -8,7 +8,7 @@ class AuthorityMetadataUnit < ActiveFedora::Base
 
 
   # List of non-multiple key-value pairs
-  has_attributes :type, :value, datastream: 'descMetadata', :multiple => false
+  has_attributes :type, :value, :givenName, :surname, :dateOfBirth, :dateOfDeath, datastream: 'descMetadata', :multiple => false
 
   # List of multiple key-value pairs
   has_attributes :reference, datastream: 'descMetadata', :multiple => true
