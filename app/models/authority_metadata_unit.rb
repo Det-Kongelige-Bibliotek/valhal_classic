@@ -15,6 +15,8 @@ class AuthorityMetadataUnit < ActiveFedora::Base
 
   validates_with AMUValidator
 
+  before_save :update_value
+
   # Extracts the relations, which are valid for this
   def get_relations
     res = Hash.new
@@ -39,6 +41,18 @@ class AuthorityMetadataUnit < ActiveFedora::Base
       display = value
     end
     display
+  end
+
+  def update_value
+    if type == 'agent/person'
+      if surname.blank? && givenName.blank?
+        surname = value
+      else
+        newval = "#{self.surname}, #{self.givenName} #{self.dateOfBirth}"
+        newval += " - #{self.dateOfDeath}" unless self.dateOfDeath.empty?
+        self.value = newval
+      end
+    end
   end
 
   # The fields for the SOLR index.
