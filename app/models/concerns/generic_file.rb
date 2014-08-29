@@ -67,6 +67,7 @@ module Concerns
 
     #
     # Update Content
+    # @param XML file content
     #
     def update_content(content)
        self.datastreams["content"].content = content
