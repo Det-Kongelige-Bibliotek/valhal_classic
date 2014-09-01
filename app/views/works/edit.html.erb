@@ -9,6 +9,8 @@
         <%= render 'edit_agent', :f => builder %>
     <% end %>
     <br/>
+        <%= render 'edit_work_relations' %>
+    <br/>
     <%= fields_for :work do |builder| %>
         <%= render 'metadata_fields', :f => builder %>
     <% end %>

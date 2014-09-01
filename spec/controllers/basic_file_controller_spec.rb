@@ -29,7 +29,8 @@ describe BasicFilesController do
 describe 'Update Content' do
     before :all do
       @file = BasicFile.new
-      @file.add_file(File.new('/home/nkh/myxmlbook.xml'), true)
+      @xml_path = Rails.root.join('spec', 'fixtures', 'brev', 'small-tei.xml')
+      @file.add_file(File.new(@xml_path), true)
     end
     
     it 'should update the content' do

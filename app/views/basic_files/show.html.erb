@@ -7,12 +7,14 @@
       <%= @file.inspect%>
     </pre>
     <br/>
-    <h3>File content:</h3>
-    <pre>
-       <%= @file.datastreams["content"].content  %>
-    </pre>
-       <%= link_to 'Edit Content', edit_basic_file_path(@file) %>
-    <br/>
+    <% if @file.mime_type == "text/xml" %> 
+       <h3>File content:</h3>
+       <pre>
+          <%= @file.datastreams["content"].content  %>
+       </pre>
+          <%= link_to 'Edit Content', edit_basic_file_path(@file) %>
+       <br/>
+    <% end %>
     <hr/>
     <h4>Datastreams:</h4>
     <% @file.datastreams.each do |key, content| %>

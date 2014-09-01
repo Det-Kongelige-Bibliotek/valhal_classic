@@ -12,12 +12,14 @@
                 <% for i in 0...relation[1].length %>
                     <%= link_to relation[1][i].value, authority_metadata_unit_path(relation[1][i]) %>
                       <% if relation[1][i] != relation[1].last %>|<% end %>
+                  <% end %>
                 <% end %>
-            <% end %>
             </td>
           </tr>
     <% end %>
   <% end %>
+
+  <%= render partial: 'work_relations' %>
 
   <tr><td><b>Type of resource</b></td><td><%= @work.typeOfResource %></td></tr>
   <tr><td><b>Type of resource label</b></td><td><%= @work.typeOfResourceLabel %></td></tr>

@@ -53,6 +53,8 @@ describe 'parse letters' do
   it 'should create a letter work for each div within the tei file' do
     @letters.size.should eql 2
     l = @letters[1]
+    l.reload
+    l.workType.should eql 'Letter'
     l.is_part_of.should == @work
     prev = l.previousInSequence
     prev.nextInSequence.should == [l]
