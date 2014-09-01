@@ -40,7 +40,7 @@ describe 'parse letters' do
 
   before :all do
     doc = Nokogiri::XML(File.open(Rails.root.join('spec', 'fixtures', 'brev', 'small-tei.xml')))
-    @work = Work.create(title: 'some stupid fucking test work')
+    @work = Work.create(title: 'The collected letters of Julius Lange', workType: 'Book')
     LetterVolumeSplitter.parse_letters(doc, @work)
     @letters = Work.find(search_result_work_type_ssi: 'Letter')
     @letter = Work.find(teiRef_si: 'divid136080').first
