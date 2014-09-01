@@ -16,7 +16,7 @@
           <% end %>
           <% if defined? edit && edit %>
             <td>
-              <a href="#" data-function="create-dropdown" data-target="<%= value.__id__%>">
+              <a href="#" data-function="create-dropdown" data-target="<%= value.__id__%>" data-label="<%= label %>">
                 <i class="icon-edit"></i>
                 <%= t '.edit' %>
               </a>

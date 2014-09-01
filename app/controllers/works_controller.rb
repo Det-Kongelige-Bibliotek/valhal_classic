@@ -128,11 +128,18 @@ class WorksController < ApplicationController
 
   def save_edit
     handle_arguments
-    params[:work].delete :agents
-    if @work.update_attributes(params[:work])
+    work_params = params[:work]
+    work_params.delete :agents if work_params.include? :agents
+    # if we're updating work relations, we need to convert them to works first
+    logger.debug "updating params"
+    work_params.each {|k,v| work_params[k] = Work.find(v) if v.include? 'valhal:'}
+    logger.debug "updated params are #{work_params}"
+    if @work.update_attributes(work_params)
+      logger.debug "updated attributes"
       handle_arguments
       redirect_to show_file_work_path @work
     else
+      logger.debug "failed to update attribute"
       render action: "edit"
     end
   end

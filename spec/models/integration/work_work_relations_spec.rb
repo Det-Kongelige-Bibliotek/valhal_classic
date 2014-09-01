@@ -17,13 +17,27 @@ describe "Relationships between works" do
       @work2.previousInSequence.should == @work1
     end
 
-    it 'should be possible to define the previous work in sequence' do
+    it 'should be possible to define the next work in sequence' do
       @work1.add_next(@work2)
       @work1.reload
       @work2.reload
 
       @work1.nextInSequence.should == [@work2]
       @work2.previousInSequence.should == @work1
+    end
+
+    it 'should be possible to update the next work in a sequence' do
+      @work1.add_next(@work2)
+
+      w = Work.create(title: 'another sample')
+      @work1.add_next(w)
+      @work1.reload
+      @work2.reload
+      w.reload
+      @work1.nextInSequence.length.should eql 1
+      @work1.nextInSequence.should == [w]
+      w.previousInSequence.should == @work1
+      @work2.previousInSequence.should be_nil
     end
 
     it 'should be possible to define a work as part of another work' do
