@@ -4,24 +4,11 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
-      has_many :nextInSequence, :class_name => 'ActiveFedora::Base', :property=>:next_in_sequence, :inverse_of => :previous_in_sequence
-      belongs_to :previousInSequence, :class_name => 'ActiveFedora::Base', :property=>:previous_in_sequence, :inverse_of => :next_in_sequence
+      has_attributes :nextInSequence, :previousInSequence, datastream: 'descMetadata', multiple: false
+
       has_many :parts, :class_name => 'Work', property: :has_parts, inverse_of: :is_part_of
       belongs_to :is_part_of, :class_name => 'Work', property: :is_part_of, inverse_of: :parts
 
-      # we need this to update work-to-work relations via the view
-      alias isPartOf= is_part_of=
-
-      # We're intercepting the standard
-      # accessor here so that it can
-      # handle single objects
-      def next_in_sequence=(obj)
-        if obj.class == Array
-          add_next(obj.first)
-        else
-          add_next(obj)
-        end
-      end
       # Add part and ensure relationship
       # is defined on both elements.
       # @param Work
@@ -40,8 +27,17 @@ module Concerns
       def add_previous(work)
         self.save unless self.persisted?
         work.save unless work.persisted?
-        self.previousInSequence = work
-        work.nextInSequence = [self]
+        # if there is already a previous
+        # work, make sure that it is not
+        # still pointing to this work
+        if self.previousInSequence
+          old = previous_work
+          old.nextInSequence = nil
+          old.save
+        end
+        self.previousInSequence = work.pid
+        work.nextInSequence = self.pid
+        save && work.save
       end
 
       # reverse of add_previous
@@ -49,11 +45,32 @@ module Concerns
       def add_next(work)
         self.save unless self.persisted?
         work.save unless work.persisted?
-        work.previousInSequence = self
-        self.save
-        self.nextInSequence = [work]
-        work.save
+        # if there is already a next
+        # work, make sure that it is not
+        # still pointing to this work
+        if self.nextInSequence
+          old = next_work
+          old.previousInSequence = nil
+          old.save
+        end
+        work.previousInSequence = self.pid
+        self.nextInSequence = work.pid
+        save && work.save
       end
+    end
+
+    # Accessor method to return Work
+    # object based on a pid stored
+    # in previousInSequence
+    def previous_work
+      Work.find(previousInSequence)
+    end
+
+    # Accessor method to return Work
+    # object based on a pid stored
+    # in previousInSequence
+    def next_work
+      Work.find(nextInSequence)
     end
 
 

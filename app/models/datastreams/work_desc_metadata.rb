@@ -22,6 +22,8 @@ module Datastreams
       t.topic()
       t.typeOfResource()
       t.typeOfResourceLabel()
+      t.nextInSequence
+      t.previousInSequence
 
       t.alternativeTitle do
         t.title()
