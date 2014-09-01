@@ -71,7 +71,7 @@
 
     <!-- Here we transform the raw tei -->
     <xsl:choose>
-      <xsl:when test="0">
+      <xsl:when test="1">
 	<xsl:apply-templates  select="exsl:node-set($rtei)/*"/>
       </xsl:when>
       <xsl:otherwise>
@@ -213,7 +213,7 @@
   <xsl:template match="t:p">
     <xsl:if test="t:pb">
       <xsl:element name="pb">
-	<xsl:copy-of select="@*"/>
+	<xsl:copy-of select="t:pb/@*"/>
       </xsl:element>
     </xsl:if>
     <p>
