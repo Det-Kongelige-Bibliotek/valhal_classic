@@ -99,13 +99,15 @@ namespace :valhal_migrate do
     books.each do |book|
       work = migrated_works[book]
       work.workType = 'Book' unless work.nil?
-      work.save unless work.nil?
+      begin
+        work.save unless work.nil?
+      rescue => e
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error "could not save new work #{work}" }
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error e }
+      end
     end
 
     insert_relations(migrated_works, migrated_people, people_relations)
-
-    puts migrated_works
-    puts migrated_people
 
     legacy = []
     legacy = book_and_works + reps + people
@@ -134,15 +136,19 @@ namespace :valhal_migrate do
   def extract_work_book_relations_to_reps(book_and_works, rep_relations)
     res = Hash.new
     rep_relations.each do |k, v|
-      rep = ActiveFedora::Base.find(k, :cast=>false)
-      search_start = rep.datastreams['RELS-EXT'].content.index(':hasSubset')
-      search_end = rep.datastreams['RELS-EXT'].content.index('hasSubset>')
-      unless search_start.nil? || search_end.nil?
-        bw_id = rep.datastreams['RELS-EXT'].content[search_start + 37, (search_end - search_start) - 45]
-        if book_and_works.include?(bw_id)
-          res[bw_id] = [] if res[bw_id].nil?
-          res[bw_id] << {k => v}
+      begin
+        rep = ActiveFedora::Base.find(k, :cast=>false)
+        search_start = rep.datastreams['RELS-EXT'].content.index(':hasSubset')
+        search_end = rep.datastreams['RELS-EXT'].content.index('hasSubset>')
+        unless search_start.nil? || search_end.nil?
+          bw_id = rep.datastreams['RELS-EXT'].content[search_start + 37, (search_end - search_start) - 45]
+          if book_and_works.include?(bw_id)
+            res[bw_id] = [] if res[bw_id].nil?
+            res[bw_id] << {k => v}
+          end
         end
+      rescue => e
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error e }
       end
     end
     res
