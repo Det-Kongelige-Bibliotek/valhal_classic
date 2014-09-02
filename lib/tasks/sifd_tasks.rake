@@ -12,6 +12,18 @@ require "#{Rails.root}/app/services/dissemination_service"
 require "#{Rails.root}/app/helpers/preservation_helper"
 require "#{Rails.root}/app/helpers/mq_listener_helper"
 
+
+namespace :brev do
+
+  desc 'Load test data into the system'
+  task :test_ingest => :environment do
+    doc = Nokogiri::XML(File.open(Rails.root.join('spec', 'fixtures', 'brev', 'small-tei.xml')))
+    work = Work.create(title: 'The collected letters of Julius Lange', workType: 'Book')
+    LetterVolumeSplitter.parse_letters(doc, work)
+  end
+
+end
+
 namespace :sifd do
   include MqHelper
   include DisseminationService
