@@ -13,15 +13,17 @@
               <td data-id="<%= value.__id__%>">
                 <%= link_to(value.get_title_for_display, work_path(value)) %>
               </td>
-          <% end %>
-          <% if defined? edit && edit %>
-            <td>
-              <a href="#" data-function="create-dropdown" data-target="<%= value.__id__%>" data-label="<%= label %>">
-                <i class="icon-edit"></i>
-                <%= t '.edit' %>
-              </a>
-
-            </td>
+              <% if defined? edit && edit %>
+                <td>
+                  <%= link_to(work_path(value), data: {target: value.__id__, label: label}) do %>
+                  <!-- <a href="#" data-function="create-dropdown"  >
+                    <i class="icon-edit"></i>
+                      </a>    -->
+                    <%= t('.edit') %>
+                   <%= content_tag(:i, "", class: 'icon-edit') %>
+                <% end  %>
+                </td>
+              <% end %>
           <% end %>
         </tr>
     <% end %>

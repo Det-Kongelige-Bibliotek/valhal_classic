@@ -9,6 +9,7 @@ module Concerns
       has_many :parts, :class_name => 'Work', property: :has_parts, inverse_of: :is_part_of
       belongs_to :is_part_of, :class_name => 'Work', property: :is_part_of, inverse_of: :parts
 
+
       # Add part and ensure relationship
       # is defined on both elements.
       # @param Work
@@ -63,21 +64,21 @@ module Concerns
     # object based on a pid stored
     # in previousInSequence
     def previous_work
-      Work.find(previousInSequence)
+      Work.find(previousInSequence) unless previousInSequence.nil?
     end
 
     # Accessor method to return Work
     # object based on a pid stored
     # in previousInSequence
     def next_work
-      Work.find(nextInSequence)
+      Work.find(nextInSequence) unless nextInSequence.nil?
     end
 
 
     def get_work_relations
       rels = {}
-      rels[:next_in_sequence] = self.nextInSequence.last
-      rels[:previousInSequence] = self.previousInSequence
+      rels[:nextInSequence] = self.next_work
+      rels[:previousInSequence] = self.previous_work
       rels[:hasParts] = self.parts
       rels[:isPartOf] = self.is_part_of
       rels
