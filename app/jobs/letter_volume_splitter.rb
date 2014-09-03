@@ -1,6 +1,6 @@
-@queue = :letter_volume_splitter
-
 class LetterVolumeSplitter
+
+  @queue = :letter_volume_splitter
 
   # Given a reference to a work
   # and a docx derived xml file, create a Work object
