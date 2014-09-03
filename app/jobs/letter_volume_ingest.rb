@@ -58,6 +58,7 @@ class LetterVolumeIngest
       raise 'Could not save to Fedora!'
     end
     Resque.logger.info "Work #{work.pid} saved with filetypes #{work.ordered_instance_types.keys.to_s}"
+    Resque.enqueue(LetterVolumeSplitter, work.pid, bf_xml.pid)
   end
 
   def self.fetch_jpgs(path_string)
