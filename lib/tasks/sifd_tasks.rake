@@ -40,6 +40,7 @@ namespace :sifd do
     end
     puts "#{objects.length} objects deleted from #{Rails.env.titleize} environment"
   end
+
   desc "Add FITS file characterization datastream to all SIFD BasicFile objects that don't have it"
   task :characterize_all => :environment do
     add_file_characterization_to_all_basic_files
@@ -92,6 +93,13 @@ namespace :sifd do
     puts mods
   end
 
+  desc 'add some letters examples'
+  task :letter_examples  => :environment do
+    doc = Nokogiri::XML(File.open(Rails.root.join('spec', 'fixtures', 'brev', 'small-tei.xml')))
+    work = Work.create(title: 'A test letter book', workType: 'Book')
+    LetterVolumeSplitter.parse_letters(doc, work)
+  end
+
   desc 'Read messages of DOD ingest queue, and ingest DOD books into Valhal'
   task :dod_queue_listener => :environment do
     start_time = Time.now
@@ -117,6 +125,8 @@ namespace :sifd do
     logger.debug "Finished processing DOD queue"
     logger.debug "Task took  #{Time.now - start_time} seconds"
   end
+
+
 
   #Function to read messages from RabbitMQ and store them in an Array
   #@return Array of unread messages

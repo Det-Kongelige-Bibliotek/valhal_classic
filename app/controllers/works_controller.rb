@@ -127,6 +127,7 @@ class WorksController < ApplicationController
   end
 
   def save_edit
+    @work = Work.find(params[:id])
     handle_arguments
     work_params = params[:work]
     work_params.delete :agents if work_params.include? :agents
