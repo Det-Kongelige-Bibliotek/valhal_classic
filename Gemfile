@@ -53,6 +53,10 @@ end
 #gem 'jettywrapper', :group => [:development, :test]
 #gem 'thin', :group => [:development, :test]
 
+group :test do
+  gem 'fakeredis'
+end
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'jettywrapper'
@@ -63,7 +67,6 @@ group :development, :test do
   #gem 'capybara-webkit' #uncomment if you want to run cucumber tests (cukes) in local dev environment.
   gem 'passenger', '~> 4.0.38' #uncomment if want to run passenger as your rails server locally
   gem 'passenger-rails', '~> 0.0.2'
-  gem 'fakeredis'
 end
 
 group :development do
