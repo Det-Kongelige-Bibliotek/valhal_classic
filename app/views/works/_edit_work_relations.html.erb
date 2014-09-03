@@ -1,7 +1,7 @@
 <table class="table" border="1">
   <thead><tr><th><%= t 'works.edit.relationship_type' %></th><th><%= t 'works.edit.work_name' %></th></tr></thead>
   <tbody>
-  <%= render 'work_relations', locals: { edit: true } %>
+  <%= render partial: 'work_relations', locals: { edit: true } %>
   </tbody>
 </table>
 <%# This select is used to create the forms for updating work-to-work relations %>
