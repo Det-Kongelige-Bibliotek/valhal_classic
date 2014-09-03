@@ -17,9 +17,10 @@ namespace :brev do
 
   desc 'Load test data into the system'
   task :test_ingest => :environment do
-    doc = Nokogiri::XML(File.open(Rails.root.join('spec', 'fixtures', 'brev', 'small-tei.xml')))
-    work = Work.create(title: 'The collected letters of Julius Lange', workType: 'Book')
-    LetterVolumeSplitter.parse_letters(doc, work)
+    @fixtures_path = Rails.root.join('spec', 'fixtures', 'brev')
+    LetterVolumeIngest.perform(@fixtures_path.join('001003574_000.xml').to_s,
+                               @fixtures_path.join('001003574_000.pdf').to_s,
+                               @fixtures_path.join('001003574_000').to_s)
   end
 
 end
