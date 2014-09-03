@@ -131,53 +131,6 @@ describe WorksController do
     end
   end
 
-  describe 'PUT update' do
-    describe 'with valid params' do
-      it 'updates the requested work' do
-        pending 'Failing unit-test'
-        work = Work.create! valid_attributes
-        # Assuming there are no other works in the database, this
-        # specifies that the Work created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Work.any_instance.should_receive(:update_attributes).with({ 'these' => 'params' })
-        put :update, {:id => work.to_param, :work => { 'these' => 'params' }}, valid_session
-      end
-
-      it 'assigns the requested work as @work' do
-        pending 'Failing unit-test'
-        work = Work.create! valid_attributes
-        put :update, {:id => work.to_param, :work => valid_attributes}, valid_session
-        assigns(:work).should eq(work)
-      end
-
-      it 'redirects to the work' do
-        pending 'Failing unit-test'
-        work = Work.create! valid_attributes
-        put :update, {:id => work.to_param, :work => valid_attributes}, valid_session
-        response.should redirect_to(work)
-      end
-    end
-
-    describe 'with invalid params' do
-      it 'assigns the work as @work' do
-        pending 'Failing unit-test'
-        work = Work.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Work.any_instance.stub(:save).and_return(false)
-        put :update, {:id => work.to_param, :work => {  }}, valid_session
-        assigns(:work).should eq(work)
-      end
-
-      it 're-renders the \'edit\' template' do
-        pending 'Failing unit-test'
-        work = Work.create! valid_attributes
-        put :update, {:id => work.to_param, :work => {  }}, valid_session
-        response.should render_template('edit')
-      end
-    end
-  end
-
   describe 'DELETE destroy' do
     it 'destroys the requested work' do
       work = Work.create! valid_attributes

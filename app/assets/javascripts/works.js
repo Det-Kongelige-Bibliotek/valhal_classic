@@ -44,13 +44,17 @@ $(document).ready(function() {
 
 });
 
-
+/**
+ * Create dropdown for updating a work-to-work relation
+ * The dropdown's name is based on the field in which it occurs.
+ * @returns {boolean}
+ */
 function createDropdown(){
     var targetId = $(this).attr('data-target');
     var target = $('[data-id="' + targetId + '"]');
-    var form = '<select>' + $('#work-dropdown').html() + '</select>';
+    var label = $(this).attr('data-label');
+    var form = '<select name="work[' + label + ']">' + $('#work-dropdown').html() + '</select>';
     target.html(form);
-    console.log(form);
 
     return false;
 }
