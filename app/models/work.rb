@@ -94,7 +94,7 @@ class Work < ActiveFedora::Base
   # Create a suitable translateable display title for letter works
   def letter_display_title
     I18n.t(:letter_title, author: ((self.hasAuthor.blank? || self.hasAuthor.first.blank?) ? '' : self.hasAuthor.first.value),
-           addressee: ((self.hasAddressee.blank? || self.hasAddresse.first.blank?)? '': self.hasAddressee.first.value), date: self.dateCreated)
+           addressee: ((self.hasAddressee.blank? || self.hasAddressee.first.blank?)? '': self.hasAddressee.first.value), date: self.dateCreated)
   end
 
 end
