@@ -1,0 +1,7 @@
+
+<tr>
+  <td><b>Identifiers</b></td>
+<% @work.identifier.each do |identifier| %>
+      <td style="display:block"><%= identifier['displayLabel']%>: <%= identifier['value']%></td>
+<% end %>
+</tr>
