@@ -37,7 +37,7 @@ class LetterVolumeSplitter
   # TEI div - create a letter work with
   # a relation to the previous work and the
   # master work
-  # @param Nokogiri::XML::Element
+  # @param Nokogiri::XML::Element xml
   # @param Work prev_letter
   # @param Work master_work
   # @return Work (the new letter)
@@ -60,10 +60,28 @@ class LetterVolumeSplitter
       sender_address = AMUFinderService.find_or_create_place(data[:sender_address], '')
       letter.hasOrigin << sender_address
     end
+    file_path = self.save_to_file(data[:id], xml)
+    inst = SingleFileInstance.new_from_file(File.new(file_path))
+    letter.add_instance(inst)
     master_work.add_part(letter)
     letter.add_previous(prev_letter) unless prev_letter.nil?
     letter.save
+    File.delete(file_path)
     letter
+  end
+
+  # Given an id and and a Nokogiri
+  # XML element - save the xml to a
+  # file named by the id and return a
+  # file path
+  # @param id String
+  # @param xml Nokogiri::XML::Node
+  def self.save_to_file(id, xml)
+    name = id || "Letter imported " + Time.now.to_s
+    name += '.xml'
+    file_path = Rails.root.join('tmp', name)
+    File.write(file_path, xml.to_xml)
+    file_path
   end
 
 

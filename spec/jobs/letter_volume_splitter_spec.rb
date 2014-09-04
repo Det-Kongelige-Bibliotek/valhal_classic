@@ -78,6 +78,10 @@ describe 'parse letters' do
     origin.type.should eql 'place'
     origin.value.should eql 'København'
   end
+
+  it 'should create a basic file for the relevant tei div' do
+    @letter.single_file_instances.length.should eql 1
+  end
 end
 
 describe 'parse_metadata' do
