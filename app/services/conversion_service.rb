@@ -16,4 +16,13 @@ class ConversionService
     marc2mods = Nokogiri::XSLT(File.read("#{Rails.root}/xslt/marcToMODS.xsl"))
     marc2mods.transform(marc)
   end
+
+  # Aleph directly to mods
+  # @param aleph_marc String
+  # @param pdf_uri String
+  # @return mods Nokogiri::XML::Document
+  def self.aleph_to_mods(aleph_marc, pdf_uri='')
+    marc = self.transform_aleph_to_slim_marc(aleph_marc, pdf_uri)
+    self.transform_marc_to_mods(marc)
+  end
 end
