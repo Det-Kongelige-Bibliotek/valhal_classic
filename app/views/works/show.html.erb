@@ -49,6 +49,7 @@
   <tr><td><b>Cartographics Co-ordinates</b></td><td><%= @work.cartographicsCoordinates %></td></tr>
   <tr><td><b>Table of Contents</b></td><td><%= @work.tableOfContents %></td></tr>
   <tr><td><b>UUID</b></td><td><%= @work.uuid %></td></tr>
+  <%= render partial: 'identifiers' %>
 </table>
 
 <hr/>
