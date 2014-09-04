@@ -74,7 +74,7 @@ namespace :sifd do
 
   end
 
-  desc 'Utility task to debug import of single item, takes Aleph sysNum as arg'
+  desc 'Utility task to debug import of single item, usage: rake debug_import[<sysnum>]'
   task :debug_import, [:sysNum] => :environment do |t, args|
     # exit if we don't get any args
     if args[:sysNum].nil?
@@ -86,7 +86,7 @@ namespace :sifd do
     xml = service.get_record(set[:set_num], '1')
     puts '============== Aleph XML =================='
     puts xml
-    slim = ConversionService.transform_aleph_to_slim_marc(xml, 'somebullshit.pdf')
+    slim = ConversionService.transform_aleph_to_slim_marc(xml, "#{args[:sysNum]}_000.pdf")
     puts '============== Slimmed down MARC XML =================='
     puts slim
     mods = ConversionService.transform_marc_to_mods(slim)
