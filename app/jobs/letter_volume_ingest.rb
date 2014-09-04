@@ -18,7 +18,7 @@ class LetterVolumeIngest
     # if not, create new ones
     content_types = work.ordered_instance_types
     pdfs = content_types[:pdfs] || OrderedInstance.new(contentType: 'pdf')
-    xmls = content_types[:docxes] || OrderedInstance.new(contentType: 'docx')
+    xmls = content_types[:teis] || OrderedInstance.new(contentType: 'tei')
     jpgs = content_types[:jpgs] || OrderedInstance.new(contentType: 'jpg')
 
     # Add files to Basic Files
@@ -34,7 +34,9 @@ class LetterVolumeIngest
 
     create_structmap(pdfs)
 
-    bf_xml.add_file(File.new(xml_path), true)
+    tmp_file_path = self.transform(xml_path)
+    bf_xml.add_file(File.new(tmp_file_path), true)
+    File.delete(tmp_file_path) # get rid of temp file
     xmls.files << bf_xml
     xmls.save
 
@@ -59,6 +61,21 @@ class LetterVolumeIngest
     end
     Resque.logger.info "Work #{work.pid} saved with filetypes #{work.ordered_instance_types.keys.to_s}"
     Resque.enqueue(LetterVolumeSplitter, work.pid, bf_xml.pid)
+  end
+
+  # Given a path to a DOCXML,
+  # perform an XSLT transform on it.
+  # @param File
+  # @return File
+  def self.transform(path)
+    doc = Nokogiri::XML(File.open(path))
+    xslt = File.read(Rails.root.join('xslt', 'docx2tei.xsl').to_s)
+    xslt = Nokogiri::XSLT(xslt)
+    content = xslt.transform(doc)
+    tmp_name = Rails.root.join('tmp', "transformed_" + Pathname.new(path).basename.to_s)
+    File.open(tmp_name, 'w') { |f| f << content.to_xml }
+
+    tmp_name
   end
 
   def self.fetch_jpgs(path_string)

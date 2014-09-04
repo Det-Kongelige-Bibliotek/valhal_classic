@@ -18,7 +18,7 @@ describe 'perform' do
     @work = Work.new
     o = OrderedInstance.new
     bf = BasicFile.new
-    @xml_path = Rails.root.join('spec', 'fixtures', 'brev', '001003574_000.xml')
+    @xml_path = Rails.root.join('spec', 'fixtures', 'brev', 'small-tei.xml')
     bf.add_file(File.new(@xml_path), true)
     o.files << bf
     @work.add_instance(o)
@@ -56,8 +56,8 @@ describe 'parse letters' do
     l.reload
     l.workType.should eql 'Letter'
     l.is_part_of.should == @work
-    prev = l.previousInSequence
-    prev.nextInSequence.should == [l]
+    prev = l.previous_work
+    prev.next_work.should == l
   end
 
   it 'should create an authority metadata unit for the author' do

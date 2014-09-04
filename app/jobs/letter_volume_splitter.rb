@@ -13,14 +13,14 @@ class LetterVolumeSplitter
     raise "Work with pid #{work_pid} not found!" unless master_work
     raise "BasicFile with pid #{xml_pid} not found!" unless xml
 
-    tei = self.transform(xml.content.content)
+    tei = Nokogiri::XML(xml.content.content)
     self.parse_letters(tei, master_work)
   end
 
   # Given a tei xml doc, create a work
   # for each letter with a relation to
   # a given master work
-  # @param Nokogiri::XML::Element
+  # @param Nokogiri::XML::Document
   # @param Work master_work
   def self.parse_letters(tei, master_work)
     divs = tei.css('text body div')
@@ -66,17 +66,6 @@ class LetterVolumeSplitter
     letter
   end
 
-  # Given a File object representing
-  # a TEI XML, perform an XSLT
-  # transform on it.
-  # @param File
-  # @return Nokogiri::XML::Document
-  def self.transform(file)
-    doc = Nokogiri::XML(file)
-    xslt = File.read(Rails.root.join('xslt', 'docx2tei.xsl').to_s)
-    xslt = Nokogiri::XSLT(xslt)
-    xslt.transform(doc)
-  end
 
   # Given a Nokogiri::XML::Element
   # representing a single div

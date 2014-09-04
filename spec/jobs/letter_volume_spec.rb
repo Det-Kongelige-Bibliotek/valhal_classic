@@ -31,7 +31,7 @@ describe LetterVolumeIngest do
 
     it 'should create ordered instances for pdfs, jpgs and xml files' do
       @work.ordered_instance_types.should include :pdfs
-      @work.ordered_instance_types.should include :docxes
+      @work.ordered_instance_types.should include :teis
       @work.ordered_instance_types.should include :jpgs
       jpgs = @work.ordered_instance_types[:jpgs]
       jpgs.files.length.should eql 4
@@ -41,6 +41,14 @@ describe LetterVolumeIngest do
       @work.workType.should eql 'Book'
     end
 
+  end
+
+  describe 'transform' do
+    it 'should return a file object' do
+      path = Rails.root.join('spec', 'fixtures', 'brev').join('001003574_000.xml')
+      result = LetterVolumeIngest.transform(path)
+      result.should be_a File
+    end
   end
 
   describe 'multiple volumes' do
