@@ -25,9 +25,19 @@ describe Work do
       w = Work.new(:title => 'some title')
       w.save!
       w.title.should_not be_nil
-      w.title = t;
+      w.title = t
       w.save!
-      w.title.should == t;
+      w.title.should == t
+    end
+  end
+
+  describe 'embargo_release_date' do
+    it 'should be possible to set and get an embargo release date' do
+      w = Work.new(title: 'nonsense')
+      w.embargo_release_date = Date.today
+      w.save
+      w.reload
+      w.embargo_release_date.should eql Date.today.strftime('%Y-%m-%d')
     end
   end
 
