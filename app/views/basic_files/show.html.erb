@@ -10,7 +10,7 @@
     <% if @file.mime_type == "text/xml" %> 
        <h3>File content:</h3>
        <pre>
-          <%= @file.datastreams["content"].content  %>
+          <%= @file.datastreams["content"].content.force_encoding('utf-8')  %>
        </pre>
           <%= link_to 'Edit Content', edit_basic_file_path(@file) %>
        <br/>
