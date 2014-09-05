@@ -13,17 +13,43 @@ describe "Relationships between works" do
       @work1.reload
       @work2.reload
 
-      @work1.nextInSequence.should == [@work2]
-      @work2.previousInSequence.should == @work1
+      @work1.nextInSequence.should == @work2.pid
+      @work2.previousInSequence.should == @work1.pid
     end
 
-    it 'should be possible to define the previous work in sequence' do
+    it 'should be possible to define the next work in sequence' do
       @work1.add_next(@work2)
       @work1.reload
       @work2.reload
 
-      @work1.nextInSequence.should == [@work2]
-      @work2.previousInSequence.should == @work1
+      @work1.next_work.should == @work2
+      @work2.previous_work.should == @work1
+    end
+
+    it 'should be possible to update the next work in a sequence' do
+      @work1.add_next(@work2)
+
+      w = Work.create(title: 'another sample')
+      @work1.add_next(w)
+      @work1.reload
+      @work2.reload
+      w.reload
+      @work1.nextInSequence.should eql w.pid
+      w.previousInSequence.should eql @work1.pid
+      @work2.previousInSequence.should be_nil
+    end
+
+    it 'should be possible to update the previous work in a sequence' do
+      @work1.add_previous(@work2)
+
+      w = Work.create(title: 'another sample')
+      @work1.add_previous(w)
+      @work1.reload
+      @work2.reload
+      w.reload
+      @work1.previousInSequence.should eql w.pid
+      w.nextInSequence.should eql @work1.pid
+      @work2.nextInSequence.should be_nil
     end
 
     it 'should be possible to define a work as part of another work' do

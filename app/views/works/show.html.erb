@@ -19,25 +19,7 @@
     <% end %>
   <% end %>
 
-  <%# Shows work work relations, including multi-work relations such as hasParts %>
-  <% @work.get_work_relations.each do |label, value| %>
-     <% if displayable?(value) %>
-     <tr>
-       <td><b><%= t label %></b></td>
-       <% if value.class == Array %>
-        <% value.each do |val| %>
-          <td style="display:block">
-            <%= link_to(val.get_title_for_display, work_path(val)) %>
-          </td>
-        <% end %>
-        <% else value %>
-          <td>
-            <%= link_to(value.get_title_for_display, work_path(value)) %>
-          </td>
-        <% end %>
-     </tr>
-     <% end %>
-  <% end %>
+  <%= render partial: 'work_relations' %>
 
   <tr><td><b>Type of resource</b></td><td><%= @work.typeOfResource %></td></tr>
   <tr><td><b>Type of resource label</b></td><td><%= @work.typeOfResourceLabel %></td></tr>
@@ -67,6 +49,7 @@
   <tr><td><b>Cartographics Co-ordinates</b></td><td><%= @work.cartographicsCoordinates %></td></tr>
   <tr><td><b>Table of Contents</b></td><td><%= @work.tableOfContents %></td></tr>
   <tr><td><b>UUID</b></td><td><%= @work.uuid %></td></tr>
+  <%= render partial: 'identifiers' %>
 </table>
 
 <hr/>

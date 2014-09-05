@@ -1,6 +1,6 @@
-@queue = :letter_volume_splitter
-
 class LetterVolumeSplitter
+
+  @queue = :letter_volume_splitter
 
   # Given a reference to a work
   # and a docx derived xml file, create a Work object
@@ -13,14 +13,14 @@ class LetterVolumeSplitter
     raise "Work with pid #{work_pid} not found!" unless master_work
     raise "BasicFile with pid #{xml_pid} not found!" unless xml
 
-    tei = self.transform(xml.content.content)
+    tei = Nokogiri::XML(xml.content.content)
     self.parse_letters(tei, master_work)
   end
 
   # Given a tei xml doc, create a work
   # for each letter with a relation to
   # a given master work
-  # @param Nokogiri::XML::Element
+  # @param Nokogiri::XML::Document
   # @param Work master_work
   def self.parse_letters(tei, master_work)
     divs = tei.css('text body div')
@@ -37,7 +37,7 @@ class LetterVolumeSplitter
   # TEI div - create a letter work with
   # a relation to the previous work and the
   # master work
-  # @param Nokogiri::XML::Element
+  # @param Nokogiri::XML::Element xml
   # @param Work prev_letter
   # @param Work master_work
   # @return Work (the new letter)
@@ -60,23 +60,30 @@ class LetterVolumeSplitter
       sender_address = AMUFinderService.find_or_create_place(data[:sender_address], '')
       letter.hasOrigin << sender_address
     end
+    file_path = self.save_to_file(data[:id], xml)
+    inst = SingleFileInstance.new_from_file(File.new(file_path))
+    letter.add_instance(inst)
     master_work.add_part(letter)
     letter.add_previous(prev_letter) unless prev_letter.nil?
     letter.save
+    File.delete(file_path)
     letter
   end
 
-  # Given a File object representing
-  # a TEI XML, perform an XSLT
-  # transform on it.
-  # @param File
-  # @return Nokogiri::XML::Document
-  def self.transform(file)
-    doc = Nokogiri::XML(file)
-    xslt = File.read(Rails.root.join('xslt', 'docx2tei.xsl').to_s)
-    xslt = Nokogiri::XSLT(xslt)
-    xslt.transform(doc)
+  # Given an id and and a Nokogiri
+  # XML element - save the xml to a
+  # file named by the id and return a
+  # file path
+  # @param id String
+  # @param xml Nokogiri::XML::Node
+  def self.save_to_file(id, xml)
+    name = id || "Letter imported " + Time.now.to_s
+    name += '.xml'
+    file_path = Rails.root.join('tmp', name)
+    File.write(file_path, xml.to_xml)
+    file_path
   end
+
 
   # Given a Nokogiri::XML::Element
   # representing a single div

@@ -127,9 +127,11 @@ class WorksController < ApplicationController
   end
 
   def save_edit
+    @work = Work.find(params[:id])
     handle_arguments
-    params[:work].delete :agents
-    if @work.update_attributes(params[:work])
+    work_params = params[:work]
+    work_params.delete :agents if work_params.include? :agents
+    if @work.update_attributes(work_params)
       handle_arguments
       redirect_to show_file_work_path @work
     else

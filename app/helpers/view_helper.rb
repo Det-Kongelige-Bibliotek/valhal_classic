@@ -12,4 +12,9 @@ module ViewHelper
       obj
     end
   end
+
+
+  def helper_method
+    "helper method!!!!"
+  end
 end

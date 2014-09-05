@@ -4,8 +4,8 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
-      has_many :nextInSequence, :class_name => 'ActiveFedora::Base', :property=>:next_in_sequence, :inverse_of => :previous_in_sequence
-      belongs_to :previousInSequence, :class_name => 'ActiveFedora::Base', :property=>:previous_in_sequence, :inverse_of => :next_in_sequence
+      has_attributes :nextInSequence, :previousInSequence, datastream: 'descMetadata', multiple: false
+
       has_many :parts, :class_name => 'Work', property: :has_parts, inverse_of: :is_part_of
       belongs_to :is_part_of, :class_name => 'Work', property: :is_part_of, inverse_of: :parts
 
@@ -26,27 +26,59 @@ module Concerns
       # next work to the current work
       # @param Work
       def add_previous(work)
-        self.save unless self.pid
-        work.save unless work.pid
-        self.previousInSequence = work
-        work.nextInSequence << self
+        self.save unless self.persisted?
+        work.save unless work.persisted?
+        # if there is already a previous
+        # work, make sure that it is not
+        # still pointing to this work
+        if self.previousInSequence
+          old = previous_work
+          old.nextInSequence = nil
+          old.save
+        end
+        self.previousInSequence = work.pid
+        work.nextInSequence = self.pid
+        save && work.save
       end
 
       # reverse of add_previous
       # @param Work
       def add_next(work)
-        self.save unless self.pid
-        work.save unless work.pid
-        work.previousInSequence = self
-        self.nextInSequence << work
+        self.save unless self.persisted?
+        work.save unless work.persisted?
+        # if there is already a next
+        # work, make sure that it is not
+        # still pointing to this work
+        if self.nextInSequence
+          old = next_work
+          old.previousInSequence = nil
+          old.save
+        end
+        work.previousInSequence = self.pid
+        self.nextInSequence = work.pid
+        save && work.save
       end
+    end
+
+    # Accessor method to return Work
+    # object based on a pid stored
+    # in previousInSequence
+    def previous_work
+      Work.find(previousInSequence) unless previousInSequence.nil?
+    end
+
+    # Accessor method to return Work
+    # object based on a pid stored
+    # in previousInSequence
+    def next_work
+      Work.find(nextInSequence) unless nextInSequence.nil?
     end
 
 
     def get_work_relations
       rels = {}
-      rels[:nextInSequence] = self.nextInSequence.first
-      rels[:previousInSequence] = self.previousInSequence
+      rels[:nextInSequence] = self.next_work
+      rels[:previousInSequence] = self.previous_work
       rels[:hasParts] = self.parts
       rels[:isPartOf] = self.is_part_of
       rels

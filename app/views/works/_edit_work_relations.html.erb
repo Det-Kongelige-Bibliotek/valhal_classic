@@ -1,0 +1,9 @@
+<table class="table" border="1">
+  <thead><tr><th><%= t 'works.edit.relationship_type' %></th><th><%= t 'works.edit.work_name' %></th></tr></thead>
+  <tbody>
+  <%= render partial: 'work_relations', locals: { edit: true } %>
+  </tbody>
+</table>
+<%# This select is used to create the forms for updating work-to-work relations %>
+<%= collection_select(:ignore_me, :pid, Work.all, :id, :get_title_for_display,  options = { :include_blank => false },
+                      { multiple: false, class: 'input-block-level hidden', id: "work-dropdown" }) %>

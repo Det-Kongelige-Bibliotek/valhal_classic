@@ -18,7 +18,7 @@ describe 'perform' do
     @work = Work.new
     o = OrderedInstance.new
     bf = BasicFile.new
-    @xml_path = Rails.root.join('spec', 'fixtures', 'brev', '001003574_000.xml')
+    @xml_path = Rails.root.join('spec', 'fixtures', 'brev', 'small-tei.xml')
     bf.add_file(File.new(@xml_path), true)
     o.files << bf
     @work.add_instance(o)
@@ -40,7 +40,7 @@ describe 'parse letters' do
 
   before :all do
     doc = Nokogiri::XML(File.open(Rails.root.join('spec', 'fixtures', 'brev', 'small-tei.xml')))
-    @work = Work.create(title: 'some stupid fucking test work')
+    @work = Work.create(title: 'The collected letters of Julius Lange', workType: 'Book')
     LetterVolumeSplitter.parse_letters(doc, @work)
     @letters = Work.find(search_result_work_type_ssi: 'Letter')
     @letter = Work.find(teiRef_si: 'divid136080').first
@@ -56,8 +56,8 @@ describe 'parse letters' do
     l.reload
     l.workType.should eql 'Letter'
     l.is_part_of.should == @work
-    prev = l.previousInSequence
-    prev.nextInSequence.should == [l]
+    prev = l.previous_work
+    prev.next_work.should == l
   end
 
   it 'should create an authority metadata unit for the author' do
@@ -77,6 +77,10 @@ describe 'parse letters' do
     origin.should be_an AuthorityMetadataUnit
     origin.type.should eql 'place'
     origin.value.should eql 'København'
+  end
+
+  it 'should create a basic file for the relevant tei div' do
+    @letter.single_file_instances.length.should eql 1
   end
 end
 
