@@ -28,14 +28,13 @@ class ConversionService
 
   # Given an Aleph sysnum
   # Get the marc and convert it
-  # to Valhal Work attributes
+  # to Valhal metadata
   # @param sysnum String
   # @return fields_for_work Hash
   def self.aleph_to_valhal(sysnum)
     aleph = AlephService.new
     record = aleph.find_by_sysnum(sysnum)
     mods = ConversionService.aleph_to_mods(record)
-    fields_for_work, fields_for_instance, metadata_objects = TransformationService.extract_mods_fields_as_hashes(mods)
-    fields_for_work
+    TransformationService.extract_mods_fields_as_hashes(mods)
   end
 end
