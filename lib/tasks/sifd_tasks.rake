@@ -3,6 +3,7 @@ require 'yaml'
 require 'net/http'
 require 'uri'
 require 'logger'
+require 'resque/tasks'
 
 
 require "#{Rails.root}/app/services/aleph_service"
