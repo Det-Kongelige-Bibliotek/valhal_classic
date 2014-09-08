@@ -1,4 +1,5 @@
 <table border='0'>
+  <tr><td style='font-weight: bold;'>Related Work</td><td><%=link_to @single_file_instance.ie.title, work_path(@single_file_instance.ie.pid) %></td></tr>
   <tr><td style='font-weight: bold;'>Instance name: </td><td><%= @single_file_instance.instance_name %></td></tr>
   <tr><td><b>Number of files: </b></td><td><%= @single_file_instance.files.length.to_s %></td></tr>
   <br>
