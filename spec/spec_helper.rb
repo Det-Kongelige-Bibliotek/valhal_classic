@@ -105,6 +105,7 @@ RSpec.configure do |config|
   def delete_all_objects
     Work.all.each {|w| w.delete }
     OrderedInstance.all.each {|w| w.delete }
+    SingleFileInstance.all.each {|w| w.delete}
     BasicFile.all.each {|w| w.delete }
   end
 end
