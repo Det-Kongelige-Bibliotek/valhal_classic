@@ -33,7 +33,7 @@
             <div id="material_type_div">
         <% end %>
           <%= builder.label :material_type, "Material Type" %>
-          <%= builder.select 'material_type', options_for_select([@adminMetadata.material_type.first]), :value => @adminMetadata.material_type.first%>
+          <%= builder.select 'material_type', options_for_select(['', @adminMetadata.material_type.first], @adminMetadata.material_type.first), :value => @adminMetadata.material_type.first%>
         </div>
 
         <%= builder.label :availability, "Availability" %>
