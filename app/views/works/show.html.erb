@@ -29,6 +29,7 @@
         <td><%= l %></td>
     <% end %>
   </tr>
+  <tr><td><b>Language</b></td><td><%= @work.language.map{|e| e['value']}.first %></td></tr>
   <tr><td><b>Topic(s)</b></td>
     <% @work.topic.each do |t| %>
         <td><%= t %></td>
@@ -40,6 +41,7 @@
     <% end %>
   </tr>
   <tr><td><b>Date created</b></td><td><%= @work.dateCreated %></td></tr>
+  <!--<tr><td><b>Date issued</b></td><td><% @work.dateIssued %></td></tr>-->
   <tr><td><b>Other Date(s)</b></td>
     <% @work.dateOther.each do |d| %>
         <td><%= d %></td>
