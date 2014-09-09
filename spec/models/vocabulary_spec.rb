@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Vocabulary do
 
   after :each do
-    Ohm.redis.call('flushdb')
+    delete_all_objects
   end
 
   it_behaves_like 'ActiveModel'
@@ -39,6 +39,21 @@ describe Vocabulary do
     e = VocabularyEntry.create(vocabulary: v, name: 'mackerel', description: 'A pelagic fish, typically from the family Scombridae')
     v.entries.include?(e).should be_true
     e.vocabulary.should eql v
+  end
+
+  it 'should be possible to update entries' do
+    details = {name: 'Mackerel', description: 'A pelagic fish'}
+    e = VocabularyEntry.create(details)
+    v = Vocabulary.create(name: 'fish', entries: [e.to_hash])
+    updated = e.to_params.merge({'description' => 'A cuniform fish'})
+    v.entries=[updated]
+    v.entries.length.should eql 1
+    v.entries.first.description.should eql 'A cuniform fish'
+  end
+
+  it 'has a to_hash method' do
+    v = Vocabulary.create(name: 'fish')
+    v.to_hash.keys.should include(:name)
   end
 
   it 'should be countable' do

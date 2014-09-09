@@ -106,7 +106,9 @@ RSpec.configure do |config|
     Work.all.each {|w| w.delete }
     OrderedInstance.all.each {|w| w.delete }
     BasicFile.all.each {|w| w.delete }
+    Ohm.redis.call('flushdb')
   end
+
 end
 
 
