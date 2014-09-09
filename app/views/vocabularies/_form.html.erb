@@ -1,0 +1,76 @@
+<%= form_for(@vocabulary, html: { class: 'form-horizontal' }) do |f| %>
+    <% if @vocabulary.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@vocabulary.errors.count, "error") %> prohibited this vocabulary from being saved:</h2>
+
+          <ul>
+            <% @vocabulary.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <% unless @vocabulary.name %>
+        <div class="control-group">
+          <%= f.label t('.vocab_name'), class: 'control-label' %>
+          <div class="controls">
+            <%= f.text_field :name %>
+          </div>
+        </div>
+    <% end %>
+
+    <% if @vocabulary.entries.length > 0 %>
+        <h3>Entries</h3>
+        <% @vocabulary.entries.each do |entry| %>
+            <%= render partial: 'entry', object: entry %>
+            <hr/>
+        <% end %>
+    <% end %>
+    <h4>New Entry</h4>
+    <%= render partial: 'entry', object: VocabularyEntry.new %>
+    <div class="actions">
+      <%= f.submit t(:save), class: 'btn' %>
+    </div>
+<% end %>
+
+
+<!--
+
+<form action="<%# vocabularies_path %>" method="post">
+
+
+  <div class="field">
+    <label for="vocabulary_name"><%# t '.vocab_name' %></label>
+    <input name="vocabulary[name]" type="text" placeholder="Vocabulary name" id="vocabulary_name"/>
+  </div>
+
+  <div class="field">
+    <span>
+      <label for="vocabulary_entry_name"><%# t '.vocab_entry' %></label>
+      <input name="vocabulary[entries][][name]" type="text" placeholder="New entry" id="vocabulary_entry_name"/>
+    </span>
+    <span>
+      <label for="vocabulary_entry_description"><%# t '.vocab_entry_desc' %></label>
+      <input name="vocabulary[entries][][description]" type="text" placeholder="New entry" id="vocabulary_entry_description"/>
+    </span>
+  </div>
+
+  <div class="field">
+    <span>
+      <label for="vocabulary_entry_name1"><%# t '.vocab_entry' %></label>
+      <input name="vocabulary[entries][][name]" type="text" placeholder="New entry" id="vocabulary_entry_name1"/>
+    </span>
+    <span>
+      <label for="vocabulary_entry_description1"><%# t '.vocab_entry_desc' %></label>
+      <input name="vocabulary[entries][][description]" type="text" placeholder="New entry" id="vocabulary_entry_description1"/>
+    </span>
+  </div>
+
+
+  <div class="actions">
+     <input type="submit" value="Gem"/>
+  </div>
+</form>
+
+-->

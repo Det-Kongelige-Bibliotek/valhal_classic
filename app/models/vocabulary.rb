@@ -11,10 +11,10 @@ class Vocabulary < ValhalOhm
         entry = VocabularyEntry[hash[:id]]
         hash.merge!(vocabulary_id: self.id)
         entry.update(hash)
-      else
+      elsif hash.key?(:name) && hash[:name].present?
         entry = VocabularyEntry.new(name: hash[:name], description: hash[:description], vocabulary_id: self.id)
       end
-      entry.save
+      entry.save if defined?(entry) and entry
     end
     save
   end

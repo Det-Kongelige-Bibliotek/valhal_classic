@@ -1,0 +1,22 @@
+<%= fields_for 'vocabulary[entries][]', entry, index: nil do |fields| %>
+<div class="<%= "empty-entry" unless entry.id %>">
+    <%= fields.hidden_field :id %>
+    <div class="control-group">
+      <label class="control-label"><%= t '.entry_name' %></label>
+      <div class="controls">
+        <%= fields.text_field :name %>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><%= t '.entry_description' %></label>
+      <div class="controls">
+        <%= fields.text_field :description %>
+      </div>
+    </div>
+</div>
+<% end %>
+<% unless entry.id %>
+    <hr/>
+    <a class="btn btn-small" href="#" data-function="new-vocabulary-entry"><i class="icon-plus-sign"></i> <%= t '.add_new' %></a>
+    <hr/>
+<% end %>

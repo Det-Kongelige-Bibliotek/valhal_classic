@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 Valhal::Application.routes.draw do
+
   root :to => "catalog#index"
 
   Blacklight.add_routes(self)
@@ -11,6 +12,7 @@ Valhal::Application.routes.draw do
   # first created -> highest priority.
   get "view_file/show"
 
+  resources :vocabularies
   resources :basic_files do
     member do
       get 'show'

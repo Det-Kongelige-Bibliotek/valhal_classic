@@ -7,9 +7,30 @@ en:
         new_work: "New Work"
         new_work_from_mods: "New Work from MODS"
         new_authority_metadata_unit: "New AuthorityMetadataUnit"
+        metadata_admin: "Metadata Administration"
       general:
         confirmation: "Are you sure?"
   givenName: Given name
   surname: Surname
   dateOfBirth: Date of birth
   dateOfDeath: Date of death
+  vocabularies:
+    form:
+      vocab_name: "Vocabulary name"
+      vocab_entry: "Entry"
+      vocab_entry_desc: "Description"
+    index:
+      listing_vocabularies: "Listing vocabularies"
+      delete: "Delete"
+      new_vocabulary: "New vocabulary"
+      name: "Name"
+      show: "Show"
+      edit: "Edit"
+    entry:
+      entry_name: "Entry name"
+      entry_description: "Entry description"
+      add_new: "New entry"
+    edit:
+      editing_vocabulary: "Editing vocabulary"
+  back: "Back"
+  save: "Save"
