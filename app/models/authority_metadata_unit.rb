@@ -13,7 +13,10 @@ class AuthorityMetadataUnit < ActiveFedora::Base
   # List of multiple key-value pairs
   has_attributes :reference, datastream: 'descMetadata', :multiple => true
 
-  validates_with AMUValidator
+  # Validation should be done i the subclasses
+  #validates_with AMUValidator
+
+  before_save :set_value
 
   # Extracts the relations, which are valid for this
   def get_relations
