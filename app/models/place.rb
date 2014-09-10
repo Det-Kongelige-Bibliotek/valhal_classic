@@ -1,10 +1,10 @@
 class Place < AuthorityMetadataUnit
-  has_attributes :placeName, datastream: 'descMetadata', :multiple => false
+  has_attributes :name, datastream: 'descMetadata', :multiple => false
 
   include Concerns::Inheritance
 
   def set_value
-    self.value = self.placeName
+    self.value = self.name
   end
 
   has_solr_fields do |m|
