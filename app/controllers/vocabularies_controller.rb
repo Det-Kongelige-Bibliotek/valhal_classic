@@ -1,6 +1,8 @@
 class VocabulariesController < ApplicationController
   before_action :set_vocabulary, only: [:show, :edit, :update, :destroy]
 
+  authorize_resource
+
   # GET /vocabularies
   def index
     @vocabularies = Vocabulary.all
