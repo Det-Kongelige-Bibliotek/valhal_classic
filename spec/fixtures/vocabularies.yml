@@ -1,0 +1,28 @@
+# Enable pre-loading of vocabularies into Redis
+# Called by rake sifd:load_vocabs to be used on new deploys only.
+# Do NOT use this file / task as a proxy for Vocabulary management.
+# Its only function is to prevent developers manually entering
+# data every time they setup a new environment.
+activity:
+  name: Activity
+  entries:
+    adl:
+      name: ADL
+    tryk:
+      name: Trykpdfer
+    brev:
+      name: Brevprojekt
+    dod:
+      name: DoD
+    nul:
+      name: Nul-workflow
+
+workflow_status:
+  name: Workflow status
+  entries:
+    ingested:
+      name: Ingested
+    complete:
+      name: Metadata complete
+    finished:
+      name: Færdig forvaltet

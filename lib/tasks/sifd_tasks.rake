@@ -16,6 +16,22 @@ namespace :sifd do
   include MqHelper
   include DisseminationService
 
+  desc 'Load predefined ControlledVocabularies'
+  task :load_vocabs => :environment do
+    Ohm.redis.call('flushdb')
+    vocabs = YAML.load_file(Rails.root.join('spec','fixtures', 'vocabularies.yml').to_s)
+    vocabs.each_value do |val|
+      current = Vocabulary.create(name: val['name'])
+      if val.has_key?('entries')
+        val['entries'].each_value do |entry|
+          VocabularyEntry.create(name: entry['name'], vocabulary: current)
+        end
+      end
+    end
+
+  end
+
+
   desc "Delete all ActiveFedora::Base objects from solr and fedora"
   task :clean => :environment do
     if Rails.env.to_s.eql? 'test'
