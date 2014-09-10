@@ -18,6 +18,7 @@ da:
       vocab_entry: "Medlem"
       vocab_entry_desc: "Beskrivelse"
       new_entry: "Nyt begreb"
+      entries: "Begreber"
     index:
       listing_vocabularies: "Viser vocabularies"
       name: "Navn"
