@@ -9,6 +9,9 @@
         <%= builder.label :activity, "Activity" %>
         <%= builder.text_field :activity, :class => 'text_field', :value => @adminMetadata.activity.first %>
 
+        <%= builder.label :workflow_status, "Workflow Status" %>
+        <%= builder.select 'workflow_status', options_for_select(get_controlled_vocab('Workflow statuses'), @adminMetadata.workflow_status.first), :value => @adminMetadata.workflow_status.first%>
+
         <%= builder.label :embargo, "Embargo" %>
         <%= builder.text_field :embargo, :class => 'text_field', :value => @adminMetadata.embargo.first %>
 

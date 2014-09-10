@@ -21,6 +21,10 @@ class ValhalOhm < Ohm::Model
   end
 
   # ActiveModel compliance
+  def self.last
+    self.all.last
+  end
+
   def persisted?
     self.id ? true : false
   end
