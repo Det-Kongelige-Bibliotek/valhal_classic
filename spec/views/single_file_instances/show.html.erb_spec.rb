@@ -24,8 +24,7 @@ describe "single_file_instances/show" do
     end
 
     after(:each) do
-      @single_file_instance.delete
-      @work.delete
+      delete_all_objects
     end
   end
 end

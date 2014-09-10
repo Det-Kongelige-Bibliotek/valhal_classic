@@ -27,10 +27,14 @@
         <label for="administration_material_group">Material Group</label>
         <%= select_tag 'material_group', options_for_select(get_material_type_groups), :onchange => 'enableMaterialTypes("' + @object.id + '")', :include_blank => true  %>
 
-        <!--div id="material_type_div" style="display: none;"-->
+        <% if @adminMetadata.material_type.blank? %>
+            <div id="material_type_div" style="display: none;">
+        <% else %>
+            <div id="material_type_div">
+        <% end %>
           <%= builder.label :material_type, "Material Type" %>
-          <%= builder.select 'material_type', options_for_select([@adminMetadata.material_type.first]), :value => @adminMetadata.material_type.first%>
-        <!--/div-->
+          <%= builder.select 'material_type', options_for_select(['', @adminMetadata.material_type.first], @adminMetadata.material_type.first), :value => @adminMetadata.material_type.first%>
+        </div>
 
         <%= builder.label :availability, "Availability" %>
         <%= builder.text_field :availability, :class => 'text_field', :value => @adminMetadata.availability.first %>
