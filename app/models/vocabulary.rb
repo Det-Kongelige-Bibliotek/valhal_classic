@@ -1,7 +1,29 @@
 class Vocabulary < ValhalOhm
   attribute :name
-  index :name
+  unique :name
   collection :entries, :VocabularyEntry
+
+  # Overwrite super method to enable
+  # us to return a boolean rather than
+  # an exception on failure
+  def save
+    begin
+      super
+    rescue Ohm::UniqueIndexViolation
+      errors.add :name, 'Field must be unique!'
+      false
+    end
+  end
+
+  def create
+    begin
+      super
+    rescue Ohm::UniqueIndexViolation
+      errors.add :name, 'Field must be unique!'
+      false
+    end
+  end
+
 
   def entries=(new_entries)
     self.save unless self.persisted?

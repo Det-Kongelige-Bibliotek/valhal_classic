@@ -25,13 +25,13 @@ describe Vocabulary do
 
   it 'should be findable by name' do
     v = Vocabulary.create(name: 'fish')
-    Vocabulary.find(name: 'fish').first.should eql v
+    Vocabulary.with(:name, 'fish').should eql v
   end
 
   it 'should be deletable' do
     v = Vocabulary.create(name: 'fish')
     v.delete
-    Vocabulary.find(name: 'fish').first.should be_nil
+    Vocabulary.with(:name, 'fish').should be_nil
   end
 
   it 'should contain entries' do
@@ -60,6 +60,18 @@ describe Vocabulary do
     Vocabulary.create(name: 'fish')
     Vocabulary.create(name: 'invertebrates')
     Vocabulary.count.should eql 2
+  end
+
+  it 'should ensure uniqueness of names on save' do
+    Vocabulary.new(name: 'fish').save.should be_true
+    v = Vocabulary.new(name: 'fish')
+    v.save.should be_false
+    v.errors.messages.length.should be > 0
+  end
+
+  it 'should ensure uniqueness of names on create' do
+    Vocabulary.create(name: 'fish').should be_true
+    Vocabulary.create(name: 'fish').should be_false
   end
 end
 
