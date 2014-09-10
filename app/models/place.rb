@@ -1,14 +1,7 @@
 class Place < AuthorityMetadataUnit
   has_attributes :placeName, datastream: 'descMetadata', :multiple => false
 
-  def assert_content_model
-    super()
-    object_superclass = self.class.superclass
-    until object_superclass == ActiveFedora::Base || object_superclass == Object do
-      add_relationship(:has_model, object_superclass.to_class_uri)
-      object_superclass = object_superclass.superclass
-    end
-  end
+  include Concerns::Inheritance
 
   def set_value
     self.value = self.placeName
