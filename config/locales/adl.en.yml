@@ -19,6 +19,7 @@ en:
       vocab_name: "Vocabulary name"
       vocab_entry: "Entry"
       vocab_entry_desc: "Description"
+      new_entry: "New entry"
     index:
       listing_vocabularies: "Listing vocabularies"
       delete: "Delete"

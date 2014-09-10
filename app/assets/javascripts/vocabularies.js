@@ -1,6 +1,8 @@
 $(document).ready(function(){
     $('[data-function="new-vocabulary-entry"]').click(function(){
-        console.log("click click click!");
+        var html = '<div class="empty-entry">' + $('.empty-entry').first().html() + '</div>'
+
+        $('[data-hook="empty-entries"]').append(html);
         return false;
     })
 });

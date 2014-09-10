@@ -27,50 +27,14 @@
             <hr/>
         <% end %>
     <% end %>
-    <h4>New Entry</h4>
-    <%= render partial: 'entry', object: VocabularyEntry.new %>
+    <h4><%= t '.new_entry' %></h4>
+    <div data-hook="empty-entries">
+      <%= render partial: 'entry', object: VocabularyEntry.new %>
+    </div>
+    <hr/>
+    <a class="btn btn-small" href="#" data-function="new-vocabulary-entry"><i class="icon-plus-sign"></i> <%= t '.add_new' %></a>
+    <hr/>
     <div class="actions">
       <%= f.submit t(:save), class: 'btn' %>
     </div>
 <% end %>
-
-
-<!--
-
-<form action="<%# vocabularies_path %>" method="post">
-
-
-  <div class="field">
-    <label for="vocabulary_name"><%# t '.vocab_name' %></label>
-    <input name="vocabulary[name]" type="text" placeholder="Vocabulary name" id="vocabulary_name"/>
-  </div>
-
-  <div class="field">
-    <span>
-      <label for="vocabulary_entry_name"><%# t '.vocab_entry' %></label>
-      <input name="vocabulary[entries][][name]" type="text" placeholder="New entry" id="vocabulary_entry_name"/>
-    </span>
-    <span>
-      <label for="vocabulary_entry_description"><%# t '.vocab_entry_desc' %></label>
-      <input name="vocabulary[entries][][description]" type="text" placeholder="New entry" id="vocabulary_entry_description"/>
-    </span>
-  </div>
-
-  <div class="field">
-    <span>
-      <label for="vocabulary_entry_name1"><%# t '.vocab_entry' %></label>
-      <input name="vocabulary[entries][][name]" type="text" placeholder="New entry" id="vocabulary_entry_name1"/>
-    </span>
-    <span>
-      <label for="vocabulary_entry_description1"><%# t '.vocab_entry_desc' %></label>
-      <input name="vocabulary[entries][][description]" type="text" placeholder="New entry" id="vocabulary_entry_description1"/>
-    </span>
-  </div>
-
-
-  <div class="actions">
-     <input type="submit" value="Gem"/>
-  </div>
-</form>
-
--->
