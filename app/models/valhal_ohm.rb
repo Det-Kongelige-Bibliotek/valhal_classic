@@ -20,10 +20,12 @@ class ValhalOhm < Ohm::Model
     self.all.first
   end
 
+  # ActiveModel compliance
   def persisted?
     self.id ? true : false
   end
 
+  # ActiveModel compliance
   def id
     begin
       super
