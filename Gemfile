@@ -25,7 +25,7 @@ gem 'bunny', '~> 1.1.0'
 gem 'amq-protocol', '>= 1.9.2'
 
 # NOTE: the :require arg is necessary on Linux-based hosts
-gem 'rmagick', '2.13.1', :require => 'RMagick'
+gem 'rmagick', '2.13.3', :require => 'RMagick'
 gem 'paperclip'
 
 # Gems used only for assets and not required
