@@ -1,4 +1,4 @@
-<%= render "#{@amu.class.to_s.downcase}_header" %>
+<%= render 'header' %>
 
 <%= form_for @amu, :html=>{:multipart=>true, :class=>'form-horizontal'} do |f| %>
     <%= f.error_messages :header_message => "Edit AuthorityMetadataUnit error", :class => "alert alert-error", :header_tag => :h3 %>

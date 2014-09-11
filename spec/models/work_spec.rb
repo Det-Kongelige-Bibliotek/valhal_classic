@@ -2,9 +2,10 @@
 require 'spec_helper'
 
 describe Work do
-  subject { Work.new(title: 'test' + Time.now.nsec.to_s) }
+  subject { Work.new(title: 'test' + Time.now.nsec.to_s, workType: 'TestType') }
 
   it_behaves_like 'a preservable element'
+  it_behaves_like 'an element with administrative metadata'
 
   describe '#title' do
     it 'should be created with a title' do
@@ -24,9 +25,19 @@ describe Work do
       w = Work.new(:title => 'some title')
       w.save!
       w.title.should_not be_nil
-      w.title = t;
+      w.title = t
       w.save!
-      w.title.should == t;
+      w.title.should == t
+    end
+  end
+
+  describe 'embargo_release_date' do
+    it 'should be possible to set and get an embargo release date' do
+      w = Work.new(title: 'nonsense')
+      w.embargo_release_date = Date.today
+      w.save
+      w.reload
+      w.embargo_release_date.should eql Date.today.strftime('%Y-%m-%d')
     end
   end
 
@@ -100,10 +111,10 @@ describe Work do
       w.typeOfResourceLabel.should == @attributes_hash[:typeOfResourceLabel]
       w.recordOriginInfo.should == @attributes_hash[:recordOriginInfo]
       w.recordOriginInfo.should == @attributes_hash[:recordOriginInfo]
-      w.dateOther.should == @attributes_hash[:dateOther]
-      w.genre.should == @attributes_hash[:genre]
-      w.languageOfCataloging.should == @attributes_hash[:languageOfCataloging]
-      w.topic.should == @attributes_hash[:topic]
+      w.dateOther.should == [@attributes_hash[:dateOther]]
+      w.genre.should == [@attributes_hash[:genre]]
+      w.languageOfCataloging.should == [@attributes_hash[:languageOfCataloging]]
+      w.topic.should == [@attributes_hash[:topic]]
     end
 
     it 'should be possible to update with the attributes' do
@@ -138,10 +149,10 @@ describe Work do
       w.typeOfResourceLabel.should == @attributes_hash[:typeOfResourceLabel]
       w.recordOriginInfo.should == @attributes_hash[:recordOriginInfo]
       w.recordOriginInfo.should == @attributes_hash[:recordOriginInfo]
-      w.dateOther.should == @attributes_hash[:dateOther]
-      w.genre.should == @attributes_hash[:genre]
-      w.languageOfCataloging.should == @attributes_hash[:languageOfCataloging]
-      w.topic.should == @attributes_hash[:topic]
+      w.dateOther.should == [@attributes_hash[:dateOther]]
+      w.genre.should == [@attributes_hash[:genre]]
+      w.languageOfCataloging.should == [@attributes_hash[:languageOfCataloging]]
+      w.topic.should == [@attributes_hash[:topic]]
     end
   end
 
@@ -173,7 +184,7 @@ describe Work do
 
   describe ' validation' do
     it 'should not be possible to create two identical works' do
-      pending "No such validation yet!"
+      pending "The advanced logic for locating identical works have not yet been implemented. See US843."
       title = 'identical work'
       workType = 'identical work'
       Work.create(:title => title, :workType => workType).should be_true

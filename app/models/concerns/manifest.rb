@@ -13,7 +13,7 @@ module Concerns
 
     # @return Whether any instances for the manifest exists.
     def has_ins?
-      return instances.any?
+      instances.any?
     end
 
     # @return all ordered instances.
@@ -40,14 +40,15 @@ module Concerns
       res
     end
 
-    # @return whether its preservation can be inherited.
+    # @return whether any operations can be cascading (e.g. updating administrative or preservation metadata)
     # For the manifests, this is true (since it has the instances).
-    def preservation_inheritance?
-      return true
+    def can_perform_cascading?
+      true
     end
 
-    # @return the list of objects, which can inherit the preservation settings (only one level)
-    def preservation_inheritable_objects
+    # Returns all the instances of the manifest.
+    # @return the objects, which cascading operations can be performed upon (e.g. updating administrative or preservation metadata)
+    def cascading_elements
       instances
     end
 

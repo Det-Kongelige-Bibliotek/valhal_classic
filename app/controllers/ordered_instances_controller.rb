@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 #require 'zip/zip'
-
 class OrderedInstancesController < ApplicationController
+  include AdministrationHelper # methods: update_administrative_metadata_from_controller
   include PreservationHelper # methods: update_preservation_profile_from_controller
   include InstanceHelper
 
@@ -19,10 +19,15 @@ class OrderedInstancesController < ApplicationController
     @ordered_instance = OrderedInstance.find(params[:id])
   end
 
+  # Retrieves the ordered instance for the administration view
+  def administration
+    @ordered_instance = OrderedInstance.find(params[:id])
+  end
+
   def update
     @ordered_instance = OrderedInstance.find(params[:id])
 
-    add_agents(params[:instance_agents], @ordered_instance) unless params[:instance_agents].blank?
+    add_agents(JSON.parse(params[:instance_agents]), @ordered_instance) unless params[:instance_agents].blank?
 
     if @ordered_instance.update_attributes(params[:ordered_instance])
       redirect_to @ordered_instance, notice: 'Ordered instance was successfully updated.'
@@ -80,6 +85,23 @@ class OrderedInstancesController < ApplicationController
     end
   end
 
+  # Updates the administration metadata for the ordered instance.
+  def update_administration
+    @ordered_instance = OrderedInstance.find(params[:id])
+    begin
+      update_administrative_metadata_from_controller(params, @ordered_instance)
+      redirect_to @ordered_instance, notice: 'Updated the administrative metadata'
+    rescue => error
+      error_msg = "Could not update administrative metadata: #{error.inspect}"
+      error.backtrace.each do |l|
+        error_msg += "\n#{l}"
+      end
+      logger.error error_msg
+      @ordered_instance.errors[:administrative_metadata] << error.inspect.to_s
+      render action: 'administration'
+    end
+  end
+
   # Updates the preservation profile metadata.
   def update_preservation_profile
     @ordered_instance = OrderedInstance.find(params[:id])
@@ -104,6 +126,7 @@ class OrderedInstancesController < ApplicationController
       errors = TransformationService.validate_mods(mods)
       if errors.empty?
         logger.info "Sending valid MODS record for Work: {ID: #{@ordered_instance.id}, UUID: #{@ordered_instance.uuid}}"
+        # TODO: Figure out whether the official mime-type for MODS really is 'application/xml+mods' instead.
         send_data mods, {:filename => "#{@ordered_instance.uuid}-mods.xml", :type => 'text/xml'}
       else
         logger.warn "Issue when transforming to MODS for Work: {ID: #{@ordered_instance.id}, UUID: #{@ordered_instance.uuid}}:\n #{errors}"

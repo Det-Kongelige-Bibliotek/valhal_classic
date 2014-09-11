@@ -59,6 +59,12 @@ function createDropdown(){
     return false;
 }
 
+function updateInputFields(){
+    if (this.value == 'agent/person') {
+        $('.person-fields').removeClass('hidden');
+    }
+}
+
 /**
  * Provides functionality for adding new agents and their relationship to a work or instance in a table
  * @param relationshipType

@@ -1,0 +1,40 @@
+<%= form_for(@vocabulary, html: { class: 'form-horizontal' }) do |f| %>
+    <% if @vocabulary.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@vocabulary.errors.count, "error") %> prohibited this vocabulary from being saved:</h2>
+
+          <ul>
+            <% @vocabulary.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <% unless @vocabulary.name %>
+        <div class="control-group">
+          <%= f.label t('.vocab_name'), class: 'control-label' %>
+          <div class="controls">
+            <%= f.text_field :name %>
+          </div>
+        </div>
+    <% end %>
+
+    <% if @vocabulary.entries.length > 0 %>
+        <h3><%= t '.entries' %></h3>
+        <% @vocabulary.entries.each do |entry| %>
+            <%= render partial: 'entry', object: entry %>
+            <hr/>
+        <% end %>
+    <% end %>
+    <h4><%= t '.new_entry' %></h4>
+    <div data-hook="empty-entries">
+      <%= render partial: 'entry', object: VocabularyEntry.new %>
+    </div>
+    <hr/>
+    <a class="btn btn-small" href="#" data-function="new-vocabulary-entry"><i class="icon-plus-sign"></i> <%= t '.add_new' %></a>
+    <hr/>
+    <div class="actions">
+      <%= f.submit t(:save), class: 'btn' %>
+    </div>
+<% end %>

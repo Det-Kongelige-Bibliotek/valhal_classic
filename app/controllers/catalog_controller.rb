@@ -25,19 +25,22 @@ class CatalogController < ApplicationController
   end
 
   def unwanted_models
-    [BasicFile, TiffFile, OrderedInstance, SingleFileInstance]
+    [BasicFile, TiffFile]
   end
 
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
-    config.default_solr_params = { 
+    config.default_solr_params = {
+      :qf => 'search_result_title_tsi amu_type_ssi work_type_tsi topic_tesim type_of_resource_tsi dateCreated_tesim dateOther_tesim languageOfCataloging_tesim recordOriginInfo_tesim typeOfResource_tesim typeOfResourceLabel_tesim workType_tesim shelfLocator_tesim physicalDescriptionForm_tesim physicalDescriiptionNote_tesim dateIssued_tesim genre_tesim collection_tesim activity_tesim embargo_tesim embargo_date_tesim embargo_condition_tesim access_condition_tesim copyright_tesim  workflow_status_tesim material_type_tesim availability_tesim',
       :qt => 'search',
       :rows => 10 
     }
 
     # solr field configuration for search results/index views
     work_solr_names = Work.solr_names
-    config.index.show_link = work_solr_names[:search_result_title]
+    amu_solr_names = AuthorityMetadataUnit.solr_names
+
+    config.index.show_link = 'search_result_title_tsi'
     config.index.record_display_type = 'format'
 
     # solr field configuration for document/show views
@@ -46,8 +49,8 @@ class CatalogController < ApplicationController
     config.show.display_type = 'format'
 
     # solr field configuration for document/show views
-    config.show.html_title = work_solr_names[:search_result_work_type]
-    config.show.heading = work_solr_names[:search_result_work_type]
+    config.show.html_title = amu_solr_names[:search_result_amu_value]
+    config.show.heading = amu_solr_names[:search_result_amu_value]
     config.show.display_type = 'format'
 
     # solr fields that will be treated as facets by the blacklight application
@@ -70,8 +73,7 @@ class CatalogController < ApplicationController
     # :show may be set to false if you don't want the facet to be drawn in the 
     # facet bar
 
-    config.add_facet_field work_solr_names[:search_result_work_type], :label => 'Work Types', :sort => 'index'
-
+    config.add_facet_field 'workType_tesim', :label => 'Work Types', :sort => 'index'
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
@@ -85,9 +87,10 @@ class CatalogController < ApplicationController
     config.add_index_field 'birth_date_t', :label => 'Date of Birth:'
     config.add_index_field 'death_date_t', :label => 'Date of Death:'
     config.add_index_field 'original_filename_t', :label => 'Name:'
-    #config.add_index_field 'title_t', :label => 'Titel:'
-    #config.add_index_field 'person_name_t', :label => 'Person Name:'
-    config.add_index_field work_solr_names[:search_result_work_type] , :label => "Type of work:"
+    config.add_index_field 'workType_tesim' , :label => 'Type of work:'
+    config.add_index_field amu_solr_names[:amu_type], :label => 'Type of AMU:'
+    config.add_index_field 'has_model_ssim', :label => 'Model Type'
+    config.add_index_field 'is_representation_of_ssim', :label => 'Representation for Work:'
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display

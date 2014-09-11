@@ -17,4 +17,12 @@ module ViewHelper
   def helper_method
     "helper method!!!!"
   end
+
+  # check if string contains
+  # true, t, yes, y, or 1
+  # @param String s
+  # @return Boolean
+  def true_string?(s)
+    !!(/^(true|t|yes|y|1)$/i).match(s)
+  end
 end

@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 #Controller for retrieving BasicFile objects from Fedora for display to the front-end
 class BasicFilesController < ApplicationController
+  include AdministrationHelper # methods: update_administrative_metadata_from_controller
   include PreservationHelper # methods: update_preservation_profile_from_controller
 
   authorize_resource
@@ -65,6 +66,28 @@ class BasicFilesController < ApplicationController
 
   # Retrieves the basic file for the preservation view
   def preservation
+  end
+
+  # Retrieves the basic file for the administration view
+  def administration
+    @file = BasicFile.find(params[:id])
+  end
+
+  # Updates the administration metadata for the basic file.
+  def update_administration
+    @file = BasicFile.find(params[:id])
+    begin
+      update_administrative_metadata_from_controller(params, @file)
+      redirect_to @file, notice: 'Updated the administrative metadata'
+    rescue => error
+      error_msg = "Could not update administrative metadata: #{error.inspect}"
+      error.backtrace.each do |l|
+        error_msg += "\n#{l}"
+      end
+      logger.error error_msg
+      @file.errors[:administrative_metadata] << error.inspect.to_s
+      render action: 'administration'
+    end
   end
 
   # Retrieve the content file for a given BasicFile.

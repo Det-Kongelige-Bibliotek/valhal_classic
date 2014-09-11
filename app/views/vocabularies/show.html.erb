@@ -1,0 +1,14 @@
+<h2>
+  <%= @vocabulary.name %>
+</h2>
+
+<h3>Entries</h3>
+<dl>
+  <% @vocabulary.entries.each do |entry| %>
+      <dt><%= entry.name %> </dt>
+      <dd><%= entry.description %></dd>
+  <% end %>
+</dl>
+
+<%= link_to 'Edit', edit_vocabulary_path(@vocabulary) %> |
+<%= link_to 'Back', vocabularies_path %>

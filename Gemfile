@@ -11,7 +11,7 @@ gem 'hydra-file_characterization'
 gem 'systemu'
 gem 'protected_attributes'
 
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 3.1.0'
 #gem 'client_side_validations' -- Deprecated Do Not User anymore
 gem 'uuid', '>= 2.3.6'
 
@@ -33,7 +33,7 @@ gem 'paperclip'
 #{group :assets do} -- asset group removed i Rails 4 
   gem 'sass-rails'
   gem 'coffee-rails', '~> 4.0.1'
-  gem 'jquery-ui-rails'
+  gem 'jquery-ui-rails', '5.0.0'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'libv8', '~> 3.16.14.0'
@@ -98,3 +98,4 @@ gem 'net-scp', '~> 1.1.2'
 gem 'resque'
 gem 'resque-scheduler'
 gem 'redis'
+gem 'ohm'

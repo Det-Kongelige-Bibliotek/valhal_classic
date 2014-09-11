@@ -6,19 +6,18 @@ module Datastreams
 
     set_terminology do |t|
       t.root(:path=>'fields')
-      t.shelfLocator()
-      t.physicalDescriptionForm()
-      t.physicalDescriptionNote()
-      t.languageOfCataloging()
-      t.dateCreated()
-      t.dateIssued()
-      t.dateOther()
-      t.recordOriginInfo()
-      t.tableOfContents()
-      t.contentType
+      t.shelfLocator(index_as: :stored_searchable)
+      t.physicalDescriptionForm(index_as: :stored_searchable)
+      t.physicalDescriptionNote(index_as: :stored_searchable)
+      t.languageOfCataloging(index_as: :stored_searchable)
+      t.dateCreated(index_as: :stored_searchable)
+      t.dateIssued(index_as: :stored_searchable)
+      t.dateOther(index_as: :stored_searchable)
+      t.recordOriginInfo(index_as: :stored_searchable)
+      t.tableOfContents(index_as: :stored_searchable)
 
       t.identifier do
-        t.value()
+        t.value(index_as: :stored_searchable)
         t.displayLabel()
       end
 

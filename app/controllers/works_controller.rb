@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class WorksController < ApplicationController
   include WorkHelper # methods: add_single_file_ins, set_authors, set_concerned_people
+  include AdministrationHelper # methods: update_administrative_metadata_from_controller
   include PreservationHelper # methods: update_preservation_profile_from_controller
   include DisseminationService # methods: ??
 
@@ -41,6 +42,11 @@ class WorksController < ApplicationController
   end
 
   def dissemination
+  end
+
+  # Retrieves the work for the administration view
+  def administration
+    @work = Work.find(params[:id])
   end
 
   def create
@@ -185,6 +191,23 @@ class WorksController < ApplicationController
     end
   end
 
+  # Updates the administration metadata for the work.
+   def update_administration
+    @work = Work.find(params[:id])
+    begin
+      update_administrative_metadata_from_controller(params, @work)
+      redirect_to @work, notice: 'Updated the administrative metadata'
+    rescue => error
+      error_msg = "Could not update administrative metadata: #{error.inspect}"
+      error.backtrace.each do |l|
+        error_msg += "\n#{l}"
+      end
+      logger.error error_msg
+      @work.errors[:administrative_metadata] << error.inspect.to_s
+      render action: 'administration'
+    end
+  end
+
   def finish_work_with_structmap
     create_structmap_for_instance(params[:structmap_file_order], @work.ordered_instances.last)
     redirect_to @work, notice: 'Work was successfully created.'
@@ -196,6 +219,7 @@ class WorksController < ApplicationController
       errors = TransformationService.validate_mods(mods)
       if errors.empty?
         logger.info "Sending valid MODS record for Work: {ID: #{@work.id}, UUID: #{@work.uuid}}"
+        # TODO: Figure out whether the official mime-type for MODS really is 'application/xml+mods' instead.
         send_data mods, {:filename => "#{@work.uuid}-mods.xml", :type => 'text/xml'}
       else
         logger.warn "Issue when transforming to MODS for Work: {ID: #{@work.id}, UUID: #{@work.uuid}}:\n #{errors}"
@@ -209,6 +233,14 @@ class WorksController < ApplicationController
       flash[:error] = 'An error has occurred. Please contact your system administrator'
       logger.error standard_error.to_s
       redirect_to :root
+    end
+  end
+
+  #Ajax GET request to return appropriate material types for the chosen material group
+  def get_admin_material_types
+    material_types = get_material_types
+    respond_to do |format|
+      format.json { render json: material_types}
     end
   end
 

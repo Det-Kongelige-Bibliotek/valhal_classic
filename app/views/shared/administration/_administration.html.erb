@@ -1,0 +1,67 @@
+<%= form_for @object, :html=>{:multipart=>true}, url: {action: 'update_administration'} do |f| %>
+    <%= f.error_messages :header_message => 'Error when editing administration metadata', :class => 'alert alert-error', :remote => true,
+                         :header_tag => :h3 %>
+    <%- @adminMetadata = @object.adminMetadata -%>
+    <%= fields_for :administration do |builder| %>
+        <%= builder.label :collection, "Collection" %>
+        <%= builder.text_field :collection, :class => 'text_field', :value => @adminMetadata.collection.first %>
+
+        <%= builder.label :activity, "Activity" %>
+        <%= builder.text_field :activity, :class => 'text_field', :value => @adminMetadata.activity.first %>
+
+        <%= builder.label :workflow_status, "Workflow Status" %>
+        <%= builder.select 'workflow_status', options_for_select(get_controlled_vocab('Workflow status'), @adminMetadata.workflow_status.first), :value => @adminMetadata.workflow_status.first%>
+
+        <%= builder.label :embargo, "Embargo" %>
+        <% embargo_active = true_string?(@adminMetadata.embargo.first) %>
+        <%# We're not using the builder checkbox method, since this depends on a boolean value in the model
+        whereas we only have a string value. %>
+        <%= check_box_tag 'administration[embargo]', 'true', embargo_active, data: { toggle: 'show-embargo-fields' } %>
+        <%#
+        Since unchecked checkboxes don't submit any values, we need a dummy input to send the value in case
+         a false value is transmitted. This is updated via javascript.
+         %>
+        <input name="administration[embargo]"  value ="<%= @adminMetadata.embargo.first %>"
+               class="hidden" id="embargo-value"/>
+        <div class="embargo-fields <%= 'hidden' unless embargo_active %>">
+            <%= builder.label :embargo_date, "Embargo Date" %>
+            <%= builder.text_field :embargo_date, :class => 'text_field', :value => @adminMetadata.embargo_date.first %>
+
+            <%= builder.label :embargo_condition, "Embargo Condition" %>
+            <%= builder.text_field :embargo_condition, :class => 'text_field', :value => @adminMetadata.embargo_condition.first %>
+
+            <%= builder.label :access_condition, "Access Condition" %>
+            <%= builder.text_field :access_condition, :class => 'text_field', :value => @adminMetadata.access_condition.first %>
+        </div>
+        <%= builder.label :copyright, "Copyright" %>
+        <%= builder.text_field :copyright, :class => 'text_field', :value => @adminMetadata.copyright.first %>
+
+        <label for="administration_material_group">Material Group</label>
+        <%= select_tag 'material_group', options_for_select(get_material_type_groups), :onchange => 'enableMaterialTypes("' + @object.id + '")', :include_blank => true  %>
+
+        <% if @adminMetadata.material_type.blank? %>
+            <div id="material_type_div" style="display: none;">
+        <% else %>
+            <div id="material_type_div">
+        <% end %>
+          <%= builder.label :material_type, "Material Type" %>
+          <%= builder.select 'material_type', options_for_select(['', @adminMetadata.material_type.first], @adminMetadata.material_type.first), :value => @adminMetadata.material_type.first%>
+        </div>
+
+        <%= builder.label :availability, "Availability" %>
+        <%= builder.text_field :availability, :class => 'text_field', :value => @adminMetadata.availability.first %>
+
+    <% end %>
+    <%= fields_for :cascading do |builder| %>
+        <% # Do not make this possible for all elements (e.g. BasicFile and Person), since it is no possible to cascade from them %>
+        <% if @object.can_perform_cascading? %>
+            <div class="set_cascading">
+              <%= builder.label :cascading, 'Cascading effect' %>
+              <%= builder.check_box :cascading %>
+            </div>
+        <% end %>
+    <% end %>
+    <br/>
+    <%= f.submit 'Update administrative metadata', :class => 'btn btn-primary' %>
+<% end %>
+<br/>

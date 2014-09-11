@@ -15,10 +15,6 @@ class Work < ActiveFedora::Base
     m.field "sub_title", method: :subTitle
     m.field "type_of_resource", method: :typeOfResource
     m.field "search_result_title", method: :get_title_for_display
-    m.field "work_type", method: :workType
-    m.field 'preservation_profile', method: :preservation_profile
-    m.field 'preservation_state', method: :preservation_state
-    m.field 'preservation_details', method: :preservation_details
   end
 
   def initialize(*args)

@@ -1,29 +1,45 @@
 namespace :valhal_migrate do
+  logger = ActiveSupport::TaggedLogging.new(Logger.new("./log/#{ENV['RAILS_ENV']}.log"))
   desc "Add file_uuid to all BasicFile objects"
   task :file_uuid => :environment do
+    logger.tagged('MIGRATE_FILE_UUID') { logger.debug 'Starting addition of file_uuid to BasicFile objects...'}
     BasicFile.all.each do |bf|
       if bf.file_uuid.blank?
-        bf.file_uuid = UUID.new.generate
-        bf.save!
+        begin
+          bf.file_uuid = UUID.new.generate
+          bf.save!
+        rescue Exception => e
+          logger.tagged('MIGRATE_FILE_UUID') { logger.error e }
+          break
+        end
       end
     end
     TiffFile.all.each do |tf|
       if tf.file_uuid.blank?
-        tf.file_uuid = UUID.new.generate
-        tf.save!
+        begin
+          tf.file_uuid = UUID.new.generate
+          tf.save!
+        rescue Exception => e
+          logger.tagged('MIGRATE_FILE_UUID') { logger.error e }
+          break
+        end
       end
     end
+    logger.tagged('MIGRATE_FILE_UUID') { logger.debug 'Finished addition of file_uuid to BasicFile objects'}
   end
 
   desc 'Move from current model to the new conceptual model.'
   task :conceptual_model => :environment do
 
+    logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.debug 'Starting migration to new data model...'}
+    
     book_and_works = []
     books = []
     files = []
     tei_files = []
     reps = []
     people = []
+    failed = {}
     ActiveFedora::Base.all.each do |b|
       if b.datastreams['RELS-EXT'].content.include?('info:fedora/afmodel:Book')
         book_and_works << b.pid
@@ -49,8 +65,15 @@ namespace :valhal_migrate do
     people_relations = extract_people_relations(people)
 
     migrated_people = Hash.new
+    failed[:people] = []
     people.each do |p|
-      migrated_people[p] = migrate_people(p)
+      begin
+        migrated_people[p] = migrate_people(p)
+      rescue => e
+        failed[:people] << p
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error "could not migrate person #{p}" }
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error e }
+      end
     end
 
     tei_files.each do |f|
@@ -62,20 +85,45 @@ namespace :valhal_migrate do
     book_work_relations = extract_work_book_relations_to_reps(book_and_works, rep_files)
 
     migrated_works = Hash.new
+    failed[:works]
     book_and_works.each do |b|
-      migrated_works[b] = migrate_book_or_work(b, book_work_relations[b])
+      begin
+        migrated_works[b] = migrate_book_or_work(b, book_work_relations[b])
+      rescue => e
+        failed[:works] << b
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error "could not migrate book or work #{b}" }
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error e }
+      end
     end
 
     books.each do |book|
       work = migrated_works[book]
       work.workType = 'Book' unless work.nil?
-      work.save unless work.nil?
+      begin
+        work.save unless work.nil?
+      rescue => e
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error "could not save new work #{work}" }
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error e }
+      end
     end
 
     insert_relations(migrated_works, migrated_people, people_relations)
 
-    puts migrated_works
-    puts migrated_people
+    legacy = []
+    legacy = book_and_works + reps + people
+    failed[:deletes] = []
+    legacy.each do |l|
+      begin
+        lbase = ActiveFedora::Base.find(l, :cast=>false)
+        lbase.delete
+      rescue => e
+        failed[:deletes] << l
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error "could not migrate legacy work #{l}" }
+      end
+    end
+
+    File.new('failed.txt', 'wb').write(failed.to_s)
+    logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.debug 'Finished migration to new data model.'}
   end
 
   # Extracts a hash containing the relation between works/books and representations (with their relations to files).
@@ -88,13 +136,19 @@ namespace :valhal_migrate do
   def extract_work_book_relations_to_reps(book_and_works, rep_relations)
     res = Hash.new
     rep_relations.each do |k, v|
-      rep = ActiveFedora::Base.find(k, :cast=>false)
-      search_start = rep.datastreams['RELS-EXT'].content.index(':hasSubset')
-      search_end = rep.datastreams['RELS-EXT'].content.index('hasSubset>')
-      bw_id = rep.datastreams['RELS-EXT'].content[search_start + 37, (search_end - search_start) - 45]
-      if book_and_works.include?(bw_id)
-        res[bw_id] = [] if res[bw_id].nil?
-        res[bw_id] << {k => v}
+      begin
+        rep = ActiveFedora::Base.find(k, :cast=>false)
+        search_start = rep.datastreams['RELS-EXT'].content.index(':hasSubset')
+        search_end = rep.datastreams['RELS-EXT'].content.index('hasSubset>')
+        unless search_start.nil? || search_end.nil?
+          bw_id = rep.datastreams['RELS-EXT'].content[search_start + 37, (search_end - search_start) - 45]
+          if book_and_works.include?(bw_id)
+            res[bw_id] = [] if res[bw_id].nil?
+            res[bw_id] << {k => v}
+          end
+        end
+      rescue => e
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error e }
       end
     end
     res
@@ -193,14 +247,9 @@ namespace :valhal_migrate do
     date_of_birth = pxml.css("//fields/date_of_birth").text
     date_of_death = pxml.css("//fields/date_of_death").text
 
-    dv = 'Ukendt'
-    if lastname.blank?
-      lastname = dv
-    end
+    lastname = 'Ukendt' if lastname.blank?
 
-    name = "#{lastname}, #{firstname} (#{date_of_birth} - #{date_of_death})"
-
-    AMUFinderService.find_or_create_agent_person(name, [])
+    AMUFinderService.find_or_create_person(firstname, lastname, date_of_birth, date_of_death)
   end
 
   def insert_relations(migrated_works, migrated_people, relations)

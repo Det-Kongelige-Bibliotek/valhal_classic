@@ -7,24 +7,24 @@ module Datastreams
 
     set_terminology do |t|
       t.root(:path=>'fields')
-      t.title()
-      t.subTitle()
-      t.workType()
+      t.title(index_as: :stored_searchable)
+      t.subTitle(index_as: :stored_searchable)
+      t.workType(index_as: :stored_searchable)
 
       t.cartographicsScale()
       t.cartographicsCoordinates()
-      t.dateCreated()
       t.dateIssued()
-      t.dateOther()
-      t.genre()
-      t.languageOfCataloging()
-      t.recordOriginInfo()
+      t.dateCreated(index_as: :stored_searchable)
+      t.dateOther(index_as: :stored_searchable)
+      t.genre(index_as: :stored_searchable)
+      t.languageOfCataloging(index_as: :stored_searchable)
+      t.recordOriginInfo(index_as: :stored_searchable)
       t.tableOfContents()
-      t.topic()
-      t.typeOfResource()
-      t.typeOfResourceLabel()
       t.nextInSequence
       t.previousInSequence
+      t.topic(index_as: :stored_searchable)
+      t.typeOfResource(index_as: :stored_searchable)
+      t.typeOfResourceLabel(index_as: :stored_searchable)
 
       t.alternativeTitle do
         t.title()

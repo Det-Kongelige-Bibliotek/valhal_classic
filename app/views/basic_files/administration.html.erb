@@ -1,0 +1,9 @@
+<%- model_class = BasicFile -%>
+<div class="page-header">
+  <h1><%=t 'helpers.titles.administration', :default => [:'helpers.titles.administration', 'Administration for %{model}'], :model => model_class.model_name.human %></h1>
+</div>
+
+<%- @object = @file-%>
+<%= render 'shared/administration/administration' %>
+
+<%= render 'footer' %>

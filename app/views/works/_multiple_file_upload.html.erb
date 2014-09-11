@@ -6,9 +6,10 @@
             <span class="js_button_text">Upload files</span>
           <%= f.file_field :basic_files, :multiple => true, :id => 'fileupload' %>
         </span>
-    <a class="btn btn-danger" href="#" id="file_clear" title="Clear file"><i class="icon-trash icon-white"></i></a>
     <%= fields_for :ins do |builder| %>
         <%= builder.text_field :label, :placeholder => 'Label' %>
     <% end %>
+    <br/><br/>
+        <ul id="multiple_file_names"></ul>
   </div>
 </div>
