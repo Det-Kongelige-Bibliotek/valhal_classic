@@ -15,6 +15,7 @@
 //= require jquery.sortable.min
 //= require works
 //= require admin_metadata
+//= require vocabularies
 //
 // require rails.validations DEPRECATED: Do Not Use
 //

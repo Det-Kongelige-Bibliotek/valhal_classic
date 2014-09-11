@@ -1,3 +1,12 @@
+<div class="controls-group">
+  <%= f.label :workActivity, 'Activity', :class=>'control-label' %>
+  <select id="" name="work_activity" class="control-group">
+    <%  do |activity|  %>
+        <option id="<%= activity %>"><%= activity %></option>
+    <% end %>
+  </select>
+</div>
+
 <div class="control-group">
     <%= f.label :workType, 'Work type', :class=>'control-label' %>
     <div class="controls">

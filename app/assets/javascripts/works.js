@@ -21,6 +21,7 @@ $(document).ready(function() {
     tiffFileClearBn.on("click", function() {
         return file_tiff_file.replaceWith(file_tiff_file.val("").clone(true));
     });
+    $('#amu_type').change(updateInputFields);
     $(function() {});
     $(".sortable").sortable();
     $(".handles").sortable({
@@ -36,6 +37,12 @@ $(document).ready(function() {
         return $("#structmap_file_order").val(test_val);
     });
 });
+
+function updateInputFields(){
+    if (this.value == 'agent/person') {
+        $('.person-fields').removeClass('hidden');
+    }
+}
 
 /**
  * Provides functionality for adding new agents and their relationship to a work or instance in a table
@@ -73,3 +80,18 @@ function addAgent(relationshipType, agentName, agentObjectID) {
         document.getElementById("work_agents").value = JSON.stringify(agentRelations);
     }
 }
+//Functionality for displaying uploaded file names on the view
+$(document).ready( function() {
+    $('input:file').change(function (){
+        var fileName = '';
+        if (this.multiple) {
+            for (var i=0;i<this.files.length;i++) {
+                fileName = fileName + '<li>' + this.files[i].name + '</li>';
+            }
+            $('#multiple_file_names').html(fileName);
+        } else {
+            fileName = '<li>' + $(this).val() + '</li>';
+            $('#file_name').html(fileName);
+        }
+    });
+});

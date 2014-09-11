@@ -7,3 +7,30 @@ da:
         new_work: "Nyt Værk"
         new_work_from_mods: "Nyt Værk på basis af MODS"
         new_authority_metadata_unit: "Ny Autoritativ Metadata Enhed"
+        metadata_admin: "Metadata forvaltning"
+  givenName: Fornavn
+  surname: Efternavn
+  dateOfBirth: Fødselsdato
+  dateOfDeath: Dødsdato
+  vocabularies:
+    form:
+      vocab_name: "Vocabulary navn"
+      vocab_entry: "Medlem"
+      vocab_entry_desc: "Beskrivelse"
+      new_entry: "Nyt begreb"
+      entries: "Begreber"
+    index:
+      listing_vocabularies: "Viser vocabularies"
+      name: "Navn"
+      show: "Vis"
+      edit: "Rediger"
+      delete: "Slet"
+      new_vocabulary: "Ny vocabulary"
+    entry:
+      entry_name: "Post navn"
+      entry_description: "Post beskrivelse"
+      add_new: "Nyt begreb"
+    edit:
+      editing_vocabulary: "Redigerer vocabulary"
+  back: "Tilbage"
+  save: "Gem"

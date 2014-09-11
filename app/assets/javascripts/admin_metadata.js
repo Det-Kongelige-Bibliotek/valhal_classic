@@ -4,10 +4,14 @@
  * @param object_id - the Fedora ID of the object whose admin metadata is being changed
  */
 function enableMaterialTypes(object_id) {
-    //var div =$("#material_type_div");
+    var div =$("#material_type_div");
 
     $.ajax({url:"/works/" + object_id +"/get_admin_material_types", format: 'json', success: function(result) {
         var selected_material_group = $('#material_group').val().toLowerCase();
+
+        if (selected_material_group == '') {
+            div.hide();
+        }
 
         $('#administration_material_type').find('option').remove();
 
@@ -26,8 +30,7 @@ function enableMaterialTypes(object_id) {
         }
     }});
 
-    /*
      if (div.css('display') == 'none') {
-     div.show();
-     }*/
+        div.show();
+     }
 }

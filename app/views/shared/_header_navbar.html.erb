@@ -4,7 +4,7 @@
         <div class="container">
             <%= link_to APP_VERSION + "Home ", root_path, :class=>'appVersion'  %>
             <a class="brand" href="<%=root_path%>">
-                <%= image_tag "/assets/valhal/logo.png" %>
+                <%= image_tag 'valhal/logo.png' %>
                 <span>Valhal</span>
             </a>
             <%= render :partial=>'/user_util_links' %>
@@ -36,6 +36,13 @@
             <%= link_to new_authority_metadata_unit_path, :action => new_authority_metadata_unit_path, :class => "" do %>
                 <i class="icon-user"></i>
                 <span class="hidden-phone"><%= t 'valhal.views.homepage.new_authority_metadata_unit' %></span>
+            <%- end %>
+          </li>
+          <li class="divider-vertical"></li>
+          <li>
+            <%= link_to vocabularies_path do %>
+                <i class="icon-tasks"></i>
+                <span class="hidden-phone"><%= t 'valhal.views.homepage.metadata_admin' %></span>
             <%- end %>
           </li>
           <li class="divider-vertical"></li>

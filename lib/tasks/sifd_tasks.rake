@@ -3,6 +3,7 @@ require 'yaml'
 require 'net/http'
 require 'uri'
 require 'logger'
+require 'resque/tasks'
 
 
 require "#{Rails.root}/app/services/aleph_service"
@@ -14,6 +15,22 @@ require "#{Rails.root}/app/helpers/mq_listener_helper"
 namespace :sifd do
   include MqHelper
   include DisseminationService
+
+  desc 'Load predefined ControlledVocabularies'
+  task :load_vocabs => :environment do
+    Ohm.redis.call('flushdb')
+    vocabs = YAML.load_file(Rails.root.join('spec','fixtures', 'vocabularies.yml').to_s)
+    vocabs.each_value do |val|
+      current = Vocabulary.create(name: val['name'])
+      if val.has_key?('entries')
+        val['entries'].each_value do |entry|
+          VocabularyEntry.create(name: entry['name'], vocabulary: current)
+        end
+      end
+    end
+
+  end
+
 
   desc "Delete all ActiveFedora::Base objects from solr and fedora"
   task :clean => :environment do

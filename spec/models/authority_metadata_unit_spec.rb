@@ -10,10 +10,16 @@ describe AuthorityMetadataUnit do
 
   describe "#create" do
     it 'should be possible to create a AMU with values in all field' do
-      amu = AuthorityMetadataUnit.create!(:type=>AMU_TYPES.first, :value=>'Value', :reference=>'Reference')
+      amu = AuthorityMetadataUnit.create!(:type=>AMU_TYPES.first, :value=>'Value', :reference=>'Reference',
+                                          :givenName=>'Fornavn', :surname=>'Efternavn',
+                                          :dateOfBirth=>'1900-01-01', :dateOfDeath=>'2000-01-01')
       amu.should_not be_nil
       amu.type.should == AMU_TYPES.first
       amu.value.should == 'Value'
+      amu.givenName.should == 'Fornavn'
+      amu.surname.should == 'Efternavn'
+      amu.dateOfBirth.should == '1900-01-01'
+      amu.dateOfDeath.should == '2000-01-01'
       amu.reference.should == ['Reference']
     end
 
@@ -57,6 +63,46 @@ describe AuthorityMetadataUnit do
       amu.save!
       amu.reload
       amu.value.should == 'Value'
+    end
+
+    it 'should be possible to change the givenName field' do
+      amu = AuthorityMetadataUnit.create!(:type=>AMU_TYPES.first)
+      amu.givenName.should be_nil
+
+      amu.givenName = 'Fornavn'
+      amu.save!
+      amu.reload
+      amu.givenName.should == 'Fornavn'
+    end
+
+    it 'should be possible to change the surname field' do
+      amu = AuthorityMetadataUnit.create!(:type=>AMU_TYPES.first)
+      amu.surname.should be_nil
+
+      amu.surname = 'Efternavn'
+      amu.save!
+      amu.reload
+      amu.surname.should == 'Efternavn'
+    end
+
+    it 'should be possible to change the dateOfBirth field' do
+      amu = AuthorityMetadataUnit.create!(:type=>AMU_TYPES.first)
+      amu.dateOfBirth.should be_nil
+
+      amu.dateOfBirth = 'dateOfBirth'
+      amu.save!
+      amu.reload
+      amu.dateOfBirth.should == 'dateOfBirth'
+    end
+
+    it 'should be possible to change the dateOfDeath field' do
+      amu = AuthorityMetadataUnit.create!(:type=>AMU_TYPES.first)
+      amu.dateOfDeath.should be_nil
+
+      amu.dateOfDeath = 'dateOfDeath'
+      amu.save!
+      amu.reload
+      amu.dateOfDeath.should == 'dateOfDeath'
     end
 
     it 'should be possible to add a reference' do

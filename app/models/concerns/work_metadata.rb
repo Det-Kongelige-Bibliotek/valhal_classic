@@ -6,8 +6,10 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
+      include Hydra::AccessControls::Permissions
       include Concerns::WorkInstanceRelations
       has_metadata :name => 'descMetadata', :type => Datastreams::WorkDescMetadata
+      has_metadata "rightsMetadata", type: Hydra::Datastream::RightsMetadata
 
       # List of non-multiple key-value pairs
       has_attributes :title, :subTitle, :workType, :cartographicsScale, :cartographicsCoordinates, :dateCreated,
@@ -18,6 +20,17 @@ module Concerns
       has_attributes :dateOther, :genre, :languageOfCataloging, :topic,
                      datastream: 'descMetadata', :multiple => true
 
+
+
+      # simple wrapper around the hidden
+      # RightsMetadata embargo mapping
+      def embargo_release_date=(date)
+        rightsMetadata.embargo_release_date=date
+      end
+
+      def embargo_release_date
+        rightsMetadata.embargo_release_date
+      end
 
       # Extracts the relations, which are valid for work.
       def get_relations

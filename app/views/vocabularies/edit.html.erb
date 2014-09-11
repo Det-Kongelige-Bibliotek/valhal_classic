@@ -1,0 +1,6 @@
+<h1><%= "#{t('.editing_vocabulary')} #{@vocabulary.name}" %></h1>
+
+<%= render 'form' %>
+
+<%= link_to t('vocabularies.index.show'), @vocabulary %> |
+<%= link_to t(:back), vocabularies_path %>

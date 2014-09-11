@@ -9,6 +9,10 @@ module Datastreams
       t.type()
       t.value(index_as: :stored_searchable)
       t.reference()
+      t.givenName(index_as: :stored_searchable)
+      t.surname(index_as: :stored_searchable)
+      t.dateOfBirth(index_as: :stored_searchable)
+      t.dateOfDeath(index_as: :stored_searchable)
     end
 
     def self.xml_template
