@@ -8,6 +8,19 @@ da:
         new_work_from_mods: "Nyt Værk på basis af MODS"
         new_authority_metadata_unit: "Ny Autoritativ Metadata Enhed"
         metadata_admin: "Metadata forvaltning"
+  hasParts: Består af
+  nextInSequence: Næste i rækkefølge
+  previousInSequence: Forrige i rækkefølge
+  isPartOf: Er en del af
+  letter_title: "Brev fra %{author} til %{addressee}, %{date}"
+
+
+  works:
+    edit:
+      work_name: "Værk navn"
+      relationship_type: "Forhold type"
+    work_relations:
+      edit: "Redigere"
   givenName: Fornavn
   surname: Efternavn
   dateOfBirth: Fødselsdato
@@ -33,4 +46,3 @@ da:
     edit:
       editing_vocabulary: "Redigerer vocabulary"
   back: "Tilbage"
-  save: "Gem"

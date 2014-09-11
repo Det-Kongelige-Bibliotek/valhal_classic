@@ -1,3 +1,29 @@
+<% if @amu.class == AuthorityMetadataUnit %>
+<div class="page-header">
+  <h1 class="text-left">New Authority Metadata Unit</h1>
+</div>
+
+<div class="row hidden-phone ">
+  <div class="span3">
+   <span class="lead ">
+     Step 1
+   </span>
+  </div>
+</div>
+
+<div class="progress progress-success hidden-phone">
+  <div class="bar" style="width: 50%;"></div>
+</div>
+
+<p class="lead visible-phone">Step 1 / 2</p>
+
+<p>Choose type:
+
+    <%= link_to 'agent/person', new_person_path, :class=>'btn' %>
+    <%= link_to 'place', new_place_path, :class=>'btn' %>
+</p>
+<% else %>
+
 <div class="page-header">
   <h1 class="text-left">New Authority Metadata Unit</h1>
 </div>
@@ -14,7 +40,7 @@
     <div class="bar" style="width: 100%;"></div>
 </div>
 
-<p class="lead visible-phone">Step 1 / 1</p>
+<p class="lead visible-phone">Step 1 / 2</p>
 
 <%= form_for @amu, :html=>{:multipart=>true, :class=>'form-horizontal'} do |f| %>
     <div class="row">
@@ -25,56 +51,7 @@
                 </div>
             </div>
             <%= fields_for :amu do |f| %>
-              <div class="control-group">
-                <%= f.label :type, "Type", :class=>'control-label' %>
-                <div class="controls">
-                  <%= f.select :type, AMU_TYPES.each {|t| [t, t]}, options = { :prompt => '(Select type of authority metadata)',
-                                                                               :include_blank => false },:class=>'input-block-level' %>
-                </div>
-              </div>
-
-              <p>
-                For agent/person types of AuthorityMetadataUnit, the value must be structured in the following way:
-                <br/>
-                [lastname], [firstname] ([date of birth] - [date of death]), title
-              </p>
-
-              <div class="control-group person-fields hidden">
-                <%= f.label :givenName, "Given name", :class=>'control-label' %>
-                <div class="controls">
-                  <%= f.text_field :givenName, :placeholder => "Given name", :class=>'input-block-level' %>
-                </div>
-              </div>
-
-              <div class="control-group person-fields hidden">
-                <%= f.label :surname, "Surname", :class=>'control-label' %>
-                <div class="controls">
-                  <%= f.text_field :surname, :placeholder => "Surname", :class=>'input-block-level' %>
-                </div>
-              </div>
-
-
-              <div class="control-group person-fields hidden">
-                <%= f.label :dateOfBirth, "Date of birth", :class=>'control-label' %>
-                <div class="controls">
-                  <%= f.text_field :dateOfBirth, :placeholder => "Date of birth", :class=>'input-block-level' %>
-                </div>
-              </div>
-
-              <div class="control-group person-fields hidden">
-                <%= f.label :dateOfDeath, "Date of death", :class=>'control-label' %>
-                <div class="controls">
-                  <%= f.text_field :dateOfDeath, :placeholder => "Date of death", :class=>'input-block-level' %>
-                </div>
-              </div>
-
-
-              <div class="control-group">
-                <%= f.label :value, "Value", :class=>'control-label' %>
-                <div class="controls">
-                  <%= f.text_field :value, :placeholder => "Value", :class=>'input-block-level' %>
-                </div>
-              </div>
+              <%= render "#{@amu.class.to_s.downcase}_fields", :f=>f %>
 
               <div class="control-group">
                 <%= f.label :reference, "Reference", :class=>'control-label' %>
@@ -91,4 +68,4 @@
         </div>
     </div>
 <% end %>
-
+<% end %>

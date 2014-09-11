@@ -22,6 +22,16 @@ describe SingleFileInstance do
     subject.provenanceMetadata.should_not be_nil
   end
 
+  describe 'new_from_file' do
+    it 'should create a new instance given a File object' do
+      f = File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml")
+      inst = SingleFileInstance.new_from_file(f)
+      inst.reload
+      inst.should be_a SingleFileInstance
+      inst.file.should be_a BasicFile
+    end
+  end
+
   describe "#ie" do
       context "with a person" do
         let(:default_ie) do

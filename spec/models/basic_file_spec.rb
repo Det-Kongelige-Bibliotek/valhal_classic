@@ -8,7 +8,7 @@ describe BasicFile do
   it_behaves_like 'an element with administrative metadata'
 
   context "with a xml basic_files" do
-    before do
+    before(:all) do
       @basic_file = BasicFile.new
       @uploaded_file = ActionDispatch::Http::UploadedFile.new(filename: 'aarrebo_tei_p5_sample.xml', type: 'text/xml', tempfile: File.new("#{Rails.root}/spec/fixtures/aarrebo_tei_p5_sample.xml"))
       @basic_file.add_file(@uploaded_file, nil)
@@ -85,6 +85,15 @@ describe BasicFile do
       @basic_file.datastreams['fitsMetadata1'].content.should_not be_nil
       expect(@basic_file.datastreams['fitsMetadata1'].content).to include('<fits')
     end
+  end
+
+  it 'should allow us to add normal File objects' do
+    bf = BasicFile.new
+    path = Pathname.new(Rails.root).join('spec', 'fixtures', 'brev', '001003574_000.xml').to_s
+    file = File.open(path)
+    bf.add_file(file, true)
+    bf.original_filename.should eql '001003574_000.xml'
+    bf.mime_type.should eql 'text/xml'
   end
 
   context "with a png basic_files" do

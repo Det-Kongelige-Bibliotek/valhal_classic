@@ -26,6 +26,22 @@ describe BasicFilesController do
     login_admin
   end
 
+describe 'Update Content' do
+    before :all do
+      @file = BasicFile.new
+      @xml_path = Rails.root.join('spec', 'fixtures', 'brev', 'small-tei.xml')
+      @file.add_file(File.new(@xml_path), true)
+    end
+    
+    it 'should update the content' do
+      @file.update_content('This is the new content')
+      @file.reload
+      @file.datastreams["content"].content.should == 'This is the new content'    
+    end
+  end
+
+
+
   describe 'GET show' do
     it 'assigns the requested file as @file' do
       file = create_basic_file(nil)

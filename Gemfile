@@ -33,7 +33,7 @@ gem 'paperclip'
 #{group :assets do} -- asset group removed i Rails 4 
   gem 'sass-rails'
   gem 'coffee-rails', '~> 4.0.1'
-  gem 'jquery-ui-rails'
+  gem 'jquery-ui-rails', '5.0.0'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'libv8', '~> 3.16.14.0'
@@ -52,6 +52,10 @@ end
 #gem 'rspec-rails', :group => [:development, :test]
 #gem 'jettywrapper', :group => [:development, :test]
 #gem 'thin', :group => [:development, :test]
+
+group :test do
+  gem 'fakeredis'
+end
 
 group :development, :test do
   gem 'rspec-rails'
@@ -92,5 +96,6 @@ gem 'httparty'
 gem 'net-scp', '~> 1.1.2'
 
 gem 'resque'
+gem 'resque-scheduler'
 gem 'redis'
 gem 'ohm'

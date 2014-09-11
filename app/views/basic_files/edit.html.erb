@@ -1,0 +1,10 @@
+<h1>Editing Content</h1>
+<%= form_for @file, :url => {:action=> "update"}  do |f| %>
+    <!--%= f.error_messages :header_message => 'Edit File error', :class => 'alert alert-error', :header_tag => :h3 %-->
+    <%= fields_for :basic_file do |builder| %>
+        <%= render 'content_fields', :f => builder %>
+    <% end %>
+    <br/>
+    <%= f.submit 'Update' %>
+<% end %>
+<%= render 'footer' %>

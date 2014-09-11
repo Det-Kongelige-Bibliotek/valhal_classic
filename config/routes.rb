@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 Valhal::Application.routes.draw do
-
   root :to => "catalog#index"
 
   Blacklight.add_routes(self)
@@ -17,6 +16,8 @@ Valhal::Application.routes.draw do
     member do
       get 'show'
       get 'download'
+      get 'edit'
+      patch 'update'
       get 'administration'
       patch 'update_administration'
       get 'preservation'
@@ -75,4 +76,7 @@ Valhal::Application.routes.draw do
 
   resources :authority_metadata_units do
   end
+
+  resources :people, controller: 'authority_metadata_units', type: 'agent/person'
+  resources :places, controller: 'authority_metadata_units', type: 'place'
 end

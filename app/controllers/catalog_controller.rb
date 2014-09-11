@@ -74,8 +74,6 @@ class CatalogController < ApplicationController
     # facet bar
 
     config.add_facet_field 'workType_tesim', :label => 'Work Types', :sort => 'index'
-    config.add_facet_field 'workflow_status_tesim', :label => 'Workflow Status', :sort => 'index'
-    config.add_facet_field 'activity_tesim', :label => 'Activity', :sort => 'index'
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
