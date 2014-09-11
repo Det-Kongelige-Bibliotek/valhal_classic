@@ -34,3 +34,20 @@ function enableMaterialTypes(object_id) {
         div.show();
      }
 }
+
+$(document).ready(function(){
+    /**
+     * Toggle display of embargo fields based on embargo
+     * checklist. Update hidden field val with checkbox value.
+     */
+    $('[data-toggle="show-embargo-fields"]').click(function(){
+        var checked = $(this).prop('checked');
+        if (checked) {
+            $('.embargo-fields').removeClass('hidden');
+
+        } else {
+            $('.embargo-fields').addClass('hidden');
+        }
+        $('#embargo-value').val(checked);
+    });
+});

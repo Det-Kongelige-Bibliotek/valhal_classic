@@ -13,17 +13,26 @@
         <%= builder.select 'workflow_status', options_for_select(get_controlled_vocab('Workflow status'), @adminMetadata.workflow_status.first), :value => @adminMetadata.workflow_status.first%>
 
         <%= builder.label :embargo, "Embargo" %>
-        <%= builder.text_field :embargo, :class => 'text_field', :value => @adminMetadata.embargo.first %>
+        <% embargo_active = true_string?(@adminMetadata.embargo.first) %>
+        <%# We're not using the builder checkbox method, since this depends on a boolean value in the model
+        whereas we only have a string value. %>
+        <%= check_box_tag 'administration[embargo]', 'true', embargo_active, data: { toggle: 'show-embargo-fields' } %>
+        <%#
+        Since unchecked checkboxes don't submit any values, we need a dummy input to send the value in case
+         a false value is transmitted. This is updated via javascript.
+         %>
+        <input name="administration[embargo]"  value ="<%= @adminMetadata.embargo.first %>"
+               class="hidden" id="embargo-value"/>
+        <div class="embargo-fields <%= 'hidden' unless embargo_active %>">
+            <%= builder.label :embargo_date, "Embargo Date" %>
+            <%= builder.text_field :embargo_date, :class => 'text_field', :value => @adminMetadata.embargo_date.first %>
 
-        <%= builder.label :embargo_date, "Embargo Date" %>
-        <%= builder.text_field :embargo_date, :class => 'text_field', :value => @adminMetadata.embargo_date.first %>
+            <%= builder.label :embargo_condition, "Embargo Condition" %>
+            <%= builder.text_field :embargo_condition, :class => 'text_field', :value => @adminMetadata.embargo_condition.first %>
 
-        <%= builder.label :embargo_condition, "Embargo Condition" %>
-        <%= builder.text_field :embargo_condition, :class => 'text_field', :value => @adminMetadata.embargo_condition.first %>
-
-        <%= builder.label :access_condition, "Access Condition" %>
-        <%= builder.text_field :access_condition, :class => 'text_field', :value => @adminMetadata.access_condition.first %>
-
+            <%= builder.label :access_condition, "Access Condition" %>
+            <%= builder.text_field :access_condition, :class => 'text_field', :value => @adminMetadata.access_condition.first %>
+        </div>
         <%= builder.label :copyright, "Copyright" %>
         <%= builder.text_field :copyright, :class => 'text_field', :value => @adminMetadata.copyright.first %>
 
