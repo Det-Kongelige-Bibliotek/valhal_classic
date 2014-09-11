@@ -18,7 +18,8 @@ namespace :sifd do
 
   desc 'Load predefined ControlledVocabularies'
   task :load_vocabs => :environment do
-    Ohm.redis.call('flushdb')
+    Vocabulary.delete_all
+    VocabularyEntry.delete_all
     vocabs = YAML.load_file(Rails.root.join('spec','fixtures', 'vocabularies.yml').to_s)
     vocabs.each_value do |val|
       current = Vocabulary.create(name: val['name'])

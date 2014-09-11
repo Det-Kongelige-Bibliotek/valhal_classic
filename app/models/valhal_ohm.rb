@@ -12,6 +12,12 @@ class ValhalOhm < Ohm::Model
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
+  def self.delete_all
+    size = self.all.size
+    self.all.each {|v| v.delete}
+    size
+  end
+
   def self.count
     self.all.size
   end
