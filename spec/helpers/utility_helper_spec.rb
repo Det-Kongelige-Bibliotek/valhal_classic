@@ -28,4 +28,10 @@ describe UtilityHelper do
       contentless_array?(['', 'TESTING']).should be_false
     end
   end
+
+  describe '#get_controlled_vocab?' do
+    it 'should return an empty array if the controlled vocabulary does not exist'  do
+      get_controlled_vocab('my_test_vocab').size.should be 0
+    end
+  end
 end
