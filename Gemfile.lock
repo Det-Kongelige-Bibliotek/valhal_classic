@@ -465,11 +465,8 @@ DEPENDENCIES
   rb-fsevent
   rb-inotify
   rb-readline
-<<<<<<< HEAD
-=======
   redis
   resque
->>>>>>> 552be06459a9a7d4fb6757bc81cb81cd5814a734
   rmagick (= 2.13.3)
   rspec-rails
   rubyzip
