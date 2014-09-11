@@ -3,34 +3,53 @@
 class AuthorityMetadataUnitsController < ApplicationController
   authorize_resource
 
+  before_action :get_klazz
+
+  def get_klazz
+    case params[:type]
+      when 'agent/person'
+        @klazz = Person
+      when 'place'
+        @klazz = Place
+      else
+        @klazz = AuthorityMetadataUnit
+    end
+  end
+
   def index
-    @amus = AuthorityMetadataUnit.all
+    if params[:type].blank?
+      @amus = nil
+    else
+      @amus = @klazz.all
+    end
   end
 
   def show
-    @amu = AuthorityMetadataUnit.find(params[:id])
+    @amu = @klazz.find(params[:id])
   end
 
   def new
-    @amu = AuthorityMetadataUnit.new
+    @amu = @klazz.new()
+    @amu.type = params[:type]
   end
 
   def edit
-    @amu = AuthorityMetadataUnit.find(params[:id])
+    @amu = @klazz.find(params[:id])
   end
 
   def create
-    @amu = AuthorityMetadataUnit.new(params[:amu])
+    @amu = @klazz.new(params[:amu])
+    @amu.type = params[:type]
 
     if @amu.save
-      redirect_to @amu, notice: 'AuthorityMetadataUnit was successfully created.'
+      redirect_to @amu, notice: '@klazz was successfully created.'
     else
       render action: 'new'
     end
   end
 
   def update
-    @amu = AuthorityMetadataUnit.find(params[:id])
+    @amu = @klazz.find(params[:id])
 
     ref=[]
     params[:reference].each do |m, v|
@@ -39,14 +58,14 @@ class AuthorityMetadataUnitsController < ApplicationController
     @amu.reference=ref
 
     if @amu.update_attributes(params[:amu])
-      redirect_to @amu, notice: 'AuthorityMetadataUnit was successfully updated.'
+      redirect_to @amu, notice: '@klazz was successfully updated.'
     else
       render action: 'edit'
     end
   end
 
   def destroy
-    @amu = AuthorityMetadataUnit.find(params[:id])
+    @amu = @klazz.find(params[:id])
     @amu.destroy
 
     redirect_to authority_metadata_units_path

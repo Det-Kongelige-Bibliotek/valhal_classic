@@ -1,4 +1,4 @@
-<%= render 'header' %>
+<%= render "#{@amu.class.to_s.downcase}_header" %>
 
 <div class="row">
   <div class="span10">
@@ -15,6 +15,7 @@
   </div>
 </div>
 
+
 <div class="row">
   <div class="span2">
     <strong>References</strong>
@@ -25,6 +26,8 @@
     <% end %>
   </div>
 </div>
+
+<%= render "#{@amu.class.to_s.downcase}_show" %>
 
 <% @amu.get_relations.each do |k, v| %>
 <div class="row">
