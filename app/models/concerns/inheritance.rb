@@ -1,7 +1,6 @@
 module Concerns
   module Inheritance
     extend ActiveSupport::Concern
-    
     included do
       def assert_content_model
         super()
@@ -12,7 +11,5 @@ module Concerns
         end
       end
     end
-
   end
-
 end

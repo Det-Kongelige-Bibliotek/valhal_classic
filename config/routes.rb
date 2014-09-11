@@ -66,4 +66,7 @@ Valhal::Application.routes.draw do
 
   resources :authority_metadata_units do
   end
+
+  resources :people, controller: 'authority_metadata_units', type: 'agent/person'
+  resources :places, controller: 'authority_metadata_units', type: 'place'
 end

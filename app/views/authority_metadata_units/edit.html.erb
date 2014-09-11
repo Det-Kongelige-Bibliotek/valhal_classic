@@ -1,21 +1,9 @@
-<%= render 'header' %>
+<%= render "#{@amu.class.to_s.downcase}_header" %>
 
 <%= form_for @amu, :html=>{:multipart=>true, :class=>'form-horizontal'} do |f| %>
     <%= f.error_messages :header_message => "Edit AuthorityMetadataUnit error", :class => "alert alert-error", :header_tag => :h3 %>
     <%= fields_for :amu do |f| %>
-        <div class="control-group">
-          <%= f.label :type, "Type", :class=>'control-label' %>
-          <div class="controls">
-            <%= f.text_field :type, :placeholder => "#{@amu.type}", :class=>'input-block-level' %>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <%= f.label :value, "Value", :class=>'control-label' %>
-          <div class="controls">
-            <%= f.text_field :value, :placeholder => "#{@amu.value}", :class=>'input-block-level' %>
-          </div>
-        </div>
+        <%= render "#{@amu.class.to_s.downcase}_fields", :f=>f %>
 
         <div class="control-group">
           <%= f.label :reference, "Reference", :class=>'control-label' %>
