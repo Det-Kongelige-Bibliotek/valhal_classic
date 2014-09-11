@@ -14,7 +14,6 @@ module Datastreams
       t.cartographicsScale()
       t.cartographicsCoordinates()
       t.dateCreated()
-      t.dateIssued()
       t.dateOther()
       t.genre()
       t.languageOfCataloging()
