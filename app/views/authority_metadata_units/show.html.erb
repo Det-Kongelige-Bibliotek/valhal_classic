@@ -1,15 +1,19 @@
 <%= render "#{@amu.class.to_s.downcase}_header" %>
 
-<% @amu.all_attributes.each do |label, value| %>
-    <div class="row">
-      <div class="span2">
-        <strong><%= t(label) %></strong>
-      </div>
-      <div class="span8">
-        <%= value %>
-      </div>
-    </div>
-<% end %>
+<div class="row">
+  <div class="span10">
+    <h3><%= @amu.type%></h3>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span2">
+    <strong>Value</strong>
+  </div>
+  <div class="span8">
+    <%= @amu.value%>
+  </div>
+</div>
 
 
 <div class="row">
