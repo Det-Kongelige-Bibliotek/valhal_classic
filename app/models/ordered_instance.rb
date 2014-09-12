@@ -25,4 +25,29 @@ class OrderedInstance < ActiveFedora::Base
       self.ie.title
     end
   end
+
+  # get an array of the original
+  # filenames of all files
+  # @return Array of Strings
+  def original_filenames
+    files.map{|f| f.original_filename }
+  end
+
+  # Check if instance already contains
+  # a file with original filename <filename>
+  # @param String
+  # @return Boolean
+  def has_file?(filename)
+    original_filenames.include? filename
+  end
+
+  # Retrieve a file based on its original filename
+  # else nil
+  # @return BasicFile | nil
+  def find_file(filename)
+    files.each do |f|
+      return f if f.original_filename = filename
+    end
+    nil
+  end
 end
