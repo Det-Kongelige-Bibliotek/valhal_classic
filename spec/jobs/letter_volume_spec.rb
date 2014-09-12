@@ -61,7 +61,7 @@ describe LetterVolumeIngest do
                                  @fixtures_path.join('000773452_X01.pdf').to_s,
                                  @fixtures_path.join('000773452_X01').to_s)
       works = Work.find(sysnum_si: '000773452')
-      works.size.should == 1;
+      works.size.should == 1
 
       work = works.first
       work.ordered_instances == 3
@@ -86,10 +86,15 @@ describe LetterVolumeIngest do
       w.sysnum.should eql '123456'
     end
 
+    it 'should add ordered instances if no existing work is found' do
+      w = LetterVolumeIngest.find_or_create_work('123456')
+      w.ordered_instance_types.length.should eql 3
+    end
+
     it 'should find an existing work if there is one' do
       w = Work.new
       w.identifier= [{'displayLabel' => 'sysnum', 'value' => '1234'}]
-      w.save.should be_true
+      w.save.should eql true
       w2 = LetterVolumeIngest.find_or_create_work('1234')
       w2.pid.should eql w.pid
     end
