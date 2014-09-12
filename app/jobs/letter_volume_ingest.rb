@@ -95,8 +95,15 @@ class LetterVolumeIngest
       w = existing.first
       Resque.logger.debug "existing work found with PID #{w.pid}"
     else
-      meta = ConversionService.aleph_to_valhal(sysnum)
-      fields = {}.merge(meta.first).merge(meta.last).merge({workType: 'Book'})
+      fields = { workType: 'Book' }
+      # try and get aleph data - will fail if sysnum not found
+      begin
+        meta = ConversionService.aleph_to_valhal(sysnum)
+        fields.merge!(meta.first).merge!(meta.last)
+      rescue => e
+        Resque.logger.debug e.message
+      end
+      # build the work with the data we have retrieved
       w = Work.new(fields)
       w.identifier=([{'displayLabel' => 'sysnum', 'value' => sysnum }])
       w.save
