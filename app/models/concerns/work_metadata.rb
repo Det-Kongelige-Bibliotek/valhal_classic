@@ -15,11 +15,8 @@ module Concerns
 
       # List of non-multiple key-value pairs
       has_attributes :title, :subTitle, :workType, :cartographicsScale, :cartographicsCoordinates, :dateCreated,
-<<<<<<< HEAD
                      :tableOfContents, :typeOfResource, :typeOfResourceLabel, :recordOriginInfo, :workflow_activity,
-=======
                      :dateIssued, :tableOfContents, :typeOfResource, :typeOfResourceLabel, :recordOriginInfo,
->>>>>>> eae5e0c2c7b9052545557e1c18b8d8ee9eb6375b
                      datastream: 'descMetadata', :multiple => false
 
       # List of multiple key-value pairs
