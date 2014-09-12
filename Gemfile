@@ -15,7 +15,8 @@ gem 'jquery-rails'
 #gem 'client_side_validations' -- Deprecated Do Not User anymore
 gem 'uuid', '>= 2.3.6'
 
-gem 'omniauth-ldap', '~> 1.0.4'
+gem 'devise_ldap_authenticatable'
+
 gem 'dynamic_form'
 gem 'rubyzip'
 #gem 'wicked' test comment

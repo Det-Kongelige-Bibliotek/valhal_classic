@@ -1,6 +1,9 @@
 # -*- encoding : utf-8 -*-
 #TODO: make class description
 class ApplicationController < ActionController::Base
+  rescue_from DeviseLdapAuthenticatable::LdapException do |exception|
+    render :text => exception, :status => 500
+  end
   # Adds a few additional behaviors into the application controller 
   include Blacklight::Controller
   # Adds Hydra behaviors into the application controller

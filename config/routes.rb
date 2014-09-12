@@ -6,7 +6,7 @@ Valhal::Application.routes.draw do
   Blacklight.add_routes(self)
   HydraHead.add_routes(self)
 
-  devise_for :users, controllers: {omniauth_callbacks: "omniauth_callbacks"}
+  devise_for :users, controllers: {ldap_callbacks: "ldap_callbacks"}
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
