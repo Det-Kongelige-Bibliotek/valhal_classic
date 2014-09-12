@@ -51,6 +51,28 @@ describe "Relations between AuthorityMetadataUnits and Works" do
     end
   end
 
+  describe "#destination" do
+    it 'should be possible from work point of view' do
+      @w.hasDestination.should be_empty
+      @w.hasDestination << @a
+      @w.save!
+      @w.reload
+      @a.reload
+      @w.hasDestination.should == [@a]
+      @a.isDestinationOf.should == [@w]
+    end
+
+    it 'should be possible from AuthorityMetadataUnit point of view' do
+      @a.isDestinationOf.should be_empty
+      @a.isDestinationOf << @w
+      @a.save!
+      @w.reload
+      @a.reload
+      @a.isDestinationOf.should == [@w]
+      @w.hasDestination.should == [@a]
+    end
+  end
+
   describe "#addresee" do
     it 'should be possible from work point of view' do
       @w.hasAddressee.should be_empty

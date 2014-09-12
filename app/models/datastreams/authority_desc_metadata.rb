@@ -7,12 +7,21 @@ module Datastreams
     set_terminology do |t|
       t.root(:path=>'fields')
       t.type()
-      t.value(index_as: :stored_searchable)
+      t.value()
       t.reference()
-      t.givenName(index_as: :stored_searchable)
-      t.surname(index_as: :stored_searchable)
-      t.dateOfBirth(index_as: :stored_searchable)
-      t.dateOfDeath(index_as: :stored_searchable)
+
+
+      # Person
+      t.firstName()
+      t.lastName()
+      t.title()
+      t.dateOfBirth()
+      t.dateOfDeath()
+
+
+      # Place
+      t.name()
+
     end
 
     def self.xml_template

@@ -31,6 +31,10 @@
     :has_origin: hasOrigin
     # Origin relationship from metadata perspective
     :is_origin_of: isOriginOf
+    # Destination relationship from work/instance perspective
+    :has_destination: hasDestination
+    # Destination relationship from metadata perspective
+    :is_destination_of: isDestinationOf
     # Created relationship from work/instance perspective
     :has_created: hasCreated
     # Created relationship from metadata perspective
@@ -89,6 +93,17 @@
     :has_digitizer: hasDigitizer
     # Digitizer relationship from metadata perspective
     :is_digitizer_of: isDigitizerOf
+
+    ########################################################
+    # Relations between works                              #
+    ########################################################
+
+    :next_in_sequence: nextInSequence
+    :previous_in_sequence: previousInSequence
+    # Relationship between a work and its constituent works
+    :is_part_of: isPartOf
+    :has_parts: hasParts
+
 
   info:fedora/fedora-system:def/relations-external#:
     :conforms_to: conformsTo

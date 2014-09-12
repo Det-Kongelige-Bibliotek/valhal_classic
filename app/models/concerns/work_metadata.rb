@@ -8,12 +8,18 @@ module Concerns
     included do
       include Hydra::AccessControls::Permissions
       include Concerns::WorkInstanceRelations
+      include Concerns::WorkWorkRelations
+
       has_metadata :name => 'descMetadata', :type => Datastreams::WorkDescMetadata
       has_metadata "rightsMetadata", type: Hydra::Datastream::RightsMetadata
 
       # List of non-multiple key-value pairs
       has_attributes :title, :subTitle, :workType, :cartographicsScale, :cartographicsCoordinates, :dateCreated,
+<<<<<<< HEAD
                      :tableOfContents, :typeOfResource, :typeOfResourceLabel, :recordOriginInfo, :workflow_activity,
+=======
+                     :dateIssued, :tableOfContents, :typeOfResource, :typeOfResourceLabel, :recordOriginInfo,
+>>>>>>> eae5e0c2c7b9052545557e1c18b8d8ee9eb6375b
                      datastream: 'descMetadata', :multiple => false
 
       # List of multiple key-value pairs
@@ -70,12 +76,15 @@ module Concerns
 
       # Set the identifier elements.
       # Removes all current identifier elements, and inserts the given arguments.
+      # Note that identifiers will only be indexed when a displayLabel will be given
+      # See Work.to_solr for details
       # @param vals An array of Hash elements with data for the identifiers.
       def identifier=(vals)
         self.descMetadata.remove_identifier
         vals.each do |v|
           self.descMetadata.insert_identifier(v) unless v['value'].blank?
         end
+        self.add_accessors
       end
 
       # Retrieves the language elements.

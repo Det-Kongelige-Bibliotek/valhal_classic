@@ -1,0 +1,20 @@
+<ul class="nav nav-tabs">
+  <li class="active">
+    <%= link_to (@amu) do%>
+        <i class="icon-eye-open"></i>
+        <span class="hidden-phone">Show AuthorityMetadataUnit</span>
+    <% end %>
+  </li>
+  <li>
+    <%= link_to edit_authority_metadata_unit_path(@amu) do%>
+        <i class="icon-edit"></i>
+        <span class="hidden-phone">Edit</span>
+    <% end %>
+  </li>
+  <li>
+    <%= link_to authority_metadata_units_path do %>
+        <i class="icon-book"></i>
+        <span class="hidden-phone">All AuthorityMetadataUnits</span>
+    <% end %>
+  </li>
+</ul>

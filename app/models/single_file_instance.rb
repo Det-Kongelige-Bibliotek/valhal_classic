@@ -9,6 +9,21 @@ class SingleFileInstance < ActiveFedora::Base
 
   has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
 
+  # Given a Ruby File object
+  # create SingleFileInstance
+  # with BasicFile containing
+  # this file
+  # @param File
+  # @return SingleFileInstance
+  def self.new_from_file(file, skip_fits=true)
+    inst = self.new
+    bf = BasicFile.new
+    bf.add_file(file, skip_fits)
+    inst.files << bf
+    inst.save
+    inst
+  end
+
   # Overrides the default one by adding the basic_files type in parenthesis.
   def instance_name
     if files.size == 0 || files.last.file_type.blank?
@@ -16,6 +31,13 @@ class SingleFileInstance < ActiveFedora::Base
     else
       "#{super} (#{files.last.file_type})"
     end
+  end
+
+  # Accessor method to get the only
+  # connected file
+  # @return BasicFile
+  def file
+    files.first
   end
 
   # Retrieves a formatted relation to the relations of the manifest.

@@ -10,7 +10,7 @@ module Concerns
       has_metadata :name => 'descMetadata', :type => Datastreams::InstanceDescMetadata
 
       # List of non-multiple key-value pairs
-      has_attributes :shelfLocator, :dateCreated, :dateIssued, :tableOfContents,
+      has_attributes :shelfLocator, :dateCreated, :dateIssued, :tableOfContents, :contentType,
                      datastream: 'descMetadata', :multiple => false
 
       # List of multiple key-value pairs

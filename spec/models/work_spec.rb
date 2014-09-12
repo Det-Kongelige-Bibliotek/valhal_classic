@@ -41,6 +41,16 @@ describe Work do
     end
   end
 
+  describe '#identifier' do
+    it 'should be possible to search by an identifier' do
+      w = Work.new(title: 'title', identifier: [{'displayLabel' => 'sysnum', 'value' => 'alephsys'}])
+      w.save
+      f = Work.find(sysnum_si: 'alephsys').first
+      f.title.should eql 'title'
+    end
+
+  end
+
   describe '#worktype' do
     it 'should be created with a worktype' do
       type = 'The worktype'
@@ -182,6 +192,58 @@ describe Work do
       identicalWork = Work.new(:title => title, :workType => workType)
       identicalWork.save.should be_false
     end
+
+    it 'should not be possible to create two works with the same identifier' do
+      w = Work.new(title: 'title')
+      w.identifier= [{'displayLabel' => 'sysnum', 'value' => '1234'}]
+      w.save
+
+      w2 = Work.new(title: 'title, 2nd ed.')
+      w2.identifier= [{'displayLabel' => 'sysnum', 'value' => '1234'}]
+      w2.save.should be_false
+    end
+  end
+
+  describe 'identifier=' do
+    it 'should create an accessor method for an identifier given' do
+      w = Work.new(title: 'title')
+      w.identifier= [{'displayLabel' => 'sysnum', 'value' => '1234'}]
+      w.sysnum.should eql '1234'
+    end
+  end
+
+  describe 'ordered_instance_types' do
+    it 'should return a hash of ordered instances with their types as keys' do
+      w = Work.new(title: 'title')
+      o = OrderedInstance.new
+      s = OrderedInstance.new
+      x = OrderedInstance.new
+      o.contentType = 'JPG'
+      s.contentType = 'PDF'
+      # x has no contentType and therefore should not return
+      # in the ordered_instance_types method
+      w.instances << o << s << x
+      expected = {jpgs: o, pdfs: s}
+      w.ordered_instance_types.should eql expected
+    end
+
+    it 'should return ordered instances from a saved work' do
+      w = Work.new
+      o = OrderedInstance.new
+      o.contentType = 'JPG'
+      w.add_instance(o)
+      # o.ie = w
+      # w.save
+      # w.instances << o
+      # w.save
+      pid = w.pid
+      w = nil
+      w = Work.find(pid)
+
+      w.ordered_instances.should include o
+    end
+
+
   end
 
   after(:all) do

@@ -13,11 +13,10 @@ class HttpService
       url = URI.parse(uri_string)
       logger.debug "http start"
       response = HTTParty.post(uri_string, :body => params)
-      puts response.body, response.code, response.message, response.headers.inspect
     rescue Exception  => e
       logger.error "do_post failed #{uri_string}: #{e.message}"
       logger.error e.backtrace.join("\n")
     end
-    response ? response.body : response;
+    response ? response.body : response
   end
 end

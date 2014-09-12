@@ -6,25 +6,25 @@ class WorksController < ApplicationController
   include DisseminationService # methods: ??
 
   authorize_resource
+  before_action :set_work, only: [:show, :show_agent, :show_metadata, :show_file, :edit, :preservation,
+                                  :dissemination, :update_agent, :update_metadata, :update_file, :save_edit,
+                                  :destroy, :update_preservation_profile, :send_to_dissemination,
+                                  :finish_work_with_structmap, :show_mods ]
 
   def index
     @works = Work.all
   end
 
   def show
-    @work = Work.find(params[:id])
   end
 
   def show_agent
-    @work = Work.find(params[:id])
   end
 
   def show_metadata
-    @work = Work.find(params[:id])
   end
 
   def show_file
-    @work = Work.find(params[:id])
   end
 
   def new
@@ -36,15 +36,12 @@ class WorksController < ApplicationController
   end
 
   def edit
-    @work = Work.find(params[:id])
   end
 
   def preservation
-    @work = Work.find(params[:id])
   end
 
   def dissemination
-    @work = Work.find(params[:id])
   end
 
   # Retrieves the work for the administration view
@@ -108,7 +105,6 @@ class WorksController < ApplicationController
   end
 
   def update_agent
-    @work = Work.find(params[:id])
     handle_arguments
     if @work.save
       redirect_to show_metadata_work_path @work
@@ -118,7 +114,6 @@ class WorksController < ApplicationController
   end
 
   def update_metadata
-    @work = Work.find(params[:id])
     if @work.update_attributes(params[:work])
       redirect_to show_file_work_path @work
     else
@@ -127,7 +122,6 @@ class WorksController < ApplicationController
   end
 
   def update_file
-    @work = Work.find(params[:id])
     handle_arguments
 
     if !params[:multiple_files].blank? && !params[:multiple_files][:basic_files].blank?
@@ -141,8 +135,9 @@ class WorksController < ApplicationController
   def save_edit
     @work = Work.find(params[:id])
     handle_arguments
-    params[:work].delete :agents
-    if @work.update_attributes(params[:work])
+    work_params = params[:work]
+    work_params.delete :agents if work_params.include? :agents
+    if @work.update_attributes(work_params)
       handle_arguments
       redirect_to show_file_work_path @work
     else
@@ -151,7 +146,6 @@ class WorksController < ApplicationController
   end
 
   def file_edit
-    @work = Work.find(params[:id])
     if @work.update_attributes(params[:work])
       handle_arguments
     else
@@ -160,7 +154,6 @@ class WorksController < ApplicationController
   end
 
   def destroy
-    @work = Work.find(params[:id])
     @work.destroy
 
     redirect_to works_url
@@ -168,7 +161,6 @@ class WorksController < ApplicationController
 
   # Updates the preservation profile metadata.
   def update_preservation_profile
-    @work = Work.find(params[:id])
     begin
       notice = update_preservation_profile_from_controller(params, @work)
       redirect_to @work, notice: notice
@@ -185,8 +177,6 @@ class WorksController < ApplicationController
 
   # Updates the dissemination and performs the
   def send_to_dissemination
-    @work = Work.find(params[:id])
-
     begin
       # Using Nokogiri to locate DOOMSDAY DEVICE!!!
       url = Nokogiri::XML(@work.descMetadata.to_xml).css("url").last.content()
@@ -219,13 +209,11 @@ class WorksController < ApplicationController
   end
 
   def finish_work_with_structmap
-    @work = Work.find(params[:id])
     create_structmap_for_instance(params[:structmap_file_order], @work.ordered_instances.last)
     redirect_to @work, notice: 'Work was successfully created.'
   end
 
   def show_mods
-    @work = Work.find(params[:id])
     begin
       mods = TransformationService.transform_to_mods(@work)
       errors = TransformationService.validate_mods(mods)
@@ -289,5 +277,9 @@ class WorksController < ApplicationController
 
     logger.debug 'Validation finished'
     @work.errors.size > 0
+  end
+
+  def set_work
+    @work = Work.find(params[:id])
   end
 end

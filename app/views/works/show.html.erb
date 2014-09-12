@@ -12,12 +12,14 @@
                 <% for i in 0...relation[1].length %>
                     <%= link_to relation[1][i].display_value, authority_metadata_unit_path(relation[1][i]) %>
                       <% if relation[1][i] != relation[1].last %>|<% end %>
+                  <% end %>
                 <% end %>
-            <% end %>
             </td>
           </tr>
     <% end %>
   <% end %>
+
+  <%= render partial: 'work_relations' %>
 
   <tr><td><b>Type of resource</b></td><td><%= @work.typeOfResource %></td></tr>
   <tr><td><b>Type of resource label</b></td><td><%= @work.typeOfResourceLabel %></td></tr>
@@ -27,6 +29,7 @@
         <td><%= l %></td>
     <% end %>
   </tr>
+  <tr><td><b>Language</b></td><td><%= @work.language.map{|e| e['value']}.first %></td></tr>
   <tr><td><b>Topic(s)</b></td>
     <% @work.topic.each do |t| %>
         <td><%= t %></td>
@@ -38,6 +41,7 @@
     <% end %>
   </tr>
   <tr><td><b>Date created</b></td><td><%= @work.dateCreated %></td></tr>
+  <!--<tr><td><b>Date issued</b></td><td><% @work.dateIssued %></td></tr>-->
   <tr><td><b>Other Date(s)</b></td>
     <% @work.dateOther.each do |d| %>
         <td><%= d %></td>
@@ -47,6 +51,7 @@
   <tr><td><b>Cartographics Co-ordinates</b></td><td><%= @work.cartographicsCoordinates %></td></tr>
   <tr><td><b>Table of Contents</b></td><td><%= @work.tableOfContents %></td></tr>
   <tr><td><b>UUID</b></td><td><%= @work.uuid %></td></tr>
+  <%= render partial: 'identifiers' %>
 </table>
 
 <hr/>

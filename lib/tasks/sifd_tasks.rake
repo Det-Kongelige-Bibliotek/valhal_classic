@@ -4,13 +4,26 @@ require 'net/http'
 require 'uri'
 require 'logger'
 require 'resque/tasks'
-
+require 'resque/scheduler/tasks'
 
 require "#{Rails.root}/app/services/aleph_service"
 require "#{Rails.root}/app/helpers/mq_helper"
 require "#{Rails.root}/app/services/dissemination_service"
 require "#{Rails.root}/app/helpers/preservation_helper"
 require "#{Rails.root}/app/helpers/mq_listener_helper"
+
+
+namespace :brev do
+
+  desc 'Load test data into the system'
+  task :test_ingest => :environment do
+    @fixtures_path = Rails.root.join('spec', 'fixtures', 'brev')
+    LetterVolumeIngest.perform(@fixtures_path.join('001003574_000.xml').to_s,
+                               @fixtures_path.join('001003574_000.pdf').to_s,
+                               @fixtures_path.join('001003574_000').to_s)
+  end
+
+end
 
 namespace :sifd do
   include MqHelper
@@ -45,6 +58,7 @@ namespace :sifd do
     end
     puts "#{objects.length} objects deleted from #{Rails.env.titleize} environment"
   end
+
   desc "Add FITS file characterization datastream to all SIFD BasicFile objects that don't have it"
   task :characterize_all => :environment do
     add_file_characterization_to_all_basic_files
@@ -77,7 +91,7 @@ namespace :sifd do
 
   end
 
-  desc 'Utility task to debug import of single item, takes Aleph sysNum as arg'
+  desc 'Utility task to debug import of single item, usage: rake debug_import[<sysnum>]'
   task :debug_import, [:sysNum] => :environment do |t, args|
     # exit if we don't get any args
     if args[:sysNum].nil?
@@ -89,12 +103,19 @@ namespace :sifd do
     xml = service.get_record(set[:set_num], '1')
     puts '============== Aleph XML =================='
     puts xml
-    slim = ConversionService.transform_aleph_to_slim_marc(xml, 'somebullshit.pdf')
+    slim = ConversionService.transform_aleph_to_slim_marc(xml, "#{args[:sysNum]}_000.pdf")
     puts '============== Slimmed down MARC XML =================='
     puts slim
     mods = ConversionService.transform_marc_to_mods(slim)
     puts '============== MODS =================='
     puts mods
+  end
+
+  desc 'add some letters examples'
+  task :letter_examples  => :environment do
+    doc = Nokogiri::XML(File.open(Rails.root.join('spec', 'fixtures', 'brev', 'small-tei.xml')))
+    work = Work.create(title: 'A test letter book', workType: 'Book')
+    LetterVolumeSplitter.parse_letters(doc, work)
   end
 
   desc 'Read messages of DOD ingest queue, and ingest DOD books into Valhal'
@@ -122,6 +143,8 @@ namespace :sifd do
     logger.debug "Finished processing DOD queue"
     logger.debug "Task took  #{Time.now - start_time} seconds"
   end
+
+
 
   #Function to read messages from RabbitMQ and store them in an Array
   #@return Array of unread messages

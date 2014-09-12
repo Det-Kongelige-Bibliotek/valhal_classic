@@ -14,12 +14,15 @@ module Datastreams
       t.workflow_activity(index_as: :stored_searchable)
       t.cartographicsScale()
       t.cartographicsCoordinates()
+      t.dateIssued()
       t.dateCreated(index_as: :stored_searchable)
       t.dateOther(index_as: :stored_searchable)
       t.genre(index_as: :stored_searchable)
       t.languageOfCataloging(index_as: :stored_searchable)
       t.recordOriginInfo(index_as: :stored_searchable)
       t.tableOfContents()
+      t.nextInSequence
+      t.previousInSequence
       t.topic(index_as: :stored_searchable)
       t.typeOfResource(index_as: :stored_searchable)
       t.typeOfResourceLabel(index_as: :stored_searchable)

@@ -1,0 +1,9 @@
+look_for_new_letters_volumes:
+  every:
+    - "30s"
+    - :first_in: '5s'
+  queue: new_letter_volumes
+  class: "NewVolumesJob"
+  args: "/tmp/dk_breve"
+  description: "Searches file system for new scanned volumes containing letters"
+

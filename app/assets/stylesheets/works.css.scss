@@ -56,7 +56,13 @@ li.disabled {
 li.highlight {
   background: #FEE25F;
 }
+
 li.sortable-placeholder {
   border: 1px dashed #CCC;
   background: none;
+}
+
+textarea.no-blacklight {
+  width: auto;
+  height: auto;
 }

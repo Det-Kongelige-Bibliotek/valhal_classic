@@ -74,6 +74,15 @@ class AlephService
     end
   end
 
+  # Given a sysnum return the record
+  # Convenience method
+  # @param sysnum String
+  # @return record String
+  def find_by_sysnum(sysnum)
+    set = find_set("sys=#{sysnum}")
+    get_record(set[:set_num], '1')
+  end
+
   # Given an Aleph search string
   # retrieve set_data xml for the
   # corresponding result set.

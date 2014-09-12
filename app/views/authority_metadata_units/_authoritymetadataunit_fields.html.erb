@@ -1,0 +1,15 @@
+<div class="control-group">
+  <%= f.label :type, "Type", :class=>'control-label' %>
+  <div class="controls">
+    <%= f.select :type, AMU_TYPES.each {|t| [t, t]}, options = { :prompt => '(Select type of authority metadata)',
+                                                                 :include_blank => false },:class=>'input-block-level' %>
+  </div>
+</div>
+
+
+<div class="control-group">
+  <%= f.label :value, "Value", :class=>'control-label' %>
+  <div class="controls">
+    <%= f.text_field :value, :placeholder => "Value", :class=>'input-block-level' %>
+  </div>
+</div>
