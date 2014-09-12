@@ -164,15 +164,19 @@ namespace :valhal_migrate do
   def extract_rep_relations_to_files(reps, files)
     res = Hash.new
     files.each do |f|
-      file = ActiveFedora::Base.find(f, :cast=>false)
-      search_start = file.datastreams['RELS-EXT'].content.index(':isPartOf')
-      search_end = file.datastreams['RELS-EXT'].content.index('isPartOf>')
-      unless search_start.nil? || search_end.nil?
-        # Magic numbers 36 and 44 -> finds the start and end of the representation 'PID' within the RELS-EXT
-        rep_id = file.datastreams['RELS-EXT'].content[search_start + 36, (search_end - search_start) - 44]
-        if reps.include?(rep_id)
-          res[rep_id].nil? ? res[rep_id] = [f] : res[rep_id] << f
+      begin
+        file = ActiveFedora::Base.find(f, :cast=>false)
+        search_start = file.datastreams['RELS-EXT'].content.index(':isPartOf')
+        search_end = file.datastreams['RELS-EXT'].content.index('isPartOf>')
+        unless search_start.nil? || search_end.nil?
+          # Magic numbers 36 and 44 -> finds the start and end of the representation 'PID' within the RELS-EXT
+          rep_id = file.datastreams['RELS-EXT'].content[search_start + 36, (search_end - search_start) - 44]
+          if reps.include?(rep_id)
+            res[rep_id].nil? ? res[rep_id] = [f] : res[rep_id] << f
+          end
         end
+      rescue ActiveFedora::ObjectNotFoundError => e
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error e }
       end
     end
     res
@@ -185,24 +189,28 @@ namespace :valhal_migrate do
   def extract_people_relations(people)
     res = Hash.new
     people.each do |f|
-      base = ActiveFedora::Base.find(f, :cast => false)
-      match_concerns_relations = base.datastreams['RELS-EXT'].content.scan(/(:hasDescription[^>]*><)/)
+      begin
+        base = ActiveFedora::Base.find(f, :cast => false)
+        match_concerns_relations = base.datastreams['RELS-EXT'].content.scan(/(:hasDescription[^>]*><)/)
 
-      concerns = []
-      match_concerns_relations.each do |c|
-        relation = c.first
-        concerns << relation[42, relation.size-45]
+        concerns = []
+        match_concerns_relations.each do |c|
+          relation = c.first
+          concerns << relation[42, relation.size-45]
+        end
+
+        match_author_relations = base.datastreams['RELS-EXT'].content.scan(/(:isMemberOf[^>]*><)/)
+
+        author = []
+        match_author_relations.each do |c|
+          relation = c.first
+          author << relation[38, relation.size-41]
+        end
+
+        res[f] = {'Author' => author, 'Concerns' => concerns}
+      rescue ActiveFedora::ObjectNotFoundError => e
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error e }
       end
-
-      match_author_relations = base.datastreams['RELS-EXT'].content.scan(/(:isMemberOf[^>]*><)/)
-
-      author = []
-      match_author_relations.each do |c|
-        relation = c.first
-        author << relation[38, relation.size-41]
-      end
-
-      res[f] = {'Author' => author, 'Concerns' => concerns}
     end
     res
   end
@@ -215,21 +223,25 @@ namespace :valhal_migrate do
   def migrate_book_or_work(bw, relations)
     return if relations.nil?
 
-    base = ActiveFedora::Base.find(bw, :cast=>false)
+    begin
+      base = ActiveFedora::Base.find(bw, :cast=>false)
 
-    mods = Nokogiri::XML.parse(base.datastreams['descMetadata'].content)
+      mods = Nokogiri::XML.parse(base.datastreams['descMetadata'].content)
 
-    files = relations.empty? ? [] : extract_files(relations.first.values.first)
+      files = relations.empty? ? [] : extract_files(relations.first.values.first)
 
-    work, instance = TransformationService.create_from_mods(mods, files)
-    work.datastreams['preservationMetadata'].content = base.datastreams['preservationMetadata'].content
+      work, instance = TransformationService.create_from_mods(mods, files)
+      work.datastreams['preservationMetadata'].content = base.datastreams['preservationMetadata'].content
 
-    if relations.size > 1
-      for i in 1 .. relations.size - 1
-        add_copy_of_instance(work, instance, relations[i].values)
+      if relations.size > 1
+        for i in 1 .. relations.size - 1
+          add_copy_of_instance(work, instance, relations[i].values)
+        end
       end
+      work
+    rescue ActiveFedora::ObjectNotFoundError => e
+      logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error e }
     end
-    work
   end
 
   # Migrate the old Person into the new AMU Agent/Person.
@@ -239,17 +251,22 @@ namespace :valhal_migrate do
   # @param p The Person or work to migrate.
   # @return The new Agent/Person.
   def migrate_people(p)
-    base = ActiveFedora::Base.find(p, :cast=>false)
+    begin
+      base = ActiveFedora::Base.find(p, :cast=>false)
 
-    pxml = Nokogiri::XML.parse(base.datastreams['descMetadata'].content)
-    firstname = pxml.css("//fields/firstname").text
-    lastname = pxml.css("//fields/lastname").text
-    date_of_birth = pxml.css("//fields/date_of_birth").text
-    date_of_death = pxml.css("//fields/date_of_death").text
+      pxml = Nokogiri::XML.parse(base.datastreams['descMetadata'].content)
+      firstname = pxml.css("//fields/firstname").text
+      lastname = pxml.css("//fields/lastname").text
+      date_of_birth = pxml.css("//fields/date_of_birth").text
+      date_of_death = pxml.css("//fields/date_of_death").text
 
-    lastname = 'Ukendt' if lastname.blank?
+      lastname = 'Ukendt' if lastname.blank?
 
-    AMUFinderService.find_or_create_person(firstname, lastname, date_of_birth, date_of_death)
+      p = Person.new(title: "", firstName: firstname, lastName: lastname, dateOfBirth: date_of_birth, dateOfDeath: date_of_death, type: "agent/person")
+      p.save
+    rescue ActiveFedora::ObjectNotFoundError => e
+      logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error e }
+    end
   end
 
   def insert_relations(migrated_works, migrated_people, relations)
@@ -293,18 +310,28 @@ namespace :valhal_migrate do
   def extract_files(file_ids)
     files = []
     file_ids.each do |f|
-      files << BasicFile.find(f)
+      begin
+        files << BasicFile.find(f)
+      rescue ActiveFedora::ObjectNotFoundError => e
+        logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error e }
+      end
     end
+    logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.debug "Files array size = #{files.size}" }
     files
   end
 
   # Converts a TEI file into a Basic file.
   # Just change the model in the RELS-EXT.
   def convert_tei_file(id)
-    f = BasicFile.find(id)
+    begin
+      f = BasicFile.find(id)
 
-    f.datastreams['RELS-EXT'].content = f.datastreams['RELS-EXT'].content.gsub('info:fedora/afmodel:TeiFile', 'info:fedora/afmodel:BasicFile')
-    f.save
+      f.datastreams['RELS-EXT'].content = f.datastreams['RELS-EXT'].content.gsub('info:fedora/afmodel:TeiFile', 'info:fedora/afmodel:BasicFile')
+      f.save
+    rescue ActiveFedora::ObjectNotFoundError => e
+      logger.tagged('CONCEPTUAL_MODEL_MIGRATE') { logger.error e }
+      return
+    end
   end
 
   # Creates a copy of an instance, with same metadata - both internal metadata and AMU relations.
