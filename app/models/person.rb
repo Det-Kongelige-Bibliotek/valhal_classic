@@ -28,8 +28,8 @@ class Person < AuthorityMetadataUnit
   has_solr_fields do |m|
     # Fields from DescMetadata
     m.field 'person_firstName', method: :firstName, :index_as => [:string, :stored, :indexed]
-    m.field 'person_surName', method: :lastName, :index_as => [:string, :stored, :indexed]
-    m.field 'person_dateOfBirth', method: :dateOfBirths, :index_as => [:string, :stored, :indexed]
+    m.field 'person_surname', method: :lastName, :index_as => [:string, :stored, :indexed]
+    m.field 'person_dateOfBirth', method: :dateOfBirth, :index_as => [:string, :stored, :indexed]
     m.field 'person_dateOfDeath', method: :dateOfDeath, :index_as => [:string, :stored, :indexed]
   end
 
