@@ -19,8 +19,13 @@
   <xsl:output encoding="UTF-8"
 	      indent="yes" />
 
-    <!-- ="da-DK" -->
 
+
+  <xsl:param name="pass2">
+    <xsl:value-of select="'1'"/>
+  </xsl:param>
+
+  <!-- ="da-DK" -->
   <xsl:param name="default_lang">
     <xsl:value-of 
 	select="pkg:package/pkg:part/pkg:xmlData/w:styles/w:docDefaults/w:rPrDefault/w:rPr/w:lang/@w:val"/>
@@ -71,7 +76,7 @@
 
     <!-- Here we transform the raw tei -->
     <xsl:choose>
-      <xsl:when test="1">
+      <xsl:when test="$pass2">
 	<xsl:apply-templates  select="exsl:node-set($rtei)/*"/>
       </xsl:when>
       <xsl:otherwise>
@@ -112,6 +117,9 @@
 	<xsl:with-param name="milestone">Brevskrivningsdato</xsl:with-param>
       </xsl:call-template>
     </date>
+    <xsl:call-template name="get_next_milestone">
+      <xsl:with-param name="milestone">Brevskrivningsdato</xsl:with-param>
+    </xsl:call-template>
   </xsl:template>
 
   <xsl:template  match="t:milestone[@type='Modtager']">
@@ -122,6 +130,9 @@
 	</xsl:call-template>
       </name>
     </address>
+    <xsl:call-template name="get_next_milestone">
+      <xsl:with-param name="milestone">Modtager</xsl:with-param>
+    </xsl:call-template>
   </xsl:template>
 
   <xsl:template  match="t:milestone[@type='Modtagelsessted']">
@@ -130,6 +141,9 @@
 	<xsl:with-param name="milestone">Modtagelsessted</xsl:with-param>
       </xsl:call-template>
     </placeName>
+    <xsl:call-template name="get_next_milestone">
+      <xsl:with-param name="milestone">Modtagelsessted</xsl:with-param>
+    </xsl:call-template>
   </xsl:template>
 
   <xsl:template  match="t:milestone[@type='Afsender']">
@@ -138,10 +152,13 @@
 	<xsl:with-param name="milestone">Afsender</xsl:with-param>
       </xsl:call-template>
     </persName>
+    <xsl:call-template name="get_next_milestone">
+      <xsl:with-param name="milestone">Afsender</xsl:with-param>
+    </xsl:call-template>
   </xsl:template>
-
+                                           
   <xsl:template  match="t:milestone[@type='Afsendelsessted']">
-    <placeName type="recipient">
+    <placeName type="sender">
       <xsl:call-template name="get_span">
 	<xsl:with-param name="milestone">Afsendelsessted</xsl:with-param>
       </xsl:call-template>
@@ -154,20 +171,29 @@
 	<xsl:with-param name="milestone">Note</xsl:with-param>
       </xsl:call-template>
     </note>
+    <xsl:call-template name="get_next_milestone">
+      <xsl:with-param name="milestone">Note</xsl:with-param>
+    </xsl:call-template>
   </xsl:template>
 
   <xsl:template  match="t:milestone[@type='Proveniens']">
-    <xsl:comment>
+    <note type="proveniens">
       <xsl:call-template name="get_span">
 	<xsl:with-param name="milestone">Proveniens</xsl:with-param>
       </xsl:call-template>
-    </xsl:comment>
+    </note>
+    <xsl:call-template name="get_next_milestone">
+      <xsl:with-param name="milestone">Proveniens</xsl:with-param>
+    </xsl:call-template>
   </xsl:template>
 
   <!-- Here we have the plain (untyped) text stuff -->
 
   <xsl:template  match="t:milestone[@type='Text']">
     <xsl:call-template name="get_span">
+      <xsl:with-param name="milestone">Text</xsl:with-param>
+    </xsl:call-template>
+    <xsl:call-template name="get_next_milestone">
       <xsl:with-param name="milestone">Text</xsl:with-param>
     </xsl:call-template>
   </xsl:template>
@@ -192,7 +218,8 @@
       <xsl:attribute name="n"><xsl:value-of select="position()"/></xsl:attribute>
       <xsl:attribute name="xml:id">div<xsl:value-of select="$letter_id"/></xsl:attribute>
       <xsl:attribute name="xml:lang"><xsl:value-of select="$default_lang"/></xsl:attribute>
-      <xsl:apply-templates select="following-sibling::t:p[generate-id(preceding-sibling::t:milestone[1]) = $letter_id]"/>
+      <xsl:apply-templates 
+	  select="following-sibling::t:p[generate-id(preceding-sibling::t:milestone[1]) = $letter_id]"/>
     </xsl:element>
   </xsl:template>
 
@@ -205,19 +232,43 @@
       <xsl:value-of select="generate-id(.)"/>
     </xsl:variable>
     <xsl:for-each 
-	select="following-sibling::t:span[$mid=generate-id(preceding-sibling::t:milestone[1])]">
-      <xsl:apply-templates select="."/>
+	select="following-sibling::t:span[$mid=generate-id(preceding-sibling::t:milestone[1])] |
+		following-sibling::t:pb[$mid=generate-id(preceding-sibling::t:milestone[1])] |
+		following-sibling::t:milestone[@type = $milestone and $mid=generate-id(preceding-sibling::t:milestone[1])]">
+      <xsl:choose>
+	<xsl:when test="local-name(.) = 'span' or local-name(.) = 'pb'">
+	  <xsl:apply-templates select="."/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:call-template name="get_span">
+	    <xsl:with-param name="milestone" select="$milestone"/>
+	  </xsl:call-template><xsl:text> </xsl:text>
+	</xsl:otherwise>
+      </xsl:choose>
     </xsl:for-each>
   </xsl:template>
 
+  <xsl:template name="get_next_milestone">
+    <xsl:param name="milestone" select="''"/>
+    <xsl:variable name="mid">
+      <xsl:value-of select="generate-id(.)"/>
+    </xsl:variable>
+    <xsl:apply-templates 
+	select="following-sibling::t:milestone[not(@type = $milestone) and 
+		$mid=generate-id(preceding-sibling::t:milestone[1])][1]"/>
+  </xsl:template>
+
+  <xsl:template match="t:pb">
+    <xsl:element name="pb">
+      <xsl:copy-of select="@*"/>
+    </xsl:element>
+    <xsl:text>
+    </xsl:text>
+  </xsl:template>
+
   <xsl:template match="t:p">
-    <xsl:if test="t:pb">
-      <xsl:element name="pb">
-	<xsl:copy-of select="t:pb/@*"/>
-      </xsl:element>
-    </xsl:if>
     <p>
-      <xsl:apply-templates select="t:milestone"/> 
+      <xsl:apply-templates select="t:milestone[1]"/> 
     </p>
   </xsl:template>
 
@@ -246,7 +297,7 @@
     <xsl:choose>
       <xsl:when test="w:rPr/w:rStyle/@w:val='Brevskrivningsdato' or
 		      w:rPr/w:rStyle/@w:val='Afsender' or
-		      w:rPr/w:rStyle/@w:val='Avsendelsessted' or
+		      w:rPr/w:rStyle/@w:val='Afsendelsessted' or
 		      w:rPr/w:rStyle/@w:val='Modtager' or
 		      w:rPr/w:rStyle/@w:val='Modtagelsessted' or
 		      w:rPr/w:rStyle/@w:val='Proveniens' or
@@ -256,7 +307,7 @@
 	    <xsl:choose>
 	      <xsl:when test="w:rPr/w:rStyle/@w:val='Brevskrivningsdato'">Brevskrivningsdato</xsl:when>
 	      <xsl:when test="w:rPr/w:rStyle/@w:val='Afsender'">Afsender</xsl:when>
-	      <xsl:when test="w:rPr/w:rStyle/@w:val='Avsendelsessted'">Avsendelsessted</xsl:when>
+	      <xsl:when test="w:rPr/w:rStyle/@w:val='Afsendelsessted'">Afsendelsessted</xsl:when>
 	      <xsl:when test="w:rPr/w:rStyle/@w:val='Modtager'">Modtager</xsl:when>
 	      <xsl:when test="w:rPr/w:rStyle/@w:val='Modtagelsessted'">Modtagelsessted</xsl:when>
 	      <xsl:when test="w:rPr/w:rStyle/@w:val='Proveniens'">Proveniens</xsl:when>
@@ -266,11 +317,9 @@
 	</xsl:element>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:if test="w:rPr/w:rStyle/@w:val">
-	  <xsl:element name="milestone">
-	    <xsl:attribute name="type">Text</xsl:attribute>
-	  </xsl:element>
-	</xsl:if>
+	<xsl:element name="milestone">
+	  <xsl:attribute name="type">Text</xsl:attribute>
+	</xsl:element>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -291,6 +340,7 @@
   </xsl:template>
 
   <xsl:template mode="raw" match="w:r">
+    <xsl:call-template name="make_milestones"/>
     <xsl:if test="w:lastRenderedPageBreak">
       <xsl:element name="pb">
 	<xsl:attribute name="n">
@@ -298,7 +348,6 @@
 	</xsl:attribute>
       </xsl:element>
     </xsl:if>
-    <xsl:call-template name="make_milestones"/>
     <span>
       <xsl:if test="w:rPr/w:lang/@w:val and not(w:rPr/w:lang/@w:val = $default_lang)">
 	<xsl:attribute name="xml:lang"><xsl:value-of select="w:rPr/w:lang/@w:val"/></xsl:attribute>
