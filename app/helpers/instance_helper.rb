@@ -8,7 +8,7 @@ module InstanceHelper
 
     agent_relations.each do |agent_relation_hash|
       agent_relation_hash.each do |agent_relation|
-        agent = AuthorityMetadataUnit.find(agent_relation[1]['agentID'])
+        agent = AuthorityMetadataUnit::get_agent(agent_relation[1]['agentID'])
         if agent_relation[1]['relationshipType'].eql? 'hasTopic'
           instance.hasTopic << agent
         elsif agent_relation[1]['relationshipType'].eql? 'hasOrigin'

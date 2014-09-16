@@ -38,7 +38,7 @@ module Concerns
       # Extracts the relations, which are valid for work.
       def get_relations
         res = Hash.new
-        relations = METADATA_RELATIONS_CONFIG['work']
+        relations = METADATA_RELATIONS_CONFIG['work'].values.join(' ')
         get_all_relations.each do |k,v|
           if relations.include?(k) && v.empty? == false
             res[k] = v

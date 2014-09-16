@@ -45,26 +45,33 @@ authority_metadata_unit:
 
 # For Work and Instance, just which relations each can have.
 work:
-  hasTopic
-  hasOrigin
-  hasDestination
-  hasAddressee
-  hasAuthor
-  hasContributor
-  hasCreator
-  hasOwner
-  hasPatron
-  hasPerformer
-  hasPhotographer
-  hasTranslator
+  person:
+    hasTopic
+    hasAddressee
+    hasAuthor
+    hasContributor
+    hasCreator
+    hasOwner
+    hasPatron
+    hasPerformer
+    hasPhotographer
+    hasTranslator
+  place:
+    hasTopic
+    hasOrigin
+    hasDestination
 instance:
-  hasTopic
-  hasOrigin
-  hasContributor
-  hasOwner
-  hasPatron
-  hasPrinter
-  hasPublisher
-  hasScribe
-  hasDigitizer
+  person:
+    hasTopic
+    hasOrigin
+    hasContributor
+    hasOwner
+    hasPatron
+    hasPrinter
+    hasPublisher
+    hasScribe
+    hasDigitizer
+  place:
+    hasTopic
+    hasOrigin
 

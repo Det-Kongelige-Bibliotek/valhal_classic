@@ -21,7 +21,7 @@ module Concerns
       # Extracts the relations, which are valid for instance.
       def get_relations
         res = Hash.new
-        relations = METADATA_RELATIONS_CONFIG['instance']
+        relations = METADATA_RELATIONS_CONFIG['instance'].values.join(' ')
         get_all_relations.each do |k,v|
           if relations.include?(k) && v.empty? == false
             res[k] = v
