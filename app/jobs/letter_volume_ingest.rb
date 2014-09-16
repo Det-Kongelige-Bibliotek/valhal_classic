@@ -25,21 +25,21 @@ class LetterVolumeIngest
     # add these to instances
     # and add instances to the Work
 
-    bf_pdf = BasicFile.new
-    bf_xml = BasicFile.new
 
+    bf_pdf = BasicFile.new
     bf_pdf.add_file(File.new(pdf_path), true)
     pdfs.files << bf_pdf
     pdfs.save
 
     create_structmap(pdfs)
 
+
+    bf_xml = BasicFile.new
     tmp_file_path = self.transform(xml_path)
     bf_xml.add_file(File.new(tmp_file_path), true)
     File.delete(tmp_file_path) # get rid of temp file
     xmls.files << bf_xml
     xmls.save
-
     create_structmap(xmls)
 
     pdfs_saved = work.add_instance(pdfs)
@@ -89,20 +89,57 @@ class LetterVolumeIngest
     jpgs
   end
 
+  # Based on an Aleph sysnum, check to see if work
+  # already exists in Aleph and if not, create a new
+  # one based on the metadata retrieved from Aleph
+  # @param sysnum
+  # @return Work, Hash instance metadata
   def self.find_or_create_work(sysnum)
     existing = Work.find('sysnum_si' => sysnum)
     if existing.size > 0
       w = existing.first
       Resque.logger.debug "existing work found with PID #{w.pid}"
+      return w
     else
-      meta = ConversionService.aleph_to_valhal(sysnum)
-      fields = {}.merge(meta.first).merge(meta.last).merge({workType: 'Book'})
+      fields = { workType: 'Book' }
+      # try and get aleph data - will fail if sysnum not found
+      begin
+        work, instance_meta, work_meta = ConversionService.aleph_to_valhal(sysnum)
+        fields.merge!(work).merge!(work_meta)
+      rescue => e
+        Resque.logger.debug e.message
+      end
+      # build the work with the data we have retrieved
       w = Work.new(fields)
       w.identifier=([{'displayLabel' => 'sysnum', 'value' => sysnum }])
-      w.save
+      w = self.add_author_relation(w)
+      w = self.add_work_instances(w, instance_meta)
       Resque.logger.debug "no matching work found - work created with PID #{w.pid}"
+      return w
     end
-    w
+  end
+
+  def self.add_author_relation(work)
+    mods = ConversionService.aleph_to_mods_datastream(work.sysnum)
+    authors = mods.primary.name
+    authors.each do |author|
+      p = Person.from_string(author.strip)
+      work.hasAuthor << p
+      work.save
+    end
+    work
+  end
+  # Add OrderedInstances to the work with content type and whatever
+  # data we've gotten back from Aleph
+  # @param Work
+  # @param Hash
+  # @return Work
+  def self.add_work_instances(work, metadata)
+    metadata = {} unless metadata.class == Hash
+    work.add_instance(OrderedInstance.new({contentType: 'pdf'}.merge(metadata)))
+    work.add_instance(OrderedInstance.new({contentType: 'tei'}.merge(metadata)))
+    work.add_instance(OrderedInstance.new({contentType: 'jpg'}.merge(metadata)))
+    work
   end
 
   def self.create_structmap(instance)
@@ -142,6 +179,10 @@ class LetterVolumeFile
   # an integer e.g. '0098372_X01.pdf'=> 1
   def number
     @file_name.split('_').last[1..-1].to_i
+  end
+
+  def filename
+    @file_name
   end
 
   def index

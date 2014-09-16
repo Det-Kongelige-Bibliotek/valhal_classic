@@ -29,6 +29,12 @@ describe LetterVolumeIngest do
       Work.all.size.should be > 0
     end
 
+    it 'should create a Person object for the author' do
+      pending 'implement me!!!'
+      author = Work.author
+      expect(author).to_not be_nil
+    end
+
     it 'should create ordered instances for pdfs, jpgs and xml files' do
       @work.ordered_instance_types.should include :pdfs
       @work.ordered_instance_types.should include :teis
@@ -80,10 +86,17 @@ describe LetterVolumeIngest do
   end
 
   describe 'find_or_create_work' do
+    before :all do
+      @work = LetterVolumeIngest.find_or_create_work('000773452')
+    end
+
     it 'should create a work if no existing work is found' do
-      w = LetterVolumeIngest.find_or_create_work('123456')
-      w.should be_a Work
-      w.sysnum.should eql '123456'
+      @work.should be_a Work
+      @work.sysnum.should eql '000773452'
+    end
+
+    it 'should create an author for that work' do
+      @work.hasAuthor.first.should be_a Person
     end
 
     it 'should find an existing work if there is one' do
