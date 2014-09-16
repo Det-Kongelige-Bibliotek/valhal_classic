@@ -72,7 +72,7 @@ module WorkHelper
 
     agent_relations.each do |agent_relation_hash|
         agent_relation_hash.each do |agent_relation|
-          agent = AuthorityMetadataUnit.find(agent_relation[1]['agentID'])
+          agent = AuthorityMetadataUnit::get_agent(agent_relation[1]['agentID'])
           if agent_relation[1]['relationshipType'].eql? 'hasTopic'
             work.hasTopic << agent
           elsif agent_relation[1]['relationshipType'].eql? 'hasOrigin'
@@ -99,6 +99,19 @@ module WorkHelper
         end
     end
   end
+
+  #def get_agent(id)
+  #  agent = AuthorityMetadataUnit.find(id)
+  #  case agent.type
+  #    when 'agent/person'
+  #      val = Person.find(id)
+  #    when 'place'
+  #      val = Place.find(id)
+  #    else
+  #      val = AuthorityMetadataUnit.find(id)
+  #  end
+  #  val
+  #end
 
   # Creates the structmap for a instance based on the file_name order of the basic_files.
   # @param file_order_string The ordered list of filenames.

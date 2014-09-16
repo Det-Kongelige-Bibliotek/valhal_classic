@@ -1,26 +1,49 @@
 <%= javascript_include_tag params[:controller] %>
 <div class="control-group">
+  <h3>Persons:</h3>
   <label class="controls">This single file instance...</label>
   <div class="controls">
-    <select id="agent_relationship" name="agent_relationship" class="control-group">
-      <% METADATA_RELATIONS_CONFIG['instance'].split(' ').each do |relation|  %>
+    <select id="person_relationship" name="person_relationship" class="control-group">
+      <% METADATA_RELATIONS_CONFIG['instance']['person'].split(' ').each do |relation|  %>
           <option id="<%= relation %>"><%= relation %></option>
       <% end %>
     </select>
   </div>
   <div class="controls">
-    <%= collection_select(:agent,
-                          :id,
-                          AuthorityMetadataUnit.all,
-                          :id,
-                          :value,
-                          options = { :include_blank => false },
-                          { :multiple => false, :class=>'input-block-level' }) %>
+    <select id="person_id" name="person[id]">
+      <% Person.all.each do |person| %>
+          <option value="<%= person.id%>"><%= person.value %></option>
+      <% end %>
+    </select>
+  </div>
+  <div class="controls">
+    <%= button_tag(type: 'button', onclick: 'addAgent($("#person_relationship option:selected").text(),
+                                                    $("#person_id option:selected").text(), $("#person_id option:selected").val())', class: 'btn') do
+      content_tag(:label, 'Add Person')
+    end
+    %>
+  </div>
+  <p></p>
+  <h3>Places:</h3>
+  <label class="controls">This single file instance...</label>
+  <div class="controls">
+    <select id="place_relationship" name="place_relationship" class="control-group">
+      <% METADATA_RELATIONS_CONFIG['instance']['place'].split(' ').each do |relation|  %>
+          <option value="<%= relation %>"><%= relation %></option>
+      <% end %>
+    </select>
+  </div>
+  <div class="controls">
+    <select id="place_id" name="place[id]">
+      <% Place.all.each do |place| %>
+            <option value="<%= place.id%>"><%= place.value %></option>
+      <% end %>
+    </select>
   </div><br/>
   <div class="controls">
-    <%= button_tag(type: 'button', onclick: 'addAgent($("#agent_relationship option:selected").text(),
-                                                    $("#agent_id option:selected").text(), $("#agent_id option:selected").val())', class: 'btn') do
-      content_tag(:label, 'Add Agent')
+    <%= button_tag(type: 'button', onclick: 'addAgent($("#place_relationship option:selected").text(),
+                                                    $("#place_id option:selected").text(), $("#place_id option:selected").val())', class: 'btn') do
+      content_tag(:label, 'Add Place')
     end
     %>
   </div>

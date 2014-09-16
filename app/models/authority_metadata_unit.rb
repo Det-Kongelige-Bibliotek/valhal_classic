@@ -42,4 +42,19 @@ class AuthorityMetadataUnit < ActiveFedora::Base
     m.field 'amu_value', method: :get_value_without_special_characters, :index_as => [:string, :stored, :indexed]
     m.field 'amu_reference', method: :reference, :index_as => [:string, :stored, :indexed, :multivalued]
   end
+
+
+  def self.get_agent(id)
+    agent = AuthorityMetadataUnit.find(id)
+    case agent.type
+      when 'agent/person'
+        val = Person.find(id)
+      when 'place'
+        val = Place.find(id)
+      else
+        val = AuthorityMetadataUnit.find(id)
+    end
+    val
+  end
+
 end
