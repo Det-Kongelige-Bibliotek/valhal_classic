@@ -38,7 +38,7 @@ module Datastreams
 
       t.person_full(:ref=>:name, :attributes=>{:type=>"personal"})
       t.person(:proxy=>[:person_full, :name_part])
-      t.creator(:ref=>:person, :path=>'name[mods:role/mods:roleTerm="creator"]', :xmlns=>"http://www.loc.gov/mods/v3", :namespace_prefix => "mods")
+      t.author(:ref=>:person, :path=>'name[role/roleTerm="author"]')
       t.corporate_full(ref: :name, attributes: {type: 'corporate'})
       t.corporate_names(proxy: [:corporate_full, :name_part])
 
