@@ -24,23 +24,26 @@ module Datastreams
         end
         t.dateIssued()
       end
-      t.name_ {
-        t.name_part(path: "namePart")
-        t.family_name(path: 'namePart', attributes: {type: "family"})
-        t.given_name(path: "namePart", attributes: {type: "given"}, label: "first name")
-        t.terms_of_address(:path=>"namePart", attributes: {type: "termsOfAddress"})
-        t.role(ref: [:role])
+      t.person(:path=>"name", attributes: {type: 'personal'}) {
+        t.name(:path=>"namePart")
+        t.family(:path=>"namePart", :attributes=>{:type=>"family"})
+        t.role {
+          t.text(:path=>"roleTerm")
+        }
       }
+      t.primary(path: 'name', attributes: {type: 'personal', usage: 'primary'}) do
+        t.name(path: 'namePart')
+      end
+      t.corporate(path: 'name', attributes: {type: 'corporate'}) do
+        t.name(path: 'namePart')
+      end
 
-      t.role {
-        t.role_term_text(:path=>"roleTerm", :attributes=>{:type=>"text"})
-      }
 
-      t.person_full(:ref=>:name, :attributes=>{:type=>"personal"})
-      t.person(:proxy=>[:person_full, :name_part])
-      t.author(:ref=>:person, :path=>'name[role/roleTerm="author"]')
-      t.corporate_full(ref: :name, attributes: {type: 'corporate'})
-      t.corporate_names(proxy: [:corporate_full, :name_part])
+      #t.person_full(:ref=>:name, :attributes=>{:type=>"personal"})
+      #t.person(:proxy=>[:person_full, :name_part])
+      #t.author(:ref=>:person, :path=>'name[./role/roleTerm="Author"]', :xmlns=>"http://www.loc.gov/mods/v3")
+
+      #t.corporate_names(proxy: [:corporate_full, :name_part])
 
       t.language do
         t.languageISO(:path=>"languageTerm[@authority='iso639-2b']")
