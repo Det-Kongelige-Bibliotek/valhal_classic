@@ -163,13 +163,18 @@
 	<xsl:with-param name="milestone">Afsendelsessted</xsl:with-param>
       </xsl:call-template>
     </placeName>
+    <xsl:call-template name="get_next_milestone">
+      <xsl:with-param name="milestone">Afsendelsessted</xsl:with-param>
+    </xsl:call-template>
   </xsl:template>
 
   <xsl:template  match="t:milestone[@type='Note']">
     <note>
-      <xsl:call-template name="get_span">
-	<xsl:with-param name="milestone">Note</xsl:with-param>
-      </xsl:call-template>
+      <p>
+	<xsl:call-template name="get_span">
+	  <xsl:with-param name="milestone">Note</xsl:with-param>
+	</xsl:call-template>
+      </p>
     </note>
     <xsl:call-template name="get_next_milestone">
       <xsl:with-param name="milestone">Note</xsl:with-param>
@@ -177,10 +182,12 @@
   </xsl:template>
 
   <xsl:template  match="t:milestone[@type='Proveniens']">
-    <note type="proveniens">
-      <xsl:call-template name="get_span">
-	<xsl:with-param name="milestone">Proveniens</xsl:with-param>
-      </xsl:call-template>
+    <note type="provenance">
+      <p>
+	<xsl:call-template name="get_span">
+	  <xsl:with-param name="milestone">Proveniens</xsl:with-param>
+	</xsl:call-template>
+      </p>
     </note>
     <xsl:call-template name="get_next_milestone">
       <xsl:with-param name="milestone">Proveniens</xsl:with-param>
@@ -255,7 +262,11 @@
     </xsl:variable>
     <xsl:apply-templates 
 	select="following-sibling::t:milestone[not(@type = $milestone) and 
+		$mid=generate-id(preceding-sibling::t:milestone[@type = $milestone])]"/>
+<!--
+	select="following-sibling::t:milestone[not(@type = $milestone) and 
 		$mid=generate-id(preceding-sibling::t:milestone[1])][1]"/>
+-->
   </xsl:template>
 
   <xsl:template match="t:pb">
@@ -328,7 +339,7 @@
     <xsl:variable name="milestone_id" select="generate-id(.)"/>    
     <milestone type="Start" />
     <xsl:for-each 
-	select=".|following-sibling::w:p[generate-id(preceding-sibling::w:p[w:r/w:rPr/w:rStyle/@w:val='Start'][1])=$milestone_id]">
+	select=".|following-sibling::w:p[not(w:r/w:rPr/w:rStyle/@w:val='Start') and generate-id(preceding-sibling::w:p[w:r/w:rPr/w:rStyle/@w:val='Start'][1])=$milestone_id]">
       <xsl:apply-templates mode="raw" select="."/>
     </xsl:for-each>
   </xsl:template>
