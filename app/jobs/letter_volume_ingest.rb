@@ -105,12 +105,23 @@ class LetterVolumeIngest
       # build the work with the data we have retrieved
       w = Work.new(fields)
       w.identifier=([{'displayLabel' => 'sysnum', 'value' => sysnum }])
+      w = self.add_author_relation(w)
       w = self.add_work_instances(w, instance_meta)
       Resque.logger.debug "no matching work found - work created with PID #{w.pid}"
       return w
     end
   end
 
+  def self.add_author_relation(work)
+    mods = ConversionService.aleph_to_mods_datastream(work.sysnum)
+    authors = mods.primary.name
+    authors.each do |author|
+      p = Person.from_string(author.strip)
+      work.hasAuthor << p
+      work.save
+    end
+    work
+  end
   # Add OrderedInstances to the work with content type and whatever
   # data we've gotten back from Aleph
   # @param Work
