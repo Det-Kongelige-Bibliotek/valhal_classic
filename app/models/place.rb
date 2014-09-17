@@ -3,8 +3,9 @@ class Place < AuthorityMetadataUnit
 
   include Concerns::Inheritance
 
-  def set_value
+  def set_value_and_type
     self.value = self.name
+    self.type = 'place'
   end
 
   has_solr_fields do |m|

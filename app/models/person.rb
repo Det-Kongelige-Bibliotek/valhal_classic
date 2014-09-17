@@ -15,13 +15,14 @@ class Person < AuthorityMetadataUnit
 
   include Concerns::Inheritance
 
-  def set_value
+  def set_value_and_type
       newval = "#{self.lastName}"
       newval += ", #{self.firstName}" unless self.firstName.blank?
       newval += " "
       newval += "#{self.dateOfBirth}" unless self.dateOfBirth.blank?
       newval += " - #{self.dateOfDeath}" unless self.dateOfDeath.blank?
       self.value = newval
+      self.type = 'agent/person'
   end
 
   has_solr_fields do |m|
