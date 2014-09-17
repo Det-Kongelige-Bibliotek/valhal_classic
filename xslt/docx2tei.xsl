@@ -347,18 +347,30 @@
   <xsl:template mode="raw" match="w:p">
     <p>
       <xsl:apply-templates mode="raw" select="w:r"/>
+      <xsl:apply-templates mode="raw" select="w:pPr"/>
     </p>
+  </xsl:template>
+
+  <xsl:template mode="raw" match="w:pPr">
+    <xsl:if test="w:sectPr/w:pgSz">
+      <milestone type="Text"/>
+      <xsl:element name="pb">
+	<xsl:attribute name="n">
+	  <xsl:value-of select="count(preceding::w:pPr[w:sectPr/w:pgSz])"/>
+	</xsl:attribute>
+      </xsl:element>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template mode="raw" match="w:r">
     <xsl:call-template name="make_milestones"/>
-    <xsl:if test="w:lastRenderedPageBreak">
+    <!--xsl:if test="w:lastRenderedPageBreak">
       <xsl:element name="pb">
 	<xsl:attribute name="n">
 	  <xsl:value-of select="count(preceding::w:r[w:lastRenderedPageBreak])"/>
 	</xsl:attribute>
       </xsl:element>
-    </xsl:if>
+    </xsl:if-->
     <span>
       <xsl:if test="w:rPr/w:lang/@w:val and not(w:rPr/w:lang/@w:val = $default_lang)">
 	<xsl:attribute name="xml:lang"><xsl:value-of select="w:rPr/w:lang/@w:val"/></xsl:attribute>
