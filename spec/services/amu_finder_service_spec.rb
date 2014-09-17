@@ -100,6 +100,15 @@ describe 'AMUFinderService' do
     end
   end
 
+  describe 'find_or_create_person' do
+    it 'should create a person object when no matching person exists in the index' do
+      expect {
+        AMUFinderService.find_or_create_person('Sven', 'Forkbeard')
+      }.to change(Person, :count).by(1)
+
+    end
+  end
+
   describe '#find_or_create_agent_organization' do
     it 'should create new organization' do
       count = AuthorityMetadataUnit.count

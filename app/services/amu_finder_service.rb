@@ -19,19 +19,25 @@ module AMUFinderService
     end
   end
 
+  # Find or create a Person object instead of an AMU
+  # Note that this is more dangerous the less information we have
+  # Given only a firstname "Christian", it will return the first Christian
+  # it finds in the index! Therefore, use with care if at all!
+  # @return Person
   def self.find_or_create_person(givenName = "", surname = "", dob = "", dod = "")
     terms = {}
-    terms[:givenName_tesim] = givenName unless givenName.empty?
-    terms[:surname_tesim] = surname unless surname.empty?
-    terms[:dateOfBirth_tesim] = dob unless dob.empty?
-    terms[:dateOfDeath_tesim] = dod unless dod.empty?
+    terms[:person_firstName_ssi] = givenName unless givenName.empty?
+    terms[:person_surname_ssi] = surname unless surname.empty?
+    terms[:dateOfBirth_ssi] = dob unless dob.empty?
+    terms[:dateOfDeath_ssi] = dod unless dod.empty?
     if terms.size > 0
-      matching_person = AuthorityMetadataUnit.find(terms).first
-      return matching_person unless matching_person.nil?
+      p = Person.find(terms).first
+    else
+      p = Person.create(
+            firstName: givenName, lastName: surname, dateOfBirth: dob, dateOfDeath: dod
+      )
     end
-    AuthorityMetadataUnit.create(
-          type: 'agent/person', givenName: givenName, surname: surname, dateOfBirth: dob, dateOfDeath: dod
-    )
+    p
   end
 
   # Finds or creates a AuthorityMetadataUnit with type agent/organization.

@@ -29,6 +29,12 @@ describe LetterVolumeIngest do
       Work.all.size.should be > 0
     end
 
+    it 'should create a Person object for the author' do
+      pending 'implement me!!!'
+      author = Work.author
+      expect(author).to_not be_nil
+    end
+
     it 'should create ordered instances for pdfs, jpgs and xml files' do
       @work.ordered_instance_types.should include :pdfs
       @work.ordered_instance_types.should include :teis
@@ -61,7 +67,7 @@ describe LetterVolumeIngest do
                                  @fixtures_path.join('000773452_X01.pdf').to_s,
                                  @fixtures_path.join('000773452_X01').to_s)
       works = Work.find(sysnum_si: '000773452')
-      works.size.should == 1;
+      works.size.should == 1
 
       work = works.first
       work.ordered_instances == 3
@@ -80,16 +86,28 @@ describe LetterVolumeIngest do
   end
 
   describe 'find_or_create_work' do
+    before :all do
+      @work = LetterVolumeIngest.find_or_create_work('000773452')
+    end
+
     it 'should create a work if no existing work is found' do
+      @work.should be_a Work
+      @work.sysnum.should eql '000773452'
+    end
+
+    it 'should create an author for that work' do
+      @work.hasAuthor.first.should be_a Person
+    end
+
+    it 'should add ordered instances if no existing work is found' do
       w = LetterVolumeIngest.find_or_create_work('123456')
-      w.should be_a Work
-      w.sysnum.should eql '123456'
+      w.ordered_instance_types.length.should eql 3
     end
 
     it 'should find an existing work if there is one' do
       w = Work.new
       w.identifier= [{'displayLabel' => 'sysnum', 'value' => '1234'}]
-      w.save.should be_true
+      w.save.should eql true
       w2 = LetterVolumeIngest.find_or_create_work('1234')
       w2.pid.should eql w.pid
     end

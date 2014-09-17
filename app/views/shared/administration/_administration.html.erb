@@ -7,7 +7,7 @@
         <%= builder.text_field :collection, :class => 'text_field', :value => @adminMetadata.collection.first %>
 
         <%= builder.label :activity, "Activity" %>
-        <%= builder.text_field :activity, :class => 'text_field', :value => @adminMetadata.activity.first %>
+        <%= builder.select 'work_activity', options_for_select(get_controlled_vocab('Activity')) %>
 
         <%= builder.label :workflow_status, "Workflow Status" %>
         <%= builder.select 'workflow_status', options_for_select(get_controlled_vocab('Workflow status'), @adminMetadata.workflow_status.first), :value => @adminMetadata.workflow_status.first%>

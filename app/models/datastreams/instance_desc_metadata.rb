@@ -15,6 +15,7 @@ module Datastreams
       t.dateOther(index_as: :stored_searchable)
       t.recordOriginInfo(index_as: :stored_searchable)
       t.tableOfContents(index_as: :stored_searchable)
+      t.contentType
 
       t.identifier do
         t.value(index_as: :stored_searchable)

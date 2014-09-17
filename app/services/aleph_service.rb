@@ -42,14 +42,13 @@ class AlephService
   def find_set(search_string)
     begin
       response = search_aleph(search_string)
-      logger.debug "aleph response is #{response}"
       set_num = Nokogiri::XML.parse(response).xpath('/find/set_number/text()').to_s
       num_entries = Nokogiri::XML.parse(response).xpath('/find/no_entries/text()').to_s
-      logger.debug "set_num #{set_num} num_entries #{num_entries}"
       {set_num: set_num, num_entries: num_entries}
     rescue => e
       logger.error "find_set filed #{search_string}"
       logger.error e.backtrace.join("\n")
+      nil
     end
   end
 
@@ -61,7 +60,6 @@ class AlephService
   #@return
   def get_record(set_number, entry_num)
     begin
-      logger.debug "getting record entry_num #{entry_num} set_number #{set_number}"
       @http_service.do_post(@aleph_url, params = {
           :op => "present",
           :set_no => set_number,
@@ -80,6 +78,7 @@ class AlephService
   # @return record String
   def find_by_sysnum(sysnum)
     set = find_set("sys=#{sysnum}")
+    return nil if set.nil?
     get_record(set[:set_num], '1')
   end
 
@@ -89,7 +88,6 @@ class AlephService
   # @param search_string String e.g. "wbh=edod"
   def search_aleph(search_string)
     begin
-      logger.debug "Searching Aleph"
       @http_service.do_post(@aleph_url, params = {
           :op => 'find',
          :base => 'kgl01',
