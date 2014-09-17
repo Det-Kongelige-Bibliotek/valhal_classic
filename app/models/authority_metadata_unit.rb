@@ -16,7 +16,7 @@ class AuthorityMetadataUnit < ActiveFedora::Base
   # Validation should be done in the subclasses
   #validates_with AMUValidator
 
-  before_save :set_value
+  before_save :set_value_and_type
 
   # Extracts the relations, which are valid for this
   def get_relations
@@ -43,6 +43,9 @@ class AuthorityMetadataUnit < ActiveFedora::Base
     m.field 'amu_reference', method: :reference, :index_as => [:string, :stored, :indexed, :multivalued]
   end
 
+  def set_value_and_type
+
+  end
 
   def self.get_agent(id)
     agent = AuthorityMetadataUnit.find(id)
