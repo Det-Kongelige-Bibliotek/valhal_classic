@@ -50,6 +50,7 @@ class AlephService
     rescue => e
       logger.error "find_set filed #{search_string}"
       logger.error e.backtrace.join("\n")
+      nil
     end
   end
 
@@ -80,6 +81,7 @@ class AlephService
   # @return record String
   def find_by_sysnum(sysnum)
     set = find_set("sys=#{sysnum}")
+    return nil if set.nil?
     get_record(set[:set_num], '1')
   end
 
