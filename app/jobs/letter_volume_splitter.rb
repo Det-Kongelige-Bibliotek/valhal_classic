@@ -24,12 +24,13 @@ class LetterVolumeSplitter
   # @param Work master_work
   def self.parse_letters(tei, master_work)
     divs = tei.css('text body div')
-
+    start_page_break = tei.css('pb').first.attr('n')
+    raise 'First page break does not have n attribute' if start_page_break.nil?
     # Create Works for each letter with relations
     # to the previous letter and the master work
     prev_letter = nil
     divs.each do |div|
-      prev_letter = self.create_letter(div, prev_letter, master_work)
+      prev_letter = self.create_letter(div, prev_letter, master_work, start_page_break)
     end
   end
 
@@ -37,12 +38,12 @@ class LetterVolumeSplitter
   # TEI div - create a letter work with
   # a relation to the previous work and the
   # master work
-  # @param Nokogiri::XML::Element xml
+  # @param Nokogiri::XML::Element div
   # @param Work prev_letter
   # @param Work master_work
   # @return Work (the new letter)
-  def self.create_letter(xml, prev_letter, master_work)
-    data = self.parse_data(xml)
+  def self.create_letter(div, prev_letter, master_work, first_page)
+    data = self.parse_data(div, first_page)
     letter = Work.new
     letter.workType = 'Letter'
     letter.note = [data[:note]] if data[:note]
@@ -60,7 +61,7 @@ class LetterVolumeSplitter
       sender_address = AMUFinderService.find_or_create_place(data[:sender_address], '')
       letter.hasOrigin << sender_address
     end
-    file_path = self.save_to_file(data[:id], xml)
+    file_path = self.save_to_file(data[:id], div)
     inst = SingleFileInstance.new_from_file(File.new(file_path))
     letter.add_instance(inst)
     master_work.add_part(letter)
@@ -90,7 +91,7 @@ class LetterVolumeSplitter
   # return a hash of metadata parsed from this element
   # @param Nokogiri::XML::Element
   # @return Hash
-  def self.parse_data(div)
+  def self.parse_data(div, first_page)
     data = Hash.new
     letter = LetterData.new(div)
     data[:id] = letter.id
@@ -102,6 +103,11 @@ class LetterVolumeSplitter
     data[:sender_address] = letter.sender_address
     data[:needs_attention] = letter.needs_attention?
     data[:note] = letter.note
+    data[:start_page] = first_page
+    # if the div has a pagebreak, endpage is the value
+    # of the last pagebreak, otherwise it's the start page
+    end_page = div.css('pb').last ? div.css('pb').last.attr('n') : nil
+    data[:end_page] = end_page || first_page
 
     data
   end
