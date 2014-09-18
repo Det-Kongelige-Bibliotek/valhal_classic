@@ -69,6 +69,7 @@ group :development, :test do
   gem 'passenger-rails', '~> 0.0.2'
 end
 
+
 group :development do
   gem 'better_errors'
   #Following gem has to be commented out if you want to debug Valhal in RubyMine
