@@ -12,6 +12,11 @@ describe 'parse letters' do
   before :all do
     doc = Nokogiri::XML(File.open(Rails.root.join('spec', 'fixtures', 'brev', '001152195_000_tei.xml')))
     @work = Work.create(title: 'Breve fra Johannes Jørgensen til Vicko Stuckenberg', workType: 'Book')
+    pics = OrderedInstance.new(contentType: 'jpg')
+    path = Pathname.new(Rails.root).join('spec', 'fixtures', 'brev', '000773452_X01')
+    bf = basic_file_object(path.join('000773452_X01_0001.jpg'))
+    pics.files << bf
+    @work.add_instance(pics)
     LetterVolumeSplitter.parse_letters(doc, @work)
     @letters = Work.find(search_result_work_type_ssi: 'Letter')
     @letter = Work.find(teiRef_si: 'divid182306').first
@@ -80,15 +85,47 @@ describe 'parse_metadata' do
   it 'should contain data for start page and end page when there is no end page' do
     div = @xml.css('text body div').first
     data = LetterVolumeSplitter.parse_data(div, '13')
-    expect(data[:start_page]).to eql '13'
-    expect(data[:end_page]).to eql '13'
+    expect(data[:start_page]).to eql '15'
+    expect(data[:end_page]).to eql '15'
   end
 
   it 'should contain data for start page and end page when there is an end page' do
     div = @xml.css('text body div')[1]
     data = LetterVolumeSplitter.parse_data(div, '13')
-    expect(data[:start_page]).to eql '13'
-    expect(data[:end_page]).to eql '14'
+    expect(data[:end_page]).to eql '16'
   end
 
+end
+
+describe 'create_filename' do
+  it 'should create a filename based on a prefix and a number' do
+    fn = LetterVolumeSplitter.create_filename('001152195_000', '4')
+    expect(fn).to eql '001152195_000_0004.jpg'
+  end
+end
+
+describe 'create_jpg_oi' do
+  before :all do
+    @work = Work.create
+    @data = {start_page: '1', end_page: '2'}
+    @prefix = '000773452_X01'
+    path = Pathname.new(Rails.root).join('spec', 'fixtures', 'brev', '000773452_X01')
+    basic_file_object(path.join('000773452_X01_0001.jpg'))
+    basic_file_object(path.join('000773452_X01_0002.jpg'))
+  end
+
+  after :all do
+    delete_all_objects
+  end
+
+  it 'should add an OrderedInstance to the work' do
+    work = LetterVolumeSplitter.create_jpg_oi(@work, @data, @prefix)
+    expect(work.ordered_instance_types[:jpgs]).to_not be_nil
+  end
+
+  it 'should add an ordered instance containing two files' do
+    work = LetterVolumeSplitter.create_jpg_oi(@work, @data, @prefix)
+    files = work.ordered_instance_types[:jpgs].files
+    expect(files.length).to eql 2
+  end
 end

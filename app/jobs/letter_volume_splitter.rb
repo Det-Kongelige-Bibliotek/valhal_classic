@@ -26,11 +26,13 @@ class LetterVolumeSplitter
     divs = tei.css('text body div')
     start_page_break = tei.css('pb').first.attr('n')
     raise 'First page break does not have n attribute' if start_page_break.nil?
+    # file prefix is the volume name, the same as a jpgs name without the last 4 digits and the .jpg
+    file_prefix = master_work.ordered_instance_types[:jpgs].files.first.original_filename.sub(/_\d{4}.jpg/, '')
     # Create Works for each letter with relations
     # to the previous letter and the master work
     prev_letter = nil
     divs.each do |div|
-      prev_letter = self.create_letter(div, prev_letter, master_work, start_page_break)
+      prev_letter, start_page_break = self.create_letter(div, prev_letter, master_work, start_page_break, file_prefix)
     end
   end
 
@@ -41,8 +43,8 @@ class LetterVolumeSplitter
   # @param Nokogiri::XML::Element div
   # @param Work prev_letter
   # @param Work master_work
-  # @return Work (the new letter)
-  def self.create_letter(div, prev_letter, master_work, first_page)
+  # @return Work (the new letter), String last_page
+  def self.create_letter(div, prev_letter, master_work, first_page, file_prefix)
     data = self.parse_data(div, first_page)
     letter = Work.new
     letter.workType = 'Letter'
@@ -64,11 +66,35 @@ class LetterVolumeSplitter
     file_path = self.save_to_file(data[:id], div)
     inst = SingleFileInstance.new_from_file(File.new(file_path))
     letter.add_instance(inst)
+    letter = self.create_jpg_oi(letter, data, file_prefix)
     master_work.add_part(letter)
     letter.add_previous(prev_letter) unless prev_letter.nil?
     letter.save
     File.delete(file_path)
-    letter
+    # we need to return the last page found
+    # in order to create the next start page
+    [ letter, data[:end_page] ]
+  end
+
+  # given a work and a data array containing
+  # a start and end page, create an ordered
+  # representation representing these files
+  #
+  def self.create_jpg_oi(work, data, file_prefix)
+    pics = OrderedInstance.new(contentType: 'jpg')
+    start_page = data[:start_page].to_i
+    end_page = data[:end_page].to_i
+    (start_page..end_page).each do |num|
+      filename = self.create_filename(file_prefix, num.to_s)
+      file = BasicFile.find(original_filename_ssi: filename).first
+      if file.nil?
+        Resque.logger.error "#{filename} not found in index"
+      else
+        pics.files << file
+      end
+    end
+    work.add_instance(pics)
+    work
   end
 
   # Given an id and and a Nokogiri
@@ -103,13 +129,22 @@ class LetterVolumeSplitter
     data[:sender_address] = letter.sender_address
     data[:needs_attention] = letter.needs_attention?
     data[:note] = letter.note
-    data[:start_page] = first_page
+    data[:start_page] = (first_page.to_i + 2).to_s
     # if the div has a pagebreak, endpage is the value
     # of the last pagebreak, otherwise it's the start page
-    end_page = div.css('pb').last ? div.css('pb').last.attr('n') : nil
-    data[:end_page] = end_page || first_page
-
+    end_page = div.css('pb').last ? div.css('pb').last.attr('n') : first_page
+    data[:end_page] = (end_page.to_i + 2).to_s
     data
+  end
+
+
+  # work out the jpg filename based on the
+  # prefix and filenum
+  # e.g. "001003574_000", "4" ==>  "001003574_000_0004.jpg"
+  # @param String, String
+  # @return String
+  def self.create_filename(prefix, file_num)
+    prefix +  '_' + file_num.rjust(4, '0') + '.jpg'
   end
 end
 
