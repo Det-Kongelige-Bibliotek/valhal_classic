@@ -26,4 +26,16 @@ class OrderedInstance < ActiveFedora::Base
       self.ie.title
     end
   end
+
+
+  # Overrides the default one by adding the basic_files type in parenthesis.
+  def instance_name
+    if files.size == 0
+      "#{super} (no content)"
+    elsif contentType.present?
+      "#{super} (#{contentType} - #{files.size} files)"
+    else
+      "#{super} - #{files.size} file)"
+    end
+  end
 end

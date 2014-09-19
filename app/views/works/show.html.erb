@@ -57,6 +57,7 @@
 <hr/>
 <% #Handle the instances. %>
 <% if @work.has_ins? %>
+    <% if @work.single_file_instances.size > 0 %>
     <p><h4>Instances</h4></p>
       <h5>Single File Instances</h5>
       <ol>
@@ -64,12 +65,15 @@
           <li><%= link_to t.instance_name + ' (' + t.pid + ')', single_file_instance_path(t) %></li>
       <% end %>
       </ol>
+    <% end %>
+    <% if @work.ordered_instances.size > 0 %>
       <h5>Ordered Instances</h5>
       <ol>
       <% @work.ordered_instances.each do |t| %>
           <li><%= link_to t.instance_name + ' (' + t.pid + ')', ordered_instance_path(t) %></li>
       <% end %>
       </ol>
+    <% end %>
 <% else %>
     <p>No instances for this work.</p>
 <% end %>
