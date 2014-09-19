@@ -53,15 +53,15 @@ class LetterVolumeSplitter
     letter.dateCreated = data[:date] if data[:date]
     letter.identifier= [{'displayLabel' => 'teiRef', 'value' => data[:id]}] if data[:id]
     if data[:sender_name]
-      author = AuthorityMetadataUnit.create(type: 'agent/person', value: data[:sender_name])
+      author = Person.from_string(data[:sender_name])
       letter.hasAuthor << author
     end
     if data[:recipient_name]
-      recipient = AuthorityMetadataUnit.create(type: 'agent/person', value: data[:recipient_name])
+      recipient = Person.from_string(data[:recipient_name].strip)
       letter.hasAddressee << recipient
     end
     if data[:sender_address]
-      sender_address = AMUFinderService.find_or_create_place(data[:sender_address], '')
+      sender_address = Place.create(name: data[:sender_address])
       letter.hasOrigin << sender_address
     end
     file_path = self.save_to_file(data[:id], div)

@@ -36,21 +36,21 @@ describe 'parse letters' do
     prev.next_work.should == l
   end
 
-  it 'should create an authority metadata unit for the author' do
+  it 'should create a Person object for the author' do
     @letters[1].hasAuthor.should_not be_empty
-    @letters[1].hasAuthor.first.should be_an AuthorityMetadataUnit
+    @letters[1].hasAuthor.first.should be_a Person
     @letters[1].hasAuthor.first.type.should eql 'agent/person'
   end
 
-  it 'should create an authority metadata unit for the recipient' do
+  it 'should create a Person object for the recipient' do
     @letter.should_not be_nil
-    @letter.hasAddressee.first.should be_an AuthorityMetadataUnit
-    @letter.hasAddressee.first.value.should eql 'Stuckenberg'
+    @letter.hasAddressee.first.should be_a Person
+    @letter.hasAddressee.first.lastName.should eql 'Stuckenberg'
   end
 
-  it 'should create an authority metadata unit for the sender address' do
+  it 'should create a Place object for the sender address' do
     origin = @letter.hasOrigin.first
-    origin.should be_an AuthorityMetadataUnit
+    origin.should be_a Place
     origin.type.should eql 'place'
     origin.value.should eql 'København'
   end
@@ -61,7 +61,6 @@ describe 'parse letters' do
 
   it 'should create a jpg ordered instance' do
     expect(@letter.ordered_instance_types[:jpgs]).to_not be_nil
-    expect(@letter.ordered_instance_types[:jpgs].files.size).to be > 0
   end
 end
 
