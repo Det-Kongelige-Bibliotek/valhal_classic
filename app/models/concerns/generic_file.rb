@@ -15,6 +15,7 @@ module Concerns
   module GenericFile
     extend ActiveSupport::Concern
     include Hydra::Models::FileAsset
+    include Solr::Indexable
 
     included do
       include Concerns::IntellectualEntity
@@ -41,6 +42,11 @@ module Concerns
 
       has_attributes :description, datastream: 'descMetadata', :multiple => false
       has_metadata :name => 'fitsMetadata1', :type => ActiveFedora::OmDatastream
+
+      has_solr_fields do |s|
+        s.field 'original_filename', method: :original_filename, index_as: [:string, :stored, :indexed]
+      end
+
     end
 
     # fetches file from external URL and adds a content datatream to the object
