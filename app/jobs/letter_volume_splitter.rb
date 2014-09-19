@@ -33,6 +33,7 @@ class LetterVolumeSplitter
     prev_letter = nil
     divs.each do |div|
       prev_letter, start_page_break = self.create_letter(div, prev_letter, master_work, start_page_break, file_prefix)
+      prev_letter.save
     end
   end
 
@@ -88,11 +89,14 @@ class LetterVolumeSplitter
       filename = self.create_filename(file_prefix, num.to_s)
       file = BasicFile.find(original_filename_ssi: filename).first
       if file.nil?
+        logger.error "Work #{work.pid}: #{filename} not found in index"
         Resque.logger.error "#{filename} not found in index"
       else
+        logger.debug "Work #{work.pid}: adding #{filename} to ordered instance"
         pics.files << file
       end
     end
+    pics.save
     work.add_instance(pics)
     work
   end

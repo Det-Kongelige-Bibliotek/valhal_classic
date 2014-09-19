@@ -13,8 +13,8 @@ describe 'parse letters' do
     doc = Nokogiri::XML(File.open(Rails.root.join('spec', 'fixtures', 'brev', '001152195_000_tei.xml')))
     @work = Work.create(title: 'Breve fra Johannes Jørgensen til Vicko Stuckenberg', workType: 'Book')
     pics = OrderedInstance.new(contentType: 'jpg')
-    path = Pathname.new(Rails.root).join('spec', 'fixtures', 'brev', '000773452_X01')
-    bf = basic_file_object(path.join('000773452_X01_0001.jpg'))
+    path = Pathname.new(Rails.root).join('spec', 'fixtures', 'brev', '000773452_X01', '000773452_X01_0015.jpg')
+    bf = basic_file_object(path)
     pics.files << bf
     @work.add_instance(pics)
     LetterVolumeSplitter.parse_letters(doc, @work)
@@ -61,6 +61,7 @@ describe 'parse letters' do
 
   it 'should create a jpg ordered instance' do
     expect(@letter.ordered_instance_types[:jpgs]).to_not be_nil
+    expect(@letter.ordered_instance_types[:jpgs].files.size).to be > 0
   end
 end
 

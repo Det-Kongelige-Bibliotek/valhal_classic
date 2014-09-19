@@ -75,6 +75,7 @@ RSpec.configure do |config|
   def basic_file_object(path)
     bf = BasicFile.new
     file = File.open(path)
+    raise 'file cannot be nil!' if file.nil?
     bf.add_file(file, true)
     bf.save
     bf
