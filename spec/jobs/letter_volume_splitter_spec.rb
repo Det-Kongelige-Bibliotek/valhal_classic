@@ -55,6 +55,14 @@ describe 'parse letters' do
     origin.value.should eql 'København'
   end
 
+  it 'should have an activity of Breveprojekt' do
+    expect(@letter.activity).to eql 'Brevprojekt'
+  end
+
+  it 'should have a status of Ingested' do
+    expect(@letter.workflow_status).to eql 'Ingested'
+  end
+
   it 'should create a basic file for the relevant tei div' do
     @letter.single_file_instances.length.should eql 1
   end

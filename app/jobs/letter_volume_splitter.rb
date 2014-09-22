@@ -52,6 +52,8 @@ class LetterVolumeSplitter
     letter.note = [data[:note]] if data[:note]
     letter.dateCreated = data[:date] if data[:date]
     letter.identifier= [{'displayLabel' => 'teiRef', 'value' => data[:id]}] if data[:id]
+    letter.activity = 'Brevprojekt'
+    letter.workflow_status = 'Ingested'
     if data[:sender_name]
       author = Person.from_string(data[:sender_name])
       letter.hasAuthor << author
