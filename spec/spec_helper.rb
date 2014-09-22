@@ -117,7 +117,8 @@ RSpec.configure do |config|
     OrderedInstance.all.each {|w| w.delete }
     SingleFileInstance.all.each {|w| w.delete}
     BasicFile.all.each {|w| w.delete }
-    Ohm.redis.call('flushdb')
+    Vocabulary.delete_all
+    VocabularyEntry.delete_all
   end
 
 end
