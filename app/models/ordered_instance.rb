@@ -9,6 +9,7 @@ class OrderedInstance < ActiveFedora::Base
   has_metadata :name => 'techMetadata',   :type => Datastreams::MetsStructMap
 
   has_attributes :div, :order, :fptr, :file_id, datastream: 'techMetadata', :multiple => false
+  has_attributes :contentType, datastream: 'descMetadata', multiple: false
 
   # The fields for the SOLR index.
   has_solr_fields do |m|

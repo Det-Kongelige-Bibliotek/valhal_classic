@@ -81,7 +81,7 @@ class Work < ActiveFedora::Base
   # to confusing errors.
   # @param instance The instance to be added to the work
   def add_instance(instance)
-    self.save unless self.pid
+    self.save unless self.persisted?
     instance.ie = self
     self.instances << instance
     instance.save && self.save
