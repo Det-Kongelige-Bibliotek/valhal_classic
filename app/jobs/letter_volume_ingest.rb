@@ -101,18 +101,20 @@ class LetterVolumeIngest
       Resque.logger.debug "existing work found with PID #{w.pid}"
       return w
     else
-      fields = { workType: 'Book' }
-      # try and get aleph data - will fail if sysnum not found
+      w = Work.new
+      w.identifier=([{'displayLabel' => 'sysnum', 'value' => sysnum }])
+      fields = { workType: 'Book', activity: 'Brevprojekt', workflow_status: 'Ingested' }
+      # try and get aleph data - will throw error if sysnum not found
       begin
+        w = self.add_author_relation(w)
         work, instance_meta, work_meta = ConversionService.aleph_to_valhal(sysnum)
         fields.merge!(work).merge!(work_meta)
       rescue => e
         Resque.logger.debug e.message
+      ensure
+        w.update(fields)
       end
       # build the work with the data we have retrieved
-      w = Work.new(fields)
-      w.identifier=([{'displayLabel' => 'sysnum', 'value' => sysnum }])
-      w = self.add_author_relation(w)
       w = self.add_work_instances(w, instance_meta)
       Resque.logger.debug "no matching work found - work created with PID #{w.pid}"
       return w

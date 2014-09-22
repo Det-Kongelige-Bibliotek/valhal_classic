@@ -3,9 +3,7 @@ require 'spec_helper'
 describe LetterVolumeIngest do
 
   after(:all) do
-    Work.all.each {|w| w.delete }
-    OrderedInstance.all.each {|w| w.delete }
-    BasicFile.all.each {|w| w.delete }
+    delete_all_objects
   end
 
   describe 'Perform' do
@@ -27,12 +25,6 @@ describe LetterVolumeIngest do
 
     it 'should create a work for the volume when no volume exists' do
       Work.all.size.should be > 0
-    end
-
-    it 'should create a Person object for the author' do
-      pending 'implement me!!!'
-      author = Work.author
-      expect(author).to_not be_nil
     end
 
     it 'should create ordered instances for pdfs, jpgs and xml files' do
@@ -95,16 +87,20 @@ describe LetterVolumeIngest do
       @work.sysnum.should eql '000773452'
     end
 
-    it 'should create an author for that work' do
-      @work.hasAuthor.first.should be_a Person
+    it 'should have a workflow status ingested' do
+      expect(@work.workflow_status).to eql 'Ingested'
+    end
+
+    it 'should have an activity Brevprojekt' do
+      expect(@work.activity).to eql 'Brevprojekt'
     end
 
     it 'should find an existing work if there is one' do
       w = Work.new
       w.identifier= [{'displayLabel' => 'sysnum', 'value' => '1234'}]
-      w.save.should be_true
+      expect(w.save).to eql true
       w2 = LetterVolumeIngest.find_or_create_work('1234')
-      w2.pid.should eql w.pid
+      expect(w2.pid).to eql w.pid
     end
   end
 
