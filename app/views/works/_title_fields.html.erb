@@ -1,4 +1,15 @@
 <div class="control-group">
+  <%= f.label :workActivity, 'Activity', :class=>'control-label' %>
+  <div class="controls">
+      <% if @work.workflow_activity.nil? %>
+        <%= select_tag 'workflow_activity', options_for_select(get_controlled_vocab('Activity')), :class=>'input-block-level'%>
+      <% else %>
+         <%= select_tag 'workflow_activity', options_for_select(get_controlled_vocab('Activity'), @work.workflow_activity.first), :value => @work.workflow_activity.first, :class=>'input-block-level'%>
+    <% end %>
+   </div>
+</div>
+
+<div class="control-group">
     <%= f.label :workType, 'Work type', :class=>'control-label' %>
     <div class="controls">
         <%= f.text_field :workType, :placeholder => 'Work type', :class=>'input-block-level' %>

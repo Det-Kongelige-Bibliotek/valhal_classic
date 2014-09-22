@@ -9,12 +9,14 @@ module Concerns
       include Hydra::AccessControls::Permissions
       include Concerns::WorkInstanceRelations
       include Concerns::WorkWorkRelations
+      include Concerns::AdminMetadata
 
       has_metadata :name => 'descMetadata', :type => Datastreams::WorkDescMetadata
       has_metadata "rightsMetadata", type: Hydra::Datastream::RightsMetadata
 
       # List of non-multiple key-value pairs
       has_attributes :title, :subTitle, :workType, :cartographicsScale, :cartographicsCoordinates, :dateCreated,
+                     :tableOfContents, :typeOfResource, :typeOfResourceLabel, :recordOriginInfo, :workflow_activity,
                      :dateIssued, :tableOfContents, :typeOfResource, :typeOfResourceLabel, :recordOriginInfo,
                      datastream: 'descMetadata', :multiple => false
 
