@@ -64,6 +64,11 @@ namespace :sifd do
     add_file_characterization_to_all_basic_files
   end
 
+  desc "Sync Solr with Fedora"
+  task :sync_solr_with_fedora do
+    ActiveFedora::Base.all.each { |b| b.update_index }
+  end
+
   #Before running this import you must run this search in Aleph to find out the correct number of eDoDs in Aleph
   #http://aleph-00.kb.dk/X?op=find&base=kgl01&library=kgl01&request=wbh=edod
   #TODO this renders the fetch_size argument redundant, should be removed
