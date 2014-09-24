@@ -59,6 +59,8 @@ class WorksController < ApplicationController
       return
     end
 
+    update_administrative_metadata_from_controller(params, @work, true)
+
     if @work.save
       redirect_to show_agent_work_path @work
     else
@@ -195,7 +197,7 @@ class WorksController < ApplicationController
    def update_administration
     @work = Work.find(params[:id])
     begin
-      update_administrative_metadata_from_controller(params, @work)
+      update_administrative_metadata_from_controller(params, @work, false)
       redirect_to @work, notice: 'Updated the administrative metadata'
     rescue => error
       error_msg = "Could not update administrative metadata: #{error.inspect}"

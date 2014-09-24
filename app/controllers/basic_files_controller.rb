@@ -77,7 +77,7 @@ class BasicFilesController < ApplicationController
   def update_administration
     @file = BasicFile.find(params[:id])
     begin
-      update_administrative_metadata_from_controller(params, @file)
+      update_administrative_metadata_from_controller(params, @file, false)
       redirect_to @file, notice: 'Updated the administrative metadata'
     rescue => error
       error_msg = "Could not update administrative metadata: #{error.inspect}"
@@ -99,7 +99,7 @@ class BasicFilesController < ApplicationController
   def update_administration
     @file = BasicFile.find(params[:id])
     begin
-      update_administrative_metadata_from_controller(params, @file)
+      update_administrative_metadata_from_controller(params, @file, false)
       redirect_to @file, notice: 'Updated the administrative metadata'
     rescue => error
       error_msg = "Could not update administrative metadata: #{error.inspect}"

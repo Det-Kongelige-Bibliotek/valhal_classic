@@ -89,7 +89,7 @@ class OrderedInstancesController < ApplicationController
   def update_administration
     @ordered_instance = OrderedInstance.find(params[:id])
     begin
-      update_administrative_metadata_from_controller(params, @ordered_instance)
+      update_administrative_metadata_from_controller(params, @ordered_instance, false)
       redirect_to @ordered_instance, notice: 'Updated the administrative metadata'
     rescue => error
       error_msg = "Could not update administrative metadata: #{error.inspect}"

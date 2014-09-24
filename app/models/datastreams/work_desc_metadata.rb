@@ -11,7 +11,6 @@ module Datastreams
       t.subTitle(index_as: :stored_searchable)
       t.workType(index_as: :stored_searchable)
 
-      t.workflow_activity(index_as: :stored_searchable)
       t.cartographicsScale()
       t.cartographicsCoordinates()
       t.dateIssued()

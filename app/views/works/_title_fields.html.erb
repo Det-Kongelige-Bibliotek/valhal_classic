@@ -1,12 +1,15 @@
 <div class="control-group">
   <%= f.label :activity, 'Activity', :class=>'control-label' %>
-  <div class="controls">
-      <% if @work.activity.nil? %>
-        <%= select_tag 'activity', options_for_select(get_controlled_vocab('Activity')), :class=>'input-block-level'%>
-      <% else %>
-         <%= select_tag 'activity', options_for_select(get_controlled_vocab('Activity'), @work.activity.first), :value => @work.activity.first, :class=>'input-block-level'%>
-    <% end %>
-   </div>
+  <%- @adminMetadata = @work.adminMetadata -%>
+  <%= fields_for :administration do |builder| %>
+      <div class="controls">
+          <% if @adminMetadata.activity.nil? %>
+            <%= builder.select 'activity', options_for_select(get_controlled_vocab('Activity')), :class=>'input-block-level'%>
+          <% else %>
+             <%= builder.select 'activity', options_for_select(get_controlled_vocab('Activity'), @adminMetadata.activity.first), :value => @adminMetadata.activity.first, :class=>'input-block-level' %>
+        <% end %>
+       </div>
+  <% end %>
 </div>
 
 <div class="control-group">

@@ -39,7 +39,7 @@ class SingleFileInstancesController < ApplicationController
   def update_administration
     @single_file_instance = SingleFileInstance.find(params[:id])
     begin
-      update_administrative_metadata_from_controller(params, @single_file_instance)
+      update_administrative_metadata_from_controller(params, @single_file_instance, false)
       redirect_to @single_file_instance, notice: 'Updated the administrative metadata'
     rescue => error
       error_msg = "Could not update administrative metadata: #{error.inspect}"
