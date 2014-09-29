@@ -16,6 +16,7 @@
 //= require works
 //= require admin_metadata
 //= require vocabularies
+//= require bootstrap-combobox
 //
 // require rails.validations DEPRECATED: Do Not Use
 //
