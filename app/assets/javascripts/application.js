@@ -23,3 +23,9 @@
 // Required by Blacklight
 //= require blacklight/blacklight
 // require_tree .
+$(document).ready(function(){
+    $('.combobox').combobox();
+    $('.combobox').click(function(){
+        $(this).siblings('.dropdown-toggle').click();
+    });
+});

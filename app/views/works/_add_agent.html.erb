@@ -1,12 +1,4 @@
 <%= javascript_include_tag params[:controller] %>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('.combobox').combobox();
-        $('.combobox').click(function(){
-            $(this).siblings('.dropdown-toggle').click();
-        });
-    });
-</script>
 <div class="control-group">
   <h3>Persons:</h3>
   <%= f.label :agent, 'This work...', :class=>'control-label' %>
@@ -18,15 +10,7 @@
     </select>
   </div>
   <div class="controls">
-      <select class="combobox form-control input-large dropdown-toggle" id="person_id" name="person[id]">
-        <option></option>
-        <%
-           results = ActiveFedora::SolrService.query("#{Person.solr_names[:amu_value]}:* && active_fedora_model_ssi:Person",
-                                                     {:rows => ActiveFedora::SolrService.count("#{Person.solr_names[:amu_value]}:* && active_fedora_model_ssi:Person")})
-           results.each do |person|  %>
-            <option value="<%= person["id"]%>"><%= person["amu_value_ssi"] %></option>
-        <% end %>
-      </select>
+    <%= render_typeahead_dropdown(Person) %>
   </div><br/>
   <div class="controls">
     <%= button_tag(type: 'button', onclick: 'addAgent($("#person_relationship option:selected").text(),
@@ -47,14 +31,7 @@
     </select>
   </div>
   <div class="controls">
-    <select class="combobox form-control input-large dropdown-toggle" id="place_id" name="place[id]">
-      <%
-         results = ActiveFedora::SolrService.query("#{Place.solr_names[:amu_value]}:* && active_fedora_model_ssi:Place",
-                                                   {:rows => ActiveFedora::SolrService.count("#{Place.solr_names[:amu_value]}:* && active_fedora_model_ssi:Place")})
-         results.each do |place| %>
-          <option value="<%= place["id"]%>"><%= place["amu_value_ssi"] %></option>
-      <% end %>
-    </select>
+      <%= render_typeahead_dropdown(Place) %>
   </div><br/>
   <div class="controls">
     <%= button_tag(type: 'button', onclick: 'addAgent($("#place_relationship option:selected").text(),
