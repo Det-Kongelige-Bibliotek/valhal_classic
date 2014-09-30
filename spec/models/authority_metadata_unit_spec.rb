@@ -31,8 +31,8 @@ describe AuthorityMetadataUnit do
     end
 
     it 'should be possible to delete an AMU' do
-      @amu.save.should be_true
-      @amu.delete.should be_true
+      @amu.save.should be_truthy
+      @amu.delete.should be_truthy
     end
   end
 
