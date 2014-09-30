@@ -13,19 +13,37 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :pid, :uid
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :name, :pid, :uid
   # attr_accessible :title, :body
 
   ROLES = %w[admin depositor guest test]
 
-  def self.from_omniauth(auth)
-    where(auth.slice(:provider, :uid)).first_or_create do |user|
-      user.provider = auth.provider
-      user.uid = auth.uid
-      user.name = auth.info.name
-      user.email = auth.info.email
-    end
+  before_validation :get_ldap_email
+  before_save :get_ldap_name
+
+  def get_ldap_email
+    logger.debug("getting email")
+    emails = Devise::LDAP::Adapter.get_ldap_param(self.username,"mail")
+    self.email = emails.first.to_s unless emails.blank?
   end
+
+  def get_ldap_name
+    logger.debug("getting name")
+    names = Devise::LDAP::Adapter.get_ldap_param(self.username,"cn")
+    self.name = names.first.to_s.force_encoding("utf-8") unless names.blank?
+    logger.debug("the name is #{self.name}")
+  end
+
+
+#  def self.from_omniauth(auth)
+#    logger.debug("in from omniauth")
+#    where(auth.slice(:provider, :uid)).first_or_create do |user|
+#      user.provider = auth.provider
+#      user.uid = auth.uid
+#      user.name = auth.info.name
+#      user.email = auth.info.email
+#    end
+#  end
 
   def self.new_with_session(params, session)
     if session["devise.user_attributes"]

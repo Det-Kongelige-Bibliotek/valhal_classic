@@ -25,7 +25,7 @@ development:
   host: 'thor.kb.dk'
   port: 389
   attribute: sAMAccountName
-  base: 'DC=kb,DC=dk'
+  base: 'OU=KB,DC=kb,DC=dk'
   admin_user: <%= CONFIG[:ldap][:user] %>
   admin_password: <%= CONFIG[:ldap][:password] %>
   ssl: false
