@@ -60,4 +60,10 @@ class AuthorityMetadataUnit < ActiveFedora::Base
     val
   end
 
+  #Function to retrieve all Person related data stored in the search engine
+  #@return Array of Solr search results for people
+  def self.get_search_objs
+    ActiveFedora::SolrService.query("#{self.solr_names[:amu_value]}:* && active_fedora_model_ssi:#{self.to_s}",
+                                    {:rows => ActiveFedora::SolrService.count("#{self.solr_names[:amu_value]}:* && active_fedora_model_ssi:#{self.to_s}")})
+  end
 end
