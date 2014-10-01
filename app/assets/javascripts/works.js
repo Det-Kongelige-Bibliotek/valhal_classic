@@ -27,15 +27,17 @@ $(document).ready(function() {
     $(".handles").sortable({
         handle: "span"
     });
-    return $(".sortable").sortable().bind("sortupdate", function() {
-        var test_val;
-        test_val = $("#structmap_file_list").find("li").filter(function() {
-            return $(this).find("ul").length === 0;
-        }).map(function(i, e) {
-            return $(this).text();
-        }).get();
-        return $("#structmap_file_order").val(test_val);
-    });
+    if ($("#structmap_file_list").size() > 0 ) {
+        return $(".sortable").sortable().bind("sortupdate", function () {
+            var test_val;
+            test_val = $("#structmap_file_list").find("li").filter(function () {
+                return $(this).find("ul").length === 0;
+            }).map(function (i, e) {
+                return $(this).text();
+            }).get();
+            return $("#structmap_file_order").val(test_val);
+        });
+    }
 });
 
 function updateInputFields(){
