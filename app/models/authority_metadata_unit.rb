@@ -64,6 +64,6 @@ class AuthorityMetadataUnit < ActiveFedora::Base
   #@return Array of Solr search results for people
   def self.get_search_objs
     ActiveFedora::SolrService.query("#{self.solr_names[:amu_value]}:* && active_fedora_model_ssi:#{self.to_s}",
-                                    {:rows => ActiveFedora::SolrService.count("#{self.solr_names[:amu_value]}:* && active_fedora_model_ssi:#{self.to_s}")})
+                                    {:rows => ActiveFedora::SolrService.count("#{self.solr_names[:amu_value]}:* && active_fedora_model_ssi:#{self.to_s}"), :fl => 'id amu_value_ssi'})
   end
 end
