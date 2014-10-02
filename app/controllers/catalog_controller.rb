@@ -31,7 +31,7 @@ class CatalogController < ApplicationController
   configure_blacklight do |config|
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
-      :qf => 'search_result_title_tsi amu_type_ssi work_type_tsi topic_tesim type_of_resource_tsi dateCreated_tesim dateOther_tesim languageOfCataloging_tesim recordOriginInfo_tesim typeOfResource_tesim typeOfResourceLabel_tesim workType_tesim shelfLocator_tesim physicalDescriptionForm_tesim physicalDescriiptionNote_tesim dateIssued_tesim genre_tesim collection_tesim activity_tesim embargo_tesim embargo_date_tesim embargo_condition_tesim access_condition_tesim copyright_tesim  workflow_status_tesim material_type_tesim availability_tesim',
+      :qf => 'search_result_title_tsi amu_type_ssi work_type_tsi topic_tesim type_of_resource_tsi dateCreated_tesim dateOther_tesim languageOfCataloging_tesim recordOriginInfo_tesim typeOfResource_tesim typeOfResourceLabel_tesim workType_tesim shelfLocator_tesim physicalDescriptionForm_tesim physicalDescriiptionNote_tesim dateIssued_tesim genre_tesim collection_tesim activity_tesim embargo_tesim embargo_date_tesim embargo_condition_tesim access_condition_tesim copyright_tesim  workflow_status_tesim material_type_tesim availability_tesim isbn_tesim',
       :qt => 'search',
       :rows => 10 
     }
