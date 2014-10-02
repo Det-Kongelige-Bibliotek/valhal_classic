@@ -1,0 +1,17 @@
+<%= form_for(@trykforlaeg) do |f| %>
+  <% if @trykforlaeg.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@trykforlaeg.errors.count, "error") %> prohibited this trykforlaeg from being saved:</h2>
+
+      <ul>
+      <% @trykforlaeg.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
