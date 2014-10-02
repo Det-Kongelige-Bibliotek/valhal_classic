@@ -16,6 +16,7 @@ module Datastreams
       t.recordOriginInfo(index_as: :stored_searchable)
       t.tableOfContents(index_as: :stored_searchable)
       t.contentType
+      t.isbn(index_as: :stored_searchable)
 
       t.identifier do
         t.value(index_as: :stored_searchable)
