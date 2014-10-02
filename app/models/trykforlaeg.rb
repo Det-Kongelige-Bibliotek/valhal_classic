@@ -1,0 +1,2 @@
+class Trykforlaeg < OrderedInstance
+end
