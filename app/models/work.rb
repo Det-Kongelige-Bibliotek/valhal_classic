@@ -104,8 +104,8 @@ class Work < ActiveFedora::Base
   #Lookup all works in the search engine to get back a lightweight representation of the work for display purposes
   #@return an Array of Hashes containing id of the work and its title
   def get_all_works_metadata
-    ActiveFedora::SolrService.query('active_fedora_model_ssi:Work',
-              {:rows => ActiveFedora::SolrService.count('active_fedora_model_ssi:Work'), :fl => 'id search_result_title_tsi'})
+    ActiveFedora::SolrService.query("active_fedora_model_ssi:#{self.class}",
+              {:rows => ActiveFedora::SolrService.count("active_fedora_model_ssi:#{self.class}"), :fl => 'id search_result_title_tsi'})
   end
 
 end
