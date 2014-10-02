@@ -1,2 +1,4 @@
-class Trykforlaeg < OrderedInstance
+module Instances
+  class Trykforlaeg < OrderedInstance
+  end
 end
