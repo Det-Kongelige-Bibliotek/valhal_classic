@@ -16,7 +16,8 @@ module Concerns
       # List of multiple key-value pairs
       has_attributes :physicalDescriptionForm, :physicalDescriptionNote,
                      :recordOriginInfo, :languageOfCataloging, :dateOther,
-                     datastream: 'descMetadata', :multiple => true
+                     :language_value, :language_authority,
+                     datastream: 'descMetadata',  :multiple => true
 
       # Extracts the relations, which are valid for instance.
       def get_relations

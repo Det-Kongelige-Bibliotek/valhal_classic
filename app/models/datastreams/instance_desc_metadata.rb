@@ -17,6 +17,10 @@ module Datastreams
       t.tableOfContents(index_as: :stored_searchable)
       t.contentType
       t.isbn(index_as: :stored_searchable)
+      t.language do
+        t.value
+        t.authority
+      end
 
       t.identifier do
         t.value(index_as: :stored_searchable)
@@ -28,6 +32,8 @@ module Datastreams
         t.displayLabel()
       end
 
+      t.language_value(proxy: [:language, :value])
+      t.language_authority(proxy: [:language, :authority])
     end
 
     define_template :identifier do |xml, val|
