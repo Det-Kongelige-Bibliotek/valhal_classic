@@ -11,7 +11,12 @@ class TrykforlaegsController < OrderedInstancesController
   end
 
   def create
-
+    @trykforlaeg = Trykforlaeg.new(whitelist_params)
+    if @trykforlaeg.save
+      redirect_to @trykforlaeg, notice: 'Trykforlaeg created successfully'
+    else
+      render action: 'new'
+    end
   end
 
   private
