@@ -87,7 +87,7 @@ end
 gem "unicode", :platforms => [:mri_18, :mri_19]
 gem "devise-guests", "~> 0.3"
 gem "bootstrap-sass"
-
+gem 'hydra-validations'
 #logging start
 gem 'log4r', '1.1.10'
 gem 'quiet_assets'
