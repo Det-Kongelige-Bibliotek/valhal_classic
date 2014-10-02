@@ -6,13 +6,12 @@ class OrderedInstancesController < ApplicationController
   include InstanceHelper
 
   authorize_resource
+  before_action :set_ordered_instance, only: [:show, :edit, :update]
 
   def show
-    @ordered_instance = OrderedInstance.find(params[:id])
   end
 
   def edit
-    @ordered_instance = OrderedInstance.find(params[:id])
   end
 
   def preservation
@@ -25,7 +24,6 @@ class OrderedInstancesController < ApplicationController
   end
 
   def update
-    @ordered_instance = OrderedInstance.find(params[:id])
 
     add_agents(JSON.parse(params[:instance_agents]), @ordered_instance) unless params[:instance_agents].blank?
 
@@ -141,5 +139,10 @@ class OrderedInstancesController < ApplicationController
       logger.error standard_error.to_s
       redirect_to :root
     end
+  end
+
+  private
+  def set_ordered_instance
+    @ordered_instance = OrderedInstance.find(params[:id])
   end
 end
