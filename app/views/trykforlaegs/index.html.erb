@@ -1,0 +1,25 @@
+<h1>Listing trykforlaegs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @trykforlaegs.each do |trykforlaeg| %>
+      <tr>
+        <td><%= link_to 'Show', trykforlaeg %></td>
+        <td><%= link_to 'Edit', edit_trykforlaeg_path(trykforlaeg) %></td>
+        <td><%= link_to 'Destroy', trykforlaeg, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Trykforlaeg', new_trykforlaeg_path %>

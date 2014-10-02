@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 Valhal::Application.routes.draw do
+  resources :trykforlaegs
   root :to => "catalog#index"
 
   Blacklight.add_routes(self)
