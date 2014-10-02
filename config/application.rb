@@ -42,7 +42,6 @@ module Valhal
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'datastreams', '{**}')]
-    config.autoload_paths += Dir[Rails.root.join('app', 'models', 'instances', '{**}')]
     config.autoload_paths += Dir[Rails.root.join('app', 'helpers', 'constants.rb')]
     config.autoload_paths += Dir[Rails.root.join('app', 'jobs', '{**}')]
 
