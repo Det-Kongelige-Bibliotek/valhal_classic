@@ -9,6 +9,6 @@
   </div>
   <%= f.label :edit_access, 'Edit Group', :class=>'control-label' %>
   <div class="controls">
-    <%= text_area_tag(:edit_access, @ordered_instance.edit_groups_string, class:'input-block-level')  %>
+    <%= f.text_field :edit_access, :placeholder => @ordered_instance.edit_groups, :class=>'input-block-level' %>
   </div>
 </div>
