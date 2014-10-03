@@ -46,6 +46,8 @@ Valhal::Application.routes.draw do
       get 'preservation'
       patch 'update_preservation_profile'
       get 'show_mods'
+      get 'edit_permission'
+      patch 'update_permission'
     end
   end
 

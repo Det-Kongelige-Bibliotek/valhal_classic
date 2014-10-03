@@ -1,0 +1,9 @@
+<h1>Editing Ordered Instance Permission</h1>
+<%= form_for @ordered_instance, :url => {:action=> "update_permission"}  do |f| %>
+    <%= fields_for :@ordered_instance do |builder| %>
+        <%= render 'permission', :f => builder %>
+    <% end %>
+    <br/>
+    <%= f.submit 'Update Permission' %>
+<% end %>
+<%= render 'footer' %>
