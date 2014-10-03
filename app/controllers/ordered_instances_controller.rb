@@ -36,6 +36,19 @@ class OrderedInstancesController < ApplicationController
     end
   end
 
+  def edit_permission
+    @ordered_instance = OrderedInstance.find(params[:id])
+  end
+
+  def update_permission
+    @ordered_instance = OrderedInstance.find(params[:id])
+    @ordered_instance.discover_groups_string = params['@ordered_instance'][:discover_access]
+    @ordered_instance.read_groups_string = params['@ordered_instance'][:read_access]
+    @ordered_instance.edit_groups_string = params['@ordered_instance'][:edit_access]
+    @ordered_instance.save
+    render action: 'edit'
+  end
+
   # Retrieves the thumbnail of the Tiff-image with the given pid.
   # @param pid The id of the file to extract the thumbnail for.
   # @return The thumbnail of the image, or nil if no file was found.

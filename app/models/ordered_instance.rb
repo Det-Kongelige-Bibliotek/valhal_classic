@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class OrderedInstance < ActiveFedora::Base
+  include Hydra::AccessControls::Permissions
   include ActiveModel::Validations
   include Concerns::Instance
   include Concerns::Preservation

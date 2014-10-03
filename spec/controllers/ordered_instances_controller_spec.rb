@@ -303,6 +303,14 @@ describe OrderedInstancesController do
     end
   end
 
+  describe 'Update Permission' do
+    it 'should update permission' do
+      @oi = OrderedInstance.new
+      @oi.discover_groups_string='dg1','dg2'
+      expect(@oi.discover_groups_string).to eql "dg1, dg2"
+    end
+  end
+
   after(:all) do
     BasicFile.all.each { |bf| bf.delete }
     TiffFile.all.each { |tf| tf.delete }
