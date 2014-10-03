@@ -5,7 +5,9 @@ require 'support/instance_spec_helper'
 describe OrderedInstance do
   include InstanceSpecHelper
 
-  subject { OrderedInstance.new }
+  subject {
+    OrderedInstance.new(:collection => 'ADL')
+  }
   it_behaves_like 'a preservable element'
   it_behaves_like 'an element with administrative metadata'
   it_behaves_like 'an instance'
@@ -54,7 +56,7 @@ describe OrderedInstance do
       it 'should be able to be saved with a association to BasicFiles' do
         basic_files = default_files
         subject.files << basic_files
-        subject.save.should be_true
+        expect(subject.save).to be == true
       end
 
       it 'should be able to retrieve BasicFiles from a saved instance' do

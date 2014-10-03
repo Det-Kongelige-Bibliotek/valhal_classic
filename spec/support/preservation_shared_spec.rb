@@ -98,8 +98,9 @@ shared_examples 'a preservable element' do
 
     it 'should change the preservation timestamp with #set_preservation_modified_time' do
       time = element.preservationMetadata.preservation_modify_date
-      sleep 1
+      sleep 2
       set_preservation_modified_time(element)
+      element.save!
       time.should_not == element.preservationMetadata.preservation_modify_date
     end
 
@@ -114,7 +115,7 @@ shared_examples 'a preservable element' do
 
         metadata = {'preservation' => {'preservation_state' => Constants::PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first,
                                       'preservation_details' => 'From preservation shared spec', 'warc_id' => 'WARC_ID'}}
-        update_preservation_metadata_for_element(metadata, element).should be_true
+        expect(update_preservation_metadata_for_element(metadata, element)).to be == true
 
         element.preservationMetadata.preservation_state.first.should == Constants::PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first
         element.preservationMetadata.preservation_details.first.should == 'From preservation shared spec'
@@ -127,7 +128,7 @@ shared_examples 'a preservable element' do
         element.save!
 
         metadata = {'preservation' => {'preservation_state' => Constants::PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first}}
-        update_preservation_metadata_for_element(metadata, element).should be_true
+        expect(update_preservation_metadata_for_element(metadata, element)).to be == true
 
         element.preservationMetadata.preservation_state.first.should == Constants::PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first
         element.preservationMetadata.preservation_details.first.should_not == 'From preservation shared spec'
@@ -140,7 +141,7 @@ shared_examples 'a preservable element' do
         element.save!
 
         metadata = {'preservation' => {'preservation_details' => 'From preservation shared spec'}}
-        update_preservation_metadata_for_element(metadata, element).should be_true
+        expect(update_preservation_metadata_for_element(metadata, element)).to be == true
 
         element.preservationMetadata.preservation_state.first.should_not == Constants::PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first
         element.preservationMetadata.preservation_details.first.should == 'From preservation shared spec'
@@ -152,7 +153,7 @@ shared_examples 'a preservable element' do
         element.save!
 
         metadata = {'preservation' => {'warc_id' => 'WARC_ID'}}
-        update_preservation_metadata_for_element(metadata, element).should be_true
+        expect(update_preservation_metadata_for_element(metadata, element)).to be == true
 
         element.preservationMetadata.preservation_state.first.should_not == Constants::PRESERVATION_PACKAGE_UPLOAD_SUCCESS.keys.first
         element.preservationMetadata.preservation_details.first.should_not == 'From preservation shared spec'

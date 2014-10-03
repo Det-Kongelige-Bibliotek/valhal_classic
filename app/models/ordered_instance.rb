@@ -12,6 +12,8 @@ class OrderedInstance < ActiveFedora::Base
   has_attributes :div, :order, :fptr, :file_id, datastream: 'techMetadata', :multiple => false
   has_attributes :contentType, datastream: 'descMetadata', multiple: false
 
+  validates :collection, :presence => true
+
   # The fields for the SOLR index.
   has_solr_fields do |m|
     # Fields from DescMetadata

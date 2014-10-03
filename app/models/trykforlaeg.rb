@@ -2,8 +2,6 @@ class Trykforlaeg < OrderedInstance
   include Concerns::Instance
   include ActiveRecord::Validations
 
-  validate :date_issued_is_valid_edtf
-
   has_metadata :name => 'descMetadata', :type => Datastreams::InstanceDescMetadata
   has_attributes :isbn, datastream: 'descMetadata', multiple: false
 
@@ -11,6 +9,7 @@ class Trykforlaeg < OrderedInstance
   validates :isbn, :isbn_format => true
 
   validates :dateIssued, :presence => true
+  validate :date_issued_is_valid_edtf
 
   private
   def date_issued_is_valid_edtf

@@ -4,21 +4,21 @@ shared_examples 'an instance' do
 
   describe 'Create' do
     it 'should be possible to save a new instance without any parameters' do
-      ins.save.should be_true
+      expect(ins.save).to be == true
     end
   end
 
   describe 'Destroy' do
     it 'should be possible to delete a instance' do
       ins.save!
-      ins.destroy.should be_true
+      expect(ins.destroy).to include('\"status\"=>0')
     end
   end
 
   describe 'has_ie?' do
     it 'should not have an intellectual entity initially' do
       ins.save!
-      ins.has_ie?.should be_false
+      expect(ins.has_ie?).to be == false
     end
   end
 
