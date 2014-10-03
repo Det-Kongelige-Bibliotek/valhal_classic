@@ -123,6 +123,37 @@ namespace :sifd do
     logger.debug "Task took  #{Time.now - start_time} seconds"
   end
 
+  desc 'Add default values to rightsMetadataStream'
+  task :add_default_rights => :environment do
+      logger.debug "adding default rights"
+      Work.all.each do |w|
+        logger.debug "setting rights for #{w.pid}"
+        add_default_rights(w)
+      end
+      OrderedInstance.all.each do  |oi|
+        logger.debug "setting rights for #{oi.pid}"
+        add_default_rights(oi)
+      end
+      SingleFileInstance.all.each do |sfi|
+        logger.debug "setting rights for #{sfi.pid}"
+        add_default_rights(sfi)
+      end
+      BasicFile.all.each do |bf|
+        logger.debug "setting rights for #{bf.pid}"
+        add_default_rights(bf)
+      end
+  end
+
+  def add_default_rights(obj)
+    obj.read_groups = ['guest']
+    obj.edit_groups = ['registered']
+    obj.save
+    obj.reload
+    logger.debug("read groups are #{obj.read_groups.to_s}")
+    logger.debug("edit groups are #{obj.edit_groups.to_s}")
+
+  end
+
   #Function to read messages from RabbitMQ and store them in an Array
   #@return Array of unread messages
   def read_messages
