@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # Connects this user object to Hydra behaviors.
   include Hydra::User
 
-  include CanCan::Ability
+  #include CanCan::Ability
   # Connects this user object to Blacklights Bookmarks.
   include Blacklight::User
   # Include default devise modules. Others available are:
@@ -13,20 +13,42 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :pid, :uid
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :name, :pid, :uid, :memberOf
   # attr_accessible :title, :body
 
   ROLES = %w[admin depositor guest test]
 
-  def self.from_omniauth(auth)
-    where(auth.slice(:provider, :uid)).first_or_create do |user|
-      user.provider = auth.provider
-      user.uid = auth.uid
-      user.name = auth.info.name
-      user.email = auth.info.email
-    end
+  before_validation :get_ldap_email
+  before_save :get_ldap_name, :get_ldap_memberOf
+
+  def get_ldap_email
+    emails = Devise::LDAP::Adapter.get_ldap_param(self.username,"mail")
+    self.email = emails.first.to_s unless emails.blank?
   end
 
+  def get_ldap_name
+    names = Devise::LDAP::Adapter.get_ldap_param(self.username,"cn")
+    self.name = names.first.to_s.force_encoding("utf-8") unless names.blank?
+  end
+
+  def get_ldap_memberOf
+    groups = Devise::LDAP::Adapter.get_ldap_param(self.username,"memberOf")
+    self.memberOf=groups.join(';').force_encoding("utf-8") unless groups.blank?
+  end
+
+
+#  def self.from_omniauth(auth)
+#    logger.debug("in from omniauth")
+#    where(auth.slice(:provider, :uid)).first_or_create do |user|
+#      user.provider = auth.provider
+#      user.uid = auth.uid
+#      user.name = auth.info.name
+#      user.email = auth.info.email
+#    end
+#  end
+
+
+=begin
   def self.new_with_session(params, session)
     if session["devise.user_attributes"]
       new(session["devise.user_attributes"], without_protection: true) do |user|
@@ -61,7 +83,7 @@ class User < ActiveRecord::Base
       super
     end
   end
-
+=end
 
   # Method added by Blacklight; Blacklight uses #to_s on your
   # user class to get a user-displayable login/identifier for
@@ -70,7 +92,7 @@ class User < ActiveRecord::Base
     name
   end
 
-
+=begin
   #environment includes a list of emails of users that should have admin privileges
   def admin?
     if APP_CONFIG['admin_emails']
@@ -88,5 +110,16 @@ class User < ActiveRecord::Base
   #anybody that can login, is a depositor. No restrictions
   def depositor?
     !uid.blank?
+  end
+=end
+
+  def groups
+    array = []
+    unless self.memberOf.blank?
+      if self.memberOf.include? 'CN=Brugerbasen_SuperAdmins,OU=Brugerbasen,OU=Adgangsstyring,DC=kb,DC=dk'
+        array << "admin"
+      end
+    end
+    array
   end
 end

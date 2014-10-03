@@ -8,7 +8,7 @@
             <p class="navbar-text"><%= render :text => current_user %>&nbsp;</p>
           </li>
           <li>
-            <%= button_to destroy_user_session_path, :action => destroy_user_session_path, :class => "btn btn-danger", :method => :get do %>
+            <%= button_to destroy_user_session_path, :action => destroy_user_session_path, :class => "btn btn-danger", :method => :delete do %>
                 <i class="icon-off icon-white"></i>
                 <span class="hidden-phone"><%= t 'blacklight.header_links.logout' %></span>
             <% end %>

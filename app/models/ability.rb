@@ -2,10 +2,11 @@
 class Ability
   include CanCan::Ability
   include Hydra::Ability
-  include Hydra::AccessControlsEnforcement
 
 
-  def initialize(user)
+=begin
+ def initialize(user)
+
     @user = user ||= User.new # guest user (not logged in)
     if user.test?
       if Rails.env == "test"
@@ -25,4 +26,5 @@ class Ability
       end
     end
   end
+=end
 end

@@ -6,8 +6,7 @@ class SingleFileInstance < ActiveFedora::Base
   include Concerns::Instance
   include Concerns::Preservation
   include Solr::Indexable
-
-  has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
+  include Hydra::AccessControls::Permissions
 
   # Overrides the default one by adding the basic_files type in parenthesis.
   def instance_name
