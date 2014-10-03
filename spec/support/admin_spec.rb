@@ -5,11 +5,10 @@ shared_examples 'an element with administrative metadata' do
   describe '#metadata' do
     it 'should be possible to edit the collection field' do
       element.save!
-      element.collection.should be_nil
       element.collection = 'TEST'
       element.save!
       element.reload
-      element.collection.should == 'TEST'
+      expect(element.collection).to be == 'TEST'
     end
 
     it 'should be possible to edit the activity field' do
