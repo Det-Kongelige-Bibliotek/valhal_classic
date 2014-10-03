@@ -117,6 +117,8 @@ GEM
     diff-lcs (1.2.5)
     docile (1.1.5)
     dynamic_form (1.1.4)
+    edtf (2.1.0)
+      activesupport (>= 3.0, < 5.0)
     ensure_valid_encoding (0.5.3)
     equivalent-xml (0.5.1)
       nokogiri (>= 1.4.3)
@@ -455,6 +457,7 @@ DEPENDENCIES
   devise (~> 3.2.2)
   devise-guests (~> 0.3)
   dynamic_form
+  edtf
   equivalent-xml
   factory_girl_rails (~> 4.1)
   fakeredis
