@@ -5,26 +5,31 @@ class OrderedInstancesController < ApplicationController
   include PreservationHelper # methods: update_preservation_profile_from_controller
   include InstanceHelper
 
-  authorize_resource
+
 
   def show
+    authorize! :read, params[:id]
     @ordered_instance = OrderedInstance.find(params[:id])
   end
 
   def edit
+    authorize! :edit, params[:id]
     @ordered_instance = OrderedInstance.find(params[:id])
   end
 
   def preservation
+    authorize! :read, params[:id]
     @ordered_instance = OrderedInstance.find(params[:id])
   end
 
   # Retrieves the ordered instance for the administration view
   def administration
+    authorize! :read, params[:id]
     @ordered_instance = OrderedInstance.find(params[:id])
   end
 
   def update
+    authorize! :edit, params[:id]
     @ordered_instance = OrderedInstance.find(params[:id])
 
     add_agents(JSON.parse(params[:instance_agents]), @ordered_instance) unless params[:instance_agents].blank?
@@ -37,10 +42,12 @@ class OrderedInstancesController < ApplicationController
   end
 
   def edit_permission
+    authorize! :edit, params[:id]
     @ordered_instance = OrderedInstance.find(params[:id])
   end
 
   def update_permission
+    authorize! :edit, params[:id]
     @ordered_instance = OrderedInstance.find(params[:id])
     @ordered_instance.discover_groups_string = params['@ordered_instance'][:discover_access]
     @ordered_instance.read_groups_string = params['@ordered_instance'][:read_access]
@@ -73,6 +80,7 @@ class OrderedInstancesController < ApplicationController
 
   # Method for downloading all the basic_files.
   def download_all
+    authorize! :read, params[:id]
     begin
       @ordered_instance = OrderedInstance.find(params[:id])
       file_name = "#{@ordered_instance.instance_name}-#{@ordered_instance.pid}.zip"
@@ -100,6 +108,7 @@ class OrderedInstancesController < ApplicationController
 
   # Updates the administration metadata for the ordered instance.
   def update_administration
+    authorize! :edit, params[:id]
     @ordered_instance = OrderedInstance.find(params[:id])
     begin
       update_administrative_metadata_from_controller(params, @ordered_instance)
@@ -117,6 +126,7 @@ class OrderedInstancesController < ApplicationController
 
   # Updates the preservation profile metadata.
   def update_preservation_profile
+    authorize! :edit, params[:id]
     @ordered_instance = OrderedInstance.find(params[:id])
     begin
       notice = update_preservation_profile_from_controller(params, @ordered_instance)
@@ -133,6 +143,7 @@ class OrderedInstancesController < ApplicationController
   end
 
   def show_mods
+    authorize! :read, params[:id]
     @ordered_instance = OrderedInstance.find(params[:id])
     begin
       mods = TransformationService.transform_to_mods(@ordered_instance)

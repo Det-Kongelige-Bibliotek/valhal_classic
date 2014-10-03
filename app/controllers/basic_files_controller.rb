@@ -4,14 +4,16 @@ class BasicFilesController < ApplicationController
   include AdministrationHelper # methods: update_administrative_metadata_from_controller
   include PreservationHelper # methods: update_preservation_profile_from_controller
 
-  authorize_resource
+  
 
   # Retrieves the basic file for the show view
   def show
+    authorize! :read, params[:id]
     @file = BasicFile.find(params[:id])
   end
 
   def characterize_file
+    authorize! :edit, params[:id]
     @file = BasicFile.find(params[:id])
     begin
       tmpfile = Tempfile.new(@file.original_filename)
@@ -41,6 +43,7 @@ class BasicFilesController < ApplicationController
 
   # Updates the preservation profile metadata.
   def update_preservation_profile
+    authorize! :edit, params[:id]
     @file = BasicFile.find(params[:id])
     begin
       notice = update_preservation_profile_from_controller(params, @file)
@@ -58,16 +61,19 @@ class BasicFilesController < ApplicationController
 
   # Retrieves the basic file for the preservation view
   def preservation
+    authorize! :read, params[:id]
     @file = BasicFile.find(params[:id])
   end
 
   # Retrieves the basic file for the administration view
   def administration
+    authorize! :read, params[:id]
     @file = BasicFile.find(params[:id])
   end
 
   # Updates the administration metadata for the basic file.
   def update_administration
+    authorize! :edit, params[:id]
     @file = BasicFile.find(params[:id])
     begin
       update_administrative_metadata_from_controller(params, @file)
@@ -87,6 +93,7 @@ class BasicFilesController < ApplicationController
   # If a wrong BasicFile-id, then a 404 is returned.
   # If something goes wrong service-side, then a 500 is returned.
   def download
+    authorize! :read, params[:id]
     begin
       @file = BasicFile.find(params[:id])
       send_data @file.content.content, {:filename => @file.original_filename, :type => @file.mime_type}
@@ -100,4 +107,20 @@ class BasicFilesController < ApplicationController
       render text: standard_error.to_s, status: 500
     end
   end
+  
+  def edit_permission
+    authorize! :edit, params[:id]
+    @basic_file = BasicFile.find(params[:id])
+  end
+
+  def update_permission
+    authorize! :edit, params[:id]
+    @file = BasicFile.find(params[:id])
+    @file.discover_groups_string = params['@file'][:discover_access]
+    @file.read_groups_string = params['@file'][:read_access]
+    @file.edit_groups_string = params['@file'][:edit_access]
+    @file.save
+    render action: 'edit'
+  end
+  
 end

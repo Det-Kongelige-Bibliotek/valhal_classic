@@ -4,26 +4,31 @@ class SingleFileInstancesController < ApplicationController
   include PreservationHelper # methods: update_preservation_profile_from_controller
   include InstanceHelper
 
-  authorize_resource
+
 
   def show
+    authorize! :read, params[:id]
     @single_file_instance = SingleFileInstance.find(params[:id])
   end
 
   def edit
+    authorize! :edit, params[:id]
     @single_file_instance = SingleFileInstance.find(params[:id])
   end
 
   # Retrieves the single file instance for the administration view
   def administration
+    authorize! :read, params[:id]
     @single_file_instance = SingleFileInstance.find(params[:id])
   end
 
   def preservation
+    authorize! :read, params[:id]
     @single_file_instance = SingleFileInstance.find(params[:id])
   end
 
   def update
+    authorize! :edit, params[:id]
     @single_file_instance = SingleFileInstance.find(params[:id])
 
     add_agents(JSON.parse(params[:instance_agents]), @single_file_instance) unless params[:instance_agents].blank?
@@ -37,6 +42,7 @@ class SingleFileInstancesController < ApplicationController
 
   # Updates the administration metadata for the single file instance.
   def update_administration
+    authorize! :edit, params[:id]
     @single_file_instance = SingleFileInstance.find(params[:id])
     begin
       update_administrative_metadata_from_controller(params, @single_file_instance)
@@ -54,6 +60,7 @@ class SingleFileInstancesController < ApplicationController
 
   # Updates the preservation profile metadata.
   def update_preservation_profile
+    authorize! :edit, params[:id]
     @single_file_instance = SingleFileInstance.find(params[:id])
     begin
       notice = update_preservation_profile_from_controller(params, @single_file_instance)
@@ -70,6 +77,7 @@ class SingleFileInstancesController < ApplicationController
   end
 
   def show_mods
+    authorize! :read, params[:id]
     @single_file_instance = SingleFileInstance.find(params[:id])
     begin
       mods = TransformationService.transform_to_mods(@single_file_instance)
@@ -91,5 +99,20 @@ class SingleFileInstancesController < ApplicationController
       logger.error standard_error.to_s
       redirect_to :root
     end
+  end
+
+  def edit_permission
+    authorize! :edit, params[:id]
+    @single_file_instanse = SingleFileInstance.find(params[:id])
+  end
+
+  def update_permission
+    authorize! :edit, params[:id]
+    @single_file_instance = SingleFileInstance.find(params[:id])
+    @single_file_instance.discover_groups_string = params['@single_file_instance'][:discover_access]
+    @single_file_instance.read_groups_string = params['@single_file_instance'][:read_access]
+    @single_file_instance.edit_groups_string = params['@single_file_instance'][:edit_access]
+    @single_file_instance.save
+    render action: 'edit'
   end
 end
