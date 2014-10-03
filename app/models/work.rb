@@ -5,8 +5,7 @@ class Work < ActiveFedora::Base
   include Concerns::WorkMetadata
   include Concerns::AdminMetadata
   include Solr::Indexable
-
-  has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
+  include Hydra::AccessControls::Permissions
 
   validates :title, :presence => true
   validates_with WorkValidator

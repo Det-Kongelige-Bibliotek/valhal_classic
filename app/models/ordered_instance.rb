@@ -4,8 +4,8 @@ class OrderedInstance < ActiveFedora::Base
   include Concerns::Instance
   include Concerns::Preservation
   include Solr::Indexable
+  include Hydra::AccessControls::Permissions
 
-  has_metadata :name => 'rightsMetadata', :type => Hydra::Datastream::RightsMetadata
   has_metadata :name => 'techMetadata',   :type => Datastreams::MetsStructMap
 
   has_attributes :div, :order, :fptr, :file_id, datastream: 'techMetadata', :multiple => false

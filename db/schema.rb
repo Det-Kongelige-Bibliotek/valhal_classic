@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20140710114909) do
     t.string   "name"
     t.string   "pid"
     t.string   "username"
+    t.string   "memberOf"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "guest",                  default: false
