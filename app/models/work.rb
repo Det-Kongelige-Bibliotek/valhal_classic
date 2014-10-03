@@ -93,4 +93,19 @@ class Work < ActiveFedora::Base
            addressee: ((self.hasAddressee.blank? || self.hasAddressee.first.blank?)? '': self.hasAddressee.first.value), date: self.dateCreated)
   end
 
+  #Lookup related works in the search engine in order to get back a lightweight representation of the work for display purposes
+  #@return an Array of Hashes containing id of the work and its title
+  def get_related_works_metadata
+    pid = self.pid.split(':').last
+    ActiveFedora::SolrService.query("is_part_of_ssim:*#{pid}",
+             {:rows => ActiveFedora::SolrService.count("is_part_of_ssim:*#{pid}"), :fl => 'id search_result_title_tsi'})
+  end
+
+  #Lookup all works in the search engine to get back a lightweight representation of the work for display purposes
+  #@return an Array of Hashes containing id of the work and its title
+  def get_all_works_metadata
+    ActiveFedora::SolrService.query("active_fedora_model_ssi:#{self.class}",
+              {:rows => ActiveFedora::SolrService.count("active_fedora_model_ssi:#{self.class}"), :fl => 'id search_result_title_tsi'})
+  end
+
 end

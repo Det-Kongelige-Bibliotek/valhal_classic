@@ -70,5 +70,4 @@ class Person < AuthorityMetadataUnit
     end
     fields
   end
-
 end

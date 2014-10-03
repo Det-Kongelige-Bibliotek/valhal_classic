@@ -16,9 +16,16 @@
 //= require works
 //= require admin_metadata
 //= require vocabularies
+//= require bootstrap-combobox
 //
 // require rails.validations DEPRECATED: Do Not Use
 //
 // Required by Blacklight
 //= require blacklight/blacklight
 // require_tree .
+$(document).ready(function(){
+    $('.combobox').combobox();
+    $('.combobox').click(function(){
+        $(this).siblings('.dropdown-toggle').click();
+    });
+});

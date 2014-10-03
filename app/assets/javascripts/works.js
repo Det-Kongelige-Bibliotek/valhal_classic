@@ -21,27 +21,22 @@ $(document).ready(function() {
     tiffFileClearBn.on("click", function() {
         return file_tiff_file.replaceWith(file_tiff_file.val("").clone(true));
     });
-    $('#amu_type').change(updateInputFields);
-    $(function() {});
-    $(".sortable").sortable();
-    $(".handles").sortable({
-        handle: "span"
-    });
-    return $(".sortable").sortable().bind("sortupdate", function() {
-        var test_val;
-        test_val = $("#structmap_file_list").find("li").filter(function() {
-            return $(this).find("ul").length === 0;
-        }).map(function(i, e) {
-            return $(this).text();
-        }).get();
-        return $("#structmap_file_order").val(test_val);
-    });
+    $('[data-function="create-dropdown"]').click(createDropdown);
 });
 
-function updateInputFields(){
-    if (this.value == 'agent/person') {
-        $('.person-fields').removeClass('hidden');
-    }
+/**
+ * Create dropdown for updating a work-to-work relation
+ * The dropdown's name is based on the field in which it occurs.
+ * @returns {boolean}
+ */
+function createDropdown(){
+    var targetId = $(this).attr('data-target');
+    var target = $('[data-id="' + targetId + '"]');
+    var label = $(this).attr('data-label');
+    var form = '<select name="work[' + label + ']">' + $('#work-dropdown').html() + '</select>';
+    target.html(form);
+
+    return false;
 }
 
 /**

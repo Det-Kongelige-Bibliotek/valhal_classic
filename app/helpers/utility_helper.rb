@@ -24,4 +24,12 @@ module UtilityHelper
     vocabulary.nil? ? [] : vocabulary.entries.map { |e| e.name }
   end
 
+  #Creates a typeahead dropdown for AuthorityMetadataUnits
+  #@param a child class of AuthorityMetadataUnit
+  def render_typeahead_dropdown(amu)
+    results = amu.get_search_objs
+    select_tag "#{amu.to_s.downcase}[id]", options_for_select(results.collect { |result| [result['amu_value_ssi'], result['id']] }),
+               include_blank: true, class: 'combobox form-control input-large dropdown-toggle'
+  end
+
 end

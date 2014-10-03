@@ -4,11 +4,11 @@
         <tr>
           <td><b><%= t label %></b></td>
           <% if value.class == Array %>
-              <% value.each do |val| %>
+            <% @work.get_related_works_metadata.each do |work| %>
                   <td style="display:block">
-                    <%= link_to(val.get_title_for_display, work_path(val)) %>
+                    <%= link_to(work['search_result_title_tsi'], work_path(work['id'])) %>
                   </td>
-              <% end %>
+            <% end %>
           <% else value %>
               <td data-id="<%= value.__id__%>">
                 <%= link_to(value.get_title_for_display, work_path(value)) %>

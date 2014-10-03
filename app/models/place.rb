@@ -12,5 +12,4 @@ class Place < AuthorityMetadataUnit
     # Fields from DescMetadata
     m.field 'person_placeName', method: :placeName, :index_as => [:string, :stored, :indexed]
   end
-
 end

@@ -10,11 +10,7 @@
     </select>
   </div>
   <div class="controls">
-      <select id="person_id" name="person[id]">
-        <% Person.all.each do |person| %>
-            <option value="<%= person.id%>"><%= person.value %></option>
-        <% end %>
-      </select>
+    <%= render_typeahead_dropdown(Person) %>
   </div><br/>
   <div class="controls">
     <%= button_tag(type: 'button', onclick: 'addAgent($("#person_relationship option:selected").text(),
@@ -27,6 +23,7 @@
   <h3>Places:</h3>
   <%= f.label :agent, 'This work...', :class=>'control-label' %>
   <div class="controls">
+    <option></option>
     <select id="place_relationship" name="place_relationship" class="control-group">
       <% METADATA_RELATIONS_CONFIG['work']['place'].split(' ').each do |relation|  %>
           <option id="<%= relation %>"><%= relation %></option>
@@ -34,11 +31,7 @@
     </select>
   </div>
   <div class="controls">
-    <select id="place_id" name="place[id]">
-      <% Place.all.each do |place| %>
-          <option value="<%= place.id%>"><%= place.value %></option>
-      <% end %>
-    </select>
+      <%= render_typeahead_dropdown(Place) %>
   </div><br/>
   <div class="controls">
     <%= button_tag(type: 'button', onclick: 'addAgent($("#place_relationship option:selected").text(),
