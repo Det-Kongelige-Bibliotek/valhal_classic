@@ -32,6 +32,8 @@ module Datastreams
         t.displayLabel()
       end
 
+      t.note_value(proxy: [:note, :value])
+      t.note_label(proxy: [:note, :displayLabel])
       t.language_value(proxy: [:language, :value])
       t.language_authority(proxy: [:language, :authority])
     end
