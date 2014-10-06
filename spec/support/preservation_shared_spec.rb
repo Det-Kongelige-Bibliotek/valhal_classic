@@ -103,7 +103,6 @@ shared_examples 'a preservable element' do
       sleep 2
       set_preservation_modified_time(element)
       element.save!
-      t2 = element.preservationMetadata.preservation_modify_date
       expect(time).not_to equal(element.preservationMetadata.preservation_modify_date)
     end
 
