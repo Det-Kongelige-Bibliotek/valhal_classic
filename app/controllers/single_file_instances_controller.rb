@@ -103,7 +103,7 @@ class SingleFileInstancesController < ApplicationController
 
   def edit_permission
     authorize! :edit, params[:id]
-    @single_file_instanse = SingleFileInstance.find(params[:id])
+    @single_file_instance = SingleFileInstance.find(params[:id])
   end
 
   def update_permission

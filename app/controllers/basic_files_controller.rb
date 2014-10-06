@@ -110,7 +110,7 @@ class BasicFilesController < ApplicationController
   
   def edit_permission
     authorize! :edit, params[:id]
-    @basic_file = BasicFile.find(params[:id])
+    @file = BasicFile.find(params[:id])
   end
 
   def update_permission

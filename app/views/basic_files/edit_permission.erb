@@ -1,6 +1,6 @@
 <h1>Editing Ordered Instance Permission</h1>
-<%= form_for @basic_file, :url => {:action=> "update_permission"}  do |f| %>
-    <%= fields_for :@basic_file do |builder| %>
+<%= form_for @file, :url => {:action=> "update_permission"}  do |f| %>
+    <%= fields_for :@file do |builder| %>
         <%= render 'permission', :f => builder %>
     <% end %>
     <br/>
