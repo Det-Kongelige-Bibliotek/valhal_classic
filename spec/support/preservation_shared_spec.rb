@@ -97,11 +97,14 @@ shared_examples 'a preservable element' do
     include PreservationHelper
 
     it 'should change the preservation timestamp with #set_preservation_modified_time' do
+      set_preservation_modified_time(element)
+      element.save!
       time = element.preservationMetadata.preservation_modify_date
       sleep 2
       set_preservation_modified_time(element)
       element.save!
-      time.should_not == element.preservationMetadata.preservation_modify_date
+      t2 = element.preservationMetadata.preservation_modify_date
+      expect(time).not_to equal(element.preservationMetadata.preservation_modify_date)
     end
 
     it 'should update preservation profile with #update_preservation_profile_from_controller' do
