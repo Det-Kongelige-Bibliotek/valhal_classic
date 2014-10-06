@@ -11,7 +11,8 @@ shared_examples 'an instance' do
   describe 'Destroy' do
     it 'should be possible to delete a instance' do
       ins.save!
-      expect(ins.destroy).to include('\"status\"=>0')
+      r = ins.destroy
+      expect(r['responseHeader']['status']).to be == 0
     end
   end
 
