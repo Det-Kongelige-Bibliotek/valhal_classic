@@ -62,7 +62,9 @@
       <h5>Ordered Instances</h5>
       <ol>
       <% @work.ordered_instances.each do |t| %>
-          <li><%= link_to t.instance_name + ' (' + t.pid + ')', ordered_instance_path(t) %></li>
+           <% if true #can?(:read, t) %>
+              <li><%= link_to t.instance_name + ' (' + t.pid + ')', ordered_instance_path(t) %></li>
+           <% end %>
       <% end %>
       </ol>
 <% else %>
