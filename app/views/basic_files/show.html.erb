@@ -2,13 +2,13 @@
     <%= f.error_messages :header_message => 'Error when editing preservation settings', :class => 'alert alert-error',
                          :header_tag => :h3 %>
     <h3>File info:</h3>
-    <pre>
+    <pre class="prettyprint">
       <%= @file.inspect%>
     </pre>
     <br/>
     <% if @file.mime_type == "text/xml" %> 
        <h3>File content:</h3>
-       <pre>
+       <pre class="prettyprint">
           <%= @file.datastreams["content"].content.force_encoding('utf-8')  %>
        </pre>
           <%= link_to 'Edit Content', edit_basic_file_path(@file) %>
