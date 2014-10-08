@@ -1,4 +1,3 @@
-<script src="google-code-prettify/run_prettify.js"></script>
 <%= form_for @file, :html=>{:multipart=>true}, url: {action: 'characterize_file'} do |f| %>
     <%= f.error_messages :header_message => 'Error when editing preservation settings', :class => 'alert alert-error',
                          :header_tag => :h3 %>

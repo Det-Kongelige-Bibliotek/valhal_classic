@@ -17,6 +17,7 @@
 //= require admin_metadata
 //= require vocabularies
 //= require bootstrap-combobox
+//= require google-code-prettify/run_prettify
 //
 // require rails.validations DEPRECATED: Do Not Use
 //
