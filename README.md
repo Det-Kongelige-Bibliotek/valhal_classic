@@ -3,7 +3,8 @@
 Valhal
 ===
 
-Valhal - SIFD management - brev ingest branch.
+Valhal - SIFD management.
+Note that as of December 2014, this is no longer in active development. To accomodate a new Bibframe based data model, the code has been substantially refactored in a new repository. This repository will continue to exist to facilitate migration of relevant functionality.
 
 
 GIT checkout of repository
